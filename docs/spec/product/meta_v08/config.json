@@ -1,0 +1,587 @@
+{
+  "status": "WORKING_PRODUCT_PROPOSAL_NOT_IMPLEMENTED",
+  "configVersion": "crossmath-prototype-0.8",
+  "initialCoins": 120,
+  "hintCostCoins": 60,
+  "rewardedHintCredits": 1,
+  "rewardedContinuationLives": 1,
+  "difficultyRewards": {
+    "easy": {
+      "coins": 10,
+      "xp": 10
+    },
+    "standard": {
+      "coins": 15,
+      "xp": 15
+    },
+    "hard": {
+      "coins": 20,
+      "xp": 20
+    },
+    "expert": {
+      "coins": 25,
+      "xp": 25
+    }
+  },
+  "dailyBonusCoins": 30,
+  "taskRewardCoins": 10,
+  "taskAllBonusCoins": 30,
+  "taskCount": 3,
+  "rank": {
+    "baseXp": 100,
+    "stepXp": 20,
+    "maxXpPerRank": 300,
+    "rewardCoins": 60,
+    "startLevel": 1,
+    "thresholdFormula": "min(100 + 20 * (L - 1), 300)"
+  },
+  "collection": {
+    "cards": 12,
+    "fragmentsPerCard": 4,
+    "cardRewardCoins": 20,
+    "fragmentWinThresholds": [
+      3,
+      4,
+      6,
+      8,
+      13,
+      18,
+      23,
+      28,
+      33,
+      38,
+      43,
+      48,
+      53,
+      58,
+      63,
+      68,
+      73,
+      78,
+      83,
+      88,
+      93,
+      98,
+      103,
+      108,
+      113,
+      118,
+      123,
+      128,
+      133,
+      138,
+      143,
+      148,
+      153,
+      158,
+      163,
+      168,
+      173,
+      178,
+      183,
+      188,
+      193,
+      198,
+      203,
+      208,
+      213,
+      218,
+      223,
+      228
+    ],
+    "migration": "grant max(persistedFragmentCount, earnedAtDistinctWins), cap 48, deduplicate card coins by stable cardId",
+    "title": {
+      "ru": "Мастерская счёта",
+      "en": "The Counting Workshop"
+    }
+  },
+  "dailyLives": 3,
+  "endlessLives": 3,
+  "maxContinuationsPerAttemptOrRun": 1,
+  "endless": {
+    "scorePerEquation": 10,
+    "multipliers": {
+      "easy": 1,
+      "standard": 2,
+      "hard": 3,
+      "expert": 4
+    },
+    "awardOnlyOnSolvedBoard": true,
+    "separateAssistedRecord": true
+  },
+  "ads": {
+    "interstitialProtectFirstNewWins": 5,
+    "interstitialMinActiveSeconds": 180,
+    "postRewardedProtectSeconds": 120,
+    "showOnForeground": false
+  },
+  "unlockProposal": {
+    "freePlayAfterNewWins": 3,
+    "dailyAfterNewWins": 5,
+    "tasksAfterNewWins": 5,
+    "endlessAfterNewWins": 15
+  },
+  "calendar": {
+    "previousDaysAccessible": 30,
+    "futureDatesSelectable": false,
+    "timezonePolicy": "IANA timezone pinned at profile creation",
+    "taskDayKeyNeverRegresses": true
+  },
+  "cashPricesOrPlatformEligibilityVerified": false,
+  "initialHintCredits": 0,
+  "grammar": {
+    "expression": "a op b = c",
+    "operations": [
+      "+",
+      "-",
+      "*",
+      "/"
+    ],
+    "minNumber": 1,
+    "maxNumber": 99,
+    "division": "exact_integer",
+    "maxGridWidth": 11,
+    "maxGridHeight": 11
+  },
+  "metaVersion": "meta-1",
+  "cards": [
+    {
+      "id": "abacus",
+      "titleRU": "Счёты",
+      "titleEN": "Abacus",
+      "chapter": "Счётный стол",
+      "partsRU": [
+        "рама",
+        "спицы",
+        "левые костяшки",
+        "правые костяшки"
+      ],
+      "art": "art/abacus.svg",
+      "completionAt": 8
+    },
+    {
+      "id": "counting_rods",
+      "titleRU": "Счётные палочки",
+      "titleEN": "Counting rods",
+      "chapter": "Счётный стол",
+      "partsRU": [
+        "лоток",
+        "единицы",
+        "пятёрки",
+        "десятки"
+      ],
+      "art": "art/counting_rods.svg",
+      "completionAt": 28
+    },
+    {
+      "id": "weights",
+      "titleRU": "Набор гирь",
+      "titleEN": "Calibration weights",
+      "chapter": "Счётный стол",
+      "partsRU": [
+        "футляр",
+        "малая гиря",
+        "средняя гиря",
+        "большая гиря"
+      ],
+      "art": "art/weights.svg",
+      "completionAt": 48
+    },
+    {
+      "id": "balance",
+      "titleRU": "Рычажные весы",
+      "titleEN": "Beam balance",
+      "chapter": "Счётный стол",
+      "partsRU": [
+        "стойка",
+        "коромысло",
+        "левая чаша",
+        "правая чаша"
+      ],
+      "art": "art/balance.svg",
+      "completionAt": 68
+    },
+    {
+      "id": "folding_rule",
+      "titleRU": "Складной метр",
+      "titleEN": "Folding rule",
+      "chapter": "Чертёжный стол",
+      "partsRU": [
+        "первая планка",
+        "вторая планка",
+        "третья планка",
+        "шарниры"
+      ],
+      "art": "art/folding_rule.svg",
+      "completionAt": 88
+    },
+    {
+      "id": "dividers",
+      "titleRU": "Циркуль",
+      "titleEN": "Dividers",
+      "chapter": "Чертёжный стол",
+      "partsRU": [
+        "левая ножка",
+        "правая ножка",
+        "фиксатор",
+        "шарнир"
+      ],
+      "art": "art/dividers.svg",
+      "completionAt": 108
+    },
+    {
+      "id": "protractor",
+      "titleRU": "Транспортир",
+      "titleEN": "Protractor",
+      "chapter": "Чертёжный стол",
+      "partsRU": [
+        "основание",
+        "дуга",
+        "шкала",
+        "указатель"
+      ],
+      "art": "art/protractor.svg",
+      "completionAt": 128
+    },
+    {
+      "id": "caliper",
+      "titleRU": "Штангенциркуль",
+      "titleEN": "Vernier caliper",
+      "chapter": "Чертёжный стол",
+      "partsRU": [
+        "штанга",
+        "неподвижная губка",
+        "подвижная губка",
+        "нониус"
+      ],
+      "art": "art/caliper.svg",
+      "completionAt": 148
+    },
+    {
+      "id": "dial",
+      "titleRU": "Часовой циферблат",
+      "titleEN": "Clock dial",
+      "chapter": "Стол механика",
+      "partsRU": [
+        "обод",
+        "часовые метки",
+        "малая стрелка",
+        "большая стрелка"
+      ],
+      "art": "art/dial.svg",
+      "completionAt": 168
+    },
+    {
+      "id": "gears",
+      "titleRU": "Зубчатая передача",
+      "titleEN": "Gear train",
+      "chapter": "Стол механика",
+      "partsRU": [
+        "опорная плита",
+        "ведущее колесо",
+        "ведомое колесо",
+        "оси"
+      ],
+      "art": "art/gears.svg",
+      "completionAt": 188
+    },
+    {
+      "id": "counter",
+      "titleRU": "Механический счётчик",
+      "titleEN": "Mechanical counter",
+      "chapter": "Стол механика",
+      "partsRU": [
+        "корпус",
+        "барабан единиц",
+        "барабан десятков",
+        "барабан сотен"
+      ],
+      "art": "art/counter.svg",
+      "completionAt": 208
+    },
+    {
+      "id": "pantograph",
+      "titleRU": "Чертёжный пантограф",
+      "titleEN": "Drafting pantograph",
+      "chapter": "Стол механика",
+      "partsRU": [
+        "опора",
+        "ближние тяги",
+        "дальние тяги",
+        "карандаш"
+      ],
+      "art": "art/pantograph.svg",
+      "completionAt": 228
+    }
+  ],
+  "goals": [
+    {
+      "id": "win1",
+      "ru": "Решите поле",
+      "en": "Solve a board",
+      "metric": "boards",
+      "goal": 1,
+      "match": null
+    },
+    {
+      "id": "win2",
+      "ru": "Решите два разных поля",
+      "en": "Solve two different boards",
+      "metric": "boards",
+      "goal": 2,
+      "match": null
+    },
+    {
+      "id": "route",
+      "ru": "Решите поле маршрута",
+      "en": "Solve a campaign board",
+      "metric": "mode",
+      "goal": 1,
+      "match": "campaign"
+    },
+    {
+      "id": "daily",
+      "ru": "Решите сегодняшнюю задачу",
+      "en": "Solve today’s challenge",
+      "metric": "today",
+      "goal": 1,
+      "match": null
+    },
+    {
+      "id": "free",
+      "ru": "Решите поле в свободной игре",
+      "en": "Solve a Free Play board",
+      "metric": "mode",
+      "goal": 1,
+      "match": "free"
+    },
+    {
+      "id": "endless",
+      "ru": "Решите одно поле в забеге",
+      "en": "Solve one Endless board",
+      "metric": "mode",
+      "goal": 1,
+      "match": "endless"
+    },
+    {
+      "id": "eq4",
+      "ru": "Соберите 4 уравнения",
+      "en": "Complete 4 equations",
+      "metric": "equations",
+      "goal": 4,
+      "match": null
+    },
+    {
+      "id": "eq6",
+      "ru": "Соберите 6 уравнений",
+      "en": "Complete 6 equations",
+      "metric": "equations",
+      "goal": 6,
+      "match": null
+    },
+    {
+      "id": "add2",
+      "ru": "Соберите 2 уравнения со сложением",
+      "en": "Complete 2 addition equations",
+      "metric": "op",
+      "goal": 2,
+      "match": "+"
+    },
+    {
+      "id": "sub2",
+      "ru": "Соберите 2 уравнения с вычитанием",
+      "en": "Complete 2 subtraction equations",
+      "metric": "op",
+      "goal": 2,
+      "match": "-"
+    },
+    {
+      "id": "mul1",
+      "ru": "Соберите уравнение с умножением",
+      "en": "Complete a multiplication equation",
+      "metric": "op",
+      "goal": 1,
+      "match": "*"
+    },
+    {
+      "id": "div1",
+      "ru": "Соберите уравнение с делением",
+      "en": "Complete a division equation",
+      "metric": "op",
+      "goal": 1,
+      "match": "/"
+    },
+    {
+      "id": "eq1",
+      "ru": "Соберите одно уравнение",
+      "en": "Complete one equation",
+      "metric": "equations",
+      "goal": 1,
+      "match": null
+    }
+  ],
+  "rotation": [
+    [
+      "win1",
+      "daily",
+      "eq4"
+    ],
+    [
+      "win2",
+      "free",
+      "add2"
+    ],
+    [
+      "win1",
+      "route",
+      "sub2"
+    ],
+    [
+      "win2",
+      "daily",
+      "eq6"
+    ],
+    [
+      "win1",
+      "endless",
+      "mul1"
+    ],
+    [
+      "win2",
+      "free",
+      "div1"
+    ],
+    [
+      "win1",
+      "daily",
+      "eq4"
+    ]
+  ],
+  "missionRules": {
+    "activeDayIndexBase": 1,
+    "maxBoardsInCompletionWitness": 3,
+    "fallbackOrder": {
+      "alternativesBySlot": [
+        "win1",
+        "route",
+        "eq1"
+      ],
+      "order": "fewest changed slots first; ties prefer slot 3, then 2, then 1",
+      "completedSlots": "frozen",
+      "changedUnpaidSlot": "one new action, progress starts at 0"
+    },
+    "replayEligible": true,
+    "grantEachSlot": true,
+    "autoGrant": true,
+    "issuance": "on fifth first-time completion, after recording the triggering puzzle"
+  },
+  "achievements": [
+    {
+      "id": "first",
+      "titleRU": "Первая запись",
+      "titleEN": "First entry",
+      "metric": "distinctWins",
+      "threshold": 1,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "bench",
+      "titleRU": "За работу",
+      "titleEN": "At the bench",
+      "metric": "distinctWins",
+      "threshold": 15,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "journey",
+      "titleRU": "Полсотни",
+      "titleEN": "Fifty solved",
+      "metric": "distinctWins",
+      "threshold": 50,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "hundred",
+      "titleRU": "Сотня",
+      "titleEN": "One hundred",
+      "metric": "distinctWins",
+      "threshold": 100,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "daily3",
+      "titleRU": "Три даты",
+      "titleEN": "Three dates",
+      "metric": "dailyDates",
+      "threshold": 3,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "daily12",
+      "titleRU": "Страница календаря",
+      "titleEN": "Calendar page",
+      "metric": "dailyDates",
+      "threshold": 12,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "set3",
+      "titleRU": "План выполнен",
+      "titleEN": "Three full lists",
+      "metric": "fullSets",
+      "threshold": 3,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "run3",
+      "titleRU": "Длинная партия",
+      "titleEN": "Long run",
+      "metric": "bestBoardsInRun",
+      "threshold": 3,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "firstcard",
+      "titleRU": "Первый экспонат",
+      "titleEN": "First exhibit",
+      "metric": "completedCards",
+      "threshold": 1,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "shelf",
+      "titleRU": "Полная полка",
+      "titleEN": "Full shelf",
+      "metric": "completedCards",
+      "threshold": 4,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "rank5",
+      "titleRU": "Пятый ранг",
+      "titleEN": "Fifth rank",
+      "metric": "rank",
+      "threshold": 5,
+      "reward": "profile_badge"
+    },
+    {
+      "id": "gallery",
+      "titleRU": "Собрана мастерская",
+      "titleEN": "Workshop complete",
+      "metric": "completedCards",
+      "threshold": 12,
+      "reward": "profile_badge"
+    }
+  ],
+  "measurement": {
+    "windowDays": [
+      1,
+      7,
+      30
+    ],
+    "activeEvent": "puzzle_started_by_player",
+    "firstExposure": "first_playable_open",
+    "unit": "install",
+    "retentionTimezone": "fixed profile timezone"
+  }
+}

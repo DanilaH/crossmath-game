@@ -1,0 +1,17 @@
+{
+  "realBankCalendarAndMissionFixtures": 84,
+  "fixturesRequiringSubstitution": 23,
+  "testedNewWinCounts": [
+    5,
+    8,
+    15,
+    50,
+    228,
+    240
+  ],
+  "dailyPool": 135,
+  "campaignDistinct": 240,
+  "albumCompleteAt": 228,
+  "coinsFromCards": 240,
+  "status": "PASS"
+}

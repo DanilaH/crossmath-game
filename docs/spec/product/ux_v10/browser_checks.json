@@ -1,0 +1,60 @@
+{
+  "browser": "Chromium 141.0.7390.37",
+  "scope": "self-authored HTML interaction sample",
+  "checks": [
+    "touch: selected token",
+    "touch: tray first",
+    "touch: cell first",
+    "a true row leaves the board editable",
+    "drag: invalid complete equation",
+    "atomic swap solves the crossing",
+    "final undo locked",
+    "next field",
+    "two equal tokens have distinct IDs",
+    "swap of duplicate instances",
+    "undo restores exact instances",
+    "replacement returns displaced token",
+    "tap return",
+    "drag return",
+    "cancelled drop",
+    "release outside",
+    "release on a given",
+    "resize cancels drag",
+    "keyboard solves first field",
+    "theme/motion/sound controls",
+    "WebAudio starts on gesture",
+    "new attempt clears selection",
+    "320x568: 11x11 field fits, disjoint targets",
+    "390x844: 11x11 field fits, disjoint targets",
+    "768x1024: 11x11 field fits, disjoint targets",
+    "complete cm-own-01-001",
+    "complete cm-own-01-007",
+    "complete cm-own-01-010",
+    "complete cm-own-01-012",
+    "complete cm-own-01-025",
+    "no uncaught page errors"
+  ],
+  "dense_board_layout": [
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "numeric_target_px": 48
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "numeric_target_px": 48
+    },
+    {
+      "viewport": [
+        768,
+        1024
+      ],
+      "numeric_target_px": 48
+    }
+  ]
+}

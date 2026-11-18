@@ -1,0 +1,6 @@
+*.pdf binary
+*.png binary
+*.jar binary
+# Preserve the accepted handoff and generated guidance byte-for-byte.
+docs/spec/** -text -whitespace
+docs/kit-guidance/** -text -whitespace

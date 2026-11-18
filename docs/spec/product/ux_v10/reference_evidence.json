@@ -1,0 +1,177 @@
+{
+  "guru352": {
+    "audio": {
+      "block_fling.mp3": {
+        "resource": "assets/flutter_assets/packages/cross_math/assets/audio/block_fling.mp3",
+        "sha256": "d79143d5857757eeb5454f447c64421c889d8772565319eaa46d5a981fb04367",
+        "decoded_ms": 120,
+        "first_active_window_ms": 0,
+        "last_active_window_ms": 40
+      },
+      "block_placement.mp3": {
+        "resource": "assets/flutter_assets/packages/cross_math/assets/audio/block_placement.mp3",
+        "sha256": "de107cef6ce96441c90305fd33366489845068ba8a11a31559965c9aa9cf976c",
+        "decoded_ms": 287,
+        "first_active_window_ms": 150,
+        "last_active_window_ms": 150
+      },
+      "game_success.mp3": {
+        "resource": "assets/flutter_assets/packages/cross_math/assets/audio/game_success.mp3",
+        "sha256": "3e47f44ece2c84cdb1f8bf3ce3220c6001d3c5486218ca6907dc3c403d2e403e",
+        "decoded_ms": 1620,
+        "first_active_window_ms": 70,
+        "last_active_window_ms": 1240
+      },
+      "input_wrong.mp3": {
+        "resource": "assets/flutter_assets/packages/cross_math/assets/audio/input_wrong.mp3",
+        "sha256": "af480ac203f2b7e7b8580725820b98a1ca3402340f6f92d0e671eb749efcf026",
+        "decoded_ms": 496,
+        "first_active_window_ms": 40,
+        "last_active_window_ms": 410
+      }
+    },
+    "lottie": {},
+    "methods": {
+      "candidate.startFlingAnim": "0x81302c",
+      "board_block.setFocus": "0x8041a8",
+      "board_block.renderPreview": "0x9d515c",
+      "board_block.flingBack": "0x8113bc",
+      "board.onTap": "0x991350",
+      "board._checkBoardTapDown": "0x9913f8",
+      "board.checkBoardStatusOnDrag": "0x82dee8",
+      "board._findBlockIndexByPosition": "0x82f028",
+      "user_guide_hand.initDragAnimation": "0xecb734"
+    }
+  },
+  "guru417": {
+    "audio": {
+      "block_fling.mp3": {
+        "resource": "assets/flutter_assets/assets/audio/block_fling.mp3",
+        "sha256": "595c12fc2f40be95c6486c0be91a909517e66103d2c37f9a1e1dea95bd970711",
+        "decoded_ms": 120,
+        "first_active_window_ms": 0,
+        "last_active_window_ms": 50
+      },
+      "choose.mp3": {
+        "resource": "assets/flutter_assets/assets/audio/choose.mp3",
+        "sha256": "5b515949091e49170ab44f5076cdeb1c08e8868ebab17b989ed36e69c3f25348",
+        "decoded_ms": 287,
+        "first_active_window_ms": 50,
+        "last_active_window_ms": 70
+      },
+      "fill_in.mp3": {
+        "resource": "assets/flutter_assets/assets/audio/fill_in.mp3",
+        "sha256": "51cca6729795f19e2db3c4f40b25632238151f98d6558305da18175b36b97b20",
+        "decoded_ms": 91,
+        "first_active_window_ms": 0,
+        "last_active_window_ms": 60
+      },
+      "fill_in_correct.mp3": {
+        "resource": "assets/flutter_assets/assets/audio/fill_in_correct.mp3",
+        "sha256": "e525d07712cf530ae0177e3d9f5bb3455aca037f84d10284b961728c2190fd48",
+        "decoded_ms": 2000,
+        "first_active_window_ms": 0,
+        "last_active_window_ms": 780
+      },
+      "fill_in_wrong.mp3": {
+        "resource": "assets/flutter_assets/assets/audio/fill_in_wrong.mp3",
+        "sha256": "08db13bf72701858215b44e8b59f6cc9d61a1952c6447556c8dde31feaca7cdb",
+        "decoded_ms": 460,
+        "first_active_window_ms": 0,
+        "last_active_window_ms": 170
+      },
+      "game_success.mp3": {
+        "resource": "assets/flutter_assets/assets/audio/game_success.mp3",
+        "sha256": "dee906a8eb846fca42455e946bba7bdeb4787245d222fd4f818926d87fcd5c48",
+        "decoded_ms": 1672,
+        "first_active_window_ms": 90,
+        "last_active_window_ms": 1170
+      }
+    },
+    "lottie": {
+      "fx_equation.json": {
+        "resource": "assets/flutter_assets/packages/cross_math/assets/lottie/guide/fx_equation.json",
+        "ip": 0,
+        "op": 90,
+        "fr": 60
+      },
+      "hand_click.json": {
+        "resource": "assets/flutter_assets/packages/cross_math/assets/lottie/guide/hand_click.json",
+        "ip": 0,
+        "op": 90,
+        "fr": 60
+      }
+    },
+    "methods": {
+      "game_feedback_manager.performChooseGeneral": "0xb3ad80",
+      "game_feedback_manager.performChooseDrag": "0xb98f6c",
+      "game_feedback_manager.performFillInCorrect": "0xb460f8",
+      "game_feedback_manager.performFillInWrong": "0xb461c8",
+      "game_feedback_manager.performBlockFling": "0xb48478",
+      "game_feedback_manager.performFillIn": "0xb979e4",
+      "candidate.startFlingAnim": "0xb3b7c4",
+      "board_block.setFocus": "0xb47adc",
+      "board_block.renderPreview": "0xce04c0",
+      "board_block.flingBack": "0xb65e24",
+      "board.onTap": "0xb3a930",
+      "board._checkBoardTapDown": "0xb3a990",
+      "board.checkBoardStatusOnDrag": "0xb864cc",
+      "board._findBlockIndexByPosition": "0xb875b0",
+      "user_guide_hand.initDragAnimation": "0x12e078c"
+    }
+  },
+  "easy119": {
+    "prefabs": {
+      "celllettergrid_prefab": [
+        "ImgGrid3DBg",
+        "ImgGridBg",
+        "ImgSelect",
+        "TextLetter"
+      ],
+      "gameviewbase_prefab": [
+        "CrossGridLayout",
+        "CrossSelect",
+        "CrossSelectLayout",
+        "ImgTutorialHand",
+        "LetterGridLayout",
+        "TextTutorialGuide"
+      ],
+      "panelgame_prefab": [
+        "BtnPause",
+        "BtnTheme",
+        "ImgLife1",
+        "ImgLife3Bg",
+        "TextClock",
+        "TextHintCoinCount"
+      ],
+      "panelpopgamecomplete_prefab": [
+        "BtnHome",
+        "BtnNext",
+        "Confetti",
+        "EfxFireworkLeft",
+        "GroupGoalsStatistics",
+        "TextTimeData"
+      ],
+      "sound": [
+        "click",
+        "done_progress",
+        "pick",
+        "right",
+        "win",
+        "wrong"
+      ]
+    },
+    "methods": {
+      "MainGame.Script.Game.Interactive.CellLetterInteractive$$OnPointerDown": "0x15309f4",
+      "MainGame.Script.Game.Interactive.CellLetterInteractive$$OnPointerUp": "0x1530b80",
+      "MainGame.Script.Game.Interactive.CellLetterInteractive$$OnDrag": "0x1530c40",
+      "QFramework.MainGame.CrossViewBase$$CheckEquationCurrentStatus": "0x1538034",
+      "QFramework.MainGame.CrossViewBase$$ShowDragTargetGrid": "0x153a228",
+      "QFramework.MainGame.GameInteractiveBase$$ClickCellLetterGrid": "0x153e2cc",
+      "QFramework.MainGame.GameInteractiveBase$$OnCrossGridClick": "0x153e2f4",
+      "QFramework.MainGame.GameInteractiveTutorial$$OnLetterDragEnd": "0x154155c",
+      "QFramework.MainGame.PanelPopGameComplete$$CheckGoalShowAni": "0x1564ca0",
+      "QFramework.MainGame.PanelPopGameComplete$$OnBtnNextClick": "0x1565adc"
+    }
+  }
+}

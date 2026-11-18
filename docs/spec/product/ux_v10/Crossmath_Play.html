@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#f6f3e9">
+<title>Crossmath · игровая проба</title>
+<style>
+:root{color-scheme:light;--paper:#f6f3e9;--card:#fffdf5;--ink:#182e2c;--soft:#465f59;--socket:#698071;--edge:#abb8a9;--teal:#11635b;--mint:#d3e8da;--gold:#855809;--gold-bg:#ffedbb;--bad:#923829;--bad-bg:#fae7df;--shadow:rgba(34,56,46,.14);--rule:rgba(52,82,66,.12);--step:45px;--item:40px;--hit:48px}
+body.dark{color-scheme:dark;--paper:#192a29;--card:#213532;--ink:#f6f1df;--soft:#c3d1c4;--socket:#a1b1a5;--edge:#788f82;--teal:#9ddaca;--mint:#2b4c44;--gold:#ffcf80;--gold-bg:#4d412a;--bad:#ffb2a3;--bad-bg:#503a35;--shadow:rgba(0,0,0,.25);--rule:rgba(193,216,195,.12)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.35 system-ui,sans-serif;font-variant-numeric:tabular-nums}
+button,select{font:inherit;color:inherit}button{-webkit-tap-highlight-color:transparent;cursor:pointer;border:0;background:none;touch-action:manipulation}button:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}button:disabled{opacity:.45;cursor:default}
+main{max-width:520px;min-height:100svh;margin:auto;padding:clamp(12px,3vw,23px) clamp(12px,4vw,25px);display:flex;flex-direction:column;gap:clamp(9px,1.6vh,16px)}
+header,.lead,.trayhead,.foot,.tools,.buttons{display:flex;align-items:center;justify-content:space-between;gap:8px}header{border-bottom:1px solid var(--edge);padding-bottom:6px}
+.word{display:inline-flex;align-items:center;gap:10px;letter-spacing:-1px;font:600 25px/1 Georgia,serif}.brand{width:25px;height:25px;display:grid;grid-template-columns:1fr 1fr;gap:3px;transform:rotate(-6deg)}.brand i{background:var(--teal);border-radius:2px}.brand i:nth-child(2){background:var(--gold);border-radius:50%}.brand i:last-child{background:var(--mint);border:1px solid var(--teal)}
+.control,.foot button,.tools button{min-height:44px;padding:7px 11px;border:1px solid var(--edge);border-radius:10px;background:var(--card);font-size:14px;font-weight:600}.control{border:0;background:transparent;color:var(--soft)}.lead{align-items:end}.kicker{color:var(--soft);font-size:12px;letter-spacing:.07em;font-weight:700}.lead h1{font:normal clamp(31px,9vw,48px)/1.1 Georgia,serif;letter-spacing:-.045em;margin:3px 0}.counter{white-space:nowrap;color:var(--soft);font-size:13px;padding-bottom:5px}
+.boardpad{position:relative;display:grid;place-items:center;background-color:var(--card);border:1px solid var(--edge);border-radius:18px;min-height:clamp(176px,32svh,335px);padding:12px 0;background-image:radial-gradient(var(--rule) .8px, transparent .9px);background-size:12px 12px}
+.board{width:calc(var(--w)*var(--step) + var(--hit) - var(--step));height:calc(var(--h)*var(--step) + var(--hit) - var(--step));position:relative;isolation:isolate;flex:none}
+.part{position:absolute;left:calc(var(--x)*var(--step) + var(--hit)/2);top:calc(var(--y)*var(--step) + var(--hit)/2);transform:translate(-50%,-50%);display:grid;place-items:center}
+.cell{width:var(--hit);height:var(--hit);padding:0;touch-action:none}.tile,.given{display:grid;place-items:center;width:var(--item);height:var(--item);border-radius:9px;font:650 clamp(17px,calc(var(--item)*.55),32px)/1 system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.tile{background:var(--paper);border:1.6px dashed var(--socket);color:var(--soft)}.cell.empty .tile:after{content:"";width:4px;height:4px;border-radius:50%;background:var(--soft)}.given{background:var(--card);border:1px solid var(--edge)}.op{font-size:clamp(13px,calc(var(--step)*.55),25px);color:var(--soft);pointer-events:none;background:var(--card);border-radius:50%;width:calc(var(--step)*.65);height:calc(var(--step)*.65)}
+.cell:disabled{opacity:1}.placed .tile,.token{background:var(--mint);border:1.5px solid var(--teal);color:var(--teal);box-shadow:0 2px 0 var(--teal)}.selected .tile,.token.selected,.cell.hover .tile,.traybox.hover{outline:2.5px solid var(--gold);outline-offset:2px}.linked:not(.selected):not(.invalid) .tile,.given.linked{border-color:var(--teal)}
+.invalid .tile,.given.invalid{border:2px solid var(--bad);background:var(--bad-bg)}.op.invalid{color:var(--bad);font-weight:800}.op.right{color:var(--teal)}.op.right:after{content:'✓';position:absolute;right:-5px;top:-4px;font-size:10px;font-weight:800}.fresh .tile{animation:seat 130ms ease-out}@keyframes seat{from{transform:scale(1.08)}to{transform:scale(1)}}
+.note{margin:0;min-height:40px;font-size:14px;color:var(--soft);display:flex;align-items:center;gap:9px}.note:before{content:"";flex:none;width:8px;height:8px;background:var(--teal);border-radius:2px}.note.problem{color:var(--bad)}.note.problem:before{background:var(--bad);transform:rotate(45deg)}
+.traybox{border:1px solid var(--edge);background:var(--card);border-radius:16px;padding:12px 14px}.trayhead{margin-bottom:8px}.trayhead h2{margin:0;font-size:15px}.compact{font-size:13px;color:var(--soft)}
+.tray{display:flex;gap:8px;flex-wrap:wrap}.slot,.token{width:48px;height:48px;border-radius:10px}.token{font-size:23px;font-weight:650;touch-action:none}.slot{border:1px dashed var(--edge);display:grid;place-items:center}.slot:has(.token){border:0}
+.tools{justify-content:start;flex-wrap:wrap}.tools button{flex:1;white-space:nowrap}.foot{margin-top:auto;border-top:1px solid var(--edge);padding-top:7px}.foot select{min-height:44px;min-width:0;width:100%;border:0;background:var(--paper);font-size:14px}.foot label{font-size:13px;color:var(--soft);white-space:nowrap}
+dialog{color:var(--ink);background:var(--card);border:1px solid var(--edge);border-radius:18px;padding:24px;max-width:min(370px,90vw);box-shadow:0 18px 70px var(--shadow)}dialog::backdrop{background:rgba(15,36,29,.55)}dialog h2{font:normal 34px/1.08 Georgia,serif;margin:0 0 12px}dialog p{font-size:15px;color:var(--soft)}dialog label{display:flex;align-items:center;gap:10px;min-height:44px}dialog input{width:19px;height:19px;accent-color:var(--teal)}.buttons{justify-content:start;margin-top:12px}.primary{background:var(--teal);color:var(--paper);border:0;border-radius:9px;padding:10px 15px;min-height:44px;font-weight:700}.dark .primary{color:#132c26}
+.ghost{position:fixed;z-index:2;pointer-events:none;transform:translate(-50%,-115%);width:44px;height:44px;display:grid;place-items:center;opacity:.92}.won{background:var(--mint);border-color:var(--teal);display:flex;flex-direction:column;align-items:start;gap:8px;padding:13px 16px;border-radius:12px;border:1px solid var(--teal)}.won strong{font:normal 23px Georgia,serif}.won p{margin:0;font-size:14px}.won[hidden],.ghost[hidden],[hidden]{display:none!important}
+@media(max-height:650px){main{gap:7px}header{padding:0}.traybox{padding:8px 12px}.boardpad{padding:5px 0}.lead h1{font-size:31px}.note{min-height:33px}}
+@media(prefers-reduced-motion:reduce){*,*:before{animation:none!important;transition:none!important}}body.calm *,body.calm *:before{animation:none!important;transition:none!important}
+</style>
+<main>
+<header><span class="word"><span class="brand" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Crossmath</span><button class="control" id="pause">Ⅱ &nbsp;Пауза</button></header>
+<div class="lead"><div><div class="kicker" id="level"></div><h1 id="title"></h1></div><span class="counter" id="counter"></span></div>
+<section class="boardpad" aria-label="Арифметическое поле"><div class="board" id="board" role="group"></div></section>
+<p class="note" id="note" role="status" aria-live="polite"></p>
+<section class="traybox" id="traybox"><div class="trayhead"><h2>Лоток</h2><span class="compact" id="stock"></span></div><div class="tray" id="tray" aria-label="Числа в лотке"></div></section>
+<div class="tools"><button id="undo">↶ Отменить</button><button id="back">В лоток</button></div>
+<section class="won" id="end" hidden><strong>Поле решено</strong><p id="endtext"></p><button class="primary" id="next">Следующее поле →</button></section>
+<div class="foot"><label for="scene">Образец поля</label><select id="scene" aria-label="Выберите образец поля"></select></div>
+</main>
+<dialog id="options"><h2>Пауза</h2><label><input type="checkbox" id="sound">Звуки ходов</label><label><input type="checkbox" id="buzz">Вибрация</label><label><input type="checkbox" id="dark">Тёмная тема</label><label><input type="checkbox" id="calm">Меньше движения</label><div class="buttons"><button class="primary" id="resume">Продолжить</button><button class="control" id="reset">Начать заново</button></div></dialog>
+<div class="token ghost" id="ghost" aria-hidden="true" hidden></div>
+<script>
+'use strict';
+const boards=[{"width":5,"height":1,"cells":[{"id":0,"x":0,"y":0,"given":2},{"id":1,"x":2,"y":0,"given":3},{"id":2,"x":4,"y":0}],"equations":[{"cells":[0,1,2],"op":"+"}],"tray":[5],"puzzleId":"cm-own-01-001","contentVersion":1,"rulesetVersion":"cm-integer-1","difficulty":"easy","campaignPosition":1,"origin":"crossmath-original-20261118","decisionTags":["direct_result"]},{"width":5,"height":5,"cells":[{"id":0,"x":0,"y":0},{"id":1,"x":2,"y":0},{"id":2,"x":4,"y":0,"given":10},{"id":3,"x":0,"y":2,"given":2},{"id":4,"x":0,"y":4}],"equations":[{"cells":[0,1,2],"op":"+"},{"cells":[0,3,4],"op":"+"}],"tray":[5,7,5],"puzzleId":"cm-own-01-007","contentVersion":1,"rulesetVersion":"cm-integer-1","difficulty":"easy","campaignPosition":7,"origin":"crossmath-original-20261118","decisionTags":["direct_inverse","direct_result","tray"]},{"width":5,"height":5,"cells":[{"id":0,"x":0,"y":0},{"id":1,"x":2,"y":0},{"id":2,"x":4,"y":0,"given":9},{"id":3,"x":0,"y":2},{"id":4,"x":0,"y":4,"given":10}],"equations":[{"cells":[0,1,2],"op":"+"},{"cells":[0,3,4],"op":"+"}],"tray":[5,4,6],"puzzleId":"cm-own-01-010","contentVersion":1,"rulesetVersion":"cm-integer-1","difficulty":"standard","campaignPosition":10,"origin":"crossmath-original-20261118","decisionTags":["direct_inverse","intersection"]},{"width":5,"height":5,"cells":[{"id":0,"x":0,"y":0},{"id":1,"x":2,"y":0},{"id":2,"x":4,"y":0,"given":11},{"id":3,"x":0,"y":2},{"id":4,"x":0,"y":4,"given":2}],"equations":[{"cells":[0,1,2],"op":"+"},{"cells":[0,3,4],"op":"-"}],"tray":[4,7,5],"puzzleId":"cm-own-01-012","contentVersion":1,"rulesetVersion":"cm-integer-1","difficulty":"standard","campaignPosition":12,"origin":"crossmath-original-20261118","decisionTags":["direct_inverse","tray"]},{"width":11,"height":11,"cells":[{"id":0,"x":6,"y":0},{"id":1,"x":6,"y":2},{"id":2,"x":8,"y":2,"given":37},{"id":3,"x":10,"y":2},{"id":4,"x":2,"y":4,"given":24},{"id":5,"x":4,"y":4},{"id":6,"x":6,"y":4,"given":11},{"id":7,"x":0,"y":6},{"id":8,"x":2,"y":6},{"id":9,"x":4,"y":6},{"id":10,"x":0,"y":8,"given":15},{"id":11,"x":2,"y":8},{"id":12,"x":4,"y":8},{"id":13,"x":6,"y":8,"given":2},{"id":14,"x":8,"y":8,"given":52},{"id":15,"x":0,"y":10},{"id":16,"x":2,"y":10,"given":3}],"equations":[{"cells":[5,9,12],"op":"*"},{"cells":[7,8,9],"op":"/"},{"cells":[7,10,15],"op":"+"},{"cells":[4,5,6],"op":"-"},{"cells":[8,11,16],"op":"/"},{"cells":[0,1,6],"op":"/"},{"cells":[1,2,3],"op":"+"},{"cells":[12,13,14],"op":"*"}],"tray":[2,27,13,6,2,12,26,4,44,41],"puzzleId":"cm-own-01-025","contentVersion":1,"rulesetVersion":"cm-integer-1","difficulty":"expert","campaignPosition":25,"origin":"crossmath-original-20261118","decisionTags":["direct_inverse","direct_result","intersection","tray"]}];
+const titles=['Первый ход','Две пятёрки','Пересечение','Два равенства','Большое поле'];
+const $=id=>document.getElementById(id);
+const glyph={'+':'+','-':'−','*':'×','/':'÷'};
+let index=3,b,places=new Map(),history=[],selected=null,won=false,gesture=null,context=null,cellNodes=new Map(),opNodes=[],fresh=null;
+const value=id=>{const c=b.cells.find(c=>c.id===id);return c.given??(places.has(id)?b.tray[places.get(id)]:undefined)};
+function evaluate(eq){
+ const [a,n,c]=eq.cells.map(value);
+ if([a,n,c].includes(undefined))return null;
+ return ({'+':a+n===c,'-':a-n===c,'*':a*n===c,'/':n!==0&&a===n*c})[eq.op];
+}
+const eqText=eq=>{const [a,n,c]=eq.cells.map(id=>value(id)??'□');return a+' '+glyph[eq.op]+' '+n+' = '+c};
+function sizeBoard(){const pad=document.querySelector('.boardpad');const maxWidth=pad.clientWidth-(b.width>7?2:12);
+ const step=Math.min(48,(maxWidth-48)/Math.max(1,b.width-1),b.height>5?30:(innerHeight<650?31:46));
+ const hit=Math.min(48,step*2);const s=$('board').style;
+ for(const [k,v] of Object.entries({step,item:Math.min(46,step*1.13),hit}))s.setProperty('--'+k,v+'px');
+ s.setProperty('--w',b.width);s.setProperty('--h',b.height)}
+function node(tag,cl,x,y){const e=document.createElement(tag);e.className='part '+cl;e.style.setProperty('--x',x);e.style.setProperty('--y',y);return e}
+function build(){
+ b=boards[index];places=new Map();history=[];selected=null;won=false;fresh=null;cancel();cellNodes=new Map();opNodes=[];$('board').replaceChildren();$('tray').replaceChildren();$('scene').value=index;
+ for(const c of b.cells){const fixed=c.given!==undefined;const e=node(fixed?'span':'button',fixed?'given':'cell',c.x,c.y);cellNodes.set(c.id,e);
+ if(fixed)e.textContent=c.given;else{e.dataset.cell=c.id;const t=document.createElement('span');t.className='tile';e.append(t)}
+ $('board').append(e)}
+ for(const eq of b.equations){const parts=eq.cells.map(id=>b.cells.find(c=>c.id===id));const ops=[];
+ for(let i=0;i<2;i++){const a=parts[i],n=parts[i+1],e=node('span','op',(a.x+n.x)/2,(a.y+n.y)/2);
+ e.textContent=i?'=':glyph[eq.op];e.setAttribute('aria-hidden','true');$('board').append(e);ops.push(e)}opNodes.push(ops)}
+ for(let i=0;i<b.tray.length;i++){const slot=document.createElement('span');slot.className='slot';const e=document.createElement('button');e.className='token';e.dataset.token=i;e.textContent=b.tray[i];e.setAttribute('aria-label','Число '+b.tray[i]+', место '+(i+1));slot.append(e);$('tray').append(slot)}
+ $('level').textContent='ПОЛЕ '+b.puzzleId.split('-').at(-1).replace(/^0+/,'');$('title').textContent=titles[index];sizeBoard();render()}
+function render(message){
+ const wasFocused=document.activeElement;const states=b.equations.map(evaluate);
+ const bad=new Set(),linked=new Set();b.equations.forEach((eq,i)=>{if(states[i]===false)eq.cells.forEach(id=>bad.add(id));
+ const active=selected?.kind==='cell'&&eq.cells.includes(selected.id);if(active)eq.cells.forEach(id=>linked.add(id));for(const o of opNodes[i])o.classList.toggle('invalid',states[i]===false);opNodes[i][1].classList.toggle('right',states[i]===true)});
+ for(const c of b.cells){const el=cellNodes.get(c.id);el.classList.toggle('linked',linked.has(c.id));el.classList.toggle('invalid',bad.has(c.id));
+ if(c.given!==undefined){el.setAttribute('aria-label','Дано '+c.given);continue}
+ const v=value(c.id),active=selected?.kind==='cell'&&selected.id===c.id;el.classList.toggle('selected',active);el.classList.toggle('placed',v!==undefined);el.classList.toggle('empty',v===undefined);el.classList.toggle('fresh',c.id===fresh);
+ el.firstChild.textContent=v??'';el.disabled=won;el.setAttribute('aria-pressed',String(active));el.setAttribute('aria-label','Строка '+(c.y+1)+', столбец '+(c.x+1)+', '+(v??'пусто')+(bad.has(c.id)?', проверьте равенство':''));}
+ const used=new Set(places.values());for(const token of $('tray').querySelectorAll('button')){const id=+token.dataset.token;token.hidden=used.has(id);token.classList.toggle('selected',selected?.kind==='token'&&selected.id===id);token.setAttribute('aria-pressed',String(token.classList.contains('selected')))}
+ $('counter').textContent=places.size+' / '+b.tray.length+' клеток';$('stock').textContent='Осталось '+(b.tray.length-places.size);$('undo').disabled=!history.length||won;$('back').disabled=won||selected?.kind!=='cell'||!places.has(selected.id);
+ const wrong=states.indexOf(false);$('note').classList.toggle('problem',wrong>=0);const all=states.filter(x=>x===true).length;
+ const note=won?'Все равенства сходятся.':wrong>=0?'Проверьте: '+eqText(b.equations[wrong]).replace(' = ',' ≠ ')+'.':selected?.kind==='cell'?'Связи клетки: '+b.equations.filter(e=>e.cells.includes(selected.id)).map(eqText).join(' и ')+'.':selected?.kind==='token'?'Выбрано '+b.tray[selected.id]+'. Коснитесь клетки.':message??(all?'Верных равенств: '+all+' из '+b.equations.length+'.':'Выберите число и коснитесь пустой клетки.');
+ $('note').textContent=note;$('end').hidden=!won;$('endtext').textContent='Верных равенств: '+all+' из '+b.equations.length+'.';
+ if(won&&wasFocused!==$('next'))$('next').focus({preventScroll:true});
+}
+function cue(kind){if($('sound').checked){try{context??=new AudioContext();void context.resume().catch(()=>{});const a=context.currentTime+.005;
+ const pattern={pick:[[520,.045]],place:[[390,.065]],right:[[390,.07],[585,.12]],wrong:[[235,.09],[198,.09]],win:[[392,.08],[494,.09],[587,.16]],back:[[320,.055]]}[kind];
+ pattern.forEach(([freq,time],i)=>{const o=context.createOscillator(),g=context.createGain();const start=a+i*.075;o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,start);g.gain.exponentialRampToValueAtTime(.075,start+.007);g.gain.exponentialRampToValueAtTime(.0001,start+time);o.connect(g);g.connect(context.destination);o.start(start);o.stop(start+time+.01)})}catch{}}
+ if($('buzz').checked&&navigator.vibrate&&kind!=='pick')navigator.vibrate(kind==='wrong'?[8,35,8]:8)}
+function same(a,n){return a.size===n.size&&[...a].every(([k,v])=>n.get(k)===v)}
+function commit(next,focusId,base='place'){if(won||same(places,next))return;
+ const prior=b.equations.map(eq=>[evaluate(eq),eqText(eq)]);history.push(new Map(places));places=next;selected=null;fresh=focusId;
+ const now=b.equations.map(evaluate);won=now.every(v=>v===true);
+ const wrong=now.some((v,i)=>v===false&&(prior[i][0]!==false||prior[i][1]!==eqText(b.equations[i])));
+ cue(won?'win':wrong?'wrong':now.some((v,i)=>v===true&&prior[i][0]!==true)?'right':base);render();
+ if(!won&&focusId!==null&&document.activeElement===document.body)cellNodes.get(focusId)?.focus({preventScroll:true});if(won)$('next').scrollIntoView({block:'nearest'})}
+function transfer(src,target){if(won||!src)return;
+ const next=new Map(places);if(target.kind==='return'){if(src.kind!=='cell'||!next.has(src.id))return;next.delete(src.id);commit(next,null,'back');return}
+ if(target.kind!=='cell'||src.kind==='cell'&&src.id===target.id)return;
+ if(src.kind==='token'){if([...places.values()].includes(src.id))return;next.set(target.id,src.id)}
+ else {if(!next.has(src.id))return;const token=next.get(src.id),old=next.get(target.id);next.delete(src.id);next.set(target.id,token);if(old!==undefined)next.set(src.id,old)}
+ commit(next,target.id)}
+function tap(t){if(won||!t)return;
+ if(selected&&selected.kind===t.kind&&selected.id===t.id){selected=null;render();return}
+ if(selected?.kind==='token'&&t.kind==='cell'){transfer(selected,t);return}
+ if(selected?.kind==='cell'&&t.kind==='token'){transfer(t,selected);return}
+ if(selected?.kind==='cell'&&places.has(selected.id)&&t.kind==='cell'){transfer(selected,t);return}
+ selected=t;fresh=null;cue('pick');render()}
+function target(el){const e=el?.closest('[data-cell],[data-token]');return !e||e.disabled||e.hidden?null:e.hasAttribute('data-cell')?{kind:'cell',id:+e.dataset.cell}:{kind:'token',id:+e.dataset.token}}
+function dropAt(x,y){const el=document.elementFromPoint(x,y);const t=target(el);if(t?.kind==='cell')return t;if(el?.closest('#traybox'))return {kind:'return'};return null}
+function clearHover(){document.querySelectorAll('.hover').forEach(el=>el.classList.remove('hover'))}
+function glideBack(g){
+ if(document.body.classList.contains('calm')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const src=g.src.kind==='token'?$('tray').querySelector('[data-token="'+g.src.id+'"]'):cellNodes.get(g.src.id);
+ const ghost=$('ghost'),from=ghost.getBoundingClientRect(),to=src.getBoundingClientRect();const copy=ghost.cloneNode(true);copy.removeAttribute('id');copy.removeAttribute('hidden');document.body.append(copy);
+ const dx=to.x+to.width/2-from.x-from.width/2,dy=to.y+to.height/2-from.y-from.height/2;
+ const anim=copy.animate([{translate:'0 0',opacity:.92},{translate:dx+'px '+dy+'px',opacity:.1}],{duration:140,easing:'ease-out'});anim.onfinish=anim.oncancel=()=>copy.remove();
+}
+function cancel(){if(gesture){const id=gesture.pointer;gesture=null;if(document.body.hasPointerCapture(id))document.body.releasePointerCapture(id)}$('ghost').hidden=true;clearHover()}
+document.addEventListener('pointerdown',e=>{const t=target(e.target);if(!t||won||gesture||!e.isPrimary||e.button!==0)return;
+ gesture={pointer:e.pointerId,src:t,x:e.clientX,y:e.clientY,drag:false};document.body.setPointerCapture(e.pointerId)});
+document.addEventListener('pointermove',e=>{const g=gesture;if(!g||e.pointerId!==g.pointer)return;if(!g.drag&&Math.hypot(e.clientX-g.x,e.clientY-g.y)<8)return;
+ if(g.src.kind==='cell'&&!places.has(g.src.id))return;
+ if(!g.drag){g.drag=true;cue('pick');$('ghost').textContent=g.src.kind==='token'?b.tray[g.src.id]:value(g.src.id);$('ghost').hidden=false}
+ $('ghost').style.left=e.clientX+'px';$('ghost').style.top=e.clientY+'px';clearHover();const t=dropAt(e.clientX,e.clientY);if(t?.kind==='cell')cellNodes.get(t.id).classList.add('hover');if(t?.kind==='return'&&g.src.kind==='cell')$('traybox').classList.add('hover')});
+document.addEventListener('pointerup',e=>{const g=gesture;if(!g||g.pointer!==e.pointerId)return;const drop=dropAt(e.clientX,e.clientY),under=target(document.elementFromPoint(e.clientX,e.clientY));if(g.drag&&(!drop||drop.kind==='return'&&g.src.kind==='token'))glideBack(g);cancel();
+ if(g.drag){if(drop)transfer(g.src,drop)}else if(under?.kind===g.src.kind&&under.id===g.src.id)tap(g.src)});
+document.addEventListener('pointercancel',e=>{if(gesture?.pointer===e.pointerId)cancel()});document.addEventListener('lostpointercapture',e=>{if(gesture?.pointer===e.pointerId)cancel()});
+document.addEventListener('click',e=>{if(e.detail===0){const t=target(e.target);if(t)tap(t)}});
+$('back').onclick=()=>transfer(selected,{kind:'return'});$('undo').onclick=()=>{if(!history.length||won)return;cancel();places=history.pop();selected=null;fresh=null;cue('back');render('Ход отменён.')};
+$('pause').onclick=()=>{cancel();$('options').showModal()};$('resume').onclick=()=>$('options').close();$('reset').onclick=()=>{$('options').close();build()};
+$('dark').onchange=()=>document.body.classList.toggle('dark',$('dark').checked);$('calm').onchange=()=>document.body.classList.toggle('calm',$('calm').checked);
+$('scene').onchange=()=>{index=+$('scene').value;build()};$('next').onclick=()=>{index=(index+1)%boards.length;build();$('pause').focus({preventScroll:true});window.scrollTo(0,0)};
+boards.forEach((v,i)=>$('scene').add(new Option(v.puzzleId.split('-').at(-1).replace(/^0+/,'')+' · '+titles[i],i)));
+window.addEventListener('resize',()=>{cancel();sizeBoard()});window.addEventListener('blur',cancel);document.addEventListener('visibilitychange',()=>{if(document.hidden)cancel()});build();
+</script></html>

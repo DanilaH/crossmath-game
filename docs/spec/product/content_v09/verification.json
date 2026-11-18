@@ -1,0 +1,17 @@
+{
+  "boards": 240,
+  "positions": 240,
+  "unique_solutions": 240,
+  "full_proofs": 240,
+  "checked_assignments": 1422,
+  "distinct_structural_signatures": 239,
+  "difficulty": {
+    "easy": 70,
+    "standard": 80,
+    "hard": 60,
+    "expert": 30
+  },
+  "intersection_boards": 70,
+  "bank_sha256": "3c44daba366bea0d1d708b1ce3759079722e4fea6a9440d488eb82c39150c8c2",
+  "status": "PASS"
+}

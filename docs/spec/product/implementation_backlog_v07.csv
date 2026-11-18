@@ -1,0 +1,16 @@
+﻿id,stage,task,depends_on,acceptance,deliverable,status
+DEV01,A,"Формат, валидатор и независимая единственность",,P01;P02,"PuzzleDefinition, проверка схемы и поиск до второго решения",CONTENT_VALIDATOR_READY_CLIENT_IMPORT_PENDING
+DEV02,A,Ядро команд и мультимножество,DEV01,P01;P03,Детерминированные place/move/return/undo; точная арифметика,NOT_IMPLEMENTED
+DEV03,B,Игровой экран и управление,DEV02,P03;P07,"Tap/drag/cancel, лоток, доступные targets, локальная проверка",HTML_INTERACTION_SAMPLE_VERIFIED_ANDROID_PENDING
+DEV04,B,"Сохранение, миграция и журнал операций",DEV02,P04;P06,"Atomic commit, last-good snapshot, idempotence",NOT_IMPLEMENTED
+DEV05,B,"Победа, пауза и результат",DEV03;DEV04,P04;P06,"Состояния партии, причины паузы, однократное завершение",NOT_IMPLEMENTED
+DEV06,C,"Логическая помощь, proof verifier и reveal",DEV01;DEV02;DEV04,P05;HC01-HC12,Явные исходы и ресурсная транзакция; корректные опоры,NOT_IMPLEMENTED
+DEV07,C,15 собственных учебных уровней,DEV01;DEV03;DEV06,P02;P05;P07,"Оригинальные уровни, unique, proof trace, редакторский просмотр",CONTENT_VERIFIED_CLIENT_PLAYTEST_PENDING
+DEV08,D,Свободная игра и селектор банка,DEV07,P02;P06,"Освоенная сложность, отдельный слот, фиксированный configVersion",POOLS_READY_SELECTOR_UI_PENDING
+DEV09,D,Daily и смена даты,DEV04;DEV07,P06;P08;M03-M07,"Профильный timezone, архив, попытки и однократный бонус • правила и данные meta_v08",NOT_IMPLEMENTED
+DEV10,D,"Задания дня, XP и коллекция",DEV05;DEV09,P04;P08;M01-M10,"Выполнимые цели, перенос XP, 48 фрагментов без повторов • правила и данные meta_v08",NOT_IMPLEMENTED
+DEV11,E,Endless и статистика,DEV08;DEV04,P04;P08;M11,"Явная проверка, score, assisted-рекорды и сохранение забега • правила и данные meta_v08",NOT_IMPLEMENTED
+DEV12,E,"Настройки, локализация и достижения",DEV05;DEV10,P07;P10;M11-M12,"RU/EN, звук, motion, справка и конечный список достижений • правила и данные meta_v08",NOT_IMPLEMENTED
+DEV13,E,Рекламный адаптер и награды,DEV04;DEV09;DEV11,P09,"Mock и SDK: no-fill, поздний ответ, дубликаты, продолжение",NOT_IMPLEMENTED
+DEV14,F,"Банк, визуал и человеческая калибровка",DEV07;DEV10;DEV11,P02;P07;P10,Собственный контент и проверенные label сложности,240_BOARDS_VERIFIED_HUMAN_CALIBRATION_PENDING
+DEV15,F,"Устройство, интеграции и выпуск",DEV12;DEV13;DEV14,P01-P10,Протокол приёмки; фактическая функциональность и материалы,NOT_IMPLEMENTED

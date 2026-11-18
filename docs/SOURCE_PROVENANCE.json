@@ -1,0 +1,9 @@
+{
+  "specification": "Crossmath_Developer_Package_v1.0_RU.zip",
+  "specArchiveSha256": "6bba24e8cb28761edeca2fe2f506fe583acb214e5e5ebede0efe8ecbc5f009d5",
+  "contentBankSha256": "3c44daba366bea0d1d708b1ce3759079722e4fea6a9440d488eb82c39150c8c2",
+  "kitRuntimeRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+  "kitGuidanceRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+  "verifiedKitSourceBlobs": 143,
+  "sourceScope": "required runtime, bootstrap, tooling, guides, package and config files matched provider Git tree before generation; no competitor APKs or artwork imported"
+}
