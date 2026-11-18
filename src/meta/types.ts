@@ -1,7 +1,7 @@
 import type { Attempt, Difficulty, Mode } from '../core/types';
 import type { Completion } from '../app/model';
-export type MetaScreen='play'|'home'|'calendar'|'album';
-export interface Offer { puzzleId:string; mode:Mode; dayKey?:string; campaignPosition?:number; requiresSolved?:string[] }
+export type MetaScreen='play'|'home'|'calendar'|'album'|'profile';
+export interface Offer { puzzleId:string; mode:Mode; dayKey?:string; campaignPosition?:number; endlessStage?:number; requiresSolved?:string[] }
 export interface QuestSlot { goalId:string; target:number; progress:number; paid:boolean }
 export interface QuestSet { dayKey:string; configVersion:string; issueIndex:number; slots:QuestSlot[]; witness:Offer[]; replacements:{slot:number;from:string;to:string;oldProgress:number}[] }
 export interface SavedSlot { attempt:Attempt; result:Completion|null }

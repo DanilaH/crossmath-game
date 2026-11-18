@@ -23,3 +23,5 @@ Routes: new repository/architecture and approved UI/input/feel. Read pinned API,
 KIT IMPACT: **REUSE**. No kit changes or new shared API proposed. Intrinsic-width correction belongs in this consumer's board layout.
 
 D routes: Calendar/Tier Progress and UX & Art System/Stable Progress UI. Applied action hierarchy to saved-game/today/campaign priority, actual 48px controls and wrapping names in the 320px album; evidence in `evidence/meta-d/`. Reused day/tier primitives, atomic writer and additive navigation blocker. Crossmath mission reachability and reward policy remain consumer code; no upstream extraction proposed.
+
+E1 KIT IMPACT: **REUSE** existing atomic writer, additive activity/navigation blockers and DOM/input controls; score/run/achievement rules remain local. Pinned UX & Art System applied to explicit Submit, neutral pre-submit state, separate record categories, partial-history labels and a bottom action reachable before scrolling at four viewports; evidence in `evidence/endless-e1/`. No new kit API, motion or art direction, and no pin change. E2 will assess durable external reward delivery separately.

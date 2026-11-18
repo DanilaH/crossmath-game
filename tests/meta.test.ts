@@ -72,12 +72,12 @@ describe('D reachable daily missions',()=>{
   clock.now='2026-11-19T12:00:00Z';await session.refreshDay();const offer:Offer={puzzleId:session.state.attempt.puzzleId,mode:'campaign'};
   expect(await session.openOffer(offer,false,0,true)).toBe('opened');expect(session.state.attempt.status).toBe('playing');expect(session.state.attempt.id).not.toBe(old);await win(session);expect(session.state.result!.baseCoins).toBe(0);expect(session.state.meta.contributedIds).toContain(offer.puzzleId);
  });
- it('validates the 84 real-bank rotation/profile fixtures without using unreleased Endless',()=>{
+ it('validates the 84 real-bank rotation/profile fixtures respecting locked and unlocked Endless',()=>{
   for(const wins of [5,8,15,50,228,240])for(let day=0;day<7;day++)for(const played of [false,true]){
    const state=createSave('p','2026-11-18T12:00:00Z','UTC','a');state.profile.solvedIds=boards.slice(0,wins).map(p=>p.puzzleId);state.profile.campaignCursor=wins;state.meta.effectiveDay=dayFromIndex(calendarDayIndex('2026-11-18')+day);
    if(played)state.meta.completedDates.push(state.meta.effectiveDay);
    const q=set(config.rotation[day]!);q.dayKey=state.meta.effectiveDay;
-   const resolved=resolveQuests(q,availableOffers(state),wins,[]);expect(resolved,`${wins}/${day}/${played}`).not.toBeNull();expect(resolved!.witness.length).toBeLessThanOrEqual(3);expect(new Set(resolved!.witness.map(o=>o.puzzleId)).size).toBe(resolved!.witness.length);expect(resolved!.slots.some(s=>s.goalId==='endless')).toBe(false);
+   const resolved=resolveQuests(q,availableOffers(state),wins,[]);expect(resolved,`${wins}/${day}/${played}`).not.toBeNull();expect(resolved!.witness.length).toBeLessThanOrEqual(3);expect(new Set(resolved!.witness.map(o=>o.puzzleId)).size).toBe(resolved!.witness.length);if(wins<15)expect(resolved!.slots.some(s=>s.goalId==='endless')).toBe(false);
   }
  });
  it('retains paid and partially completed sibling slots; replacement is one new action',()=>{
@@ -96,7 +96,7 @@ describe('D schema/album migration',()=>{
  it('preserves early placements and grants only a newly completed migrated card, once',async()=>{
   const raw=legacy(8,2);raw.attempt=createAttempt(getPuzzle('cm-own-01-007'),'two-fives');raw.attempt.placements={'0':'t0','1':'t2'};
   const first=decodeSave(raw);expect(first.profile.fragments).toBe(4);expect(first.profile.coins).toBe(140);expect(first.attempt.placements).toEqual(raw.attempt.placements);expect(decodeSave(first)).toEqual(first);
-  const storage=new Memory();storage.data.set(SAVE_KEY,JSON.stringify(raw));const repo=new SaveRepository(storage,()=>{throw Error('Must not reset');});expect((await repo.load()).profile.coins).toBe(140);expect(JSON.parse(storage.data.get(SAVE_KEY)!).schemaVersion).toBe(2);expect((await repo.load()).profile.coins).toBe(140);
+  const storage=new Memory();storage.data.set(SAVE_KEY,JSON.stringify(raw));const repo=new SaveRepository(storage,()=>{throw Error('Must not reset');});expect((await repo.load()).profile.coins).toBe(140);expect(JSON.parse(storage.data.get(SAVE_KEY)!).schemaVersion).toBe(3);expect((await repo.load()).profile.coins).toBe(140);
  });
  it('grandfathers historical full cards without receipts, preserves ahead-of-schedule progress and caps at 48',()=>{
   const historic=decodeSave(legacy(8,4));expect(historic.profile.coins).toBe(120);expect(historic.profile.paidCardIds).toEqual(['abacus']);

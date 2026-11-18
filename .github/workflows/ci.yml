@@ -47,6 +47,7 @@ jobs:
           path: |
             .test-output/ui/
             .test-output/meta-ui/
+            .test-output/endless-ui/
       - run: npm run android:sync:release
       - uses: actions/setup-java@v4
         with:

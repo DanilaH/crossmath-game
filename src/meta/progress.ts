@@ -38,13 +38,13 @@ export function upgradeSave(input:unknown):unknown {
   const eligible=config.cards.slice(0,Math.floor(fragments/4)).map(c=>c.id);
   const owed=eligible.filter(id=>!historical.has(id)).length*config.collection.cardRewardCoins;
   p.fragments=fragments;p.paidCardIds=[...new Set([...historical,...eligible])];p.coins+=owed;
-  save.schemaVersion=2;save.meta=createMeta(p.createdAt,p.timeZone);
+  (save as unknown as {schemaVersion:number}).schemaVersion=2;save.meta=createMeta(p.createdAt,p.timeZone);
   if(save.attempt.mode==='daily')throw Error('Legacy slice did not support dated attempts');
   return save;
 }
 export function validateMeta(save:Save):void {
   const m=save.meta,nonnegative=(n:unknown)=>Number.isSafeInteger(n)&&Number(n)>=0;
-  if(!m||m.version!==1||!['play','home','calendar','album'].includes(m.screen)||typeof m.activeSlot!=='string'||!isCalendarDay(m.effectiveDay)||!nonnegative(m.issuedDays)||!['easy','standard','hard','expert'].includes(m.freeDifficulty))throw Error('Corrupt meta header');
+  if(!m||m.version!==1||!['play','home','calendar','album','profile'].includes(m.screen)||typeof m.activeSlot!=='string'||!isCalendarDay(m.effectiveDay)||!nonnegative(m.issuedDays)||!['easy','standard','hard','expert'].includes(m.freeDifficulty))throw Error('Corrupt meta header');
   for(const list of [m.completedDates,m.contributedIds,m.slotReceipts,m.setReceipts])if(!Array.isArray(list)||list.some(x=>typeof x!=='string')||new Set(list).size!==list.length)throw Error('Corrupt meta ledger');
   if(m.completedDates.some(d=>!isCalendarDay(d))||m.setReceipts.some(d=>!isCalendarDay(d)))throw Error('Corrupt meta dates');
   if(!m.inactive||Array.isArray(m.inactive)||!m.assignments||Array.isArray(m.assignments)||m.activeSlot in m.inactive)throw Error('Duplicate active slot');

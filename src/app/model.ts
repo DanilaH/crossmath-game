@@ -5,6 +5,8 @@ import type { Attempt } from '../core/types';
 import type { MetaState } from '../meta/types';
 import { createMeta, refreshDay, settleDailyAndQuests, upgradeSave, validateMeta } from '../meta/progress';
 import { isCalendarDay } from '../meta/calendar';
+import { createCareer, settleAchievements, settleStage, upgradeCareer, validateCareer } from '../meta/career';
+import type { Career } from '../meta/career';
 
 export interface Settings { theme: 'light' | 'dark'; sound: boolean; vibration: boolean; reducedMotion: boolean; language: 'ru' | 'en' }
 export interface Completion {
@@ -12,18 +14,21 @@ export interface Completion {
   rankUps: number; fragments: number; cardCoins: number; elapsedPlaying: number;
   baseCoins?: number; rankCoins?: number; dailyCoins?: number; taskCoins?: number; setCoins?: number; unlockedModes?: string[];
   collectionFragments?:number; rankLevel?:number;
+  stageScore?:number; runScore?:number; stageKey?:string; badges?:string[];
 }
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
 export interface Save {
-  schemaVersion: 2; revision: number; contentVersion: 'content-v1'; balanceVersion: string;
+  schemaVersion: 3; revision: number; contentVersion: 'content-v1'; balanceVersion: string;
   profile: { id: string; createdAt: string; timeZone: string; coins: number; hintCredits: number;
     rank: number; xp: number; solvedIds: string[]; campaignCursor: number; fragments: number; paidCardIds: string[] };
   settings: Settings; attempt: Attempt; result: Completion | null; helpReceipts: Record<string,HelpReceipt>;
   meta: MetaState;
+  career:Career;
 }
 export function createSave(id: string, now: string, timeZone: string, attemptId: string): Save {
-  return {schemaVersion:2,revision:0,contentVersion:'content-v1',balanceVersion:config.configVersion,meta:createMeta(now,timeZone),
+  const career=createCareer(now);career.modes.campaign.starts=1;
+  return {schemaVersion:3,revision:0,contentVersion:'content-v1',balanceVersion:config.configVersion,meta:createMeta(now,timeZone),career,
     profile:{id,createdAt:now,timeZone,coins:config.initialCoins,hintCredits:config.initialHintCredits,rank:1,xp:0,solvedIds:[],campaignCursor:0,fragments:0,paidCardIds:[]},
     settings:{theme:'light',sound:false,vibration:false,reducedMotion:false,language:'ru'},
     attempt:createAttempt(campaignPuzzle(0),attemptId),result:null,helpReceipts:{}};
@@ -47,8 +52,11 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
   coins+=cardCoins; profile.coins+=coins;
   if (next.attempt.mode === 'campaign' && routes.campaignSequence[profile.campaignCursor] === p.puzzleId) profile.campaignCursor++;
   next.result={id:`win:${next.attempt.id}`,attemptId:next.attempt.id,puzzleId:p.puzzleId,first,coins,xp:reward.xp,rankUps,fragments:profile.fragments-previousFragments,cardCoins,elapsedPlaying:next.attempt.elapsedPlaying,baseCoins:reward.coins,rankCoins:rankUps*config.rank.rewardCoins,
-    collectionFragments:profile.fragments,rankLevel:profile.rank,unlockedModes:[['free',3],['daily',5]].filter(([,n])=>previousWins<Number(n)&&profile.solvedIds.length>=Number(n)).map(([mode])=>String(mode))};
+    collectionFragments:profile.fragments,rankLevel:profile.rank,unlockedModes:[['free',3],['daily',5],['endless',15]].filter(([,n])=>previousWins<Number(n)&&profile.solvedIds.length>=Number(n)).map(([mode])=>String(mode))};
   settleDailyAndQuests(next,next.result);
+  next.career.modes[next.attempt.mode].completions++;
+  if(next.attempt.mode==='endless'){next.result.stageScore=settleStage(next);next.result.runScore=next.career.run!.score;next.result.stageKey=`${next.attempt.runId}:${next.attempt.stageId}`;}
+  next.result.badges=settleAchievements(next,now,next.result.id);
   return next;
 }
 
@@ -56,9 +64,9 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
 export function decodeSave(input: unknown): Save {
   const fail=():never => { throw Error('Unsupported or corrupt Crossmath save'); };
   if (!input || typeof input !== 'object') return fail();
-  const s=upgradeSave(input) as Save;
+  const s=upgradeCareer(upgradeSave(input)) as Save;
   const nonnegative=(n:unknown):n is number => Number.isSafeInteger(n) && Number(n)>=0;
-  if (s.schemaVersion !== 2 || !nonnegative(s.revision) || s.contentVersion !== 'content-v1' || s.balanceVersion !== config.configVersion) return fail();
+  if (s.schemaVersion !== 3 || !nonnegative(s.revision) || s.contentVersion !== 'content-v1' || s.balanceVersion !== config.configVersion) return fail();
   if (!s.profile || !s.settings || !s.attempt || !s.helpReceipts || typeof s.helpReceipts !== 'object' || Array.isArray(s.helpReceipts)) return fail();
   const p=s.profile,a=s.attempt;
   if (typeof p.id !== 'string' || !p.id || typeof p.createdAt !== 'string' || !Number.isFinite(Date.parse(p.createdAt)) || typeof p.timeZone !== 'string') return fail();
@@ -68,8 +76,10 @@ export function decodeSave(input: unknown): Save {
   try { for (const id of p.solvedIds) getPuzzle(id); } catch { return fail(); }
   if (!['light','dark'].includes(s.settings.theme) || !['ru','en'].includes(s.settings.language) || !['sound','vibration','reducedMotion'].every(k=>typeof s.settings[k as keyof Settings]==='boolean')) return fail();
   validateMeta(s);
+  validateCareer(s);
   const validateAttempt=(a:Attempt,result:Completion|null,slot:string):void=>{
   const puzzle=getPuzzle(a.puzzleId);
+  if(a.mode==='endless'?typeof a.runId!=='string'||!nonnegative(a.stageId):a.runId!==undefined||a.stageId!==undefined)fail();
   if(slot!==(a.mode==='daily'?`daily:${a.dayKey}`:a.mode)||a.mode==='daily'&&(!isCalendarDay(a.dayKey)||s.meta.assignments[a.dayKey]?.puzzleId!==a.puzzleId)||a.mode!=='daily'&&a.dayKey!==undefined)fail();
   if (typeof a.id !== 'string' || !a.id || a.contentVersion!==puzzle.contentVersion || a.rulesetVersion!==puzzle.rulesetVersion || !['campaign','free','daily','endless'].includes(a.mode) || !['playing','won','out-of-lives'].includes(a.status)) return fail();
   if (![a.boardRevision,a.hintsUsed,a.lives].every(nonnegative) || a.lives>3 || !Number.isFinite(a.elapsedPlaying) || a.elapsedPlaying<0 || typeof a.assisted!=='boolean' || typeof a.userPaused!=='boolean' || !(a.lastRejectedSignature===null || typeof a.lastRejectedSignature==='string')) return fail();
@@ -78,6 +88,7 @@ export function decodeSave(input: unknown): Save {
   if (a.status==='won' && (!isSolved(puzzle,a) || !result || result.attemptId!==a.id || result.puzzleId!==a.puzzleId || result.id!==`win:${a.id}` || !p.solvedIds.includes(a.puzzleId))) return fail();
   if (a.status!=='won' && result!==null) return fail();
   if (result && (![result.coins,result.xp,result.rankUps,result.fragments,result.cardCoins].every(nonnegative) || typeof result.first!=='boolean' || !Number.isFinite(result.elapsedPlaying) || result.elapsedPlaying<0)) return fail();
+  if(result?.badges&&(!Array.isArray(result.badges)||result.badges.some(id=>!config.achievements.some(b=>b.id===id))))fail();
   };
   validateAttempt(a,s.result,s.meta.activeSlot);
   const attempts=new Set([a.id]);

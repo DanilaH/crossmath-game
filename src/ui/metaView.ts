@@ -5,6 +5,7 @@ import { mastered, goals } from '../meta/missions';
 import { calendarDayIndex, dateAvailable, dayFromIndex, profileDay } from '../meta/calendar';
 import type { Save } from '../app/model';
 import { rankThreshold } from '../app/model';
+import { achievementValue, recordVersion } from '../meta/career';
 import type { Difficulty } from '../core/types';
 import type { MetaScreen, Offer } from '../meta/types';
 
@@ -24,7 +25,7 @@ export function nextFragmentText(save:Save):string {
   const remaining=progress.complete?progress.nextTier?.remaining:progress.target-save.profile.solvedIds.length;
   return `Новых полей до детали: ${remaining??0}`;
 }
-interface Actions { navigate:(screen:MetaScreen)=>void; campaign:()=>void; free:(band:Difficulty)=>void; daily:(day:string)=>void; offer:(offer:Offer)=>void; quest:(index:number)=>void; blocking:(blocked:boolean)=>void }
+interface Actions { navigate:(screen:MetaScreen)=>void; campaign:()=>void; free:(band:Difficulty)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer)=>void; quest:(index:number)=>void; blocking:(blocked:boolean)=>void }
 export class MetaView {
   private readonly dialog=document.getElementById('card-dialog') as HTMLDialogElement;
   private disabled=false;
@@ -37,13 +38,13 @@ export class MetaView {
     const screen=save.meta.screen;this.disabled=disabled;this.root.hidden=screen==='play';if(screen==='play')return;
     const selected=(document.getElementById('free-band') as HTMLSelectElement|null)?.value;
     const focused=document.activeElement?.id;this.root.replaceChildren();
-    if(screen==='home')this.home(save,selected);else if(screen==='calendar')this.calendar(save);else this.album(save);
+    if(screen==='home')this.home(save,selected);else if(screen==='calendar')this.calendar(save);else if(screen==='profile')this.profile(save);else this.album(save);
     if(focused&&this.root.contains(document.getElementById(focused)))document.getElementById(focused)?.focus({preventScroll:true});
   }
   private home(save:Save,selected?:string):void {
     const a=save.attempt,p=getPuzzle(a.puzzleId),wins=save.profile.solvedIds.length;
     this.heading('Продолжим?','Одно число связывает сразу два равенства.');
-    if(a.status!=='won')this.root.append(this.button(`Продолжить · ${a.mode==='daily'?a.dayKey:a.mode==='free'?'Свободная игра':'Поле '+p.campaignPosition}`,()=>this.actions.navigate('play'),'continue-game',true));
+    if(a.status!=='won'&&!(a.mode==='endless'&&save.career.run?.status==='ended'))this.root.append(this.button(`Продолжить · ${a.mode==='endless'?'Endless':a.mode==='daily'?a.dayKey:a.mode==='free'?'Свободная игра':'Поле '+p.campaignPosition}`,()=>this.actions.navigate('play'),'continue-game',true));
     else if(wins>=5&&!save.meta.completedDates.includes(save.meta.effectiveDay))this.root.append(this.button('Сегодняшняя задача',()=>this.actions.daily(save.meta.effectiveDay),'daily-primary',true));
     else this.root.append(this.button(save.profile.campaignCursor>=240?'Маршрут завершён ✓':'Продолжить маршрут',this.actions.campaign,'campaign-primary',true));
     const modes=el('section','hub-panel');modes.append(el('h2','','Играть'));
@@ -52,6 +53,8 @@ export class MetaView {
     for(const band of mastered(save)){const option=el('option','',bands[band]);option.value=band;select.append(option);}select.value=selected&&mastered(save).includes(selected as Difficulty)?selected:save.meta.freeDifficulty;if(!select.value&&select.options[0])select.value=select.options[0].value;
     const start=this.button(wins<3?'Свободная игра · после 3 побед':'Свободная игра',()=>this.actions.free(select.value as Difficulty),'free-open');start.disabled=this.disabled||wins<3;free.append(select,start);modes.append(free);
     const daily=this.button(wins<5?'Daily · после 5 побед':'Календарь · '+save.meta.effectiveDay,()=>this.actions.navigate('calendar'),'calendar-open');daily.disabled=this.disabled||wins<5;modes.append(daily);
+    const endless=this.button(wins<15?'Endless · после 15 побед':save.career.run&&save.career.run.status!=='ended'?'Продолжить Endless':'Начать Endless',this.actions.endless,'endless-open');endless.disabled=this.disabled||wins<15;modes.append(endless);
+    modes.append(this.button('Профиль и рекорды',()=>this.actions.navigate('profile'),'profile-open'));
     if(a.status==='won')modes.append(this.button('Последний результат',()=>this.actions.navigate('play'),'last-result'));
     this.root.append(modes);this.quests(save);
     const preview=el('section','hub-panel album-preview');preview.append(el('h2','','Мастерская счёта'));
@@ -81,15 +84,25 @@ export class MetaView {
     this.heading('Мастерская счёта',`${Math.floor(save.profile.fragments/4)} из 12 приборов · ${nextFragmentText(save)}`);this.root.append(this.button('← На главную',()=>this.actions.navigate('home'),'album-back'));
     const grid=el('div','album-grid');for(let i=0;i<12;i++){const card=config.cards[i]!,parts=Math.min(4,Math.max(0,save.profile.fragments-4*i));const b=this.button('',()=>this.openCard(i,parts));b.dataset.card=card.id;b.classList.add('collection-card');b.append(cardArt(i,parts),el('strong','',card.titleRU),el('span','muted',`${parts} / 4 частей`));b.setAttribute('aria-label',`${card.titleRU}, ${parts} из 4 частей, рассмотреть`);grid.append(b);}this.root.append(grid);
   }
+  private profile(save:Save):void {
+    const p=save.profile,c=save.career;this.heading('Профиль',`Ранг ${p.rank} · ${p.xp} / ${rankThreshold(p.rank)} XP`);this.root.append(this.button('← На главную',()=>this.actions.navigate('home'),'profile-back'));
+    const progress=el('section','hub-panel');progress.append(el('h2','','Ваш маршрут'),el('p','',`Разных решённых задач: ${p.solvedIds.length} / 240`),el('p','',`Пройдено в кампании: ${p.campaignCursor} / 240`),el('p','',`Решённых дат Daily: ${save.meta.completedDates.length}`),el('p','',`Полных планов дня: ${save.meta.setReceipts.length}`),el('p','',`Собранных приборов: ${p.paidCardIds.length} / 12`));this.root.append(progress);
+    const stats=el('section','hub-panel');stats.append(el('h2','','Статистика'));
+    if(c.partialHistory)stats.append(el('p','muted',`Подробный учёт с обновления ${profileDay(c.since,p.timeZone)}. Старые уникальные победы сохранены. Новые попытки и завершения считаются отдельно; ранее начатая партия тоже может завершиться после обновления.`));
+    const labels={campaign:'Кампания',free:'Свободная игра',daily:'Daily',endless:'Endless'};
+    for(const [mode,title] of Object.entries(labels)){const s=c.modes[mode as keyof typeof labels],box=el('div','stats-mode');box.dataset.stats=mode;box.append(el('h3','',title),el('p','',`Новых попыток: ${s.starts} · Завершений: ${s.completions}`),el('p','',`Активное время: ${Math.floor(s.seconds/60)} мин ${Math.floor(s.seconds%60)} с`),el('p','',`Ошибок: ${s.mistakes} · Отмен: ${s.undos} · Перезапусков: ${s.restarts}`),el('p','',`Объяснений: ${s.explains} · Раскрытий: ${s.reveals}`));stats.append(box);}this.root.append(stats);
+    const records=el('section','hub-panel');records.append(el('h2','','Рекорды Endless'));const r=c.records[recordVersion];for(const [title,record] of [['Самостоятельно',r.solo],['С помощью',r.assisted]] as const)records.append(el('p','',record?`${title}: очки ${record.score} · поля ${record.boards}`:`${title}: пока нет завершённых забегов`));if(c.run&&c.run.status!=='ended')records.append(el('p','muted',`Текущий забег: очки ${c.run.score} · поля ${c.run.solvedStages}. Завершите его, чтобы сохранить рекорд.`));this.root.append(records);
+    const badges=el('section','hub-panel');badges.append(el('h2','','Достижения'));for(const b of config.achievements){const earned=c.achievements[b.id],row=el('div','badge');row.dataset.badge=b.id;row.classList.toggle('earned',!!earned);row.append(el('strong','',`${earned?'✓ ':''}${b.titleRU}`),el('span','muted',earned?`Зафиксировано ${profileDay(earned.earnedAt,p.timeZone)}`:`${Math.min(b.threshold,achievementValue(save,b.metric))} / ${b.threshold}`));badges.append(row);}this.root.append(badges);
+  }
   private openCard(index:number,parts:number):void {const card=config.cards[index]!,body=document.getElementById('card-body')!;document.getElementById('card-title')!.textContent=card.titleRU;document.getElementById('close-card')!.textContent='Вернуться в альбом';body.replaceChildren(cardArt(index,parts));const list=el('ol','parts-list');card.partsRU.forEach((part,i)=>list.append(el('li',i<parts?'earned':'',`${i<parts?'✓ ':''}${part}`)));body.append(list);this.actions.blocking(true);this.dialog.showModal();}
   renderResult(save:Save):void {
     const r=save.result,root=document.getElementById('reward-art')!,details=document.getElementById('reward-breakdown')!;root.replaceChildren();details.replaceChildren();if(!r)return;
     const total=r.collectionFragments;let title='';
     if(total!==undefined&&(r.fragments>0||r.cardCoins>0)){const index=Math.min(11,Math.floor((total-1)/4)),parts=Math.min(4,total-index*4);title=total===48&&r.fragments>0?'Мастерская собрана':r.cardCoins?`Прибор собран: ${config.cards[index]!.titleRU}`:r.unlockedModes?.includes('free')?'Открыта свободная игра':`${config.cards[index]!.titleRU} · ${parts}/4`;root.append(cardArt(index,parts));}
-    else if(r.unlockedModes?.includes('daily'))title='Открыты Daily и задания дня';else if(r.unlockedModes?.includes('free'))title='Открыта свободная игра';else if(r.rankUps)title=`Новый ранг: ${r.rankLevel??save.profile.rank}`;else if(r.setCoins)title='План дня выполнен';
+    else if(r.unlockedModes?.includes('endless'))title='Открыт Endless';else if(r.unlockedModes?.includes('daily'))title='Открыты Daily и задания дня';else if(r.unlockedModes?.includes('free'))title='Открыта свободная игра';else if(r.rankUps)title=`Новый ранг: ${r.rankLevel??save.profile.rank}`;else if(r.setCoins)title='План дня выполнен';
     document.getElementById('result-detail')!.textContent=title||(r.first?'Все равенства сходятся.':'Первая награда за это поле уже получена.');
     const sources:[string,number][]=[['За поле',r.baseCoins??(r.first?config.difficultyRewards[getPuzzle(r.puzzleId).difficulty].coins:0)],['За дату',r.dailyCoins??0],['За цели',r.taskCoins??0],['За весь план',r.setCoins??0],['За ранг',r.rankCoins??r.rankUps*config.rank.rewardCoins],['За прибор',r.cardCoins]];
-    for(const [name,coins] of sources)if(coins)details.append(el('p','',`${name}: +${coins}`));details.append(el('p','',`Опыт: +${r.xp}`));if(r.fragments)details.append(el('p','',`Новых деталей: ${r.fragments} · всего ${r.collectionFragments} / 48`));if(r.rankUps)details.append(el('p','',`Новый ранг: ${r.rankLevel??save.profile.rank}`));for(const mode of r.unlockedModes??[])if(mode!=='endless')details.append(el('p','',mode==='free'?'Открыта свободная игра':'Открыты Daily и задания дня'));
+    for(const [name,coins] of sources)if(coins)details.append(el('p','',`${name}: +${coins}`));details.append(el('p','',`Опыт: +${r.xp}`));if(r.fragments)details.append(el('p','',`Новых деталей: ${r.fragments} · всего ${r.collectionFragments} / 48`));if(r.rankUps)details.append(el('p','',`Новый ранг: ${r.rankLevel??save.profile.rank}`));for(const mode of r.unlockedModes??[])details.append(el('p','',mode==='endless'?'Открыт Endless':mode==='free'?'Открыта свободная игра':'Открыты Daily и задания дня'));if(r.stageScore!==undefined)details.append(el('p','',`За этап: +${r.stageScore} очков · В забеге: ${r.runScore}`));for(const id of r.badges??[])details.append(el('p','',`Знак: ${config.achievements.find(b=>b.id===id)!.titleRU}`));
   }
 }
 function disabledOrLocked(disabled:boolean,locked:boolean):boolean{return disabled||locked;}
