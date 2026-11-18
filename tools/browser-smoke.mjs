@@ -64,6 +64,10 @@ try{
  }
  await tap('#pause');await page.locator('#resume:enabled').waitFor();await page.locator('#theme').check();await page.locator('#resume:enabled').waitFor();await page.locator('#reduced').check();await page.locator('#resume:enabled').waitFor();await tap('#resume');await idle();assert.equal((await snapshot()).settings.theme,'dark');assert.equal((await snapshot()).settings.reducedMotion,true);checks.push('dark theme and reduced motion settings persist');
  await page.evaluate(()=>document.documentElement.style.fontSize='200%');await page.setViewportSize({width:390,height:844});await page.screenshot({path:out+'/large-text.png',fullPage:true});
+ const tutorialContext=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});const tutorialPage=await tutorialContext.newPage();
+ await tutorialPage.goto(`http://127.0.0.1:${server.address().port}/`);await tutorialPage.locator('html[data-state=ready]').waitFor();await tutorialPage.locator('.tutorial-ghost').waitFor({state:'attached',timeout:9000});
+ assert.deepEqual(await tutorialPage.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')).attempt.placements),{});
+ await tutorialPage.locator('[data-token="t0"]').tap();assert.equal(await tutorialPage.locator('.tutorial-ghost').count(),0);checks.push('idle first-move demonstration is presentation-only and cancels on user input');await tutorialContext.close();
  assert.deepEqual(errors,[]);checks.push('no uncaught page errors');
  await writeFile(out+'/report.json',JSON.stringify({status:'PASS',scope:'Chromium scripted UI, own campaign data; not Android, TalkBack, live ads or physical feel',source:process.env.GITHUB_SHA??'local',browser:browser.version(),checks,geometry},null,2)+'\n');console.log(JSON.stringify({status:'PASS',checks,geometry},null,2));
 }catch(error){await writeFile(out+'/failure.json',JSON.stringify({status:'FAIL',error:String(error),checks,errors},null,2)+'\n');throw error;}

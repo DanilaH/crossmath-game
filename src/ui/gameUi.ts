@@ -61,8 +61,8 @@ export class GameUi {
   }
   private closeHelp():void{if(this.busy)return;$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);}
   private applyHelp():void{const plan=this.plan;if(this.busy||!plan)return;let applied=false;
-    this.run(async time=>{const result=await this.session.help(this.helpKind,this.helpOperation,this.helpRevision,plan,time);applied=result.outcome==='applied';
-      if(!applied)$('help-description').textContent=result.outcome==='insufficient_resource'?'Не хватает монет. Продолжать решать и начинать поле заново можно бесплатно.':'Поле изменилось или этот ход больше недоступен. Закройте помощь и попробуйте снова.';return {committed:applied};
+    this.run(async time=>{const revision=this.session.state.revision,result=await this.session.help(this.helpKind,this.helpOperation,this.helpRevision,plan,time);applied=result.outcome==='applied';
+      if(!applied)$('help-description').textContent=result.outcome==='insufficient_resource'?'Не хватает монет. Продолжать решать и начинать поле заново можно бесплатно.':'Поле изменилось или этот ход больше недоступен. Закройте помощь и попробуйте снова.';return {committed:this.session.state.revision!==revision};
     },()=>{if(!applied)return;$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(getPuzzle(this.session.state.attempt.puzzleId),this.session.state.attempt);
       const assignment=plan.assignments[0]!,p=getPuzzle(this.session.state.attempt.puzzleId);const text=plan.kind==='reveal'?`Показано число ${assignment.value}.${plan.returns.length?' Мешающие фишки возвращены в лоток.':''}`:plan.rule==='intersection'?`Общая клетка: ${assignment.evidence.map(e=>'{'+e.candidates.join(', ')+'}').join(' и ')}. В обоих наборах есть только ${assignment.value}.`:`${equationText(p,this.session.state.attempt,assignment.evidence[0]!.equationIndex)}. Подходящее число — ${assignment.value}.`;
       this.board.explain(text,assignment.evidence.map(e=>e.equationIndex));this.feedback.cue(this.session.state.attempt.status==='won'?'win':'right');

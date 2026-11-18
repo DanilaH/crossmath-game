@@ -12,6 +12,7 @@ export class BoardView {
   private puzzle!:Puzzle;private attempt!:Attempt;private selected:Source|null=null;private gesture:Gesture|null=null;
   private readonly motion=new OwnedDomMotion();private readonly cells=new Map<number,HTMLElement>();private signs:HTMLElement[][]=[];
   private explanation='';private supportIndices:number[]=[];
+  private tutorialTimer:ReturnType<typeof setTimeout>|null=null;private tutorialShown=false;
   private readonly ghost=document.querySelector<HTMLElement>('#ghost')!;
   constructor(private readonly board:HTMLElement,private readonly tray:HTMLElement,private readonly note:HTMLElement,private readonly feedback:Feedback,
     private readonly disabled:()=>boolean,private readonly reduced:()=>boolean,
@@ -23,7 +24,7 @@ export class BoardView {
   update(puzzle:Puzzle,attempt:Attempt):void{
     const changed=this.puzzle?.puzzleId!==puzzle.puzzleId||this.attempt?.id!==attempt.id;
     this.puzzle=puzzle;this.attempt=attempt;
-    if(changed){this.cancel();this.selected=null;this.explanation='';this.supportIndices=[];this.build();}
+    if(changed){this.cancel();this.selected=null;this.explanation='';this.supportIndices=[];this.tutorialShown=false;this.build();}
     this.render();
   }
   private part(tag:string,className:string,x:number,y:number):HTMLElement{const e=document.createElement(tag);e.className='part '+className;e.style.setProperty('--x',String(x));e.style.setProperty('--y',String(y));return e;}
@@ -71,6 +72,19 @@ export class BoardView {
     document.querySelector('#filled')!.textContent=`${Object.keys(a.placements).length} / ${p.tray.length}`;
     document.querySelector('#stock')!.textContent=`Осталось ${p.tray.length-Object.keys(a.placements).length}`;
     (document.querySelector('#return') as HTMLButtonElement).disabled=this.disabled()||a.status!=='playing'||this.selected?.kind!=='cell'||a.placements[this.selected.id]===undefined;
+    if(p.campaignPosition===1&&a.boardRevision===0&&!this.tutorialShown&&!this.tutorialTimer&&!this.disabled())this.tutorialTimer=setTimeout(()=>this.demonstrateFirstMove(),6000);
+  }
+  private dismissTutorial():void{this.tutorialShown=true;this.stopTutorial();}
+  private stopTutorial():void{if(this.tutorialTimer)clearTimeout(this.tutorialTimer);this.tutorialTimer=null;for(const node of document.querySelectorAll('.tutorial-ghost')){this.motion.cancel(node);node.remove();}}
+  private demonstrateFirstMove():void{
+    this.tutorialTimer=null;if(this.disabled()||this.gesture||this.attempt.boardRevision!==0)return;this.tutorialShown=true;
+    if(this.reduced())return;
+    const token=this.tray.querySelector<HTMLElement>('[data-token]'),target=this.cells.get(2);if(!token||!target)return;
+    const from=token.getBoundingClientRect(),to=target.getBoundingClientRect(),ghost=token.cloneNode(true) as HTMLElement;
+    ghost.removeAttribute('data-token');ghost.removeAttribute('aria-pressed');ghost.className='token tutorial-ghost';ghost.setAttribute('aria-hidden','true');ghost.setAttribute('tabindex','-1');
+    Object.assign(ghost.style,{position:'fixed',left:from.x+'px',top:from.y+'px',pointerEvents:'none',zIndex:'9'});document.body.append(ghost);
+    const animation=this.motion.animate(ghost,[{translate:'0 0',opacity:0,offset:0},{translate:'0 0',opacity:.7,offset:.15},{translate:`${to.x-from.x}px ${to.y-from.y}px`,opacity:.7,offset:.8},{translate:`${to.x-from.x}px ${to.y-from.y}px`,opacity:0,offset:1}],{duration:1100,easing:'ease-in-out'},{onFinish:()=>ghost.remove()});
+    animation?.addEventListener('cancel',()=>ghost.remove(),{once:true});
   }
   explain(text:string,indices:number[]):void{this.explanation=text;this.supportIndices=indices;this.render();}
   selectedCell():number|undefined{return this.selected?.kind==='cell'?Number(this.selected.id):undefined;}
@@ -93,6 +107,7 @@ export class BoardView {
     this.selected=source;this.explanation='';this.supportIndices=[];this.feedback.cue('pick');this.render();
   }
   private down=(e:PointerEvent):void=>{const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;
+    this.dismissTutorial();
     this.gesture={pointer:e.pointerId,source,x:e.clientX,y:e.clientY,drag:false,revision:this.attempt.boardRevision,commandId:crypto.randomUUID()};document.body.setPointerCapture(e.pointerId);
   };
   private move=(e:PointerEvent):void=>{const g=this.gesture;if(!g||g.pointer!==e.pointerId||this.disabled())return;
@@ -113,10 +128,10 @@ export class BoardView {
     animation?.addEventListener('cancel',()=>copy.remove(),{once:true});
   }
   private clearHover():void{for(const el of document.querySelectorAll('.hover'))el.classList.remove('hover');}
-  cancel=():void=>{const g=this.gesture;this.gesture=null;if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.clearHover();};
+  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.clearHover();};
   private pointerCancel=(e:PointerEvent):void=>{if(this.gesture?.pointer===e.pointerId)this.cancel();};
   private scroll=():void=>{if(this.gesture)this.cancel();};
-  private keyboard=(e:MouseEvent):void=>{if(e.detail!==0||this.disabled())return;const source=this.source(e.target as Element);if(source)this.tap(source,{commandId:crypto.randomUUID(),expectedRevision:this.attempt.boardRevision});};
+  private keyboard=(e:MouseEvent):void=>{if(e.detail!==0||this.disabled())return;const source=this.source(e.target as Element);if(source){this.dismissTutorial();this.tap(source,{commandId:crypto.randomUUID(),expectedRevision:this.attempt.boardRevision});}};
   resize=():void=>{this.cancel();this.motion.cancelAll();if(!this.puzzle)return;const p=this.puzzle,pad=this.board.closest<HTMLElement>('.boardpad')!,scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
     const hit=48*Math.max(1,scale),maxWidth=pad.clientWidth-4,step=Math.max(hit/2,Math.min(46*scale,(maxWidth-hit)/Math.max(1,p.width-1),p.height>5?30*scale:innerHeight<650?31*scale:46*scale));
     for(const [key,value] of Object.entries({step,item:Math.min(hit-2,step*1.13),hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));
