@@ -22,8 +22,20 @@ Records are finalized only on explicit end/replacement, retaining a failed run u
 
 ## Artifact
 
-Source/SHA/certificate/inspection record follows after the native build. Same retained preview signer/package, versionCode3 and schema3 are required for compatibility with prior previews. A real in-place phone update has not been executed.
+| Field | Verified value |
+| --- | --- |
+| File | `Crossmath_0.3.0_E1_preview.apk` |
+| Version / package | 0.3.0 / versionCode3 / `com.danilah.crossmath.releasecheck` |
+| Gameplay source | `dd435b6cc0aabd1bd57005ebe67c4c5948ab1f61` |
+| Source tree | `26fbb488ccea16d3fb1e379a618ce70362fd679b` |
+| APK SHA-256 | `0ac51ca4a86db81c5c09e1af8b738ffb7cee091d7423f4a622c89a53b87af519` |
+| Size | 1,216,469 bytes |
+| Preview certificate SHA-256 | `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0` (unchanged) |
+| Build | JDK21.0.13+9 / Gradle8.14.3 / AGP8.13.0, debug + optimized R8 releaseCheck, BUILD SUCCESSFUL |
+| Official APK inspection | apksigner v2, zipalign16K, aapt package/version/portrait/non-debuggable, WebView debugging=false, exact release web payload, R8 GameStorage get/set/remove/list retained |
 
-Native runtime, process kill, haptics/feel, silent mode, TalkBack and 200% OS font remain NOT RUN. CI needs `KIT_READ_TOKEN` for the private pinned kit. Real ads/analytics/reminders/store submission are not part of this artifact.
+Machine record: `evidence/endless-e1/apk-verification.json`. Same retained preview signer/package, versionCode3 and schema3 provide inspected compatibility with prior previews. A real in-place phone update has not been executed. APK/checksum and private preview signer are retained separately from Git.
+
+Native runtime, process kill, haptics/feel, silent mode, TalkBack and 200% OS font remain NOT RUN. CI needs `KIT_READ_TOKEN` for the private pinned kit; gameplay-source run [44380914614](https://github.com/DanilaH/crossmath-game/actions/runs/44380914614) failed at the private-kit access requirement before client checks. Real ads/analytics/reminders/store submission are not part of this artifact.
 
 KIT IMPACT: **REUSE**, existing atomic repository/activity/DOM controls, unchanged pin. Run/scoring/achievement/statistics policy is local; no upstream extraction warranted.

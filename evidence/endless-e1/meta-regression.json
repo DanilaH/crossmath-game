@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "source": "dd435b6cc0aabd1bd57005ebe67c4c5948ab1f61",
+  "browser": "141.0.7390.37",
+  "day": "2026-11-22",
+  "checks": [
+    "fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore",
+    "actual UI Daily: +100 breakdown, three lives, dated completion, cold restore pays once",
+    "eighth distinct win: +20 card receipt, four visible abacus layers and accessible part list",
+    "fixed profile zone, three missed days advance one issuance, past/completed/future dates remain distinct",
+    "labelled 228/229 fixtures: complete 12-card album stays available, no 49th fragment"
+  ],
+  "geometry": [
+    {
+      "screen": "album",
+      "viewport": [
+        320,
+        568
+      ],
+      "overflow": false,
+      "minTarget": 48
+    },
+    {
+      "screen": "album",
+      "viewport": [
+        360,
+        640
+      ],
+      "overflow": false,
+      "minTarget": 48
+    },
+    {
+      "screen": "album",
+      "viewport": [
+        390,
+        844
+      ],
+      "overflow": false,
+      "minTarget": 48
+    },
+    {
+      "screen": "album",
+      "viewport": [
+        800,
+        1280
+      ],
+      "overflow": false,
+      "minTarget": 48
+    }
+  ],
+  "limits": "Headless browser; explicit long-progress fixtures; no Android/device/SDK claim"
+}
