@@ -23,7 +23,19 @@ Local checks: 46 Vitest tests / 7 files, typecheck, normal/release web exclusion
 
 ## Native artifact
 
-Exact APK/source/certificate record is added after the build and official Android-tool verification. Retained preview signer is required for updates from 0.1.0; production signing remains unset. The compatibility claim is package/key/version/schema inspection, not a completed physical installation test.
+| Field | Verified value |
+| --- | --- |
+| Artifact | `Crossmath_0.2.0_D_preview.apk` |
+| Package / version | `com.danilah.crossmath.releasecheck` / 0.2.0 / versionCode 2 |
+| Tested gameplay source | `631ffef83d7d51cf1f6e7f68d6354c7a802afd4c` |
+| Source tree | `089eca19f23a2d559d84348d3083950c421e36eb` |
+| APK SHA-256 | `546a495b921f933602358d8ea04e5f97b504efcb4a3781073f12ef22cd235849` |
+| Size | 1,211,949 bytes |
+| Preview certificate SHA-256 | `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0` (same as 0.1.0) |
+| Build | Real JDK 21.0.13+9 / Gradle 8.14.3 / AGP 8.13.0; debug and optimized R8 releaseCheck, BUILD SUCCESSFUL |
+| Official inspection | build-tools36 apksigner v2, zipalign16K, aapt package/version/portrait/non-debuggable, exact release web files, debugging=false, R8 GameStorage get/set/remove/list retained |
+
+Machine record: `evidence/meta-d/apk-verification.json`. Preview APK and checksum were saved separately from Git. Retained preview signer is required for updates from 0.1.0; production signing remains unset. Compatibility evidence is package/key/version/schema inspection, not a completed physical installation test.
 
 Native runtime NOT RUN; no device/emulator, physical haptics, silent mode, TalkBack, OS font, real ads or store publication is claimed. CI remains blocked by missing private-kit `KIT_READ_TOKEN`; local checks are independent.
 

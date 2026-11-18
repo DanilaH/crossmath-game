@@ -1,0 +1,27 @@
+{
+  "kind": "releasecheck",
+  "package": "com.danilah.crossmath.releasecheck",
+  "versionName": "0.2.0",
+  "versionCode": 2,
+  "kitRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+  "source": "631ffef83d7d51cf1f6e7f68d6354c7a802afd4c",
+  "apkSha256": "546a495b921f933602358d8ea04e5f97b504efcb4a3781073f12ef22cd235849",
+  "bytes": 1211949,
+  "certificateSha256": "4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0",
+  "productionSigner": false,
+  "v2": true,
+  "zipalign16k": true,
+  "debuggable": false,
+  "webViewDebuggingConfigured": false,
+  "nativeInsetOwner": "content-root",
+  "webPayload": {
+    "native-build.json": "d6776c22b4d785acafac6f324de6e51d9700f8d00340e5638b59090fc0a0fc70",
+    "index.html": "8b7757dbb814a2b7aabfc4e90aa0c4e4e61e07f4e1fb636a2cb891df54daaefd",
+    "assets/dist-CMedSjkm.js": "067d9ca66629f984cf538346471032b4b24f9acd1cb914834126e2b88d3250fe",
+    "assets/index-BMflkxPS.css": "3a518524f28c1c12a41a1b8ea81ef6824cc03c8033b48ea68ab86a2ae8e2662e",
+    "assets/index-CAS3-eAf.js": "6be2a3fb616c12635597bea3432e06c4a8f21feb22b50f5b7c6b107791b0d00c",
+    "assets/web-BM7xF5pS.js": "874bbd026b2a3757b6c7bedc1bd163f0c735a3e0a943605c9853f660d828d658"
+  },
+  "nativeRuntime": "NOT RUN",
+  "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE"
+}

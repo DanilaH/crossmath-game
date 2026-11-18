@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "scope": "Chromium scripted UI, own campaign data; not Android, TalkBack, live ads or physical feel",
+  "source": "631ffef83d7d51cf1f6e7f68d6354c7a802afd4c",
+  "browser": "141.0.7390.37",
+  "checks": [
+    "first field: cell-first keyboard interaction and durable result",
+    "cold reload preserves result and pays once",
+    "field 7: distinct fives, atomic swap, exact undo and cold restore",
+    "field 10: intersection explanation, one charge, undo preserves payment",
+    "field 12: editable valid row, tap/drag swap, repeat pays zero",
+    "first 25 campaign fields completed using real UI interactions",
+    "dark theme and reduced motion settings persist",
+    "idle first-move demonstration is presentation-only and cancels on user input",
+    "no uncaught page errors"
+  ],
+  "geometry": [
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "minTarget": 48,
+      "overflow": false,
+      "overlap": false
+    },
+    {
+      "viewport": [
+        360,
+        640
+      ],
+      "minTarget": 48,
+      "overflow": false,
+      "overlap": false
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "minTarget": 48,
+      "overflow": false,
+      "overlap": false
+    },
+    {
+      "viewport": [
+        800,
+        1280
+      ],
+      "minTarget": 48,
+      "overflow": false,
+      "overlap": false
+    }
+  ]
+}

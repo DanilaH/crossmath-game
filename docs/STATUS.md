@@ -20,7 +20,7 @@ Working branch: `feat/vertical-slice-20261118`, draft PR #1. Version 0.2.0 / ver
 
 ## Acceptance and remaining work
 
-See `ACCEPTANCE_D_2026-11-18.md` for D evidence and native artifact record. Same retained private preview signer, package and monotonically increased versionCode support an in-place preview update; actual device installation/migration is pending.
+Debug and R8 releaseCheck built successfully. Exact APK passed official signature/alignment/package/version/portrait/debugging/web-payload/bridge inspection. See `ACCEPTANCE_D_2026-11-18.md` for artifact SHA/source and D evidence. Same retained private preview signer, package and increased versionCode support an in-place preview update; actual device installation/migration is pending.
 
 Native runtime, process kill, physical responsiveness/haptics, TalkBack, 200% OS font and live platform callbacks remain unaccepted. Browser checks and APK inspection do not establish those results.
 
