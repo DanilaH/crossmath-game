@@ -27,7 +27,7 @@ export class SaveRepository {
         state=backup===null ? this.fresh() : decodeSave(JSON.parse(backup));
         await this.primary.write(state);
         if (backup!==null) this.recoveredBackup=true;
-      } else state=decodeSave(JSON.parse(raw));
+      } else { const parsed:unknown=JSON.parse(raw);state=decodeSave(parsed);if((parsed as {schemaVersion?:unknown}).schemaVersion!==state.schemaVersion)await this.primary.write(state); }
     } catch (error) {
       // Preserve the damaged bytes before replacing them; never silently start a fresh wallet.
       if (raw===null) throw error;

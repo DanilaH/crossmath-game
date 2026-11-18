@@ -1,6 +1,6 @@
 {
   "name": "crossmath-game",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -17,7 +17,7 @@
     "android:sync:release": "npm run build:release && cap sync android",
     "release:config": "node tools/release-config.mjs --check",
     "preview": "vite preview",
-    "test:browser": "node tools/browser-smoke.mjs",
+    "test:browser": "node tools/browser-smoke.mjs && node tools/meta-browser-smoke.mjs",
     "content:verify": "python3 -B docs/spec/product/content_v09/verify.py && python3 -B docs/spec/product/content_v09/check_routes.py && python3 -B docs/spec/product/meta_v08/verify_meta.py"
   },
   "dependencies": {

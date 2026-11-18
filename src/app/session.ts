@@ -8,13 +8,21 @@ import type { BoardAction, Command } from '../core/types';
 import type { HintPlan } from '../help/logic';
 import type { Transition } from '../core/engine';
 import type { SaveRepository } from './saveRepository';
+import { refreshDay } from '../meta/progress';
+import { availableOffers, contribution, mastered } from '../meta/missions';
+import { calendarPuzzle, dateAvailable, profileDay } from '../meta/calendar';
+import type { Difficulty } from '../core/types';
+import type { MetaScreen, Offer, SavedSlot } from '../meta/types';
+
+export function storedSlot(save:Save,key:string):SavedSlot|undefined{return save.meta.activeSlot===key?{attempt:save.attempt,result:save.result}:save.meta.inactive[key];}
+export type OpenOutcome='opened'|'confirm_replace'|'unavailable';
 
 export class GameSession {
   private busy=false;
-  constructor(public state: Save, private readonly repository: SaveRepository, private readonly id:()=>string) {}
+  constructor(public state: Save, private readonly repository: SaveRepository, private readonly id:()=>string,private readonly now:()=>string=()=>new Date().toISOString()) {}
   private async persist(next: Save, elapsed: number): Promise<void> {
     next.attempt.elapsedPlaying+=Math.max(0,elapsed);
-    next=settleCompletion(next); next.revision=this.state.revision+1;
+    refreshDay(next,this.now());next=settleCompletion(next,this.now()); next.revision=this.state.revision+1;
     this.state=await this.repository.commit(this.state.revision,next);
   }
   async command(action: BoardAction, elapsed=0, metadata?: {commandId:string;expectedRevision:number}): Promise<Transition> {
@@ -52,13 +60,16 @@ export class GameSession {
     } finally { this.busy=false; }
   }
   async next(elapsed=0):Promise<boolean> {
-    if (this.busy || this.state.attempt.status!=='won' || this.state.profile.campaignCursor>=routes.campaignSequence.length) return false;
+    if(this.state.attempt.status!=='won')return false;
+    if(this.state.attempt.mode==='daily'){await this.navigate('calendar',elapsed);return true;}
+    if(this.state.attempt.mode==='free')return await this.openFree(this.state.meta.freeDifficulty,true,elapsed)==='opened';
+    if (this.busy || this.state.profile.campaignCursor>=routes.campaignSequence.length) return false;
     this.busy=true;
     try { const next=structuredClone(this.state);next.attempt=createAttempt(campaignPuzzle(next.profile.campaignCursor),this.id());next.result=null;await this.persist(next,elapsed);return true; } finally {this.busy=false;}
   }
   async restart():Promise<boolean> {
     if (this.busy) return false;this.busy=true;
-    try { const next=structuredClone(this.state);next.attempt=createAttempt(getPuzzle(next.attempt.puzzleId),this.id(),next.attempt.mode);next.result=null;await this.persist(next,0);return true; } finally {this.busy=false;}
+    try { const next=structuredClone(this.state);refreshDay(next,this.now());if(!this.canRestart(next))return false;const old=next.attempt;next.attempt=createAttempt(getPuzzle(old.puzzleId),this.id(),old.mode);if(old.dayKey)next.attempt.dayKey=old.dayKey;next.result=null;await this.persist(next,0);return true; } finally {this.busy=false;}
   }
   async update(settings:Partial<Settings>, userPaused:boolean, elapsed=0):Promise<void> {
     if (this.busy) return;this.busy=true;
@@ -68,5 +79,57 @@ export class GameSession {
     if (this.busy || elapsed<=0 || this.state.attempt.status!=='playing') return false;
     this.busy=true;
     try {await this.persist(structuredClone(this.state),elapsed);return true;} finally {this.busy=false;}
+  }
+  canRestart(save=this.state):boolean{return save.attempt.mode!=='daily'||dateAvailable(save.profile.createdAt,save.profile.timeZone,save.meta.effectiveDay,save.attempt.dayKey!);}
+  hasDayChange():boolean{return profileDay(this.now(),this.state.profile.timeZone)>this.state.meta.effectiveDay;}
+  async refreshDay():Promise<boolean>{
+    if(this.busy)return false;const next=structuredClone(this.state);refreshDay(next,this.now());if(JSON.stringify(next.meta)===JSON.stringify(this.state.meta))return false;
+    this.busy=true;try{await this.persist(next,0);return true;}finally{this.busy=false;}
+  }
+  async navigate(screen:MetaScreen,elapsed=0):Promise<boolean>{
+    if(this.busy)return false;this.busy=true;
+    try{const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;}finally{this.busy=false;}
+  }
+  openCampaign(elapsed=0):Promise<OpenOutcome>{
+    const saved=storedSlot(this.state,'campaign');const id=saved?.attempt.status==='playing'?saved.attempt.puzzleId:routes.campaignSequence[this.state.profile.campaignCursor]??saved?.attempt.puzzleId;
+    return id?this.openOffer({puzzleId:id,mode:'campaign'},false,elapsed):Promise.resolve('unavailable');
+  }
+  openFree(band:Difficulty,replace=false,elapsed=0):Promise<OpenOutcome>{
+    const saved=storedSlot(this.state,'free');
+    const pool=routes.freePlayPools[band],unsolved=pool.filter(id=>!this.state.profile.solvedIds.includes(id));
+    const index=saved?pool.indexOf(saved.attempt.puzzleId):-1;
+    const id=saved?.attempt.status==='playing'&&getPuzzle(saved.attempt.puzzleId).difficulty===band&&!replace?saved.attempt.puzzleId:unsolved[0]??pool[(index+1)%pool.length];
+    return id?this.openOffer({puzzleId:id,mode:'free'},replace,elapsed):Promise.resolve('unavailable');
+  }
+  openDaily(day:string,elapsed=0):Promise<OpenOutcome>{return this.openOffer({puzzleId:this.state.meta.assignments[day]?.puzzleId??calendarPuzzle(day),mode:'daily',dayKey:day},false,elapsed);}
+  async openOffer(offer:Offer,replace=false,elapsed=0,repeatCompleted=false):Promise<OpenOutcome>{
+    if(this.busy)return 'unavailable';this.busy=true;
+    try{
+      const next=structuredClone(this.state);refreshDay(next,this.now());const puzzle=getPuzzle(offer.puzzleId),wins=next.profile.solvedIds.length;
+      if(offer.mode==='endless')return 'unavailable';
+      const key=offer.mode==='daily'?`daily:${offer.dayKey}`:offer.mode,saved=storedSlot(next,key);
+      if(offer.mode==='campaign'&&puzzle.campaignPosition-1>next.profile.campaignCursor)return 'unavailable';
+      if(offer.mode==='free'&&(wins<config.unlockProposal.freePlayAfterNewWins||!mastered(next).includes(puzzle.difficulty)||!routes.freePlayPools[puzzle.difficulty].includes(offer.puzzleId)))return 'unavailable';
+      if(offer.mode==='daily'&&(wins<config.unlockProposal.dailyAfterNewWins||!offer.dayKey||(!saved&&!dateAvailable(next.profile.createdAt,next.profile.timeZone,next.meta.effectiveDay,offer.dayKey))))return 'unavailable';
+      if(saved&&saved.attempt.puzzleId!==offer.puzzleId&&saved.attempt.status==='playing'&&!replace)return 'confirm_replace';
+      const continuing=saved?.attempt.puzzleId===offer.puzzleId&&!(repeatCompleted&&saved.attempt.status==='won');
+      if(offer.mode==='free'&&!continuing&&next.profile.solvedIds.includes(offer.puzzleId)&&routes.freePlayPools[puzzle.difficulty].some(id=>!next.profile.solvedIds.includes(id)))return 'unavailable';
+      if(offer.mode==='daily'){
+        const assignment=next.meta.assignments[offer.dayKey!];
+        if(assignment&&assignment.puzzleId!==offer.puzzleId||!assignment&&calendarPuzzle(offer.dayKey!)!==offer.puzzleId)return 'unavailable';
+        next.meta.assignments[offer.dayKey!]={puzzleId:offer.puzzleId,calendarVersion:routes.version};
+      }
+      if(next.attempt.status==='playing')next.attempt.elapsedPlaying+=Math.max(0,elapsed);
+      if(next.meta.activeSlot!==key)next.meta.inactive[next.meta.activeSlot]={attempt:structuredClone(next.attempt),result:next.result};
+      const target=continuing?saved!:{attempt:createAttempt(puzzle,this.id(),offer.mode),result:null};
+      next.attempt=structuredClone(target.attempt);next.result=structuredClone(target.result);next.attempt.userPaused=false;
+      if(offer.mode==='daily')next.attempt.dayKey=offer.dayKey!;
+      delete next.meta.inactive[key];next.meta.activeSlot=key;next.meta.screen='play';if(offer.mode==='free')next.meta.freeDifficulty=puzzle.difficulty;
+      await this.persist(next,0);return 'opened';
+    }finally{this.busy=false;}
+  }
+  questOffer(index:number):Offer|null{
+    const set=this.state.meta.quests,slot=set?.slots[index];if(!set||!slot||slot.paid)return null;
+    return set.witness.find(o=>contribution(slot.goalId,o,set.dayKey)>0&&!this.state.meta.contributedIds.includes(o.puzzleId)&&(o.campaignPosition===undefined||o.campaignPosition<=this.state.profile.campaignCursor)&&!o.requiresSolved?.length)??set.witness[0]??availableOffers(this.state).find(o=>!this.state.meta.contributedIds.includes(o.puzzleId))??null;
   }
 }

@@ -16,6 +16,7 @@ export interface Attempt extends Layout {
   boardRevision: number; history: Layout[]; commandIds: string[];
   status: 'playing' | 'won' | 'out-of-lives'; lives: number; assisted: boolean;
   hintsUsed: number; elapsedPlaying: number; userPaused: boolean; lastRejectedSignature: string | null;
+  dayKey?: string;
 }
 export type BoardAction =
   | { type: 'PlaceFromTray'; tokenId: string; cellId: number }

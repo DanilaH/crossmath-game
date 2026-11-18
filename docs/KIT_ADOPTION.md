@@ -13,10 +13,13 @@ Runtime and guidance are separately recorded and currently both pinned to `46992
 | DurablePendingTransactionSession | NOT APPLICABLE | No random staged resolution: attempt, debit, progress and receipt are one deterministic atomic root replacement |
 | RevisionSnapshotQueue | NOT APPLICABLE to commands | Never coalesce accepted commands/help/rewards. Periodic time checkpoints are separate |
 | DurableReceiptQueue | DEFERRED to E | Review for externally earned SDK rewards; no ad provider currently present |
-| Calendar/tier/hint budget | REVIEW IN D | Own zone/economy prevail; no generic free-hint policy replacing 60 coins/credits |
+| Calendar day / tier progress | REUSE | `calendarDayIndex`, `isCalendarDay`, `getTierProgress`; own IANA/effective-day policy, dated receipts and immutable puzzle assignment |
+| Hint budget | LOCAL POLICY | Explicit 60 coins/credits, no generic free-hint budget |
 | Yandex web SDK | NOT APPLICABLE | Android is not the web SDK. Later web port requires another adapter |
 | Gameplay, proof, content, economy | LOCAL POLICY | Specific Crossmath rules; no common extraction justified |
 
 Routes: new repository/architecture and approved UI/input/feel. Read pinned API, setup, UX & Art System and UI Motion. Reference is the owner's own HTML v0.10 and field-12 images, not an unobserved claim about competitor APK runtime.
 
 KIT IMPACT: **REUSE**. No kit changes or new shared API proposed. Intrinsic-width correction belongs in this consumer's board layout.
+
+D routes: Calendar/Tier Progress and UX & Art System/Stable Progress UI. Applied action hierarchy to saved-game/today/campaign priority, actual 48px controls and wrapping names in the 320px album; evidence in `evidence/meta-d/`. Reused day/tier primitives, atomic writer and additive navigation blocker. Crossmath mission reachability and reward policy remain consumer code; no upstream extraction proposed.

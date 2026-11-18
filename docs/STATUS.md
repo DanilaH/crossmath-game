@@ -1,30 +1,29 @@
 # Crossmath status — 18 November 2026
 
-Working branch: `feat/vertical-slice-20261118`. Initial main: `da24cca076cd78bc896ae5f7527fc20d5537ba93` (repository was empty before onboarding).
+Working branch: `feat/vertical-slice-20261118`, draft PR #1. Version 0.2.0 / versionCode 2. A–C 0.1.0 remains in the acceptance history; D extends its saves and host.
 
 ## Implemented
 
-- Exact kit Android host, portrait, native AtomicFile storage/Back/lifecycle/inset and optimized-release checks.
-- Entire immutable 240-board campaign and supplied routes/config imported. Client-side schema/geometry checks and an independent solver count solutions up to two, without author answers.
-- Deterministic place/replace/move/swap/return/undo/stable-sort. Separate physical tokens, expected revision and duplicate-command guard. Ordinary mode never locks a correct row. Pure Daily/Endless command rules are regression-tested extension points, not shipped selectable modes.
-- Semantic gameplay UI based on own v0.10 sample. Both tap orders, keyboard, drag, cancel/miss return, both linked equations, expression errors, pause/restart, sound/vibration toggles, light/dark and reduced motion.
-- Schema-1 atomic whole-save transaction for attempt, wallet, progress, completion and help receipts; last-good backup, corruption quarantine, strict load, ambiguous-write readback and conflict errors. Cold start preserves user pause. Active-time checkpoints use monotonic time and exclude blockers.
-- Bounded explain service without author answers; independent proof support/inventory checks; separate explicit reveal. Verified full logical completion of 240 boards / 1,422 assignments. One debit per operation, including multi-cell plans; zero-cost refusal receipts are persistent too.
-- All first 15 lessons and sequential continuation through the full bank. Completion applies base XP/coins, rank carry and collection counters once; UI for the full meta is deferred.
+- A–C: immutable 240-board bank, independent solver, physical-token commands, semantic board and drag/tap/keyboard, explain/proof verification and isolated reveal, atomic saves, rank/base/card rewards, 15 lessons and full campaign continuation.
+- D: home with saved-game priority, unlocked Free difficulty selector, unsolved-first pools, independent campaign/Free/dated slots and explicit replacement confirmation.
+- Fixed-zone Daily calendar: today/previous 30 days since profile creation, pinned date assignments, started/completed/future/zero-life states, three lives, free restart and completion of old unfinished dates.
+- Three reachable daily missions with joint <=3 distinct-ID witness, campaign prerequisites, minimal fallback, partial/paid sibling preservation, active issuance rotation and monotonic effective date. Unshipped Endless is excluded.
+- Atomic base/date/mission/set/rank/card receipts and result breakdown. Fifth victory issues missions without retroactive credit. Migration from schema 1 to 2 preserves placements, settings, wallet and earned collection; historical full cards are grandfathered.
+- Rank detail and twelve-tool album with four real SVG layers per card, next-detail progress, completed album retained after win 228. Reward event priority and original saved result survive switching modes.
 
-## Verified
+## Verified locally
 
-- 31 Vitest tests in 6 files; independent bank, seeded mixed commands, whole-campaign 240-win reward integration, proof corruption and interrupted-write cases.
-- Actual Chromium 141 scripted UI: first 25 fields, field 7 duplicate swap/undo/cold restore, field 10 paid explanation and undo, field 12 contradiction plus tap/drag correction and replay reward zero. Idle first-move demonstration changes no game state and cancels at the first player input.
-- Dense 11×11: 320×568, 360×640, 390×844, 800×1280. Numeric targets 48 CSS px; no target overlap or page horizontal overflow. Own reference's intrinsic-width shrink was corrected and regressed on simple boards.
-- Typecheck, normal/release web build, release-marker audit, Capacitor release sync. Supplied Python content/routes/meta checks: 240 / 84 / 32 PASS. Guidance doctor checks exact runtime/guidance pin.
+- 46 Vitest tests / 7 files; independent full-bank solving and 240-win reward integration, including 228/229; durable writes/recovery and help proofs; D includes 84 actual-bank mission/profile fixtures, +100, old dated completion, fixed zones/leap days/missed days/rollback, mode slots and migration.
+- Real Chromium 141 UI: first 25 campaign fields plus fresh-profile D scenario through unlocks 3/5, +100 Daily, cold result restore, first complete abacus and part inspection at eight distinct wins. Complete album 228/229 is an explicitly seeded display fixture, not 228 UI-played wins.
+- Dense board and album: 320×568, 360×640, 390×844, 800×1280; 48 CSS px controls, no page horizontal overflow. Applied own paper/ink/teal style, wrapped long instrument names. Evidence under `docs/evidence/` and `evidence/meta-d/`.
+- Typecheck, normal/release web audit and Capacitor release sync; supplied Python content/routes/meta reference checks; four Python preview-signing safety tests; exact pinned guidance doctor.
 
-## Remaining acceptance / next stage
+## Acceptance and remaining work
 
-Debug and optimized R8 releaseCheck APKs built successfully. Exact 0.1.0 test APK passed signature/package/version/orientation/debugging/web-payload/bridge/alignment inspection; see `evidence/vertical-slice/apk-verification.json`. Tested gameplay source: `482df3edfc08b1ba0aa79a750ea49aed9e9d689f`. The retained preview signer and APK were saved separately from the repository.
+See `ACCEPTANCE_D_2026-11-18.md` for D evidence and native artifact record. Same retained private preview signer, package and monotonically increased versionCode support an in-place preview update; actual device installation/migration is pending.
 
-Native APK installation/runtime has not been executed on a device. Phone storage/process kill, physical responsiveness/haptics/silent mode, TalkBack and true 200% OS font remain unaccepted. Launcher artwork is still the host's test mark; store identity/art belongs to F.
+Native runtime, process kill, physical responsiveness/haptics, TalkBack, 200% OS font and live platform callbacks remain unaccepted. Browser checks and APK inspection do not establish those results.
 
-GitHub CI is blocked before test/build execution by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`), observed in run 44363219493. Local passing checks/native compilation do not turn that CI run green. CI now explicitly requests AGP-default build-tools 35 plus inspection tools 36 instead of relying on preinstalled runner packages.
+GitHub CI remains blocked by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`); observed prior run 44363219493. Local success is independent of CI.
 
-Stages D–F remain: Free/Daily selectors, dated archive and reachable quests, album/rank/profile/achievement screens, Endless runs/records, full RU/EN, real platform adapters, physical phone and store release acceptance. No live SDK, reminders, production signer or store submission is claimed. D starts from this retained schema and delivered content/config, not another research scope.
+Next: E — Endless UI/runs/records, profile/statistics/achievements, RU/EN and platform service adapters. Then F — device/accessibility/offline/live SDK/store acceptance. Production signer remains unset; no live SDK, reminders or store submission is claimed.

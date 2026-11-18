@@ -18,6 +18,7 @@ try{
   const repository=new SaveRepository(createStorage(),()=>createSave(crypto.randomUUID(),new Date().toISOString(),Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC',crypto.randomUUID()));
   const state=await repository.load();startup.mark('storageReady');
   const session=new GameSession(state,repository,()=>crypto.randomUUID());
+  await session.refreshDay();
   let resolveFrame!:()=>void;const frame=new Promise<void>(resolve=>{resolveFrame=resolve;});
   const size=()=>{const r=root.getBoundingClientRect(),dpr=getRenderPixelRatio();return{cssWidth:Math.max(1,r.width),cssHeight:Math.max(1,r.height),dpr};};
   const initial=size();

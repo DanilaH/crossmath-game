@@ -44,7 +44,9 @@ jobs:
         if: always()
         with:
           name: crossmath-ui-evidence
-          path: .test-output/ui/
+          path: |
+            .test-output/ui/
+            .test-output/meta-ui/
       - run: npm run android:sync:release
       - uses: actions/setup-java@v4
         with:
