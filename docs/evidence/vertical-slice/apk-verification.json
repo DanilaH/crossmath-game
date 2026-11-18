@@ -1,0 +1,37 @@
+{
+  "kind": "releasecheck",
+  "package": "com.danilah.crossmath.releasecheck",
+  "versionName": "0.1.0",
+  "versionCode": 1,
+  "kitRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+  "source": "482df3edfc08b1ba0aa79a750ea49aed9e9d689f",
+  "apkSha256": "92d37d7b4e0b2c71c0555fc1f9eeedd224f7e83f043d8034cd2dc8710942bed8",
+  "bytes": 1198157,
+  "certificateSha256": "4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0",
+  "productionSigner": false,
+  "v2": true,
+  "zipalign16k": true,
+  "debuggable": false,
+  "webViewDebuggingConfigured": false,
+  "nativeInsetOwner": "content-root",
+  "webPayload": {
+    "native-build.json": "d6776c22b4d785acafac6f324de6e51d9700f8d00340e5638b59090fc0a0fc70",
+    "index.html": "2993f04fcc2a1309ad968026b1cf93a68ec42787e76b1f63023fb1c4b111e177",
+    "assets/dist-CMedSjkm.js": "067d9ca66629f984cf538346471032b4b24f9acd1cb914834126e2b88d3250fe",
+    "assets/index-DQdOnUH0.css": "e86e7147ab133ccf648868b0d016460c4ad914e12fbb6461b6d43bcac2fceb27",
+    "assets/web-BM7xF5pS.js": "874bbd026b2a3757b6c7bedc1bd163f0c735a3e0a943605c9853f660d828d658",
+    "assets/index-CmjXTiaO.js": "5aaa57c7b69001f9291f3a457486d22eae66aa52491ac18d9d5ae60f7a5b2fae"
+  },
+  "nativeRuntime": "NOT RUN",
+  "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE",
+  "sourceTree": "2eeb9147de7285d59ceedce51db9134d3fe59ae2",
+  "toolchain": {
+    "jdk": "21.0.13+9",
+    "gradle": "8.14.3",
+    "agp": "8.13.0",
+    "compileTargetSdk": 36,
+    "agpDefaultBuildTools": "35.0.0",
+    "inspectionBuildTools": "36.0.0"
+  },
+  "previewSignerRetained": true
+}

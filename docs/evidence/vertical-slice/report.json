@@ -11,6 +11,7 @@
     "field 12: editable valid row, tap/drag swap, repeat pays zero",
     "first 25 campaign fields completed using real UI interactions",
     "dark theme and reduced motion settings persist",
+    "idle first-move demonstration is presentation-only and cancels on user input",
     "no uncaught page errors"
   ],
   "geometry": [
@@ -50,5 +51,7 @@
       "overflow": false,
       "overlap": false
     }
-  ]
+  ],
+  "testedCodeCommit": "482df3edfc08b1ba0aa79a750ea49aed9e9d689f",
+  "testedSourceTree": "2eeb9147de7285d59ceedce51db9134d3fe59ae2"
 }

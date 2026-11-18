@@ -27,7 +27,7 @@ npm run android:sync:release
 
 ## Android
 
-JDK 21, Android platform 36/build-tools 36.0.0. Указать `JAVA_HOME` и `ANDROID_HOME` своей среды. После `android:sync:release`:
+JDK 21, Android platform 36, build-tools 35.0.0 (default AGP) и 36.0.0 (проверка APK). Указать `JAVA_HOME` и `ANDROID_HOME` своей среды. После `android:sync:release`:
 
 ```sh
 cd native/android

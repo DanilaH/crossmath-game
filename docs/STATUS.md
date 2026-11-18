@@ -15,12 +15,16 @@ Working branch: `feat/vertical-slice-20261118`. Initial main: `da24cca076cd78bc8
 ## Verified
 
 - 31 Vitest tests in 6 files; independent bank, seeded mixed commands, whole-campaign 240-win reward integration, proof corruption and interrupted-write cases.
-- Actual Chromium 141 scripted UI: first 25 fields, field 7 duplicate swap/undo/cold restore, field 10 paid explanation and undo, field 12 contradiction plus tap/drag correction and replay reward zero.
+- Actual Chromium 141 scripted UI: first 25 fields, field 7 duplicate swap/undo/cold restore, field 10 paid explanation and undo, field 12 contradiction plus tap/drag correction and replay reward zero. Idle first-move demonstration changes no game state and cancels at the first player input.
 - Dense 11×11: 320×568, 360×640, 390×844, 800×1280. Numeric targets 48 CSS px; no target overlap or page horizontal overflow. Own reference's intrinsic-width shrink was corrected and regressed on simple boards.
 - Typecheck, normal/release web build, release-marker audit, Capacitor release sync. Supplied Python content/routes/meta checks: 240 / 84 / 32 PASS. Guidance doctor checks exact runtime/guidance pin.
 
 ## Remaining acceptance / next stage
 
-Native APK build and exact-artifact report are recorded in the acceptance document once complete. Browser results do not prove Android native storage/process kill, physical responsiveness/haptics/silent mode, TalkBack, true 200% OS font or live advertising.
+Debug and optimized R8 releaseCheck APKs built successfully. Exact 0.1.0 test APK passed signature/package/version/orientation/debugging/web-payload/bridge/alignment inspection; see `evidence/vertical-slice/apk-verification.json`. Tested gameplay source: `482df3edfc08b1ba0aa79a750ea49aed9e9d689f`. The retained preview signer and APK were saved separately from the repository.
+
+Native APK installation/runtime has not been executed on a device. Phone storage/process kill, physical responsiveness/haptics/silent mode, TalkBack and true 200% OS font remain unaccepted. Launcher artwork is still the host's test mark; store identity/art belongs to F.
+
+GitHub CI is blocked before test/build execution by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`), observed in run 44363219493. Local passing checks/native compilation do not turn that CI run green. CI now explicitly requests AGP-default build-tools 35 plus inspection tools 36 instead of relying on preinstalled runner packages.
 
 Stages D–F remain: Free/Daily selectors, dated archive and reachable quests, album/rank/profile/achievement screens, Endless runs/records, full RU/EN, real platform adapters, physical phone and store release acceptance. No live SDK, reminders, production signer or store submission is claimed. D starts from this retained schema and delivered content/config, not another research scope.
