@@ -81,3 +81,25 @@ The browser regression checked a cold resume of Free Play, campaign board 6 afte
 Debug and optimized Gradle builds passed. Signature and exact APK contents passed release inspection. Device runtime remains pending.
 
 KIT IMPACT — NONE.
+
+## 0.5.5 — placement feedback and the first abacus part
+
+- Accepted placement cues share the visible landing. Drag and tap join the same contact step, including the muted thud for an error. Missing the board returns the piece without a placement cue or vibration. A new valid line expands from the changed cell. Two axes at one intersection use a short answer note within one action sound. Pre-submit Endless uses the same neutral cue and vibration for all layouts.
+- The earned first frame takes the place of the tray contents. It opens the existing Abacus card with the next rods shown as a dashed outline. Closing the card restores the result and focus. Next remains immediately available. Cold reload restores the same reward and replay pays nothing again. The current contact sound is an original synthesis.
+- The exact APK web payload was used for the two GIF captures and the timing probe. Real touch input exercised a miss, single-axis error/fix, two-axis completion, third unique win, abacus card and result return. At 320×568 on field 147, horizontal scroll cancelled an active drag without placing or vibrating. Subsequent tap and drag both placed once. The Endless trace confirmed identical neutral audio duration/haptic requests and zero validity sweeps before Check.
+
+The table gives one Chromium probe per input and build. It measures from the first frame within 1 CSS px of the square center to the Web Audio start call. A negative value means the sound was scheduled before that frame. Both new calls sampled the tile at the exact center. The two associated vibration requests were within 2 ms of the sampled frame. Speaker and motor latency, device installation and TalkBack require device acceptance.
+
+| Input | 0.5.4 | 0.5.5 |
+|---|---:|---:|
+| Tap | −44.3 ms | +1.6 ms |
+| Drag | −61.8 ms | +1.7 ms |
+
+- APK `Crossmath_0.5.5_Preview.apk`, versionCode 10, `com.danilah.crossmath.releasecheck`
+- Source commit `1e31d2e10800ceb8382ba5d7be50d067438e7675`, source tree `5cabff7385eb0a573f4eb7d083e062fa2a3c590e`
+- APK SHA-256 `f1b622aabefe1c14019403e103a3d320e50d363e718c0a7b164bd1ef4f814cde`, 1,269,117 bytes
+- Retained preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+All 72 Vitest tests, three Chromium smoke suites and the content validators passed. The release web audit, debug and optimized releaseCheck build, APK signature and 16 KiB alignment/payload inspection passed.
+
+KIT IMPACT — REUSE. Crossmath schedules its presentation with the existing OwnedDomMotion and OneShotPlayer. The existing atomic completion receipt remains the authority for the frame.
