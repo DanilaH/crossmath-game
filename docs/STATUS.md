@@ -30,10 +30,10 @@ Working branch: `feat/vertical-slice-20261118`, draft PR #1. Version 0.4.0 / ver
 
 ## Acceptance and remaining work
 
-0.3.0 debug and R8 releaseCheck built successfully. Exact APK passed official signature/alignment/package/version/portrait/debugging/web-payload/bridge inspection. See `ACCEPTANCE_E1_2026-11-19.md` for latest artifact SHA/source; D evidence remains historical. Same retained private preview signer, package and increased versionCode support an in-place preview update; actual device installation/migration is pending.
+0.4.0 debug and R8 releaseCheck built successfully. Exact APK passed official signature/alignment/package/version/portrait/debugging/web-payload/bridge inspection. The exact artifact hash and source are in `ACCEPTANCE_E2_2026-11-19.md`. Same retained private preview signer, package and increased versionCode support an in-place preview update; actual device installation/migration is pending.
 
 Native runtime, process kill, physical responsiveness/haptics, TalkBack, 200% OS font and live platform callbacks remain unaccepted. Browser checks and APK inspection do not establish those results.
 
-GitHub CI remains blocked by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`); observed gameplay-source run 44380914614 stopped at the private-kit access requirement before tests/build. Local success is independent of CI.
+GitHub CI remains blocked by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`); observed gameplay-source run 44476862913 stopped at the private-kit access requirement before tests/build. Local success is independent of CI.
 
 Latest scope and acceptance: `ACCEPTANCE_E2_2026-11-19.md`. Remaining release work is the chosen live SDK and its placements, device/accessibility/offline checks, production signing and store acceptance. Production signer remains unset; no live SDK, reminders or store submission is claimed.

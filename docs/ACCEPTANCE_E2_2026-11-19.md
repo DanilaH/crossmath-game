@@ -28,6 +28,17 @@ Scripted provider lives in tests. Production provider selection and actual banne
 
 ## Preview artifact
 
-The exact build source and inspection record are added after the Android compile. Device installation, TalkBack and OS font testing remain pending.
+| Field | Verified value |
+| --- | --- |
+| APK | `Crossmath_0.4.0_E2_preview.apk` |
+| Package and version | `com.danilah.crossmath.releasecheck`, 0.4.0, versionCode 4 |
+| Source commit | `570b72882534a7a71c2c345a70453ed11622c61d` |
+| SHA-256 | `05a232780a40564e0f22e83381c6c5f186bdc8c50327703a08a1e465a16c2267` |
+| Size | 1,224,169 bytes |
+| Preview certificate SHA-256 | `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0` |
+| Build | Temurin JDK 21.0.13, Gradle 8.14.3, AGP 8.13.0. Debug and optimized R8 releaseCheck passed. |
+| APK inspection | Signature v2, 16K alignment, package, version, portrait, disabled app/WebView debugging, exact release web payload and intact storage bridge. |
+
+Local verification includes 68 tests, all three Chromium scenarios, content/model checks, release sync and exact APK inspection. See `evidence/e2/` for the reports and English UI frames. [CI run 44476862913](https://github.com/DanilaH/crossmath-game/actions/runs/44476862913) stopped before client checks at the private-kit access requirement. Device installation, TalkBack and OS font testing remain pending.
 
 KIT IMPACT is REUSE of the pinned DurableReceiptQueue and activity coordinator. The kit's request-based interstitial gate measures a different event from Crossmath's impression-based spacing.

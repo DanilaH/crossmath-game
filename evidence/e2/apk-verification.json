@@ -1,0 +1,27 @@
+{
+  "kind": "releasecheck",
+  "package": "com.danilah.crossmath.releasecheck",
+  "versionName": "0.4.0",
+  "versionCode": 4,
+  "kitRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+  "source": "570b72882534a7a71c2c345a70453ed11622c61d",
+  "apkSha256": "05a232780a40564e0f22e83381c6c5f186bdc8c50327703a08a1e465a16c2267",
+  "bytes": 1224169,
+  "certificateSha256": "4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0",
+  "productionSigner": false,
+  "v2": true,
+  "zipalign16k": true,
+  "debuggable": false,
+  "webViewDebuggingConfigured": false,
+  "nativeInsetOwner": "content-root",
+  "webPayload": {
+    "index.html": "2fe1144288fad50dfc1aca8eac44fbb10e97205fdbdcb47ac4ae43412fadc94a",
+    "native-build.json": "d6776c22b4d785acafac6f324de6e51d9700f8d00340e5638b59090fc0a0fc70",
+    "assets/index-DPpTUwGX.css": "9caed2ead3e6e7b23d84cafb489079799d72ee04a45e294bea8d94b2831ac56c",
+    "assets/index-CA5CpKRG.js": "a2987453f9b6bc2c0194575f29dba2e5bb599b8259d702fe119da9391ecc91f3",
+    "assets/web-BM7xF5pS.js": "874bbd026b2a3757b6c7bedc1bd163f0c735a3e0a943605c9853f660d828d658",
+    "assets/dist-CMedSjkm.js": "067d9ca66629f984cf538346471032b4b24f9acd1cb914834126e2b88d3250fe"
+  },
+  "nativeRuntime": "NOT RUN",
+  "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE"
+}

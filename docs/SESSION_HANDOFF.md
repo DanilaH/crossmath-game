@@ -15,3 +15,5 @@
 12. Latest APK `Crossmath_0.3.0_E1_preview.apk`, 1,216,469 bytes, SHA256 `0ac51ca4a86db81c5c09e1af8b738ffb7cee091d7423f4a622c89a53b87af519`, source `dd435b6cc0aabd1bd57005ebe67c4c5948ab1f61`, tree `26fbb488ccea16d3fb1e379a618ce70362fd679b`. Same preview certificate. 58 tests plus A–C/D/E1 browser scenarios PASS, real debug/R8 build and exact inspection PASS, native runtime NOT RUN. Next is E2, not another Endless redesign.
 
 13. E2 in 0.4.0 implements persistent RU/EN and Campaign/Free timer, schema4 request/settlement ledger, scripted ads test coverage, and optional Capacitor CrossmathAds bridge. See ACCEPTANCE_E2_2026-11-19.md for the provider interface. Next steps are selecting/configuring the live Android provider and real device/release acceptance.
+
+14. Latest verified APK `Crossmath_0.4.0_E2_preview.apk` (1,224,169 bytes), SHA-256 `05a232780a40564e0f22e83381c6c5f186bdc8c50327703a08a1e465a16c2267`, source `570b72882534a7a71c2c345a70453ed11622c61d`. Same preview signing certificate. 68 tests and all three Chromium scenarios passed. Native compile and exact APK inspection passed. Device runtime remains untested.

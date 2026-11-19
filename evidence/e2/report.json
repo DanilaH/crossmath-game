@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "source": "local",
+  "source": "570b72882534a7a71c2c345a70453ed11622c61d",
   "browser": "141.0.7390.37",
   "checks": [
     "actual fresh-profile campaign 1–15, Endless locked at 14 and unlocked at 15",
