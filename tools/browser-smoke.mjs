@@ -18,6 +18,27 @@ try{
  const snapshot=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')));
  const idle=async()=>{await page.waitForFunction(()=>!document.querySelector('#pause-dialog').open&&!document.querySelector('#help-dialog').open);await page.waitForFunction(()=>!document.querySelector('#help').disabled||!document.querySelector('#result').hidden);};
  const tap=async selector=>{await page.locator(selector).tap();};
+ const geometry=[];
+ const verifyViewport=async (field, won=false)=>{
+  const initial=page.viewportSize();
+  for(const [width,height] of [[320,568],[390,844]]){
+   await page.setViewportSize({width,height});
+   const selectors=won?['#next']:['#board','#tray','#sort','#help','#pause'];
+   const bounds=await page.evaluate(selectors=>{
+    const result=Object.fromEntries(selectors.map(selector=>{
+     const rect=document.querySelector(selector).getBoundingClientRect();
+     return [selector,{top:rect.top,bottom:rect.bottom,left:rect.left,right:rect.right}];
+    }));
+    return {controls:result,documentHeight:document.documentElement.scrollHeight};
+   },selectors);
+   if(!won)assert.ok(bounds.documentHeight<=height+1,`field ${field} scrolls at ${width}×${height}`);
+   for(const [selector,rect] of Object.entries(bounds.controls)){
+    assert.ok(rect.top>=0&&rect.bottom<=height&&rect.left>=0&&rect.right<=width,`field ${field} ${selector} outside ${width}×${height} ${JSON.stringify(rect)}`);
+   }
+   geometry.push({field,won,viewport:[width,height],...bounds});
+  }
+  await page.setViewportSize(initial);
+ };
  const place=async(token,cell)=>{await tap(`[data-token="${token}"]`);await tap(`[data-cell="${cell}"]`);await idle();};
  const answers=JSON.parse(await readFile('docs/spec/product/content_v09/author_solutions.json','utf8'));
  const boards=JSON.parse(await readFile('docs/spec/product/content_v09/boards.json','utf8'));
@@ -28,11 +49,13 @@ try{
  // Campaign starts at 1. No diagnostic selector, imported profile or direct engine commands.
  assert.equal((await snapshot()).attempt.puzzleId,'cm-own-01-001');
  assert.ok(await page.locator('#board').evaluate(e=>parseFloat(e.style.getPropertyValue('--step')))>=40,'small boards must use available width instead of collapsing to intrinsic grid width');
+ await verifyViewport(1);
  await page.locator('[data-cell="2"]').focus();await page.keyboard.press('Enter');await page.locator('[data-token="t0"]').focus();await page.keyboard.press('Enter');await page.locator('#result').waitFor({state:'visible'});
+ await verifyViewport(1,true);
  checks.push('first field: cell-first keyboard interaction and durable result');
  const first=await snapshot();await page.reload();await page.locator('html[data-state=ready]').waitFor();assert.equal((await snapshot()).profile.coins,first.profile.coins);assert.deepEqual((await snapshot()).result,first.result);checks.push('cold reload preserves result and pays once');
  for(let position=1;position<25;position++){
-  let save=await snapshot();assert.equal(save.attempt.status,'won');await tap('#next');await idle();
+  let save=await snapshot();assert.equal(save.attempt.status,'won');await tap('#next');await page.locator('#result').waitFor({state:'hidden'});await idle();
   const p=boards[position];assert.equal((await snapshot()).attempt.puzzleId,p.puzzleId);
   if(p.campaignPosition===7){
    await place('t0',0);await place('t2',1);const exact=(await snapshot()).attempt.placements;
@@ -45,18 +68,21 @@ try{
    await tap('#undo');await idle();assert.equal((await snapshot()).profile.coins,helped.profile.coins);assert.equal((await snapshot()).attempt.assisted,true);checks.push('field 10: intersection explanation, one charge, undo preserves payment');
   }
   if(p.campaignPosition===12){
+   await verifyViewport(12);
    await place('t0',0);await place('t1',1);await place('t2',3);assert.equal((await snapshot()).attempt.status,'playing');assert.match(await page.locator('#note').innerText(),/4 − 5 ≠ 2/);assert.equal(await page.locator('.op.right').count(),1);await page.screenshot({path:out+'/field12-conflict.png',fullPage:true});
-   await tap('[data-cell="0"]');await tap('[data-cell="1"]');await idle();assert.equal((await snapshot()).attempt.status,'won');await page.screenshot({path:out+'/field12-solved.png',fullPage:true});
+   await tap('[data-cell="0"]');await tap('[data-cell="1"]');await idle();assert.equal((await snapshot()).attempt.status,'won');await verifyViewport(12,true);await page.screenshot({path:out+'/field12-solved.png',fullPage:true});
    await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#restart');await tap('#restart-yes');await idle();
    await place('t0',0);await place('t1',1);await place('t2',3);const from=await page.locator('[data-cell="0"]').boundingBox(),to=await page.locator('[data-cell="1"]').boundingBox();
    await page.mouse.move(from.x+from.width/2,from.y+from.height/2);await page.mouse.down();await page.mouse.move(to.x+to.width/2,to.y+to.height/2,{steps:8});await page.mouse.up();await idle();assert.equal((await snapshot()).attempt.status,'won');assert.equal((await snapshot()).result.coins,0);checks.push('field 12: editable valid row, tap/drag swap, repeat pays zero');
   }
   if((await snapshot()).attempt.status!=='won')await solve();
  }
+ await verifyViewport(25,true);
  checks.push('first 25 campaign fields completed using real UI interactions');
  // Restart dense board 25 for actual target geometry, without seeding a profile.
  await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#restart');await tap('#restart-yes');await idle();
- const geometry=[];
+ await verifyViewport(25);
+ checks.push('fields 1/12/25 and their Next actions fit 320×568 and 390×844; the final touch does not click through');
  for(const [width,height] of [[320,568],[360,640],[390,844],[800,1280]]){
   await page.setViewportSize({width,height});
   const data=await page.evaluate(()=>{const boxes=[...document.querySelectorAll('[data-cell]')].map(e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,w:r.width,h:r.height};});return{minTarget:Math.min(...boxes.map(b=>Math.min(b.w,b.h))),overflow:document.documentElement.scrollWidth>innerWidth,overlap:boxes.some((a,i)=>boxes.slice(i+1).some(b=>a.x<b.x+b.w-.1&&b.x<a.x+a.w-.1&&a.y<b.y+b.h-.1&&b.y<a.y+a.h-.1))};});

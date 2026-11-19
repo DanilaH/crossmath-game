@@ -7,12 +7,13 @@ import type { Feedback } from './feedback';
 
 type Source={kind:'token'|'cell';id:string};
 type Target=Source|{kind:'return';id:string};
-interface Gesture{pointer:number;source:Source;x:number;y:number;drag:boolean;revision:number;commandId:string}
+interface Gesture{pointer:number;source:Source;piece:HTMLElement;x:number;y:number;drag:boolean;revision:number;commandId:string}
 const glyph={'+':'+','-':'−','*':'×','/':'÷'};
 export const equationText=(p:Puzzle,a:Attempt,index:number):string=>{const eq=p.equations[index]!;const [left,right,result]=eq.cells.map(id=>cellValue(p,a,id)??'□');return `${left} ${glyph[eq.op]} ${right} = ${result}`;};
 export class BoardView {
   private puzzle!:Puzzle;private attempt!:Attempt;private selected:Source|null=null;private gesture:Gesture|null=null;
   private readonly motion=new OwnedDomMotion();private readonly cells=new Map<number,HTMLElement>();private signs:HTMLElement[][]=[];
+  private consumedPointerClick = false;
   private explanation='';private supportIndices:number[]=[];
   private tutorialTimer:ReturnType<typeof setTimeout>|null=null;private tutorialShown=false;
   private readonly ghost=document.querySelector<HTMLElement>('#ghost')!;
@@ -20,15 +21,31 @@ export class BoardView {
     private readonly disabled:()=>boolean,private readonly reduced:()=>boolean,
     private readonly action:(command:BoardAction,metadata:{commandId:string;expectedRevision:number})=>void,private readonly language:()=>Language){
     document.addEventListener('pointerdown',this.down);document.addEventListener('pointermove',this.move);document.addEventListener('pointerup',this.up);
-    document.addEventListener('pointercancel',this.pointerCancel);document.addEventListener('lostpointercapture',this.pointerCancel);document.addEventListener('click',this.keyboard);
+    document.addEventListener('pointercancel',this.pointerCancel);document.addEventListener('lostpointercapture',this.pointerCancel);document.addEventListener('click',this.click,true);
     window.addEventListener('resize',this.resize);window.addEventListener('blur',this.cancel);document.addEventListener('scroll',this.scroll,true);
   }
   private t(ru:string,en:string):string {return localize(this.language(),ru,en);}
   update(puzzle:Puzzle,attempt:Attempt):void{
     const changed=this.puzzle?.puzzleId!==puzzle.puzzleId||this.attempt?.id!==attempt.id;
+    const before = this.attempt;
     this.puzzle=puzzle;this.attempt=attempt;
     if(changed){this.cancel();this.selected=null;this.explanation='';this.supportIndices=[];this.tutorialShown=false;this.build();}
     this.render();
+    if (!changed && before.boardRevision !== attempt.boardRevision && !this.reduced() && !this.disabled()) {
+      for (const [id, token] of Object.entries(attempt.placements)) {
+        if (token === before.placements[id]) continue;
+        const face = this.cells.get(Number(id))?.firstElementChild as HTMLElement | undefined;
+        if (face) this.motion.animate(face, [{scale: '1.12'}, {scale: '.97'}, {scale: '1'}], {duration: 170, easing: 'ease-out'});
+      }
+      if (attempt.mode !== 'endless' || attempt.status === 'won') {
+        const previous = evaluate(puzzle, before), current = evaluate(puzzle, attempt);
+        current.forEach((state, index) => {
+          if (state !== 'valid' || previous[index] === 'valid' && before.mode !== 'endless') return;
+          const equal = this.signs[index]![1]!;
+          this.motion.animate(equal, [{scale: '.9'}, {scale: '1.28'}, {scale: '1'}], {duration: 250, easing: 'ease-out'});
+        });
+      }
+    }
   }
   private part(tag:string,className:string,x:number,y:number):HTMLElement{const e=document.createElement(tag);e.className='part '+className;e.style.setProperty('--x',String(x));e.style.setProperty('--y',String(y));return e;}
   private build():void{
@@ -73,19 +90,41 @@ export class BoardView {
       const active=this.selected?.kind==='cell'&&Number(this.selected.id)===cell.id;e.classList.toggle('selected',active);e.setAttribute('aria-pressed',String(active));
     }
     this.renderTray();
-    const wrong=conceal?-1:states.indexOf('invalid');this.note.classList.toggle('problem',wrong>=0);
-    this.note.textContent=this.explanation|| (a.status==='won'?this.t("Все равенства сходятся.","All equations are correct."):wrong>=0?this.t("Проверьте: ","Check: ")+equationText(p,a,wrong).replace(' = ',' ≠ ')+'.':this.selected?.kind==='cell'?this.t("Связи клетки: ","Linked equations: ")+p.equations.map((eq,i)=>eq.cells.includes(Number(this.selected!.id))?equationText(p,a,i):'').filter(Boolean).join(this.t(" и "," and "))+'.':this.selected?.kind==='token'?this.t(`Выбрано ${tokenValue(p,this.selected.id)}. Коснитесь клетки.`,`Selected ${tokenValue(p,this.selected.id)}. Tap a cell.`):a.boardRevision===0&&p.campaignPosition===1?this.t("Выберите число и коснитесь пустой клетки.","Pick a number, then tap an empty cell."):this.t("Число на пересечении участвует в обеих связях.","A shared number belongs to both equations."));
-    document.querySelector('#filled')!.textContent=`${Object.keys(a.placements).length} / ${p.tray.length}`;
-    if(conceal&&!this.explanation&&!this.selected)this.note.textContent=a.status==='out-of-lives'?this.t("Жизни закончились. Начните новый забег или сохраните итог.","Out of lives. Start a new run or save your result."):a.lastRejectedSignature?this.t("Предыдущая отправка не прошла проверку. Измените числа и проверьте снова.","The last submission was incorrect. Change the layout and check again."):this.t("Заполните поле и нажмите «Проверить». До отправки оценка скрыта.","Fill the board and select Check to submit it.");
-    document.querySelector('#stock')!.textContent=this.t(`Осталось ${p.tray.length-Object.keys(a.placements).length}`,`Left: ${p.tray.length-Object.keys(a.placements).length}`);
-    (document.querySelector('#return') as HTMLButtonElement).disabled=this.disabled()||a.status!=='playing'||this.selected?.kind!=='cell'||a.placements[this.selected.id]===undefined;
-    if(p.campaignPosition===1&&a.boardRevision===0&&!this.tutorialShown&&!this.tutorialTimer&&!this.disabled())this.tutorialTimer=setTimeout(()=>this.demonstrateFirstMove(),6000);
+    const wrong = conceal ? -1 : states.indexOf('invalid');
+    const firstMove = p.campaignPosition === 1 && a.boardRevision === 0 && a.status === 'playing';
+    const showGuide = firstMove && !this.tutorialShown;
+    this.board.classList.toggle('first-move', showGuide);
+    this.tray.classList.toggle('first-move', showGuide);
+    this.note.classList.toggle('problem', wrong >= 0 && !this.explanation);
+    this.note.textContent = this.explanation
+      || (wrong >= 0 ? equationText(p, a, wrong).replace(' = ', ' ≠ ')
+        : this.selected?.kind === 'cell' ? p.equations.map((eq, i) => eq.cells.includes(Number(this.selected!.id)) ? equationText(p, a, i) : '').filter(Boolean).join(' · ')
+        : this.selected?.kind === 'token' ? this.t('Коснитесь клетки', 'Tap a cell')
+        : firstMove ? this.t('Поставьте число в пустую клетку', 'Put the number in the empty cell')
+        : '');
+    if (conceal && !this.explanation && !this.selected && a.lastRejectedSignature && a.status === 'playing') {
+      this.note.textContent = this.t('Измените числа и проверьте снова', 'Change the numbers and check again');
+    }
+    (document.querySelector('#return') as HTMLButtonElement).disabled =
+      this.disabled() || a.status !== 'playing' || this.selected?.kind !== 'cell' || a.placements[this.selected.id] === undefined;
+    if (showGuide && !this.tutorialTimer && !this.disabled() && !this.reduced()) this.tutorialTimer = setTimeout(() => this.demonstrateFirstMove(), 6000);
   }
-  private dismissTutorial():void{this.tutorialShown=true;this.stopTutorial();}
-  private stopTutorial():void{if(this.tutorialTimer)clearTimeout(this.tutorialTimer);this.tutorialTimer=null;for(const node of document.querySelectorAll('.tutorial-ghost')){this.motion.cancel(node);node.remove();}}
+  private dismissTutorial():void {
+    this.tutorialShown = true;
+    this.board.classList.remove('first-move');
+    this.tray.classList.remove('first-move');
+    this.stopTutorial();
+  }
+  private stopTutorial():void {
+    if (this.tutorialTimer) clearTimeout(this.tutorialTimer);
+    this.tutorialTimer = null;
+    for (const node of document.querySelectorAll('.tutorial-ghost')) {
+      this.motion.cancel(node);
+      node.remove();
+    }
+  }
   private demonstrateFirstMove():void{
-    this.tutorialTimer=null;if(this.disabled()||this.gesture||this.attempt.boardRevision!==0)return;this.tutorialShown=true;
-    if(this.reduced())return;
+    this.tutorialTimer=null;if(this.disabled()||this.gesture||this.attempt.boardRevision!==0||this.reduced())return;this.tutorialShown=true;
     const token=this.tray.querySelector<HTMLElement>('[data-token]'),target=this.cells.get(2);if(!token||!target)return;
     const from=token.getBoundingClientRect(),to=target.getBoundingClientRect(),ghost=token.cloneNode(true) as HTMLElement;
     ghost.removeAttribute('data-token');ghost.removeAttribute('aria-pressed');ghost.className='token tutorial-ghost';ghost.setAttribute('aria-hidden','true');ghost.setAttribute('tabindex','-1');
@@ -113,18 +152,19 @@ export class BoardView {
     if(this.selected?.kind==='cell'&&this.attempt.placements[this.selected.id]!==undefined&&source.kind==='cell'){this.transfer(this.selected,source,metadata);return;}
     this.selected=source;this.explanation='';this.supportIndices=[];this.feedback.cue('pick');this.render();
   }
-  private down=(e:PointerEvent):void=>{const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;
+  private down=(e:PointerEvent):void=>{if(e.isPrimary)this.consumedPointerClick=false;const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;
     this.dismissTutorial();
-    this.gesture={pointer:e.pointerId,source,x:e.clientX,y:e.clientY,drag:false,revision:this.attempt.boardRevision,commandId:crypto.randomUUID()};document.body.setPointerCapture(e.pointerId);
+    const piece=(e.target as Element).closest<HTMLElement>('[data-cell],[data-token]')!;
+    this.gesture={pointer:e.pointerId,source,piece,x:e.clientX,y:e.clientY,drag:false,revision:this.attempt.boardRevision,commandId:crypto.randomUUID()};document.body.setPointerCapture(e.pointerId);
   };
   private move=(e:PointerEvent):void=>{const g=this.gesture;if(!g||g.pointer!==e.pointerId||this.disabled())return;
     if(!g.drag&&Math.hypot(e.clientX-g.x,e.clientY-g.y)<8)return;
     if(g.source.kind==='cell'&&this.attempt.placements[g.source.id]===undefined)return;
-    if(!g.drag){g.drag=true;this.ghost.textContent=String(g.source.kind==='token'?tokenValue(this.puzzle,g.source.id):cellValue(this.puzzle,this.attempt,Number(g.source.id)));this.ghost.hidden=false;this.feedback.cue('pick');}
+    if(!g.drag){g.drag=true;g.piece.classList.add('lifted');this.ghost.textContent=String(g.source.kind==='token'?tokenValue(this.puzzle,g.source.id):cellValue(this.puzzle,this.attempt,Number(g.source.id)));this.ghost.hidden=false;this.feedback.cue('pick');}
     this.ghost.style.left=e.clientX+'px';this.ghost.style.top=e.clientY+'px';this.clearHover();const target=this.drop(e.clientX,e.clientY);
     if(target?.kind==='cell')this.cells.get(Number(target.id))?.classList.add('hover');else if(target?.kind==='return'&&g.source.kind==='cell')this.tray.parentElement!.classList.add('hover');
   };
-  private up=(e:PointerEvent):void=>{const g=this.gesture;if(!g||g.pointer!==e.pointerId)return;const drop=this.drop(e.clientX,e.clientY),under=this.source(document.elementFromPoint(e.clientX,e.clientY));
+  private up=(e:PointerEvent):void=>{const g=this.gesture;if(!g||g.pointer!==e.pointerId)return;this.consumedPointerClick=true;const drop=this.drop(e.clientX,e.clientY),under=this.source(document.elementFromPoint(e.clientX,e.clientY));
     if(g.drag&&(!drop||drop.kind==='return'&&g.source.kind==='token'))this.returnGhost(g);
     this.cancel();if(this.disabled())return;const metadata={commandId:g.commandId,expectedRevision:g.revision};
     if(g.drag){if(drop)this.transfer(g.source,drop,metadata);}else if(under?.kind===g.source.kind&&under.id===g.source.id)this.tap(g.source,metadata);
@@ -135,13 +175,33 @@ export class BoardView {
     animation?.addEventListener('cancel',()=>copy.remove(),{once:true});
   }
   private clearHover():void{for(const el of document.querySelectorAll('.hover'))el.classList.remove('hover');}
-  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.clearHover();};
+  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.clearHover();};
+  suspend():void {this.cancel();this.motion.cancelAll();}
   private pointerCancel=(e:PointerEvent):void=>{if(this.gesture?.pointer===e.pointerId)this.cancel();};
   private scroll=():void=>{if(this.gesture)this.cancel();};
-  private keyboard=(e:MouseEvent):void=>{if(e.detail!==0||this.disabled())return;const source=this.source(e.target as Element);if(source){this.dismissTutorial();this.tap(source,{commandId:crypto.randomUUID(),expectedRevision:this.attempt.boardRevision});}};
+  private click = (e: MouseEvent): void => {
+    if (e.detail !== 0) {
+      // A completed touch can reveal a result under the same coordinates before the browser dispatches click.
+      if (this.consumedPointerClick) {
+        this.consumedPointerClick = false;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+      return;
+    }
+    if (this.disabled()) return;
+    const source = this.source(e.target as Element);
+    if (!source) return;
+    this.dismissTutorial();
+    this.tap(source, {commandId: crypto.randomUUID(), expectedRevision: this.attempt.boardRevision});
+  };
   resize=():void=>{this.cancel();this.motion.cancelAll();if(!this.puzzle)return;const p=this.puzzle,pad=this.board.closest<HTMLElement>('.boardpad')!,scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
-    const hit=48*Math.max(1,scale),maxWidth=pad.clientWidth-4,step=Math.max(hit/2,Math.min(46*scale,(maxWidth-hit)/Math.max(1,p.width-1),p.height>5?30*scale:innerHeight<650?31*scale:46*scale));
+    const roomy = p.width <= 5 && p.height <= 5 && innerHeight >= 650;
+    const hit = (roomy ? 56 : 48) * Math.max(1, scale);
+    const widthStep = (pad.clientWidth - 4 - hit) / Math.max(1, p.width - 1);
+    const heightStep = p.height > 5 ? 30 : innerHeight < 650 ? 36 : roomy ? 56 : 46;
+    const step = Math.max(hit / 2, Math.min(widthStep, heightStep * scale));
     for(const [key,value] of Object.entries({step,item:Math.min(hit-2,step*1.13),hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));
   };
-  dispose():void{this.cancel();this.motion.cancelAll();document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.keyboard);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
+  dispose():void{this.cancel();this.motion.cancelAll();document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
 }

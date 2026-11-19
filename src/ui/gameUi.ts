@@ -14,10 +14,6 @@ import type { BoardAction } from '../core/types';
 import type { HintPlan } from '../help/logic';
 import type { Settings } from '../app/model';
 const $=<T extends HTMLElement=HTMLElement>(id:string):T=>document.getElementById(id) as T;
-const titles=['Первый ход','Выбираем число','Общая клетка','Обратный ход','Две связи','Знакомая цепочка','Две пятёрки','Умножение','Точное деление','Пересечение','Считаем фишки','Два равенства','Связываем приёмы','Передышка','Теперь самостоятельно'];
-
-const englishTitles = ['First move', 'Pick a number', 'Shared cell', 'Work backwards', 'Two connections', 'A familiar chain', 'Two fives', 'Multiplication', 'Exact division', 'At the intersection', 'Count your pieces', 'Two equations', 'Put it together', 'A breather', 'On your own'];
-
 export class GameUi {
   private disposed=false;
   private readonly ads:AdsController|undefined;
@@ -38,7 +34,7 @@ export class GameUi {
     this.board=new BoardView($('board'),$('tray'),$('note'),this.feedback,()=>this.busy||session.writing||this.blocked||this.saveFailed||!this.ready,()=>this.reduced(),(action,metadata)=>this.command(action,metadata),()=>this.language);
     this.meta=new MetaView($('hub'),{navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time)),free:band=>this.openFree(band),daily:day=>this.open((_,time)=>session.openDaily(day,time)),endless:()=>this.open((_,time)=>session.openEndless(time)),offer:offer=>this.openOffer(offer),quest:index=>{const offer=session.questOffer(index);if(offer)this.openOffer(offer,true);},blocking:value=>this.blocker('modal',value)});
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});for(const id of ['end-run','finish-run'])$(id).onclick=()=>this.run(async time=>({committed:await session.endRun(time)}),()=>this.leaveModal());
-    $('home').onclick=()=>this.navigate('home');$('home-from-pause').onclick=()=>this.navigate('home');
+    for(const id of ['home','home-from-pause','result-home'])$(id).onclick=()=>this.navigate('home');
     $('rank').onclick=()=>{if(!this.busy&&!this.saveFailed)this.meta.openRank(session.state);};
     for(const id of ['retry-daily','result-replay'])$(id).onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{this.board.clearSelection();window.scrollTo(0,0);});
     $('undo').onclick=()=>this.command({type:'Undo'});$('sort').onclick=()=>this.command({type:'SortTray'});$('return').onclick=()=>this.board.returnSelected();
@@ -51,7 +47,7 @@ export class GameUi {
       await session.waitForWrite();
       if(this.disposed)return {committed:false};
       return {committed:await session.next()};
-    },()=>{this.board.clearSelection();window.scrollTo(0,0);});
+    },()=>{this.board.clearSelection();window.scrollTo(0,0);requestAnimationFrame(()=>$('level').focus({preventScroll:true}));});
     $('restart').onclick=()=>{$('restart-confirm').hidden=false;};$('restart-no').onclick=()=>{$('restart-confirm').hidden=true;};
     $('restart-yes').onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{$<HTMLDialogElement>('pause-dialog').close();this.blocker('user',false);$('restart-confirm').hidden=true;window.scrollTo(0,0);});
     $<HTMLDialogElement>('pause-dialog').addEventListener('cancel',e=>{e.preventDefault();this.resume();});$<HTMLDialogElement>('help-dialog').addEventListener('cancel',e=>{e.preventDefault();this.closeHelp();});
@@ -82,7 +78,7 @@ export class GameUi {
   }
   private tick():void{const now=performance.now();if(this.wasActive)this.elapsed+=(now-this.lastTime)/1000;this.lastTime=now;this.wasActive=this.ready&&!this.blocked&&!this.saveFailed&&this.session.state.meta.screen==='play'&&!this.session.state.attempt.userPaused&&this.session.state.attempt.status==='playing';}
   setReady():void{this.ready=true;this.ads?.start();this.syncNavigation();this.tick();this.render();if(this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused){this.blocker('user',true);$<HTMLDialogElement>('pause-dialog').showModal();}}
-  activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.cancel();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
+  activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.suspend();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
   private checkpoint():void{if(this.busy||!this.ready||this.saveFailed||this.elapsed<=0||this.session.state.attempt.status!=='playing')return;this.run(async time=>({committed:await this.session.checkpoint(time)}));}
   private run(operation:(elapsed:number)=>Promise<{committed:boolean}>,after:()=>void=()=>{}):void{
     if(this.busy||this.session.writing)return;this.tick();const time=this.elapsed;this.busy=true;this.render();this.retryAction=()=>this.run(operation,after);
@@ -159,20 +155,66 @@ export class GameUi {
     document.body.classList.toggle('endless-play',s.meta.screen==='play'&&a.mode==='endless'&&a.status==='playing');
     document.body.classList.toggle('dark',settings.theme==='dark');document.body.classList.toggle('calm',this.reduced());
     $('wallet').textContent=`◈ ${quantity(this.language, s.profile.coins, 'coin')}`;$('rank').textContent=this.t(`Ранг ${s.profile.rank}`, `Rank ${s.profile.rank}`);const threshold=rankThreshold(s.profile.rank),xp=$('xp');xp.style.setProperty('--xp',`${100*s.profile.xp/threshold}%`);xp.setAttribute('aria-valuemin','0');xp.setAttribute('aria-valuemax',String(threshold));xp.setAttribute('aria-valuenow',String(s.profile.xp));xp.setAttribute('aria-valuetext',this.t(`${s.profile.xp} из ${threshold} опыта`, `${s.profile.xp} of ${threshold} XP`));
-    $('play-screen').hidden=s.meta.screen!=='play';this.meta.render(s,this.busy||this.session.writing||this.saveFailed);$('pause').textContent=s.meta.screen==='play'?this.t("Ⅱ Пауза", "Ⅱ Pause"):this.t("Настройки", "Settings");
-    const band=p.difficulty==='easy'?this.t("ЛЕГКО", "EASY"):p.difficulty==='standard'?this.t("ОБЫЧНО", "NORMAL"):p.difficulty==='hard'?this.t("СЛОЖНО", "HARD"):this.t("ЭКСПЕРТ", "EXPERT");
-    $('level').textContent=a.mode==='daily'?`DAILY · ${a.dayKey}`:a.mode==='free'?this.t(`СВОБОДНО · ${band}${s.profile.solvedIds.includes(p.puzzleId)?' · ПОВТОР':''}`, `FREE PLAY · ${band}${s.profile.solvedIds.includes(p.puzzleId)?' · REPLAY':''}`):this.t(`ПОЛЕ ${p.campaignPosition} · ${band}`, `BOARD ${p.campaignPosition} · ${band}`);
-    if(a.mode==='endless')$('level').textContent=this.t(`ENDLESS · ЭТАП ${(a.stageId??0)+1} · ${band}`, `ENDLESS · STAGE ${(a.stageId??0)+1} · ${band}`);
-    $('title').textContent=a.mode==='daily'?this.t("Задача дня", "Daily challenge"):a.mode==='free'?this.t("Найдите все связи", "Complete the equations"):(this.language==='en'?englishTitles:titles)[p.campaignPosition-1]??this.t("Найдите все связи", "Complete the equations");this.board.update(p,a);
-    $('lives').hidden=a.mode!=='daily'&&a.mode!=='endless';$('lives').textContent=this.t(`Жизни: ${a.lives} / 3`, `Lives: ${a.lives} / 3`);
-    const run=s.career.run;$('run-status').hidden=a.mode!=='endless';$('run-status').textContent=run?`${this.t('Очки','Score')}: ${run.score} · ${this.t('Поля','Boards')}: ${run.solvedStages} · ${run.assisted?this.t("С помощью", "Assisted"):this.t("Самостоятельно", "Solo")}`:'';
+    const playing = s.meta.screen === 'play';
+    document.body.classList.toggle('in-play', playing);
+    $('play-screen').hidden = !playing;
+    $('level').hidden = !playing;
+    this.meta.render(s, this.busy || this.session.writing || this.saveFailed);
+    const pauseLabel = playing ? this.t('Пауза', 'Pause') : this.t('Настройки', 'Settings');
+    $('pause-label').textContent = pauseLabel;
+    $('pause').setAttribute('aria-label', pauseLabel);
+    const band = p.difficulty === 'easy' ? this.t('Легко', 'Easy')
+      : p.difficulty === 'standard' ? this.t('Обычно', 'Normal')
+      : p.difficulty === 'hard' ? this.t('Сложно', 'Hard') : this.t('Эксперт', 'Expert');
+    const run = s.career.run;
+    $('level').textContent = a.mode === 'daily' ? this.t('Задача дня', 'Daily challenge')
+      : a.mode === 'free' ? this.t('Свободная игра', 'Free Play')
+      : a.mode === 'endless' ? this.t(`Этап ${(a.stageId ?? 0) + 1}`, `Stage ${(a.stageId ?? 0) + 1}`)
+      : this.t(`Поле ${p.campaignPosition}`, `Board ${p.campaignPosition}`);
+    $('level').setAttribute('aria-description', a.mode === 'daily' ? a.dayKey ?? '' : band);
+    const context = $('play-context');
+    context.hidden = a.mode !== 'daily' && a.mode !== 'free';
+    context.textContent = a.mode === 'daily' ? a.dayKey ?? '' : band;
+    this.board.update(p, a);
+    $('lives').hidden = a.mode !== 'daily' && a.mode !== 'endless';
+    $('lives').textContent = this.t(`Жизни ${a.lives}/3`, `Lives ${a.lives}/3`);
+    $('run-status').hidden = a.mode !== 'endless';
+    $('run-status').textContent = run ? `${this.t('Очки', 'Score')} ${run.score} · ${run.assisted ? this.t('С помощью', 'Assisted') : this.t('Самостоятельно', 'Solo')}` : '';
     $('submit').hidden=a.mode!=='endless'||a.status!=='playing';$<HTMLButtonElement>('submit').disabled=this.busy||this.blocked||this.saveFailed||Object.keys(a.placements).length!==p.tray.length||run?.status!=='active';
     $('defeat').hidden=a.status!=='out-of-lives';$('defeat-detail').textContent=this.session.canRestart()?this.t("Можно бесплатно начать эту дату заново.", "Retry this date for free."):this.t("Эта дата вышла из архива. Выберите другую дату в календаре.", "This date is outside the archive. Choose another date in the calendar.");$<HTMLButtonElement>('retry-daily').disabled=this.busy||this.saveFailed||!this.session.canRestart();
     if(a.mode==='endless')$('defeat-detail').textContent=this.t(`В забеге ${run?.score??0} очков. Сохраните итог или начните новый забег бесплатно.`, `Run score: ${run?.score??0}. Save your result or start a new run for free.`);$('retry-daily').textContent=a.mode==='endless'?this.t("Новый забег · бесплатно", "New run · free"):this.t("Ещё попытка · бесплатно", "Retry · free");$('finish-run').hidden=a.mode!=='endless';$<HTMLButtonElement>('finish-run').disabled=this.busy||this.saveFailed;
     const unavailable=this.busy||this.session.writing||this.blocked||this.saveFailed||a.status!=='playing';for(const id of ['help','sort'])$<HTMLButtonElement>(id).disabled=unavailable;$<HTMLButtonElement>('undo').disabled=unavailable||!a.history.length;
-    $('result').hidden=!s.result;
-    if(s.result){const r=s.result;$('result-title').textContent=a.mode==='campaign'&&s.profile.campaignCursor===routes.campaignSequence.length?this.t("Маршрут пройден", "Campaign complete"):this.t("Поле решено", "Board solved");$('result-rewards').textContent=r.coins||r.xp?`+${quantity(this.language,r.coins,'coin')} · +${r.xp} XP`:this.t("Это поле уже решено. Первая награда сохранена.", "You've already collected the first-clear reward for this board.");$('next').textContent=a.mode==='daily'?this.t("В календарь →", "Back to calendar →"):this.t("Следующее поле →", "Next board →");$<HTMLButtonElement>('next').disabled=this.busy||this.saveFailed||a.mode==='campaign'&&s.profile.campaignCursor===routes.campaignSequence.length;$<HTMLButtonElement>('result-replay').disabled=this.busy||this.saveFailed||!this.session.canRestart();this.meta.renderResult(s);}
-    $('result-replay').hidden=a.mode==='endless';if(s.result&&a.mode==='endless'){$('result-title').textContent=this.t("Этап пройден", "Stage cleared");$('result-rewards').textContent=`+${quantity(this.language,s.result.stageScore??0,'point')} · +${quantity(this.language,s.result.coins,'coin')} · +${s.result.xp} XP`;$('next').textContent=this.t("Следующий этап →", "Next stage →");$<HTMLButtonElement>('next').disabled=this.busy||this.saveFailed||run?.status!=='active';}
+    const result = $('result');
+    const showResult = playing && !!s.result && !this.saveFailed;
+    const arriving = result.hidden && showResult;
+    result.hidden = !showResult;
+    if (showResult && s.result) {
+      const reward = s.result;
+      const endless = a.mode === 'endless';
+      const finished = a.mode === 'campaign' && s.profile.campaignCursor === routes.campaignSequence.length;
+      const next = $<HTMLButtonElement>('next');
+      const resultHome = $<HTMLButtonElement>('result-home');
+      const replay = $<HTMLButtonElement>('result-replay');
+      $('result-title').textContent = finished ? this.t('Маршрут пройден', 'Campaign complete')
+        : endless ? this.t('Этап пройден', 'Stage cleared') : this.t('Поле решено', 'Board solved');
+      $('result-rewards').textContent = endless ? `+${quantity(this.language, reward.stageScore ?? 0, 'point')}`
+        : reward.coins ? `+${quantity(this.language, reward.coins, 'coin')}`
+        : reward.xp ? `+${reward.xp} XP`
+        : this.t('Решено повторно', 'Solved again');
+      next.textContent = a.mode === 'daily' ? this.t('В календарь', 'Back to calendar')
+        : endless ? this.t('Следующий этап', 'Next stage') : this.t('Следующее поле', 'Next board');
+      next.hidden = finished;
+      next.disabled = this.busy || (endless && run?.status !== 'active');
+      resultHome.hidden = !finished;
+      resultHome.disabled = this.busy;
+      replay.disabled = this.busy || !this.session.canRestart();
+      replay.hidden = endless;
+      this.meta.renderResult(s);
+      if (arriving) {
+        $<HTMLDetailsElement>('result-details').open = false;
+        if (this.ready && !this.blocked && !a.userPaused) $('result-title').focus({preventScroll: true});
+      }
+    }
     for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){const input=$<HTMLInputElement>(id);input.checked=key==='theme'?settings.theme==='dark':settings[key];input.disabled=this.busy;}
     for(const id of ['resume','restart','restart-yes','restart-no','explain','reveal','close-help'])$<HTMLButtonElement>(id).disabled=this.busy;
     $<HTMLButtonElement>('restart').disabled=this.busy||s.meta.screen!=='play'||!this.session.canRestart();for(const id of ['home','home-from-pause','pause'])$<HTMLButtonElement>(id).disabled=this.busy||this.saveFailed;
