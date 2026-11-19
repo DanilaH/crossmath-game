@@ -53,7 +53,17 @@ try{
  await tap('#calendar-back');await tap('#album-open');await noRussian('#hub');
  await page.locator('[data-card="abacus"]').tap();await noRussian('#card-dialog');
  assert.match(await page.locator('#card-body').innerText(),/Left beads/);await tap('#close-card');
- await tap('#album-back');await openModes();await tap('#profile-open');await noRussian('#hub');await page.screenshot({path:out+'/profile-en.png',fullPage:true});
+ await tap('#album-back');await openModes();await tap('#profile-open');await noRussian('#hub');
+ assert.equal(await page.locator('#profile-statistics').evaluate(node=>node.open),false);
+ assert.equal(await page.locator('#profile-badges').evaluate(node=>node.open),false);
+ assert.equal(await page.locator('.profile-record').count(),2);
+ await tap('#profile-statistics summary');
+ assert.equal(await page.locator('.stats-mode:visible').count(),4);
+ await tap('#profile-statistics summary');
+ await tap('#profile-badges summary');
+ assert.ok(await page.locator('.badge:visible').count()>0);
+ await tap('#profile-badges summary');
+ await page.screenshot({path:out+'/profile-en.png',fullPage:true});
  await tap('#profile-back');await openModes();await tap('#campaign-open');assert.equal(await page.locator('#play-time').isVisible(),true);
  await page.reload();await ready();assert.equal(await page.locator('html').getAttribute('lang'),'en');
  assert.equal(await page.locator('#play-time').isVisible(),true);await noRussian('#play-screen');

@@ -7,6 +7,7 @@ import { rankThreshold } from '../app/model';
 import { BoardView, equationText } from './board';
 import type { MoveFeedback } from './board';
 import { Feedback } from './feedback';
+import type { AwardTone } from './feedback';
 import type { GameSession, OpenOutcome } from '../app/session';
 import { MetaView } from './metaView';
 import type { MetaScreen, Offer } from '../meta/types';
@@ -26,6 +27,7 @@ export class GameUi {
   private replacement: Replacement | undefined;
   private renderedLanguage?: Language;
   private moveFeedback: MoveFeedback | undefined;
+  private freshRewardId: string | undefined;
   private get language(): Language { return this.session.state.settings.language; }
   private t(ru: string, en: string): string { return localize(this.language, ru, en); }
   readonly board:BoardView;
@@ -42,7 +44,7 @@ export class GameUi {
     this.meta=new MetaView($('hub'),{navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:offer=>this.openOffer(offer),quest:index=>{const offer=session.questOffer(index);if(offer)this.openOffer(offer,true);},blocking:value=>this.blocker('modal',value)});
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});for(const id of ['end-run','finish-run'])$(id).onclick=()=>this.run(async time=>({committed:await session.endRun(time)}),()=>this.leaveModal());
     for(const id of ['home','home-from-pause','result-home'])$(id).onclick=()=>this.navigate('home');
-    $('first-fragment').onclick = () => this.meta.openFirstFragment(session.state);
+    $('instrument-reward').onclick = () => this.meta.openInstrumentReward(session.state);
     $('rank').onclick=()=>{if(!this.busy&&!this.saveFailed)this.meta.openRank(session.state);};
     for(const id of ['retry-daily','result-replay'])$(id).onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{this.board.clearSelection();window.scrollTo(0,0);});
     $('undo').onclick=()=>this.command({type:'Undo'});$('sort').onclick=()=>this.command({type:'SortTray'});$('return').onclick=()=>this.board.returnSelected();
@@ -175,8 +177,22 @@ export class GameUi {
       const result = await this.session.command(action, time, identity);
       committedFeedback = result.outcome === 'applied' && result.cue !== 'none' ? {cue:result.cue, cell} : undefined;
       return {committed:result.outcome === 'applied'};
-    }, () => { this.moveFeedback = committedFeedback; });
+    }, () => {
+      if (committedFeedback?.cue === 'win') {
+        const award = this.markReward();
+        if (award) committedFeedback.award = award;
+      }
+      this.moveFeedback = committedFeedback;
+    });
   }
+
+  private markReward(): AwardTone | undefined {
+    const receipt = this.session.state.result;
+    if (!receipt?.fragments) return;
+    this.freshRewardId = receipt.id;
+    return receipt.cardCoins ? 'instrument' : 'part';
+  }
+
   private showPause(): void {
     const playing = this.session.state.meta.screen === 'play';
     $<HTMLDetailsElement>('settings-options').open = !playing;
@@ -251,7 +267,10 @@ export class GameUi {
   private applyHelp():void{const plan=this.plan;if(this.busy||!plan)return;let applied=false;
     this.run(async time=>{const revision=this.session.state.revision,result=await this.session.help(this.helpKind,this.helpOperation,this.helpRevision,plan,time);applied=result.outcome==='applied';
       if(!applied)$('help-description').textContent=result.outcome==='insufficient_resource'?this.t("Не хватает монет. Продолжать решать и начинать поле заново можно бесплатно.", "You need more coins for help. Keep playing or restart for free."):this.t("Поле изменилось или этот ход больше недоступен. Закройте помощь и попробуйте снова.", "The board changed or this move is no longer available. Close Help and try again.");return {committed:this.session.state.revision!==revision};
-    },()=>{if(!applied)return;$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(getPuzzle(this.session.state.attempt.puzzleId),this.session.state.attempt);
+    },()=>{if(!applied)return;
+      const won = this.session.state.attempt.status === 'won';
+      const award = won ? this.markReward() : undefined;
+      $<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(getPuzzle(this.session.state.attempt.puzzleId),this.session.state.attempt);
       const assignment=plan.assignments[0]!,p=getPuzzle(this.session.state.attempt.puzzleId);
       const candidateSets=assignment.evidence.map(e=>'{'+e.candidates.join(', ')+'}').join(this.t(" и ", " and "));
       const expression=equationText(p,this.session.state.attempt,assignment.evidence[0]?.equationIndex ?? 0);
@@ -261,7 +280,7 @@ export class GameUi {
         :plan.rule==='intersection'
           ?this.t(`Общая клетка: ${candidateSets}. В обоих наборах есть только ${value}.`,`Shared cell: ${candidateSets}. Only ${value} appears in both sets.`)
           :this.t(`${expression}. Подходящее число — ${value}.`,`${expression}. The missing number is ${value}.`);
-      this.board.explain(text,assignment.evidence.map(e=>e.equationIndex));this.feedback.cue(this.session.state.attempt.status==='won'?'win':this.session.state.attempt.mode==='endless'?'place':'right');
+      this.board.explain(text,assignment.evidence.map(e=>e.equationIndex));this.feedback.cue(won?'win':this.session.state.attempt.mode==='endless'?'place':'right',false,false,award);
     });
   }
   showRecoveryNotice():void {this.notice='recovered';this.render();}
@@ -332,7 +351,7 @@ export class GameUi {
     const showResult = playing && !!s.result && !this.saveFailed;
     const arriving = result.hidden && showResult;
     result.hidden = !showResult;
-    if (!showResult) this.meta.hideFirstFragment();
+    if (!showResult) this.meta.hideInstrumentReward();
     if (showResult && s.result) {
       const reward = s.result;
       const endless = a.mode === 'endless';
@@ -354,7 +373,9 @@ export class GameUi {
       resultHome.disabled = this.busy;
       replay.disabled = this.busy || !this.session.canRestart();
       replay.hidden = endless;
-      this.meta.renderResult(s, arriving && move?.cue === 'win' && !this.reduced(), this.busy || this.blocked);
+      const freshReward = this.freshRewardId === reward.id;
+      this.freshRewardId = undefined;
+      this.meta.renderResult(s, freshReward && !this.reduced(), this.busy || this.blocked);
       if (arriving) {
         $<HTMLDetailsElement>('result-details').open = false;
         if (this.ready && !this.blocked && !a.userPaused) $('result-title').focus({preventScroll: true});

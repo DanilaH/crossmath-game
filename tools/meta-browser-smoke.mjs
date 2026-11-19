@@ -41,7 +41,7 @@ try{
   if(win>1)await tap('#next');await solve();const s=await snapshot();
   if([3,4].includes(win))assert.equal(s.profile.fragments,win-2);
   if(win===3){
-   const frame=page.locator('#first-fragment');
+   const frame=page.locator('#instrument-reward');
    assert.equal(await frame.innerText(),'Рамка счётов · 1/4');
    assert.equal(await frame.locator('[data-part="1"]:visible').count(),1);
    assert.equal(await page.locator('#next').isEnabled(),true);
@@ -56,10 +56,10 @@ try{
    assert.equal(await page.locator('#card-body .unearned-part[data-part="2"]:visible').count(),1);
    assert.equal(await page.locator('#card-body .earned').count(),1);
    await tap('#close-card');
-   await page.waitForFunction(()=>document.activeElement?.id==='first-fragment');
+   await page.waitForFunction(()=>document.activeElement?.id==='instrument-reward');
    await page.reload();await ready();
    assert.equal(await frame.isVisible(),true);
-   assert.equal(await page.locator('#first-fragment.arrived').count(),0);
+   assert.equal(await page.locator('#instrument-reward.arrived').count(),0);
    const restored=await snapshot();
    assert.deepEqual(restored.result,s.result);
    assert.equal(restored.profile.fragments,1);
@@ -103,8 +103,19 @@ try{
  const goals=await page.locator('#daily-goals').boundingBox();
  assert.ok(ticket && goals && ticket.y+ticket.height<goals.y && ticket.y+ticket.height<=568);
  await page.setViewportSize({width:390,height:844});checks.push('actual UI Daily v2: +105 breakdown, three lives, dated completion, cold restore pays once');
- await tap('#calendar-back');await tap('#campaign-primary');await solve();await tap('#next');await solve();assert.equal((await snapshot()).profile.fragments,4);assert.equal((await snapshot()).result.cardCoins,20);assert.match(await page.locator('#result-detail').innerText(),/Прибор собран/);
- await tap('#home');await tap('#album-open');const first=page.locator('[data-card="abacus"]');assert.match(await first.innerText(),/4 \/ 4/);assert.equal(await first.locator('svg g[display="none"]').count(),0);await first.tap();await page.locator('#card-dialog[open]').waitFor();assert.equal(await page.locator('#card-body .earned').count(),4);await page.keyboard.press('Escape');await page.locator('#card-dialog').waitFor({state:'hidden'});checks.push('eighth distinct win: +20 card receipt, four visible abacus layers and accessible part list');
+ await tap('#calendar-back');await tap('#campaign-primary');await solve();await tap('#next');await solve();assert.equal((await snapshot()).profile.fragments,4);assert.equal((await snapshot()).result.cardCoins,20);assert.match(await page.locator('#instrument-reward').innerText(),/Счёты · собрано 4\/4/);
+ assert.equal(await page.locator('#instrument-reward[data-complete="true"] .fitted-now[data-part="4"]').count(),1);
+ await tap('#instrument-reward');await page.locator('#card-dialog[open]').waitFor();
+ assert.equal(await page.locator('#card-body .earned').count(),4);
+ await tap('#close-card');
+ await tap('#home');await tap('#album-open');
+ assert.match(await page.locator('#workbench').innerText(),/Счётные палочки/);
+ assert.equal(await page.locator('#workbench .unearned-part[data-part="1"]').count(),1);
+ assert.equal(await page.locator('[data-card="weights"][data-assembly="pending"] .unearned-part').count(),4);
+ await tap('#workbench');await page.locator('#card-dialog[open]').waitFor();
+ assert.equal(await page.locator('#card-title').innerText(),'Счётные палочки');
+ await tap('#close-card');await page.waitForFunction(()=>document.activeElement?.id==='workbench');
+ const first=page.locator('[data-card="abacus"]');assert.match(await first.innerText(),/4 \/ 4/);assert.equal(await first.locator('svg g[display="none"]').count(),0);await first.tap();await page.locator('#card-dialog[open]').waitFor();assert.equal(await page.locator('#card-body .earned').count(),4);await page.keyboard.press('Escape');await page.locator('#card-dialog').waitFor({state:'hidden'});checks.push('eighth distinct win: +20 card receipt, four visible abacus layers and accessible part list');
  for(const [width,height] of [[320,568],[360,640],[390,844],[800,1280]]){
   await page.setViewportSize({width,height});const data=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,minTarget:Math.min(...[...document.querySelectorAll('#hub button')].map(e=>e.getBoundingClientRect().height))}));assert.equal(data.overflow,false);assert.ok(data.minTarget>=48);geometry.push({screen:'album',viewport:[width,height],...data});await page.screenshot({path:out+`/album-${width}.png`,fullPage:true});
  }
@@ -173,6 +184,7 @@ try{
  await page.evaluate(save=>localStorage.setItem('crossmath.save.v1',JSON.stringify(save)),dense);await page.reload();await ready();
  for(const [width,height] of [[320,568],[390,844]]){
    await page.setViewportSize({width,height});
+   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
    const measures=await page.evaluate(()=>({pageWidth:document.documentElement.scrollWidth,boardWidth:document.querySelector('.board-scroll').scrollWidth,minTarget:Math.min(...[...document.querySelectorAll('button[data-cell]')].map(el=>el.getBoundingClientRect().width))}));
    assert.ok(measures.pageWidth<=width);assert.ok(measures.minTarget>=48);
    const tray=await page.locator('#tray').boundingBox();

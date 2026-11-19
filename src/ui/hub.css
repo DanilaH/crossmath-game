@@ -263,3 +263,91 @@ body.in-hub {
 .today-arrow { margin-inline-start: auto; color: var(--play-blue); }
 #daily-upcoming { padding-block: 2px; }
 #daily-upcoming .date-grid { padding-bottom: 10px; }
+
+.workbench {
+  display: grid;
+  grid-template-columns: minmax(86px, 44%) minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-color: #b99262;
+  background: linear-gradient(130deg, #88664c43, transparent 66%), var(--play-panel);
+}
+
+.workbench-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  color: var(--play-muted);
+  font-size: .82rem;
+  overflow-wrap: anywhere;
+}
+
+.workbench-copy > strong {
+  color: var(--play-ink);
+  font: 700 1.18rem/1.12 Georgia, serif;
+}
+
+.workbench-stage, .workbench-next { color: var(--play-blue); }
+
+.part-meter { display: flex; gap: 3px; margin-block: 2px; }
+.part-meter > i {
+  width: min(24px, 20%);
+  height: 5px;
+  border: 1px solid #a7b4c9;
+  border-radius: 1px;
+}
+
+.part-meter > .fitted { border-color: #f7cd89; background: #f7cd89; }
+
+.collection-card { justify-content: start; }
+.collection-card .part-meter { width: 100%; justify-content: center; }
+.collection-card[data-assembly="current"] { border-color: #ba8f62; }
+.collection-card[data-assembly="complete"] { border-color: #809686; }
+.collection-card[data-assembly="pending"] .unearned-part { opacity: .43; }
+
+/* Rank and XP are already shown by the profile heading. */
+.in-hub:has(#hub[data-screen="profile"]) .progress { display: none; }
+
+.profile-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 10px 0;
+  border: 1px solid var(--play-line);
+  border-radius: 11px;
+  background: var(--play-panel);
+}
+
+.profile-overview div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 3px;
+  padding-inline: 5px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.profile-overview div + div { border-inline-start: 1px solid var(--play-line); }
+.profile-overview dt { color: var(--play-muted); font-size: .76rem; }
+.profile-overview dd { margin: 0; color: var(--play-blue); font-weight: 800; }
+
+.profile-records { gap: 6px; padding: 10px 12px; }
+.profile-records h2 { font: inherit; font-weight: 750; }
+
+.profile-record {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  padding-top: 5px;
+  border-top: 1px solid var(--play-line);
+  color: var(--play-muted);
+  font-size: .86rem;
+}
+
+.profile-record strong { color: var(--play-ink); }
+.profile-details { padding: 1px 12px; }
+.profile-details[open] > :not(summary) { margin-bottom: 9px; }

@@ -4,13 +4,13 @@ import type { Language } from './locale';
 import { OwnedDomMotion } from '@danilah/mini-games-kit/feel';
 import { cellValue, evaluate, tokenValue } from '../core/types';
 import type { Attempt, BoardAction, Puzzle } from '../core/types';
-import type { Cue, Feedback } from './feedback';
+import type { Cue, Feedback, AwardTone } from './feedback';
 
 type Source={kind:'token'|'cell';id:string};
 type Target=Source|{kind:'return';id:string};
 interface Gesture{pointer:number;source:Source;piece:HTMLElement;x:number;y:number;drag:boolean;revision:number;commandId:string}
 interface Landing { cell: number; revision: number; from: DOMRect }
-export interface MoveFeedback { cue: Exclude<Cue, 'pick'>; cell: number | undefined }
+export interface MoveFeedback { cue: Exclude<Cue, 'pick'>; cell: number | undefined; award?: AwardTone }
 export const equationText=(p:Puzzle,a:Attempt,index:number):string=>{const eq=p.equations[index]!;const [left,right,result]=eq.cells.map(id=>cellValue(p,a,id)??'□');return `${left} ${operatorGlyph[eq.op]} ${right} = ${result}`;};
 export class BoardView {
   private puzzle!:Puzzle;private attempt!:Attempt;private selected:Source|null=null;private gesture:Gesture|null=null;
@@ -93,7 +93,7 @@ export class BoardView {
       if (this.disabled() || this.attempt.id !== attempt.id || this.attempt.boardRevision !== attempt.boardRevision) return;
       if (move) {
         const double = move.cell !== undefined && axes.filter(axis => axis.origin?.id === move.cell).length > 1;
-        this.feedback.cue(move.cue, move.cell !== undefined, double);
+        this.feedback.cue(move.cue, move.cell !== undefined, double, move.award);
       }
       if (this.reduced()) return;
       for (const {index, origin} of axes) {
