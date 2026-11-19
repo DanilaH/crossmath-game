@@ -213,7 +213,7 @@ html[data-host="browser"] body.in-play #shell {
   top: calc((var(--y) + 1) * var(--step) + var(--board-inset) - 2px);
   width: calc(var(--length) * var(--step) - 6px);
   height: 2px;
-  transform-origin: left;
+  transform-origin: calc((var(--origin, 0) + .5) * var(--step) - 3px) center;
 }
 
 .equation-line[data-axis="column"] {
@@ -221,7 +221,7 @@ html[data-host="browser"] body.in-play #shell {
   top: calc(var(--y) * var(--step) + var(--board-inset) + 3px);
   height: calc(var(--length) * var(--step) - 6px);
   width: 2px;
-  transform-origin: top;
+  transform-origin: center calc((var(--origin, 0) + .5) * var(--step) - 3px);
 }
 
 .equation-line[data-state="invalid"] {
@@ -553,4 +553,72 @@ html[data-host="browser"] .win-dock {
 
 @media (max-height: 590px) {
   #play-screen { gap: 2px; }
+}
+
+.traybox:has(#first-fragment:not([hidden])) {
+  position: relative;
+}
+
+#first-fragment {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  visibility: visible;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: max-content;
+  max-width: 100%;
+  min-height: 48px;
+  padding: 3px 9px 3px 4px;
+  border: 1px solid #ba8b54;
+  border-radius: 8px;
+  background: var(--play-panel);
+  box-shadow: 0 3px 0 #142133;
+  color: var(--play-ink);
+  font-size: .79rem;
+  font-weight: 730;
+  text-align: left;
+}
+
+#first-fragment .instrument {
+  flex: 0 0 52px;
+  margin: 0;
+}
+
+#first-fragment::after {
+  content: '›';
+  color: #efc287;
+  font-size: 1.13rem;
+}
+
+#first-fragment.arrived .instrument {
+  animation: frame-arrival 290ms cubic-bezier(.2,.75,.29,1) backwards;
+}
+
+@keyframes frame-arrival {
+  0% { transform: translateY(-9px) scale(.94); opacity: 0; }
+  62% { transform: translateY(1px) scale(1.013); opacity: 1; }
+  100% { transform: none; opacity: 1; }
+}
+
+.instrument .unearned-part {
+  opacity: .65;
+  stroke-dasharray: 5 5;
+}
+
+.in-play #card-dialog .parts-list { color: var(--play-muted); }
+.in-play #card-dialog .parts-list .earned { color: var(--play-good); }
+
+.next-part {
+  margin: 10px 0 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.calm #first-fragment .instrument { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  #first-fragment .instrument { animation: none; }
 }

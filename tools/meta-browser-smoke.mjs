@@ -41,12 +41,33 @@ try{
   if(win>1)await tap('#next');await solve();const s=await snapshot();
   if([3,4].includes(win))assert.equal(s.profile.fragments,win-2);
   if(win===3){
-   assert.equal(await page.locator('#result-detail').innerText(),'Рамка счётов · 1/4');
-   assert.equal(await page.locator('#reward-art [data-part="1"]:visible').count(),1);
+   const frame=page.locator('#first-fragment');
+   assert.equal(await frame.innerText(),'Рамка счётов · 1/4');
+   assert.equal(await frame.locator('[data-part="1"]:visible').count(),1);
+   assert.equal(await page.locator('#next').isEnabled(),true);
+   for (const [width,height] of [[320,568],[390,844]]) {
+    await page.setViewportSize({width,height});
+    const box=await frame.boundingBox();
+    assert.ok(box && box.height>=48 && box.y>=0 && box.y+box.height<=height);
+   }
+   await frame.tap();
+   await page.locator('#card-dialog[open]').waitFor();
+   assert.equal(await page.locator('#card-title').innerText(),'Счёты');
+   assert.equal(await page.locator('#card-body .unearned-part[data-part="2"]:visible').count(),1);
+   assert.equal(await page.locator('#card-body .earned').count(),1);
+   await tap('#close-card');
+   await page.waitForFunction(()=>document.activeElement?.id==='first-fragment');
+   await page.reload();await ready();
+   assert.equal(await frame.isVisible(),true);
+   assert.equal(await page.locator('#first-fragment.arrived').count(),0);
+   const restored=await snapshot();
+   assert.deepEqual(restored.result,s.result);
+   assert.equal(restored.profile.fragments,1);
+   assert.equal(restored.profile.coins,s.profile.coins);
    await tap('#result-details summary');
    assert.match(await page.locator('#reward-breakdown').innerText(),/Открыта свободная игра/);
    await tap('#result-details summary');
-   checks.push('first abacus frame leads the reward, with Free Play unlock in the expandable breakdown');
+   checks.push('frame in tray, direct abacus inspection, same result on close and cold reload; no duplicate grant');
    await tap('#home');await openModes();assert.equal(await page.locator('#free-open').isEnabled(),true);await tap('#free-open');const free=await snapshot();assert.equal(free.attempt.mode,'free');assert.equal(free.meta.inactive.campaign.attempt.status,'won');await tap('#home');await page.reload();await ready();await tap('#continue-game');assert.equal((await snapshot()).attempt.id,free.attempt.id);await tap('#home');await openModes();await tap('#campaign-open');assert.equal((await snapshot()).attempt.mode,'campaign');await solve();win=4;assert.equal((await snapshot()).profile.fragments,2);}
  }
  const fifth=await snapshot();assert.equal(fifth.meta.quests.slots.every(s=>s.progress===0&&!s.paid),true);checks.push('fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore');

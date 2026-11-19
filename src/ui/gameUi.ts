@@ -5,6 +5,7 @@ import type { Language } from './locale';
 import { config, getPuzzle, routes } from '../content/catalog';
 import { rankThreshold } from '../app/model';
 import { BoardView, equationText } from './board';
+import type { MoveFeedback } from './board';
 import { Feedback } from './feedback';
 import type { GameSession, OpenOutcome } from '../app/session';
 import { MetaView } from './metaView';
@@ -24,6 +25,7 @@ export class GameUi {
   private notice:'recovered'|'unavailable'|undefined;
   private replacement: Replacement | undefined;
   private renderedLanguage?: Language;
+  private moveFeedback: MoveFeedback | undefined;
   private get language(): Language { return this.session.state.settings.language; }
   private t(ru: string, en: string): string { return localize(this.language, ru, en); }
   readonly board:BoardView;
@@ -40,6 +42,7 @@ export class GameUi {
     this.meta=new MetaView($('hub'),{navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:offer=>this.openOffer(offer),quest:index=>{const offer=session.questOffer(index);if(offer)this.openOffer(offer,true);},blocking:value=>this.blocker('modal',value)});
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});for(const id of ['end-run','finish-run'])$(id).onclick=()=>this.run(async time=>({committed:await session.endRun(time)}),()=>this.leaveModal());
     for(const id of ['home','home-from-pause','result-home'])$(id).onclick=()=>this.navigate('home');
+    $('first-fragment').onclick = () => this.meta.openFirstFragment(session.state);
     $('rank').onclick=()=>{if(!this.busy&&!this.saveFailed)this.meta.openRank(session.state);};
     for(const id of ['retry-daily','result-replay'])$(id).onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{this.board.clearSelection();window.scrollTo(0,0);});
     $('undo').onclick=()=>this.command({type:'Undo'});$('sort').onclick=()=>this.command({type:'SortTray'});$('return').onclick=()=>this.board.returnSelected();
@@ -165,9 +168,14 @@ export class GameUi {
   }
   private command(action:BoardAction,metadata?:{commandId:string;expectedRevision:number}):void{
     if(this.blocked||this.busy||this.session.writing||this.saveFailed)return;this.board.cancel();this.board.clearSelection();
-    const identity=metadata??{commandId:crypto.randomUUID(),expectedRevision:this.session.state.attempt.boardRevision};let cue:'place'|'right'|'wrong'|'win'|'none'='none';
-    const seated = action.type === 'PlaceFromTray' || action.type === 'MoveCell';
-    this.run(async time=>{const result=await this.session.command(action,time,identity);cue=result.cue;return {committed:result.outcome==='applied'};},()=>{if(cue!=='none')this.feedback.cue(cue, seated);});
+    const identity = metadata ?? {commandId:crypto.randomUUID(), expectedRevision:this.session.state.attempt.boardRevision};
+    const cell = action.type === 'PlaceFromTray' ? action.cellId : action.type === 'MoveCell' ? action.to : undefined;
+    let committedFeedback: MoveFeedback | undefined;
+    this.run(async time => {
+      const result = await this.session.command(action, time, identity);
+      committedFeedback = result.outcome === 'applied' && result.cue !== 'none' ? {cue:result.cue, cell} : undefined;
+      return {committed:result.outcome === 'applied'};
+    }, () => { this.moveFeedback = committedFeedback; });
   }
   private openPause():void{if(this.busy||this.session.writing||this.saveFailed||$<HTMLDialogElement>('pause-dialog').open)return;this.board.cancel();this.tick();this.blocker('user',true);$<HTMLDialogElement>('pause-dialog').showModal();this.run(async time=>{await this.session.update({},true,time);return {committed:true};});}
   private resume():void{if(this.busy)return;this.run(async time=>{await this.session.update({},false,time);return {committed:true};},()=>{$<HTMLDialogElement>('pause-dialog').close();this.blocker('user',false);$('restart-confirm').hidden=true;});}
@@ -251,7 +259,9 @@ export class GameUi {
     const context = $('play-context');
     context.hidden = a.mode !== 'daily' && a.mode !== 'free';
     context.textContent = a.mode === 'daily' ? a.dayKey ?? '' : band;
-    this.board.update(p, a);
+    const move = this.moveFeedback;
+    this.moveFeedback = undefined;
+    this.board.update(p, a, move);
     $('lives').hidden = a.mode !== 'daily' && a.mode !== 'endless';
     $('lives').textContent = this.t(`Жизни ${a.lives}/3`, `Lives ${a.lives}/3`);
     $('run-status').hidden = a.mode !== 'endless';
@@ -264,6 +274,7 @@ export class GameUi {
     const showResult = playing && !!s.result && !this.saveFailed;
     const arriving = result.hidden && showResult;
     result.hidden = !showResult;
+    if (!showResult) this.meta.hideFirstFragment();
     if (showResult && s.result) {
       const reward = s.result;
       const endless = a.mode === 'endless';
@@ -285,7 +296,7 @@ export class GameUi {
       resultHome.disabled = this.busy;
       replay.disabled = this.busy || !this.session.canRestart();
       replay.hidden = endless;
-      this.meta.renderResult(s);
+      this.meta.renderResult(s, arriving && move?.cue === 'win' && !this.reduced(), this.busy || this.blocked);
       if (arriving) {
         $<HTMLDetailsElement>('result-details').open = false;
         if (this.ready && !this.blocked && !a.userPaused) $('result-title').focus({preventScroll: true});

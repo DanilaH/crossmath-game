@@ -4,12 +4,13 @@ import type { Language } from './locale';
 import { OwnedDomMotion } from '@danilah/mini-games-kit/feel';
 import { cellValue, evaluate, tokenValue } from '../core/types';
 import type { Attempt, BoardAction, Puzzle } from '../core/types';
-import type { Feedback } from './feedback';
+import type { Cue, Feedback } from './feedback';
 
 type Source={kind:'token'|'cell';id:string};
 type Target=Source|{kind:'return';id:string};
 interface Gesture{pointer:number;source:Source;piece:HTMLElement;x:number;y:number;drag:boolean;revision:number;commandId:string}
 interface Landing { cell: number; revision: number; from: DOMRect }
+export interface MoveFeedback { cue: Exclude<Cue, 'pick'>; cell: number | undefined }
 export const equationText=(p:Puzzle,a:Attempt,index:number):string=>{const eq=p.equations[index]!;const [left,right,result]=eq.cells.map(id=>cellValue(p,a,id)??'□');return `${left} ${operatorGlyph[eq.op]} ${right} = ${result}`;};
 export class BoardView {
   private puzzle!:Puzzle;private attempt!:Attempt;private selected:Source|null=null;private gesture:Gesture|null=null;
@@ -30,47 +31,93 @@ export class BoardView {
     window.addEventListener('resize',this.resize);window.addEventListener('blur',this.cancel);document.addEventListener('scroll',this.scroll,true);
   }
   private t(ru:string,en:string):string {return localize(this.language(),ru,en);}
-  update(puzzle:Puzzle,attempt:Attempt):void{
-    const changed=this.puzzle?.puzzleId!==puzzle.puzzleId||this.attempt?.id!==attempt.id;
+  update(puzzle: Puzzle, attempt: Attempt, move?: MoveFeedback): void {
     const before = this.attempt;
-    this.puzzle=puzzle;this.attempt=attempt;
-    if(changed){this.landing=undefined;this.cancel();this.selected=null;this.explanation='';this.supportIndices=[];this.tutorialShown=false;this.freshErrors=[];this.preferredAxis=undefined;this.build();}
-    if (!changed && before.boardRevision !== attempt.boardRevision && attempt.mode !== 'endless') {
-      const previous = evaluate(puzzle, before);
-      this.freshErrors = evaluate(puzzle, attempt).flatMap((state, index) =>
+    const changed = this.puzzle?.puzzleId !== puzzle.puzzleId || before.id !== attempt.id;
+    this.puzzle = puzzle;
+    this.attempt = attempt;
+    if (changed) {
+      this.landing = undefined;
+      this.cancel();
+      this.selected = null;
+      this.explanation = '';
+      this.supportIndices = [];
+      this.tutorialShown = false;
+      this.freshErrors = [];
+      this.preferredAxis = undefined;
+      this.build();
+    }
+    const moved = !changed && before.boardRevision !== attempt.boardRevision;
+    const won = !changed && before.status !== 'won' && attempt.status === 'won';
+    const canScore = attempt.mode !== 'endless' || won;
+    const previous = (moved || won) && canScore ? evaluate(puzzle, before) : [];
+    const current = previous.length ? evaluate(puzzle, attempt) : [];
+    if (moved && attempt.mode !== 'endless') {
+      this.freshErrors = current.flatMap((state, index) =>
         state === 'invalid' && (previous[index] !== 'invalid' || expressionSignature(puzzle,before,index) !== expressionSignature(puzzle,attempt,index)) ? [index] : []);
     }
     this.render();
     const landing = this.landing;
-    if (!this.disabled()) this.landing = undefined;
-    const won = !changed && before.status !== 'won' && attempt.status === 'won';
-    if (changed || (before.boardRevision === attempt.boardRevision && !won) || this.reduced() || this.disabled()) return;
+    if (this.disabled()) return;
+    this.landing = undefined;
+    if (changed || (!moved && !won && !move)) return;
 
-    for (const [id, token] of Object.entries(attempt.placements)) {
-      if (token === before.placements[id]) continue;
-      const cell = this.cells.get(Number(id))!;
-      const face = cell.firstElementChild as HTMLElement;
-      const released = landing?.cell === Number(id) && landing.revision === before.boardRevision ? landing.from : undefined;
-      this.motion.cancel(face);
-      const target = cell.getBoundingClientRect();
-      const start = released ? {
-        translate: `${released.left + released.width / 2 - target.left - target.width / 2}px ${released.top + released.height / 2 - target.top - target.height / 2}px`,
-        scale: String(released.width / face.offsetWidth),
-      } : {translate: '0 -3px', scale: '1.045'};
-      this.motion.animate(face, [start, {translate: '0 1px', scale: '.98', offset: .78}, {translate: '0 0', scale: '1'}],
-        {duration: released ? 145 : 115, easing: 'cubic-bezier(.2,.7,.25,1)'});
-    }
-
-    if (attempt.mode !== 'endless' || attempt.status === 'won') {
-      const previous = evaluate(puzzle, before), current = evaluate(puzzle, attempt);
-      current.forEach((state, index) => {
-        if (state !== 'valid' || previous[index] === 'valid' && before.mode !== 'endless') return;
+    const placements = puzzle.cells.filter(cell => {
+      const token = attempt.placements[cell.id];
+      return token !== undefined && token !== before.placements[cell.id];
+    });
+    const axes = current.flatMap((state, index) => {
+      if (state !== 'valid' || (previous[index] === 'valid' && attempt.mode !== 'endless')) return [];
+      const eq = puzzle.equations[index]!;
+      const origin = placements.find(cell => cell.id === move?.cell && eq.cells.includes(cell.id))
+        ?? placements.find(cell => eq.cells.includes(cell.id));
+      return [{index, origin}];
+    });
+    const atContact = () => {
+      if (this.disabled() || this.attempt.id !== attempt.id || this.attempt.boardRevision !== attempt.boardRevision) return;
+      if (move) {
+        const double = move.cell !== undefined && axes.filter(axis => axis.origin?.id === move.cell).length > 1;
+        this.feedback.cue(move.cue, move.cell !== undefined, double);
+      }
+      if (this.reduced()) return;
+      for (const {index, origin} of axes) {
         const line = this.equationLines[index]!;
-        const short = line.dataset.axis === 'row' ? '.18 1' : '1 .18';
-        this.motion.animate(line, [{scale: short, opacity: .95}, {scale: '1', opacity: .9, offset: .52}, {scale: '1', opacity: 0}],
-          {duration: 345, easing: 'ease-out'});
-      });
+        const row = line.dataset.axis === 'row';
+        const coordinate = row ? 'x' : 'y';
+        const position = origin ? origin[coordinate] - Number(line.style.getPropertyValue('--' + coordinate)) : 2;
+        line.style.setProperty('--origin', String(position));
+        this.motion.animate(line, [
+          {scale: row ? '.03 1' : '1 .03', opacity: .98},
+          {scale: '1', opacity: .93, offset: .64},
+          {scale: '1', opacity: 0},
+        ], {duration: 230, easing: 'ease-out'});
+      }
+    };
+
+    let animatingContact = false;
+    if (!this.reduced()) for (const cell of placements) {
+      const face = this.cells.get(cell.id)!.firstElementChild as HTMLElement;
+      this.motion.cancel(face);
+      const released = landing?.cell === cell.id && landing.revision === before.boardRevision ? landing.from : undefined;
+      const target = face.getBoundingClientRect();
+      const start: Keyframe = released ? {
+        translate: `${released.left + (released.width - target.width) / 2 - target.left}px ${released.top + (released.height - target.height) / 2 - target.top}px`,
+        scale: String(released.width / target.width),
+      } : {translate: '0 -5px', scale: '1.045'};
+      const main = cell.id === move?.cell;
+      const arrival = this.motion.animate(face, [start, {translate: '0 0', scale: '1'}],
+        {duration: released ? 82 : 42, easing: released ? 'cubic-bezier(.24,.35,.68,1)' : 'linear', fill: 'backwards'}, {
+          onFinish: () => {
+            if (main) atContact();
+            this.motion.animate(face, [
+              {translate: '0 0', scale: '1'}, {translate: '0 1px', scale: '.975', offset: .34},
+              {translate: '0 0', scale: '1'},
+            ], {duration: 65, easing: 'ease-out'});
+          },
+        });
+      if (main && arrival) animatingContact = true;
     }
+    if (!animatingContact) atContact();
   }
   private part(tag:string,className:string,x:number,y:number):HTMLElement{const e=document.createElement(tag);e.className='part '+className;e.style.setProperty('--x',String(x));e.style.setProperty('--y',String(y));return e;}
   private build(): void {

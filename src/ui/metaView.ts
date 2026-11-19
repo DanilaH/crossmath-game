@@ -16,11 +16,14 @@ import type { MetaScreen, Offer } from '../meta/types';
 
 const artwork=import.meta.glob('../../docs/spec/product/meta_v08/art/*.svg',{eager:true,query:'?raw',import:'default'}) as Record<string,string>;
 const el=<K extends keyof HTMLElementTagNameMap>(tag:K,className='',text=''):HTMLElementTagNameMap[K]=>{const n=document.createElement(tag);n.className=className;n.textContent=text;return n;};
-function cardArt(index:number,parts:number,language:Language):HTMLElement {
+function cardArt(index:number,parts:number,language:Language,previewNext=false):HTMLElement {
   const wrapper=el('div','instrument');const card=config.cards[index]!;wrapper.innerHTML=artwork[`../../docs/spec/product/meta_v08/art/${card.id}.svg`]??'';
   const title=language==='en'?card.titleEN:card.titleRU;
   const svg=wrapper.querySelector('svg');if(svg){svg.setAttribute('aria-label',localize(language,`${title}, ${parts} из 4 частей`,`${title}, ${parts} of 4 parts`));svg.querySelector('title')!.textContent=title;
-    for(let i=1;i<=4;i++){const layer=svg.querySelector(`[id="part-${i}"]`);if(layer){if(i>parts)layer.setAttribute('display','none');layer.setAttribute('data-part',String(i));layer.removeAttribute('id');}}
+    for(let i=1;i<=4;i++){const layer=svg.querySelector(`[id="part-${i}"]`);if(layer){if(i>parts) {
+      if (previewNext && i===parts+1) layer.classList.add('unearned-part');
+      else layer.setAttribute('display','none');
+    }layer.setAttribute('data-part',String(i));layer.removeAttribute('id');}}
     svg.querySelector('[id="plate"]')?.removeAttribute('id');
   }return wrapper;
 }
@@ -52,10 +55,18 @@ export class MetaView {
   private art(index:number,parts:number):HTMLElement { return cardArt(index,parts,this.language); }
   private toolTitle(index:number):string { const c=config.cards[index]!;return this.t(c.titleRU,c.titleEN); }
   private readonly dialog=document.getElementById('card-dialog') as HTMLDialogElement;
+  private readonly frame = document.getElementById('first-fragment') as HTMLButtonElement;
+  private returnToFrame = false;
   private readonly modeDialog = document.getElementById('mode-dialog') as HTMLDialogElement;
   private readonly modeChoices = document.getElementById('mode-choices')!;
   private disabled=false;
-  constructor(private readonly root:HTMLElement,private readonly actions:Actions){this.dialog.addEventListener('close',()=>actions.blocking(false));document.getElementById('close-card')!.onclick=()=>this.dialog.close();
+  constructor(private readonly root:HTMLElement,private readonly actions:Actions){this.dialog.addEventListener('close',()=>{
+      actions.blocking(false);
+      if (this.returnToFrame) {
+        this.returnToFrame = false;
+        if (!this.frame.hidden) this.frame.focus({preventScroll:true});
+      }
+    });document.getElementById('close-card')!.onclick=()=>this.dialog.close();
     document.getElementById('close-modes')!.onclick = () => this.modeDialog.close();
   }
   openRank(save:Save):void {if(this.disabled)return;this.language=save.settings.language;const body=document.getElementById('card-body')!,p=save.profile;document.getElementById('card-title')!.textContent=this.t(`Ранг ${p.rank}`, `Rank ${p.rank}`);body.replaceChildren(el('p','',`${p.xp} / ${rankThreshold(p.rank)} XP`),el('p','',this.t(`До следующего ранга: ${rankThreshold(p.rank)-p.xp} XP`, `${rankThreshold(p.rank)-p.xp} XP to next rank`)),el('p','',this.t(`За повышение: +${config.rank.rewardCoins} монет`, `Rank-up reward: +${config.rank.rewardCoins} coins`)),el('p','muted',this.t(`Разных решённых полей: ${p.solvedIds.length}`, `Unique boards solved: ${p.solvedIds.length}`)));document.getElementById('close-card')!.textContent=this.t('Продолжить','Continue');this.actions.blocking(true);this.dialog.showModal();}
@@ -275,8 +286,35 @@ export class MetaView {
     const records=el('section','hub-panel');records.append(el('h2','',this.t("Рекорды Endless", "Endless records")));const r=c.records[recordVersion];for(const [title,record] of [[this.t("Самостоятельно", "Solo"),r.solo],[this.t("С помощью", "Assisted"),r.assisted]] as const)records.append(el('p','',record?this.t(`${title}: очки ${record.score} · поля ${record.boards}`, `${title}: score ${record.score} · boards ${record.boards}`):this.t(`${title}: пока нет завершённых забегов`, `${title}: no completed runs yet`)));if(c.run&&c.run.status!=='ended')records.append(el('p','muted',this.t(`Текущий забег: очки ${c.run.score} · поля ${c.run.solvedStages}. Завершите его, чтобы сохранить рекорд.`, `Current run: score ${c.run.score} · boards ${c.run.solvedStages}. End the run to save the result.`)));this.root.append(records);
     const badges=el('section','hub-panel');badges.append(el('h2','',this.t("Достижения", "Achievements")));for(const b of config.achievements){const earned=c.achievements[b.id],row=el('div','badge');row.dataset.badge=b.id;row.classList.toggle('earned',!!earned);row.append(el('strong','',`${earned?'✓ ':''}${this.t(b.titleRU,b.titleEN)}`),el('span','muted',earned?this.t(`Зафиксировано ${profileDay(earned.earnedAt,p.timeZone)}`, `Recorded ${profileDay(earned.earnedAt,p.timeZone)}`):`${Math.min(b.threshold,achievementValue(save,b.metric))} / ${b.threshold}`));badges.append(row);}this.root.append(badges);
   }
-  private openCard(index:number,parts:number):void {const card=config.cards[index]!,body=document.getElementById('card-body')!;document.getElementById('card-title')!.textContent=this.toolTitle(index);document.getElementById('close-card')!.textContent=this.t("Вернуться в альбом", "Back to album");body.replaceChildren(this.art(index,parts));const list=el('ol','parts-list');(this.language==='en'?partsEN[index]!:card.partsRU).forEach((part,i)=>list.append(el('li',i<parts?'earned':'',`${i<parts?'✓ ':''}${part}`)));body.append(list);this.actions.blocking(true);this.dialog.showModal();}
-  renderResult(save:Save):void {
+  openFirstFragment(save: Save): void {
+    if (!this.frame.hidden && !this.frame.disabled && !this.dialog.open) {
+      this.language = save.settings.language;
+      this.openCard(0, Math.min(4, save.profile.fragments), true);
+    }
+  }
+  private openCard(index:number, parts:number, fromResult=false):void {
+    const card = config.cards[index]!;
+    const body = document.getElementById('card-body')!;
+    const names = this.language === 'en' ? partsEN[index]! : card.partsRU;
+    document.getElementById('card-title')!.textContent = this.toolTitle(index);
+    document.getElementById('close-card')!.textContent = fromResult
+      ? this.t('К результату', 'Back to result') : this.t('Вернуться в альбом', 'Back to album');
+    this.returnToFrame = fromResult;
+    body.replaceChildren(cardArt(index, parts, this.language, fromResult));
+    if (fromResult && parts < 4) {
+      body.append(el('p', 'next-part', this.t(`Дальше — ${names[parts]}`, `Next — ${names[parts]}`)));
+    }
+    const list = el('ol', 'parts-list');
+    names.forEach((part, i) => list.append(el('li', i < parts ? 'earned' : '', `${i < parts ? '✓ ' : ''}${part}`)));
+    body.append(list);
+    this.actions.blocking(true);
+    this.dialog.showModal();
+  }
+  hideFirstFragment(): void {
+    this.frame.hidden = true;
+    this.frame.classList.remove('arrived');
+  }
+  renderResult(save:Save, frameArrival=false, disabled=false):void {
     const r=save.result,root=document.getElementById('reward-art')!,details=document.getElementById('reward-breakdown')!;root.replaceChildren();details.replaceChildren();if(!r)return;
     const total=r.collectionFragments;let title='';
     if (total !== undefined && (r.fragments > 0 || r.cardCoins > 0)) {
@@ -288,10 +326,24 @@ export class MetaView {
         : r.cardCoins ? this.t(`Прибор собран: ${this.toolTitle(index)}`, `Instrument complete: ${this.toolTitle(index)}`)
         : index === 0 && parts === 1 ? this.t('Рамка счётов · 1/4', 'Abacus frame · 1/4')
         : `${part} · ${parts}/4`;
-      root.append(this.art(index, parts));
-    }
-    else if(r.unlockedModes?.includes('endless'))title=this.t("Открыт Endless", "Endless unlocked");else if(r.unlockedModes?.includes('daily'))title=this.t("Открыты Daily и задания дня", "Daily and daily goals unlocked");else if(r.unlockedModes?.includes('free'))title=this.t("Открыта свободная игра", "Free Play unlocked");else if(r.rankUps)title=this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`);else if(r.setCoins)title=this.t("План дня выполнен", "Daily goals complete");
-    document.getElementById('result-detail')!.textContent=title;
+      if (index === 0 && parts === 1 && r.fragments > 0) {
+        if (this.frame.hidden) {
+          const art = this.art(index, parts);
+          art.setAttribute('aria-hidden', 'true');
+          this.frame.querySelector('.instrument')?.remove();
+          this.frame.prepend(art);
+          this.frame.classList.toggle('arrived', frameArrival);
+          this.frame.hidden = false;
+        }
+        this.frame.querySelector('span')!.textContent = title;
+        this.frame.disabled = disabled;
+      } else {
+        this.hideFirstFragment();
+        root.append(this.art(index, parts));
+      }
+    } else this.hideFirstFragment();
+    if (!title && r.unlockedModes?.includes('endless'))title=this.t("Открыт Endless", "Endless unlocked");else if(!title && r.unlockedModes?.includes('daily'))title=this.t("Открыты Daily и задания дня", "Daily and daily goals unlocked");else if(!title && r.unlockedModes?.includes('free'))title=this.t("Открыта свободная игра", "Free Play unlocked");else if(!title && r.rankUps)title=this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`);else if(!title && r.setCoins)title=this.t("План дня выполнен", "Daily goals complete");
+    document.getElementById('result-detail')!.textContent = this.frame.hidden ? title : '';
     const sources:[string,number][]=[[this.t("За поле", "Board"),r.baseCoins??(r.first?config.difficultyRewards[getPuzzle(r.puzzleId).difficulty].coins:0)],[this.t("За дату", "Daily date"),r.dailyCoins??0],[this.t("За цели", "Goals"),r.taskCoins??0],[this.t("За весь план", "Full goal set"),r.setCoins??0],[this.t("За ранг", "Rank"),r.rankCoins??r.rankUps*config.rank.rewardCoins],[this.t("За прибор", "Instrument"),r.cardCoins]];
     for(const [name,coins] of sources)if(coins)details.append(el('p','',`${name}: +${coins}`));details.append(el('p','',this.t(`Опыт: +${r.xp}`, `XP: +${r.xp}`)));if(r.fragments)details.append(el('p','',this.t(`Новых деталей: ${r.fragments} · всего ${r.collectionFragments} / 48`, `New parts: ${r.fragments} · total ${r.collectionFragments} / 48`)));if(r.rankUps)details.append(el('p','',this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`)));for(const mode of r.unlockedModes??[])details.append(el('p','',mode==='endless'?this.t("Открыт Endless", "Endless unlocked"):mode==='free'?this.t("Открыта свободная игра", "Free Play unlocked"):this.t("Открыты Daily и задания дня", "Daily and daily goals unlocked")));if(r.stageScore!==undefined)details.append(el('p','',this.t(`За этап: +${r.stageScore} очков · В забеге: ${r.runScore}`, `Stage points: +${r.stageScore} · Run score: ${r.runScore}`)));for(const id of r.badges??[]){const badge=config.achievements.find(b=>b.id===id)!;details.append(el('p','',this.t(`Знак: ${badge.titleRU}`,`Badge: ${badge.titleEN}`)));}
   }
