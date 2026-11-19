@@ -66,3 +66,18 @@ The browser capture plays the fresh campaign through field 25. Field 12 shows th
 Debug and optimized Gradle builds passed. The release inspection passed against the exact signed APK and web payload.
 
 KIT IMPACT — REUSE. The existing motion owner drives the landing and line feedback. The existing one-shot player handles the contact sound.
+
+## 0.5.3 — home and continuation
+
+The home screen uses the play palette. One primary action restores the exact unfinished board or opens the next campaign board after a win. Its miniature uses an equation from the board it opens. Daily opens today's saved or new challenge. The workshop card shows the current instrument's parts. Modes, history and records are in the secondary dialog. Daily goals have an expandable section above the dates.
+
+The browser regression checked a cold resume of Free Play, campaign board 6 after five wins, direct entry to the current Daily, the Daily archive and goals, inventory progress, keyboard dismissal, and English mode labels. At 320×568 and 390×844 all four home actions fit the initial viewport. Click targets are at least 48 CSS pixels. All three browser suites and 68 Vitest tests passed.
+
+- APK `Crossmath_0.5.3_Preview.apk`, versionCode 8
+- Source commit `eaadf24a73f592432e0b5cc00b59042b8f107fcf`, source tree `b810c8bfa5bc8a4464952e3bac2815562b2a435d`
+- APK SHA-256 `902656082e66f4edfd61864ee18b0564162a0960bf6331e984ad7f82ee3ee3a8`
+- Preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+Debug and optimized Gradle builds passed. Signature and exact APK contents passed release inspection. Device runtime remains pending.
+
+KIT IMPACT — NONE.
