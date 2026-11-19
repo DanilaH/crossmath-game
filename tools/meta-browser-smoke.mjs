@@ -28,7 +28,14 @@ try{
  for(let win=1;win<=5;win++){
   if(win>1)await tap('#next');await solve();const s=await snapshot();
   if([3,4].includes(win))assert.equal(s.profile.fragments,win-2);
-  if(win===3){await tap('#home');assert.equal(await page.locator('#free-open').isEnabled(),true);await tap('#free-open');const free=await snapshot();assert.equal(free.attempt.mode,'free');assert.equal(free.meta.inactive.campaign.attempt.status,'won');await tap('#home');await tap('#continue-game');assert.equal((await snapshot()).attempt.id,free.attempt.id);await tap('#home');await tap('#campaign-open');assert.equal((await snapshot()).attempt.mode,'campaign');await solve();win=4;assert.equal((await snapshot()).profile.fragments,2);}
+  if(win===3){
+   assert.equal(await page.locator('#result-detail').innerText(),'Рамка счётов · 1/4');
+   assert.equal(await page.locator('#reward-art [data-part="1"]:visible').count(),1);
+   await tap('#result-details summary');
+   assert.match(await page.locator('#reward-breakdown').innerText(),/Открыта свободная игра/);
+   await tap('#result-details summary');
+   checks.push('first abacus frame leads the reward, with Free Play unlock in the expandable breakdown');
+   await tap('#home');assert.equal(await page.locator('#free-open').isEnabled(),true);await tap('#free-open');const free=await snapshot();assert.equal(free.attempt.mode,'free');assert.equal(free.meta.inactive.campaign.attempt.status,'won');await tap('#home');await tap('#continue-game');assert.equal((await snapshot()).attempt.id,free.attempt.id);await tap('#home');await tap('#campaign-open');assert.equal((await snapshot()).attempt.mode,'campaign');await solve();win=4;assert.equal((await snapshot()).profile.fragments,2);}
  }
  const fifth=await snapshot();assert.equal(fifth.meta.quests.slots.every(s=>s.progress===0&&!s.paid),true);checks.push('fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore');
  await tap('#home');await page.screenshot({path:out+'/home-five.png',fullPage:true});await tap('#calendar-open');assert.equal(await page.locator('.date-card:disabled').count(),7);await tap(`[data-day="${day}"]`);assert.match(await page.locator('#lives').innerText(),/3\s*\/\s*3/);await solve();

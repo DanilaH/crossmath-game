@@ -8,11 +8,14 @@ import type { Feedback } from './feedback';
 type Source={kind:'token'|'cell';id:string};
 type Target=Source|{kind:'return';id:string};
 interface Gesture{pointer:number;source:Source;piece:HTMLElement;x:number;y:number;drag:boolean;revision:number;commandId:string}
+interface Landing { cell: number; revision: number; from: DOMRect }
 const glyph={'+':'+','-':'−','*':'×','/':'÷'};
 export const equationText=(p:Puzzle,a:Attempt,index:number):string=>{const eq=p.equations[index]!;const [left,right,result]=eq.cells.map(id=>cellValue(p,a,id)??'□');return `${left} ${glyph[eq.op]} ${right} = ${result}`;};
 export class BoardView {
   private puzzle!:Puzzle;private attempt!:Attempt;private selected:Source|null=null;private gesture:Gesture|null=null;
   private readonly motion=new OwnedDomMotion();private readonly cells=new Map<number,HTMLElement>();private signs:HTMLElement[][]=[];
+  private equationLines: HTMLElement[] = [];
+  private landing: Landing | undefined;
   private consumedPointerClick = false;
   private explanation='';private supportIndices:number[]=[];
   private tutorialTimer:ReturnType<typeof setTimeout>|null=null;private tutorialShown=false;
@@ -29,22 +32,37 @@ export class BoardView {
     const changed=this.puzzle?.puzzleId!==puzzle.puzzleId||this.attempt?.id!==attempt.id;
     const before = this.attempt;
     this.puzzle=puzzle;this.attempt=attempt;
-    if(changed){this.cancel();this.selected=null;this.explanation='';this.supportIndices=[];this.tutorialShown=false;this.build();}
+    if(changed){this.landing=undefined;this.cancel();this.selected=null;this.explanation='';this.supportIndices=[];this.tutorialShown=false;this.build();}
     this.render();
-    if (!changed && before.boardRevision !== attempt.boardRevision && !this.reduced() && !this.disabled()) {
-      for (const [id, token] of Object.entries(attempt.placements)) {
-        if (token === before.placements[id]) continue;
-        const face = this.cells.get(Number(id))?.firstElementChild as HTMLElement | undefined;
-        if (face) this.motion.animate(face, [{scale: '1.12'}, {scale: '.97'}, {scale: '1'}], {duration: 170, easing: 'ease-out'});
-      }
-      if (attempt.mode !== 'endless' || attempt.status === 'won') {
-        const previous = evaluate(puzzle, before), current = evaluate(puzzle, attempt);
-        current.forEach((state, index) => {
-          if (state !== 'valid' || previous[index] === 'valid' && before.mode !== 'endless') return;
-          const equal = this.signs[index]![1]!;
-          this.motion.animate(equal, [{scale: '.9'}, {scale: '1.28'}, {scale: '1'}], {duration: 250, easing: 'ease-out'});
-        });
-      }
+    const landing = this.landing;
+    if (!this.disabled()) this.landing = undefined;
+    const won = !changed && before.status !== 'won' && attempt.status === 'won';
+    if (changed || (before.boardRevision === attempt.boardRevision && !won) || this.reduced() || this.disabled()) return;
+
+    for (const [id, token] of Object.entries(attempt.placements)) {
+      if (token === before.placements[id]) continue;
+      const cell = this.cells.get(Number(id))!;
+      const face = cell.firstElementChild as HTMLElement;
+      const released = landing?.cell === Number(id) && landing.revision === before.boardRevision ? landing.from : undefined;
+      this.motion.cancel(face);
+      const target = cell.getBoundingClientRect();
+      const start = released ? {
+        translate: `${released.left + released.width / 2 - target.left - target.width / 2}px ${released.top + released.height / 2 - target.top - target.height / 2}px`,
+        scale: String(released.width / face.offsetWidth),
+      } : {translate: '0 -3px', scale: '1.045'};
+      this.motion.animate(face, [start, {translate: '0 1px', scale: '.98', offset: .78}, {translate: '0 0', scale: '1'}],
+        {duration: released ? 145 : 115, easing: 'cubic-bezier(.2,.7,.25,1)'});
+    }
+
+    if (attempt.mode !== 'endless' || attempt.status === 'won') {
+      const previous = evaluate(puzzle, before), current = evaluate(puzzle, attempt);
+      current.forEach((state, index) => {
+        if (state !== 'valid' || previous[index] === 'valid' && before.mode !== 'endless') return;
+        const line = this.equationLines[index]!;
+        const short = line.dataset.axis === 'row' ? '.18 1' : '1 .18';
+        this.motion.animate(line, [{scale: short, opacity: .95}, {scale: '1', opacity: .9, offset: .52}, {scale: '1', opacity: 0}],
+          {duration: 345, easing: 'ease-out'});
+      });
     }
   }
   private part(tag:string,className:string,x:number,y:number):HTMLElement{const e=document.createElement(tag);e.className='part '+className;e.style.setProperty('--x',String(x));e.style.setProperty('--y',String(y));return e;}
@@ -54,6 +72,7 @@ export class BoardView {
     this.tray.replaceChildren();
     this.cells.clear();
     this.signs = [];
+    this.equationLines = [];
 
     const squares = new Map<string, [number, number]>();
     const key = (x: number, y: number) => `${x},${y}`;
@@ -78,6 +97,16 @@ export class BoardView {
 
     for (const eq of this.puzzle.equations) {
       const nodes = eq.cells.map(id => this.puzzle.cells.find(cell => cell.id === id)!);
+      const [first, , last] = nodes;
+      const line = document.createElement('span');
+      line.className = 'equation-line';
+      line.dataset.axis = first!.y === last!.y ? 'row' : 'column';
+      line.style.setProperty('--x', String(first!.x));
+      line.style.setProperty('--y', String(first!.y));
+      line.style.setProperty('--length', String(1 + Math.abs(last!.x - first!.x) + Math.abs(last!.y - first!.y)));
+      line.setAttribute('aria-hidden', 'true');
+      this.equationLines.push(line);
+
       const signs: HTMLElement[] = [];
       for (let i = 0; i < 2; i++) {
         const a = nodes[i]!, b = nodes[i + 1]!;
@@ -109,7 +138,7 @@ export class BoardView {
         .join(' ');
       surface.append(square);
     }
-    this.board.prepend(surface);
+    this.board.prepend(surface, ...this.equationLines);
     this.resize();
   }
   private renderTray():void{
@@ -129,10 +158,21 @@ export class BoardView {
     p.equations.forEach((eq,i)=>{
       if(!conceal&&states[i]==='invalid')eq.cells.forEach(id=>bad.add(id));
       if(this.selected?.kind==='cell'&&eq.cells.includes(Number(this.selected.id))||this.supportIndices.includes(i))eq.cells.forEach(id=>linked.add(id));
-      for(const sign of this.signs[i]!)sign.classList.toggle('invalid',!conceal&&states[i]==='invalid');this.signs[i]![1]!.classList.toggle('right',!conceal&&states[i]==='valid');
+      const state = conceal ? 'neutral' : states[i]!;
+      const equal = this.signs[i]![1]!;
+      equal.textContent = state === 'invalid' ? '≠' : '=';
+      equal.classList.toggle('invalid', state === 'invalid');
+      equal.classList.toggle('right', state === 'valid');
+      const line = this.equationLines[i]!;
+      if (line.dataset.state === 'valid' && state !== 'valid') this.motion.cancel(line);
+      line.dataset.state = state;
     });
-    for(const cell of p.cells){const e=this.cells.get(cell.id)!,v=cellValue(p,a,cell.id);e.classList.toggle('invalid',bad.has(cell.id));e.classList.toggle('linked',linked.has(cell.id));
-      const relations=p.equations.map((eq,i)=>eq.cells.includes(cell.id)?equationText(p,a,i):'').filter(Boolean).join('; ');
+    for(const cell of p.cells){const e=this.cells.get(cell.id)!,v=cellValue(p,a,cell.id);e.classList.toggle('linked',linked.has(cell.id));
+      const relations=p.equations.map((eq,i)=>{
+        if (!eq.cells.includes(cell.id)) return '';
+        const relation = equationText(p,a,i);
+        return !conceal && states[i]==='invalid' ? relation.replace(' = ',' ≠ ') : relation;
+      }).filter(Boolean).join('; ');
       const type=cell.given!==undefined?this.t('Дано','Given'):v===undefined?this.t('Пустая клетка','Empty cell'):this.t('Число','Number');
       const position=this.t(`Строка ${cell.y+1}, столбец ${cell.x+1}`,`Row ${cell.y+1}, column ${cell.x+1}`);
       const warning=bad.has(cell.id)?this.t('. Проверьте равенство','. Check the equation'):'';
@@ -215,11 +255,14 @@ export class BoardView {
     if(g.source.kind==='cell'&&this.attempt.placements[g.source.id]===undefined)return;
     if(!g.drag){g.drag=true;g.piece.classList.add('lifted');this.ghost.textContent=String(g.source.kind==='token'?tokenValue(this.puzzle,g.source.id):cellValue(this.puzzle,this.attempt,Number(g.source.id)));this.ghost.hidden=false;this.feedback.cue('pick');}
     this.ghost.style.left=e.clientX+'px';this.ghost.style.top=e.clientY+'px';this.clearHover();const target=this.drop(e.clientX,e.clientY);
+    this.ghost.classList.toggle('over-cell', target?.kind === 'cell');
     if(target?.kind==='cell')this.cells.get(Number(target.id))?.classList.add('hover');else if(target?.kind==='return'&&g.source.kind==='cell')this.tray.parentElement!.classList.add('hover');
   };
   private up=(e:PointerEvent):void=>{const g=this.gesture;if(!g||g.pointer!==e.pointerId)return;this.consumedPointerClick=true;const drop=this.drop(e.clientX,e.clientY),under=this.source(document.elementFromPoint(e.clientX,e.clientY));
     if(g.drag&&(!drop||drop.kind==='return'&&g.source.kind==='token'))this.returnGhost(g);
-    this.cancel();if(this.disabled())return;const metadata={commandId:g.commandId,expectedRevision:g.revision};
+    const released = g.drag && drop?.kind === 'cell' && !this.reduced()
+      ? {cell: Number(drop.id), revision: g.revision, from: this.ghost.getBoundingClientRect()} : undefined;
+    this.cancel();if(this.disabled())return;this.landing=released;const metadata={commandId:g.commandId,expectedRevision:g.revision};
     if(g.drag){if(drop)this.transfer(g.source,drop,metadata);}else if(under?.kind===g.source.kind&&under.id===g.source.id)this.tap(g.source,metadata);
   };
   private returnGhost(g:Gesture):void{if(this.reduced())return;const source=g.source.kind==='token'?this.tray.querySelector<HTMLElement>(`[data-token="${g.source.id}"]`):this.cells.get(Number(g.source.id));if(!source)return;
@@ -228,8 +271,8 @@ export class BoardView {
     animation?.addEventListener('cancel',()=>copy.remove(),{once:true});
   }
   private clearHover():void{for(const el of document.querySelectorAll('.hover'))el.classList.remove('hover');}
-  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.clearHover();};
-  suspend():void {this.cancel();this.motion.cancelAll();}
+  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};
+  suspend():void {this.landing=undefined;this.cancel();this.motion.cancelAll();}
   private pointerCancel=(e:PointerEvent):void=>{if(this.gesture?.pointer===e.pointerId)this.cancel();};
   private scroll=():void=>{if(this.gesture)this.cancel();};
   private click = (e: MouseEvent): void => {
@@ -254,6 +297,8 @@ export class BoardView {
     const widthStep = (pad.clientWidth - 4 - hit) / Math.max(1, p.width - 1);
     const heightStep = p.height > 5 ? 30 : innerHeight < 650 ? 36 : roomy ? 56 : 46;
     const step = Math.max(hit / 2, Math.min(widthStep, heightStep * scale));
+    this.ghost.style.setProperty('--landing-size', `${Math.min(40, Math.round(step * .82))}px`);
+    this.ghost.style.setProperty('--landing-clearance', `${step / 2 + 3}px`);
     for(const [key,value] of Object.entries({step,hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));
   };
   dispose():void{this.cancel();this.motion.cancelAll();document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}

@@ -34,22 +34,22 @@
   </div>
 <button class="primary" id="submit" type="button" hidden data-en="Check">Проверить</button>
 <section class="hub-panel" id="defeat" hidden><h2 data-en="Out of lives">Жизни закончились</h2><p id="defeat-detail">Можно бесплатно начать эту дату заново.</p><button class="primary" id="retry-daily" type="button">Ещё попытка · бесплатно</button><button class="hub-button" id="ad-continue" type="button" hidden>Ещё одна жизнь за видео</button><button class="hub-button" id="finish-run" type="button" hidden data-en="Save run result">Сохранить итог забега</button></section>
-<section id="result" class="win-overlay" hidden aria-labelledby="result-title">
-  <div class="win-panel">
-    <div class="win-emblem" aria-hidden="true">
-      <svg class="win-check" viewBox="0 0 48 48"><path d="m13 25 7 7 15-16"/></svg>
-      <div id="reward-art"></div>
-    </div>
+<section id="result" class="win-dock" hidden aria-labelledby="result-title">
+  <div id="reward-art" aria-hidden="true"></div>
+  <div class="win-copy">
     <h2 id="result-title" tabindex="-1">Поле решено</h2>
     <p id="result-detail"></p>
     <p id="result-rewards"></p>
-    <button class="primary" id="next" type="button">Следующее поле →</button>
-    <button class="win-secondary" id="result-home" type="button" hidden data-en="Home">На главную</button>
-    <div class="win-actions">
-      <details id="result-details"><summary data-en="Rewards">Награды</summary><div id="reward-breakdown"></div></details>
+  </div>
+  <button class="primary" id="next" type="button">Следующее поле</button>
+  <button class="primary" id="result-home" type="button" hidden data-en="Home">На главную</button>
+  <details id="result-details">
+    <summary aria-label="Награды и действия" data-en-label="Rewards and actions"><span aria-hidden="true">⋯</span></summary>
+    <div class="win-breakdown">
+      <div id="reward-breakdown"></div>
       <button class="win-secondary" id="result-replay" type="button" data-en="Replay">Повторить</button>
     </div>
-  </div>
+  </details>
 </section>
 </section>
 <section class="error" id="save-error" hidden role="alert"><p id="save-error-text"></p><button id="retry" type="button" data-en="Retry">Повторить</button><button id="reload" type="button" data-en="Reload saved game">Восстановить сохранение</button></section>

@@ -92,7 +92,8 @@ export class GameUi {
   private command(action:BoardAction,metadata?:{commandId:string;expectedRevision:number}):void{
     if(this.blocked||this.busy||this.session.writing||this.saveFailed)return;this.board.cancel();this.board.clearSelection();
     const identity=metadata??{commandId:crypto.randomUUID(),expectedRevision:this.session.state.attempt.boardRevision};let cue:'place'|'right'|'wrong'|'win'|'none'='none';
-    this.run(async time=>{const result=await this.session.command(action,time,identity);cue=result.cue;return {committed:result.outcome==='applied'};},()=>{if(cue!=='none')this.feedback.cue(cue);});
+    const seated = action.type === 'PlaceFromTray' || action.type === 'MoveCell';
+    this.run(async time=>{const result=await this.session.command(action,time,identity);cue=result.cue;return {committed:result.outcome==='applied'};},()=>{if(cue!=='none')this.feedback.cue(cue, seated);});
   }
   private openPause():void{if(this.busy||this.session.writing||this.saveFailed||$<HTMLDialogElement>('pause-dialog').open)return;this.board.cancel();this.tick();this.blocker('user',true);$<HTMLDialogElement>('pause-dialog').showModal();this.run(async time=>{await this.session.update({},true,time);return {committed:true};});}
   private resume():void{if(this.busy)return;this.run(async time=>{await this.session.update({},false,time);return {committed:true};},()=>{$<HTMLDialogElement>('pause-dialog').close();this.blocker('user',false);$('restart-confirm').hidden=true;});}

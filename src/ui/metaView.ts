@@ -122,7 +122,17 @@ export class MetaView {
   renderResult(save:Save):void {
     const r=save.result,root=document.getElementById('reward-art')!,details=document.getElementById('reward-breakdown')!;root.replaceChildren();details.replaceChildren();if(!r)return;
     const total=r.collectionFragments;let title='';
-    if(total!==undefined&&(r.fragments>0||r.cardCoins>0)){const index=Math.min(11,Math.floor((total-1)/4)),parts=Math.min(4,total-index*4);title=total===48&&r.fragments>0?this.t('Мастерская собрана','Workshop complete'):r.cardCoins?this.t(`Прибор собран: ${this.toolTitle(index)}`,`Instrument complete: ${this.toolTitle(index)}`):r.unlockedModes?.includes('free')?this.t("Открыта свободная игра", "Free Play unlocked"):`${this.toolTitle(index)} · ${parts}/4`;root.append(this.art(index,parts));}
+    if (total !== undefined && (r.fragments > 0 || r.cardCoins > 0)) {
+      const index = Math.min(11, Math.floor((total - 1) / 4));
+      const parts = Math.min(4, total - index * 4);
+      const card = config.cards[index]!;
+      const part = this.t(card.partsRU[parts - 1]!, partsEN[index]![parts - 1]!);
+      title = total === 48 && r.fragments > 0 ? this.t('Мастерская собрана', 'Workshop complete')
+        : r.cardCoins ? this.t(`Прибор собран: ${this.toolTitle(index)}`, `Instrument complete: ${this.toolTitle(index)}`)
+        : index === 0 && parts === 1 ? this.t('Рамка счётов · 1/4', 'Abacus frame · 1/4')
+        : `${part} · ${parts}/4`;
+      root.append(this.art(index, parts));
+    }
     else if(r.unlockedModes?.includes('endless'))title=this.t("Открыт Endless", "Endless unlocked");else if(r.unlockedModes?.includes('daily'))title=this.t("Открыты Daily и задания дня", "Daily and daily goals unlocked");else if(r.unlockedModes?.includes('free'))title=this.t("Открыта свободная игра", "Free Play unlocked");else if(r.rankUps)title=this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`);else if(r.setCoins)title=this.t("План дня выполнен", "Daily goals complete");
     document.getElementById('result-detail')!.textContent=title;
     const sources:[string,number][]=[[this.t("За поле", "Board"),r.baseCoins??(r.first?config.difficultyRewards[getPuzzle(r.puzzleId).difficulty].coins:0)],[this.t("За дату", "Daily date"),r.dailyCoins??0],[this.t("За цели", "Goals"),r.taskCoins??0],[this.t("За весь план", "Full goal set"),r.setCoins??0],[this.t("За ранг", "Rank"),r.rankCoins??r.rankUps*config.rank.rewardCoins],[this.t("За прибор", "Instrument"),r.cardCoins]];

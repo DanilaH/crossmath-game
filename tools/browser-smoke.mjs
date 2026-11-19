@@ -23,6 +23,7 @@ try{
   const initial=page.viewportSize();
   for(const [width,height] of [[320,568],[390,844]]){
    await page.setViewportSize({width,height});
+   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
    const selectors=won?['#next']:['#board','#tray','#sort','#help','#pause'];
    const bounds=await page.evaluate(selectors=>{
     const result=Object.fromEntries(selectors.map(selector=>{
@@ -44,10 +45,14 @@ try{
       &&(!right||Math.abs(square.right-right.left)<.1)
       &&(!below||Math.abs(square.bottom-below.top)<.1);
     });
-    return {controls:result,documentHeight:document.documentElement.scrollHeight,connectedGrid};
+    const board=document.querySelector('.board-surface').getBoundingClientRect();
+    const dock=document.querySelector('#result').getBoundingClientRect();
+    return {controls:result,documentHeight:document.documentElement.scrollHeight,connectedGrid,
+     boardClear: dock.width === 0 || dock.top >= board.bottom};
    },selectors);
+   if(won)assert.ok(bounds.boardClear,`field ${field} result obscures the solved board`);
    if(!won){
-    assert.ok(bounds.documentHeight<=height+1,`field ${field} scrolls at ${width}×${height}`);
+    assert.ok(bounds.documentHeight<=height+1,`field ${field} scrolls at ${width}×${height} (document ${bounds.documentHeight}px)`);
     assert.equal(bounds.connectedGrid,true,`field ${field} has gaps or misaligned grid squares at ${width}×${height}`);
    }
    for(const [selector,rect] of Object.entries(bounds.controls)){
@@ -87,7 +92,12 @@ try{
   }
   if(p.campaignPosition===12){
    await verifyViewport(12);
-   await place('t0',0);await place('t1',1);await place('t2',3);assert.equal((await snapshot()).attempt.status,'playing');assert.match(await page.locator('#note').innerText(),/4 − 5 ≠ 2/);assert.equal(await page.locator('.op.right').count(),1);await page.screenshot({path:out+'/field12-conflict.png',fullPage:true});
+   await place('t0',0);await place('t1',1);await place('t2',3);assert.equal((await snapshot()).attempt.status,'playing');assert.match(await page.locator('#note').innerText(),/4 − 5 ≠ 2/);assert.equal(await page.locator('.op.right').count(),1);
+   assert.equal(await page.locator('.op.invalid').innerText(),'≠');
+   assert.equal(await page.locator('.equation-line[data-axis="column"][data-state="invalid"]').count(),1);
+   assert.equal(await page.locator('.equation-line[data-axis="row"][data-state="valid"]').count(),1);
+   assert.equal(await page.locator('.cell.invalid,.given.invalid').count(),0);
+   await page.screenshot({path:out+'/field12-conflict.png',fullPage:true});
    await tap('[data-cell="0"]');await tap('[data-cell="1"]');await idle();assert.equal((await snapshot()).attempt.status,'won');await verifyViewport(12,true);await page.screenshot({path:out+'/field12-solved.png',fullPage:true});
    await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#restart');await tap('#restart-yes');await idle();
    await place('t0',0);await place('t1',1);await place('t2',3);const from=await page.locator('[data-cell="0"]').boundingBox(),to=await page.locator('[data-cell="1"]').boundingBox();
@@ -101,6 +111,22 @@ try{
  await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#restart');await tap('#restart-yes');await idle();
  await verifyViewport(25);
  checks.push('fields 1/12/25 have connected grids and their Next actions fit 320×568 and 390×844; the final touch does not click through');
+ await page.setViewportSize({width:320,height:568});
+ const touch=await context.newCDPSession(page);
+ const center=async selector=>{const r=await page.locator(selector).boundingBox();return{x:r.x+r.width/2,y:r.y+r.height/2};};
+ const start=await center('[data-token="t0"]'), target=await center('[data-cell="1"]');
+ await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[start]});
+ await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[target]});
+ await page.locator('#ghost.over-cell').waitFor();
+ const ghost=await page.locator('#ghost').boundingBox(), cell=await page.locator('[data-cell="1"] .tile').boundingBox();
+ assert.ok(ghost.width<cell.width&&ghost.y+ghost.height<cell.y,'held piece leaves the landing footprint visible');
+ assert.equal(await page.locator('[data-cell="1"].hover').count(),1);
+ await touch.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});
+ await touch.detach();
+ assert.equal(await page.locator('#ghost').isHidden(),true);
+ assert.equal(await page.locator('.cell.hover,.cell.lifted,.token.lifted').count(),0);
+ assert.deepEqual((await snapshot()).attempt.placements,{});
+ checks.push('dense touch drag shows an unobscured target; cancellation clears the preview and preserves inventory');
  for(const [width,height] of [[320,568],[360,640],[390,844],[800,1280]]){
   await page.setViewportSize({width,height});
   const data=await page.evaluate(()=>{const boxes=[...document.querySelectorAll('[data-cell]')].map(e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,w:r.width,h:r.height};});return{minTarget:Math.min(...boxes.map(b=>Math.min(b.w,b.h))),overflow:document.documentElement.scrollWidth>innerWidth,overlap:boxes.some((a,i)=>boxes.slice(i+1).some(b=>a.x<b.x+b.w-.1&&b.x<a.x+a.w-.1&&a.y<b.y+b.h-.1&&b.y<a.y+a.h-.1))};});
