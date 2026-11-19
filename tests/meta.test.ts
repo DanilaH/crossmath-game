@@ -96,7 +96,7 @@ describe('D schema/album migration',()=>{
  it('preserves early placements and grants only a newly completed migrated card, once',async()=>{
   const raw=legacy(8,2);raw.attempt=createAttempt(getPuzzle('cm-own-01-007'),'two-fives');raw.attempt.placements={'0':'t0','1':'t2'};
   const first=decodeSave(raw);expect(first.profile.fragments).toBe(4);expect(first.profile.coins).toBe(140);expect(first.attempt.placements).toEqual(raw.attempt.placements);expect(decodeSave(first)).toEqual(first);
-  const storage=new Memory();storage.data.set(SAVE_KEY,JSON.stringify(raw));const repo=new SaveRepository(storage,()=>{throw Error('Must not reset');});expect((await repo.load()).profile.coins).toBe(140);expect(JSON.parse(storage.data.get(SAVE_KEY)!).schemaVersion).toBe(3);expect((await repo.load()).profile.coins).toBe(140);
+  const storage=new Memory();storage.data.set(SAVE_KEY,JSON.stringify(raw));const repo=new SaveRepository(storage,()=>{throw Error('Must not reset');});expect((await repo.load()).profile.coins).toBe(140);expect(JSON.parse(storage.data.get(SAVE_KEY)!).schemaVersion).toBe(4);expect((await repo.load()).profile.coins).toBe(140);
  });
  it('grandfathers historical full cards without receipts, preserves ahead-of-schedule progress and caps at 48',()=>{
   const historic=decodeSave(legacy(8,4));expect(historic.profile.coins).toBe(120);expect(historic.profile.paidCardIds).toEqual(['abacus']);

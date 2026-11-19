@@ -1,6 +1,6 @@
 # Crossmath status — 19 November 2026
 
-Working branch: `feat/vertical-slice-20261118`, draft PR #1. Version 0.3.0 / versionCode 3 / schema 3. A–D previews remain in the acceptance history. E1 adds offline Endless/profile/achievements; the full E gate remains open.
+Working branch: `feat/vertical-slice-20261118`, draft PR #1. Version 0.4.0 / versionCode 4 / schema 4. E2 adds RU/EN and the optional Android ads bridge, verified with a scripted provider. Real SDK acceptance remains open.
 
 ## Implemented
 
@@ -14,14 +14,19 @@ Working branch: `feat/vertical-slice-20261118`, draft PR #1. Version 0.3.0 / ver
 - E1: explicit-submit Endless after 15 wins, 225-field circular route, shared three lives, exact run/stage persistence, atomic stage score, confirmed new run, separate versioned solo/assisted records.
 - E1: profile statistics by mode and twelve permanent achievements. Legacy detailed history is labelled partial rather than invented; confirmed lifetime unique wins/rank/cards/dates remain.
 
+- E2: persistent RU/EN and optional timer in Campaign/Free Play. Localized gameplay, help, result, calendar, album, profile, settings and accessibility labels.
+- E2: durable rewarded credit and exact-attempt/run continuation, impression-based interstitial cadence, optional native banner visibility and offline fallback.
+
 ## Verified locally
 
-- 58 Vitest tests / 8 files; independent full-bank solving and 240-win reward integration, including 228/229; durable writes/recovery and help proofs; D includes 84 actual-bank mission/profile fixtures, +100, old dated completion, fixed zones/leap days/missed days/rollback, mode slots and migration.
+- 68 Vitest tests / 9 files; independent full-bank solving and 240-win reward integration, including 228/229; durable writes/recovery and help proofs; D includes 84 actual-bank mission/profile fixtures, +100, old dated completion, fixed zones/leap days/missed days/rollback, mode slots and migration.
 - Real Chromium 141 UI: first 25 campaign fields plus fresh-profile D scenario through unlocks 3/5, +100 Daily, cold result restore, first complete abacus and part inspection at eight distinct wins. Complete album 228/229 is an explicitly seeded display fixture, not 228 UI-played wins.
 - Dense board and album: 320×568, 360×640, 390×844, 800×1280; 48 CSS px controls, no page horizontal overflow. Applied own paper/ink/teal style, wrapped long instrument names. Evidence under `docs/evidence/` and `evidence/meta-d/`.
 - Typecheck, normal/release web audit and Capacitor release sync; supplied Python content/routes/meta reference checks; four Python preview-signing safety tests; exact pinned guidance doctor.
 
 - E1 browser: fresh campaign 1–15, neutral full board before Submit, wrong/duplicate/undo/lives, parked mode restore, explicit reveal, run3 badge, separate records and free restart at zero. Full route 225 + first wrapped stage is covered by actual engine/session commands in tests.
+
+- E2: scripted ad cancellations, delayed/duplicate callbacks, failed writes and acknowledgement recovery, scoped continuation, cadence and stalled pre-show. Chromium switches RU→EN→RU and checks cold settings persistence.
 
 ## Acceptance and remaining work
 
@@ -31,4 +36,4 @@ Native runtime, process kill, physical responsiveness/haptics, TalkBack, 200% OS
 
 GitHub CI remains blocked by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`); observed gameplay-source run 44380914614 stopped at the private-kit access requirement before tests/build. Local success is independent of CI.
 
-Latest scope/acceptance: `ACCEPTANCE_E1_2026-11-19.md`; previous D artifact is retained. Next: E2 — complete RU/EN and platform reward/interstitial adapters with scripted interruption/callback checks. Then F — device/accessibility/offline/live SDK/store acceptance. Production signer remains unset; no live SDK, reminders or store submission is claimed.
+Latest scope and acceptance: `ACCEPTANCE_E2_2026-11-19.md`. Remaining release work is the chosen live SDK and its placements, device/accessibility/offline checks, production signing and store acceptance. Production signer remains unset; no live SDK, reminders or store submission is claimed.

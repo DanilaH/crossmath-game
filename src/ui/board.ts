@@ -1,3 +1,5 @@
+import { localize } from './locale';
+import type { Language } from './locale';
 import { OwnedDomMotion } from '@danilah/mini-games-kit/feel';
 import { cellValue, evaluate, tokenValue } from '../core/types';
 import type { Attempt, BoardAction, Puzzle } from '../core/types';
@@ -16,11 +18,12 @@ export class BoardView {
   private readonly ghost=document.querySelector<HTMLElement>('#ghost')!;
   constructor(private readonly board:HTMLElement,private readonly tray:HTMLElement,private readonly note:HTMLElement,private readonly feedback:Feedback,
     private readonly disabled:()=>boolean,private readonly reduced:()=>boolean,
-    private readonly action:(command:BoardAction,metadata:{commandId:string;expectedRevision:number})=>void){
+    private readonly action:(command:BoardAction,metadata:{commandId:string;expectedRevision:number})=>void,private readonly language:()=>Language){
     document.addEventListener('pointerdown',this.down);document.addEventListener('pointermove',this.move);document.addEventListener('pointerup',this.up);
     document.addEventListener('pointercancel',this.pointerCancel);document.addEventListener('lostpointercapture',this.pointerCancel);document.addEventListener('click',this.keyboard);
     window.addEventListener('resize',this.resize);window.addEventListener('blur',this.cancel);document.addEventListener('scroll',this.scroll,true);
   }
+  private t(ru:string,en:string):string {return localize(this.language(),ru,en);}
   update(puzzle:Puzzle,attempt:Attempt):void{
     const changed=this.puzzle?.puzzleId!==puzzle.puzzleId||this.attempt?.id!==attempt.id;
     this.puzzle=puzzle;this.attempt=attempt;
@@ -47,7 +50,7 @@ export class BoardView {
         const token=document.createElement('button');token.type='button';token.className='token';token.dataset.token=id;token.textContent=String(tokenValue(this.puzzle,id));slot.append(token);this.tray.append(slot);}
     }
     const used=new Set(Object.values(this.attempt.placements));
-    for(const token of this.tray.querySelectorAll<HTMLButtonElement>('button')){const id=token.dataset.token!;token.hidden=used.has(id);token.disabled=this.disabled()||this.attempt.status!=='playing';const active=this.selected?.kind==='token'&&this.selected.id===id;token.classList.toggle('selected',active);token.setAttribute('aria-pressed',String(active));token.setAttribute('aria-label',`Число ${tokenValue(this.puzzle,id)}, экземпляр ${Number(id.slice(1))+1}`);}
+    for(const token of this.tray.querySelectorAll<HTMLButtonElement>('button')){const id=token.dataset.token!;token.hidden=used.has(id);token.disabled=this.disabled()||this.attempt.status!=='playing';const active=this.selected?.kind==='token'&&this.selected.id===id;token.classList.toggle('selected',active);token.setAttribute('aria-pressed',String(active));token.setAttribute('aria-label',this.t(`Число ${tokenValue(this.puzzle,id)}, экземпляр ${Number(id.slice(1))+1}`,`Number ${tokenValue(this.puzzle,id)}, piece ${Number(id.slice(1))+1}`));}
   }
   render():void{
     const p=this.puzzle,a=this.attempt;if(!p)return;
@@ -60,7 +63,10 @@ export class BoardView {
     });
     for(const cell of p.cells){const e=this.cells.get(cell.id)!,v=cellValue(p,a,cell.id);e.classList.toggle('invalid',bad.has(cell.id));e.classList.toggle('linked',linked.has(cell.id));
       const relations=p.equations.map((eq,i)=>eq.cells.includes(cell.id)?equationText(p,a,i):'').filter(Boolean).join('; ');
-      const label=`Строка ${cell.y+1}, столбец ${cell.x+1}. ${cell.given!==undefined?'Дано':v===undefined?'Пустая клетка':'Число'} ${v??''}. ${relations}${bad.has(cell.id)?'. Проверьте равенство':''}`;
+      const type=cell.given!==undefined?this.t('Дано','Given'):v===undefined?this.t('Пустая клетка','Empty cell'):this.t('Число','Number');
+      const position=this.t(`Строка ${cell.y+1}, столбец ${cell.x+1}`,`Row ${cell.y+1}, column ${cell.x+1}`);
+      const warning=bad.has(cell.id)?this.t('. Проверьте равенство','. Check the equation'):'';
+      const label=`${position}. ${type} ${v??''}. ${relations}${warning}`;
       e.setAttribute('aria-label',label);
       if(cell.given!==undefined)continue;
       (e as HTMLButtonElement).disabled=this.disabled()||a.status!=='playing';e.firstElementChild!.textContent=v===undefined?'':String(v);e.classList.toggle('placed',v!==undefined);e.classList.toggle('empty',v===undefined);
@@ -68,10 +74,10 @@ export class BoardView {
     }
     this.renderTray();
     const wrong=conceal?-1:states.indexOf('invalid');this.note.classList.toggle('problem',wrong>=0);
-    this.note.textContent=this.explanation|| (a.status==='won'?'Все равенства сходятся.':wrong>=0?'Проверьте: '+equationText(p,a,wrong).replace(' = ',' ≠ ')+'.':this.selected?.kind==='cell'?'Связи клетки: '+p.equations.map((eq,i)=>eq.cells.includes(Number(this.selected!.id))?equationText(p,a,i):'').filter(Boolean).join(' и ')+'.':this.selected?.kind==='token'?`Выбрано ${tokenValue(p,this.selected.id)}. Коснитесь клетки.`:a.boardRevision===0&&p.campaignPosition===1?'Выберите число и коснитесь пустой клетки.':'Число на пересечении участвует в обеих связях.');
+    this.note.textContent=this.explanation|| (a.status==='won'?this.t("Все равенства сходятся.","All equations are correct."):wrong>=0?this.t("Проверьте: ","Check: ")+equationText(p,a,wrong).replace(' = ',' ≠ ')+'.':this.selected?.kind==='cell'?this.t("Связи клетки: ","Linked equations: ")+p.equations.map((eq,i)=>eq.cells.includes(Number(this.selected!.id))?equationText(p,a,i):'').filter(Boolean).join(this.t(" и "," and "))+'.':this.selected?.kind==='token'?this.t(`Выбрано ${tokenValue(p,this.selected.id)}. Коснитесь клетки.`,`Selected ${tokenValue(p,this.selected.id)}. Tap a cell.`):a.boardRevision===0&&p.campaignPosition===1?this.t("Выберите число и коснитесь пустой клетки.","Pick a number, then tap an empty cell."):this.t("Число на пересечении участвует в обеих связях.","A shared number belongs to both equations."));
     document.querySelector('#filled')!.textContent=`${Object.keys(a.placements).length} / ${p.tray.length}`;
-    if(conceal&&!this.explanation&&!this.selected)this.note.textContent=a.status==='out-of-lives'?'Жизни закончились. Начните новый забег или сохраните итог.':a.lastRejectedSignature?'Предыдущая отправка не прошла проверку. Измените числа и проверьте снова.':'Заполните поле и нажмите «Проверить». До отправки оценка скрыта.';
-    document.querySelector('#stock')!.textContent=`Осталось ${p.tray.length-Object.keys(a.placements).length}`;
+    if(conceal&&!this.explanation&&!this.selected)this.note.textContent=a.status==='out-of-lives'?this.t("Жизни закончились. Начните новый забег или сохраните итог.","Out of lives. Start a new run or save your result."):a.lastRejectedSignature?this.t("Предыдущая отправка не прошла проверку. Измените числа и проверьте снова.","The last submission was incorrect. Change the layout and check again."):this.t("Заполните поле и нажмите «Проверить». До отправки оценка скрыта.","Fill the board and select Check to submit it.");
+    document.querySelector('#stock')!.textContent=this.t(`Осталось ${p.tray.length-Object.keys(a.placements).length}`,`Left: ${p.tray.length-Object.keys(a.placements).length}`);
     (document.querySelector('#return') as HTMLButtonElement).disabled=this.disabled()||a.status!=='playing'||this.selected?.kind!=='cell'||a.placements[this.selected.id]===undefined;
     if(p.campaignPosition===1&&a.boardRevision===0&&!this.tutorialShown&&!this.tutorialTimer&&!this.disabled())this.tutorialTimer=setTimeout(()=>this.demonstrateFirstMove(),6000);
   }

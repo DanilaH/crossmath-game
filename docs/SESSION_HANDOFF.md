@@ -13,3 +13,5 @@
 
 11. E1 career authority is `src/meta/career.ts`: one global run matches the active/parked Endless slot, sequential solvedStages dedupes run/stage scores, records finalize only at end/new run, and assistance taints the entire run. Achievements have persistent earnedAt/eventId; never retroactively invent run3 or abandoned legacy history. Keep statistics and result in the same root transaction.
 12. Latest APK `Crossmath_0.3.0_E1_preview.apk`, 1,216,469 bytes, SHA256 `0ac51ca4a86db81c5c09e1af8b738ffb7cee091d7423f4a622c89a53b87af519`, source `dd435b6cc0aabd1bd57005ebe67c4c5948ab1f61`, tree `26fbb488ccea16d3fb1e379a618ce70362fd679b`. Same preview certificate. 58 tests plus A–C/D/E1 browser scenarios PASS, real debug/R8 build and exact inspection PASS, native runtime NOT RUN. Next is E2, not another Endless redesign.
+
+13. E2 in 0.4.0 implements persistent RU/EN and Campaign/Free timer, schema4 request/settlement ledger, scripted ads test coverage, and optional Capacitor CrossmathAds bridge. See ACCEPTANCE_E2_2026-11-19.md for the provider interface. Next steps are selecting/configuring the live Android provider and real device/release acceptance.

@@ -26,7 +26,39 @@ try{
  await tap('#help');await tap('#reveal');await tap('#apply-help');assert.equal((await snapshot()).career.run.assisted,true);assert.equal((await snapshot()).attempt.status,'playing');assert.equal(await page.locator('.op.right,.op.invalid').count(),0);await fill();await tap('#submit');await tap('#next');await fill();await tap('#submit');const badge=(await snapshot()).career.achievements.run3;assert.ok(badge);await finish();const assisted=await snapshot();assert.equal(assisted.career.records['cm-integer-1/content-v1/score-v1'].solo,null);assert.equal(assisted.career.records['cm-integer-1/content-v1/score-v1'].assisted.boards,3);await page.screenshot({path:out+'/profile-assisted.png',fullPage:true});checks.push('parked mode exact restore, explicit paid reveal taints whole run, three distinct stages earn permanent badge and assisted record');
  await tap('#profile-back');await tap('#endless-open');await fill();await tap('#submit');assert.equal((await snapshot()).result.baseCoins,0);await finish();const records=(await snapshot()).career.records['cm-integer-1/content-v1/score-v1'];assert.equal(records.solo.boards,1);assert.equal(records.assisted.boards,3);assert.deepEqual((await snapshot()).career.achievements.run3,badge);checks.push('new solo run has separate record; repeated canonical ID still earns stage score, no base reward or repeated badge');
  for(const [width,height] of [[320,568],[360,640],[390,844],[800,1280]]){await page.setViewportSize({width,height});const data=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,minTarget:Math.min(...[...document.querySelectorAll('#hub button')].map(e=>e.getBoundingClientRect().height))}));assert.equal(data.overflow,false);assert.ok(data.minTarget>=48);geometry.push({screen:'profile',viewport:[width,height],...data});await page.screenshot({path:out+`/profile-${width}.png`,fullPage:true});}
- await tap('#profile-back');await tap('#endless-open');await fill();await tap('#submit');await tap('#next');await fill();const failing=await snapshot(),fc=boards.find(p=>p.puzzleId===failing.attempt.puzzleId).cells.filter(c=>c.given===undefined);for(let i=0;i<3;i++){await swap(fc[0].id,fc[i+1].id);await tap('#submit');assert.equal((await snapshot()).attempt.lives,2-i);}assert.equal((await snapshot()).attempt.status,'out-of-lives');await page.screenshot({path:out+'/no-lives.png',fullPage:true});const oldRun=(await snapshot()).career.run.id,balance=(await snapshot()).profile.coins;await tap('#retry-daily');assert.notEqual((await snapshot()).career.run.id,oldRun);assert.equal((await snapshot()).attempt.lives,3);assert.equal((await snapshot()).profile.coins,balance);checks.push('three distinct rejected layouts stop run at zero; free new run resets run identity/lives without wallet debit');
+ await tap('#profile-back');await tap('#endless-open');await fill();await tap('#submit');await tap('#next');await fill();const failing=await snapshot(),fc=boards.find(p=>p.puzzleId===failing.attempt.puzzleId).cells.filter(c=>c.given===undefined);for(let i=0;i<3;i++){await swap(fc[0].id,fc[i+1].id);await tap('#submit');assert.equal((await snapshot()).attempt.lives,2-i);}assert.equal((await snapshot()).attempt.status,'out-of-lives');assert.equal(await page.locator('#ad-continue').isHidden(),true);await page.screenshot({path:out+'/no-lives.png',fullPage:true});const oldRun=(await snapshot()).career.run.id,balance=(await snapshot()).profile.coins;await tap('#retry-daily');assert.notEqual((await snapshot()).career.run.id,oldRun);assert.equal((await snapshot()).attempt.lives,3);assert.equal((await snapshot()).profile.coins,balance);checks.push('three distinct rejected layouts stop run at zero; free new run resets run identity/lives without wallet debit');
+
+ // Exercise the actual runtime language switch and inspect rendered copy including accessible labels.
+ await tap('#pause');await page.locator('#language:enabled').waitFor();
+ await page.locator('#language').selectOption('en');
+ await page.locator('html[lang="en"] #resume:enabled').waitFor();
+ assert.match(await page.locator('#mode-rules').innerText(),/Three lives for the entire run/);
+ await page.locator('#timer-visible').check();await page.locator('#resume:enabled').waitFor();
+ await tap('#resume');
+ const noRussian=async(selector)=>{
+   const node=page.locator(selector);
+   assert.doesNotMatch(await node.innerText(),/[А-Яа-яЁё]/,selector);
+   const labels=await node.locator('[aria-label]:visible').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('aria-label')));
+   assert.doesNotMatch(labels.join(' '),/[А-Яа-яЁё]/,selector+' aria-labels');
+ };
+ await noRussian('#play-screen');assert.equal(await page.locator('#play-time').isHidden(),true);
+ await tap('#help');await page.locator('#close-help:enabled').waitFor();await noRussian('#help-dialog');
+ assert.equal(await page.locator('#ad-hint').isHidden(),true);
+ await tap('#explain');assert.match(await page.locator('#help-description').innerText(),/equations and the tray/);
+ await tap('#close-help');
+ await tap('#home');await noRussian('#hub');
+ await tap('#calendar-open');await noRussian('#hub');await page.screenshot({path:out+'/calendar-en.png',fullPage:true});
+ await tap('#calendar-back');await tap('#album-open');await noRussian('#hub');
+ await page.locator('[data-card="abacus"]').tap();await noRussian('#card-dialog');
+ assert.match(await page.locator('#card-body').innerText(),/Left beads/);await tap('#close-card');
+ await tap('#album-back');await tap('#profile-open');await noRussian('#hub');await page.screenshot({path:out+'/profile-en.png',fullPage:true});
+ await tap('#profile-back');await tap('#campaign-open');assert.equal(await page.locator('#play-time').isVisible(),true);
+ await page.reload();await ready();assert.equal(await page.locator('html').getAttribute('lang'),'en');
+ assert.equal(await page.locator('#play-time').isVisible(),true);await noRussian('#play-screen');
+ await tap('#pause');await page.locator('#language:enabled').waitFor();await page.locator('#language').selectOption('ru');
+ await page.locator('html[lang="ru"] #resume:enabled').waitFor();await tap('#resume');
+ assert.match(await page.locator('#help').innerText(),/Помощь/);
+ checks.push('RU/EN switch and cold persistence, localized board/help/mission/calendar/album/profile/accessibility copy, timer hidden in Endless, optional ads absent without provider');
  assert.deepEqual(errors,[]);await writeFile(out+'/report.json',JSON.stringify({status:'PASS',source:process.env.GITHUB_SHA??'local',browser:browser.version(),checks,geometry,limits:'Real UI input from fresh profile; no Android runtime or live services claim'},null,2)+'\n');console.log(JSON.stringify({status:'PASS',checks,geometry},null,2));
 }catch(error){await writeFile(out+'/failure.json',JSON.stringify({status:'FAIL',error:String(error),checks,errors},null,2)+'\n');throw error;}
 finally{await browser?.close();await new Promise(done=>server.close(done));}

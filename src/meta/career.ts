@@ -31,7 +31,7 @@ export function upgradeCareer(input:unknown,now=new Date().toISOString()):unknow
   const save=structuredClone(input) as Save;
   // Schema2 never shipped an Endless run. Reject forged run fields instead of inventing history.
   if(save.attempt?.mode==='endless'||Object.values(save.meta?.inactive??{}).some(slot=>slot.attempt?.mode==='endless'))throw Error('Undated legacy run');
-  save.schemaVersion=3;save.career=createCareer(now,true);settleAchievements(save,now,'migration:3');return save;
+  (save as unknown as {schemaVersion:number}).schemaVersion=3;save.career=createCareer(now,true);settleAchievements(save,now,'migration:3');return save;
 }
 export function finishRun(save:Save,now:string):void {
   const run=save.career.run;if(!run||run.status==='ended')return;

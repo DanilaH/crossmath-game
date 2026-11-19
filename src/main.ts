@@ -1,3 +1,6 @@
+import { androidAdsProvider } from './platform/androidAds';
+import { localize } from './ui/locale';
+import type { Language } from './ui/locale';
 import Phaser from 'phaser';
 import { getRenderPixelRatio } from '@danilah/mini-games-kit/core';
 import { destroyRenderer } from '@danilah/mini-games-kit/phaser';
@@ -12,11 +15,12 @@ import { WorkshopScene, PRESENTABLE } from './game/WorkshopScene';
 import './style.css';
 
 const startup=new StartupTimeline<'hostReady'|'storageReady'|'firstFrame'|'ready'>(),cover=document.querySelector<HTMLElement>('#startup')!,root=document.querySelector<HTMLElement>('#game-root')!;
+let language:Language='ru';
 let alive=true,ui:GameUi|undefined,removeDebug=()=>{},dispose=()=>{};
 try{
   const platform=createPlatform(()=>ui?.onBack()??true);dispose=()=>platform.destroy();startup.mark('hostReady');
   const repository=new SaveRepository(createStorage(),()=>createSave(crypto.randomUUID(),new Date().toISOString(),Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC',crypto.randomUUID()));
-  const state=await repository.load();startup.mark('storageReady');
+  const state=await repository.load();language=state.settings.language;startup.mark('storageReady');
   const session=new GameSession(state,repository,()=>crypto.randomUUID());
   await session.refreshDay();
   let resolveFrame!:()=>void;const frame=new Promise<void>(resolve=>{resolveFrame=resolve;});
@@ -26,14 +30,14 @@ try{
   let paintPending=false;
   const paint=()=>{if(!game.isBooted||paintPending||platform.activity.isBlocked())return;paintPending=true;game.events.once(Phaser.Core.Events.POST_RENDER,()=>{paintPending=false;game.loop.sleep();});(game.scene.scenes[0] as WorkshopScene|undefined)?.paint();game.loop.wake();};
   const resize=()=>{if(!game.isBooted)return;const s=size();game.canvas.style.width=s.cssWidth+'px';game.canvas.style.height=s.cssHeight+'px';const w=Math.round(s.cssWidth*s.dpr),h=Math.round(s.cssHeight*s.dpr);if(game.scale.width!==w||game.scale.height!==h)game.scale.resize(w,h);ui?.board.resize();paint();};
-  ui=new GameUi(session,(reason,blocked)=>platform.activity.setBlocked(reason,blocked),paint);
+  ui=new GameUi(session,(reason,blocked)=>platform.activity.setBlocked(reason,blocked),paint,androidAdsProvider());
   const blocked=platform.activity.onBlockedChange(value=>{game.sound.mute=value;game.input.enabled=!value;if(value&&game.isBooted)game.loop.sleep();else resize();ui?.activityChanged(value);});
   const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(resize);observer?.observe(root);window.addEventListener('resize',resize);
   await frame;startup.mark('firstFrame');game.loop.sleep();cover.hidden=true;await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
   startup.mark('ready');document.documentElement.dataset.state='ready';platform.activity.setGameplayDesired(true);ui.setReady();
-  if(repository.recoveredBackup)document.querySelector('#storage-note')!.textContent='Восстановлено последнее исправное сохранение.';
+  if(repository.recoveredBackup)ui.showRecoveryNotice();
   if(import.meta.env.DEV){const{installDebug}=await import('./app/debug');if(alive)removeDebug=installDebug(()=>startup.snapshot({toReady:['start','ready'],toFrame:['start','firstFrame']}));}
   const destroy=(event:PageTransitionEvent)=>{if(event.persisted)return;alive=false;window.removeEventListener('pagehide',destroy);window.removeEventListener('resize',resize);observer?.disconnect();blocked();removeDebug();ui?.dispose();platform.destroy();destroyRenderer(game);};window.addEventListener('pagehide',destroy);
 }catch{
-  dispose();cover.hidden=false;cover.replaceChildren();const message=document.createElement('p');message.textContent='Не удалось открыть игру. Сохранённые данные сохранены. Повторите загрузку.';const retry=document.createElement('button');retry.textContent='Повторить загрузку';retry.onclick=()=>location.reload();cover.append(message,retry);
+  dispose();cover.hidden=false;cover.replaceChildren();const message=document.createElement('p');message.textContent=localize(language,'Не удалось открыть игру. Повторите загрузку.','Could not open the game. Please reload.');const retry=document.createElement('button');retry.textContent=localize(language,'Повторить загрузку','Reload');retry.onclick=()=>location.reload();cover.append(message,retry);
 }

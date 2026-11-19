@@ -1,3 +1,5 @@
+import { activeSeconds, canRequestReward, createRewardRequest, settleReward } from '../platform/adState';
+import type { RewardEvent, RewardKind, RewardRequest } from '../platform/adState';
 import { campaignPuzzle, config, getPuzzle, routes } from '../content/catalog';
 import { applyCommand, applyHelpLayout, createAttempt } from '../core/engine';
 import { explain, verifyExplanation } from '../help/logic';
@@ -21,6 +23,64 @@ export type OpenOutcome='opened'|'confirm_replace'|'unavailable';
 
 export class GameSession {
   private busy=false;
+  private readonly writeWaiters = new Set<() => void>();
+
+  get writing():boolean { return this.busy; }
+
+  private finishWrite():void {
+    this.busy=false;
+    for(const resume of this.writeWaiters)resume();
+    this.writeWaiters.clear();
+  }
+
+  async waitForWrite():Promise<void> {
+    while(this.busy)await new Promise<void>(resolve=>this.writeWaiters.add(resolve));
+  }
+
+  private async receiveAdWrite(stillActive:()=>boolean, write:()=>Promise<void>):Promise<void> {
+    while(this.busy)await this.waitForWrite();
+    if(!stillActive())throw Error('Ad adapter disposed');
+    this.busy=true;
+    try{await write();}finally{this.finishWrite();}
+  }
+
+  async beginReward(kind:RewardKind,elapsed=0):Promise<RewardRequest|null> {
+    if(this.busy)return null;
+    this.busy=true;
+    try{
+      const next=structuredClone(this.state);
+      refreshDay(next,this.now());
+      if(!canRequestReward(next,kind))return null;
+      const request=createRewardRequest(next,this.id(),kind);
+      await this.persist(next,elapsed);
+      return request;
+    }finally{this.finishWrite();}
+  }
+
+  async acceptReward(event:RewardEvent,stillActive:()=>boolean):Promise<'applied'|'already-applied'> {
+    let outcome:'applied'|'already-applied'='already-applied';
+    await this.receiveAdWrite(stillActive,async()=>{
+      const entry=this.state.ads.requests[event.id];
+      if(!entry||event.profileId!==this.state.profile.id||!['earned','cancelled','failed'].includes(event.outcome)){
+        throw Error('Unmatched ad receipt');
+      }
+      if(entry.settlement)return;
+      const next=structuredClone(this.state);
+      refreshDay(next,this.now());
+      settleReward(next,event);
+      await this.persist(next,0);
+      outcome='applied';
+    });
+    return outcome;
+  }
+
+  recordInterstitial(stillActive:()=>boolean):Promise<void> {
+    return this.receiveAdWrite(stillActive,async()=>{
+      const next=structuredClone(this.state);
+      next.ads.lastInterstitial=activeSeconds(next);
+      await this.persist(next,0);
+    });
+  }
   constructor(public state: Save, private readonly repository: SaveRepository, private readonly id:()=>string,private readonly now:()=>string=()=>new Date().toISOString()) {}
   private async persist(next: Save, elapsed: number): Promise<void> {
     next.attempt.elapsedPlaying+=Math.max(0,elapsed);
@@ -38,7 +98,7 @@ export class GameSession {
         if(next.attempt.mode==='endless'){const run=next.career.run!;run.lives=next.attempt.lives;if(run.lives===0)run.status='failed';}
         await this.persist(next,elapsed);}
       return {...result,state:this.state.attempt};
-    } finally { this.busy=false; }
+    } finally { this.finishWrite(); }
   }
   prepareHelp(kind:'explain'|'reveal', selectedCell?:number): HintPlan | null {
     const p=getPuzzle(this.state.attempt.puzzleId),a=this.state.attempt;
@@ -63,7 +123,7 @@ export class GameSession {
       next.attempt=applyHelpLayout(p,a,layout,operationId);next.profile.coins-=costCoins;next.profile.hintCredits-=costCredits;next.helpReceipts[operationId]=result;
       next.career.modes[a.mode][kind==='explain'?'explains':'reveals']++;if(a.mode==='endless')next.career.run!.assisted=true;
       await this.persist(next,elapsed); return result;
-    } finally { this.busy=false; }
+    } finally { this.finishWrite(); }
   }
   async next(elapsed=0):Promise<boolean> {
     if(this.state.attempt.status!=='won')return false;
@@ -72,31 +132,31 @@ export class GameSession {
     if(this.state.attempt.mode==='endless')return this.nextStage();
     if (this.busy || this.state.profile.campaignCursor>=routes.campaignSequence.length) return false;
     this.busy=true;
-    try { const next=structuredClone(this.state);next.attempt=createAttempt(campaignPuzzle(next.profile.campaignCursor),this.id());next.career.modes.campaign.starts++;next.result=null;await this.persist(next,elapsed);return true; } finally {this.busy=false;}
+    try { const next=structuredClone(this.state);next.attempt=createAttempt(campaignPuzzle(next.profile.campaignCursor),this.id());next.career.modes.campaign.starts++;next.result=null;await this.persist(next,elapsed);return true; } finally {this.finishWrite();}
   }
   async restart():Promise<boolean> {
     if(this.state.attempt.mode==='endless')return await this.newRun(true)==='opened';
     if (this.busy) return false;this.busy=true;
-    try { const next=structuredClone(this.state);refreshDay(next,this.now());if(!this.canRestart(next))return false;const old=next.attempt;next.attempt=createAttempt(getPuzzle(old.puzzleId),this.id(),old.mode);next.career.modes[old.mode].starts++;next.career.modes[old.mode].restarts++;if(old.dayKey)next.attempt.dayKey=old.dayKey;next.result=null;await this.persist(next,0);return true; } finally {this.busy=false;}
+    try { const next=structuredClone(this.state);refreshDay(next,this.now());if(!this.canRestart(next))return false;const old=next.attempt;next.attempt=createAttempt(getPuzzle(old.puzzleId),this.id(),old.mode);next.career.modes[old.mode].starts++;next.career.modes[old.mode].restarts++;if(old.dayKey)next.attempt.dayKey=old.dayKey;next.result=null;await this.persist(next,0);return true; } finally {this.finishWrite();}
   }
   async update(settings:Partial<Settings>, userPaused:boolean, elapsed=0):Promise<void> {
     if (this.busy) return;this.busy=true;
-    try { const next=structuredClone(this.state);next.settings={...next.settings,...settings};next.attempt.userPaused=userPaused;await this.persist(next,elapsed); } finally {this.busy=false;}
+    try { const next=structuredClone(this.state);next.settings={...next.settings,...settings};next.attempt.userPaused=userPaused;await this.persist(next,elapsed); } finally {this.finishWrite();}
   }
   async checkpoint(elapsed:number):Promise<boolean> {
     if (this.busy || elapsed<=0 || this.state.attempt.status!=='playing') return false;
     this.busy=true;
-    try {await this.persist(structuredClone(this.state),elapsed);return true;} finally {this.busy=false;}
+    try {await this.persist(structuredClone(this.state),elapsed);return true;} finally {this.finishWrite();}
   }
   canRestart(save=this.state):boolean{return save.attempt.mode!=='daily'||dateAvailable(save.profile.createdAt,save.profile.timeZone,save.meta.effectiveDay,save.attempt.dayKey!);}
   hasDayChange():boolean{return profileDay(this.now(),this.state.profile.timeZone)>this.state.meta.effectiveDay;}
   async refreshDay():Promise<boolean>{
     if(this.busy)return false;const next=structuredClone(this.state);refreshDay(next,this.now());if(JSON.stringify(next.meta)===JSON.stringify(this.state.meta))return false;
-    this.busy=true;try{await this.persist(next,0);return true;}finally{this.busy=false;}
+    this.busy=true;try{await this.persist(next,0);return true;}finally{this.finishWrite();}
   }
   async navigate(screen:MetaScreen,elapsed=0):Promise<boolean>{
     if(this.busy)return false;this.busy=true;
-    try{const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;}finally{this.busy=false;}
+    try{const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;}finally{this.finishWrite();}
   }
   openCampaign(elapsed=0):Promise<OpenOutcome>{
     const saved=storedSlot(this.state,'campaign');const id=saved?.attempt.status==='playing'?saved.attempt.puzzleId:routes.campaignSequence[this.state.profile.campaignCursor]??saved?.attempt.puzzleId;
@@ -135,7 +195,7 @@ export class GameSession {
       if(offer.mode==='daily')next.attempt.dayKey=offer.dayKey!;
       delete next.meta.inactive[key];next.meta.activeSlot=key;next.meta.screen='play';if(offer.mode==='free')next.meta.freeDifficulty=puzzle.difficulty;
       await this.persist(next,0);return 'opened';
-    }finally{this.busy=false;}
+    }finally{this.finishWrite();}
   }
   questOffer(index:number):Offer|null{
     const set=this.state.meta.quests,slot=set?.slots[index];if(!set||!slot||slot.paid)return null;
@@ -149,7 +209,7 @@ export class GameSession {
       next.attempt=structuredClone(saved.attempt);next.result=structuredClone(saved.result);delete next.meta.inactive.endless;next.meta.activeSlot='endless';next.meta.screen='play';next.attempt.userPaused=false;
       if(advanceWon&&next.attempt.status==='won'&&next.career.run!.status==='active')this.advanceStage(next);
       await this.persist(next,0);return 'opened';
-    }finally{this.busy=false;}
+    }finally{this.finishWrite();}
   }
   async newRun(replace=false,elapsed=0):Promise<OpenOutcome>{
     if(this.busy||this.state.profile.solvedIds.length<config.unlockProposal.endlessAfterNewWins)return 'unavailable';
@@ -160,7 +220,7 @@ export class GameSession {
       const run:EndlessRun={id:this.id(),version:recordVersion,stage:0,solvedStages:0,score:0,lives:config.endlessLives,assisted:false,status:'active'};next.career.run=run;
       next.attempt=createAttempt(getPuzzle(routes.endlessSequence[0]!),this.id(),'endless');next.attempt.runId=run.id;next.attempt.stageId=0;next.attempt.lives=run.lives;next.result=null;next.career.modes.endless.starts++;
       delete next.meta.inactive.endless;next.meta.activeSlot='endless';next.meta.screen='play';refreshQuests(next);await this.persist(next,0);return 'opened';
-    }finally{this.busy=false;}
+    }finally{this.finishWrite();}
   }
   private advanceStage(next:Save):void {
     const run=next.career.run!;run.stage++;next.attempt=createAttempt(getPuzzle(routes.endlessSequence[run.stage%routes.endlessSequence.length]!),this.id(),'endless');
@@ -168,10 +228,10 @@ export class GameSession {
   }
   private async nextStage():Promise<boolean>{
     if(this.busy||this.state.attempt.mode!=='endless'||this.state.attempt.status!=='won'||this.state.career.run?.status!=='active')return false;
-    this.busy=true;try{const next=structuredClone(this.state);this.advanceStage(next);refreshQuests(next);await this.persist(next,0);return true;}finally{this.busy=false;}
+    this.busy=true;try{const next=structuredClone(this.state);this.advanceStage(next);refreshQuests(next);await this.persist(next,0);return true;}finally{this.finishWrite();}
   }
   async endRun(elapsed=0):Promise<boolean>{
     if(this.busy||this.state.attempt.mode!=='endless'||!this.state.career.run||this.state.career.run.status==='ended')return false;
-    this.busy=true;try{const next=structuredClone(this.state);finishRun(next,this.now());next.attempt.userPaused=false;next.meta.screen='profile';await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;}finally{this.busy=false;}
+    this.busy=true;try{const next=structuredClone(this.state);finishRun(next,this.now());next.attempt.userPaused=false;next.meta.screen='profile';await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;}finally{this.finishWrite();}
   }
 }

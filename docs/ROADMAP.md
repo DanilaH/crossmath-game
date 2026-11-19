@@ -11,4 +11,4 @@ Source: [owner specification 1.0](spec/Crossmath_TZ_v1.0_RU.md), sections 12–1
 | E — full version | Endless UI/runs/records, profile/statistics/achievements, RU/EN, platform services | Four modes; scripted then real ads; cancellation/late callbacks; separate records |
 | F — release | Physical devices, TalkBack, 200% OS font, offline/process death, real SDK, signed store artifact and metadata | Exact artifact, P01–P10/HC01–HC12/M01–M12, owner publication decision |
 
-A–D are implemented in retained previews, with phone acceptance still pending. E1 adds the offline Endless/profile/achievement portion in 0.3.0. E2 remains: full RU/EN UI, platform reward/interstitial adapters and scripted interruption/callback checks; real provider/device/store acceptance follows separately. E1 is not completion of the full E gate.
+A–D are implemented in retained previews, with phone acceptance still pending. E1 adds the offline Endless/profile/achievement portion in 0.3.0. E2 adds RU/EN, the optional Android ads bridge and scripted callback coverage in 0.4.0. Real provider, device and store acceptance remain open.

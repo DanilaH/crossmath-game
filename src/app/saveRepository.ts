@@ -21,20 +21,26 @@ export class SaveRepository {
   async load(): Promise<Save> {
     const raw=await this.storage.getItem(SAVE_KEY);
     let state:Save;
-    try {
-      if (raw===null) {
-        const backup=await this.storage.getItem(SAVE_KEY+'.backup');
-        state=backup===null ? this.fresh() : decodeSave(JSON.parse(backup));
-        await this.primary.write(state);
-        if (backup!==null) this.recoveredBackup=true;
-      } else { const parsed:unknown=JSON.parse(raw);state=decodeSave(parsed);if((parsed as {schemaVersion?:unknown}).schemaVersion!==state.schemaVersion)await this.primary.write(state); }
-    } catch (error) {
-      // Preserve the damaged bytes before replacing them; never silently start a fresh wallet.
-      if (raw===null) throw error;
-      state=await this.backup.load();
-      await this.storage.setItem(SAVE_KEY+'.quarantine',raw);
-      await this.primary.write(state); this.recoveredBackup=true;
+    let needsWrite=false;
+    if(raw===null){
+      const backup=await this.storage.getItem(SAVE_KEY+'.backup');
+      state=backup===null?this.fresh():decodeSave(JSON.parse(backup));
+      needsWrite=true;
+      this.recoveredBackup=backup!==null;
+    }else{
+      try{
+        const parsed:unknown=JSON.parse(raw);
+        state=decodeSave(parsed);
+        needsWrite=(parsed as {schemaVersion?:unknown}).schemaVersion!==state.schemaVersion;
+      }catch{
+        // Quarantine corrupt bytes. A failure to write a valid migration is handled separately.
+        state=await this.backup.load();
+        await this.storage.setItem(SAVE_KEY+'.quarantine',raw);
+        this.recoveredBackup=true;
+        needsWrite=true;
+      }
     }
+    if(needsWrite)await this.primary.write(state);
     this.recoveryRequired=false; return state;
   }
   commit(expectedRevision: number, next: Save): Promise<Save> {

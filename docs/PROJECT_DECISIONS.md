@@ -35,3 +35,10 @@ Runtime source: @danilah/mini-games-kit at 469928d03f4bae5053e23db26e82187bedbc2
 - Detailed per-mode starts, completions, active seconds, error commands, undo, explain/reveal and restarts are durable. Schema2 has no complete abandoned-attempt history: start these detailed counters at migration, label them partial, retain exact lifetime unique wins/calendar/cards/rank. Do not invent historical attempts, times or errors.
 - Twelve badges use config thresholds and permanent earnedAt/eventId receipts without monetary reward. Migration derives only provable badges; run3 starts with new runs and never adds different runs together. Dates mean first recorded acquisition when old history is unavailable.
 - UI uses existing approved paper tokens. Fixed bottom Submit stays reachable before scrolling on four tested viewports; native root owns insets, browser alone adds CSS safe area. No new motion or artwork. RU/EN and actual platform service adapters remain E2; E1 adds no ad runtime or fake video buttons.
+
+## E2 — 0.4.0
+
+- Locale and optional timer are durable settings. UI translates from saved state and config labels, including English album part names, modal copy and accessible labels.
+- Schema4 adds ad request identities and settled effects. A valid older snapshot remains authoritative if the migration write fails.
+- Optional CrossmathAds adapter keeps initialization outside first-frame readiness. After an explicit request, confirmed eventual rewards settle through the same writer as gameplay. Dismissal and award are distinct. Expired continuation receipts settle without redirecting the resource. An Endless continuation counts as assisted.
+- Native provider owns ad presentation and banner dimensions. The preview uses the offline branch when the plugin is absent. Production placements and device acceptance remain release work.

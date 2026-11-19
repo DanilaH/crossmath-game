@@ -1,3 +1,5 @@
+import { createAdState, validateAdState } from '../platform/adState';
+import type { AdState } from '../platform/adState';
 import { config, getPuzzle, routes, campaignPuzzle } from '../content/catalog';
 import { createAttempt } from '../core/engine';
 import { assertInventory, isSolved } from '../core/types';
@@ -8,7 +10,7 @@ import { isCalendarDay } from '../meta/calendar';
 import { createCareer, settleAchievements, settleStage, upgradeCareer, validateCareer } from '../meta/career';
 import type { Career } from '../meta/career';
 
-export interface Settings { theme: 'light' | 'dark'; sound: boolean; vibration: boolean; reducedMotion: boolean; language: 'ru' | 'en' }
+export interface Settings { theme: 'light' | 'dark'; sound: boolean; vibration: boolean; reducedMotion: boolean; language: 'ru' | 'en'; timerVisible: boolean }
 export interface Completion {
   id: string; attemptId: string; puzzleId: string; first: boolean; coins: number; xp: number;
   rankUps: number; fragments: number; cardCoins: number; elapsedPlaying: number;
@@ -19,18 +21,19 @@ export interface Completion {
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
 export interface Save {
-  schemaVersion: 3; revision: number; contentVersion: 'content-v1'; balanceVersion: string;
+  schemaVersion: 4; revision: number; contentVersion: 'content-v1'; balanceVersion: string;
   profile: { id: string; createdAt: string; timeZone: string; coins: number; hintCredits: number;
     rank: number; xp: number; solvedIds: string[]; campaignCursor: number; fragments: number; paidCardIds: string[] };
   settings: Settings; attempt: Attempt; result: Completion | null; helpReceipts: Record<string,HelpReceipt>;
   meta: MetaState;
   career:Career;
+  ads:AdState;
 }
 export function createSave(id: string, now: string, timeZone: string, attemptId: string): Save {
   const career=createCareer(now);career.modes.campaign.starts=1;
-  return {schemaVersion:3,revision:0,contentVersion:'content-v1',balanceVersion:config.configVersion,meta:createMeta(now,timeZone),career,
+  return {schemaVersion:4,revision:0,contentVersion:'content-v1',balanceVersion:config.configVersion,meta:createMeta(now,timeZone),career,ads:createAdState(),
     profile:{id,createdAt:now,timeZone,coins:config.initialCoins,hintCredits:config.initialHintCredits,rank:1,xp:0,solvedIds:[],campaignCursor:0,fragments:0,paidCardIds:[]},
-    settings:{theme:'light',sound:false,vibration:false,reducedMotion:false,language:'ru'},
+    settings:{theme:'light',sound:false,vibration:false,reducedMotion:false,language:'ru',timerVisible:false},
     attempt:createAttempt(campaignPuzzle(0),attemptId),result:null,helpReceipts:{}};
 }
 export const rankThreshold = (rank: number): number => Math.min(config.rank.baseXp+config.rank.stepXp*(rank-1),config.rank.maxXpPerRank);
@@ -64,9 +67,16 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
 export function decodeSave(input: unknown): Save {
   const fail=():never => { throw Error('Unsupported or corrupt Crossmath save'); };
   if (!input || typeof input !== 'object') return fail();
-  const s=upgradeCareer(upgradeSave(input)) as Save;
+  const upgraded=upgradeCareer(upgradeSave(input));
+  const isSchema3=(upgraded as {schemaVersion?:number})?.schemaVersion===3;
+  const s=(isSchema3?structuredClone(upgraded):upgraded) as Save;
+  if(isSchema3 && s.settings){
+    s.schemaVersion=4;
+    s.settings.timerVisible=false;
+    s.ads=createAdState();
+  }
   const nonnegative=(n:unknown):n is number => Number.isSafeInteger(n) && Number(n)>=0;
-  if (s.schemaVersion !== 3 || !nonnegative(s.revision) || s.contentVersion !== 'content-v1' || s.balanceVersion !== config.configVersion) return fail();
+  if (s.schemaVersion !== 4 || !nonnegative(s.revision) || s.contentVersion !== 'content-v1' || s.balanceVersion !== config.configVersion) return fail();
   if (!s.profile || !s.settings || !s.attempt || !s.helpReceipts || typeof s.helpReceipts !== 'object' || Array.isArray(s.helpReceipts)) return fail();
   const p=s.profile,a=s.attempt;
   if (typeof p.id !== 'string' || !p.id || typeof p.createdAt !== 'string' || !Number.isFinite(Date.parse(p.createdAt)) || typeof p.timeZone !== 'string') return fail();
@@ -74,9 +84,10 @@ export function decodeSave(input: unknown): Save {
   if (![p.coins,p.hintCredits,p.xp,p.rank,p.campaignCursor,p.fragments].every(nonnegative) || p.rank<1 || p.xp>=rankThreshold(p.rank) || p.campaignCursor>240 || p.fragments>48) return fail();
   if (!Array.isArray(p.solvedIds) || new Set(p.solvedIds).size!==p.solvedIds.length || !Array.isArray(p.paidCardIds) || new Set(p.paidCardIds).size!==p.paidCardIds.length || p.paidCardIds.some(id=>!config.cards.some(c=>c.id===id))) return fail();
   try { for (const id of p.solvedIds) getPuzzle(id); } catch { return fail(); }
-  if (!['light','dark'].includes(s.settings.theme) || !['ru','en'].includes(s.settings.language) || !['sound','vibration','reducedMotion'].every(k=>typeof s.settings[k as keyof Settings]==='boolean')) return fail();
+  if (!['light','dark'].includes(s.settings.theme) || !['ru','en'].includes(s.settings.language) || !['sound','vibration','reducedMotion','timerVisible'].every(k=>typeof s.settings[k as keyof Settings]==='boolean')) return fail();
   validateMeta(s);
   validateCareer(s);
+  validateAdState(s);
   const validateAttempt=(a:Attempt,result:Completion|null,slot:string):void=>{
   const puzzle=getPuzzle(a.puzzleId);
   if(a.mode==='endless'?typeof a.runId!=='string'||!nonnegative(a.stageId):a.runId!==undefined||a.stageId!==undefined)fail();

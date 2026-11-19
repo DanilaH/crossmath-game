@@ -1,0 +1,88 @@
+{
+  "status": "PASS",
+  "source": "local",
+  "browser": "141.0.7390.37",
+  "checks": [
+    "actual fresh-profile campaign 1–15, Endless locked at 14 and unlocked at 15",
+    "pre-submit neutral board, explicit scoring, one rejected-layout penalty, free repeat/undo, cold result and carried lives",
+    "parked mode exact restore, explicit paid reveal taints whole run, three distinct stages earn permanent badge and assisted record",
+    "new solo run has separate record; repeated canonical ID still earns stage score, no base reward or repeated badge",
+    "three distinct rejected layouts stop run at zero; free new run resets run identity/lives without wallet debit",
+    "RU/EN switch and cold persistence, localized board/help/mission/calendar/album/profile/accessibility copy, timer hidden in Endless, optional ads absent without provider"
+  ],
+  "geometry": [
+    {
+      "screen": "Endless submit",
+      "viewport": [
+        320,
+        568
+      ],
+      "visibleWithoutScroll": true,
+      "minTarget": 48
+    },
+    {
+      "screen": "Endless submit",
+      "viewport": [
+        360,
+        640
+      ],
+      "visibleWithoutScroll": true,
+      "minTarget": 48
+    },
+    {
+      "screen": "Endless submit",
+      "viewport": [
+        390,
+        844
+      ],
+      "visibleWithoutScroll": true,
+      "minTarget": 48
+    },
+    {
+      "screen": "Endless submit",
+      "viewport": [
+        800,
+        1280
+      ],
+      "visibleWithoutScroll": true,
+      "minTarget": 48
+    },
+    {
+      "screen": "profile",
+      "viewport": [
+        320,
+        568
+      ],
+      "overflow": false,
+      "minTarget": 48
+    },
+    {
+      "screen": "profile",
+      "viewport": [
+        360,
+        640
+      ],
+      "overflow": false,
+      "minTarget": 48
+    },
+    {
+      "screen": "profile",
+      "viewport": [
+        390,
+        844
+      ],
+      "overflow": false,
+      "minTarget": 48
+    },
+    {
+      "screen": "profile",
+      "viewport": [
+        800,
+        1280
+      ],
+      "overflow": false,
+      "minTarget": 48
+    }
+  ],
+  "limits": "Real UI input from fresh profile; no Android runtime or live services claim"
+}
