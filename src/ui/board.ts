@@ -1,4 +1,5 @@
-import { localize, operatorGlyph } from './locale';
+import { expressionSignature } from '../core/engine';
+import { conflictText, localize, operatorGlyph } from './locale';
 import type { Language } from './locale';
 import { OwnedDomMotion } from '@danilah/mini-games-kit/feel';
 import { cellValue, evaluate, tokenValue } from '../core/types';
@@ -16,6 +17,8 @@ export class BoardView {
   private equationLines: HTMLElement[] = [];
   private landing: Landing | undefined;
   private consumedPointerClick = false;
+  private freshErrors: number[] = [];
+  private preferredAxis: 'row' | 'column' | undefined;
   private explanation='';private supportIndices:number[]=[];
   private tutorialTimer:ReturnType<typeof setTimeout>|null=null;private tutorialShown=false;
   private readonly ghost=document.querySelector<HTMLElement>('#ghost')!;
@@ -31,7 +34,12 @@ export class BoardView {
     const changed=this.puzzle?.puzzleId!==puzzle.puzzleId||this.attempt?.id!==attempt.id;
     const before = this.attempt;
     this.puzzle=puzzle;this.attempt=attempt;
-    if(changed){this.landing=undefined;this.cancel();this.selected=null;this.explanation='';this.supportIndices=[];this.tutorialShown=false;this.build();}
+    if(changed){this.landing=undefined;this.cancel();this.selected=null;this.explanation='';this.supportIndices=[];this.tutorialShown=false;this.freshErrors=[];this.preferredAxis=undefined;this.build();}
+    if (!changed && before.boardRevision !== attempt.boardRevision && attempt.mode !== 'endless') {
+      const previous = evaluate(puzzle, before);
+      this.freshErrors = evaluate(puzzle, attempt).flatMap((state, index) =>
+        state === 'invalid' && (previous[index] !== 'invalid' || expressionSignature(puzzle,before,index) !== expressionSignature(puzzle,attempt,index)) ? [index] : []);
+    }
     this.render();
     const landing = this.landing;
     if (!this.disabled()) this.landing = undefined;
@@ -182,21 +190,27 @@ export class BoardView {
       const active=this.selected?.kind==='cell'&&Number(this.selected.id)===cell.id;e.classList.toggle('selected',active);e.setAttribute('aria-pressed',String(active));
     }
     this.renderTray();
-    const wrong = conceal ? -1 : states.indexOf('invalid');
-    const firstMove = p.campaignPosition === 1 && a.boardRevision === 0 && a.status === 'playing';
+    const focused = this.selectedCell();
+    const axisFirst = (indices: number[]): number | undefined =>
+      indices.find(index => this.equationLines[index]!.dataset.axis === this.preferredAxis) ?? indices[0];
+    const wrong = conceal ? -1 : axisFirst(this.freshErrors.filter(index => states[index] === 'invalid'))
+      ?? axisFirst(states.flatMap((state, index) => state === 'invalid' && focused !== undefined && p.equations[index]!.cells.includes(focused) ? [index] : []))
+      ?? states.indexOf('invalid');
+    const firstMove = p.puzzleId === 'cm-own-01-001' && a.mode === 'campaign' && a.boardRevision === 0 && a.status === 'playing';
     const showGuide = firstMove && !this.tutorialShown;
     this.board.classList.toggle('first-move', showGuide);
     this.tray.classList.toggle('first-move', showGuide);
     this.note.classList.toggle('problem', wrong >= 0 && !this.explanation);
-    this.note.textContent = this.explanation
-      || (wrong >= 0 ? equationText(p, a, wrong).replace(' = ', ' ≠ ')
+    let note = this.explanation
+      || (wrong >= 0 ? conflictText(this.language(), this.equationLines[wrong]!.dataset.axis === 'row', equationText(p, a, wrong))
         : this.selected?.kind === 'cell' ? p.equations.map((eq, i) => eq.cells.includes(Number(this.selected!.id)) ? equationText(p, a, i) : '').filter(Boolean).join(' · ')
         : this.selected?.kind === 'token' ? this.t('Коснитесь клетки', 'Tap a cell')
         : firstMove ? this.t('Поставьте число в пустую клетку', 'Put the number in the empty cell')
         : '');
     if (conceal && !this.explanation && !this.selected && a.lastRejectedSignature && a.status === 'playing') {
-      this.note.textContent = this.t('Измените числа и проверьте снова', 'Change the numbers and check again');
+      note = this.t('Измените числа и проверьте снова', 'Change the numbers and check again');
     }
+    if (this.note.textContent !== note) this.note.textContent = note;
     (document.querySelector('#return') as HTMLButtonElement).disabled =
       this.disabled() || a.status !== 'playing' || this.selected?.kind !== 'cell' || a.placements[this.selected.id] === undefined;
     if (showGuide && !this.tutorialTimer && !this.disabled() && !this.reduced()) this.tutorialTimer = setTimeout(() => this.demonstrateFirstMove(), 6000);
@@ -242,6 +256,11 @@ export class BoardView {
     if(this.selected?.kind==='token'&&source.kind==='cell'){this.transfer(this.selected,source,metadata);return;}
     if(this.selected?.kind==='cell'&&source.kind==='token'){this.transfer(source,this.selected,metadata);return;}
     if(this.selected?.kind==='cell'&&this.attempt.placements[this.selected.id]!==undefined&&source.kind==='cell'){this.transfer(this.selected,source,metadata);return;}
+    this.freshErrors=[];
+    if (source.kind === 'cell') {
+      const links = this.puzzle.equations.flatMap((eq,index) => eq.cells.includes(Number(source.id)) ? [this.equationLines[index]!.dataset.axis] : []);
+      if (links.length === 1) this.preferredAxis = links[0] as 'row' | 'column';
+    }
     this.selected=source;this.explanation='';this.supportIndices=[];this.feedback.cue('pick');this.render();
   }
   private down=(e:PointerEvent):void=>{if(e.isPrimary)this.consumedPointerClick=false;const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;

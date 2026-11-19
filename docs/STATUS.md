@@ -39,3 +39,9 @@ Native runtime, process kill, physical responsiveness/haptics, TalkBack, 200% OS
 GitHub CI remains blocked by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`); observed gameplay-source run 44476862913 stopped at the private-kit access requirement before tests/build. Local success is independent of CI.
 
 Latest scope and acceptance: `ACCEPTANCE_E2_2026-11-19.md`. Remaining release work is the chosen live SDK and its placements, device/accessibility/offline checks, production signing and store acceptance. Production signer remains unset; no live SDK, reminders or store submission is claimed.
+
+## 0.5.4 — R1, U1 and U2
+
+[Measured level bank and issuance](spec/product/content_v2/README.md). Fresh Campaign, Relax, Challenge and unassigned Daily use the new original fields. Existing saved boards keep their IDs and geometry. U1 localizes Free replacement and restores focus to the originating button. U2 reports the affected equation with its axis, including when two equations have errors. [R2 APK evidence](spec/R2_APK_BALANCE_RU.md) records the competition numbers and trace, prior to implementing event modes.
+
+[Exact APK and acceptance for 0.5.4](ACCEPTANCE_R1_2026-11-19.md).

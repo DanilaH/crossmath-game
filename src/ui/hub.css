@@ -221,3 +221,8 @@ body.in-hub {
     padding: 13px;
   }
 }
+
+#replace-dialog .buttons { gap: 8px; }
+#replace-dialog h2 { font-size: 1.45rem; }
+#replace-error { color: var(--bad); }
+#replace-reload { margin-top: 8px; }

@@ -1,19 +1,20 @@
-import { localize, operatorGlyph } from './locale';
+import { challengeUnlockWins, freeTracks } from '../content/rotation';
+import type { FreeTrack } from '../content/rotation';
+import { localize, operatorGlyph, trackName } from './locale';
 import type { Language } from './locale';
 import { getTierProgress } from '@danilah/mini-games-kit/core';
-import { config, getPuzzle, routes } from '../content/catalog';
+import { campaignSequence, config, getPuzzle, routes } from '../content/catalog';
 import { campaignContinuation, storedSlot } from '../app/session';
-import { mastered, goals } from '../meta/missions';
+import { goals } from '../meta/missions';
 import { calendarDayIndex, dateAvailable, dayFromIndex, profileDay } from '../meta/calendar';
 import type { Save } from '../app/model';
 import { rankThreshold } from '../app/model';
 import { achievementValue, recordVersion } from '../meta/career';
 import { cellValue } from '../core/types';
-import type { Attempt, Difficulty, Puzzle } from '../core/types';
+import type { Attempt, Puzzle } from '../core/types';
 import type { MetaScreen, Offer } from '../meta/types';
 
 const artwork=import.meta.glob('../../docs/spec/product/meta_v08/art/*.svg',{eager:true,query:'?raw',import:'default'}) as Record<string,string>;
-const bandName=(language:Language,difficulty:Difficulty)=>{const t=(ru:string,en:string)=>localize(language,ru,en);return {easy:t("Легко", "Easy"),standard:t("Обычно", "Normal"),hard:t("Сложно", "Hard"),expert:t("Эксперт", "Expert")}[difficulty];};
 const el=<K extends keyof HTMLElementTagNameMap>(tag:K,className='',text=''):HTMLElementTagNameMap[K]=>{const n=document.createElement(tag);n.className=className;n.textContent=text;return n;};
 function cardArt(index:number,parts:number,language:Language):HTMLElement {
   const wrapper=el('div','instrument');const card=config.cards[index]!;wrapper.innerHTML=artwork[`../../docs/spec/product/meta_v08/art/${card.id}.svg`]??'';
@@ -29,7 +30,7 @@ export function nextFragmentText(save:Save):string {
   const remaining=progress.complete?progress.nextTier?.remaining:progress.target-save.profile.solvedIds.length;
   return localize(save.settings.language,`Новых полей до детали: ${remaining??0}`,`New boards until next part: ${remaining??0}`);
 }
-interface Actions { navigate:(screen:MetaScreen)=>void; campaign:()=>void; free:(band:Difficulty)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer)=>void; quest:(index:number)=>void; blocking:(blocked:boolean)=>void }
+interface Actions { navigate:(screen:MetaScreen)=>void; campaign:()=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer)=>void; quest:(index:number)=>void; blocking:(blocked:boolean)=>void }
 const partsEN = [
   ['Frame','Rods','Left beads','Right beads'],
   ['Tray','Units','Fives','Tens'],
@@ -57,7 +58,7 @@ export class MetaView {
   constructor(private readonly root:HTMLElement,private readonly actions:Actions){this.dialog.addEventListener('close',()=>actions.blocking(false));document.getElementById('close-card')!.onclick=()=>this.dialog.close();
     document.getElementById('close-modes')!.onclick = () => this.modeDialog.close();
   }
-  openRank(save:Save):void {if(this.disabled)return;this.language=save.settings.language;const body=document.getElementById('card-body')!,p=save.profile;document.getElementById('card-title')!.textContent=this.t(`Ранг ${p.rank}`, `Rank ${p.rank}`);body.replaceChildren(el('p','',`${p.xp} / ${rankThreshold(p.rank)} XP`),el('p','',this.t(`До следующего ранга: ${rankThreshold(p.rank)-p.xp} XP`, `${rankThreshold(p.rank)-p.xp} XP to next rank`)),el('p','',this.t(`За повышение: +${config.rank.rewardCoins} монет`, `Rank-up reward: +${config.rank.rewardCoins} coins`)),el('p','muted',this.t(`Разных решённых полей: ${p.solvedIds.length} / 240`, `Unique boards solved: ${p.solvedIds.length} / 240`)));document.getElementById('close-card')!.textContent=this.t('Продолжить','Continue');this.actions.blocking(true);this.dialog.showModal();}
+  openRank(save:Save):void {if(this.disabled)return;this.language=save.settings.language;const body=document.getElementById('card-body')!,p=save.profile;document.getElementById('card-title')!.textContent=this.t(`Ранг ${p.rank}`, `Rank ${p.rank}`);body.replaceChildren(el('p','',`${p.xp} / ${rankThreshold(p.rank)} XP`),el('p','',this.t(`До следующего ранга: ${rankThreshold(p.rank)-p.xp} XP`, `${rankThreshold(p.rank)-p.xp} XP to next rank`)),el('p','',this.t(`За повышение: +${config.rank.rewardCoins} монет`, `Rank-up reward: +${config.rank.rewardCoins} coins`)),el('p','muted',this.t(`Разных решённых полей: ${p.solvedIds.length}`, `Unique boards solved: ${p.solvedIds.length}`)));document.getElementById('close-card')!.textContent=this.t('Продолжить','Continue');this.actions.blocking(true);this.dialog.showModal();}
   closeCard():boolean{if(!this.dialog.open)return false;this.dialog.close();return true;}
   closeModes(): boolean {
     if (!this.modeDialog.open) return false;
@@ -75,13 +76,12 @@ export class MetaView {
     if (screen !== 'home') this.closeModes();
     if (screen === 'play') return;
 
-    const selected = (this.modeChoices.querySelector('select') as HTMLSelectElement | null)?.value;
     const focused = document.activeElement?.id;
     const expandedGoals = this.root.querySelector<HTMLDetailsElement>('#daily-goals')?.open ?? false;
     this.root.replaceChildren();
     if (screen === 'home') {
       this.home(save);
-      if (this.modeDialog.open) this.renderModes(save, selected);
+      if (this.modeDialog.open) this.renderModes(save);
     } else if (screen === 'calendar') {
       this.calendar(save);
       this.root.querySelector<HTMLDetailsElement>('#daily-goals')!.open = expandedGoals;
@@ -98,7 +98,8 @@ export class MetaView {
   private preview(puzzle: Puzzle, attempt?: Attempt): HTMLElement {
     const view = el('div', 'resume-preview');
     view.setAttribute('aria-hidden', 'true');
-    const equation = puzzle.equations[0]!;
+    const equation = puzzle.equations.find(eq => eq.cells.filter(id => attempt
+      ? cellValue(puzzle, attempt, id) === undefined : puzzle.cells[id]!.given === undefined).length === 1) ?? puzzle.equations[0]!;
     equation.cells.forEach((id, index) => {
       const cell = puzzle.cells.find(c => c.id === id)!;
       const value = attempt ? cellValue(puzzle, attempt, id) : cell.given;
@@ -122,8 +123,9 @@ export class MetaView {
     const boardName = this.t(`Поле ${puzzle.campaignPosition}`, `Board ${puzzle.campaignPosition}`);
 
     const stage = el('section', 'resume-card');
+    const freeName = attempt.freeTrack ? trackName(this.language, attempt.freeTrack) : this.t('Свободная игра', 'Free Play');
     const mode = resume && attempt.mode === 'daily' ? this.t('Задача дня', 'Daily challenge')
-      : resume && attempt.mode === 'free' ? this.t('Свободная игра', 'Free Play')
+      : resume && attempt.mode === 'free' ? freeName
       : resume && attempt.mode === 'endless' ? 'Endless' : this.t('Кампания', 'Campaign');
     const previewAttempt = resume ? attempt : campaignAttempt;
     stage.append(el('h1', 'resume-context', mode),
@@ -133,7 +135,7 @@ export class MetaView {
     if (resume) {
       const name = attempt.mode === 'campaign' ? boardName
         : attempt.mode === 'endless' ? this.t(`Этап ${(attempt.stageId ?? 0) + 1}`, `Stage ${(attempt.stageId ?? 0) + 1}`)
-        : attempt.mode === 'daily' ? this.t('Задача дня', 'Daily challenge') : this.t('Свободная игра', 'Free Play');
+        : attempt.mode === 'daily' ? this.t('Задача дня', 'Daily challenge') : freeName;
       primary = this.button(this.t(`Продолжить · ${name}`, `Resume · ${name}`), () => this.actions.navigate('play'), 'continue-game', true);
     } else {
       const title = campaignFinished ? this.t('Маршрут завершён ✓', 'Campaign complete ✓')
@@ -174,8 +176,7 @@ export class MetaView {
 
     const menu = this.button(this.t('Режимы и рекорды', 'Modes and records'), () => {
       if (this.modeDialog.open) return;
-      const selected = (this.modeChoices.querySelector('select') as HTMLSelectElement | null)?.value;
-      this.renderModes(save, selected);
+      this.renderModes(save);
       this.modeDialog.showModal();
     }, 'modes-open');
     menu.setAttribute('aria-haspopup', 'dialog');
@@ -183,7 +184,7 @@ export class MetaView {
     this.root.append(menu);
   }
 
-  private renderModes(save: Save, selected?: string): void {
+  private renderModes(save: Save): void {
     const wins = save.profile.solvedIds.length;
     const { freePlayAfterNewWins, dailyAfterNewWins, endlessAfterNewWins } = config.unlockProposal;
     const choices = this.modeChoices;
@@ -191,25 +192,20 @@ export class MetaView {
     choices.replaceChildren();
     choices.append(this.button(this.t('Кампания', 'Campaign'), this.actions.campaign, 'campaign-open'));
 
-    const free = el('div', 'free-row');
-    const band = el('select');
-    band.id = 'free-band';
-    band.setAttribute('aria-label', this.t('Сложность свободной игры', 'Free Play difficulty'));
-    band.disabled = disabledOrLocked(this.disabled, wins < freePlayAfterNewWins);
-    const bands = mastered(save);
-    for (const difficulty of bands) {
-      const option = el('option', '', bandName(this.language, difficulty));
-      option.value = difficulty;
-      band.append(option);
+    const savedFree = storedSlot(save, 'free')?.attempt;
+    if (savedFree?.status === 'playing' && !savedFree.freeTrack) {
+      choices.append(this.button(this.t('Продолжить свободную игру', 'Resume Free Play'),
+        () => this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId}), 'free-resume'));
     }
-    band.value = selected && bands.includes(selected as Difficulty) ? selected : save.meta.freeDifficulty;
-    if (!band.value && band.options[0]) band.value = band.options[0].value;
-    const freePlay = this.button(wins < freePlayAfterNewWins
-      ? this.t(`Свободная игра · после ${freePlayAfterNewWins} побед`, `Free Play · after ${freePlayAfterNewWins} wins`)
-      : this.t('Свободная игра', 'Free Play'), () => this.actions.free(band.value as Difficulty), 'free-open');
-    freePlay.disabled = band.disabled;
-    free.append(band, freePlay);
-    choices.append(free);
+    for (const track of freeTracks) {
+      const threshold = track === 'challenge' ? challengeUnlockWins : freePlayAfterNewWins;
+      const name = trackName(this.language, track);
+      const label = wins < threshold ? this.t(`${name} · после ${threshold} побед`, `${name} · after ${threshold} wins`)
+        : savedFree?.freeTrack === track && savedFree.status === 'playing' ? this.t(`Продолжить · ${name}`, `Resume · ${name}`) : name;
+      const open = this.button(label, () => this.actions.free(track), track === 'relax' ? 'free-open' : 'challenge-open');
+      open.disabled = disabledOrLocked(this.disabled, wins < threshold);
+      choices.append(open);
+    }
 
     const calendar = this.button(wins < dailyAfterNewWins
       ? this.t(`Календарь · после ${dailyAfterNewWins} побед`, `Calendar · after ${dailyAfterNewWins} wins`)
@@ -226,7 +222,7 @@ export class MetaView {
     choices.append(this.button(this.t('Профиль и рекорды', 'Profile and records'), () => this.actions.navigate('profile'), 'profile-open'));
     if (save.attempt.status === 'won') choices.append(this.button(this.t('Последний результат', 'Last result'), () => this.actions.navigate('play'), 'last-result'));
 
-    const completed = routes.campaignSequence.slice(0, save.profile.campaignCursor);
+    const completed = campaignSequence(save.contentVersion).slice(0, save.profile.campaignCursor);
     if (completed.length) {
       const details = el('details');
       details.open = showCompleted;
@@ -234,7 +230,7 @@ export class MetaView {
       const list = el('div', 'replay-list');
       for (const id of completed) {
         const puzzle = getPuzzle(id);
-        const item = this.button(String(puzzle.campaignPosition), () => this.actions.offer({puzzleId:id, mode:'campaign'}));
+        const item = this.button(String(puzzle.campaignPosition), () => this.actions.offer({puzzleId:id, mode:'campaign'}), `replay-${id}`);
         item.setAttribute('aria-label', this.t(`Открыть поле ${puzzle.campaignPosition}`, `Open board ${puzzle.campaignPosition}`));
         list.append(item);
       }
@@ -271,7 +267,7 @@ export class MetaView {
   }
   private profile(save:Save):void {
     const p=save.profile,c=save.career;this.heading(this.t("Профиль", "Profile"),this.t(`Ранг ${p.rank} · ${p.xp} / ${rankThreshold(p.rank)} XP`, `Rank ${p.rank} · ${p.xp} / ${rankThreshold(p.rank)} XP`));this.root.append(this.button(this.t("← На главную", "← Home"),()=>this.actions.navigate('home'),'profile-back'));
-    const progress=el('section','hub-panel');progress.append(el('h2','',this.t("Ваш маршрут", "Your progress")),el('p','',this.t(`Разных решённых задач: ${p.solvedIds.length} / 240`, `Unique boards solved: ${p.solvedIds.length} / 240`)),el('p','',this.t(`Пройдено в кампании: ${p.campaignCursor} / 240`, `Campaign boards cleared: ${p.campaignCursor} / 240`)),el('p','',this.t(`Решённых дат Daily: ${save.meta.completedDates.length}`, `Daily dates solved: ${save.meta.completedDates.length}`)),el('p','',this.t(`Полных планов дня: ${save.meta.setReceipts.length}`, `Daily goal sets completed: ${save.meta.setReceipts.length}`)),el('p','',this.t(`Собранных приборов: ${p.paidCardIds.length} / 12`, `Instruments completed: ${p.paidCardIds.length} / 12`)));this.root.append(progress);
+    const progress=el('section','hub-panel');progress.append(el('h2','',this.t("Ваш маршрут", "Your progress")),el('p','',this.t(`Разных решённых задач: ${p.solvedIds.length}`, `Unique boards solved: ${p.solvedIds.length}`)),el('p','',this.t(`Пройдено в кампании: ${p.campaignCursor} / 240`, `Campaign boards cleared: ${p.campaignCursor} / 240`)),el('p','',this.t(`Решённых дат Daily: ${save.meta.completedDates.length}`, `Daily dates solved: ${save.meta.completedDates.length}`)),el('p','',this.t(`Полных планов дня: ${save.meta.setReceipts.length}`, `Daily goal sets completed: ${save.meta.setReceipts.length}`)),el('p','',this.t(`Собранных приборов: ${p.paidCardIds.length} / 12`, `Instruments completed: ${p.paidCardIds.length} / 12`)));this.root.append(progress);
     const stats=el('section','hub-panel');stats.append(el('h2','',this.t("Статистика", "Statistics")));
     if(c.partialHistory)stats.append(el('p','muted',this.t(`Подробный учёт с обновления ${profileDay(c.since,p.timeZone)}. Старые уникальные победы сохранены. Новые попытки и завершения считаются отдельно; ранее начатая партия тоже может завершиться после обновления.`, `Detailed tracking began on ${profileDay(c.since,p.timeZone)}. Earlier unique wins still count. Boards started before the update can count as completions after it.`)));
     const labels={campaign:this.t("Кампания", "Campaign"),free:this.t("Свободная игра","Free Play"),daily:'Daily',endless:'Endless'};

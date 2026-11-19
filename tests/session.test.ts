@@ -70,7 +70,10 @@ describe('P04/P05/P06: durable game operations',()=>{
  it('grants every rank/card milestone exactly once across the complete campaign, including 228/229',async()=>{
   const{session}=await setup();
   // Deterministic integration fixture: actual engine actions, own answers only drive test input.
-  const answers=(await import('../docs/spec/product/content_v09/author_solutions.json')).default as Record<string,{answer:number[]}>;
+  const answers: Record<string,{answer:number[]}> = {
+    ...(await import('../docs/spec/product/content_v09/author_solutions.json')).default,
+    ...(await import('../docs/spec/product/content_v2/author_solutions.json')).default,
+  };
   for(let i=0;i<240;i++){
    const p=getPuzzle(session.state.attempt.puzzleId),answer=answers[p.puzzleId]!.answer;
    for(const cell of p.cells.filter(c=>c.given===undefined)){const used=new Set(Object.values(session.state.attempt.placements));const token=p.tray.findIndex((v,n)=>v===answer[cell.id]&&!used.has('t'+n));await session.command({type:'PlaceFromTray',tokenId:'t'+token,cellId:cell.id});}
@@ -80,5 +83,5 @@ describe('P04/P05/P06: durable game operations',()=>{
    if(i<239)expect(await session.next()).toBe(true);
   }
   expect(session.state.profile.solvedIds).toHaveLength(240);expect(session.state.profile.campaignCursor).toBe(240);expect(await session.next()).toBe(false);expect(decodeSave(session.state)).toEqual(session.state);expect(config.collection.fragmentWinThresholds).toHaveLength(48);
- },20_000);
+ },75_000);
 });

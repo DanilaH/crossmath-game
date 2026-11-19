@@ -24,7 +24,7 @@
     <div id="game-root" aria-hidden="true"></div>
     <div class="board-scroll"><div class="board" id="board" role="group" aria-label="Пересекающиеся равенства" data-en-label="Intersecting equations"></div></div>
   </section>
-  <p class="note" id="note" role="status" aria-live="polite"></p>
+  <p class="note" id="note" role="status" aria-live="polite" aria-atomic="true"></p>
   <section class="traybox" id="traybox" aria-label="Лоток чисел" data-en-label="Number tray"><div class="tray" id="tray"></div></section>
   <div class="tools">
     <button id="undo" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 3 10l5 5m-5-5h10a5 5 0 0 1 0 10h-2"/></svg><span data-en="Undo">Отмена</span></button>
@@ -62,6 +62,16 @@
   <h2 id="mode-title" data-en="Modes and records">Режимы и рекорды</h2>
   <div id="mode-choices"></div>
   <button id="close-modes" class="primary" type="button" data-en="Done">Готово</button>
+</dialog>
+<dialog id="replace-dialog" aria-labelledby="replace-title" aria-describedby="replace-description">
+  <h2 id="replace-title"></h2>
+  <p id="replace-description"></p>
+  <p id="replace-error" role="alert" hidden data-en="The change could not be saved. Try again or keep your board.">Не удалось сохранить замену. Повторите или оставьте партию.</p>
+  <div class="buttons">
+    <button class="control" id="keep-board" type="button" autofocus data-en="Keep this board">Оставить партию</button>
+    <button class="primary" id="replace-board" type="button" data-en="Start another">Начать другую</button>
+  </div>
+  <button class="hub-button" id="replace-reload" type="button" hidden data-en="Reload saved game">Восстановить сохранение</button>
 </dialog>
 <dialog id="card-dialog" aria-labelledby="card-title"><h2 id="card-title"></h2><div id="card-body"></div><button class="primary" id="close-card" type="button">Вернуться в альбом</button></dialog>
 <section id="startup" role="status"><span data-en="Loading Crossmath…">Загружаем Crossmath…</span></section>

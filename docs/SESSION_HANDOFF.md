@@ -21,3 +21,7 @@
 15. Version 0.4.0 moved to `main` by fast-forward after the owner requested the push. The README gallery contains real UI captures in `evidence/preview-0.4.0/`. The gallery change is documentation and media only. KIT IMPACT: NONE.
 
 16. The 0.5.0 play-screen preview is on `feat/play-screen-0.5`. Start with [play-screen acceptance](ACCEPTANCE_PLAY_SCREEN_2026-11-19.md). Review fields 1, 12 and 25 and the victory sequence before redesigning the hub.
+
+### 0.5.4 content and competition evidence
+
+Use [R1 content and measurement](spec/product/content_v2/README.md) for current issuance and compat behavior. Keep both banks immutable once shipped. Read [R2](spec/R2_APK_BALANCE_RU.md) before C0–C3. The old proposal's fixed 75/105-second opponent steps and 70-coin cycle are project proposals.

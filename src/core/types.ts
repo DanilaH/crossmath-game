@@ -1,3 +1,5 @@
+import type { Bucket, FreeTrack } from '../content/rotation';
+
 export type Difficulty = 'easy' | 'standard' | 'hard' | 'expert';
 export type Operator = '+' | '-' | '*' | '/';
 export interface Cell { readonly id: number; readonly x: number; readonly y: number; readonly given?: number }
@@ -6,7 +8,7 @@ export interface Puzzle {
   readonly puzzleId: string; readonly contentVersion: number; readonly rulesetVersion: string;
   readonly width: number; readonly height: number; readonly cells: readonly Cell[];
   readonly equations: readonly Equation[]; readonly tray: readonly number[];
-  readonly difficulty: Difficulty; readonly campaignPosition: number; readonly decisionTags: readonly string[];
+  readonly difficulty: Difficulty; readonly bucket?: Bucket; readonly campaignPosition: number; readonly decisionTags: readonly string[];
 }
 export type Placements = Record<string, string>;
 export type Mode = 'campaign' | 'free' | 'daily' | 'endless';
@@ -17,6 +19,8 @@ export interface Attempt extends Layout {
   status: 'playing' | 'won' | 'out-of-lives'; lives: number; assisted: boolean;
   hintsUsed: number; elapsedPlaying: number; userPaused: boolean; lastRejectedSignature: string | null;
   dayKey?: string;
+  freeTrack?: FreeTrack;
+  freeIndex?: number;
   runId?:string; stageId?:number;
 }
 export type BoardAction =

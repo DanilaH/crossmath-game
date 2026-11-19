@@ -63,8 +63,8 @@ try{
   await page.setViewportSize(initial);
  };
  const place=async(token,cell)=>{await tap(`[data-token="${token}"]`);await tap(`[data-cell="${cell}"]`);await idle();};
- const answers=JSON.parse(await readFile('docs/spec/product/content_v09/author_solutions.json','utf8'));
- const boards=JSON.parse(await readFile('docs/spec/product/content_v09/boards.json','utf8'));
+ const answers={...JSON.parse(await readFile('docs/spec/product/content_v09/author_solutions.json','utf8')), ...JSON.parse(await readFile('docs/spec/product/content_v2/author_solutions.json','utf8'))};
+ const boards=JSON.parse(await readFile('docs/spec/product/content_v09/boards.json','utf8')).slice(0,15).concat(JSON.parse(await readFile('docs/spec/product/content_v2/boards.json','utf8')).filter(p=>p.bucket!=='daily').sort((a,b)=>a.campaignPosition-b.campaignPosition));
  const solve=async()=>{const save=await snapshot(),p=boards.find(p=>p.puzzleId===save.attempt.puzzleId),answer=answers[p.puzzleId].answer;
   for(const cell of p.cells.filter(c=>c.given===undefined)){const current=await snapshot();if(p.tray[Number(current.attempt.placements[cell.id]?.slice(1))]===answer[cell.id])continue;const used=new Set(Object.values(current.attempt.placements)),token=p.tray.findIndex((v,i)=>v===answer[cell.id]&&!used.has('t'+i));assert.notEqual(token,-1);await place('t'+token,cell.id);}
   assert.equal((await snapshot()).attempt.status,'won');
@@ -100,6 +100,17 @@ try{
    await page.screenshot({path:out+'/field12-conflict.png',fullPage:true});
    await tap('[data-cell="0"]');await tap('[data-cell="1"]');await idle();assert.equal((await snapshot()).attempt.status,'won');await verifyViewport(12,true);await page.screenshot({path:out+'/field12-solved.png',fullPage:true});
    await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#restart');await tap('#restart-yes');await idle();
+   await place('t2',0);await place('t0',1);
+   assert.equal(await page.locator('#note').innerText(),'По горизонтали: 5 + 4 ≠ 11');
+   await place('t1',3);
+   assert.equal(await page.locator('.op.invalid').count(),2);
+   assert.equal(await page.locator('#note').innerText(),'По вертикали: 5 − 7 ≠ 2');
+   assert.equal(await page.locator('#note').getAttribute('aria-atomic'),'true');
+   await page.screenshot({path:out+'/u2-two-errors.png',fullPage:true});
+   await tap('[data-cell="1"]');
+   assert.equal(await page.locator('#note').innerText(),'По горизонтали: 5 + 4 ≠ 11');
+   checks.push('U2: second conflict is announced with axis and actual values; selecting the earlier line reads that conflict');
+   await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#restart');await tap('#restart-yes');await idle();
    await place('t0',0);await place('t1',1);await place('t2',3);const from=await page.locator('[data-cell="0"]').boundingBox(),to=await page.locator('[data-cell="1"]').boundingBox();
    await page.mouse.move(from.x+from.width/2,from.y+from.height/2);await page.mouse.down();await page.mouse.move(to.x+to.width/2,to.y+to.height/2,{steps:8});await page.mouse.up();await idle();assert.equal((await snapshot()).attempt.status,'won');assert.equal((await snapshot()).result.coins,0);checks.push('field 12: editable valid row, tap/drag swap, repeat pays zero');
   }
@@ -114,13 +125,14 @@ try{
  await page.setViewportSize({width:320,height:568});
  const touch=await context.newCDPSession(page);
  const center=async selector=>{const r=await page.locator(selector).boundingBox();return{x:r.x+r.width/2,y:r.y+r.height/2};};
- const start=await center('[data-token="t0"]'), target=await center('[data-cell="1"]');
+ const targetSelector = '[data-cell="'+boards[24].cells.find(c=>c.given===undefined).id+'"]';
+ const start=await center('[data-token="t0"]'), target=await center(targetSelector);
  await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[start]});
  await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[target]});
  await page.locator('#ghost.over-cell').waitFor();
- const ghost=await page.locator('#ghost').boundingBox(), cell=await page.locator('[data-cell="1"] .tile').boundingBox();
+ const ghost=await page.locator('#ghost').boundingBox(), cell=await page.locator(targetSelector+' .tile').boundingBox();
  assert.ok(ghost.width<cell.width&&ghost.y+ghost.height<cell.y,'held piece leaves the landing footprint visible');
- assert.equal(await page.locator('[data-cell="1"].hover').count(),1);
+ assert.equal(await page.locator(targetSelector+'.hover').count(),1);
  await touch.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});
  await touch.detach();
  assert.equal(await page.locator('#ghost').isHidden(),true);

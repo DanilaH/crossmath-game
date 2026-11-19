@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { boards, config, getPuzzle, routes } from '../src/content/catalog';
+import { boards, config, dailyBank, dailyVersion, freeTrackPuzzle, getPuzzle, routes } from '../src/content/catalog';
 import { createSave, decodeSave, settleCompletion } from '../src/app/model';
 import { GameSession, storedSlot } from '../src/app/session';
 import { SaveRepository, SAVE_KEY } from '../src/app/saveRepository';
@@ -10,7 +10,8 @@ import type { Save } from '../src/app/model';
 import type { Offer, QuestSet } from '../src/meta/types';
 import type { StorageAdapter } from '@danilah/mini-games-kit/platform';
 import answers from '../docs/spec/product/content_v09/author_solutions.json';
-const solutions:Record<string,{answer:number[]}>=answers;
+import newAnswers from '../docs/spec/product/content_v2/author_solutions.json';
+const solutions:Record<string,{answer:number[]}>={...answers, ...newAnswers};
 class Memory implements StorageAdapter { data=new Map<string,string>();async getItem(k:string){return this.data.get(k)??null;}async setItem(k:string,v:string){this.data.set(k,v);}async removeItem(k:string){this.data.delete(k);} }
 async function setup(day='2026-11-18',state?:Save){const storage=new Memory(),clock={now:day+'T12:00:00.000Z'};const fresh=()=>createSave('profile',clock.now,'UTC','initial');if(state)storage.data.set(SAVE_KEY,JSON.stringify(state));const repo=new SaveRepository(storage,fresh);let n=0;const session=new GameSession(await repo.load(),repo,()=>`meta-op-${++n}`,()=>clock.now);return{session,repo,storage,clock};}
 async function win(session:GameSession){const p=getPuzzle(session.state.attempt.puzzleId),answer=solutions[p.puzzleId]!.answer;for(const c of p.cells.filter(c=>c.given===undefined)){if(session.state.attempt.placements[c.id])continue;const used=new Set(Object.values(session.state.attempt.placements)),token=p.tray.findIndex((v,i)=>v===answer[c.id]&&!used.has('t'+i));expect(token).toBeGreaterThanOrEqual(0);await session.command({type:'PlaceFromTray',tokenId:'t'+token,cellId:c.id});}expect(session.state.attempt.status).toBe('won');}
@@ -20,7 +21,7 @@ function set(ids:string[],progress=[0,0,0],paid=[false,false,false]):QuestSet{re
 describe('D calendar and mode state',()=>{
  it('uses fixed IANA dates, leap days and mathematical modulo before the epoch',()=>{
   expect(profileDay('2026-11-18T20:30:00Z','Asia/Yekaterinburg')).toBe('2026-11-19');expect(profileDay('2026-11-18T20:30:00Z','America/New_York')).toBe('2026-11-18');
-  expect(calendarDayIndex('2024-03-01')-calendarDayIndex('2024-02-28')).toBe(2);expect(calendarPuzzle('2025-12-31')).toBe(routes.dailySequence.at(-1));
+  expect(calendarDayIndex('2024-03-01')-calendarDayIndex('2024-02-28')).toBe(2);expect(calendarPuzzle('2025-12-31')).toBe(dailyBank.at(-1));expect(calendarPuzzle('2025-12-31',true)).toBe(routes.dailySequence.at(-1));
   expect(dateAvailable('2026-10-01T12:00:00Z','UTC','2026-11-18','2026-10-19')).toBe(true);expect(dateAvailable('2026-10-01T12:00:00Z','UTC','2026-11-18','2026-10-18')).toBe(false);expect(dateAvailable('2026-11-18T12:00:00Z','UTC','2026-11-18','2026-11-17')).toBe(false);
  });
  it('unlocks Free after 3; preserves a separate campaign and free attempt, IDs and active time',async()=>{
@@ -36,8 +37,10 @@ describe('D calendar and mode state',()=>{
   await win(session);expect(await session.next()).toBe(true);expect(session.state.profile.solvedIds).not.toContain(session.state.attempt.puzzleId);
  });
  it('fifth win issues prospectively; new Easy Daily can produce the exact +100 receipt',async()=>{
-  const day=Array.from({length:135},(_,i)=>dayFromIndex(calendarDayIndex('2026-11-18')+i)).find(d=>{const p=getPuzzle(calendarPuzzle(d));return p.difficulty==='easy'&&p.equations.length===4;})!;
-  const{session,repo}=await setup(day);await campaign(session,5);expect(session.state.meta.issuedDays).toBe(1);expect(session.state.meta.quests!.slots.every(s=>s.progress===0&&!s.paid)).toBe(true);
+  const day=Array.from({length:135},(_,i)=>dayFromIndex(calendarDayIndex('2026-11-18')+i)).find(d=>{const p=getPuzzle(calendarPuzzle(d,true));return p.difficulty==='easy'&&p.equations.length===4;})!;
+  const previousPreview=createSave('profile',day+'T12:00:00Z','UTC','initial','content-v1');
+  previousPreview.meta.assignments[day]={puzzleId:calendarPuzzle(day,true),calendarVersion:routes.version};
+  const{session,repo}=await setup(day,previousPreview);await campaign(session,5);expect(session.state.meta.issuedDays).toBe(1);expect(session.state.meta.quests!.slots.every(s=>s.progress===0&&!s.paid)).toBe(true);
   expect(session.state.meta.contributedIds).toContain('cm-own-01-005');expect(await session.openDaily(day)).toBe('opened');await win(session);
   expect(session.state.result).toMatchObject({coins:100,xp:10,baseCoins:10,dailyCoins:30,taskCoins:30,setCoins:30,fragments:1});
   expect(settleCompletion(await repo.load(),day+'T13:00:00Z')).toEqual(await repo.load());
@@ -45,13 +48,50 @@ describe('D calendar and mode state',()=>{
  });
  it('separates canonical reward, dated Daily bonus and today contributions across repeated calendar IDs',async()=>{
   const{session,clock}=await setup();await campaign(session,5);await session.openDaily('2026-11-18');await win(session);const id=session.state.attempt.puzzleId;
-  clock.now=dayFromIndex(calendarDayIndex('2026-11-18')+135)+'T12:00:00Z';await session.refreshDay();const today=clock.now.slice(0,10);await session.openDaily(today);expect(session.state.attempt.puzzleId).toBe(id);await win(session);
+  clock.now=dayFromIndex(calendarDayIndex('2026-11-18')+dailyBank.length)+'T12:00:00Z';await session.refreshDay();const today=clock.now.slice(0,10);await session.openDaily(today);expect(session.state.attempt.puzzleId).toBe(id);await win(session);
   expect(session.state.result).toMatchObject({first:false,baseCoins:0,dailyCoins:30,xp:0});expect(session.state.meta.completedDates).toHaveLength(2);
  });
  it('finishes an old started Daily outside the window, preserving its bonus date and refusing a new attempt',async()=>{
   const{session,clock}=await setup();await campaign(session,5);await session.openDaily('2026-11-18');const attempt=session.state.attempt.id;await session.openCampaign();
   clock.now='2026-12-20T12:00:00Z';await session.refreshDay();expect(dateAvailable(session.state.profile.createdAt,'UTC',session.state.meta.effectiveDay,'2026-11-18')).toBe(false);
   expect(await session.openDaily('2026-11-18')).toBe('opened');expect(session.state.attempt.id).toBe(attempt);expect(await session.restart()).toBe(false);await win(session);expect(session.state.meta.completedDates).toContain('2026-11-18');expect(contribution('daily',{puzzleId:session.state.attempt.puzzleId,mode:'daily',dayKey:'2026-11-18'},session.state.meta.effectiveDay)).toBe(0);
+ });
+ it('keeps old assigned dates and the legacy campaign while unassigned dates use the new bank',async()=>{
+  const day='2026-11-18',previous=createSave('p',day+'T12:00:00Z','UTC','a','content-v1');
+  previous.meta.assignments[day]={puzzleId:calendarPuzzle(day,true),calendarVersion:routes.version};
+  const{session,clock,repo}=await setup(day,previous);
+  await campaign(session,16);
+  expect(session.state.attempt.puzzleId).toBe('cm-own-01-016');
+  await session.openDaily(day);
+  expect(session.state.attempt.puzzleId).toBe(calendarPuzzle(day,true));
+  await session.openCampaign();
+  clock.now='2026-11-19T12:00:00Z';
+  await session.openDaily('2026-11-19');
+  expect(session.state.meta.assignments['2026-11-19']).toEqual({puzzleId:calendarPuzzle('2026-11-19'),calendarVersion:dailyVersion});
+  await session.openDaily(day);
+  expect((await repo.load()).attempt.puzzleId).toBe(calendarPuzzle(day,true));
+ });
+ it('pins both Free cursors across replay, replacement and a cold start',async()=>{
+  const{session,repo}=await setup();await campaign(session,3);
+  expect(await session.openFreeTrack('challenge')).toBe('unavailable');
+  await session.openFreeTrack('relax');
+  expect(session.state.attempt.puzzleId).toBe(freeTrackPuzzle('relax',0).puzzleId);
+  await win(session);
+  expect(session.state.meta.freeProgress).toEqual({relax:1,challenge:0});
+  await session.restart();
+  expect((await repo.load()).attempt.freeIndex).toBe(0);
+  await win(session);
+  expect(session.state.meta.freeProgress).toEqual({relax:1,challenge:0});
+  await session.next();
+  expect(session.state.attempt.puzzleId).toBe(freeTrackPuzzle('relax',1).puzzleId);
+  await session.openCampaign();await campaign(session,12);
+  const current=storedSlot(session.state,'free')!.attempt;
+  expect(await session.openFreeTrack('challenge')).toBe('confirm_replace');
+  expect(storedSlot(session.state,'free')!.attempt).toEqual(current);
+  expect(await session.openFreeTrack('challenge',true)).toBe('opened');
+  expect((await repo.load()).attempt.freeIndex).toBe(0);
+  await win(session);
+  expect(session.state.meta.freeProgress).toEqual({relax:1,challenge:1});
  });
  it('advances active issuance once after missed days and never regresses on a clock rollback',async()=>{
   const{session,clock}=await setup();await campaign(session,5);const first=session.state.meta.issuedDays;

@@ -1,6 +1,6 @@
 import { AdsController } from '../platform/ads';
 import type { AdsProvider } from '../platform/ads';
-import { localize, localizeDocument, quantity } from './locale';
+import { localize, localizeDocument, quantity, trackName } from './locale';
 import type { Language } from './locale';
 import { config, getPuzzle, routes } from '../content/catalog';
 import { rankThreshold } from '../app/model';
@@ -9,15 +9,20 @@ import { Feedback } from './feedback';
 import type { GameSession, OpenOutcome } from '../app/session';
 import { MetaView } from './metaView';
 import type { MetaScreen, Offer } from '../meta/types';
-import type { Difficulty } from '../core/types';
+import { RecoveryRequired } from '../app/saveRepository';
+import type { FreeTrack } from '../content/rotation';
+import type { Mode } from '../core/types';
 import type { BoardAction } from '../core/types';
 import type { HintPlan } from '../help/logic';
 import type { Settings } from '../app/model';
 const $=<T extends HTMLElement=HTMLElement>(id:string):T=>document.getElementById(id) as T;
+type OpenOperation = (replace: boolean, elapsed: number) => Promise<OpenOutcome>;
+interface Replacement { operation: OpenOperation; triggerId: string; recovery: boolean }
 export class GameUi {
   private disposed=false;
   private readonly ads:AdsController|undefined;
   private notice:'recovered'|'unavailable'|undefined;
+  private replacement: Replacement | undefined;
   private renderedLanguage?: Language;
   private get language(): Language { return this.session.state.settings.language; }
   private t(ru: string, en: string): string { return localize(this.language, ru, en); }
@@ -32,7 +37,7 @@ export class GameUi {
     this.ads=adsProvider?new AdsController(session,adsProvider,value=>this.blocker('ad',value),()=>this.render()):undefined;
     this.feedback=new Feedback(()=>session.state.settings);
     this.board=new BoardView($('board'),$('tray'),$('note'),this.feedback,()=>this.busy||session.writing||this.blocked||this.saveFailed||!this.ready,()=>this.reduced(),(action,metadata)=>this.command(action,metadata),()=>this.language);
-    this.meta=new MetaView($('hub'),{navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time)),free:band=>this.openFree(band),daily:day=>this.open((_,time)=>session.openDaily(day,time)),endless:()=>this.open((_,time)=>session.openEndless(time)),offer:offer=>this.openOffer(offer),quest:index=>{const offer=session.questOffer(index);if(offer)this.openOffer(offer,true);},blocking:value=>this.blocker('modal',value)});
+    this.meta=new MetaView($('hub'),{navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:offer=>this.openOffer(offer),quest:index=>{const offer=session.questOffer(index);if(offer)this.openOffer(offer,true);},blocking:value=>this.blocker('modal',value)});
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});for(const id of ['end-run','finish-run'])$(id).onclick=()=>this.run(async time=>({committed:await session.endRun(time)}),()=>this.leaveModal());
     for(const id of ['home','home-from-pause','result-home'])$(id).onclick=()=>this.navigate('home');
     $('rank').onclick=()=>{if(!this.busy&&!this.saveFailed)this.meta.openRank(session.state);};
@@ -59,14 +64,82 @@ export class GameUi {
         return {committed:true};
       });
     };
+    const replaceDialog = $<HTMLDialogElement>('replace-dialog');
+    replaceDialog.addEventListener('cancel', event => {event.preventDefault();this.cancelReplacement();});
+    replaceDialog.addEventListener('close', () => this.finishReplacement(true));
+    $('keep-board').onclick = () => this.cancelReplacement();
+    $('replace-board').onclick = () => this.confirmReplacement();
+    $('replace-reload').onclick = () => location.reload();
     $('retry').onclick=()=>this.retryAction?.();$('reload').onclick=()=>location.reload();
     this.timer=setInterval(()=>{this.tick();this.renderTime();if(this.ready)this.ads?.refresh();if(!this.busy&&this.ready&&!this.saveFailed&&session.hasDayChange())this.run(async()=>({committed:await session.refreshDay()}));else if(this.elapsed>=10)this.checkpoint();},2000);this.render();
   }
   private leaveModal():void{for(const id of ['pause-dialog','help-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}this.blocker('user',false);this.blocker('modal',false);$('restart-confirm').hidden=true;this.board.clearSelection();window.scrollTo(0,0);}
   private navigate(screen:MetaScreen):void{this.run(async time=>({committed:await this.session.navigate(screen,time)}),()=>this.leaveModal());}
-  private openFree(band:Difficulty):void{this.open((replace,time)=>this.session.openFree(band,replace,time));}
-  private openOffer(offer:Offer,repeatCompleted=false):void{this.open((replace,time)=>this.session.openOffer(offer,replace,time,repeatCompleted));}
-  private open(operation:(replace:boolean,elapsed:number)=>Promise<OpenOutcome>):void{let opened=false;this.run(async time=>{let result=await operation(false,time);if(result==='confirm_replace'&&window.confirm(this.t("Заменить незавершённую партию в этом режиме? Поставленные числа этой партии будут сброшены.", "Replace the unfinished board in this mode? Its placed numbers will be reset.")))result=await operation(true,time);opened=result==='opened';if(result==='unavailable')this.notice='unavailable';return{committed:opened};},()=>{if(opened)this.leaveModal();});}
+  private openFree(track: FreeTrack): void {
+    this.open((replace,time) => this.session.openFreeTrack(track,replace,time), 'free');
+  }
+  private openOffer(offer: Offer, repeatCompleted = false): void {
+    this.open((replace,time) => this.session.openOffer(offer,replace,time,repeatCompleted), offer.mode);
+  }
+  private open(operation: OpenOperation, mode: Mode): void {
+    const triggerId = document.activeElement?.id || 'modes-open';
+    let result: OpenOutcome;
+    this.run(async time => {
+      result = await operation(false,time);
+      return {committed: result === 'opened'};
+    }, () => {
+      if (result === 'confirm_replace') this.requestReplacement(operation, mode, triggerId);
+      else if (result === 'opened') this.leaveModal();
+      else this.notice = 'unavailable';
+    });
+  }
+  private requestReplacement(operation: OpenOperation, mode: Mode, triggerId: string): void {
+    this.replacement = {operation, triggerId, recovery:false};
+    const copy = mode === 'free'
+      ? [this.t('Начать другую свободную игру?', 'Start another Free Play board?'), this.t('Текущая расстановка в свободной игре будет потеряна.', 'Your current Free Play board will be reset.')]
+      : [this.t('Начать другое поле?', 'Start another board?'), this.t('Числа в незаконченной партии вернутся в лоток.', 'The numbers on your unfinished board will return to the tray.')];
+    $('replace-title').textContent = copy[0]!;
+    $('replace-description').textContent = copy[1]!;
+    $('replace-error').hidden = $('replace-reload').hidden = true;
+    $('replace-board').textContent = this.t('Начать другую', 'Start another');
+    this.blocker('replace', true);
+    $<HTMLDialogElement>('replace-dialog').showModal();
+    requestAnimationFrame(() => $('keep-board').focus());
+  }
+  private cancelReplacement(): void {
+    if (this.busy || this.replacement?.recovery) return;
+    this.finishReplacement(true);
+  }
+  private finishReplacement(restoreFocus: boolean): void {
+    const replacement = this.replacement;
+    if (!replacement) return;
+    this.replacement = undefined;
+    const dialog = $<HTMLDialogElement>('replace-dialog');
+    if (dialog.open) dialog.close();
+    this.blocker('replace', false);
+    if (restoreFocus) requestAnimationFrame(() => ($(replacement.triggerId) ?? $('modes-open'))?.focus({preventScroll:true}));
+  }
+  private confirmReplacement(): void {
+    const replacement = this.replacement;
+    if (!replacement || replacement.recovery) return;
+    let result: OpenOutcome;
+    this.run(async time => {
+      result = await replacement.operation(true,time);
+      return {committed:result === 'opened'};
+    }, () => {
+      this.finishReplacement(result !== 'opened');
+      if (result === 'opened') {
+        this.leaveModal();
+        requestAnimationFrame(() => $('level').focus({preventScroll:true}));
+      } else this.notice = 'unavailable';
+    }, error => {
+      replacement.recovery = error instanceof RecoveryRequired;
+      $('replace-error').hidden = false;
+      $('replace-reload').hidden = !replacement.recovery;
+      $('replace-board').textContent = this.t('Повторить', 'Retry');
+      requestAnimationFrame(() => $(replacement.recovery ? 'replace-reload' : 'replace-board').focus());
+    });
+  }
   private syncNavigation():void{if(!this.ready)return;const next=this.session.state.meta.screen!=='play';if(next===this.navigationBlocked)return;this.navigationBlocked=next;this.blocker('navigation',next);}
   private reduced():boolean{return this.session.state.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;}
   private renderTime():void {
@@ -80,9 +153,10 @@ export class GameUi {
   setReady():void{this.ready=true;this.ads?.start();this.syncNavigation();this.tick();this.render();if(this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused){this.blocker('user',true);$<HTMLDialogElement>('pause-dialog').showModal();}}
   activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.suspend();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
   private checkpoint():void{if(this.busy||!this.ready||this.saveFailed||this.elapsed<=0||this.session.state.attempt.status!=='playing')return;this.run(async time=>({committed:await this.session.checkpoint(time)}));}
-  private run(operation:(elapsed:number)=>Promise<{committed:boolean}>,after:()=>void=()=>{}):void{
-    if(this.busy||this.session.writing)return;this.tick();const time=this.elapsed;this.busy=true;this.render();this.retryAction=()=>this.run(operation,after);
-    void operation(time).then(result=>{if(result.committed)this.elapsed=Math.max(0,this.elapsed-time);this.saveFailed=false;$('save-error').hidden=true;this.retryAction=null;after();}).catch(()=>{
+  private run(operation:(elapsed:number)=>Promise<{committed:boolean}>,after:()=>void=()=>{},onFailure?:(error:unknown)=>void):void{
+    if(this.busy||this.session.writing)return;this.tick();const time=this.elapsed;this.busy=true;this.render();this.retryAction=()=>this.run(operation,after,onFailure);
+    void operation(time).then(result=>{if(result.committed)this.elapsed=Math.max(0,this.elapsed-time);this.saveFailed=false;$('save-error').hidden=true;this.retryAction=null;after();}).catch(error=>{
+      if (onFailure) {this.retryAction=null;onFailure(error);return;}
       this.saveFailed=true;this.board.cancel();
       for(const id of ['help-dialog','pause-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}
       this.blocker('modal',false);this.blocker('user',false);
@@ -165,12 +239,12 @@ export class GameUi {
     const pauseLabel = playing ? this.t('Пауза', 'Pause') : this.t('Настройки', 'Settings');
     $('pause-label').textContent = pauseLabel;
     $('pause').setAttribute('aria-label', pauseLabel);
-    const band = p.difficulty === 'easy' ? this.t('Легко', 'Easy')
+    const band = p.bucket === 'hell-short' ? this.t('Хардкор', 'Hell') : p.difficulty === 'easy' ? this.t('Легко', 'Easy')
       : p.difficulty === 'standard' ? this.t('Обычно', 'Normal')
       : p.difficulty === 'hard' ? this.t('Сложно', 'Hard') : this.t('Эксперт', 'Expert');
     const run = s.career.run;
     $('level').textContent = a.mode === 'daily' ? this.t('Задача дня', 'Daily challenge')
-      : a.mode === 'free' ? this.t('Свободная игра', 'Free Play')
+      : a.mode === 'free' ? a.freeTrack ? trackName(this.language, a.freeTrack) : this.t('Свободная игра', 'Free Play')
       : a.mode === 'endless' ? this.t(`Этап ${(a.stageId ?? 0) + 1}`, `Stage ${(a.stageId ?? 0) + 1}`)
       : this.t(`Поле ${p.campaignPosition}`, `Board ${p.campaignPosition}`);
     $('level').setAttribute('aria-description', a.mode === 'daily' ? a.dayKey ?? '' : band);
@@ -220,10 +294,11 @@ export class GameUi {
     for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){const input=$<HTMLInputElement>(id);input.checked=key==='theme'?settings.theme==='dark':settings[key];input.disabled=this.busy;}
     for(const id of ['resume','restart','restart-yes','restart-no','explain','reveal','close-help'])$<HTMLButtonElement>(id).disabled=this.busy;
     $<HTMLButtonElement>('restart').disabled=this.busy||s.meta.screen!=='play'||!this.session.canRestart();for(const id of ['home','home-from-pause','pause'])$<HTMLButtonElement>(id).disabled=this.busy||this.saveFailed;
+    for (const id of ['keep-board','replace-board']) $<HTMLButtonElement>(id).disabled = this.busy || !!this.replacement?.recovery;
     $<HTMLButtonElement>('apply-help').disabled=this.busy||!this.plan;this.feedback.setActive(!this.blocked);this.repaint();
     $('restart').textContent=a.mode==='endless'?this.t("Новый забег", "New run"):this.t("Начать заново", "Restart");$('restart-warning').textContent=a.mode==='endless'?this.t("Завершить текущий забег и начать новый? Текущий итог будет сохранён в соответствующих рекордах.", "End this run and start a new one? Your current result will count toward your record."):this.t("Начать это поле заново? Поставленные числа вернутся в лоток.", "Restart this board? The placed numbers will go back to the tray.");$('end-run').hidden=a.mode!=='endless'||run?.status==='ended'||s.meta.screen!=='play';$<HTMLButtonElement>('end-run').disabled=this.busy||this.saveFailed;
     $('mode-rules').textContent=a.mode==='endless'?this.t("Три жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.", "Three lives for the entire run. Select Check to submit a full board. A different incorrect layout costs a life. Using help counts toward the assisted record."):a.mode==='daily'?this.t("Три жизни на попытку. Новая ошибка снимает максимум одну жизнь за ход. Отмена, возврат и помощь жизнь не снимают. Повтор бесплатный.", "Three lives per attempt. A new error costs at most one life per move. Undo, returning numbers and help cost no lives. Retrying is free."):this.t("Числа сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.", "Your board is saved. There is no penalty for mistakes, and correct equations remain editable. Tap a number and a cell in either order, or drag a piece.");
   }
-  onBack():boolean{if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeModes())return true;if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
+  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeModes())return true;if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
   dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.board.dispose();this.feedback.dispose();}
 }

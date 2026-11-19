@@ -31,7 +31,7 @@ function possibilities(p: Puzzle, a: Attempt, eq: Equation, bag: Bag, spend: () 
 const intersection=(sets:number[][]):number[] => (sets[0] ?? []).filter(v => sets.every(s => s.includes(v)));
 
 /** No answer data or authored trace can enter this API. All domains come from visible tokens. */
-export function explain(p: Puzzle, a: Attempt, budget = 40_000): HintPlan | null {
+export function explain(p: Puzzle, a: Attempt, budget = p.contentVersion === 2 ? 160_000 : 40_000): HintPlan | null {
   if (a.status !== 'playing') return null;
   // Reject an inconsistent player hypothesis instead of teaching a conclusion from a false premise.
   const compatible=countSolutions(p,budget,visiblePlacements(p,a));
@@ -40,6 +40,18 @@ export function explain(p: Puzzle, a: Attempt, budget = 40_000): HintPlan | null
   const spend=():void => { if (--remaining < 0) throw new HintBudgetExceeded(); };
   const bag=inventory(p,a), proposals: {priority:number; eq:number; assignment:Assignment; rule:HintPlan['rule']}[]=[];
   const supports=new Map<number,Evidence[]>();
+  // Single-gap deductions have the highest priority. Find one before enumerating dense lines.
+  for (const [index, eq] of p.equations.entries()) {
+    const free = eq.cells.filter(id => cellValue(p,a,id) === undefined);
+    if (free.length !== 1) continue;
+    const cellId = free[0]!;
+    const position = eq.cells.indexOf(cellId);
+    const candidates = possibilities(p,a,eq,bag,() => {}).map(row => row[position]!);
+    if (candidates.length === 1) return {
+      puzzleId:p.puzzleId,boardRevision:a.boardRevision,kind:'explain',rule:position === 2 ? 'direct_result' : 'direct_inverse',
+      assignments:[{cellId,value:candidates[0]!,evidence:[{equationIndex:index,candidates}]}],returns:[],
+    };
+  }
   try {
     p.equations.forEach((eq,index) => {
       const free=eq.cells.filter(id => cellValue(p,a,id) === undefined);
@@ -62,7 +74,7 @@ export function explain(p: Puzzle, a: Attempt, budget = 40_000): HintPlan | null
 }
 
 /** Separate enumeration and arithmetic from the proposer; never trusts candidate lists or prose. */
-export function verifyExplanation(p: Puzzle, a: Attempt, plan: HintPlan, budget = 80_000): boolean {
+export function verifyExplanation(p: Puzzle, a: Attempt, plan: HintPlan, budget = p.contentVersion === 2 ? 200_000 : 80_000): boolean {
   if (plan.kind !== 'explain' || plan.rule === 'reveal' || plan.puzzleId !== p.puzzleId || plan.boardRevision !== a.boardRevision || plan.returns.length || !plan.assignments.length) return false;
   const feasible=countSolutions(p,budget,visiblePlacements(p,a));
   if (feasible.exhausted || !feasible.count) return false;
