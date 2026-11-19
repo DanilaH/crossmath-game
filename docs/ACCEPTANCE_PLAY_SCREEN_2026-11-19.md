@@ -103,3 +103,25 @@ The table gives one Chromium probe per input and build. It measures from the fir
 All 72 Vitest tests, three Chromium smoke suites and the content validators passed. The release web audit, debug and optimized releaseCheck build, APK signature and 16 KiB alignment/payload inspection passed.
 
 KIT IMPACT — REUSE. Crossmath schedules its presentation with the existing OwnedDomMotion and OneShotPlayer. The existing atomic completion receipt remains the authority for the frame.
+
+## 0.5.6 — board viewport, tray and navigation
+
+- The board, tray and tools share one play area. The board can pan within it while the tray remains in view. A tall viewport shows the full field 147 tray. At 320×568 the tray has ten visible slots and two explicit paging buttons. Physical token IDs, positions, sort and undo still use the same session model. Tap a number, pan, then tap a cell or drag directly from the visible tray.
+- Home keeps one continuation action and direct Daily and Workshop entries. The mode picker groups play and progress links. The Calendar puts Today above goals and history; upcoming dates can be expanded separately. Pause shows continuation first, with settings and rules in disclosures. Help opens at the bottom and still requires explicit confirmation with its current price. Daily and Endless show numeric lives with heart markers. Endless score and assisted status are separate.
+- Three Chromium recordings use real touch/keyboard-capable UI and the exact APK web payload. Long-progress fixtures open field 147 and unlock Daily and Endless. Native touch input in Chromium verified horizontal and vertical board panning while a token stayed selected, a direct drag from the paged tray, and stable tray scroll. Browser suites check return/resume, reload, selection and inventory, RU/EN, the paid-help flow, field 147 and unchanged scoring. The neutral feedback and first abacus reward from 0.5.5 remain covered. APK installation and physical input, audio and haptic acceptance still require a device.
+
+| Chromium measurement | 0.5.5 | 0.5.6 |
+|---|---:|---:|
+| Field 147 document height at 320×568 | 795 px | 568 px |
+| Field 147 tray height at 320×568 | 313 px | 101 px |
+| Field 147 visible numbers at 390×844 | 28 | 28 |
+| Field 12 distance from the tray to the tools at 390×844 | 193 px | 11 px |
+
+- APK `Crossmath_0.5.6_Preview.apk`, versionCode 11, `com.danilah.crossmath.releasecheck`
+- Source commit `ac9c0933f08581555ad0fa8dc1b54b57dc712348`, source tree `26ed50b84a00fcfeb086285aa75e514dea384ab6`
+- APK SHA-256 `995e500da2f252dc9fd0482789f85eff1c96e6a791250a8a6d200097e52448a8`, 1,270,705 bytes
+- Retained preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+All 72 Vitest tests and three Chromium smoke suites passed. Gradle debug and optimized releaseCheck, web audit, signature, 16 KiB ZIP alignment and exact payload inspection passed.
+
+KIT IMPACT — REUSE. Play layout remains consumer-owned and uses the existing activity coordination and save contracts.
