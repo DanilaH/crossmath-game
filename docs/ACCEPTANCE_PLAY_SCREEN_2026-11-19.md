@@ -125,3 +125,19 @@ KIT IMPACT — REUSE. Crossmath schedules its presentation with the existing Own
 All 72 Vitest tests and three Chromium smoke suites passed. Gradle debug and optimized releaseCheck, web audit, signature, 16 KiB ZIP alignment and exact payload inspection passed.
 
 KIT IMPACT — REUSE. Play layout remains consumer-owned and uses the existing activity coordination and save contracts.
+
+## 0.5.7 — workshop, profile and material feedback
+
+- The workshop shows the current instrument on the bench, what fits next, and the number of distinct wins until that part. The collection keeps all 12 instruments with four layers each. Pending parts are drawn as outlines. Every earned part appears in the tray and opens its own instrument. Returning from the inspector restores the originating control. A completed instrument has a short glint and five motes. An ordinary part has three motes, while a normal win uses neither effect. Continue is available as soon as the win is committed.
+- The profile shows campaign, Daily and workshop totals alongside the two Endless records. Detailed counters and achievements are expandable. The default profile and both summaries fit at 320×568. The board uses static paper fibres, a soft overhead light and a warmer tile edge. Move sounds use an original wood-like synthesis and the same contact trigger. A part and a completed instrument each add their own short metal resonance to the win cue.
+- Chromium ran the actual campaign through fields 8 and 13, opened the completed abacus and the first counting-rod part, showed the following part on the bench, and verified the result, coin and fragment counts after reload and replay. A separate checkpoint exercised winning with help and reduced motion. The record still settles and the reward stays accessible with no animation. The three GIFs use the exact APK web payload.
+- The sound trace reached Web Audio with one win buffer per result. The part and finished-instrument buffers were 365 ms and 448 ms. The browser trace does not establish speaker or motor latency on Android. Phone installation and device accessibility still require a physical device.
+
+- APK `Crossmath_0.5.7_Preview.apk`, versionCode 12, `com.danilah.crossmath.releasecheck`
+- Source commit `d1d9080ab931b0fe317db4acb7348d47d94e98f3`, source tree `810e259c43f87c1ba96dfadaa121a265f534d17e`
+- APK SHA-256 `1a7d16fdc408dcf4f22e07bd8c5478e1e30e521f7348aedf8dac3b0c5216cc5a`, 1,272,137 bytes
+- Retained preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+All 72 Vitest tests, three Chromium smoke suites and content validators passed. Debug and optimized releaseCheck, release web audit, signature, 16 KiB ZIP alignment and exact payload inspection passed.
+
+KIT IMPACT — REUSE. Collection progress uses the existing tier projection, completion receipts and SVG layers. Audio uses the existing contact trigger and one-shot playback. The placement and lifetime of the visual effects remain local to Crossmath.
