@@ -49,3 +49,20 @@ Chromium verified a square under each active number and operator, aligned center
 Debug and optimized builds passed. The exact APK passed release inspection. Device runtime remains pending.
 
 KIT IMPACT — NONE. The grid is rendered from Crossmath's existing puzzle coordinates.
+
+## 0.5.2 — tactile field and victory
+
+- The table uses a matte ink-blue surface, warm grid and amber pieces with an enamel edge. The dark setting tones down the grid. The field remains visible on victory, with the ordinary result and continuation docked below it.
+- The drag preview scales to the target square and exposes a dashed footprint. A committed landing settles into the cell. A newly correct equation lights along its own axis. An invalid line shows an edge mark and `≠`, keeping shared numbers neutral. Endless follows its existing explicit check. Reduced motion retains the target and equation states.
+- The first part of the abacus is labelled `Рамка счётов · 1/4` on the third win. A simultaneous unlock is available in the expanded rewards. The sound setting enables a synthetic 32ms contact click on accepted placements and swaps.
+
+The browser capture plays the fresh campaign through field 25. Field 12 shows the bad vertical equation, touch target and swap, and continuation from the unobscured board. At 320×568 the dense field has 48 CSS px touch targets and fits in the viewport. The actual browser touch probe verified that the ghost fits above the target and that a cancelled drag clears both the ghost and highlight. Field 3, Daily and Endless regressions passed. Three browser suites and all 68 Vitest tests passed. With sound enabled in the browser, an accepted placement passed the expected 32ms non-silent buffer to Web Audio. Physical-phone sound, haptics and runtime remain pending.
+
+- APK `Crossmath_0.5.2_Preview.apk`, versionCode 7
+- Source commit `77f9aaf61460928bc96c9920a7c1f3e62d056e60`, source tree `c3fb289f6ae631b91c05dd2a7a7eb87c58becf25`
+- APK SHA-256 `55ac742ee231404d5c3b32101db7de7acf35fc464fceced4040c74e185fcccd6`
+- Preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+Debug and optimized Gradle builds passed. The release inspection passed against the exact signed APK and web payload.
+
+KIT IMPACT — REUSE. The existing motion owner drives the landing and line feedback. The existing one-shot player handles the contact sound.
