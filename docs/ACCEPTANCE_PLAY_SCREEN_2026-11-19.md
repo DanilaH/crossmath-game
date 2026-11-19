@@ -34,3 +34,18 @@ The two portrait GIFs record the same actual browser input on Crossmath 0.4.0 an
 Debug and optimized Gradle builds passed. The exact releaseCheck APK passed signature, 16K alignment, package/version, portrait, debugging flags, release web-payload and storage bridge checks. The retained preview signer and monotonic versionCode allow an in-place update. Installation and migration on an Android device, physical feel, TalkBack and live ads were not exercised.
 
 KIT IMPACT — REUSE. Committed tile/equation feedback and cancelled-gesture treatment use the existing motion owner. Lifecycle and one-shot feedback keep the pinned kit contracts.
+
+## 0.5.1 — continuous board
+
+The field now has one grid surface across numbers, operators and intersections. Inactive coordinates leave the surrounding space open. Movable pieces and recessed sockets remain legible within their squares. The surface is decorative and hit targets are still the semantic button layer.
+
+Chromium verified a square under each active number and operator, aligned centers and touching neighbor edges in both axes on fields 1, 12 and 25 at 320×568 and 390×844. The normal play layout fits without scrolling. All three browser suites and 68 Vitest tests passed. The field 12 recording shows placement, a shared-cell conflict, drag swap and victory.
+
+- APK `Crossmath_0.5.1_Preview.apk`, versionCode 6
+- Source commit `2ccb03a297661f79b767621ce60f6bc2b0013568`, source tree `0cd3483caecf4e5c633dbbaa93f43b7b308160c9`
+- APK SHA-256 `e977bc3b37601208dc6504efb29b8487718cbc919c413fbb16b45c432b4642bf`
+- Preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+Debug and optimized builds passed. The exact APK passed release inspection. Device runtime remains pending.
+
+KIT IMPACT — NONE. The grid is rendered from Crossmath's existing puzzle coordinates.
