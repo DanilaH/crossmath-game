@@ -89,6 +89,7 @@ export class MetaView {
 
     const focused = document.activeElement?.id;
     const expandedGoals = this.root.querySelector<HTMLDetailsElement>('#daily-goals')?.open ?? false;
+    const expandedUpcoming = this.root.querySelector<HTMLDetailsElement>('#daily-upcoming')?.open ?? false;
     this.root.replaceChildren();
     if (screen === 'home') {
       this.home(save);
@@ -96,6 +97,7 @@ export class MetaView {
     } else if (screen === 'calendar') {
       this.calendar(save);
       this.root.querySelector<HTMLDetailsElement>('#daily-goals')!.open = expandedGoals;
+      this.root.querySelector<HTMLDetailsElement>('#daily-upcoming')!.open = expandedUpcoming;
     }
     else if (screen === 'profile') this.profile(save);
     else this.album(save);
@@ -161,12 +163,8 @@ export class MetaView {
     const dailyWins = config.unlockProposal.dailyAfterNewWins;
     const daily = this.button('', () => this.actions.daily(day), 'daily-primary');
     daily.disabled = disabledOrLocked(this.disabled, wins < dailyWins);
-    const today = storedSlot(save, 'daily:' + day);
     const dayStatus = wins < dailyWins ? this.t(`После ${dailyWins} побед`, `After ${dailyWins} wins`)
-      : save.meta.completedDates.includes(day) ? this.t('Решено сегодня', 'Solved today')
-      : today?.attempt.status === 'out-of-lives' ? this.t('Нет жизней', 'Out of lives')
-      : today?.attempt.status === 'playing' ? this.t('Партия начата', 'In progress')
-      : this.t('Сегодня', 'Today');
+      : this.dayStatus(save, day);
     const date = el('span', 'home-date', day.slice(8,10));
     date.setAttribute('aria-hidden','true');
     daily.append(date, el('strong','',this.t('Задача дня', 'Daily challenge')), el('span','quick-status',dayStatus));
@@ -185,7 +183,7 @@ export class MetaView {
     quick.append(daily, album);
     this.root.append(quick);
 
-    const menu = this.button(this.t('Режимы и рекорды', 'Modes and records'), () => {
+    const menu = this.button(this.t('Все режимы', 'All modes'), () => {
       if (this.modeDialog.open) return;
       this.renderModes(save);
       this.modeDialog.showModal();
@@ -201,11 +199,13 @@ export class MetaView {
     const choices = this.modeChoices;
     const showCompleted = choices.querySelector('details')?.open ?? false;
     choices.replaceChildren();
-    choices.append(this.button(this.t('Кампания', 'Campaign'), this.actions.campaign, 'campaign-open'));
+    const games = el('section','mode-group');
+    games.append(this.button(this.t('Кампания', 'Campaign'), this.actions.campaign, 'campaign-open'));
+    choices.append(games);
 
     const savedFree = storedSlot(save, 'free')?.attempt;
     if (savedFree?.status === 'playing' && !savedFree.freeTrack) {
-      choices.append(this.button(this.t('Продолжить свободную игру', 'Resume Free Play'),
+      games.append(this.button(this.t('Продолжить свободную игру', 'Resume Free Play'),
         () => this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId}), 'free-resume'));
     }
     for (const track of freeTracks) {
@@ -215,23 +215,26 @@ export class MetaView {
         : savedFree?.freeTrack === track && savedFree.status === 'playing' ? this.t(`Продолжить · ${name}`, `Resume · ${name}`) : name;
       const open = this.button(label, () => this.actions.free(track), track === 'relax' ? 'free-open' : 'challenge-open');
       open.disabled = disabledOrLocked(this.disabled, wins < threshold);
-      choices.append(open);
+      games.append(open);
     }
 
     const calendar = this.button(wins < dailyAfterNewWins
       ? this.t(`Календарь · после ${dailyAfterNewWins} побед`, `Calendar · after ${dailyAfterNewWins} wins`)
       : this.t('Календарь задач', 'Challenge calendar'), () => this.actions.navigate('calendar'), 'calendar-open');
     calendar.disabled = disabledOrLocked(this.disabled, wins < dailyAfterNewWins);
-    choices.append(calendar);
+
 
     const endless = this.button(wins < endlessAfterNewWins
       ? this.t(`Endless · после ${endlessAfterNewWins} побед`, `Endless · after ${endlessAfterNewWins} wins`)
       : save.career.run && save.career.run.status !== 'ended' ? this.t('Продолжить Endless', 'Resume Endless')
         : this.t('Начать Endless', 'Start Endless'), this.actions.endless, 'endless-open');
     endless.disabled = disabledOrLocked(this.disabled, wins < endlessAfterNewWins);
-    choices.append(endless);
-    choices.append(this.button(this.t('Профиль и рекорды', 'Profile and records'), () => this.actions.navigate('profile'), 'profile-open'));
-    if (save.attempt.status === 'won') choices.append(this.button(this.t('Последний результат', 'Last result'), () => this.actions.navigate('play'), 'last-result'));
+    games.append(endless);
+    const progress = el('section','mode-group');
+    progress.append(el('h3','',this.t('Задачи и прогресс','Challenges and progress')), calendar,
+      this.button(this.t('Профиль и рекорды', 'Profile and records'), () => this.actions.navigate('profile'), 'profile-open'));
+    if (save.attempt.status === 'won') progress.append(this.button(this.t('Последний результат', 'Last result'), () => this.actions.navigate('play'), 'last-result'));
+    choices.append(progress);
 
     const completed = campaignSequence(save.contentVersion).slice(0, save.profile.campaignCursor);
     if (completed.length) {
@@ -246,7 +249,7 @@ export class MetaView {
         list.append(item);
       }
       details.append(summary, list);
-      choices.append(details);
+      progress.append(details);
     }
   }
   private quests(save:Save):void {
@@ -261,14 +264,61 @@ export class MetaView {
     panel.append(el('p','muted',set.slots.every(s=>s.paid)?this.t("План выполнен · +30 монет получены", "All goals complete · 30 coins earned"):this.t("За каждую цель +10, за весь план ещё +30 монет.", "Earn 10 coins per goal and 30 more for the full set.")));
     if(set.replacements.length)panel.append(el('p','muted',this.t("Недоступная цель заменена. Для новой цели нужно одно действие.", "An unavailable goal was replaced. The new goal takes one action.")));this.root.append(panel);
   }
+  private dayStatus(save: Save, day: string): string {
+    if (day > save.meta.effectiveDay) return this.t('Будет доступно', 'Upcoming');
+    if (save.meta.completedDates.includes(day)) return this.t('Решено ✓', 'Solved ✓');
+    const current = storedSlot(save, 'daily:' + day)?.attempt;
+    if (current?.status === 'out-of-lives') return this.t('Нет жизней', 'Out of lives');
+    if (current) return this.t('Партия начата', 'In progress');
+    return day === save.meta.effectiveDay ? this.t('Сегодня','Today') : this.t('Доступно', 'Available');
+  }
+
+  private dateButton(save: Save, day: string): HTMLButtonElement {
+    const today = day === save.meta.effectiveDay;
+    const status = this.dayStatus(save,day);
+    const button = this.button('',()=>this.actions.daily(day),`daily-${day}`);
+    button.dataset.day = day;
+    button.classList.add('date-card');
+    button.classList.toggle('today',today);
+    button.classList.toggle('completed',save.meta.completedDates.includes(day));
+    button.disabled = this.disabled || day > save.meta.effectiveDay;
+    const stamp = el('strong', today ? 'home-date' : '', day.slice(8,10)+'.'+day.slice(5,7));
+    stamp.setAttribute('aria-hidden','true');
+    button.append(stamp);
+    if (today) {
+      const copy = el('span', 'today-copy');
+      const action = status === this.t('Сегодня','Today') ? this.t('Играть · 3 жизни','Play · 3 lives') : status;
+      copy.append(el('strong','',this.t('Сегодня','Today')), el('span','',action));
+      const arrow = el('span','today-arrow','›');
+      arrow.setAttribute('aria-hidden','true');
+      button.append(copy,arrow);
+      button.setAttribute('aria-label',this.t(`Сегодня, ${day}. ${action}`, `Today, ${day}. ${action}`));
+    } else {
+      button.append(el('span','',status));
+      button.setAttribute('aria-label', `${day}, ${status}`);
+    }
+    return button;
+  }
+
   private calendar(save:Save):void {
-    this.heading(this.t("Календарь", "Calendar"),this.t("За каждую новую решённую дату — 30 монет. В попытке три жизни.", "Earn 30 coins for each date you clear. Each attempt starts with three lives."));this.root.append(this.button(this.t("← На главную", "← Home"),()=>this.actions.navigate('home'),'calendar-back'));
+    this.heading(this.t('Календарь задач', 'Challenge calendar'));
+    this.root.append(this.button(this.t('← На главную', '← Home'),()=>this.actions.navigate('home'),'calendar-back'));
+    const today = calendarDayIndex(save.meta.effectiveDay);
+    const created = calendarDayIndex(profileDay(save.profile.createdAt,save.profile.timeZone));
+    this.root.append(this.dateButton(save,save.meta.effectiveDay));
     this.quests(save);
-    const grid=el('div','date-grid'),today=calendarDayIndex(save.meta.effectiveDay),created=calendarDayIndex(profileDay(save.profile.createdAt,save.profile.timeZone));
-    for(let i=today+7;i>=Math.max(created,today-30);i--){const day=dayFromIndex(i),saved=storedSlot(save,'daily:'+day),completed=save.meta.completedDates.includes(day),future=i>today;
-      const state=future?this.t("Будет доступно", "Upcoming"):completed?this.t("Решено ✓", "Solved ✓"):saved?.attempt.status==='out-of-lives'?this.t("Нет жизней", "Out of lives"):saved?this.t("Начато", "In progress"):i===today?this.t("Сегодня", "Today"):this.t("Доступно", "Available");
-      const b=this.button('',()=>this.actions.daily(day));b.dataset.day=day;b.classList.add('date-card');b.classList.toggle('today',i===today);b.classList.toggle('completed',completed);b.disabled=this.disabled||future;b.append(el('strong','',day.slice(8,10)+'.'+day.slice(5,7)),el('span','',state));b.setAttribute('aria-label',`${day}, ${state}`);grid.append(b);
-    }this.root.append(grid);
+    if (created < today) {
+      this.root.append(el('h2', 'calendar-subtitle', this.t('Прошлые задачи','Past challenges')));
+      const past = el('div','date-grid');
+      for(let i=today-1;i>=Math.max(created,today-30);i--) past.append(this.dateButton(save,dayFromIndex(i)));
+      this.root.append(past);
+    }
+    const upcoming = el('details','hub-panel');
+    upcoming.id = 'daily-upcoming';
+    const future = el('div','date-grid');
+    for (let i=today+1;i<=today+7;i++) future.append(this.dateButton(save,dayFromIndex(i)));
+    upcoming.append(el('summary','',this.t('Следующие даты','Upcoming dates')), future);
+    this.root.append(upcoming);
     const all=[{attempt:save.attempt,result:save.result},...Object.values(save.meta.inactive)].filter(s=>s.attempt.mode==='daily'&&s.attempt.status!=='won'&&!dateAvailable(save.profile.createdAt,save.profile.timeZone,save.meta.effectiveDay,s.attempt.dayKey!));
     if(all.length){const old=el('section','hub-panel');old.append(el('h2','',this.t("Начатые ранее", "Earlier unfinished boards")));for(const slot of all)old.append(this.button(slot.attempt.dayKey+this.t(" · продолжить", " · resume"),()=>this.actions.daily(slot.attempt.dayKey!)));this.root.append(old);}
   }

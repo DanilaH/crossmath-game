@@ -30,9 +30,10 @@ try{
  await tap('#profile-back');await openModes();await tap('#endless-open');await fill();await tap('#submit');await tap('#next');await fill();const failing=await snapshot(),fc=boards.find(p=>p.puzzleId===failing.attempt.puzzleId).cells.filter(c=>c.given===undefined);for(let i=0;i<3;i++){await swap(fc[0].id,fc[i+1].id);await tap('#submit');assert.equal((await snapshot()).attempt.lives,2-i);}assert.equal((await snapshot()).attempt.status,'out-of-lives');assert.equal(await page.locator('#ad-continue').isHidden(),true);await page.screenshot({path:out+'/no-lives.png',fullPage:true});const oldRun=(await snapshot()).career.run.id,balance=(await snapshot()).profile.coins;await tap('#retry-daily');assert.notEqual((await snapshot()).career.run.id,oldRun);assert.equal((await snapshot()).attempt.lives,3);assert.equal((await snapshot()).profile.coins,balance);checks.push('three distinct rejected layouts stop run at zero; free new run resets run identity/lives without wallet debit');
 
  // Exercise the actual runtime language switch and inspect rendered copy including accessible labels.
- await tap('#pause');await page.locator('#language:enabled').waitFor();
+ await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#settings-options summary');await page.locator('#language:enabled').waitFor();
  await page.locator('#language').selectOption('en');
  await page.locator('html[lang="en"] #resume:enabled').waitFor();
+ await tap('#rules-options summary');
  assert.match(await page.locator('#mode-rules').innerText(),/Three lives for the entire run/);
  await page.locator('#timer-visible').check();await page.locator('#resume:enabled').waitFor();
  await tap('#resume');
@@ -56,7 +57,7 @@ try{
  await tap('#profile-back');await openModes();await tap('#campaign-open');assert.equal(await page.locator('#play-time').isVisible(),true);
  await page.reload();await ready();assert.equal(await page.locator('html').getAttribute('lang'),'en');
  assert.equal(await page.locator('#play-time').isVisible(),true);await noRussian('#play-screen');
- await tap('#pause');await page.locator('#language:enabled').waitFor();await page.locator('#language').selectOption('ru');
+ await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#settings-options summary');await page.locator('#language:enabled').waitFor();await page.locator('#language').selectOption('ru');
  await page.locator('html[lang="ru"] #resume:enabled').waitFor();await tap('#resume');
  assert.match(await page.locator('#help').innerText(),/Помощь/);
  checks.push('RU/EN switch and cold persistence, localized board/help/mission/calendar/album/profile/accessibility copy, timer hidden in Endless, optional ads absent without provider');

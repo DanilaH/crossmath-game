@@ -96,7 +96,13 @@ try{
  await solve();
  checks.push('one campaign CTA after five wins; direct Daily opens today; home actions fit on 320×568 and 390×844');
  const daily=await snapshot();assert.equal(daily.result.coins,105);assert.equal(daily.result.baseCoins,15);assert.equal(boards.find(p=>p.puzzleId===daily.attempt.puzzleId).bucket,'daily');assert.equal(daily.result.dailyCoins,30);assert.equal(daily.result.taskCoins,30);assert.equal(daily.result.setCoins,30);assert.equal(daily.profile.fragments,3);await page.screenshot({path:out+'/daily-v2.png',fullPage:true});
- await page.reload();await ready();assert.deepEqual((await snapshot()).result,daily.result);assert.equal((await snapshot()).profile.coins,daily.profile.coins);await tap('#next');assert.match(await page.locator(`[data-day="${day}"]`).innerText(),/Решено/);assert.equal(await page.locator('#hub [data-quest]:visible').count(),0);await tap('#daily-goals summary');assert.equal(await page.locator('#hub [data-quest]:visible').count(),3);assert.equal(await page.locator('.date-card:disabled').count(),7);checks.push('actual UI Daily v2: +105 breakdown, three lives, dated completion, cold restore pays once');
+ await page.reload();await ready();assert.deepEqual((await snapshot()).result,daily.result);assert.equal((await snapshot()).profile.coins,daily.profile.coins);await tap('#next');assert.match(await page.locator(`[data-day="${day}"]`).innerText(),/Решено/);assert.equal(await page.locator('#hub [data-quest]:visible').count(),0);await tap('#daily-goals summary');assert.equal(await page.locator('#hub [data-quest]:visible').count(),3);assert.equal(await page.locator('.date-card:disabled').count(),7);
+ await page.setViewportSize({width:320,height:568});
+ await page.evaluate(()=>scrollTo(0,0));
+ const ticket=await page.locator('.date-card.today').boundingBox();
+ const goals=await page.locator('#daily-goals').boundingBox();
+ assert.ok(ticket && goals && ticket.y+ticket.height<goals.y && ticket.y+ticket.height<=568);
+ await page.setViewportSize({width:390,height:844});checks.push('actual UI Daily v2: +105 breakdown, three lives, dated completion, cold restore pays once');
  await tap('#calendar-back');await tap('#campaign-primary');await solve();await tap('#next');await solve();assert.equal((await snapshot()).profile.fragments,4);assert.equal((await snapshot()).result.cardCoins,20);assert.match(await page.locator('#result-detail').innerText(),/Прибор собран/);
  await tap('#home');await tap('#album-open');const first=page.locator('[data-card="abacus"]');assert.match(await first.innerText(),/4 \/ 4/);assert.equal(await first.locator('svg g[display="none"]').count(),0);await first.tap();await page.locator('#card-dialog[open]').waitFor();assert.equal(await page.locator('#card-body .earned').count(),4);await page.keyboard.press('Escape');await page.locator('#card-dialog').waitFor({state:'hidden'});checks.push('eighth distinct win: +20 card receipt, four visible abacus layers and accessible part list');
  for(const [width,height] of [[320,568],[360,640],[390,844],[800,1280]]){
@@ -139,7 +145,10 @@ try{
  assert.equal((await snapshot()).attempt.freeTrack,'challenge');
  assert.notEqual((await snapshot()).attempt.id,free.id);
  await page.screenshot({path:out+'/u1-ru-confirm.png'});
- await tap('#home');await tap('#pause');await page.selectOption('#language','en');await page.locator('#resume:enabled').waitFor();await tap('#resume');
+ await tap('#home');await tap('#pause');
+ assert.equal(await page.locator('#pause-title').innerText(),'Настройки');
+ await page.selectOption('#language','en');await page.locator('#resume:enabled').waitFor();await tap('#resume');
+ assert.equal((await snapshot()).attempt.userPaused,false);
  await page.reload();await ready();await openModes();await tap('#free-open');
  await page.waitForFunction(()=>document.activeElement.id==='keep-board');
  assert.equal(await page.locator('#replace-title').innerText(),'Start another Free Play board?');
@@ -155,7 +164,7 @@ try{
  assert.deepEqual((await snapshot()).attempt.placements,{});
  await page.screenshot({path:out+'/u1-en-confirm.png'});
  checks.push('U1: Russian and English cold starts, safe default focus, Escape and Keep restore trigger and tokens, confirmed replacement, failed write and explicit retry');
- const hell=releaseBoards.find(board=>board.bucket==='hell-short');
+ const hell=releaseBoards.find(board=>board.campaignPosition===147);
  const dense=await snapshot();
  dense.profile.campaignCursor=hell.campaignPosition-1;
  dense.meta.screen='play';dense.meta.activeSlot='campaign';delete dense.meta.inactive.campaign;dense.result=null;
@@ -166,9 +175,34 @@ try{
    await page.setViewportSize({width,height});
    const measures=await page.evaluate(()=>({pageWidth:document.documentElement.scrollWidth,boardWidth:document.querySelector('.board-scroll').scrollWidth,minTarget:Math.min(...[...document.querySelectorAll('button[data-cell]')].map(el=>el.getBoundingClientRect().width))}));
    assert.ok(measures.pageWidth<=width);assert.ok(measures.minTarget>=48);
+   const tray=await page.locator('#tray').boundingBox();
+   assert.ok(tray && tray.y+tray.height<=height);
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollHeight),height);
+   assert.equal(await page.locator('#tray-nav').isVisible(),width===320);
    geometry.push({screen:'v2 Hell fixture',viewport:[width,height],...measures});
    await page.screenshot({path:out+`/hell-${width}.png`,fullPage:true});
  }
+ await page.setViewportSize({width:320,height:568});
+ await tap('#tray-next');
+ const trayOffset=await page.locator('#tray').evaluate(e=>e.scrollTop);
+ assert.ok(trayOffset>0);
+ const chip=await page.locator('#tray').evaluate(e=>[...e.querySelectorAll('button')].find(chip=>{
+   const port=e.getBoundingClientRect();
+   const box=chip.getBoundingClientRect();
+   return box.top>=port.top && box.bottom<=port.bottom;
+ }).dataset.token);
+ await tap(`[data-token="${chip}"]`);
+ await page.locator('.board-scroll').evaluate(e=>e.scrollTo(e.scrollWidth,e.scrollHeight));
+ assert.equal(await page.locator(`[data-token="${chip}"]`).getAttribute('aria-pressed'),'true');
+ const destination=await page.locator('.board-scroll').evaluate(e=>[...e.querySelectorAll('button[data-cell]')].find(cell=>{
+   const port=e.getBoundingClientRect();
+   const box=cell.getBoundingClientRect();
+   return box.left>=port.left && box.top>=port.top && box.right<=port.right && box.bottom<=port.bottom;
+ }).dataset.cell);
+ await tap(`[data-cell="${destination}"]`);
+ assert.equal((await snapshot()).attempt.placements[destination],chip);
+ assert.equal(await page.locator('#tray').evaluate(e=>e.scrollTop),trayOffset);
+ checks.push('field 147: board scroll stays inside the play area, all 28 numbers on tall screen, tray paging + pan preserves token selection and order');
  assert.deepEqual(errors,[]);await writeFile(out+'/report.json',JSON.stringify({status:'PASS',source:process.env.GITHUB_SHA??'local',browser:browser.version(),day,checks,geometry,limits:'Headless browser; explicit long-progress fixtures; no Android/device/SDK claim'},null,2)+'\n');console.log(JSON.stringify({status:'PASS',checks,geometry},null,2));
 }catch(error){await writeFile(out+'/failure.json',JSON.stringify({status:'FAIL',error:String(error),checks,errors},null,2)+'\n');throw error;}
 finally{await browser?.close();await new Promise(done=>server.close(done));}

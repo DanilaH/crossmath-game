@@ -22,10 +22,26 @@ export class BoardView {
   private preferredAxis: 'row' | 'column' | undefined;
   private explanation='';private supportIndices:number[]=[];
   private tutorialTimer:ReturnType<typeof setTimeout>|null=null;private tutorialShown=false;
+  private readonly boardScroll: HTMLElement;
+  private readonly boardSize: ResizeObserver;
+  private boardWidth = 0;
+  private readonly trayViewport = document.querySelector<HTMLElement>('#traybox')!;
+  private readonly trayNavigation = document.querySelector<HTMLElement>('#tray-nav')!;
+  private readonly trayPrev = document.querySelector<HTMLButtonElement>('#tray-prev')!;
+  private readonly trayNext = document.querySelector<HTMLButtonElement>('#tray-next')!;
   private readonly ghost=document.querySelector<HTMLElement>('#ghost')!;
   constructor(private readonly board:HTMLElement,private readonly tray:HTMLElement,private readonly note:HTMLElement,private readonly feedback:Feedback,
     private readonly disabled:()=>boolean,private readonly reduced:()=>boolean,
     private readonly action:(command:BoardAction,metadata:{commandId:string;expectedRevision:number})=>void,private readonly language:()=>Language){
+    this.boardScroll = board.closest<HTMLElement>('.board-scroll')!;
+    this.boardSize = new ResizeObserver(() => {
+      const width = this.boardScroll.offsetWidth;
+      if (width && width !== this.boardWidth) this.resize();
+    });
+    this.boardSize.observe(this.boardScroll);
+    this.tray.addEventListener('scroll', this.updateTrayButtons);
+    this.trayPrev.onclick = () => this.pageTray(-1);
+    this.trayNext.onclick = () => this.pageTray(1);
     document.addEventListener('pointerdown',this.down);document.addEventListener('pointermove',this.move);document.addEventListener('pointerup',this.up);
     document.addEventListener('pointercancel',this.pointerCancel);document.addEventListener('lostpointercapture',this.pointerCancel);document.addEventListener('click',this.click,true);
     window.addEventListener('resize',this.resize);window.addEventListener('blur',this.cancel);document.addEventListener('scroll',this.scroll,true);
@@ -124,6 +140,8 @@ export class BoardView {
     this.motion.cancelAll();
     this.board.replaceChildren();
     this.tray.replaceChildren();
+    this.boardScroll.scrollTo(0, 0);
+    this.tray.scrollTop = 0;
     this.cells.clear();
     this.signs = [];
     this.equationLines = [];
@@ -199,12 +217,36 @@ export class BoardView {
     // Sorting is explicit; occupied slots keep their physical place during all other actions.
     const order=this.attempt.trayOrder,existing=[...this.tray.querySelectorAll<HTMLElement>('.slot')];
     if(existing.map(e=>e.dataset.slot).join('|')!==order.join('|')){
-      this.tray.replaceChildren();for(const id of order){const slot=document.createElement('span');slot.className='slot';slot.dataset.slot=id;
+      this.tray.replaceChildren();this.tray.scrollTop=0;for(const id of order){const slot=document.createElement('span');slot.className='slot';slot.dataset.slot=id;
         const token=document.createElement('button');token.type='button';token.className='token';token.dataset.token=id;token.textContent=String(tokenValue(this.puzzle,id));slot.append(token);this.tray.append(slot);}
     }
     const used=new Set(Object.values(this.attempt.placements));
     for(const token of this.tray.querySelectorAll<HTMLButtonElement>('button')){const id=token.dataset.token!;token.hidden=used.has(id);token.disabled=this.disabled()||this.attempt.status!=='playing';const active=this.selected?.kind==='token'&&this.selected.id===id;token.classList.toggle('selected',active);token.setAttribute('aria-pressed',String(active));token.setAttribute('aria-label',this.t(`Число ${tokenValue(this.puzzle,id)}, экземпляр ${Number(id.slice(1))+1}`,`Number ${tokenValue(this.puzzle,id)}, piece ${Number(id.slice(1))+1}`));}
   }
+  private updateTrayButtons = (): void => {
+    if (this.trayNavigation.hidden) return;
+    const off = this.disabled() || this.attempt.status !== 'playing';
+    this.trayPrev.disabled = off || this.tray.scrollTop <= 1;
+    this.trayNext.disabled = off || this.tray.scrollTop + this.tray.clientHeight >= this.tray.scrollHeight - 1;
+  };
+
+  private pageTray(direction: -1 | 1): void {
+    this.tray.scrollTop += direction * (this.tray.clientHeight + 5);
+    this.updateTrayButtons();
+    if (document.activeElement === (direction === 1 ? this.trayNext : this.trayPrev)) {
+      const opposite = direction === 1 ? this.trayPrev : this.trayNext;
+      if ((direction === 1 ? this.trayNext : this.trayPrev).disabled) opposite.focus({preventScroll:true});
+    }
+  }
+
+  private sizeTray(): void {
+    const width = this.trayViewport.clientWidth;
+    const columns = Math.max(1, Math.floor((width + 3) / (48 + 3)));
+    const rows = Number(getComputedStyle(this.trayViewport).getPropertyValue('--tray-rows'));
+    this.trayNavigation.hidden = !width || this.puzzle.tray.length <= columns * rows;
+    this.updateTrayButtons();
+  }
+
   render():void{
     const p=this.puzzle,a=this.attempt;if(!p)return;
     const states=evaluate(p,a),conceal=a.mode==='endless'&&a.status!=='won';
@@ -237,6 +279,7 @@ export class BoardView {
       const active=this.selected?.kind==='cell'&&Number(this.selected.id)===cell.id;e.classList.toggle('selected',active);e.setAttribute('aria-pressed',String(active));
     }
     this.renderTray();
+    this.updateTrayButtons();
     const focused = this.selectedCell();
     const axisFirst = (indices: number[]): number | undefined =>
       indices.find(index => this.equationLines[index]!.dataset.axis === this.preferredAxis) ?? indices[0];
@@ -251,7 +294,10 @@ export class BoardView {
     let note = this.explanation
       || (wrong >= 0 ? conflictText(this.language(), this.equationLines[wrong]!.dataset.axis === 'row', equationText(p, a, wrong))
         : this.selected?.kind === 'cell' ? p.equations.map((eq, i) => eq.cells.includes(Number(this.selected!.id)) ? equationText(p, a, i) : '').filter(Boolean).join(' · ')
-        : this.selected?.kind === 'token' ? this.t('Коснитесь клетки', 'Tap a cell')
+        : this.selected?.kind === 'token' ? (this.boardScroll.scrollWidth > this.boardScroll.clientWidth + 1
+          || this.boardScroll.scrollHeight > this.boardScroll.clientHeight + 1
+          ? this.t('Можно сдвинуть поле и коснуться клетки', 'Pan the board, then tap a cell')
+          : this.t('Коснитесь клетки', 'Tap a cell'))
         : firstMove ? this.t('Поставьте число в пустую клетку', 'Put the number in the empty cell')
         : '');
     if (conceal && !this.explanation && !this.selected && a.lastRejectedSignature && a.status === 'playing') {
@@ -357,6 +403,8 @@ export class BoardView {
     this.tap(source, {commandId: crypto.randomUUID(), expectedRevision: this.attempt.boardRevision});
   };
   resize=():void=>{this.cancel();this.motion.cancelAll();if(!this.puzzle)return;const p=this.puzzle,pad=this.board.closest<HTMLElement>('.boardpad')!,scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
+    this.boardWidth = this.boardScroll.offsetWidth;
+    if (!this.boardWidth) return;
     const roomy = p.width <= 5 && p.height <= 5 && innerHeight >= 650;
     const hit = (roomy ? 56 : 48) * Math.max(1, scale);
     const widthStep = (pad.clientWidth - 4 - hit) / Math.max(1, p.width - 1);
@@ -365,6 +413,7 @@ export class BoardView {
     this.ghost.style.setProperty('--landing-size', `${Math.min(40, Math.round(step * .82))}px`);
     this.ghost.style.setProperty('--landing-clearance', `${step / 2 + 3}px`);
     for(const [key,value] of Object.entries({step,hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));
+    this.sizeTray();
   };
-  dispose():void{this.cancel();this.motion.cancelAll();document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
+  dispose():void{this.cancel();this.motion.cancelAll();this.boardSize.disconnect();this.tray.removeEventListener('scroll',this.updateTrayButtons);this.trayPrev.onclick=this.trayNext.onclick=null;document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
 }

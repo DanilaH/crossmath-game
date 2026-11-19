@@ -59,7 +59,7 @@ export class GameUi {
     $('restart').onclick=()=>{$('restart-confirm').hidden=false;};$('restart-no').onclick=()=>{$('restart-confirm').hidden=true;};
     $('restart-yes').onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{$<HTMLDialogElement>('pause-dialog').close();this.blocker('user',false);$('restart-confirm').hidden=true;window.scrollTo(0,0);});
     $<HTMLDialogElement>('pause-dialog').addEventListener('cancel',e=>{e.preventDefault();this.resume();});$<HTMLDialogElement>('help-dialog').addEventListener('cancel',e=>{e.preventDefault();this.closeHelp();});
-    for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){$<HTMLInputElement>(id).onchange=()=>{const input=$<HTMLInputElement>(id);const value=key==='theme'?(input.checked?'dark':'light'):input.checked;this.run(async time=>{await session.update({[key]:value} as Partial<Settings>,true,time);return {committed:true};});};}
+    for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){$<HTMLInputElement>(id).onchange=()=>{const input=$<HTMLInputElement>(id);const value=key==='theme'?(input.checked?'dark':'light'):input.checked;this.run(async time=>{await session.update({[key]:value} as Partial<Settings>,session.state.attempt.userPaused,time);return {committed:true};});};}
     $<HTMLSelectElement>('language').onchange=()=>{
       const language:Language=$<HTMLSelectElement>('language').value==='en'?'en':'ru';
       this.run(async time=>{
@@ -153,7 +153,7 @@ export class GameUi {
     node.textContent=this.t("Время", "Time")+" "+Math.floor(seconds/60)+":"+String(seconds%60).padStart(2,"0");
   }
   private tick():void{const now=performance.now();if(this.wasActive)this.elapsed+=(now-this.lastTime)/1000;this.lastTime=now;this.wasActive=this.ready&&!this.blocked&&!this.saveFailed&&this.session.state.meta.screen==='play'&&!this.session.state.attempt.userPaused&&this.session.state.attempt.status==='playing';}
-  setReady():void{this.ready=true;this.ads?.start();this.syncNavigation();this.tick();this.render();if(this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused){this.blocker('user',true);$<HTMLDialogElement>('pause-dialog').showModal();}}
+  setReady():void{this.ready=true;this.ads?.start();this.syncNavigation();this.tick();this.render();if(this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused){this.showPause();}}
   activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.suspend();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
   private checkpoint():void{if(this.busy||!this.ready||this.saveFailed||this.elapsed<=0||this.session.state.attempt.status!=='playing')return;this.run(async time=>({committed:await this.session.checkpoint(time)}));}
   private run(operation:(elapsed:number)=>Promise<{committed:boolean}>,after:()=>void=()=>{},onFailure?:(error:unknown)=>void):void{
@@ -164,7 +164,7 @@ export class GameUi {
       for(const id of ['help-dialog','pause-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}
       this.blocker('modal',false);this.blocker('user',false);
       $('save-error-text').textContent=this.t("Не удалось подтвердить запись. Сохранённые данные сохранены. Повторите действие или восстановите сохранение перед продолжением.", "The save could not be confirmed. Retry the action or reload your saved game.");$('save-error').hidden=false;$('save-error').scrollIntoView({block:'nearest'});
-    }).finally(()=>{this.busy=false;this.syncNavigation();this.tick();this.render();if(!this.saveFailed&&this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused&&!$<HTMLDialogElement>('pause-dialog').open){this.blocker('user',true);$<HTMLDialogElement>('pause-dialog').showModal();}if(this.blocked&&this.elapsed>0&&!this.retryAction)this.checkpoint();});
+    }).finally(()=>{this.busy=false;this.syncNavigation();this.tick();this.render();if(!this.saveFailed&&this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused&&!$<HTMLDialogElement>('pause-dialog').open){this.showPause();}if(this.blocked&&this.elapsed>0&&!this.retryAction)this.checkpoint();});
   }
   private command(action:BoardAction,metadata?:{commandId:string;expectedRevision:number}):void{
     if(this.blocked||this.busy||this.session.writing||this.saveFailed)return;this.board.cancel();this.board.clearSelection();
@@ -177,21 +177,75 @@ export class GameUi {
       return {committed:result.outcome === 'applied'};
     }, () => { this.moveFeedback = committedFeedback; });
   }
-  private openPause():void{if(this.busy||this.session.writing||this.saveFailed||$<HTMLDialogElement>('pause-dialog').open)return;this.board.cancel();this.tick();this.blocker('user',true);$<HTMLDialogElement>('pause-dialog').showModal();this.run(async time=>{await this.session.update({},true,time);return {committed:true};});}
-  private resume():void{if(this.busy)return;this.run(async time=>{await this.session.update({},false,time);return {committed:true};},()=>{$<HTMLDialogElement>('pause-dialog').close();this.blocker('user',false);$('restart-confirm').hidden=true;});}
-  private openHelp():void{if(this.busy||this.session.writing||this.saveFailed||this.session.state.attempt.status!=='playing')return;this.board.cancel();this.tick();this.blocker('modal',true);this.plan=null;$('apply-help').setAttribute('disabled','');$('help-description').textContent=this.t("Выберите вид помощи. Числа изменятся только после подтверждения.", "Choose how to get help. The board changes after you confirm.");this.helpOperation=crypto.randomUUID();this.helpRevision=this.session.state.attempt.boardRevision;
-    $('help-cost').textContent=this.helpCost();
-    for(const id of ['explain','reveal'])$(id).classList.remove('chosen');$<HTMLDialogElement>('help-dialog').showModal();
+  private showPause(): void {
+    const playing = this.session.state.meta.screen === 'play';
+    $<HTMLDetailsElement>('settings-options').open = !playing;
+    $<HTMLDetailsElement>('rules-options').open = false;
+    $('rules-options').hidden = $('home-from-pause').hidden = $('restart').hidden = !playing;
+    $('restart-confirm').hidden = true;
+    this.blocker('user', true);
+    $<HTMLDialogElement>('pause-dialog').showModal();
   }
-  private helpCost():string {
-    const { coins, hintCredits }=this.session.state.profile;
-    const balance=quantity(this.language,coins,'coin'), credits=quantity(this.language,hintCredits,'credit');
-    const cost=hintCredits>0?quantity(this.language,1,'credit'):quantity(this.language,config.hintCostCoins,'coin');
-    return this.t(`Стоимость: ${cost}. У вас ${balance} и ${credits}.`,`Cost: ${cost}. You have ${balance} and ${credits}.`);
+
+  private openPause(): void {
+    if (this.busy || this.session.writing || this.saveFailed || $<HTMLDialogElement>('pause-dialog').open) return;
+    this.board.cancel();
+    this.tick();
+    this.showPause();
+    if (this.session.state.meta.screen === 'play') {
+      this.run(async time => { await this.session.update({}, true, time); return {committed:true}; });
+    }
   }
-  private chooseHelp(kind:'explain'|'reveal'):void{this.helpKind=kind;this.plan=this.session.prepareHelp(kind,this.board.selectedCell());$('explain').classList.toggle('chosen',kind==='explain');$('reveal').classList.toggle('chosen',kind==='reveal');
+
+  private resume(): void {
+    if (this.busy) return;
+    const close = () => {
+      $<HTMLDialogElement>('pause-dialog').close();
+      this.blocker('user', false);
+      $('restart-confirm').hidden = true;
+    };
+    if (this.session.state.meta.screen !== 'play') close();
+    else this.run(async time => { await this.session.update({}, false, time); return {committed:true}; }, close);
+  }
+
+  private openHelp(): void {
+    if (this.busy || this.session.writing || this.saveFailed || this.session.state.attempt.status !== 'playing') return;
+    this.board.cancel();
+    this.tick();
+    this.plan = null;
+    $('help-description').hidden = true;
+    $<HTMLButtonElement>('apply-help').disabled = true;
+    this.helpOperation = crypto.randomUUID();
+    this.helpRevision = this.session.state.attempt.boardRevision;
+    for (const id of ['explain','reveal']) {
+      $(id).classList.remove('chosen');
+      $(id).setAttribute('aria-pressed','false');
+    }
+    this.updateHelpPrice();
+    this.blocker('modal',true);
+    $<HTMLDialogElement>('help-dialog').showModal();
+  }
+
+  private updateHelpPrice(): void {
+    const { coins, hintCredits } = this.session.state.profile;
+    const balance = quantity(this.language, coins, 'coin');
+    const credits = quantity(this.language, hintCredits, 'credit');
+    const price = hintCredits > 0 ? quantity(this.language, 1, 'credit') : quantity(this.language, config.hintCostCoins, 'coin');
+    $('help-cost').textContent = this.t(`Стоимость ${price} · У вас ${balance} и ${credits}`, `Cost ${price} · Balance ${balance} and ${credits}`);
+    $('apply-help').textContent = this.plan ? this.t(`Применить · ${price}`, `Apply · ${price}`) : this.t('Применить', 'Apply');
+  }
+
+  private chooseHelp(kind:'explain'|'reveal'):void{
+    this.helpKind=kind;
+    this.plan=this.session.prepareHelp(kind,this.board.selectedCell());
+    for (const choice of ['explain','reveal']) {
+      $(choice).classList.toggle('chosen',choice===kind);
+      $(choice).setAttribute('aria-pressed',String(choice===kind));
+    }
+    $('help-description').hidden = false;
     $('help-description').textContent=this.plan?kind==='explain'?this.t("Применим доказуемый ход и покажем, как его получить из равенств и лотка.", "Place a number and see why it follows from the equations and the tray."):this.t("Покажем правильное число. Мешающие неверные фишки вернутся в лоток.", "Reveal the correct number. Any pieces in the way go back to the tray."):this.t("Сейчас нет доказуемого хода из этой расстановки. Можно исправить гипотезу или отдельно показать число.", "No step can be proved from this layout. Change a placement or reveal a number.");
-    $<HTMLButtonElement>('apply-help').disabled=!this.plan;$('apply-help').textContent=kind==='explain'?this.t("Объяснить ход", "Explain a move"):this.t("Показать число", "Reveal a number");
+    $<HTMLButtonElement>('apply-help').disabled=!this.plan;
+    this.updateHelpPrice();
   }
   private closeHelp():void{if(this.busy)return;$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);}
   private applyHelp():void{const plan=this.plan;if(this.busy||!plan)return;let applied=false;
@@ -234,8 +288,7 @@ export class GameUi {
       button.hidden=!this.ads?.rewardAvailable(kind);
       button.disabled=this.busy||this.session.writing||this.saveFailed;
     }
-    if($<HTMLDialogElement>('help-dialog').open)$('help-cost').textContent=this.helpCost();
-    document.body.classList.toggle('endless-play',s.meta.screen==='play'&&a.mode==='endless'&&a.status==='playing');
+    if($<HTMLDialogElement>('help-dialog').open)this.updateHelpPrice();
     document.body.classList.toggle('dark',settings.theme==='dark');document.body.classList.toggle('calm',this.reduced());
     $('wallet').textContent=`◈ ${quantity(this.language, s.profile.coins, 'coin')}`;$('rank').textContent=this.t(`Ранг ${s.profile.rank}`, `Rank ${s.profile.rank}`);const threshold=rankThreshold(s.profile.rank),xp=$('xp');xp.style.setProperty('--xp',`${100*s.profile.xp/threshold}%`);xp.setAttribute('aria-valuemin','0');xp.setAttribute('aria-valuemax',String(threshold));xp.setAttribute('aria-valuenow',String(s.profile.xp));xp.setAttribute('aria-valuetext',this.t(`${s.profile.xp} из ${threshold} опыта`, `${s.profile.xp} of ${threshold} XP`));
     const playing = s.meta.screen === 'play';
@@ -245,6 +298,8 @@ export class GameUi {
     $('level').hidden = !playing;
     this.meta.render(s, this.busy || this.session.writing || this.saveFailed);
     const pauseLabel = playing ? this.t('Пауза', 'Pause') : this.t('Настройки', 'Settings');
+    $('pause-title').textContent = pauseLabel;
+    $('resume').textContent = playing ? this.t('Продолжить', 'Continue') : this.t('Готово', 'Done');
     $('pause-label').textContent = pauseLabel;
     $('pause').setAttribute('aria-label', pauseLabel);
     const band = p.bucket === 'hell-short' ? this.t('Хардкор', 'Hell') : p.difficulty === 'easy' ? this.t('Легко', 'Easy')
@@ -263,9 +318,12 @@ export class GameUi {
     this.moveFeedback = undefined;
     this.board.update(p, a, move);
     $('lives').hidden = a.mode !== 'daily' && a.mode !== 'endless';
-    $('lives').textContent = this.t(`Жизни ${a.lives}/3`, `Lives ${a.lives}/3`);
+    $('life-icons').textContent = '♥'.repeat(a.lives) + '♡'.repeat(3 - a.lives);
+    $('life-count').textContent = this.t(`Жизни ${a.lives}/3`, `Lives ${a.lives}/3`);
     $('run-status').hidden = a.mode !== 'endless';
-    $('run-status').textContent = run ? `${this.t('Очки', 'Score')} ${run.score} · ${run.assisted ? this.t('С помощью', 'Assisted') : this.t('Самостоятельно', 'Solo')}` : '';
+    $('run-status').textContent = run ? `${this.t('Очки', 'Score')} ${run.score}` : '';
+    $('run-kind').hidden = a.mode !== 'endless' || !run?.assisted;
+    $('run-kind').textContent = this.t('С помощью', 'Assisted');
     $('submit').hidden=a.mode!=='endless'||a.status!=='playing';$<HTMLButtonElement>('submit').disabled=this.busy||this.blocked||this.saveFailed||Object.keys(a.placements).length!==p.tray.length||run?.status!=='active';
     $('defeat').hidden=a.status!=='out-of-lives';$('defeat-detail').textContent=this.session.canRestart()?this.t("Можно бесплатно начать эту дату заново.", "Retry this date for free."):this.t("Эта дата вышла из архива. Выберите другую дату в календаре.", "This date is outside the archive. Choose another date in the calendar.");$<HTMLButtonElement>('retry-daily').disabled=this.busy||this.saveFailed||!this.session.canRestart();
     if(a.mode==='endless')$('defeat-detail').textContent=this.t(`В забеге ${run?.score??0} очков. Сохраните итог или начните новый забег бесплатно.`, `Run score: ${run?.score??0}. Save your result or start a new run for free.`);$('retry-daily').textContent=a.mode==='endless'?this.t("Новый забег · бесплатно", "New run · free"):this.t("Ещё попытка · бесплатно", "Retry · free");$('finish-run').hidden=a.mode!=='endless';$<HTMLButtonElement>('finish-run').disabled=this.busy||this.saveFailed;
