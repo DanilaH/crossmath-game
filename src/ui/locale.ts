@@ -1,3 +1,7 @@
+import type { Operator } from '../core/types';
+
+export const operatorGlyph: Record<Operator, string> = { '+': '+', '-': '−', '*': '×', '/': '÷' };
+
 export type Language = 'ru' | 'en';
 
 export function localize(language: Language, russian: string, english: string): string {

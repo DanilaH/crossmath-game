@@ -1,4 +1,4 @@
-import { localize } from './locale';
+import { localize, operatorGlyph } from './locale';
 import type { Language } from './locale';
 import { OwnedDomMotion } from '@danilah/mini-games-kit/feel';
 import { cellValue, evaluate, tokenValue } from '../core/types';
@@ -9,8 +9,7 @@ type Source={kind:'token'|'cell';id:string};
 type Target=Source|{kind:'return';id:string};
 interface Gesture{pointer:number;source:Source;piece:HTMLElement;x:number;y:number;drag:boolean;revision:number;commandId:string}
 interface Landing { cell: number; revision: number; from: DOMRect }
-const glyph={'+':'+','-':'−','*':'×','/':'÷'};
-export const equationText=(p:Puzzle,a:Attempt,index:number):string=>{const eq=p.equations[index]!;const [left,right,result]=eq.cells.map(id=>cellValue(p,a,id)??'□');return `${left} ${glyph[eq.op]} ${right} = ${result}`;};
+export const equationText=(p:Puzzle,a:Attempt,index:number):string=>{const eq=p.equations[index]!;const [left,right,result]=eq.cells.map(id=>cellValue(p,a,id)??'□');return `${left} ${operatorGlyph[eq.op]} ${right} = ${result}`;};
 export class BoardView {
   private puzzle!:Puzzle;private attempt!:Attempt;private selected:Source|null=null;private gesture:Gesture|null=null;
   private readonly motion=new OwnedDomMotion();private readonly cells=new Map<number,HTMLElement>();private signs:HTMLElement[][]=[];
@@ -112,7 +111,7 @@ export class BoardView {
         const a = nodes[i]!, b = nodes[i + 1]!;
         const x = (a.x + b.x) / 2, y = (a.y + b.y) / 2;
         const sign = this.part('span', 'op', x, y);
-        sign.textContent = i === 0 ? glyph[eq.op] : '=';
+        sign.textContent = i === 0 ? operatorGlyph[eq.op] : '=';
         sign.setAttribute('aria-hidden', 'true');
         addSquare(x, y);
         this.board.append(sign);

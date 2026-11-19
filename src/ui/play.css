@@ -1,5 +1,5 @@
-/* Gameplay palette. Navigation and collection retain the existing workshop theme. */
-body.in-play {
+/* Workshop palette shared by the board and navigation. */
+body:is(.in-play, .in-hub) {
   --play-bg: #233249;
   --play-ink: #fff3dd;
   --play-muted: #c4cfdf;
@@ -32,7 +32,7 @@ body.in-play {
   color: var(--play-ink);
 }
 
-body.in-play.dark {
+body:is(.in-play, .in-hub).dark {
   --play-bg: #121c2a;
   --play-muted: #b9c5d8;
   --play-board: #334154;

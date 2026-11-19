@@ -45,6 +45,7 @@ wait('Поле решено','won');wait('+10 монет','first-reward');shot('
 shell('am','force-stop',package);launch();wait('Поле решено','cold-result');shot('cold-result')
 _,home=wait('Crossmath — на главную','return-from-result',True);tap(home)
 wait('130 монет','reward-still-once')
+_,modes=wait('Режимы и рекорды','open-modes',True);tap(modes)
 _,result=wait('Последний результат','last-result',True);tap(result)
 wait('Поле решено','returned-result')
 shell('input','keyevent','4');wait('Продолжить','native-back-pause',True);shot('native-back-pause')

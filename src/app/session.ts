@@ -19,6 +19,11 @@ import type { Difficulty } from '../core/types';
 import type { MetaScreen, Offer, SavedSlot } from '../meta/types';
 
 export function storedSlot(save:Save,key:string):SavedSlot|undefined{return save.meta.activeSlot===key?{attempt:save.attempt,result:save.result}:save.meta.inactive[key];}
+export function campaignContinuation(save: Save): string | undefined {
+  const saved = storedSlot(save, 'campaign');
+  return saved?.attempt.status === 'playing' ? saved.attempt.puzzleId
+    : routes.campaignSequence[save.profile.campaignCursor] ?? saved?.attempt.puzzleId;
+}
 export type OpenOutcome='opened'|'confirm_replace'|'unavailable';
 
 export class GameSession {
@@ -159,7 +164,7 @@ export class GameSession {
     try{const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;}finally{this.finishWrite();}
   }
   openCampaign(elapsed=0):Promise<OpenOutcome>{
-    const saved=storedSlot(this.state,'campaign');const id=saved?.attempt.status==='playing'?saved.attempt.puzzleId:routes.campaignSequence[this.state.profile.campaignCursor]??saved?.attempt.puzzleId;
+    const id = campaignContinuation(this.state);
     return id?this.openOffer({puzzleId:id,mode:'campaign'},false,elapsed):Promise.resolve('unavailable');
   }
   openFree(band:Difficulty,replace=false,elapsed=0):Promise<OpenOutcome>{

@@ -1,0 +1,223 @@
+body.in-hub {
+  color-scheme: dark;
+  --paper: var(--play-bg);
+  --card: var(--play-panel);
+  --ink: var(--play-ink);
+  --soft: var(--play-muted);
+  --edge: var(--play-line);
+  --teal: var(--play-blue);
+  --mint: var(--play-blue-wash);
+  --gold: var(--play-blue);
+}
+
+.in-hub #screen-header {
+  border-color: var(--play-line);
+}
+
+.in-hub .word {
+  font: 850 1.4rem/1 system-ui, sans-serif;
+  letter-spacing: -.045em;
+}
+
+.in-hub .brand i:first-child {
+  background: var(--play-blue);
+}
+
+.in-hub .brand i:nth-child(2) {
+  background: var(--play-board);
+}
+
+.in-hub .brand i:last-child {
+  background: none;
+  border-color: var(--play-blue);
+}
+
+.in-hub #pause {
+  color: var(--play-ink);
+}
+
+.in-hub .storage-note:empty {
+  display: none;
+}
+
+.in-hub .primary {
+  color: var(--play-blue-ink);
+}
+
+.resume-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--play-line);
+  border-top-color: var(--play-blue);
+  border-radius: 17px;
+  background: linear-gradient(142deg, var(--play-panel), var(--play-bg));
+  box-shadow: 0 4px 0 #15223866;
+}
+
+.resume-context {
+  justify-self: center;
+  margin: 0;
+  color: var(--play-ink);
+  font-size: .89rem;
+  font-weight: 680;
+  letter-spacing: .02em;
+  text-align: center;
+}
+
+.resume-preview {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: min(100%, 230px);
+  margin: 1px auto 5px;
+  overflow: hidden;
+  border: 1px solid var(--play-board-edge);
+  border-radius: 8px;
+  background: var(--play-board);
+  color: var(--play-board-ink);
+  box-shadow: 0 3px 0 #142034a8;
+}
+
+.preview-slot {
+  display: grid;
+  aspect-ratio: 1;
+  min-width: 0;
+  place-items: center;
+  font-size: clamp(1.05rem, 5vw, 1.5rem);
+  font-weight: 840;
+}
+
+.preview-slot + .preview-slot {
+  border-inline-start: 1px solid var(--play-grid);
+}
+
+.preview-slot.preview-operator {
+  color: var(--play-board-muted);
+  font-size: .98rem;
+}
+
+.preview-blank {
+  background: var(--play-socket);
+  color: var(--play-board-muted);
+  box-shadow: inset 0 2px 2px #282f421e;
+}
+
+.preview-piece {
+  background: var(--play-chip);
+  color: var(--play-chip-ink);
+  box-shadow: inset 0 -2px var(--play-chip-rim);
+}
+
+.resume-card .primary {
+  min-height: 54px;
+  padding: 8px 12px;
+  font-weight: 810;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-shadow: 0 2px var(--play-chip-rim);
+}
+
+.resume-card .primary:active {
+  translate: 0 1px;
+  box-shadow: 0 1px var(--play-chip-rim);
+}
+
+.home-quick {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.home-quick .hub-button {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  min-width: 0;
+  padding: 10px 11px;
+  border-color: var(--play-line);
+  background: var(--play-panel);
+  overflow-wrap: anywhere;
+}
+
+.home-quick .hub-button:disabled {
+  opacity: .8;
+}
+
+.home-date, .home-quick .instrument {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  margin: 0 0 3px;
+  place-items: center;
+}
+
+.home-date {
+  border: 1px solid var(--play-board-edge);
+  border-top: 4px solid var(--play-chip-edge);
+  border-radius: 6px;
+  background: var(--play-board);
+  color: var(--play-board-ink);
+  font-size: .875rem;
+  font-weight: 800;
+}
+
+.quick-status {
+  color: var(--play-muted);
+  font-size: .77rem;
+}
+
+#modes-open {
+  border-color: var(--play-line);
+  background: transparent;
+  color: var(--play-muted);
+  font-size: .86rem;
+  font-weight: 690;
+  text-align: center;
+}
+
+#mode-dialog {
+  max-height: 90svh;
+  padding: 17px;
+}
+
+#mode-dialog::backdrop {
+  background: #111b2bbd;
+}
+
+#daily-goals {
+  padding-block: 4px;
+}
+
+#daily-goals[open] > :not(summary) {
+  margin-bottom: 6px;
+}
+
+#mode-title {
+  font: 800 1.22rem/1.15 system-ui, sans-serif;
+}
+
+#mode-choices {
+  display: grid;
+  gap: 6px;
+}
+
+#mode-choices button {
+  overflow-wrap: anywhere;
+}
+
+#close-modes {
+  width: 100%;
+  margin-top: 10px;
+}
+
+@media (min-height: 700px) {
+  .resume-card {
+    margin-top: min(6svh, 50px);
+    padding: 24px;
+    gap: 18px;
+  }
+
+  .home-quick .hub-button {
+    padding: 13px;
+  }
+}
