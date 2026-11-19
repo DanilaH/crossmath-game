@@ -1,6 +1,6 @@
 # Crossmath status — 19 November 2026
 
-Working branch: `feat/vertical-slice-20261118`, draft PR #1. Version 0.4.0 / versionCode 4 / schema 4. E2 adds RU/EN and the optional Android ads bridge, verified with a scripted provider. Real SDK acceptance remains open.
+Baseline: `main`. Development history: `feat/vertical-slice-20261118` and PR #1. Version 0.4.0 / versionCode 4 / schema 4. E2 adds RU/EN and the optional Android ads bridge, verified with a scripted provider. Real SDK acceptance remains open.
 
 ## Implemented
 

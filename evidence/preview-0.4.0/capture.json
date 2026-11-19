@@ -1,0 +1,11 @@
+{
+  "browser": "141.0.7390.37",
+  "version": "0.4.0",
+  "day": "2026-11-22",
+  "source": "570b72882534a7a71c2c345a70453ed11622c61d",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "scenario": "Clean profile, campaign 1–15 through visible controls, Daily +100, real drag/swap. No injected profile or game state."
+}

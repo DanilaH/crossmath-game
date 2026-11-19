@@ -1,6 +1,6 @@
 # Crossmath handoff
 
-1. Read AGENTS, STATUS, PROJECT_DECISIONS, ROADMAP and latest acceptance. Owner TZ 1.0 and delivered product JSON govern rules. Current branch `feat/vertical-slice-20261118`, draft PR #1; inspect actual remote HEAD and preserve existing work.
+1. Read AGENTS, STATUS, PROJECT_DECISIONS, ROADMAP and latest acceptance. Owner TZ 1.0 and delivered product JSON govern rules. Current baseline `main`; PR #1 tracks the original implementation history. Inspect actual remote HEAD and preserve existing work.
 2. A–C delivered 0.1.0; D in 0.2.0; E1 in 0.3.0 (versionCode 3, schema 3) implements offline Endless/profile/achievements. Next is E2: full RU/EN, platform reward/interstitial adapters and scripted callbacks. E is not complete. Physical phone acceptance of A–D is still pending, not inferred from automation.
 3. Run `npm run check`, `npm run content:verify`, `npm run android:sync:release`, `npm run test:browser`; real Gradle debug/releaseCheck and exact APK inspection. Browser script includes A–C first25 plus D fresh unlocks/+100/eight-win card; long-progress display fixtures are labelled.
 4. `src/core` owns commands; `src/content` immutable bank/solver; `src/help/logic.ts` proofs without author answers; only reveal reads answers. `model.ts` settles base/rank/card; `src/meta` calendar/mission settlement and migration; `session.ts` single writer/mode slots; `saveRepository.ts` atomic root/backup/recovery; `src/ui` presentation. Native bridge remains generated baseline.
@@ -17,3 +17,5 @@
 13. E2 in 0.4.0 implements persistent RU/EN and Campaign/Free timer, schema4 request/settlement ledger, scripted ads test coverage, and optional Capacitor CrossmathAds bridge. See ACCEPTANCE_E2_2026-11-19.md for the provider interface. Next steps are selecting/configuring the live Android provider and real device/release acceptance.
 
 14. Latest verified APK `Crossmath_0.4.0_E2_preview.apk` (1,224,169 bytes), SHA-256 `05a232780a40564e0f22e83381c6c5f186bdc8c50327703a08a1e465a16c2267`, source `570b72882534a7a71c2c345a70453ed11622c61d`. Same preview signing certificate. 68 tests and all three Chromium scenarios passed. Native compile and exact APK inspection passed. Device runtime remains untested.
+
+15. Version 0.4.0 moved to `main` by fast-forward after the owner requested the push. The README gallery contains real UI captures in `evidence/preview-0.4.0/`. The gallery change is documentation and media only. KIT IMPACT: NONE.
