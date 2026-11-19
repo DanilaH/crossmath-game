@@ -1,0 +1,36 @@
+# Play screen preview — 19 November 2026
+
+Crossmath 0.5.0, Android versionCode 5, save schema 4.
+
+The owner approved starting with the field, first move and completion. The play screen uses a compact header, a free-standing board, amber movable pieces, a tray beneath the puzzle and a compact toolbar. The win panel keeps the next action in view. The darker play palette and reduced-motion setting cover the same states. Wallet and rank are available on the existing hub. Campaign, Free Play, Daily and Endless share the new play layout.
+
+## Reference and evidence
+
+[Guru's Play listing](https://play.google.com/store/apps/details?id=math.puzzle.games.crossmath.number.puzzles.free) shows the field, separated tray and bottom tools. A [recorded Guru session](https://www.youtube.com/watch?v=xxoueeCnA6A&t=32s) shows the completion overlay and main continuation action. Crossmath uses original palette, piece treatment, controls and authored fields. Reference motion timing and device feel were not measured.
+
+The two portrait GIFs record the same actual browser input on Crossmath 0.4.0 and 0.5.0. Both reach campaign field 12 from a fresh profile, place the same conflicting numbers, swap them by drag, show the result and tap through to field 13. The recording scrolls in 0.4.0 to reach the next action. Screen captures also cover first move, field 12 conflict and win, and the dense field on a small viewport.
+
+| At normal text size | 0.4.0 | 0.5.0 |
+| --- | --- | --- |
+| Field 12, Next at 390×844 | Starts at y=908 | Entirely in view |
+| Field 25, last tray row at 320×568 | Bottom at y=694 | Bottom at y=489 |
+| Fields 1, 12 and 25 at 320×568 and 390×844 | Baseline measured above | Board, tray and main controls fit without scrolling |
+
+- Chromium 141 completed 25 campaign fields with real tap/drag/keyboard interactions. It checked field 12 conflict and atomic swap, durable result and replay with no second reward, dense targets at least 48 CSS pixels, no overlapping number targets, first-move guide cancellation, dark mode and reduced motion. The final touch cannot activate the newly revealed Next button.
+- The meta and Endless UI regressions also passed. They include Daily +100, cold result and unlocks, explicit Endless scoring, parked slots, RU/EN and the optional timer.
+- All 68 Vitest tests passed. Content verification covered all 240 boards, routes and meta fixtures. The web release audit and Capacitor release sync passed.
+
+## Installable preview
+
+| Item | Value |
+| --- | --- |
+| APK | `Crossmath_0.5.0_Preview.apk` |
+| Source commit | `927c90707b1732fe01f204901d00a1e68eb9d611` |
+| Source tree | `1eb962bbed1b4b16789645d2017a109ae52ead59` |
+| APK SHA-256 | `6e4b523c37625e5040ffe4d2faa6712fb1c3754efbf3927158c0b8cc3cb0bd18` |
+| Package | `com.danilah.crossmath.releasecheck` |
+| Certificate SHA-256 | `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0` |
+
+Debug and optimized Gradle builds passed. The exact releaseCheck APK passed signature, 16K alignment, package/version, portrait, debugging flags, release web-payload and storage bridge checks. The retained preview signer and monotonic versionCode allow an in-place update. Installation and migration on an Android device, physical feel, TalkBack and live ads were not exercised.
+
+KIT IMPACT — REUSE. Committed tile/equation feedback and cancelled-gesture treatment use the existing motion owner. Lifecycle and one-shot feedback keep the pinned kit contracts.

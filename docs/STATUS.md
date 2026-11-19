@@ -2,6 +2,8 @@
 
 Baseline: `main`. Development history: `feat/vertical-slice-20261118` and PR #1. Version 0.4.0 / versionCode 4 / schema 4. E2 adds RU/EN and the optional Android ads bridge, verified with a scripted provider. Real SDK acceptance remains open.
 
+0.5.0 play-screen preview is available on `feat/play-screen-0.5` for owner review. See [play-screen acceptance](ACCEPTANCE_PLAY_SCREEN_2026-11-19.md) for the source, APK and field geometry. The hub redesign follows review of this preview.
+
 ## Implemented
 
 - A–C: immutable 240-board bank, independent solver, physical-token commands, semantic board and drag/tap/keyboard, explain/proof verification and isolated reveal, atomic saves, rank/base/card rewards, 15 lessons and full campaign continuation.
