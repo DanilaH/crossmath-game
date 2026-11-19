@@ -48,15 +48,68 @@ export class BoardView {
     }
   }
   private part(tag:string,className:string,x:number,y:number):HTMLElement{const e=document.createElement(tag);e.className='part '+className;e.style.setProperty('--x',String(x));e.style.setProperty('--y',String(y));return e;}
-  private build():void{
-    this.motion.cancelAll();this.board.replaceChildren();this.tray.replaceChildren();this.cells.clear();this.signs=[];
-    for(const cell of this.puzzle.cells){const fixed=cell.given!==undefined,e=this.part(fixed?'span':'button',fixed?'given':'cell',cell.x,cell.y);
-      if(fixed)e.textContent=String(cell.given);else{e.dataset.cell=String(cell.id);e.setAttribute('type','button');const tile=document.createElement('span');tile.className='tile';e.append(tile);}
-      this.cells.set(cell.id,e);this.board.append(e);
+  private build(): void {
+    this.motion.cancelAll();
+    this.board.replaceChildren();
+    this.tray.replaceChildren();
+    this.cells.clear();
+    this.signs = [];
+
+    const squares = new Map<string, [number, number]>();
+    const key = (x: number, y: number) => `${x},${y}`;
+    const addSquare = (x: number, y: number) => squares.set(key(x, y), [x, y]);
+
+    for (const cell of this.puzzle.cells) {
+      const fixed = cell.given !== undefined;
+      const node = this.part(fixed ? 'span' : 'button', fixed ? 'given' : 'cell', cell.x, cell.y);
+      if (fixed) {
+        node.textContent = String(cell.given);
+      } else {
+        node.dataset.cell = String(cell.id);
+        node.setAttribute('type', 'button');
+        const tile = document.createElement('span');
+        tile.className = 'tile';
+        node.append(tile);
+      }
+      addSquare(cell.x, cell.y);
+      this.cells.set(cell.id, node);
+      this.board.append(node);
     }
-    for(const eq of this.puzzle.equations){const nodes=eq.cells.map(id=>this.puzzle.cells.find(c=>c.id===id)!);const signs:HTMLElement[]=[];
-      for(let i=0;i<2;i++){const a=nodes[i]!,b=nodes[i+1]!,e=this.part('span','op',(a.x+b.x)/2,(a.y+b.y)/2);e.textContent=i?'=':glyph[eq.op];e.setAttribute('aria-hidden','true');this.board.append(e);signs.push(e);}this.signs.push(signs);
+
+    for (const eq of this.puzzle.equations) {
+      const nodes = eq.cells.map(id => this.puzzle.cells.find(cell => cell.id === id)!);
+      const signs: HTMLElement[] = [];
+      for (let i = 0; i < 2; i++) {
+        const a = nodes[i]!, b = nodes[i + 1]!;
+        const x = (a.x + b.x) / 2, y = (a.y + b.y) / 2;
+        const sign = this.part('span', 'op', x, y);
+        sign.textContent = i === 0 ? glyph[eq.op] : '=';
+        sign.setAttribute('aria-hidden', 'true');
+        addSquare(x, y);
+        this.board.append(sign);
+        signs.push(sign);
+      }
+      this.signs.push(signs);
     }
+
+    const surface = document.createElement('div');
+    surface.className = 'board-surface';
+    surface.setAttribute('aria-hidden', 'true');
+    const edges = [
+      ['top', 0, -1], ['right', 1, 0], ['bottom', 0, 1], ['left', -1, 0],
+    ] as const;
+    for (const [x, y] of squares.values()) {
+      const square = document.createElement('span');
+      square.className = 'board-square';
+      square.style.gridRow = String(y + 1);
+      square.style.gridColumn = String(x + 1);
+      square.dataset.edges = edges
+        .filter(([, dx, dy]) => !squares.has(key(x + dx, y + dy)))
+        .map(([side]) => side)
+        .join(' ');
+      surface.append(square);
+    }
+    this.board.prepend(surface);
     this.resize();
   }
   private renderTray():void{
@@ -201,7 +254,7 @@ export class BoardView {
     const widthStep = (pad.clientWidth - 4 - hit) / Math.max(1, p.width - 1);
     const heightStep = p.height > 5 ? 30 : innerHeight < 650 ? 36 : roomy ? 56 : 46;
     const step = Math.max(hit / 2, Math.min(widthStep, heightStep * scale));
-    for(const [key,value] of Object.entries({step,item:Math.min(hit-2,step*1.13),hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));
+    for(const [key,value] of Object.entries({step,hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));
   };
   dispose():void{this.cancel();this.motion.cancelAll();document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
 }

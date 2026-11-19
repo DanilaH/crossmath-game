@@ -29,9 +29,27 @@ try{
      const rect=document.querySelector(selector).getBoundingClientRect();
      return [selector,{top:rect.top,bottom:rect.bottom,left:rect.left,right:rect.right}];
     }));
-    return {controls:result,documentHeight:document.documentElement.scrollHeight};
+    const squares=new Map([...document.querySelectorAll('.board-square')].map(square=>[
+     `${Number(square.style.gridColumn)-1},${Number(square.style.gridRow)-1}`,square.getBoundingClientRect()
+    ]));
+    const parts=new Map([...document.querySelectorAll('#board .part')].map(part=>[
+     `${part.style.getPropertyValue('--x')},${part.style.getPropertyValue('--y')}`,part.getBoundingClientRect()
+    ]));
+    const connectedGrid=squares.size===parts.size&&[...parts].every(([key,part])=>{
+     const square=squares.get(key);
+     if(!square)return false;
+     const [x,y]=key.split(',').map(Number),right=squares.get(`${x+1},${y}`),below=squares.get(`${x},${y+1}`);
+     return Math.abs(square.left+square.width/2-part.left-part.width/2)<.2
+      &&Math.abs(square.top+square.height/2-part.top-part.height/2)<.2
+      &&(!right||Math.abs(square.right-right.left)<.1)
+      &&(!below||Math.abs(square.bottom-below.top)<.1);
+    });
+    return {controls:result,documentHeight:document.documentElement.scrollHeight,connectedGrid};
    },selectors);
-   if(!won)assert.ok(bounds.documentHeight<=height+1,`field ${field} scrolls at ${width}×${height}`);
+   if(!won){
+    assert.ok(bounds.documentHeight<=height+1,`field ${field} scrolls at ${width}×${height}`);
+    assert.equal(bounds.connectedGrid,true,`field ${field} has gaps or misaligned grid squares at ${width}×${height}`);
+   }
    for(const [selector,rect] of Object.entries(bounds.controls)){
     assert.ok(rect.top>=0&&rect.bottom<=height&&rect.left>=0&&rect.right<=width,`field ${field} ${selector} outside ${width}×${height} ${JSON.stringify(rect)}`);
    }
@@ -82,7 +100,7 @@ try{
  // Restart dense board 25 for actual target geometry, without seeding a profile.
  await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#restart');await tap('#restart-yes');await idle();
  await verifyViewport(25);
- checks.push('fields 1/12/25 and their Next actions fit 320×568 and 390×844; the final touch does not click through');
+ checks.push('fields 1/12/25 have connected grids and their Next actions fit 320×568 and 390×844; the final touch does not click through');
  for(const [width,height] of [[320,568],[360,640],[390,844],[800,1280]]){
   await page.setViewportSize({width,height});
   const data=await page.evaluate(()=>{const boxes=[...document.querySelectorAll('[data-cell]')].map(e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,w:r.width,h:r.height};});return{minTarget:Math.min(...boxes.map(b=>Math.min(b.w,b.h))),overflow:document.documentElement.scrollWidth>innerWidth,overlap:boxes.some((a,i)=>boxes.slice(i+1).some(b=>a.x<b.x+b.w-.1&&b.x<a.x+a.w-.1&&a.y<b.y+b.h-.1&&b.y<a.y+a.h-.1))};});

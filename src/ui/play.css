@@ -3,7 +3,9 @@ body.in-play {
   --play-bg: #f3f5fe;
   --play-ink: #1c2546;
   --play-muted: #526085;
-  --play-given: #fff;
+  --play-board: #fdfdff;
+  --play-grid: #aeb8d7;
+  --play-board-edge: #8795bd;
   --play-line: #c3cbe6;
   --play-socket: #dce3f8;
   --play-blue: #384ab9;
@@ -26,7 +28,9 @@ body.in-play.dark {
   --play-bg: #181c32;
   --play-ink: #eef0ff;
   --play-muted: #b2bee7;
-  --play-given: #2a3254;
+  --play-board: #30395d;
+  --play-grid: #64729b;
+  --play-board-edge: #8493c3;
   --play-line: #59668f;
   --play-socket: #232a46;
   --play-blue: #abb6ff;
@@ -152,16 +156,38 @@ html[data-host="browser"] body.in-play #shell {
   overflow: auto;
 }
 
-.tile, .given {
-  border-radius: min(8px, calc(var(--item) * .19));
-  font-size: clamp(16px, calc(var(--item) * .56), 30px);
-  font-weight: 820;
-  font-feature-settings: "tnum";
+.board {
+  --board-face: calc(var(--step) - 4px);
 }
 
-.given {
-  border: 1px solid var(--play-line);
-  background: var(--play-given);
+.board-surface {
+  position: absolute;
+  inset: calc((var(--hit) - var(--step)) / 2);
+  display: grid;
+  grid-template: repeat(var(--h), var(--step)) / repeat(var(--w), var(--step));
+  pointer-events: none;
+}
+
+.board-square {
+  background: var(--play-board);
+  border: solid var(--play-grid);
+  border-width: 1px 0 0 1px;
+}
+
+.board-square[data-edges~="top"] { border-top-color: var(--play-board-edge); }
+.board-square[data-edges~="left"] { border-left-color: var(--play-board-edge); }
+.board-square[data-edges~="right"] { border-right: 1px solid var(--play-board-edge); }
+.board-square[data-edges~="bottom"] { border-bottom: 1px solid var(--play-board-edge); }
+.board-square[data-edges~="top"][data-edges~="left"] { border-top-left-radius: 4px; }
+.board-square[data-edges~="top"][data-edges~="right"] { border-top-right-radius: 4px; }
+.board-square[data-edges~="bottom"][data-edges~="left"] { border-bottom-left-radius: 4px; }
+.board-square[data-edges~="bottom"][data-edges~="right"] { border-bottom-right-radius: 4px; }
+
+.tile, .given {
+  border-radius: min(5px, calc(var(--step) * .12));
+  font-size: clamp(15px, calc(var(--step) * .52), 30px);
+  font-weight: 820;
+  font-feature-settings: "tnum";
 }
 
 .tile {
@@ -194,14 +220,14 @@ html[data-host="browser"] body.in-play #shell {
 }
 
 .op.right {
-  border-radius: 50%;
+  border-radius: min(4px, calc(var(--step) * .12));
   background: var(--play-good-wash);
   color: var(--play-good);
 }
 
 .op.right::after {
   right: -3px;
-  top: -6px;
+  top: -4px;
 }
 
 .invalid .tile, .given.invalid {
@@ -214,8 +240,12 @@ html[data-host="browser"] body.in-play #shell {
   color: var(--play-bad);
 }
 
-.linked:not(.selected):not(.invalid) .tile, .given.linked:not(.invalid) {
+.linked:not(.selected):not(.invalid) .tile {
   border-color: var(--play-blue);
+}
+
+.given.linked:not(.invalid) {
+  background: var(--play-blue-wash);
 }
 
 .selected .tile, .token.selected, .cell.hover .tile, .traybox.hover,
