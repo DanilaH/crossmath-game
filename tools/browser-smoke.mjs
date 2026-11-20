@@ -25,7 +25,7 @@ try{
   for(const [width,height] of [[320,568],[390,844]]){
    await page.setViewportSize({width,height});
    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-   const selectors=won?['#next']:['#board','#tray','#sort','#help','#pause'];
+   const selectors=won?['#next']:['#board','#tray','.tools','#sort','#help','#pause'];
    const bounds=await page.evaluate(selectors=>{
     const result=Object.fromEntries(selectors.map(selector=>{
      const rect=document.querySelector(selector).getBoundingClientRect();
@@ -54,6 +54,7 @@ try{
    if(won)assert.ok(bounds.boardClear,`field ${field} result obscures the solved board`);
    if(!won){
     assert.ok(bounds.documentHeight<=height+1,`field ${field} scrolls at ${width}×${height} (document ${bounds.documentHeight}px)`);
+    assert.ok(Math.abs(height - bounds.controls['.tools'].bottom - 8) <= 1, `field ${field} tools must sit at the bottom at ${width}×${height}`);
     assert.equal(bounds.connectedGrid,true,`field ${field} has gaps or misaligned grid squares at ${width}×${height}`);
    }
    for(const [selector,rect] of Object.entries(bounds.controls)){
@@ -147,6 +148,16 @@ try{
  }
  await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#settings-options summary');await page.locator('#theme').check();await page.locator('#resume:enabled').waitFor();await page.locator('#reduced').check();await page.locator('#resume:enabled').waitFor();await tap('#resume');await idle();assert.equal((await snapshot()).settings.theme,'dark');assert.equal((await snapshot()).settings.reducedMotion,true);checks.push('dark theme and reduced motion settings persist');
  await page.evaluate(()=>document.documentElement.style.fontSize='200%');await page.setViewportSize({width:390,height:844});await page.screenshot({path:out+'/large-text.png',fullPage:true});
+ await page.setViewportSize({width:320,height:568});
+ const largeTools=await page.locator('.tools').boundingBox();
+ const helpButton=await page.locator('#help').boundingBox();
+ assert.ok(largeTools&&helpButton&&Math.abs(568-largeTools.y-largeTools.height-8)<=1);
+ assert.ok(helpButton.width>=48&&helpButton.height>=48);
+ await page.touchscreen.tap(helpButton.x+helpButton.width/2,helpButton.y+helpButton.height/2);
+ await page.locator('#help-dialog[open]').waitFor();
+ await tap('#close-help');
+ await idle();
+ checks.push('bottom tools stay reachable at 320×568 at 200% while a dense board scrolls independently');
  const tutorialContext=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});const tutorialPage=await tutorialContext.newPage();
  await tutorialPage.goto(`http://127.0.0.1:${server.address().port}/`);await tutorialPage.locator('html[data-state=ready]').waitFor();await tutorialPage.locator('.tutorial-ghost').waitFor({state:'attached',timeout:9000});
  assert.deepEqual(await tutorialPage.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')).attempt.placements),{});

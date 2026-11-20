@@ -334,6 +334,7 @@ export class GameUi {
     document.body.classList.toggle('in-play', playing);
     document.body.classList.toggle('in-hub', !playing);
     $('play-screen').hidden = !playing;
+    $('play-screen').classList.toggle('is-solving', playing && a.status === 'playing' && !this.saveFailed);
     $('level').hidden = !playing;
     this.meta.render(s, this.busy || this.session.writing || this.saveFailed);
     const wallet = $('hub-wallet');

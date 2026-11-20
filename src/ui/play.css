@@ -66,6 +66,11 @@ body.in-play #shell {
   padding-block: 8px;
 }
 
+body.in-play:has(#play-screen.is-solving) #shell {
+  height: 100dvh;
+  min-height: min(25rem, 400px);
+}
+
 html[data-host="browser"] body.in-play #shell {
   padding-top: calc(8px + env(safe-area-inset-top, 0px));
   padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
@@ -147,6 +152,24 @@ html[data-host="browser"] body.in-play #shell {
   min-height: 9rem;
   justify-content: safe center;
   gap: 4px;
+}
+
+/* Center the puzzle in the space above the tray and tools on active boards. */
+#play-screen.is-solving .play-area {
+  min-height: 0;
+  justify-content: start;
+}
+
+#play-screen.is-solving :is(.boardpad, .traybox) {
+  margin-block-start: auto;
+}
+
+#play-screen.is-solving .boardpad {
+  min-height: 0;
+}
+
+body.in-play:has(#help-dialog[open]) #play-screen.is-solving .boardpad {
+  margin-block-start: 0;
 }
 
 body.in-play:has(#help-dialog[open]) .play-area {
@@ -469,6 +492,16 @@ body.in-play:has(#help-dialog[open]) .play-area {
   font-size: .62rem;
   font-weight: 730;
   overflow-wrap: anywhere;
+}
+
+@media (max-width: 360px) {
+  body.in-play:has(#play-screen.is-solving) #level {
+    font-size: min(.99rem, calc(7.92px + .495rem));
+  }
+
+  #play-screen.is-solving .tools button {
+    font-size: min(.62rem, 12px);
+  }
 }
 
 #return:disabled { visibility: hidden; }
