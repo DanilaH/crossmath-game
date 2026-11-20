@@ -1,6 +1,6 @@
 # Индекс сравнения по всем ID
 
-Срез Crossmath 0.5.7. Код и критерии следующей проверки для каждой строки находятся в [ADOPTION_LEDGER.json](ADOPTION_LEDGER.json). Фактический локатор показывает, где искать исходное правило. Происхождение кодов E и R2 описано в [отчёте](REFERENCE_REAUDIT_2026-11-20_RU.md).
+Срез Crossmath 0.5.7. [Сверка по трём оригиналам](REFERENCE_REAUDIT_2026-11-20_RU.md) · [Уточнения по исходным правилам EasyFun](EASYFUN_NATIVE_FOLLOWUP_RU.md) · [Код и критерии проверки по каждому ID](ADOPTION_LEDGER.json).
 
 
 ## Поле и выдача
@@ -11,8 +11,8 @@
 | `easy-six-relax` | Шесть шагов спокойного маршрута с чередованием длины и сложности · E:E05, LevelClassicController | MATCH | В content-v2 есть отдельный шестишаговый Relax |
 | `easy-six-challenge` | Шесть шагов сложного маршрута с вершиной в конце · E:E05, LevelClassicController | MATCH | Free Challenge ведёт собственный курсор |
 | `easy-bank-reindex` | Повторное использование банка после исчерпания с простыми числами · E:E05, GetLevelInfo | PARTIAL | Собственный банк и переиндексация, другой объём и период |
-| `easy-owl-equality` | Одинаковый вид совы обозначает одинаковое скрытое число · E:tutorial_special_des_four/five; ImgSpecialSign; hiddenNumberDic | MISSING | Cell хранит число или место под фишку, связей по виду знака нет |
-| `easy-owl-entry` | Доступ к объяснению особых знаков и назначение таких полей · E:PanelPopSpecialModeGuide; gameMode/hiddenNumber в 12 502 файлах | UNKNOWN | Точки входа для правила нет, в исходном банке место появления UNKNOWN |
+| `easy-owl-equality` | При положительном hiddenNumber одинаковым значениям присваивается один ID скрытого знака · E:LevelGameData.InitConfigData 0x142e0bc–0x142e134; CheckHiddenType 0x153a16c; easyfun-119/README.md | MISSING | Cell хранит число или место под фишку, связей по виду знака нет |
+| `easy-owl-entry` | Вход в событие и переход на следующее поле могут показать одноразовый урок скрытых знаков · E:GameManager.OnGameStartEvent 0x143d0d8, OnOpenNextGame 0x143f038, ShowEventModeGuide и PushPanel; easyfun-119/README.md | MISSING | В продукте отсутствуют событие с таким полем и сохраняемый флаг его урока. |
 | `guru-mask-history` | При выдаче исключаются недавние маски holes по истории до 300 записей · G4:E27 §6, _getStandardPuzzleId/queryPuzzle | MISSING | Отдельного фильтра holes нет. После первых 15 уроков все 225 масок пустых координат уникальны; полных рисунков числовых позиций всего 58. |
 | `guru-profile` | Два профиля default/easy1, отдельный выбор нового пользователя и сохранение варианта · G4:E24–26; G3/G4 cm4.db, cm5.db | PARTIAL | Версионирование content-v1/v2 и сохранение старых кампаний, другой способ назначения |
 | `guru-authored-open` | Подготовленные стартовые задачи до каталожной выдачи · G4:E26 §4.1 | MATCH | Собственные учебные поля и редакторская последовательность |
@@ -51,7 +51,7 @@
 
 | sourceFeatureId | Правило или свидетельство оригинала | Сверка | Что есть в Crossmath |
 |---|---|---|---|
-| `easy-last-ten` | Среднее время за последние десять игр и сравнение на результате · E:statistics_level_average; TextAverageData; GetCurrentAverageTime | MISSING | Храним суммарные секунды по режиму, истории десяти сравнимых побед нет |
+| `easy-last-ten` | Среднее времени ведётся по сложности. После 10 финишей новое время имеет вес 1/10 · E:AnalyticManager.OnGameComplete 0x1437ec0–0x1438124, GetCurrentAverageTime 0x152bc98; easyfun-119/README.md | MISSING | Career хранит агрегаты по режимам. Ни такого сглаживания по сложности, ни точного десятиэлементного окна в текущем клиенте нет. |
 | `easy-beat-table` | Процент на результате зависит от локальной таблицы времени и класса · E:E07, completeranktemplate | MISSING | Нет вычисляемого по таблице процента других игроков |
 | `easy-choice-percent` | В экране выбора есть подпись о доле выбирающих сложность · E:common_classic_level_choose | UNKNOWN | Процент выбора не отображается, происхождение исходного числа UNKNOWN |
 | `easy-career-top` | В таблице карьеры записаны отдельные уровни top · E:gamecareertemplate | UNKNOWN | Есть личные достижения и счётчики; привязка исходного top к UI UNKNOWN |
@@ -68,7 +68,7 @@
 | `easy-daily-gate` | Условие DailyShowLevel со значением 5 · E:E08, GameConfig.DailyShowLevel | PARTIAL | Есть свой порог Daily и показ на хабе |
 | `easy-daily-life` | Одно событие ошибки Daily отнимает одну из трёх жизней независимо от failCount · E:E06, OnFailFillInEvent | MATCH | Штраф за изменившую поле команду, общий лимит попытки |
 | `easy-restart-coins` | После потери жизней Daily предусмотрен перезапуск за 200 монет · E:E08, UseItemCount | MISSING | В нашем Daily повтор бесплатный |
-| `easy-month-trophy` | Календарь имеет отдельный месячный трофей, коллекцию и состояние по дате · E:daily_trophy_remind; BtnTrophy; GetDailyTrophyInfoDataByDate; IMG_TROPHY_2025_* | MISSING | Даты и альбом сохраняются, месячной цели и её награды нет |
+| `easy-month-trophy` | Daily закрывает месячный трофей по всем календарным дням выбранного года и месяца · E:DailyService.SetDailyDateComplete 0x1531144, TrophyService.CheckGetTrophy 0x148bb44; easyfun-119/README.md | MISSING | Даты и альбом сохраняются, месячной цели и её награды нет |
 | `easy-event-badge` | Значок события связан с его периодом и окончанием · E:event_bage_remind/event_eventclosed; paneleventlevel/ImgBadge | MISSING | Достижения постоянные, событийный архив отсутствует |
 | `easy-event-gift` | На лестнице события есть подарки, монеты и подсказки, отдельная кнопка получения · E:paneleventlevel/LayoutCoin, LayoutHint, LayoutGift; panelpopeventgift/BtnClaim | MISSING | Бонусы приборов и дневных целей существуют, лестницы Event нет |
 | `easy-event-entry` | Есть параметры входа Event с разными текстами 10 и 30 · E:E08 EventInformalLevel=10; event_entrance_titledes=30 | UNKNOWN | Нет аналогичного порога или временной активности |
@@ -125,7 +125,7 @@
 | sourceFeatureId | Правило или свидетельство оригинала | Сверка | Что есть в Crossmath |
 |---|---|---|---|
 | `easy-result-tabs` | Окно завершения содержит вкладки целей и статистики и переход дальше · E:panelpopgamecomplete/BtnTabGoals, BtnTabStatistics, BtnNext | PARTIAL | Есть основное действие и раскрытие состава награды, цели и статистика открываются отдельно |
-| `easy-tray-sign` | Отдельное состояние знака на числовой клетке · E:cellcrossgrid/ImgSpecialSign | MISSING | Есть состояния выбора, валидности и ошибки, отдельной маски знака нет |
+| `easy-tray-sign` | Одинаковая запись числа скрывается общим знаком в клетке и в лотке · E:CellCrossGrid.UpdateLetterView 0x145ce80/0x145cf04 и CellLetterGrid.UpdateLetterView 0x145f5d4; easyfun-119/README.md | MISSING | Есть состояния выбора, валидности и ошибки, отдельной маски знака нет |
 | `easy-theme` | В игре доступен узел выбора визуальной темы · E:panelgame/BtnTheme | UNKNOWN | У продукта утверждён свoй стиль, доступны настройки комфорта; условия исходного переключателя UNKNOWN |
 | `easy-level-change` | На поле есть кнопка смены уровня · E:panelgame/BtnLevelChange; panelpoplevelchooseguide | MISSING | В поле нет аналогичной одношаговой точки входа Free |
 | `easy-daily-next` | У Daily собственное окно окончания с действием Далее · E:panelpopdailycomplete/BtnNext | PARTIAL | Общий экран победы различает режим и маршрутизацию |
@@ -232,3 +232,15 @@
 | `guru-postcard-pack-107` | Пакет 107: монеты 200, помощь 2, hat 2, карты 1 · G4:E39 unlock_puzzle_new_rewards, ID 107; E40 квитанция | MISSING | В собственном альбоме иная выдача. ID исходного пакета не означает номер этапа. |
 | `guru-postcard-pack-108` | Пакет 108: монеты 300, помощь 3, hat 2, карты 1 · G4:E39 unlock_puzzle_new_rewards, ID 108; E40 квитанция | MISSING | В собственном альбоме иная выдача. ID исходного пакета не означает номер этапа. |
 | `guru-postcard-pack-109` | Пакет 109: монеты 500, помощь 3, hat 2, карты 1 · G4:E39 unlock_puzzle_new_rewards, ID 109; E40 квитанция | MISSING | В собственном альбоме иная выдача. ID исходного пакета не означает номер этапа. |
+
+## Допроверка EasyFun 1.1.9
+
+| sourceFeatureId | Правило или свидетельство оригинала | Сверка | Что есть в Crossmath |
+|---|---|---|---|
+| `easy-owl-frequency` | Числа для маскировки ранжируются по частоте среди заданных клеток и лотка · E:CalcNumberTime 0x142e3d0–0x142e498; easyfun-119/README.md | MISSING | Свой банк хранит готовые числа, автоматического выбора скрытых значений нет. |
+| `easy-owl-tiebreak` | При равной частоте меньшему числу отдаётся первый доступный знак · E:CalcNumberTime 0x142e564–0x142e618; easyfun-119/README.md | MISSING | Группы скрытых значений и порядок назначения не реализованы. |
+| `easy-owl-event-content` | Действующий пакет Event с положительным hiddenNumber, первый уровень и частота · E:LevelEventController.LoadLevelConfigData 0x152fbf4–0x152fc24; локальный банк Classic/Daily N=0; easyfun-119/README.md | UNKNOWN | Нет такого активного события. У оригинала подтверждён загрузчик, конкретный положительный Event-пакет UNKNOWN. |
+| `easy-average-finish` | Событие завершения передаёт GamePlayTime, поиск показателя выбирает одну из пяти сложностей · E:GEvent_Game_Complete; 0x143e540–0x143e5a4; 0x14379e8, 0x152bc98; easyfun-119/README.md | PARTIAL | У нас есть активные секунды и завершения по режимам, отсутствует сопоставимая пятёрка личных показателей. |
+| `easy-month-replay` | Повтор уже записанного дня отсекается до новой проверки месячного трофея · E:SetDailyDateComplete 0x1531258–0x1531288, 0x15314c4; easyfun-119/README.md | PARTIAL | Даты и однократные выплаты уже учитываются. Нет отдельной записи получения трофея. |
+| `easy-month-archive-key` | Календарь и учёт награды используют дату выбранной задачи, включая её год и месяц · E:0x1547410–0x1547448, ForceUpdateDailyPlayerPrefs 0x143e9f0–0x143ea14, CheckGetTrophy 0x148bc38–0x148bc48; easyfun-119/README.md | PARTIAL | Архивные даты привязаны к полю, помесячных трофеев нет. |
+| `easy-month-award-flag` | Полный месяц с уже записанным IsReward пропускает выдачу; новая запись вставляется, существующая обновляется · E:CheckGetTrophy 0x148bca4–0x148bd34, metadata SqliteService.InsertData/UpDateData; easyfun-119/README.md | MISSING | Есть другие квитанции выплат. Признак награды по месяцу отсутствует. |
