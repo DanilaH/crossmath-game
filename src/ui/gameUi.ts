@@ -16,10 +16,10 @@ import type { FreeTrack } from '../content/rotation';
 import type { Mode } from '../core/types';
 import type { BoardAction } from '../core/types';
 import type { HintPlan } from '../help/logic';
-import type { Settings } from '../app/model';
+import type { Save, Settings } from '../app/model';
 const $=<T extends HTMLElement=HTMLElement>(id:string):T=>document.getElementById(id) as T;
 type OpenOperation = (replace: boolean, elapsed: number) => Promise<OpenOutcome>;
-interface Replacement { operation: OpenOperation; triggerId: string; recovery: boolean }
+interface Replacement { operation: OpenOperation; triggerId: string; recovery: boolean; restoreModes?: ((save: Save) => void) | undefined }
 export class GameUi {
   private disposed=false;
   private readonly ads:AdsController|undefined;
@@ -44,6 +44,7 @@ export class GameUi {
     this.meta=new MetaView($('hub'),{navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:offer=>this.openOffer(offer),quest:index=>{const offer=session.questOffer(index);if(offer)this.openOffer(offer,true);},blocking:value=>this.blocker('modal',value)});
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});for(const id of ['end-run','finish-run'])$(id).onclick=()=>this.run(async time=>({committed:await session.endRun(time)}),()=>this.leaveModal());
     for(const id of ['home','home-from-pause','result-home'])$(id).onclick=()=>this.navigate('home');
+    $('profile-open').onclick = () => this.navigate('profile');
     $('instrument-reward').onclick = () => this.meta.openInstrumentReward(session.state);
     $('rank').onclick=()=>{if(!this.busy&&!this.saveFailed)this.meta.openRank(session.state);};
     for(const id of ['retry-daily','result-replay'])$(id).onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{this.board.clearSelection();window.scrollTo(0,0);});
@@ -79,7 +80,23 @@ export class GameUi {
     this.timer=setInterval(()=>{this.tick();this.renderTime();if(this.ready)this.ads?.refresh();if(!this.busy&&this.ready&&!this.saveFailed&&session.hasDayChange())this.run(async()=>({committed:await session.refreshDay()}));else if(this.elapsed>=10)this.checkpoint();},2000);this.render();
   }
   private leaveModal():void{for(const id of ['pause-dialog','help-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}this.blocker('user',false);this.blocker('modal',false);$('restart-confirm').hidden=true;this.board.clearSelection();window.scrollTo(0,0);}
-  private navigate(screen:MetaScreen):void{this.run(async time=>({committed:await this.session.navigate(screen,time)}),()=>this.leaveModal());}
+  private navigate(screen: MetaScreen): void {
+    const from = this.session.state.meta.screen;
+    if (from === screen) return;
+    this.run(async time => ({committed:await this.session.navigate(screen,time)}), () => {
+      this.leaveModal();
+      const returnTo = {album:'album-open', calendar:'calendar-open', profile:'profile-open'} as const;
+      requestAnimationFrame(() => {
+        if (screen === 'home' && from !== 'home' && from !== 'play') $(returnTo[from]).focus({preventScroll:true});
+        else if (screen === 'play') $('level').focus({preventScroll:true});
+        else if (screen !== 'home') {
+          const heading = $('hub').querySelector('h1');
+          heading?.setAttribute('tabindex', '-1');
+          heading?.focus({preventScroll:true});
+        }
+      });
+    });
+  }
   private openFree(track: FreeTrack): void {
     this.open((replace,time) => this.session.openFreeTrack(track,replace,time), 'free');
   }
@@ -99,14 +116,14 @@ export class GameUi {
     });
   }
   private requestReplacement(operation: OpenOperation, mode: Mode, triggerId: string): void {
-    this.replacement = {operation, triggerId, recovery:false};
+    this.replacement = {operation, triggerId, recovery:false, restoreModes:this.meta.suspendModes()};
     const copy = mode === 'free'
       ? [this.t('Начать другую свободную игру?', 'Start another Free Play board?'), this.t('Текущая расстановка в свободной игре будет потеряна.', 'Your current Free Play board will be reset.')]
       : [this.t('Начать другое поле?', 'Start another board?'), this.t('Числа в незаконченной партии вернутся в лоток.', 'The numbers on your unfinished board will return to the tray.')];
     $('replace-title').textContent = copy[0]!;
     $('replace-description').textContent = copy[1]!;
     $('replace-error').hidden = $('replace-reload').hidden = true;
-    $('replace-board').textContent = this.t('Начать другую', 'Start another');
+    $('replace-board').textContent = this.t('Заменить партию', 'Replace this board');
     this.blocker('replace', true);
     $<HTMLDialogElement>('replace-dialog').showModal();
     requestAnimationFrame(() => $('keep-board').focus());
@@ -122,7 +139,10 @@ export class GameUi {
     const dialog = $<HTMLDialogElement>('replace-dialog');
     if (dialog.open) dialog.close();
     this.blocker('replace', false);
-    if (restoreFocus) requestAnimationFrame(() => ($(replacement.triggerId) ?? $('modes-open'))?.focus({preventScroll:true}));
+    if (restoreFocus) {
+      replacement.restoreModes?.(this.session.state);
+      requestAnimationFrame(() => ($(replacement.triggerId) ?? $('modes-open'))?.focus({preventScroll:true}));
+    }
   }
   private confirmReplacement(): void {
     const replacement = this.replacement;
@@ -316,6 +336,14 @@ export class GameUi {
     $('play-screen').hidden = !playing;
     $('level').hidden = !playing;
     this.meta.render(s, this.busy || this.session.writing || this.saveFailed);
+    const wallet = $('hub-wallet');
+    wallet.hidden = s.meta.screen !== 'home';
+    wallet.textContent = $('wallet').textContent;
+    const profile = $<HTMLButtonElement>('profile-open');
+    profile.hidden = playing;
+    profile.disabled = this.busy || this.session.writing || this.saveFailed;
+    if (s.meta.screen === 'profile') profile.setAttribute('aria-current', 'page');
+    else profile.removeAttribute('aria-current');
     const pauseLabel = playing ? this.t('Пауза', 'Pause') : this.t('Настройки', 'Settings');
     $('pause-title').textContent = pauseLabel;
     $('resume').textContent = playing ? this.t('Продолжить', 'Continue') : this.t('Готово', 'Done');
@@ -389,6 +417,6 @@ export class GameUi {
     $('restart').textContent=a.mode==='endless'?this.t("Новый забег", "New run"):this.t("Начать заново", "Restart");$('restart-warning').textContent=a.mode==='endless'?this.t("Завершить текущий забег и начать новый? Текущий итог будет сохранён в соответствующих рекордах.", "End this run and start a new one? Your current result will count toward your record."):this.t("Начать это поле заново? Поставленные числа вернутся в лоток.", "Restart this board? The placed numbers will go back to the tray.");$('end-run').hidden=a.mode!=='endless'||run?.status==='ended'||s.meta.screen!=='play';$<HTMLButtonElement>('end-run').disabled=this.busy||this.saveFailed;
     $('mode-rules').textContent=a.mode==='endless'?this.t("Три жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.", "Three lives for the entire run. Select Check to submit a full board. A different incorrect layout costs a life. Using help counts toward the assisted record."):a.mode==='daily'?this.t("Три жизни на попытку. Новая ошибка снимает максимум одну жизнь за ход. Отмена, возврат и помощь жизнь не снимают. Повтор бесплатный.", "Three lives per attempt. A new error costs at most one life per move. Undo, returning numbers and help cost no lives. Retrying is free."):this.t("Числа сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.", "Your board is saved. There is no penalty for mistakes, and correct equations remain editable. Tap a number and a cell in either order, or drag a piece.");
   }
-  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeModes())return true;if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
+  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.backFromModes())return true;if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
   dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.board.dispose();this.feedback.dispose();}
 }

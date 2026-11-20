@@ -46,6 +46,7 @@ shell('am','force-stop',package);launch();wait('Поле решено','cold-res
 _,home=wait('Crossmath — на главную','return-from-result',True);tap(home)
 wait('130 монет','reward-still-once')
 _,modes=wait('Все режимы','open-modes',True);tap(modes)
+_,campaign=wait('Кампания','campaign-menu',True);tap(campaign)
 _,result=wait('Последний результат','last-result',True);tap(result)
 wait('Поле решено','returned-result')
 shell('input','keyevent','4');wait('Продолжить','native-back-pause',True);shot('native-back-pause')

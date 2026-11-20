@@ -7,8 +7,12 @@
     <svg class="play-back" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>
   </button>
   <h1 id="level" tabindex="-1" hidden></h1>
+  <span id="hub-wallet" hidden></span>
+  <button class="control" id="profile-open" type="button" hidden aria-label="Профиль" data-en-label="Profile">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 20v-1a7 5 0 0 1 14 0v1"/></svg>
+  </button>
   <button class="control" id="pause" type="button">
-    <svg class="play-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><span id="pause-label">Пауза</span>
+    <svg class="play-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="hub-settings" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M8 4v4m8 2v4m-6 2v4"/></svg><span id="pause-label">Пауза</span>
   </button>
 </header>
 <section class="progress" aria-label="Прогресс" data-en-label="Progress"><span id="wallet"></span><button id="rank" type="button" aria-haspopup="dialog"></button><span class="xp-track" role="progressbar" aria-label="Опыт ранга" data-en-label="Rank XP" id="xp"><i></i></span></section>
@@ -101,7 +105,8 @@
 </dialog>
 <div class="token ghost" id="ghost" aria-hidden="true" hidden></div>
 <dialog id="mode-dialog" aria-labelledby="mode-title">
-  <h2 id="mode-title" data-en="Modes">Режимы</h2>
+  <button id="mode-back" class="control" type="button" hidden>← Режимы</button>
+  <h2 id="mode-title">Режимы</h2>
   <div id="mode-choices"></div>
   <button id="close-modes" class="control" type="button" data-en="Done">Готово</button>
 </dialog>
@@ -110,8 +115,8 @@
   <p id="replace-description"></p>
   <p id="replace-error" role="alert" hidden data-en="The change could not be saved. Try again or keep your board.">Не удалось сохранить замену. Повторите или оставьте партию.</p>
   <div class="buttons">
-    <button class="control" id="keep-board" type="button" autofocus data-en="Keep this board">Оставить партию</button>
-    <button class="primary" id="replace-board" type="button" data-en="Start another">Начать другую</button>
+    <button class="primary" id="keep-board" type="button" autofocus data-en="Keep this board">Оставить партию</button>
+    <button class="control" id="replace-board" type="button" data-en="Replace this board">Заменить партию</button>
   </div>
   <button class="hub-button" id="replace-reload" type="button" hidden data-en="Reload saved game">Восстановить сохранение</button>
 </dialog>

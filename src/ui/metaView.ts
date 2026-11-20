@@ -3,7 +3,7 @@ import type { FreeTrack } from '../content/rotation';
 import { localize, operatorGlyph, trackName } from './locale';
 import type { Language } from './locale';
 import { getTierProgress } from '@danilah/mini-games-kit/core';
-import { campaignSequence, config, getPuzzle, routes } from '../content/catalog';
+import { campaignSequence, config, getPuzzle } from '../content/catalog';
 import { campaignContinuation, storedSlot } from '../app/session';
 import { goals } from '../meta/missions';
 import { calendarDayIndex, dateAvailable, dayFromIndex, profileDay } from '../meta/calendar';
@@ -18,6 +18,15 @@ const artwork=import.meta.glob('../../docs/spec/product/meta_v08/art/*.svg',{eag
 const el=<K extends keyof HTMLElementTagNameMap>(tag:K,className='',text=''):HTMLElementTagNameMap[K]=>{const n=document.createElement(tag);n.className=className;n.textContent=text;return n;};
 type ArtPreview = 'earned' | 'next' | 'outline';
 const partCount = 4;
+type ModePage = 'modes' | 'campaign';
+
+function formatDuration(seconds: number, language: Language): string {
+  const wholeSeconds = Math.floor(seconds);
+  const minutes = Math.floor(wholeSeconds / 60);
+  const remainder = wholeSeconds % 60;
+  return localize(language, minutes ? `${minutes} мин ${remainder} с` : `${remainder} с`,
+    minutes ? `${minutes}m ${remainder}s` : `${remainder}s`);
+}
 
 function partsOnShelf(total: number, index: number): number {
   return Math.min(partCount, Math.max(0, total - partCount * index));
@@ -93,6 +102,9 @@ export class MetaView {
   private returnTarget: string | undefined;
   private readonly modeDialog = document.getElementById('mode-dialog') as HTMLDialogElement;
   private readonly modeChoices = document.getElementById('mode-choices')!;
+  private readonly modeTitle = document.getElementById('mode-title')!;
+  private readonly modeBack = document.getElementById('mode-back') as HTMLButtonElement;
+  private modePage: ModePage = 'modes';
   private disabled=false;
   constructor(private readonly root:HTMLElement,private readonly actions:Actions){this.dialog.addEventListener('close',()=>{
       actions.blocking(false);
@@ -100,19 +112,41 @@ export class MetaView {
       this.returnTarget = undefined;
     });document.getElementById('close-card')!.onclick=()=>this.dialog.close();
     document.getElementById('close-modes')!.onclick = () => this.modeDialog.close();
+    this.modeDialog.addEventListener('cancel', event => {
+      event.preventDefault();
+      this.backFromModes();
+    });
     const finishReward = (event: AnimationEvent) => {
       if (event.animationName === 'award-drift') this.reward.classList.remove('arrived');
     };
     this.reward.addEventListener('animationend', finishReward);
     this.reward.addEventListener('animationcancel', finishReward);
   }
-  openRank(save:Save):void {if(this.disabled)return;this.language=save.settings.language;const body=document.getElementById('card-body')!,p=save.profile;document.getElementById('card-title')!.textContent=this.t(`Ранг ${p.rank}`, `Rank ${p.rank}`);body.replaceChildren(el('p','',`${p.xp} / ${rankThreshold(p.rank)} XP`),el('p','',this.t(`До следующего ранга: ${rankThreshold(p.rank)-p.xp} XP`, `${rankThreshold(p.rank)-p.xp} XP to next rank`)),el('p','',this.t(`За повышение: +${config.rank.rewardCoins} монет`, `Rank-up reward: +${config.rank.rewardCoins} coins`)),el('p','muted',this.t(`Разных решённых полей: ${p.solvedIds.length}`, `Unique boards solved: ${p.solvedIds.length}`)));document.getElementById('close-card')!.textContent=this.t('Продолжить','Continue');this.showCard('rank');}
+  openRank(save:Save, trigger = 'rank'):void {if(this.disabled)return;this.language=save.settings.language;const body=document.getElementById('card-body')!,p=save.profile;document.getElementById('card-title')!.textContent=this.t(`Ранг ${p.rank}`, `Rank ${p.rank}`);body.replaceChildren(el('p','',`${p.xp} / ${rankThreshold(p.rank)} XP`),el('p','',this.t(`До следующего ранга: ${rankThreshold(p.rank)-p.xp} XP`, `${rankThreshold(p.rank)-p.xp} XP to next rank`)),el('p','',this.t(`За повышение: +${config.rank.rewardCoins} монет`, `Rank-up reward: +${config.rank.rewardCoins} coins`)),el('p','muted',this.t(`Разных решённых полей: ${p.solvedIds.length}`, `Unique boards solved: ${p.solvedIds.length}`)));document.getElementById('close-card')!.textContent=this.t('Продолжить','Continue');this.showCard(trigger);}
   closeCard():boolean{if(!this.dialog.open)return false;this.dialog.close();return true;}
   closeModes(): boolean {
     if (!this.modeDialog.open) return false;
     this.modeDialog.close();
     return true;
   }
+  backFromModes(): boolean {
+    if (!this.modeDialog.open) return false;
+    if (this.modePage === 'campaign') this.modeBack.click();
+    else this.closeModes();
+    return true;
+  }
+
+  suspendModes(): ((save: Save) => void) | undefined {
+    if (!this.modeDialog.open) return;
+    const scroll = this.modeDialog.scrollTop;
+    this.closeModes();
+    return save => {
+      this.renderModes(save);
+      this.modeDialog.showModal();
+      this.modeDialog.scrollTop = scroll;
+    };
+  }
+
   private button(text:string,action:()=>void,id?:string,primary=false):HTMLButtonElement {const b=el('button',primary?'primary':'hub-button',text);b.type='button';b.disabled=this.disabled;b.onclick=action;if(id)b.id=id;return b;}
   private heading(title: string, subtitle = '', showKicker = false): void {
     const head = el('div','hub-heading');
@@ -151,147 +185,234 @@ export class MetaView {
 
   private preview(puzzle: Puzzle, attempt?: Attempt): HTMLElement {
     const view = el('div', 'resume-preview');
-    view.setAttribute('aria-hidden', 'true');
-    const equation = puzzle.equations.find(eq => eq.cells.filter(id => attempt
-      ? cellValue(puzzle, attempt, id) === undefined : puzzle.cells[id]!.given === undefined).length === 1) ?? puzzle.equations[0]!;
+    // Prefer a row or column that shows the player's own placement.
+    const equation = (attempt && puzzle.equations.find(eq => eq.cells.some(id => attempt.placements[id])))
+      || puzzle.equations.find(eq => eq.cells.filter(id => puzzle.cells[id]!.given === undefined).length === 1)
+      || puzzle.equations[0]!;
+    const values = equation.cells.map(id => attempt ? cellValue(puzzle, attempt, id) : puzzle.cells[id]!.given);
+    const [left, right, result] = values.map(value => value ?? '□');
+    view.setAttribute('role', 'img');
+    view.setAttribute('aria-label', `${left} ${operatorGlyph[equation.op]} ${right} = ${result}`);
     equation.cells.forEach((id, index) => {
-      const cell = puzzle.cells.find(c => c.id === id)!;
-      const value = attempt ? cellValue(puzzle, attempt, id) : cell.given;
+      const value = values[index];
       if (index > 0) view.append(el('span', 'preview-slot preview-operator', index === 1 ? operatorGlyph[equation.op] : '='));
-      const state = value === undefined ? ' preview-blank' : cell.given === undefined ? ' preview-piece' : '';
+      const state = value === undefined ? ' preview-blank' : puzzle.cells[id]!.given === undefined ? ' preview-piece' : '';
       view.append(el('span', 'preview-slot' + state, value === undefined ? '·' : String(value)));
     });
     return view;
   }
 
   private home(save: Save): void {
-    const attempt = save.attempt;
-    const profile = save.profile;
+    const { attempt, profile } = save;
     const wins = profile.solvedIds.length;
     const resume = attempt.status !== 'won' && !(attempt.mode === 'endless' && save.career.run?.status === 'ended');
     const campaignId = campaignContinuation(save);
     const campaignAttempt = storedSlot(save, 'campaign')?.attempt;
-    const campaignFinished = profile.campaignCursor === routes.campaignSequence.length
+    const campaignFinished = profile.campaignCursor === campaignSequence(save.contentVersion).length
       && campaignAttempt?.status !== 'playing';
+    const previewAttempt = resume ? attempt : campaignAttempt;
     const puzzle = getPuzzle(resume ? attempt.puzzleId : campaignId ?? attempt.puzzleId);
-    const boardName = this.t(`Поле ${puzzle.campaignPosition}`, `Board ${puzzle.campaignPosition}`);
+    const mode = resume ? attempt.mode : 'campaign';
+    const contexts = {
+      daily: this.t('Задача дня', 'Daily challenge'),
+      free: this.t('Свободная игра', 'Free Play'),
+      endless: 'Endless',
+      campaign: this.t('Кампания', 'Campaign'),
+    };
+    const title = mode === 'campaign' ? this.t(`Поле ${puzzle.campaignPosition}`, `Board ${puzzle.campaignPosition}`)
+      : mode === 'endless' ? this.t(`Этап ${(attempt.stageId ?? 0) + 1}`, `Stage ${(attempt.stageId ?? 0) + 1}`)
+      : mode === 'daily' ? this.dateLabel(attempt.dayKey!) : attempt.freeTrack
+        ? trackName(this.language, attempt.freeTrack) : this.t(`Поле ${puzzle.campaignPosition}`, `Board ${puzzle.campaignPosition}`);
 
     const stage = el('section', 'resume-card');
-    const freeName = attempt.freeTrack ? trackName(this.language, attempt.freeTrack) : this.t('Свободная игра', 'Free Play');
-    const mode = resume && attempt.mode === 'daily' ? this.t('Задача дня', 'Daily challenge')
-      : resume && attempt.mode === 'free' ? freeName
-      : resume && attempt.mode === 'endless' ? 'Endless' : this.t('Кампания', 'Campaign');
-    const previewAttempt = resume ? attempt : campaignAttempt;
-    stage.append(el('h1', 'resume-context', mode),
-      this.preview(puzzle, previewAttempt?.puzzleId === puzzle.puzzleId ? previewAttempt : undefined));
-
-    let primary: HTMLButtonElement;
-    if (resume) {
-      const name = attempt.mode === 'campaign' ? boardName
-        : attempt.mode === 'endless' ? this.t(`Этап ${(attempt.stageId ?? 0) + 1}`, `Stage ${(attempt.stageId ?? 0) + 1}`)
-        : attempt.mode === 'daily' ? this.t('Задача дня', 'Daily challenge') : freeName;
-      primary = this.button(this.t(`Продолжить · ${name}`, `Resume · ${name}`), () => this.actions.navigate('play'), 'continue-game', true);
-    } else {
-      const title = campaignFinished ? this.t('Маршрут завершён ✓', 'Campaign complete ✓')
-        : this.t(`Продолжить · ${boardName}`, `Continue · ${boardName}`);
-      primary = this.button(title, this.actions.campaign, 'campaign-primary', true);
-    }
-    stage.append(primary);
+    const completed = !resume && campaignFinished;
+    const primary = this.button(completed ? this.t('Смотреть результат', 'View result') : this.t('Продолжить', 'Continue'),
+      resume ? () => this.actions.navigate('play') : this.actions.campaign,
+      resume ? 'continue-game' : 'campaign-primary', true);
+    primary.append(this.arrow());
+    stage.append(el('p', 'resume-context', contexts[mode]),
+      el('h1', '', completed ? this.t('Маршрут завершён', 'Campaign complete') : title),
+      this.preview(puzzle, previewAttempt?.puzzleId === puzzle.puzzleId ? previewAttempt : undefined), primary);
     this.root.append(stage);
 
     const quick = el('div', 'home-quick');
     const day = save.meta.effectiveDay;
     const dailyWins = config.unlockProposal.dailyAfterNewWins;
     const daily = this.button('', () => this.actions.daily(day), 'daily-primary');
+    daily.classList.add('quick-daily');
     daily.disabled = disabledOrLocked(this.disabled, wins < dailyWins);
-    const dayStatus = wins < dailyWins ? this.t(`После ${dailyWins} побед`, `After ${dailyWins} wins`)
-      : this.dayStatus(save, day);
-    const date = el('span', 'home-date', day.slice(8,10));
-    date.setAttribute('aria-hidden','true');
-    daily.append(date, el('strong','',this.t('Задача дня', 'Daily challenge')), el('span','quick-status',dayStatus));
+    const status = this.dayStatus(save, day);
+    const dayStatus = wins < dailyWins ? this.unlockText(dailyWins)
+      : status === this.t('Сегодня', 'Today') ? this.t(`${config.dailyLives} жизни`, `${config.dailyLives} lives`) : status;
+    const date = el('span', 'home-date', day.slice(8, 10));
+    date.setAttribute('aria-hidden', 'true');
+    const dateLabel = el('time', '', this.dateLabel(day));
+    dateLabel.dateTime = day;
+    const dailyCopy = el('span', 'quick-copy');
+    const dateStatus = el('span', 'quick-status');
+    dateStatus.append(dateLabel, ` · ${dayStatus}`);
+    dailyCopy.append(el('strong', '', contexts.daily), dateStatus);
+    daily.append(date, dailyCopy, this.arrow());
+
+    const calendar = this.button(this.t('Календарь задач', 'Challenge calendar'),
+      () => this.actions.navigate('calendar'), 'calendar-open');
+    calendar.disabled = daily.disabled;
 
     const album = this.button('', () => this.actions.navigate('album'), 'album-open');
+    album.classList.add('quick-workshop');
     const albumWins = config.collection.fragmentWinThresholds[0]!;
     album.disabled = disabledOrLocked(this.disabled, wins < albumWins);
-    const index = Math.min(config.cards.length - 1, Math.floor(profile.fragments / 4));
-    const parts = Math.min(4, profile.fragments - index * 4);
+    const index = Math.min(config.cards.length - 1, Math.floor(profile.fragments / partCount));
+    const parts = partsOnShelf(profile.fragments, index);
     const art = this.art(index, parts, 'next');
     art.setAttribute('aria-hidden', 'true');
-    const albumStatus = wins < albumWins ? this.t(`После ${albumWins} побед`, `After ${albumWins} wins`)
-      : profile.fragments === config.cards.length * 4 ? this.t('Все приборы собраны', 'All instruments collected')
-        : `${this.toolTitle(index)} · ${parts}/4`;
-    album.append(art, el('strong','',this.t('Мастерская', 'Workshop')), el('span','quick-status',albumStatus));
-    quick.append(daily, album);
+    const albumStatus = wins < albumWins ? this.unlockText(albumWins)
+      : profile.fragments === config.cards.length * partCount ? this.t('Все приборы собраны', 'All instruments collected')
+        : this.t(`${this.toolTitle(index)} · ${parts} из ${partCount} частей`, `${this.toolTitle(index)} · ${parts} of ${partCount} parts`);
+    const albumCopy = el('span', 'quick-copy');
+    albumCopy.append(el('strong', '', this.t('Мастерская', 'Workshop')), el('span', 'quick-status', albumStatus));
+    const felt = el('span', 'instrument-felt');
+    felt.append(art);
+    album.append(felt, albumCopy, this.arrow());
+    quick.append(daily, calendar, album);
     this.root.append(quick);
 
     const menu = this.button(this.t('Все режимы', 'All modes'), () => {
       if (this.modeDialog.open) return;
-      this.renderModes(save);
+      this.showModePage(save, 'modes');
       this.modeDialog.showModal();
     }, 'modes-open');
+    menu.prepend(this.modeMark('modes'));
+    menu.append(this.arrow());
     menu.setAttribute('aria-haspopup', 'dialog');
     menu.setAttribute('aria-controls', 'mode-dialog');
     this.root.append(menu);
   }
 
+  private dateLabel(day: string): string {
+    return new Intl.DateTimeFormat(this.language === 'ru' ? 'ru-RU' : 'en-US',
+      {day:'numeric', month:'long', timeZone:'UTC'}).format(new Date(`${day}T00:00:00Z`));
+  }
+
+  private unlockText(wins: number): string {
+    return this.t(`После ${wins} разных побед`, `After ${wins} unique wins`);
+  }
+
+  private arrow(): HTMLElement {
+    const mark = el('span', 'nav-arrow', '›');
+    mark.setAttribute('aria-hidden', 'true');
+    return mark;
+  }
+
+  private modeMark(kind: string): HTMLElement {
+    const mark = el('span', `mode-mark mode-mark--${kind}`);
+    mark.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 4; i++) mark.append(el('i'));
+    return mark;
+  }
+
+  private modeButton(kind: string, id: string, title: string, subtitle: string, action: () => void): HTMLButtonElement {
+    const button = this.button('', action, id);
+    const copy = el('span', 'quick-copy');
+    copy.append(el('strong', '', title), el('span', 'quick-status', subtitle));
+    button.classList.add('mode-option');
+    button.append(this.modeMark(kind), copy, this.arrow());
+    return button;
+  }
+
+  private showModePage(save: Save, page: ModePage): void {
+    this.modePage = page;
+    this.modeChoices.replaceChildren();
+    this.renderModes(save);
+    this.modeDialog.scrollTop = 0;
+  }
+
   private renderModes(save: Save): void {
+    const campaign = this.modePage === 'campaign';
+    const scroll = this.modeDialog.scrollTop;
+    const historyOpen = this.modeChoices.querySelector('details')?.open ?? false;
+    this.modeTitle.textContent = campaign ? this.t('Кампания', 'Campaign') : this.t('Режимы', 'Modes');
+    this.modeBack.hidden = !campaign;
+    this.modeBack.textContent = this.t('← Режимы', '← Modes');
+    this.modeBack.onclick = () => {
+      this.showModePage(save, 'modes');
+      document.getElementById('campaign-open')?.focus({preventScroll:true});
+    };
+    this.modeChoices.replaceChildren();
+    if (campaign) this.campaign(save, historyOpen);
+    else this.modeOptions(save);
+    this.modeDialog.scrollTop = scroll;
+  }
+
+  private modeOptions(save: Save): void {
     const wins = save.profile.solvedIds.length;
-    const { freePlayAfterNewWins, dailyAfterNewWins, endlessAfterNewWins } = config.unlockProposal;
-    const choices = this.modeChoices;
-    const showCompleted = choices.querySelector('details')?.open ?? false;
-    choices.replaceChildren();
-    const games = el('section','mode-group');
-    games.append(this.button(this.t('Кампания', 'Campaign'), this.actions.campaign, 'campaign-open'));
-    choices.append(games);
+    const { freePlayAfterNewWins, endlessAfterNewWins } = config.unlockProposal;
+    const games = el('div', 'mode-group');
+    games.append(this.modeButton('campaign', 'campaign-open', this.t('Кампания', 'Campaign'),
+      this.t('Поля по порядку', 'Boards in sequence'), () => {
+        this.showModePage(save, 'campaign');
+        this.modeBack.focus({preventScroll:true});
+      }));
 
     const savedFree = storedSlot(save, 'free')?.attempt;
     if (savedFree?.status === 'playing' && !savedFree.freeTrack) {
-      games.append(this.button(this.t('Продолжить свободную игру', 'Resume Free Play'),
-        () => this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId}), 'free-resume'));
+      games.append(this.modeButton('relax', 'free-resume', this.t('Свободная игра', 'Free Play'),
+        this.t('Продолжить сохранённое поле', 'Resume saved board'),
+        () => this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId})));
     }
     for (const track of freeTracks) {
       const threshold = track === 'challenge' ? challengeUnlockWins : freePlayAfterNewWins;
-      const name = trackName(this.language, track);
-      const label = wins < threshold ? this.t(`${name} · после ${threshold} побед`, `${name} · after ${threshold} wins`)
-        : savedFree?.freeTrack === track && savedFree.status === 'playing' ? this.t(`Продолжить · ${name}`, `Resume · ${name}`) : name;
-      const open = this.button(label, () => this.actions.free(track), track === 'relax' ? 'free-open' : 'challenge-open');
+      const isSaved = savedFree?.freeTrack === track && savedFree.status === 'playing';
+      const subtitle = wins < threshold ? this.unlockText(threshold) : isSaved
+        ? this.t('Продолжить сохранённое поле', 'Resume saved board') : track === 'relax'
+        ? this.t('Без потери жизней', 'No lives lost') : this.t('Поля повышенной сложности', 'Harder boards');
+      const open = this.modeButton(track, track === 'relax' ? 'free-open' : 'challenge-open',
+        trackName(this.language, track), subtitle, () => this.actions.free(track));
       open.disabled = disabledOrLocked(this.disabled, wins < threshold);
       games.append(open);
     }
 
-    const calendar = this.button(wins < dailyAfterNewWins
-      ? this.t(`Календарь · после ${dailyAfterNewWins} побед`, `Calendar · after ${dailyAfterNewWins} wins`)
-      : this.t('Календарь задач', 'Challenge calendar'), () => this.actions.navigate('calendar'), 'calendar-open');
-    calendar.disabled = disabledOrLocked(this.disabled, wins < dailyAfterNewWins);
-
-
-    const endless = this.button(wins < endlessAfterNewWins
-      ? this.t(`Endless · после ${endlessAfterNewWins} побед`, `Endless · after ${endlessAfterNewWins} wins`)
-      : save.career.run && save.career.run.status !== 'ended' ? this.t('Продолжить Endless', 'Resume Endless')
-        : this.t('Начать Endless', 'Start Endless'), this.actions.endless, 'endless-open');
+    const endless = this.modeButton('endless', 'endless-open', 'Endless',
+      wins < endlessAfterNewWins ? this.unlockText(endlessAfterNewWins)
+        : save.career.run && save.career.run.status !== 'ended' ? this.t('Продолжить забег', 'Resume run')
+        : this.t('Проверка после заполнения', 'Check when the board is full'), this.actions.endless);
     endless.disabled = disabledOrLocked(this.disabled, wins < endlessAfterNewWins);
     games.append(endless);
-    const progress = el('section','mode-group');
-    progress.append(el('h3','',this.t('Задачи и прогресс','Challenges and progress')), calendar,
-      this.button(this.t('Профиль и рекорды', 'Profile and records'), () => this.actions.navigate('profile'), 'profile-open'));
-    if (save.attempt.status === 'won') progress.append(this.button(this.t('Последний результат', 'Last result'), () => this.actions.navigate('play'), 'last-result'));
-    choices.append(progress);
+    this.modeChoices.append(games);
+  }
 
+  private campaign(save: Save, historyOpen: boolean): void {
+    const id = campaignContinuation(save);
+    const position = id && getPuzzle(id).campaignPosition;
     const completed = campaignSequence(save.contentVersion).slice(0, save.profile.campaignCursor);
-    if (completed.length) {
-      const details = el('details');
-      details.open = showCompleted;
-      const summary = el('summary', '', this.t('Пройденные поля', 'Completed boards'));
-      const list = el('div', 'replay-list');
-      for (const id of completed) {
-        const puzzle = getPuzzle(id);
-        const item = this.button(String(puzzle.campaignPosition), () => this.actions.offer({puzzleId:id, mode:'campaign'}), `replay-${id}`);
-        item.setAttribute('aria-label', this.t(`Открыть поле ${puzzle.campaignPosition}`, `Open board ${puzzle.campaignPosition}`));
-        list.append(item);
+    this.modeChoices.append(this.button(this.t(`Продолжить · Поле ${position}`, `Continue · Board ${position}`),
+      this.actions.campaign, 'campaign-continue', true));
+
+    if (save.result) {
+      this.modeChoices.append(this.button(this.t('Последний результат', 'Last result'),
+        () => this.actions.navigate('play'), 'last-result'));
+    } else {
+      const result = storedSlot(save, 'campaign')?.result;
+      if (result) {
+        const board = getPuzzle(result.puzzleId).campaignPosition;
+        this.modeChoices.append(this.button(this.t(`Результат поля ${board}`, `Board ${board} result`),
+          () => this.actions.offer({puzzleId:result.puzzleId,mode:'campaign'}), 'last-result'));
       }
-      details.append(summary, list);
-      progress.append(details);
     }
+    if (!completed.length) return;
+    const details = el('details', 'campaign-history');
+    details.open = historyOpen;
+    const summary = el('summary', '', this.t('Пройденные поля', 'Completed boards'));
+    const list = el('div', 'replay-list');
+    for (const puzzleId of completed) {
+      const puzzle = getPuzzle(puzzleId);
+      const item = this.button(String(puzzle.campaignPosition),
+        () => this.actions.offer({puzzleId, mode:'campaign'}), `replay-${puzzleId}`);
+      item.setAttribute('aria-label', this.t(`Открыть поле ${puzzle.campaignPosition}`, `Open board ${puzzle.campaignPosition}`));
+      list.append(item);
+    }
+    details.append(summary, list);
+    this.modeChoices.append(details);
   }
   private quests(save:Save):void {
     const panel = el('details', 'hub-panel');
@@ -408,8 +529,26 @@ export class MetaView {
   private profile(save: Save): void {
     const p = save.profile;
     const c = save.career;
-    this.heading(this.t('Профиль','Profile'), this.t(`Ранг ${p.rank} · ${p.xp} / ${rankThreshold(p.rank)} XP`, `Rank ${p.rank} · ${p.xp} / ${rankThreshold(p.rank)} XP`));
+    this.heading(this.t('Профиль', 'Profile'));
     this.root.append(this.button(this.t('← На главную','← Home'), () => this.actions.navigate('home'), 'profile-back'));
+    const rank = this.button('', () => this.openRank(save, 'profile-rank'), 'profile-rank');
+    rank.classList.add('mode-option');
+    rank.setAttribute('aria-haspopup', 'dialog');
+    const rankCopy = el('span', 'quick-copy');
+    rankCopy.append(el('strong', '', this.t(`Ранг ${p.rank}`, `Rank ${p.rank}`)),
+      el('span', 'quick-status', `${p.xp} / ${rankThreshold(p.rank)} XP`));
+    rank.append(rankCopy, this.arrow());
+    this.root.append(rank);
+
+    const latest = Object.entries(c.achievements).reduce<string | undefined>((id, [candidate, entry]) =>
+      !id || entry.earnedAt >= c.achievements[id]!.earnedAt ? candidate : id, undefined);
+    const achievement = config.achievements.find(badge => badge.id === latest);
+    if (achievement) {
+      const recent = el('section', 'profile-achievement');
+      recent.append(el('h2', '', this.t('Последнее достижение', 'Latest achievement')),
+        el('p', '', this.t(achievement.titleRU, achievement.titleEN)));
+      this.root.append(recent);
+    }
 
     const overview = el('dl','profile-overview');
     for (const [label, value] of [
@@ -421,8 +560,6 @@ export class MetaView {
       item.append(el('dt','',label), el('dd','',value));
       overview.append(item);
     }
-    this.root.append(overview);
-
     const records = el('section','hub-panel profile-records');
     records.append(el('h2','',this.t('Рекорды Endless','Endless records')));
     const bank = c.records[recordVersion];
@@ -432,10 +569,13 @@ export class MetaView {
       entry.append(el('span','',title), el('strong','',score));
       records.append(entry);
     }
+    if (!bank.solo || !bank.assisted) records.append(el('p','muted',this.t(
+      'Завершите забег Endless. Подсказки учитываются в отдельном рекорде.',
+      'Finish an Endless run. Runs with hints have a separate record.')));
     if (c.run && c.run.status !== 'ended') records.append(el('p','muted',this.t(
       `Текущий забег · ${c.run.score} очк. · ${c.run.solvedStages} пол. Итог появится после завершения.`,
       `Current run · ${c.run.score} pts · ${c.run.solvedStages} boards. Finish it to record the result.`)));
-    this.root.append(records);
+    this.root.append(records, overview);
 
     const stats = el('details','hub-panel profile-details');
     stats.id = 'profile-statistics';
@@ -450,11 +590,22 @@ export class MetaView {
       const s = c.modes[mode];
       const box = el('div','stats-mode');
       box.dataset.stats = mode;
-      box.append(el('h3','',labels[mode]),
-        el('p','',this.t(`Попыток ${s.starts} · Завершений ${s.completions}`, `Attempts ${s.starts} · Completions ${s.completions}`)),
-        el('p','',this.t(`Активное время ${Math.floor(s.seconds/60)} мин ${s.seconds%60} с`, `Time played ${Math.floor(s.seconds/60)}m ${s.seconds%60}s`)),
-        el('p','',this.t(`Ошибок ${s.mistakes} · Отмен ${s.undos} · Перезапусков ${s.restarts}`, `Mistakes ${s.mistakes} · Undos ${s.undos} · Restarts ${s.restarts}`)),
-        el('p','',this.t(`Объяснений ${s.explains} · Раскрытий ${s.reveals}`, `Explanations ${s.explains} · Reveals ${s.reveals}`)));
+      const rows = el('dl', 'stat-rows');
+      for (const [ru, en, value] of [
+        ['Попытки', 'Attempts', s.starts],
+        ['Завершения', 'Completions', s.completions],
+        ['Активное время', 'Time played', formatDuration(s.seconds, this.language)],
+        ['Ошибки', 'Mistakes', s.mistakes],
+        ['Отмены', 'Undos', s.undos],
+        ['Перезапуски', 'Restarts', s.restarts],
+        ['Объяснения', 'Explanations', s.explains],
+        ['Раскрытия чисел', 'Reveals', s.reveals],
+      ] as const) {
+        const row = el('div');
+        row.append(el('dt', '', this.t(ru, en)), el('dd', '', String(value)));
+        rows.append(row);
+      }
+      box.append(el('h3', '', labels[mode]), rows);
       stats.append(box);
     }
     this.root.append(stats);
