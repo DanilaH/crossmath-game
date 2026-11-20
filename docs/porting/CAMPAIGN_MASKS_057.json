@@ -1,0 +1,93 @@
+{
+  "wholeCampaign": {
+    "emptyCoordinates": {
+      "positions": 240,
+      "uniqueKeys": 236,
+      "adjacentRepeats": 2,
+      "repeatWithinPrior10": 4,
+      "firstRepeatedPositionPairs": [
+        [
+          3,
+          6
+        ],
+        [
+          6,
+          8
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          11,
+          12
+        ]
+      ]
+    },
+    "allNumberCoordinates": {
+      "positions": 240,
+      "uniqueKeys": 66,
+      "adjacentRepeats": 8,
+      "repeatWithinPrior10": 88,
+      "firstRepeatedPositionPairs": [
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          6,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          7,
+          10
+        ]
+      ]
+    }
+  },
+  "afterLessons": {
+    "emptyCoordinates": {
+      "positions": 225,
+      "uniqueKeys": 225,
+      "adjacentRepeats": 0,
+      "repeatWithinPrior10": 0,
+      "firstRepeatedPositionPairs": []
+    },
+    "allNumberCoordinates": {
+      "positions": 225,
+      "uniqueKeys": 58,
+      "adjacentRepeats": 5,
+      "repeatWithinPrior10": 81,
+      "firstRepeatedPositionPairs": [
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          11
+        ],
+        [
+          11,
+          14
+        ]
+      ]
+    }
+  }
+}

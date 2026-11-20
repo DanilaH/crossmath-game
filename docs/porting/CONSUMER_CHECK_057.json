@@ -1,0 +1,252 @@
+{
+  "kind": "Chromium touch on the supplied APK web payload",
+  "viewportCssPixels": [
+    390,
+    844
+  ],
+  "version": "0.5.7",
+  "artifactSha256": "1a7d16fdc408dcf4f22e07bd8c5478e1e30e521f7348aedf8dac3b0c5216cc5a",
+  "route": "Clean profile. Select actual physical tray tokens and empty cells to solve campaign 1 through 8. Open result detail, hub, rank, collection, item, modes, profile, calendar, goals, settings, pause and paid logical help on field 9. No profile mutations.",
+  "checkpoints": {
+    "01-field": {
+      "coins": 120,
+      "receipt": null,
+      "rewardText": ""
+    },
+    "02-home-cold": {
+      "coins": 120,
+      "receipt": null,
+      "rewardText": ""
+    },
+    "win1": {
+      "coins": 130,
+      "receipt": {
+        "coins": 10,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 0,
+        "dailyCoins": 0,
+        "fragments": 0,
+        "first": true
+      },
+      "rewardText": "+10 монет"
+    },
+    "win3": {
+      "coins": 150,
+      "receipt": {
+        "coins": 10,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 0,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+10 монет"
+    },
+    "win5": {
+      "coins": 170,
+      "receipt": {
+        "coins": 10,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 0,
+        "dailyCoins": 0,
+        "fragments": 0,
+        "first": true
+      },
+      "rewardText": "+10 монет"
+    },
+    "win8": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "breakdown": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "home8": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "rank": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "album": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "item": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "modes": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "profile": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "daily": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "goals": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "settings": {
+      "coins": 240,
+      "receipt": {
+        "coins": 30,
+        "baseCoins": 10,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "rankCoins": 0,
+        "cardCoins": 20,
+        "dailyCoins": 0,
+        "fragments": 1,
+        "first": true
+      },
+      "rewardText": "+30 монет"
+    },
+    "pause": {
+      "coins": 240,
+      "receipt": null,
+      "rewardText": "+30 монет"
+    },
+    "help": {
+      "coins": 240,
+      "receipt": null,
+      "rewardText": "+30 монет"
+    },
+    "help-choice": {
+      "coins": 240,
+      "receipt": null,
+      "rewardText": "+30 монет"
+    },
+    "paid-hint": {
+      "coins": 180,
+      "receipt": null,
+      "rewardText": "+30 монет"
+    }
+  }
+}
