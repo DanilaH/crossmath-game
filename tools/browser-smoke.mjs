@@ -15,6 +15,7 @@ try{
  const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
  await page.goto(`http://127.0.0.1:${server.address().port}/`);await page.locator('html[data-state=ready]').waitFor();
+ assert.equal(await page.locator('#screen-header .hub-settings').isHidden(),true);
  const snapshot=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')));
  const idle=async()=>{await page.waitForFunction(()=>!document.querySelector('#pause-dialog').open&&!document.querySelector('#help-dialog').open);await page.waitForFunction(()=>!document.querySelector('#help').disabled||!document.querySelector('#result').hidden);};
  const tap=async selector=>{await page.locator(selector).tap();};

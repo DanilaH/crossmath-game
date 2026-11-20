@@ -26,7 +26,7 @@ body.in-hub {
   --gold: var(--play-blue);
 }
 
-.hub-settings { display: none; }
+.hub-settings, .in-play #screen-header .hub-settings { display: none; }
 
 .in-hub #screen-header {
   display: grid;
