@@ -153,6 +153,11 @@ try{
  const helpButton=await page.locator('#help').boundingBox();
  assert.ok(largeTools&&helpButton&&Math.abs(568-largeTools.y-largeTools.height-8)<=1);
  assert.ok(helpButton.width>=48&&helpButton.height>=48);
+ assert.equal(await page.locator('#sort span').evaluate(label=>{
+  const range=document.createRange();
+  range.selectNodeContents(label);
+  return range.getClientRects().length;
+ }),1);
  await page.touchscreen.tap(helpButton.x+helpButton.width/2,helpButton.y+helpButton.height/2);
  await page.locator('#help-dialog[open]').waitFor();
  await tap('#close-help');
