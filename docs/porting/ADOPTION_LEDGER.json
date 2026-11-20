@@ -1054,7 +1054,7 @@
       "codePath": "src/app/session.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Сверить две экономики по числу побед за помощь, проверить одну транзакцию",
+      "nextAction": "До подтверждения показать фактическую нехватку или цену с кредитом. Проверить состояния 1/60, 60/60, один кредит, отмену и повторный тап на той же расстановке. См. docs/porting/ui-audit-057/README.md.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L885",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/session.ts"
     },
@@ -1172,7 +1172,7 @@
       "codePath": "src/ui/gameUi.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Проверить одну строку о следующей цели на результате без перекрытия CTA",
+      "nextAction": "Отдельно проверить доступность подробностей результата, открытие нового режима и возврат из карточки детали. Сохранить одобренный показ выплаты и сразу доступный следующий ход. См. docs/porting/ui-audit-057/README.md.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L982",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts"
     },
@@ -1328,7 +1328,7 @@
       "codePath": "src/ui/gameUi.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Записать откуда и куда идёт выплата; сверить баланс при пропуске презентации",
+      "nextAction": "Зафиксировать одобренный владельцем вид текущей прибавки монет и сверить его до/после изменения оболочки на тех же сохранениях, включая пропуск, reload и повтор поля. Сумма, момент выплаты и повторная выдача проверяются отдельно. См. docs/porting/ui-audit-057/README.md.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1114",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts"
     },
@@ -1354,7 +1354,7 @@
       "codePath": "src/meta/calendar.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Сверить закрытые, пропущенные и завершённые даты у обеих игр",
+      "nextAction": "Проверить новый календарь на свежем и старом профилях, сегодняшнюю дату, пройденную, закрытую и начатую за границей окна. См. docs/porting/ui-audit-057/README.md.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1136",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/calendar.ts"
     },
