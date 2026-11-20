@@ -500,7 +500,7 @@ body.in-play:has(#help-dialog[open]) .play-area {
   }
 
   #play-screen.is-solving .tools button {
-    font-size: min(.62rem, 12px);
+    font-size: min(.62rem, 11.5px);
   }
 }
 
