@@ -669,6 +669,7 @@ export class MetaView {
     if (!r) return;
     const award = instrumentAward(r);
     const announcement = unlockAnnouncement(this.language, r.unlockedModes);
+    document.getElementById('result')!.classList.toggle('shows-unlock', Boolean(announcement));
     let title = announcement;
     if (award) {
       const { index, parts } = award;

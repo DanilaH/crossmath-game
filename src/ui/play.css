@@ -538,6 +538,50 @@ html[data-host="browser"] .win-dock {
   font-weight: 800;
 }
 
+/* On milestone wins, give the mode name a full row and keep the reward above the actions. */
+body.in-play:has(.shows-unlock:not([hidden])) #shell,
+#play-screen:has(> .shows-unlock:not([hidden])) :is(.play-area, .boardpad) {
+  min-height: 0;
+}
+#play-screen:has(> .shows-unlock:not([hidden])) :is(.tools, #tray, #tray-nav, #note:empty) {
+  display: none;
+}
+#play-screen:has(> .shows-unlock:not([hidden])) #instrument-reward {
+  position: relative;
+  inset: auto;
+  translate: none;
+  margin-inline: auto;
+}
+.win-dock.shows-unlock {
+  position: relative;
+  inset: auto;
+  translate: none;
+  flex: none;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) 48px;
+  gap: 4px 6px;
+}
+html[data-host="browser"] .win-dock.shows-unlock { bottom: auto; }
+.win-dock.shows-unlock .win-copy {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: 6px;
+}
+.win-dock.shows-unlock #result-rewards { grid-area: 1 / 2; }
+.win-dock.shows-unlock #result-detail {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: 4px;
+  line-height: 1.2;
+}
+.win-dock.shows-unlock :is(#next, #result-home) {
+  width: 100%;
+  max-width: none;
+  overflow-wrap: break-word;
+}
+
 #result-details > summary {
   display: grid;
   place-items: center;

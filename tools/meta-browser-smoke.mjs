@@ -51,6 +51,19 @@ try{
     const box=await frame.boundingBox();
     assert.ok(box && box.height>=48 && box.y>=0 && box.y+box.height<=height);
    }
+   await page.setViewportSize({width:320,height:568});
+   await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+   const milestone = await page.evaluate(() => {
+    const bounds = id => document.getElementById(id).getBoundingClientRect();
+    const next = document.getElementById('next'), button = next.getBoundingClientRect();
+    return {partBottom:bounds('instrument-reward').bottom, dockTop:bounds('result').top,
+     labelWidth:bounds('result-detail').width, buttonBottom:button.bottom,
+     hit:next.contains(document.elementFromPoint(button.x + button.width / 2, button.y + button.height / 2))};
+   });
+   assert.ok(milestone.hit && milestone.buttonBottom <= 568 && milestone.labelWidth > 200
+    && milestone.partBottom <= milestone.dockTop, JSON.stringify(milestone));
+   await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
+   await page.setViewportSize({width:390,height:844});
    await frame.tap();
    await page.locator('#card-dialog[open]').waitFor();
    assert.equal(await page.locator('#card-title').innerText(),'Счёты');
