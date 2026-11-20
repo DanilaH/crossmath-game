@@ -343,6 +343,9 @@ body.in-hub {
   .resume-card { gap: 7px; padding-block: 12px; }
   .resume-preview { margin-block: 4px 6px; }
   .home-quick :is(.quick-daily, .quick-workshop), #modes-open { padding-block: 7px; }
+  #mode-dialog { padding-inline: 12px; }
+  .mode-option { column-gap: 8px; padding-inline: 3px; }
+  .mode-option .mode-mark { width: 34px; height: 34px; padding: 5px; }
 }
 .date-card.today {
   display: flex;
