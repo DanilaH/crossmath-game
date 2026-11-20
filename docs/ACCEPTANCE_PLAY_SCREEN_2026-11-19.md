@@ -1,0 +1,143 @@
+# Play screen preview — 19 November 2026
+
+Crossmath 0.5.0, Android versionCode 5, save schema 4.
+
+The owner approved starting with the field, first move and completion. The play screen uses a compact header, a free-standing board, amber movable pieces, a tray beneath the puzzle and a compact toolbar. The win panel keeps the next action in view. The darker play palette and reduced-motion setting cover the same states. Wallet and rank are available on the existing hub. Campaign, Free Play, Daily and Endless share the new play layout.
+
+## Reference and evidence
+
+[Guru's Play listing](https://play.google.com/store/apps/details?id=math.puzzle.games.crossmath.number.puzzles.free) shows the field, separated tray and bottom tools. A [recorded Guru session](https://www.youtube.com/watch?v=xxoueeCnA6A&t=32s) shows the completion overlay and main continuation action. Crossmath uses original palette, piece treatment, controls and authored fields. Reference motion timing and device feel were not measured.
+
+The two portrait GIFs record the same actual browser input on Crossmath 0.4.0 and 0.5.0. Both reach campaign field 12 from a fresh profile, place the same conflicting numbers, swap them by drag, show the result and tap through to field 13. The recording scrolls in 0.4.0 to reach the next action. Screen captures also cover first move, field 12 conflict and win, and the dense field on a small viewport.
+
+| At normal text size | 0.4.0 | 0.5.0 |
+| --- | --- | --- |
+| Field 12, Next at 390×844 | Starts at y=908 | Entirely in view |
+| Field 25, last tray row at 320×568 | Bottom at y=694 | Bottom at y=489 |
+| Fields 1, 12 and 25 at 320×568 and 390×844 | Baseline measured above | Board, tray and main controls fit without scrolling |
+
+- Chromium 141 completed 25 campaign fields with real tap/drag/keyboard interactions. It checked field 12 conflict and atomic swap, durable result and replay with no second reward, dense targets at least 48 CSS pixels, no overlapping number targets, first-move guide cancellation, dark mode and reduced motion. The final touch cannot activate the newly revealed Next button.
+- The meta and Endless UI regressions also passed. They include Daily +100, cold result and unlocks, explicit Endless scoring, parked slots, RU/EN and the optional timer.
+- All 68 Vitest tests passed. Content verification covered all 240 boards, routes and meta fixtures. The web release audit and Capacitor release sync passed.
+
+## Installable preview
+
+| Item | Value |
+| --- | --- |
+| APK | `Crossmath_0.5.0_Preview.apk` |
+| Source commit | `927c90707b1732fe01f204901d00a1e68eb9d611` |
+| Source tree | `1eb962bbed1b4b16789645d2017a109ae52ead59` |
+| APK SHA-256 | `6e4b523c37625e5040ffe4d2faa6712fb1c3754efbf3927158c0b8cc3cb0bd18` |
+| Package | `com.danilah.crossmath.releasecheck` |
+| Certificate SHA-256 | `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0` |
+
+Debug and optimized Gradle builds passed. The exact releaseCheck APK passed signature, 16K alignment, package/version, portrait, debugging flags, release web-payload and storage bridge checks. The retained preview signer and monotonic versionCode allow an in-place update. Installation and migration on an Android device, physical feel, TalkBack and live ads were not exercised.
+
+KIT IMPACT — REUSE. Committed tile/equation feedback and cancelled-gesture treatment use the existing motion owner. Lifecycle and one-shot feedback keep the pinned kit contracts.
+
+## 0.5.1 — continuous board
+
+The field now has one grid surface across numbers, operators and intersections. Inactive coordinates leave the surrounding space open. Movable pieces and recessed sockets remain legible within their squares. The surface is decorative and hit targets are still the semantic button layer.
+
+Chromium verified a square under each active number and operator, aligned centers and touching neighbor edges in both axes on fields 1, 12 and 25 at 320×568 and 390×844. The normal play layout fits without scrolling. All three browser suites and 68 Vitest tests passed. The field 12 recording shows placement, a shared-cell conflict, drag swap and victory.
+
+- APK `Crossmath_0.5.1_Preview.apk`, versionCode 6
+- Source commit `2ccb03a297661f79b767621ce60f6bc2b0013568`, source tree `0cd3483caecf4e5c633dbbaa93f43b7b308160c9`
+- APK SHA-256 `e977bc3b37601208dc6504efb29b8487718cbc919c413fbb16b45c432b4642bf`
+- Preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+Debug and optimized builds passed. The exact APK passed release inspection. Device runtime remains pending.
+
+KIT IMPACT — NONE. The grid is rendered from Crossmath's existing puzzle coordinates.
+
+## 0.5.2 — tactile field and victory
+
+- The table uses a matte ink-blue surface, warm grid and amber pieces with an enamel edge. The dark setting tones down the grid. The field remains visible on victory, with the ordinary result and continuation docked below it.
+- The drag preview scales to the target square and exposes a dashed footprint. A committed landing settles into the cell. A newly correct equation lights along its own axis. An invalid line shows an edge mark and `≠`, keeping shared numbers neutral. Endless follows its existing explicit check. Reduced motion retains the target and equation states.
+- The first part of the abacus is labelled `Рамка счётов · 1/4` on the third win. A simultaneous unlock is available in the expanded rewards. The sound setting enables a synthetic 32ms contact click on accepted placements and swaps.
+
+The browser capture plays the fresh campaign through field 25. Field 12 shows the bad vertical equation, touch target and swap, and continuation from the unobscured board. At 320×568 the dense field has 48 CSS px touch targets and fits in the viewport. The actual browser touch probe verified that the ghost fits above the target and that a cancelled drag clears both the ghost and highlight. Field 3, Daily and Endless regressions passed. Three browser suites and all 68 Vitest tests passed. With sound enabled in the browser, an accepted placement passed the expected 32ms non-silent buffer to Web Audio. Physical-phone sound, haptics and runtime remain pending.
+
+- APK `Crossmath_0.5.2_Preview.apk`, versionCode 7
+- Source commit `77f9aaf61460928bc96c9920a7c1f3e62d056e60`, source tree `c3fb289f6ae631b91c05dd2a7a7eb87c58becf25`
+- APK SHA-256 `55ac742ee231404d5c3b32101db7de7acf35fc464fceced4040c74e185fcccd6`
+- Preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+Debug and optimized Gradle builds passed. The release inspection passed against the exact signed APK and web payload.
+
+KIT IMPACT — REUSE. The existing motion owner drives the landing and line feedback. The existing one-shot player handles the contact sound.
+
+## 0.5.3 — home and continuation
+
+The home screen uses the play palette. One primary action restores the exact unfinished board or opens the next campaign board after a win. Its miniature uses an equation from the board it opens. Daily opens today's saved or new challenge. The workshop card shows the current instrument's parts. Modes, history and records are in the secondary dialog. Daily goals have an expandable section above the dates.
+
+The browser regression checked a cold resume of Free Play, campaign board 6 after five wins, direct entry to the current Daily, the Daily archive and goals, inventory progress, keyboard dismissal, and English mode labels. At 320×568 and 390×844 all four home actions fit the initial viewport. Click targets are at least 48 CSS pixels. All three browser suites and 68 Vitest tests passed.
+
+- APK `Crossmath_0.5.3_Preview.apk`, versionCode 8
+- Source commit `eaadf24a73f592432e0b5cc00b59042b8f107fcf`, source tree `b810c8bfa5bc8a4464952e3bac2815562b2a435d`
+- APK SHA-256 `902656082e66f4edfd61864ee18b0564162a0960bf6331e984ad7f82ee3ee3a8`
+- Preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+Debug and optimized Gradle builds passed. Signature and exact APK contents passed release inspection. Device runtime remains pending.
+
+KIT IMPACT — NONE.
+
+## 0.5.5 — placement feedback and the first abacus part
+
+- Accepted placement cues share the visible landing. Drag and tap join the same contact step, including the muted thud for an error. Missing the board returns the piece without a placement cue or vibration. A new valid line expands from the changed cell. Two axes at one intersection use a short answer note within one action sound. Pre-submit Endless uses the same neutral cue and vibration for all layouts.
+- The earned first frame takes the place of the tray contents. It opens the existing Abacus card with the next rods shown as a dashed outline. Closing the card restores the result and focus. Next remains immediately available. Cold reload restores the same reward and replay pays nothing again. The current contact sound is an original synthesis.
+- The exact APK web payload was used for the two GIF captures and the timing probe. Real touch input exercised a miss, single-axis error/fix, two-axis completion, third unique win, abacus card and result return. At 320×568 on field 147, horizontal scroll cancelled an active drag without placing or vibrating. Subsequent tap and drag both placed once. The Endless trace confirmed identical neutral audio duration/haptic requests and zero validity sweeps before Check.
+
+The table gives one Chromium probe per input and build. It measures from the first frame within 1 CSS px of the square center to the Web Audio start call. A negative value means the sound was scheduled before that frame. Both new calls sampled the tile at the exact center. The two associated vibration requests were within 2 ms of the sampled frame. Speaker and motor latency, device installation and TalkBack require device acceptance.
+
+| Input | 0.5.4 | 0.5.5 |
+|---|---:|---:|
+| Tap | −44.3 ms | +1.6 ms |
+| Drag | −61.8 ms | +1.7 ms |
+
+- APK `Crossmath_0.5.5_Preview.apk`, versionCode 10, `com.danilah.crossmath.releasecheck`
+- Source commit `1e31d2e10800ceb8382ba5d7be50d067438e7675`, source tree `5cabff7385eb0a573f4eb7d083e062fa2a3c590e`
+- APK SHA-256 `f1b622aabefe1c14019403e103a3d320e50d363e718c0a7b164bd1ef4f814cde`, 1,269,117 bytes
+- Retained preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+All 72 Vitest tests, three Chromium smoke suites and the content validators passed. The release web audit, debug and optimized releaseCheck build, APK signature and 16 KiB alignment/payload inspection passed.
+
+KIT IMPACT — REUSE. Crossmath schedules its presentation with the existing OwnedDomMotion and OneShotPlayer. The existing atomic completion receipt remains the authority for the frame.
+
+## 0.5.6 — board viewport, tray and navigation
+
+- The board, tray and tools share one play area. The board can pan within it while the tray remains in view. A tall viewport shows the full field 147 tray. At 320×568 the tray has ten visible slots and two explicit paging buttons. Physical token IDs, positions, sort and undo still use the same session model. Tap a number, pan, then tap a cell or drag directly from the visible tray.
+- Home keeps one continuation action and direct Daily and Workshop entries. The mode picker groups play and progress links. The Calendar puts Today above goals and history; upcoming dates can be expanded separately. Pause shows continuation first, with settings and rules in disclosures. Help opens at the bottom and still requires explicit confirmation with its current price. Daily and Endless show numeric lives with heart markers. Endless score and assisted status are separate.
+- Three Chromium recordings use real touch/keyboard-capable UI and the exact APK web payload. Long-progress fixtures open field 147 and unlock Daily and Endless. Native touch input in Chromium verified horizontal and vertical board panning while a token stayed selected, a direct drag from the paged tray, and stable tray scroll. Browser suites check return/resume, reload, selection and inventory, RU/EN, the paid-help flow, field 147 and unchanged scoring. The neutral feedback and first abacus reward from 0.5.5 remain covered. APK installation and physical input, audio and haptic acceptance still require a device.
+
+| Chromium measurement | 0.5.5 | 0.5.6 |
+|---|---:|---:|
+| Field 147 document height at 320×568 | 795 px | 568 px |
+| Field 147 tray height at 320×568 | 313 px | 101 px |
+| Field 147 visible numbers at 390×844 | 28 | 28 |
+| Field 12 distance from the tray to the tools at 390×844 | 193 px | 11 px |
+
+- APK `Crossmath_0.5.6_Preview.apk`, versionCode 11, `com.danilah.crossmath.releasecheck`
+- Source commit `ac9c0933f08581555ad0fa8dc1b54b57dc712348`, source tree `26ed50b84a00fcfeb086285aa75e514dea384ab6`
+- APK SHA-256 `995e500da2f252dc9fd0482789f85eff1c96e6a791250a8a6d200097e52448a8`, 1,270,705 bytes
+- Retained preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+All 72 Vitest tests and three Chromium smoke suites passed. Gradle debug and optimized releaseCheck, web audit, signature, 16 KiB ZIP alignment and exact payload inspection passed.
+
+KIT IMPACT — REUSE. Play layout remains consumer-owned and uses the existing activity coordination and save contracts.
+
+## 0.5.7 — workshop, profile and material feedback
+
+- The workshop shows the current instrument on the bench, what fits next, and the number of distinct wins until that part. The collection keeps all 12 instruments with four layers each. Pending parts are drawn as outlines. Every earned part appears in the tray and opens its own instrument. Returning from the inspector restores the originating control. A completed instrument has a short glint and five motes. An ordinary part has three motes, while a normal win uses neither effect. Continue is available as soon as the win is committed.
+- The profile shows campaign, Daily and workshop totals alongside the two Endless records. Detailed counters and achievements are expandable. The default profile and both summaries fit at 320×568. The board uses static paper fibres, a soft overhead light and a warmer tile edge. Move sounds use an original wood-like synthesis and the same contact trigger. A part and a completed instrument each add their own short metal resonance to the win cue.
+- Chromium ran the actual campaign through fields 8 and 13, opened the completed abacus and the first counting-rod part, showed the following part on the bench, and verified the result, coin and fragment counts after reload and replay. A separate checkpoint exercised winning with help and reduced motion. The record still settles and the reward stays accessible with no animation. The three GIFs use the exact APK web payload.
+- The sound trace reached Web Audio with one win buffer per result. The part and finished-instrument buffers were 365 ms and 448 ms. The browser trace does not establish speaker or motor latency on Android. Phone installation and device accessibility still require a physical device.
+
+- APK `Crossmath_0.5.7_Preview.apk`, versionCode 12, `com.danilah.crossmath.releasecheck`
+- Source commit `d1d9080ab931b0fe317db4acb7348d47d94e98f3`, source tree `810e259c43f87c1ba96dfadaa121a265f534d17e`
+- APK SHA-256 `1a7d16fdc408dcf4f22e07bd8c5478e1e30e521f7348aedf8dac3b0c5216cc5a`, 1,272,137 bytes
+- Retained preview certificate SHA-256 `4739355dd79808984bff922da97ba2a5d3bec4e06be67987daab9b14bdce4ea0`
+
+All 72 Vitest tests, three Chromium smoke suites and content validators passed. Debug and optimized releaseCheck, release web audit, signature, 16 KiB ZIP alignment and exact payload inspection passed.
+
+KIT IMPACT — REUSE. Collection progress uses the existing tier projection, completion receipts and SVG layers. Audio uses the existing contact trigger and one-shot playback. The placement and lifetime of the visual effects remain local to Crossmath.

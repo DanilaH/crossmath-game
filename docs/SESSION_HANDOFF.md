@@ -19,3 +19,9 @@
 14. Latest verified APK `Crossmath_0.4.0_E2_preview.apk` (1,224,169 bytes), SHA-256 `05a232780a40564e0f22e83381c6c5f186bdc8c50327703a08a1e465a16c2267`, source `570b72882534a7a71c2c345a70453ed11622c61d`. Same preview signing certificate. 68 tests and all three Chromium scenarios passed. Native compile and exact APK inspection passed. Device runtime remains untested.
 
 15. Version 0.4.0 moved to `main` by fast-forward after the owner requested the push. The README gallery contains real UI captures in `evidence/preview-0.4.0/`. The gallery change is documentation and media only. KIT IMPACT: NONE.
+
+16. The 0.5.0 play-screen preview is on `feat/play-screen-0.5`. Start with [play-screen acceptance](ACCEPTANCE_PLAY_SCREEN_2026-11-19.md). Review fields 1, 12 and 25 and the victory sequence before redesigning the hub.
+
+### 0.5.4 content and competition evidence
+
+Use [R1 content and measurement](spec/product/content_v2/README.md) for current issuance and compat behavior. Keep both banks immutable once shipped. Read [R2](spec/R2_APK_BALANCE_RU.md) before C0–C3. The old proposal's fixed 75/105-second opponent steps and 70-coin cycle are project proposals.

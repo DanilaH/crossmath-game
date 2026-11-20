@@ -1,7 +1,21 @@
+import type { FreeTrack } from '../content/rotation';
+import type { Operator } from '../core/types';
+
+export const operatorGlyph: Record<Operator, string> = { '+': '+', '-': '−', '*': '×', '/': '÷' };
+
 export type Language = 'ru' | 'en';
 
 export function localize(language: Language, russian: string, english: string): string {
   return language === 'en' ? english : russian;
+}
+
+export function trackName(language: Language, track: FreeTrack): string {
+  return track === 'relax' ? localize(language, 'Спокойная игра', 'Relax') : localize(language, 'Испытание', 'Challenge');
+}
+
+export function conflictText(language: Language, horizontal: boolean, equation: string): string {
+  const label = horizontal ? localize(language, 'По горизонтали', 'Across') : localize(language, 'По вертикали', 'Down');
+  return `${label}: ${equation.replace(' = ', ' ≠ ')}`;
 }
 
 const nouns = {

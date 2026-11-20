@@ -1,6 +1,8 @@
+import { isFreeTrack } from '../content/rotation';
+import type { ContentVersion } from '../content/rotation';
 import { createAdState, validateAdState } from '../platform/adState';
 import type { AdState } from '../platform/adState';
-import { config, getPuzzle, routes, campaignPuzzle } from '../content/catalog';
+import { config, getPuzzle, routes, campaignPuzzle, campaignSequence, dailyVersion, freeTrackPuzzle } from '../content/catalog';
 import { createAttempt } from '../core/engine';
 import { assertInventory, isSolved } from '../core/types';
 import type { Attempt } from '../core/types';
@@ -21,7 +23,7 @@ export interface Completion {
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
 export interface Save {
-  schemaVersion: 4; revision: number; contentVersion: 'content-v1'; balanceVersion: string;
+  schemaVersion: 4; revision: number; contentVersion: ContentVersion; balanceVersion: string;
   profile: { id: string; createdAt: string; timeZone: string; coins: number; hintCredits: number;
     rank: number; xp: number; solvedIds: string[]; campaignCursor: number; fragments: number; paidCardIds: string[] };
   settings: Settings; attempt: Attempt; result: Completion | null; helpReceipts: Record<string,HelpReceipt>;
@@ -29,12 +31,12 @@ export interface Save {
   career:Career;
   ads:AdState;
 }
-export function createSave(id: string, now: string, timeZone: string, attemptId: string): Save {
+export function createSave(id: string, now: string, timeZone: string, attemptId: string, contentVersion: ContentVersion = 'content-v2'): Save {
   const career=createCareer(now);career.modes.campaign.starts=1;
-  return {schemaVersion:4,revision:0,contentVersion:'content-v1',balanceVersion:config.configVersion,meta:createMeta(now,timeZone),career,ads:createAdState(),
+  return {schemaVersion:4,revision:0,contentVersion,balanceVersion:config.configVersion,meta:createMeta(now,timeZone),career,ads:createAdState(),
     profile:{id,createdAt:now,timeZone,coins:config.initialCoins,hintCredits:config.initialHintCredits,rank:1,xp:0,solvedIds:[],campaignCursor:0,fragments:0,paidCardIds:[]},
     settings:{theme:'light',sound:false,vibration:false,reducedMotion:false,language:'ru',timerVisible:false},
-    attempt:createAttempt(campaignPuzzle(0),attemptId),result:null,helpReceipts:{}};
+    attempt:createAttempt(campaignPuzzle(0, contentVersion),attemptId),result:null,helpReceipts:{}};
 }
 export const rankThreshold = (rank: number): number => Math.min(config.rank.baseXp+config.rank.stepXp*(rank-1),config.rank.maxXpPerRank);
 export function settleCompletion(save: Save, now=new Date().toISOString()): Save {
@@ -53,7 +55,12 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
     }
   }
   coins+=cardCoins; profile.coins+=coins;
-  if (next.attempt.mode === 'campaign' && routes.campaignSequence[profile.campaignCursor] === p.puzzleId) profile.campaignCursor++;
+  if (next.attempt.mode === 'campaign' && campaignSequence(next.contentVersion)[profile.campaignCursor] === p.puzzleId) profile.campaignCursor++;
+  const track = next.attempt.freeTrack;
+  if (track) {
+    const progress = next.meta.freeProgress ??= {relax: 0, challenge: 0};
+    if (next.attempt.freeIndex === progress[track]) progress[track]++;
+  }
   next.result={id:`win:${next.attempt.id}`,attemptId:next.attempt.id,puzzleId:p.puzzleId,first,coins,xp:reward.xp,rankUps,fragments:profile.fragments-previousFragments,cardCoins,elapsedPlaying:next.attempt.elapsedPlaying,baseCoins:reward.coins,rankCoins:rankUps*config.rank.rewardCoins,
     collectionFragments:profile.fragments,rankLevel:profile.rank,unlockedModes:[['free',3],['daily',5],['endless',15]].filter(([,n])=>previousWins<Number(n)&&profile.solvedIds.length>=Number(n)).map(([mode])=>String(mode))};
   settleDailyAndQuests(next,next.result);
@@ -76,7 +83,7 @@ export function decodeSave(input: unknown): Save {
     s.ads=createAdState();
   }
   const nonnegative=(n:unknown):n is number => Number.isSafeInteger(n) && Number(n)>=0;
-  if (s.schemaVersion !== 4 || !nonnegative(s.revision) || s.contentVersion !== 'content-v1' || s.balanceVersion !== config.configVersion) return fail();
+  if (s.schemaVersion !== 4 || !nonnegative(s.revision) || !['content-v1', 'content-v2'].includes(s.contentVersion) || s.balanceVersion !== config.configVersion) return fail();
   if (!s.profile || !s.settings || !s.attempt || !s.helpReceipts || typeof s.helpReceipts !== 'object' || Array.isArray(s.helpReceipts)) return fail();
   const p=s.profile,a=s.attempt;
   if (typeof p.id !== 'string' || !p.id || typeof p.createdAt !== 'string' || !Number.isFinite(Date.parse(p.createdAt)) || typeof p.timeZone !== 'string') return fail();
@@ -86,10 +93,16 @@ export function decodeSave(input: unknown): Save {
   try { for (const id of p.solvedIds) getPuzzle(id); } catch { return fail(); }
   if (!['light','dark'].includes(s.settings.theme) || !['ru','en'].includes(s.settings.language) || !['sound','vibration','reducedMotion','timerVisible'].every(k=>typeof s.settings[k as keyof Settings]==='boolean')) return fail();
   validateMeta(s);
+  if(s.meta.freeProgress && ![s.meta.freeProgress.relax,s.meta.freeProgress.challenge].every(nonnegative)) return fail();
   validateCareer(s);
   validateAdState(s);
   const validateAttempt=(a:Attempt,result:Completion|null,slot:string):void=>{
   const puzzle=getPuzzle(a.puzzleId);
+  if (a.freeTrack !== undefined) {
+    if (a.mode !== 'free' || !isFreeTrack(a.freeTrack)) return fail();
+    const cursor = s.meta.freeProgress?.[a.freeTrack] ?? 0;
+    if (!nonnegative(a.freeIndex) || a.freeIndex < cursor-1 || a.freeIndex > cursor-Number(a.status === 'won') || freeTrackPuzzle(a.freeTrack,a.freeIndex).puzzleId !== a.puzzleId) return fail();
+  } else if (a.freeIndex !== undefined || a.mode === 'free' && puzzle.contentVersion === 2) return fail();
   if(a.mode==='endless'?typeof a.runId!=='string'||!nonnegative(a.stageId):a.runId!==undefined||a.stageId!==undefined)fail();
   if(slot!==(a.mode==='daily'?`daily:${a.dayKey}`:a.mode)||a.mode==='daily'&&(!isCalendarDay(a.dayKey)||s.meta.assignments[a.dayKey]?.puzzleId!==a.puzzleId)||a.mode!=='daily'&&a.dayKey!==undefined)fail();
   if (typeof a.id !== 'string' || !a.id || a.contentVersion!==puzzle.contentVersion || a.rulesetVersion!==puzzle.rulesetVersion || !['campaign','free','daily','endless'].includes(a.mode) || !['playing','won','out-of-lives'].includes(a.status)) return fail();
@@ -104,7 +117,7 @@ export function decodeSave(input: unknown): Save {
   validateAttempt(a,s.result,s.meta.activeSlot);
   const attempts=new Set([a.id]);
   for(const [key,slot] of Object.entries(s.meta.inactive)){if(!slot||attempts.has(slot.attempt?.id))return fail();attempts.add(slot.attempt.id);validateAttempt(slot.attempt,slot.result,key);}
-  for(const [day,assignment] of Object.entries(s.meta.assignments)){if(!isCalendarDay(day)||assignment.calendarVersion!==routes.version) return fail();getPuzzle(assignment.puzzleId);}
+  for(const [day,assignment] of Object.entries(s.meta.assignments)){if(!isCalendarDay(day)||![routes.version,dailyVersion].includes(assignment.calendarVersion)) return fail();const puzzle=getPuzzle(assignment.puzzleId);if (assignment.calendarVersion === dailyVersion ? puzzle.bucket !== 'daily' : puzzle.contentVersion !== 1) return fail();}
   for (const receipt of Object.values(s.helpReceipts)) if (!receipt || !['applied','no_step','stale_snapshot','busy','already_solved','insufficient_resource','invalid_proof'].includes(receipt.outcome) || !['explain','reveal'].includes(receipt.kind) || !nonnegative(receipt.costCoins) || !nonnegative(receipt.costCredits)) return fail();
   return structuredClone(s);
 }

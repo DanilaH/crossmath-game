@@ -2,6 +2,8 @@
 
 Baseline: `main`. Development history: `feat/vertical-slice-20261118` and PR #1. Version 0.4.0 / versionCode 4 / schema 4. E2 adds RU/EN and the optional Android ads bridge, verified with a scripted provider. Real SDK acceptance remains open.
 
+0.5.3 preview adds a home screen with one continuation action, direct Daily and workshop entry, and a separate modes dialog. See [preview acceptance](ACCEPTANCE_PLAY_SCREEN_2026-11-19.md) for the exact APK and verification on `feat/play-screen-0.5`.
+
 ## Implemented
 
 - A–C: immutable 240-board bank, independent solver, physical-token commands, semantic board and drag/tap/keyboard, explain/proof verification and isolated reveal, atomic saves, rank/base/card rewards, 15 lessons and full campaign continuation.
@@ -37,3 +39,9 @@ Native runtime, process kill, physical responsiveness/haptics, TalkBack, 200% OS
 GitHub CI remains blocked by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`); observed gameplay-source run 44476862913 stopped at the private-kit access requirement before tests/build. Local success is independent of CI.
 
 Latest scope and acceptance: `ACCEPTANCE_E2_2026-11-19.md`. Remaining release work is the chosen live SDK and its placements, device/accessibility/offline checks, production signing and store acceptance. Production signer remains unset; no live SDK, reminders or store submission is claimed.
+
+## 0.5.4 — R1, U1 and U2
+
+[Measured level bank and issuance](spec/product/content_v2/README.md). Fresh Campaign, Relax, Challenge and unassigned Daily use the new original fields. Existing saved boards keep their IDs and geometry. U1 localizes Free replacement and restores focus to the originating button. U2 reports the affected equation with its axis, including when two equations have errors. [R2 APK evidence](spec/R2_APK_BALANCE_RU.md) records the competition numbers and trace, prior to implementing event modes.
+
+[Exact APK and acceptance for 0.5.4](ACCEPTANCE_R1_2026-11-19.md).

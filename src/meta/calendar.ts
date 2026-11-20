@@ -1,5 +1,5 @@
 import { calendarDayIndex, isCalendarDay } from '@danilah/mini-games-kit/core';
-import { config, routes } from '../content/catalog';
+import { config, dailyBank, routes } from '../content/catalog';
 export { calendarDayIndex, isCalendarDay };
 export function profileDay(instant:string,zone:string):string {
   const parts=new Intl.DateTimeFormat('en-CA',{timeZone:zone,calendar:'gregory',numberingSystem:'latn',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(instant));
@@ -7,9 +7,10 @@ export function profileDay(instant:string,zone:string):string {
   return `${field('year')}-${field('month')}-${field('day')}`;
 }
 export const dayFromIndex=(index:number):string=>new Date(index*86_400_000).toISOString().slice(0,10);
-export function calendarPuzzle(day:string):string {
-  const offset=calendarDayIndex(day)-calendarDayIndex(routes.dailyEpoch),n=routes.dailySequence.length;
-  return routes.dailySequence[((offset%n)+n)%n]!;
+export function calendarPuzzle(day:string, legacy = false):string {
+  const sequence = legacy ? routes.dailySequence : dailyBank;
+  const offset = calendarDayIndex(day) - calendarDayIndex(routes.dailyEpoch);
+  return sequence[((offset % sequence.length) + sequence.length) % sequence.length]!;
 }
 export function dateAvailable(createdAt:string,zone:string,effectiveDay:string,selected:string):boolean {
   if(!isCalendarDay(selected))return false;

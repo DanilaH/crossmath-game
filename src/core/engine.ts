@@ -9,7 +9,7 @@ export function createAttempt(puzzle: Puzzle, id: string, mode: Mode = 'campaign
 }
 const copyLayout = (s: Layout): Layout => ({ placements: {...s.placements}, trayOrder: [...s.trayOrder] });
 export const valueSignature = (p: Puzzle, s: Layout): string => p.cells.filter(c => c.given === undefined).map(c => `${c.id}:${cellValue(p,s,c.id) ?? '_'}`).join('|');
-const expressionSignature = (p: Puzzle, s: Layout, index: number): string => p.equations[index]!.cells.map(id => cellValue(p,s,id) ?? '_').join(':');
+export const expressionSignature = (p: Puzzle, s: Layout, index: number): string => p.equations[index]!.cells.map(id => cellValue(p,s,id) ?? '_').join(':');
 export interface Transition { state: Attempt; outcome: 'applied' | 'duplicate' | 'stale_snapshot' | 'unavailable' | 'no_change'; cue: 'place' | 'right' | 'wrong' | 'win' | 'none' }
 
 export function applyCommand(puzzle: Puzzle, state: Attempt, command: Command): Transition {

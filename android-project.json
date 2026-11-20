@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "appId": "com.danilah.crossmath",
-  "versionName": "0.4.0",
-  "versionCode": 4,
+  "versionName": "0.5.9",
+  "versionCode": 14,
   "orientation": "portrait",
   "certificateSha256": null,
   "releaseExcludedPaths": [

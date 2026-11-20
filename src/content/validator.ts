@@ -1,3 +1,5 @@
+import { buckets } from './rotation';
+import type { Bucket } from './rotation';
 import type { Puzzle, Equation, Operator } from '../core/types';
 
 function requireThat(condition: unknown, message: string): asserts condition { if (!condition) throw Error(message); }
@@ -5,13 +7,15 @@ const integer = (v: unknown): v is number => typeof v === 'number' && Number.isS
 const record = (v: unknown): v is Record<string,unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 export function parsePuzzle(input: unknown): Puzzle {
   requireThat(record(input),'Puzzle must be an object');
-  requireThat(typeof input.puzzleId === 'string' && /^cm-own-01-\d{3}$/.test(input.puzzleId),'Invalid puzzle ID');
-  requireThat(input.contentVersion === 1 && input.rulesetVersion === 'cm-integer-1','Unsupported content/rules version');
+  requireThat(typeof input.puzzleId === 'string' && /^cm-own-0[12]-\d{3}$/.test(input.puzzleId),'Invalid puzzle ID');
+  requireThat((input.contentVersion === 1 || input.contentVersion === 2) && input.puzzleId.startsWith(`cm-own-0${input.contentVersion}-`) && input.rulesetVersion === 'cm-integer-1','Unsupported content/rules version');
   requireThat(['easy','standard','hard','expert'].includes(String(input.difficulty)),'Invalid difficulty');
+  requireThat(input.contentVersion === 1 ? input.bucket === undefined : buckets.includes(input.bucket as Bucket), 'Invalid bucket');
+  const bound = input.contentVersion === 2 ? 13 : 11;
   requireThat(integer(input.campaignPosition) && input.campaignPosition > 0,'Invalid campaign position');
   requireThat(Array.isArray(input.decisionTags) && input.decisionTags.every(x => typeof x === 'string'),'Invalid tags');
   requireThat(!['answer','solution','steps'].some(k => k in input),'Hidden solution in public puzzle');
-  requireThat(integer(input.width) && input.width >= 1 && input.width <= 11 && integer(input.height) && input.height >= 1 && input.height <= 11,'Invalid bounds');
+  requireThat(integer(input.width) && input.width >= 1 && input.width <= bound && integer(input.height) && input.height >= 1 && input.height <= bound,'Invalid bounds');
   requireThat(Array.isArray(input.cells) && input.cells.length > 0 && Array.isArray(input.equations) && input.equations.length > 0 && Array.isArray(input.tray),'Missing board arrays');
   const positions = new Set<string>(); const glyphs = new Map<string,string>();
   for (const [id,cell] of input.cells.entries()) {
@@ -76,24 +80,46 @@ export function countSolutions(puzzle: Puzzle, budget = 500_000, placements: Rea
     if (!cell || cell.given !== undefined || (bag.get(value) ?? 0) <= 0) return {count:0,exhausted:false};
     known.set(cell.id,value); bag.set(value,bag.get(value)!-1);
   }
+  const domain = [...bag.keys()];
+  const tables = puzzle.equations.map(eq => {
+    const [left,middle,right] = eq.cells;
+    const first = known.has(left) ? [known.get(left)!] : domain;
+    const second = known.has(middle) ? [known.get(middle)!] : domain;
+    const last = known.get(right);
+    const rows: number[][] = [];
+    for (const a of first) for (const b of second) {
+      if (++visits > budget) {exhausted = true;return {cells:eq.cells,rows};}
+      const c = last ?? (eq.op === '+' ? a+b : eq.op === '-' ? a-b : eq.op === '*' ? a*b : a/b);
+      if ((last !== undefined || bag.has(c)) && satisfies(eq.op,a,b,c)) rows.push([a,b,c]);
+    }
+    return {cells:eq.cells,rows};
+  });
   const search = (): void => {
     if (count >= 2 || exhausted) return;
-    let best: {free:number[]; rows:number[][]} | null=null;
-    for (const eq of puzzle.equations) {
-      const free=eq.cells.filter(id => !known.has(id)), rows:number[][]=[];
-      const enumerate=(i:number, values:number[]):void => {
-        if (++visits > budget) { exhausted=true; return; }
-        if (i === free.length) { const triple=eq.cells.map(id => known.get(id) ?? values[free.indexOf(id)]!); if (satisfies(eq.op,triple[0]!,triple[1]!,triple[2]!)) rows.push(values); return; }
-        for (const [v,n] of bag) if (n > 0) { bag.set(v,n-1); enumerate(i+1,[...values,v]); bag.set(v,n); if (exhausted) return; }
-      };
-      enumerate(0,[]); if (!rows.length || exhausted) return;
-      if (free.length && (!best || rows.length < best.rows.length)) best={free,rows};
+    let best: {free:number[]; rows:number[][]} | undefined;
+    for (const table of tables) {
+      const free = table.cells.filter(id => !known.has(id));
+      const rows: number[][] = [];
+      for (const row of table.rows) {
+        if (++visits > budget) {exhausted = true;return;}
+        const needed: number[] = [];
+        const compatible = table.cells.every((id,i) => {
+          const value = row[i]!;
+          if (known.has(id)) return known.get(id) === value;
+          const copies = 1 + needed.filter(n => n === value).length;
+          needed.push(value);
+          return (bag.get(value) ?? 0) >= copies;
+        });
+        if (compatible) rows.push(needed);
+      }
+      if (!rows.length) return;
+      if (free.length && (!best || rows.length < best.rows.length)) best = {free,rows};
     }
-    if (!best) { if ([...bag.values()].every(n => n === 0)) count++; return; }
+    if (!best) {if ([...bag.values()].every(n => n === 0)) count++;return;}
     for (const row of best.rows) {
-      best.free.forEach((id,i) => { const v=row[i]!; known.set(id,v); bag.set(v,bag.get(v)!-1); });
+      best.free.forEach((id,i) => {const v=row[i]!;known.set(id,v);bag.set(v,bag.get(v)!-1);});
       search();
-      best.free.forEach((id,i) => { const v=row[i]!; known.delete(id); bag.set(v,bag.get(v)!+1); });
+      best.free.forEach((id,i) => {const v=row[i]!;known.delete(id);bag.set(v,bag.get(v)!+1);});
       if (count >= 2 || exhausted) return;
     }
   };

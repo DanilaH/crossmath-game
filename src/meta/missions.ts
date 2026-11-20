@@ -1,4 +1,5 @@
-import { config, getPuzzle, routes } from '../content/catalog';
+import { challengeUnlockWins, freeTracks } from '../content/rotation';
+import { campaignSequence, config, freeTrackPuzzle, getPuzzle, routes } from '../content/catalog';
 import { calendarPuzzle } from './calendar';
 import type { Save } from '../app/model';
 import type { Difficulty } from '../core/types';
@@ -8,12 +9,19 @@ export const mastered=(save:Save):Difficulty[]=>[...new Set(save.profile.solvedI
 export function nextEndlessStage(save:Save):number {const run=save.career.run,slot=save.meta.activeSlot==='endless'?save.attempt:save.meta.inactive.endless?.attempt;return run?.status==='active'?run.stage+Number(slot?.status==='won'):0;}
 export function availableOffers(save:Save):Offer[] {
   const {profile,meta}=save,offers:Offer[]=[];
+  const campaign = campaignSequence(save.contentVersion);
   // Three successive campaign entries have real prerequisites; replays are already reachable.
-  for(let i=0;i<Math.min(profile.campaignCursor+3,routes.campaignSequence.length);i++)offers.push({puzzleId:routes.campaignSequence[i]!,mode:'campaign',campaignPosition:i});
-  if(profile.solvedIds.length>=config.unlockProposal.freePlayAfterNewWins)for(const band of mastered(save)){
+  for(let i=0;i<Math.min(profile.campaignCursor+3,campaign.length);i++)offers.push({puzzleId:campaign[i]!,mode:'campaign',campaignPosition:i});
+  if(save.contentVersion==='content-v1'&&profile.solvedIds.length>=config.unlockProposal.freePlayAfterNewWins)for(const band of mastered(save)){
     const pool=routes.freePlayPools[band],remaining=pool.filter(id=>!profile.solvedIds.includes(id));
     for(const id of remaining.length?remaining:pool)offers.push({puzzleId:id,mode:'free'});
     if(remaining.length>0&&remaining.length<3)for(const id of pool.filter(id=>profile.solvedIds.includes(id)))offers.push({puzzleId:id,mode:'free',requiresSolved:remaining});
+  }
+  for (const track of freeTracks) {
+    const threshold = track === 'challenge' ? challengeUnlockWins : config.unlockProposal.freePlayAfterNewWins;
+    if (profile.solvedIds.length >= threshold) {
+      offers.push({puzzleId:freeTrackPuzzle(track, meta.freeProgress?.[track] ?? 0).puzzleId,mode:'free',freeTrack:track});
+    }
   }
   if(profile.solvedIds.length>=config.unlockProposal.dailyAfterNewWins&&!meta.completedDates.includes(meta.effectiveDay))offers.push({puzzleId:meta.assignments[meta.effectiveDay]?.puzzleId??calendarPuzzle(meta.effectiveDay),mode:'daily',dayKey:meta.effectiveDay});
   if(profile.solvedIds.length>=config.unlockProposal.endlessAfterNewWins){const start=nextEndlessStage(save);

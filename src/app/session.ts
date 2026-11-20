@@ -1,6 +1,8 @@
+import { challengeUnlockWins } from '../content/rotation';
+import type { FreeTrack } from '../content/rotation';
 import { activeSeconds, canRequestReward, createRewardRequest, settleReward } from '../platform/adState';
 import type { RewardEvent, RewardKind, RewardRequest } from '../platform/adState';
-import { campaignPuzzle, config, getPuzzle, routes } from '../content/catalog';
+import { campaignPuzzle, campaignSequence, config, dailyVersion, freeTrackPuzzle, getPuzzle, routes } from '../content/catalog';
 import { applyCommand, applyHelpLayout, createAttempt } from '../core/engine';
 import { explain, verifyExplanation } from '../help/logic';
 import { materializeHelp, reveal } from '../help/reveal';
@@ -19,6 +21,11 @@ import type { Difficulty } from '../core/types';
 import type { MetaScreen, Offer, SavedSlot } from '../meta/types';
 
 export function storedSlot(save:Save,key:string):SavedSlot|undefined{return save.meta.activeSlot===key?{attempt:save.attempt,result:save.result}:save.meta.inactive[key];}
+export function campaignContinuation(save: Save): string | undefined {
+  const saved = storedSlot(save, 'campaign');
+  return saved?.attempt.status === 'playing' ? saved.attempt.puzzleId
+    : campaignSequence(save.contentVersion)[save.profile.campaignCursor] ?? saved?.attempt.puzzleId;
+}
 export type OpenOutcome='opened'|'confirm_replace'|'unavailable';
 
 export class GameSession {
@@ -128,16 +135,19 @@ export class GameSession {
   async next(elapsed=0):Promise<boolean> {
     if(this.state.attempt.status!=='won')return false;
     if(this.state.attempt.mode==='daily'){await this.navigate('calendar',elapsed);return true;}
-    if(this.state.attempt.mode==='free')return await this.openFree(this.state.meta.freeDifficulty,true,elapsed)==='opened';
+    if(this.state.attempt.mode==='free') {
+      const track = this.state.attempt.freeTrack;
+      return (track ? await this.openFreeTrack(track, true, elapsed) : await this.openFree(this.state.meta.freeDifficulty,true,elapsed)) === 'opened';
+    }
     if(this.state.attempt.mode==='endless')return this.nextStage();
     if (this.busy || this.state.profile.campaignCursor>=routes.campaignSequence.length) return false;
     this.busy=true;
-    try { const next=structuredClone(this.state);next.attempt=createAttempt(campaignPuzzle(next.profile.campaignCursor),this.id());next.career.modes.campaign.starts++;next.result=null;await this.persist(next,elapsed);return true; } finally {this.finishWrite();}
+    try { const next=structuredClone(this.state);next.attempt=createAttempt(campaignPuzzle(next.profile.campaignCursor,next.contentVersion),this.id());next.career.modes.campaign.starts++;next.result=null;await this.persist(next,elapsed);return true; } finally {this.finishWrite();}
   }
   async restart():Promise<boolean> {
     if(this.state.attempt.mode==='endless')return await this.newRun(true)==='opened';
     if (this.busy) return false;this.busy=true;
-    try { const next=structuredClone(this.state);refreshDay(next,this.now());if(!this.canRestart(next))return false;const old=next.attempt;next.attempt=createAttempt(getPuzzle(old.puzzleId),this.id(),old.mode);next.career.modes[old.mode].starts++;next.career.modes[old.mode].restarts++;if(old.dayKey)next.attempt.dayKey=old.dayKey;next.result=null;await this.persist(next,0);return true; } finally {this.finishWrite();}
+    try { const next=structuredClone(this.state);refreshDay(next,this.now());if(!this.canRestart(next))return false;const old=next.attempt;next.attempt=createAttempt(getPuzzle(old.puzzleId),this.id(),old.mode);next.career.modes[old.mode].starts++;next.career.modes[old.mode].restarts++;if(old.dayKey)next.attempt.dayKey=old.dayKey;if(old.freeTrack){next.attempt.freeTrack=old.freeTrack;next.attempt.freeIndex=old.freeIndex!;}next.result=null;await this.persist(next,0);return true; } finally {this.finishWrite();}
   }
   async update(settings:Partial<Settings>, userPaused:boolean, elapsed=0):Promise<void> {
     if (this.busy) return;this.busy=true;
@@ -159,7 +169,7 @@ export class GameSession {
     try{const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;}finally{this.finishWrite();}
   }
   openCampaign(elapsed=0):Promise<OpenOutcome>{
-    const saved=storedSlot(this.state,'campaign');const id=saved?.attempt.status==='playing'?saved.attempt.puzzleId:routes.campaignSequence[this.state.profile.campaignCursor]??saved?.attempt.puzzleId;
+    const id = campaignContinuation(this.state);
     return id?this.openOffer({puzzleId:id,mode:'campaign'},false,elapsed):Promise.resolve('unavailable');
   }
   openFree(band:Difficulty,replace=false,elapsed=0):Promise<OpenOutcome>{
@@ -169,6 +179,12 @@ export class GameSession {
     const id=saved?.attempt.status==='playing'&&getPuzzle(saved.attempt.puzzleId).difficulty===band&&!replace?saved.attempt.puzzleId:unsolved[0]??pool[(index+1)%pool.length];
     return id?this.openOffer({puzzleId:id,mode:'free'},replace,elapsed):Promise.resolve('unavailable');
   }
+  openFreeTrack(track: FreeTrack, replace = false, elapsed = 0): Promise<OpenOutcome> {
+    const saved = storedSlot(this.state,'free')?.attempt;
+    const puzzleId = saved?.status === 'playing' && saved.freeTrack === track
+      ? saved.puzzleId : freeTrackPuzzle(track, this.state.meta.freeProgress?.[track] ?? 0).puzzleId;
+    return this.openOffer({puzzleId,mode:'free',freeTrack:track},replace,elapsed);
+  }
   openDaily(day:string,elapsed=0):Promise<OpenOutcome>{return this.openOffer({puzzleId:this.state.meta.assignments[day]?.puzzleId??calendarPuzzle(day),mode:'daily',dayKey:day},false,elapsed);}
   async openOffer(offer:Offer,replace=false,elapsed=0,repeatCompleted=false):Promise<OpenOutcome>{
     if(offer.mode==='endless')return this.openEndless(elapsed,repeatCompleted);
@@ -176,16 +192,26 @@ export class GameSession {
     try{
       const next=structuredClone(this.state);refreshDay(next,this.now());const puzzle=getPuzzle(offer.puzzleId),wins=next.profile.solvedIds.length;
       const key=offer.mode==='daily'?`daily:${offer.dayKey}`:offer.mode,saved=storedSlot(next,key);
-      if(offer.mode==='campaign'&&puzzle.campaignPosition-1>next.profile.campaignCursor)return 'unavailable';
-      if(offer.mode==='free'&&(wins<config.unlockProposal.freePlayAfterNewWins||!mastered(next).includes(puzzle.difficulty)||!routes.freePlayPools[puzzle.difficulty].includes(offer.puzzleId)))return 'unavailable';
+      if(offer.mode==='campaign'&&(puzzle.campaignPosition-1>next.profile.campaignCursor||campaignSequence(next.contentVersion)[puzzle.campaignPosition-1]!==puzzle.puzzleId))return 'unavailable';
+      const track = offer.freeTrack;
+      const sameBoard=saved?.attempt.puzzleId===offer.puzzleId&&saved.attempt.freeTrack===track;
+      if (track && offer.mode !== 'free') return 'unavailable';
+      if (offer.mode === 'free') {
+        const minimum = track === 'challenge' ? challengeUnlockWins : config.unlockProposal.freePlayAfterNewWins;
+        if (wins < minimum) return 'unavailable';
+        if (track) {
+          const expected = freeTrackPuzzle(track, next.meta.freeProgress?.[track] ?? 0);
+          if (expected.puzzleId !== puzzle.puzzleId && !sameBoard) return 'unavailable';
+        } else if (!mastered(next).includes(puzzle.difficulty) || !routes.freePlayPools[puzzle.difficulty].includes(puzzle.puzzleId)) return 'unavailable';
+      }
       if(offer.mode==='daily'&&(wins<config.unlockProposal.dailyAfterNewWins||!offer.dayKey||(!saved&&!dateAvailable(next.profile.createdAt,next.profile.timeZone,next.meta.effectiveDay,offer.dayKey))))return 'unavailable';
-      if(saved&&saved.attempt.puzzleId!==offer.puzzleId&&saved.attempt.status==='playing'&&!replace)return 'confirm_replace';
-      const continuing=saved?.attempt.puzzleId===offer.puzzleId&&!(repeatCompleted&&saved.attempt.status==='won');
-      if(offer.mode==='free'&&!continuing&&next.profile.solvedIds.includes(offer.puzzleId)&&routes.freePlayPools[puzzle.difficulty].some(id=>!next.profile.solvedIds.includes(id)))return 'unavailable';
+      if(saved&&!sameBoard&&saved.attempt.status==='playing'&&!replace)return 'confirm_replace';
+      const continuing=sameBoard&&!(repeatCompleted&&saved.attempt.status==='won');
+      if(offer.mode==='free'&&!track&&!continuing&&next.profile.solvedIds.includes(offer.puzzleId)&&routes.freePlayPools[puzzle.difficulty].some(id=>!next.profile.solvedIds.includes(id)))return 'unavailable';
       if(offer.mode==='daily'){
         const assignment=next.meta.assignments[offer.dayKey!];
         if(assignment&&assignment.puzzleId!==offer.puzzleId||!assignment&&calendarPuzzle(offer.dayKey!)!==offer.puzzleId)return 'unavailable';
-        next.meta.assignments[offer.dayKey!]={puzzleId:offer.puzzleId,calendarVersion:routes.version};
+        if (!assignment) next.meta.assignments[offer.dayKey!]={puzzleId:offer.puzzleId,calendarVersion:dailyVersion};
       }
       if(next.attempt.status==='playing'){next.attempt.elapsedPlaying+=Math.max(0,elapsed);recordTime(next,next.attempt.mode,elapsed);}
       if(next.meta.activeSlot!==key)next.meta.inactive[next.meta.activeSlot]={attempt:structuredClone(next.attempt),result:next.result};
@@ -193,6 +219,10 @@ export class GameSession {
       if(!continuing)next.career.modes[offer.mode].starts++;
       next.attempt=structuredClone(target.attempt);next.result=structuredClone(target.result);next.attempt.userPaused=false;
       if(offer.mode==='daily')next.attempt.dayKey=offer.dayKey!;
+      if (track && !continuing) {
+        next.attempt.freeTrack = track;
+        next.attempt.freeIndex = sameBoard ? saved.attempt.freeIndex! : next.meta.freeProgress?.[track] ?? 0;
+      }
       delete next.meta.inactive[key];next.meta.activeSlot=key;next.meta.screen='play';if(offer.mode==='free')next.meta.freeDifficulty=puzzle.difficulty;
       await this.persist(next,0);return 'opened';
     }finally{this.finishWrite();}
