@@ -3,6 +3,7 @@ import { boards, config, dailyBank, dailyVersion, freeTrackPuzzle, getPuzzle, ro
 import { createSave, decodeSave, settleCompletion } from '../src/app/model';
 import { GameSession, storedSlot } from '../src/app/session';
 import { SaveRepository, SAVE_KEY } from '../src/app/saveRepository';
+import { unlockAnnouncement } from '../src/ui/locale';
 import { createAttempt } from '../src/core/engine';
 import { calendarDayIndex, calendarPuzzle, dateAvailable, dayFromIndex, profileDay } from '../src/meta/calendar';
 import { availableOffers, contribution, findWitness, goals, resolveQuests } from '../src/meta/missions';
@@ -19,6 +20,29 @@ async function campaign(session:GameSession,count:number){for(let i=0;i<count;i+
 function set(ids:string[],progress=[0,0,0],paid=[false,false,false]):QuestSet{return{dayKey:'2026-11-18',issueIndex:0,configVersion:config.configVersion,slots:ids.map((id,i)=>({goalId:id,target:goals.get(id)!.goal,progress:progress[i]!,paid:paid[i]!})),replacements:[],witness:[]};}
 
 describe('D calendar and mode state',()=>{
+ it('announces each newly available mode once, including both choices on the fifteenth unique win', async () => {
+  const {session, repo} = await setup();
+  await campaign(session, 3);
+  expect(session.state.result?.unlockedModes).toEqual(['free']);
+  await campaign(session, 2);
+  expect(session.state.result?.unlockedModes).toEqual(['daily']);
+  await campaign(session, 9);
+  expect(session.state.result?.unlockedModes).toEqual([]);
+  await campaign(session, 1);
+  const modes = session.state.result!.unlockedModes;
+  expect(modes).toEqual(['challenge', 'endless']);
+  for (const language of ['ru', 'en'] as const) {
+    const text = language === 'ru' ? 'Новые режимы · Испытание и Endless' : 'New modes · Challenge and Endless';
+    expect(unlockAnnouncement(language, modes)).toBe(text);
+    expect(unlockAnnouncement(language, ['endless'])).toBe(text);
+  }
+  const before = await repo.load();
+  expect(settleCompletion(before)).toEqual(before);
+  await session.restart();
+  await win(session);
+  expect(session.state.result?.unlockedModes).toEqual([]);
+  expect(session.state.profile.coins).toBe(before.profile.coins);
+ });
  it('uses fixed IANA dates, leap days and mathematical modulo before the epoch',()=>{
   expect(profileDay('2026-11-18T20:30:00Z','Asia/Yekaterinburg')).toBe('2026-11-19');expect(profileDay('2026-11-18T20:30:00Z','America/New_York')).toBe('2026-11-18');
   expect(calendarDayIndex('2024-03-01')-calendarDayIndex('2024-02-28')).toBe(2);expect(calendarPuzzle('2025-12-31')).toBe(dailyBank.at(-1));expect(calendarPuzzle('2025-12-31',true)).toBe(routes.dailySequence.at(-1));

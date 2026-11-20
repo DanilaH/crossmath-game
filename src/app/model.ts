@@ -1,4 +1,4 @@
-import { isFreeTrack } from '../content/rotation';
+import { challengeUnlockWins, isFreeTrack } from '../content/rotation';
 import type { ContentVersion } from '../content/rotation';
 import { createAdState, validateAdState } from '../platform/adState';
 import type { AdState } from '../platform/adState';
@@ -39,6 +39,13 @@ export function createSave(id: string, now: string, timeZone: string, attemptId:
     attempt:createAttempt(campaignPuzzle(0, contentVersion),attemptId),result:null,helpReceipts:{}};
 }
 export const rankThreshold = (rank: number): number => Math.min(config.rank.baseXp+config.rank.stepXp*(rank-1),config.rank.maxXpPerRank);
+const modeUnlockThresholds: ReadonlyArray<readonly [string, number]> = [
+  ['free', config.unlockProposal.freePlayAfterNewWins],
+  ['daily', config.unlockProposal.dailyAfterNewWins],
+  ['challenge', challengeUnlockWins],
+  ['endless', config.unlockProposal.endlessAfterNewWins],
+];
+
 export function settleCompletion(save: Save, now=new Date().toISOString()): Save {
   if (save.attempt.status !== 'won' || save.result?.attemptId === save.attempt.id) return save;
   const next=structuredClone(save);refreshDay(next,now);const p=getPuzzle(next.attempt.puzzleId), profile=next.profile;
@@ -62,7 +69,9 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
     if (next.attempt.freeIndex === progress[track]) progress[track]++;
   }
   next.result={id:`win:${next.attempt.id}`,attemptId:next.attempt.id,puzzleId:p.puzzleId,first,coins,xp:reward.xp,rankUps,fragments:profile.fragments-previousFragments,cardCoins,elapsedPlaying:next.attempt.elapsedPlaying,baseCoins:reward.coins,rankCoins:rankUps*config.rank.rewardCoins,
-    collectionFragments:profile.fragments,rankLevel:profile.rank,unlockedModes:[['free',3],['daily',5],['endless',15]].filter(([,n])=>previousWins<Number(n)&&profile.solvedIds.length>=Number(n)).map(([mode])=>String(mode))};
+    collectionFragments:profile.fragments,rankLevel:profile.rank,unlockedModes:modeUnlockThresholds
+      .filter(([, threshold]) => previousWins < threshold && profile.solvedIds.length >= threshold)
+      .map(([mode]) => mode)};
   settleDailyAndQuests(next,next.result);
   next.career.modes[next.attempt.mode].completions++;
   if(next.attempt.mode==='endless'){next.result.stageScore=settleStage(next);next.result.runScore=next.career.run!.score;next.result.stageKey=`${next.attempt.runId}:${next.attempt.stageId}`;}

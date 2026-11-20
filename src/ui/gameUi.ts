@@ -1,6 +1,6 @@
 import { AdsController } from '../platform/ads';
 import type { AdsProvider } from '../platform/ads';
-import { localize, localizeDocument, quantity, trackName } from './locale';
+import { dailyName, localize, localizeDocument, quantity, trackName } from './locale';
 import type { Language } from './locale';
 import { config, getPuzzle, routes } from '../content/catalog';
 import { rankThreshold } from '../app/model';
@@ -353,7 +353,7 @@ export class GameUi {
       : p.difficulty === 'standard' ? this.t('Обычно', 'Normal')
       : p.difficulty === 'hard' ? this.t('Сложно', 'Hard') : this.t('Эксперт', 'Expert');
     const run = s.career.run;
-    $('level').textContent = a.mode === 'daily' ? this.t('Задача дня', 'Daily challenge')
+    $('level').textContent = a.mode === 'daily' ? dailyName(this.language)
       : a.mode === 'free' ? a.freeTrack ? trackName(this.language, a.freeTrack) : this.t('Свободная игра', 'Free Play')
       : a.mode === 'endless' ? this.t(`Этап ${(a.stageId ?? 0) + 1}`, `Stage ${(a.stageId ?? 0) + 1}`)
       : this.t(`Поле ${p.campaignPosition}`, `Board ${p.campaignPosition}`);

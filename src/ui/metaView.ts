@@ -1,6 +1,6 @@
 import { challengeUnlockWins, freeTracks } from '../content/rotation';
 import type { FreeTrack } from '../content/rotation';
-import { localize, operatorGlyph, trackName } from './locale';
+import { dailyName, localize, operatorGlyph, trackName, unlockAnnouncement } from './locale';
 import type { Language } from './locale';
 import { getTierProgress } from '@danilah/mini-games-kit/core';
 import { campaignSequence, config, getPuzzle } from '../content/catalog';
@@ -214,7 +214,7 @@ export class MetaView {
     const puzzle = getPuzzle(resume ? attempt.puzzleId : campaignId ?? attempt.puzzleId);
     const mode = resume ? attempt.mode : 'campaign';
     const contexts = {
-      daily: this.t('Задача дня', 'Daily challenge'),
+      daily: dailyName(this.language),
       free: this.t('Свободная игра', 'Free Play'),
       endless: 'Endless',
       campaign: this.t('Кампания', 'Campaign'),
@@ -668,7 +668,8 @@ export class MetaView {
     details.replaceChildren();
     if (!r) return;
     const award = instrumentAward(r);
-    let title = '';
+    const announcement = unlockAnnouncement(this.language, r.unlockedModes);
+    let title = announcement;
     if (award) {
       const { index, parts } = award;
       const complete = parts === partCount;
@@ -698,15 +699,22 @@ export class MetaView {
       this.reward.disabled = disabled;
     } else {
       this.hideInstrumentReward();
-      if (r.unlockedModes?.includes('endless')) title = this.t('Открыт Endless','Endless unlocked');
-      else if (r.unlockedModes?.includes('daily')) title = this.t('Открыты Daily и задания дня','Daily and daily goals unlocked');
-      else if (r.unlockedModes?.includes('free')) title = this.t('Открыта свободная игра','Free Play unlocked');
-      else if (r.rankUps) title = this.t(`Новый ранг: ${r.rankLevel ?? save.profile.rank}`, `New rank: ${r.rankLevel ?? save.profile.rank}`);
+    }
+    if (!award && !announcement) {
+      if (r.rankUps) title = this.t(`Новый ранг: ${r.rankLevel ?? save.profile.rank}`, `New rank: ${r.rankLevel ?? save.profile.rank}`);
       else if (r.setCoins) title = this.t('План дня выполнен','Daily goals complete');
     }
     document.getElementById('result-detail')!.textContent = title;
     const sources:[string,number][]=[[this.t("За поле", "Board"),r.baseCoins??(r.first?config.difficultyRewards[getPuzzle(r.puzzleId).difficulty].coins:0)],[this.t("За дату", "Daily date"),r.dailyCoins??0],[this.t("За цели", "Goals"),r.taskCoins??0],[this.t("За весь план", "Full goal set"),r.setCoins??0],[this.t("За ранг", "Rank"),r.rankCoins??r.rankUps*config.rank.rewardCoins],[this.t("За прибор", "Instrument"),r.cardCoins]];
-    for(const [name,coins] of sources)if(coins)details.append(el('p','',`${name}: +${coins}`));details.append(el('p','',this.t(`Опыт: +${r.xp}`, `XP: +${r.xp}`)));if(r.fragments)details.append(el('p','',this.t(`Новых деталей: ${r.fragments} · всего ${r.collectionFragments} / 48`, `New parts: ${r.fragments} · total ${r.collectionFragments} / 48`)));if(r.rankUps)details.append(el('p','',this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`)));for(const mode of r.unlockedModes??[])details.append(el('p','',mode==='endless'?this.t("Открыт Endless", "Endless unlocked"):mode==='free'?this.t("Открыта свободная игра", "Free Play unlocked"):this.t("Открыты Daily и задания дня", "Daily and daily goals unlocked")));if(r.stageScore!==undefined)details.append(el('p','',this.t(`За этап: +${r.stageScore} очков · В забеге: ${r.runScore}`, `Stage points: +${r.stageScore} · Run score: ${r.runScore}`)));for(const id of r.badges??[]){const badge=config.achievements.find(b=>b.id===id)!;details.append(el('p','',this.t(`Знак: ${badge.titleRU}`,`Badge: ${badge.titleEN}`)));}
+    for(const [name,coins] of sources)if(coins)details.append(el('p','',`${name}: +${coins}`));details.append(el('p','',this.t(`Опыт: +${r.xp}`, `XP: +${r.xp}`)));if(r.fragments)details.append(el('p','',this.t(`Новых деталей: ${r.fragments} · всего ${r.collectionFragments} / 48`, `New parts: ${r.fragments} · total ${r.collectionFragments} / 48`)));if(r.rankUps)details.append(el('p','',this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`)));
+    if (announcement) {
+      details.append(el('p', '', announcement));
+      const route = r.unlockedModes?.includes('daily')
+        ? this.t('Задача дня — на главной. Задания дня — в календаре.', 'Find the daily challenge on Home and daily goals in the calendar.')
+        : this.t('На главной нажмите «Все режимы».', 'On Home, choose All modes.');
+      details.append(el('p', '', route));
+    }
+    if(r.stageScore!==undefined)details.append(el('p','',this.t(`За этап: +${r.stageScore} очков · В забеге: ${r.runScore}`, `Stage points: +${r.stageScore} · Run score: ${r.runScore}`)));for(const id of r.badges??[]){const badge=config.achievements.find(b=>b.id===id)!;details.append(el('p','',this.t(`Знак: ${badge.titleRU}`,`Badge: ${badge.titleEN}`)));}
   }
 }
 function disabledOrLocked(disabled:boolean,locked:boolean):boolean{return disabled||locked;}

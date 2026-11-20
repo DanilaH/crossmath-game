@@ -43,6 +43,7 @@ try{
   if(win===3){
    const frame=page.locator('#instrument-reward');
    assert.equal(await frame.innerText(),'Рамка счётов · 1/4');
+   assert.equal(await page.locator('#result-detail').innerText(),'Новый режим · Спокойная игра');
    assert.equal(await frame.locator('[data-part="1"]:visible').count(),1);
    assert.equal(await page.locator('#next').isEnabled(),true);
    for (const [width,height] of [[320,568],[390,844]]) {
@@ -65,11 +66,12 @@ try{
    assert.equal(restored.profile.fragments,1);
    assert.equal(restored.profile.coins,s.profile.coins);
    await tap('#result-details summary');
-   assert.match(await page.locator('#reward-breakdown').innerText(),/Открыта свободная игра/);
+   assert.match(await page.locator('#reward-breakdown').innerText(),/Новый режим · Спокойная игра/);
    await tap('#result-details summary');
    checks.push('frame in tray, direct abacus inspection, same result on close and cold reload; no duplicate grant');
    await tap('#home');await openModes();assert.equal(await page.locator('#free-open').isEnabled(),true);await tap('#free-open');const free=await snapshot();assert.equal(free.attempt.mode,'free');assert.equal(free.meta.inactive.campaign.attempt.status,'won');await tap('#home');await page.reload();await ready();await tap('#continue-game');assert.equal((await snapshot()).attempt.id,free.attempt.id);await tap('#home');await openModes();await tap('#campaign-open');await tap('#campaign-continue');assert.equal((await snapshot()).attempt.mode,'campaign');await solve();win=4;assert.equal((await snapshot()).profile.fragments,2);}
  }
+ assert.equal(await page.locator('#result-detail').innerText(),'Новый режим · Задача дня');
  const fifth=await snapshot();assert.equal(fifth.meta.quests.slots.every(s=>s.progress===0&&!s.paid),true);checks.push('fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore');
  await tap('#home');
  assert.equal(await page.locator('.resume-card h1').innerText(),'Поле 6');
