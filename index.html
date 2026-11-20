@@ -94,13 +94,15 @@
   </section>
 </dialog>
 <dialog id="help-dialog" aria-labelledby="help-title">
-  <h2 id="help-title" data-en="Help">Помощь</h2>
-  <div class="help-choices">
-    <button id="explain" type="button" data-en="Explain a move">Объяснить ход</button>
-    <button id="reveal" type="button" data-en="Reveal a number">Показать число</button>
+  <div id="help-content">
+    <h2 id="help-title" data-en="Help">Помощь</h2>
+    <div class="help-choices">
+      <button id="explain" type="button" data-en="Explain a move">Объяснить ход</button>
+      <button id="reveal" type="button" data-en="Reveal a number">Показать число</button>
+    </div>
+    <p id="help-description" role="status" hidden></p>
+    <div class="help-payment"><p id="help-cost"></p><button class="hub-button" id="ad-hint" type="button" hidden>Кредит подсказки за видео</button></div>
   </div>
-  <p id="help-description" role="status" hidden></p>
-  <div class="help-payment"><p id="help-cost"></p><button class="hub-button" id="ad-hint" type="button" hidden>Кредит подсказки за видео</button></div>
   <div class="buttons"><button id="close-help" type="button" autofocus data-en="Back to board">К полю</button><button class="primary" id="apply-help" type="button" disabled data-en="Apply">Применить</button></div>
 </dialog>
 <div class="token ghost" id="ghost" aria-hidden="true" hidden></div>

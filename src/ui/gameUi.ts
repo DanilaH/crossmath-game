@@ -260,6 +260,7 @@ export class GameUi {
     this.updateHelpPrice();
     this.blocker('modal',true);
     $<HTMLDialogElement>('help-dialog').showModal();
+    $('help-content').scrollTop = 0;
   }
 
   private updateHelpPrice(): void {

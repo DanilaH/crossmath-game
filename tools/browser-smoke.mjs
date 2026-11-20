@@ -160,7 +160,14 @@ try{
  }),1);
  await page.touchscreen.tap(helpButton.x+helpButton.width/2,helpButton.y+helpButton.height/2);
  await page.locator('#help-dialog[open]').waitFor();
- await tap('#close-help');
+ await tap('#explain');
+ assert.equal(await page.locator('#help-content').evaluate(el=>el.scrollWidth<=el.clientWidth),true);
+ for(const selector of ['#close-help','#apply-help']){
+  const {x,y}=await center(selector);
+  assert.equal(await page.evaluate(({selector,x,y})=>document.querySelector(selector).contains(document.elementFromPoint(x,y)),{selector,x,y}),true,selector+' must be tappable without scrolling Help');
+ }
+ const closeHelp=await center('#close-help');
+ await page.touchscreen.tap(closeHelp.x,closeHelp.y);
  await idle();
  checks.push('bottom tools stay reachable at 320×568 at 200% while a dense board scrolls independently');
  const tutorialContext=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});const tutorialPage=await tutorialContext.newPage();
