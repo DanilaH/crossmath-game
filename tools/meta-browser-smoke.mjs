@@ -120,10 +120,9 @@ try{
   await page.setViewportSize({width,height});const data=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,minTarget:Math.min(...[...document.querySelectorAll('#hub button')].map(e=>e.getBoundingClientRect().height))}));assert.equal(data.overflow,false);assert.ok(data.minTarget>=48);geometry.push({screen:'album',viewport:[width,height],...data});await page.screenshot({path:out+`/album-${width}.png`,fullPage:true});
  }
  await tap('#album-back');await tap('#profile-open');await tap('#profile-rank');await page.locator('#card-dialog[open]').waitFor();assert.match(await page.locator('#card-body').innerText(),/XP/);await tap('#close-card');await tap('#profile-back');
- // At 200%, use touch input at viewport coordinates after a swipe from the workshop return.
+ // At 200%, the workshop return and mode picker fit without a swipe.
  await page.setViewportSize({width:320,height:568});
  await page.addStyleTag({content:'html{font-size:200%!important}'});
- const cdp = await context.newCDPSession(page);
  const expectWidth = () => page.evaluate(() => ({
   layout:document.documentElement.scrollWidth, visual:Math.round(visualViewport.width), scale:visualViewport.scale,
  }));
@@ -138,23 +137,22 @@ try{
   await page.touchscreen.tap(point.x,point.y);
   await page.locator('#home:enabled').waitFor();
  };
- await tap('#album-open');
+ await visibleTap('#album-open');
  assert.deepEqual(await expectWidth(),{layout:320,visual:320,scale:1});
- await tap('#album-back');
+ await visibleTap('#album-back');
  await page.locator('#hub[data-screen=home]').waitFor();
- await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:238,y:490}]});
- for (const y of [435,375,309,240,165])
-  await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:238,y}]});
- await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
- await page.waitForFunction(() => scrollY > 0);
  assert.deepEqual(await expectWidth(),{layout:320,visual:320,scale:1});
+ assert.equal(await page.evaluate(() => scrollY),0);
+ const modesBox = await page.locator('#modes-open').boundingBox();
+ assert.ok(modesBox && modesBox.y + modesBox.height <= 568 && modesBox.height >= 48);
  await visibleTap('#modes-open');
- await page.locator('#mode-dialog[open]').waitFor();
+ const modeDialog = page.locator('#mode-dialog[open]');
+ await modeDialog.waitFor();
+ assert.equal(await modeDialog.evaluate(dialog => dialog.scrollHeight <= dialog.clientHeight + 1),true);
  assert.equal(await page.locator('#mode-choices details, #mode-choices #calendar-open, #mode-choices #last-result').count(),0);
  await visibleTap('#free-open');
  await page.waitForFunction(() => document.querySelector('#hub').hidden);
  assert.equal((await snapshot()).attempt.freeTrack,'relax');
- await cdp.detach();
  await tap('#home');
  await page.reload(); await ready(); // Drop the temporary 200% rule for the remaining fixtures.
  await page.setViewportSize({width:390,height:844});
@@ -165,7 +163,7 @@ try{
  await tap('#mode-back');
  assert.equal(await page.locator('#mode-title').innerText(),'Режимы');
  await tap('#close-modes');
- checks.push('320×568 at 200% root font: workshop return, touch swipe and coordinate taps reach Relax; campaign owns its history and receipt');
+ checks.push('320×568 at 200% root font: workshop return and coordinate taps reach Relax without a swipe; campaign owns its history and receipt');
 
  const durationFixture = await snapshot();
  for (const [seconds, expected] of [[0,'0 с'],[5.64890000000596,'5 с'],[59.99,'59 с'],[60.01,'1 мин 0 с'],[3600,'60 мин 0 с']]) {

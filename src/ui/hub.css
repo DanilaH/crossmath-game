@@ -14,6 +14,10 @@
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
+body.in-hub, #mode-dialog, #replace-dialog {
+  --hub-font-size: 1em;
+}
+
 body.in-hub {
   color-scheme: dark;
   --paper: var(--play-bg);
@@ -51,7 +55,7 @@ body.in-hub {
 #hub-wallet {
   grid-area: 1 / 2;
   color: var(--play-muted);
-  font: 500 .78rem/1.2 Rubik, system-ui, sans-serif;
+  font: 500 calc(.78 * var(--hub-font-size))/1.2 Rubik, system-ui, sans-serif;
   overflow-wrap: anywhere;
 }
 
@@ -85,6 +89,7 @@ body.in-hub {
 .in-hub .storage-note:empty { display: none; }
 .in-hub .primary { color: var(--play-blue-ink); }
 .in-hub .hub-heading { overflow-wrap: anywhere; }
+#hub, #mode-dialog, #replace-dialog { font-size: var(--hub-font-size); }
 
 #hub[data-screen="home"], #hub[data-screen="profile"], #mode-dialog, #replace-dialog {
   font-family: Rubik, system-ui, sans-serif;
@@ -107,7 +112,7 @@ body.in-hub {
 
 .resume-card h1 {
   margin: 0;
-  font-size: 1.85rem;
+  font-size: 1.85em;
   line-height: 1.08;
   letter-spacing: -.03em;
 }
@@ -115,7 +120,7 @@ body.in-hub {
 .resume-context {
   margin: 0;
   color: var(--play-board-good);
-  font-size: .84rem;
+  font-size: .84em;
   font-weight: 650;
 }
 
@@ -242,7 +247,7 @@ body.in-hub {
 .instrument-felt .instrument { width: 100%; }
 .quick-copy { display: grid; gap: 3px; min-width: 0; }
 .quick-copy strong { font-weight: 700; line-height: 1.16; }
-.quick-status { color: var(--play-muted); font-size: .82rem; }
+.quick-status { color: var(--play-muted); font-size: .82em; }
 .nav-arrow { color: var(--play-blue); font: 700 22px/1 Rubik, system-ui, sans-serif; }
 .resume-card .nav-arrow { color: inherit; }
 
@@ -251,7 +256,7 @@ body.in-hub {
   padding: 5px 8px;
   border-bottom: 0;
   color: var(--play-muted);
-  font-size: .82rem;
+  font-size: .82em;
   text-align: right;
   text-decoration: underline;
   text-underline-offset: .15em;
@@ -310,7 +315,7 @@ body.in-hub {
 }
 
 #mode-title, #replace-dialog h2 {
-  font: 740 1.45rem/1.12 Rubik, system-ui, sans-serif;
+  font: 740 1.45em/1.12 Rubik, system-ui, sans-serif;
 }
 
 #mode-choices { display: grid; gap: 10px; }
@@ -324,7 +329,7 @@ body.in-hub {
 }
 
 #replace-dialog .buttons { gap: 8px; }
-#replace-dialog :is(p, .control) { font-size: .92rem; }
+#replace-dialog :is(p, .control) { font-size: .92em; }
 #replace-error { color: var(--bad); }
 #replace-reload { margin-top: 8px; }
 .campaign-history { padding: 2px 0 8px; border-block: 1px solid var(--play-line); }
@@ -333,15 +338,34 @@ body.in-hub {
 .calendar-subtitle {
   margin: 3px 0 1px;
   color: var(--play-muted);
-  font-size: .83rem;
+  font-size: .83em;
   font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  body.in-hub, #mode-dialog, #replace-dialog {
+    /* The narrow navigation grows from 16px to 24px when the root goes from 100% to 200%. */
+    --hub-font-size: calc(8px + .5rem);
+  }
+
+  #hub .hub-heading h1 { font-size: min(1.85em, 40px); }
+  .resume-card h1 { font-size: min(1.85em, 38px); }
+  .mode-group .mode-option { padding-block: 7px; }
+  #hub :is(.muted, .date-card span, .profile-overview dt, .profile-record, .stat-rows) {
+    font-size: .85em;
+  }
+  #hub .collection-card strong, #hub .workbench-copy > strong { font-size: 1.14em; }
 }
 
 @media (max-width: 360px) {
   .in-hub .word { font-size: 18px; gap: 5px; }
-  #hub-wallet { max-width: 22vw; font-size: .72rem; }
-  .resume-card { gap: 7px; padding-block: 12px; }
-  .resume-preview { margin-block: 4px 6px; }
+  #hub-wallet { max-width: 22vw; font-size: calc(.72 * var(--hub-font-size)); }
+  .resume-card { gap: 5px; margin-top: 0; padding-block: 12px; }
+  .resume-card h1 { font-size: min(1.85em, 32px); }
+  #hub[data-screen="home"] { gap: 10px; }
+  .resume-card .primary { min-height: 48px; }
+  .quick-workshop .quick-status { font-size: .75em; }
+  .resume-preview { width: min(100%, 220px); margin-block: 4px 6px; }
   .home-quick :is(.quick-daily, .quick-workshop), #modes-open { padding-block: 7px; }
   #mode-dialog { padding-inline: 12px; }
   .mode-option { column-gap: 8px; padding-inline: 3px; }
@@ -360,13 +384,13 @@ body.in-hub {
 
 .date-card.today .home-date {
   width: auto;
-  min-width: 3rem;
+  min-width: 3em;
   padding-inline: 3px;
   margin: 0;
 }
 
 .today-copy { display: grid; gap: 2px; }
-.today-copy > strong { font-size: 1rem; }
+.today-copy > strong { font-size: 1em; }
 .today-copy > span { color: var(--play-muted); }
 .today-arrow { margin-inline-start: auto; color: var(--play-blue); }
 #daily-upcoming { padding-block: 2px; }
@@ -387,7 +411,7 @@ body.in-hub {
   gap: 4px;
   min-width: 0;
   color: var(--play-muted);
-  font-size: .82rem;
+  font-size: .82em;
   overflow-wrap: anywhere;
 }
 
@@ -462,12 +486,12 @@ body.in-hub {
 
 #hub[data-screen="profile"] h1 {
   margin: 4px 0;
-  font: 750 1.85rem/1.1 Rubik, system-ui, sans-serif;
+  font: 750 1.85em/1.1 Rubik, system-ui, sans-serif;
 }
 
 #profile-rank { grid-template-columns: minmax(0, 1fr) auto; }
 .profile-achievement { padding: 0 6px 10px; border-bottom: 1px solid var(--play-line); }
-.profile-achievement h2 { margin: 0 0 4px; color: var(--play-muted); font-size: .81rem; font-weight: 500; }
+.profile-achievement h2 { margin: 0 0 4px; color: var(--play-muted); font-size: .81em; font-weight: 500; }
 .profile-achievement p { margin: 0; font-weight: 700; }
 .stat-rows { display: grid; margin: 0; font-size: .86rem; }
 .stat-rows > div {

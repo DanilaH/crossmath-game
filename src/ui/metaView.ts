@@ -268,7 +268,7 @@ export class MetaView {
     art.setAttribute('aria-hidden', 'true');
     const albumStatus = wins < albumWins ? this.unlockText(albumWins)
       : profile.fragments === config.cards.length * partCount ? this.t('Все приборы собраны', 'All instruments collected')
-        : this.t(`${this.toolTitle(index)} · ${parts} из ${partCount} частей`, `${this.toolTitle(index)} · ${parts} of ${partCount} parts`);
+        : `${this.toolTitle(index)} · ${parts}/${partCount}`;
     const albumCopy = el('span', 'quick-copy');
     albumCopy.append(el('strong', '', this.t('Мастерская', 'Workshop')), el('span', 'quick-status', albumStatus));
     const felt = el('span', 'instrument-felt');
@@ -357,15 +357,15 @@ export class MetaView {
     const savedFree = storedSlot(save, 'free')?.attempt;
     if (savedFree?.status === 'playing' && !savedFree.freeTrack) {
       games.append(this.modeButton('relax', 'free-resume', this.t('Свободная игра', 'Free Play'),
-        this.t('Продолжить сохранённое поле', 'Resume saved board'),
+        this.t('Есть сохранение', 'Saved board'),
         () => this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId})));
     }
     for (const track of freeTracks) {
       const threshold = track === 'challenge' ? challengeUnlockWins : freePlayAfterNewWins;
       const isSaved = savedFree?.freeTrack === track && savedFree.status === 'playing';
       const subtitle = wins < threshold ? this.unlockText(threshold) : isSaved
-        ? this.t('Продолжить сохранённое поле', 'Resume saved board') : track === 'relax'
-        ? this.t('Без потери жизней', 'No lives lost') : this.t('Поля повышенной сложности', 'Harder boards');
+        ? this.t('Есть сохранение', 'Saved board') : track === 'relax'
+        ? this.t('Без потери жизней', 'No lives lost') : this.t('Сложные поля', 'Harder boards');
       const open = this.modeButton(track, track === 'relax' ? 'free-open' : 'challenge-open',
         trackName(this.language, track), subtitle, () => this.actions.free(track));
       open.disabled = disabledOrLocked(this.disabled, wins < threshold);
@@ -375,7 +375,7 @@ export class MetaView {
     const endless = this.modeButton('endless', 'endless-open', 'Endless',
       wins < endlessAfterNewWins ? this.unlockText(endlessAfterNewWins)
         : save.career.run && save.career.run.status !== 'ended' ? this.t('Продолжить забег', 'Resume run')
-        : this.t('Проверка после заполнения', 'Check when the board is full'), this.actions.endless);
+        : this.t('Проверка всей доски', 'Check the full board'), this.actions.endless);
     endless.disabled = disabledOrLocked(this.disabled, wins < endlessAfterNewWins);
     games.append(endless);
     this.modeChoices.append(games);
