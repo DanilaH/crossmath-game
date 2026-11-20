@@ -584,9 +584,17 @@
       "codePath": "src/ui/metaView.ts",
       "stage": "P1",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Проверить точный экран входа на двух соседних победах",
+      "nextAction": "Снять переход 4→5 в EasyFun 1.1.9 и уточнить смысл DailyShowLevel=5. На телефоне проверить, различают ли новички задачу дня и задания дня.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L493",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/metaView.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/metaView.ts",
+      "consumerCheck0510": {
+        "version": "0.5.10",
+        "versionCode": 15,
+        "source": "4e90a1691ed74c099c4dedbd932bfef1f8263bb8",
+        "evidence": "https://github.com/DanilaH/crossmath-game/blob/64c4ada23f8a5f03bf5f0699d5c629c88ffdddf4/docs/acceptance/mode-unlocks-0510/README.md",
+        "comparison": "PARTIAL",
+        "observed": "Веб-код подписанного APK. После четырёх разных побед карточка «Задача дня» закрыта, после пяти результат и карточка дают одинаковое название. Касание открывает сегодняшний пазл. Отдельный вход через «Календарь задач» ведёт к целям."
+      }
     },
     {
       "id": "easy-daily-life",
@@ -794,7 +802,15 @@
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
       "nextAction": "Записать один одинаковый по сложности этап и условия финиша в обоих приложениях",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L669",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "consumerCheck0510": {
+        "version": "0.5.10",
+        "versionCode": 15,
+        "source": "4e90a1691ed74c099c4dedbd932bfef1f8263bb8",
+        "evidence": "https://github.com/DanilaH/crossmath-game/blob/64c4ada23f8a5f03bf5f0699d5c629c88ffdddf4/docs/acceptance/mode-unlocks-0510/README.md",
+        "comparison": "PARTIAL",
+        "observed": "Веб-код подписанного APK. После 14 разных полей входы в «Испытание» и Endless закрыты. После 15 результат называет оба и каждое нажатие открывает соответствующий режим. Порог 15 и совместное объявление — решения нашей игры."
+      }
     },
     {
       "id": "guru-achievements",
