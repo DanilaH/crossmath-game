@@ -1,0 +1,82 @@
+{
+  "A_B_C": {
+    "campaignAfterFree": "cm-own-02-001",
+    "freeSequence": [
+      {
+        "puzzle": "cm-own-02-040",
+        "baseCoins": 10,
+        "progress": 1,
+        "resultText": "Лёгкие поля · 1/3"
+      },
+      {
+        "puzzle": "cm-own-02-080",
+        "baseCoins": 10,
+        "progress": 2,
+        "resultText": "Лёгкие поля · 2/3"
+      },
+      {
+        "puzzle": "cm-own-02-100",
+        "baseCoins": 15,
+        "progress": 2,
+        "resultText": "Лёгкие поля · 2/3"
+      },
+      {
+        "puzzle": "cm-own-02-039",
+        "baseCoins": 10,
+        "progress": 3,
+        "resultText": "Цель выполнена · 3/3"
+      },
+      {
+        "puzzle": "cm-own-02-079",
+        "baseCoins": 10,
+        "progress": 3,
+        "resultText": null
+      }
+    ],
+    "menuAfterCompletion": "Спокойная игра\nРешите 3 лёгких поля · 3/3 ✓\n›"
+  },
+  "poorWallet": {
+    "coins": 10,
+    "notice": "Не хватает 50 монет"
+  },
+  "endlessHelp": "Этот забег попадёт в рекорды с помощью",
+  "challengeFirst": "cm-own-02-190",
+  "lateDaily": {
+    "playedOn": "2026-12-22",
+    "creditedDates": [
+      "2026-11-21"
+    ],
+    "dateReward": 30
+  },
+  "lateCalendar": {
+    "dayListed": 0,
+    "archivedSection": 0
+  },
+  "daily50": {
+    "samePuzzle": "cm-own-02-250",
+    "dates": [
+      "2026-11-21",
+      "2027-01-10"
+    ],
+    "baseOnRepeat": 0,
+    "dailyBonusOnRepeat": 30
+  },
+  "endlessQuestAfterLoss": {
+    "label": "Решите одно поле в забеге\n0 / 1",
+    "status": "out-of-lives",
+    "lives": 0,
+    "sameRun": true,
+    "defeatVisible": true,
+    "retryAvailable": true
+  },
+  "replayAfterFinal": {
+    "actualFinal": "Маршрут пройден",
+    "menuPrimary": "Продолжить · Поле 240",
+    "puzzle": "cm-own-01-001",
+    "first": false,
+    "title": "Маршрут пройден",
+    "walletDelta": 0,
+    "nextVisible": false,
+    "menuAfterReplay": "Продолжить · Поле 1"
+  }
+}
