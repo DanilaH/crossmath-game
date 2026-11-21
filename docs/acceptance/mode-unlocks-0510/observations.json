@@ -1,0 +1,545 @@
+{
+  "apk": "303d2c42107d50e58db48b3817f2f6b0c2da031aa09587e80e2eebc926195a5a",
+  "referenceApk": "e7ab6a90ea9240d5cfb94a002c75939039f159fad36c5c31326dde763a34f10c",
+  "viewportsCSS": [
+    [
+      320,
+      568
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "method": "Chromium touch; save snapshots from ordinary campaign play; CSS root font scaling",
+  "wins": {
+    "3": {
+      "caption": "Новый режим · Спокойная игра",
+      "unlockedModes": [
+        "free"
+      ],
+      "awarded": 10,
+      "balance": 150,
+      "routes": {
+        "free-open": {
+          "mode": "free",
+          "track": "relax"
+        }
+      },
+      "details": "За поле: +10\n\nОпыт: +10\n\nНовых деталей: 1 · всего 1 / 48\n\nНовый режим · Спокойная игра\n\nНа главной нажмите «Все режимы»."
+    },
+    "5": {
+      "caption": "Новый режим · Задача дня",
+      "unlockedModes": [
+        "daily"
+      ],
+      "awarded": 10,
+      "balance": 170,
+      "routes": {
+        "daily-primary": {
+          "mode": "daily",
+          "track": null
+        },
+        "daily-goals": "Задания дня · 0/3"
+      },
+      "details": "За поле: +10\n\nОпыт: +10\n\nНовый режим · Задача дня\n\nЗадача дня — на главной. Задания дня — в календаре."
+    },
+    "15": {
+      "caption": "Новые режимы · Испытание и Endless",
+      "unlockedModes": [
+        "challenge",
+        "endless"
+      ],
+      "awarded": 15,
+      "balance": 395,
+      "routes": {
+        "challenge-open": {
+          "mode": "free",
+          "track": "challenge"
+        },
+        "endless-open": {
+          "mode": "endless",
+          "track": null
+        }
+      },
+      "details": "За поле: +15\n\nОпыт: +15\n\nНовые режимы · Испытание и Endless\n\nНа главной нажмите «Все режимы».\n\nЗнак: За работу",
+      "replay": {
+        "coins": 0,
+        "unlockedModes": []
+      }
+    }
+  },
+  "geometry": [
+    {
+      "win": 3,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 100,
+      "labelLineCount": 1,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        505,
+        225,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 3,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 120,
+      "labelLineCount": 1,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        505,
+        225,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 3,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 150,
+      "labelLineCount": 2,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        505,
+        225,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 3,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 200,
+      "labelLineCount": 2,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        470.8,
+        225,
+        82.2
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 3,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 100,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        781,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 3,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 120,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        781,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 3,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 150,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        781,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 3,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 200,
+      "labelLineCount": 2,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        776.9,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 5,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 100,
+      "labelLineCount": 1,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        505,
+        225,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 5,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 120,
+      "labelLineCount": 1,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        505,
+        225,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 5,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 150,
+      "labelLineCount": 1,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        505,
+        225,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 5,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 200,
+      "labelLineCount": 2,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        470.8,
+        225,
+        82.2
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 5,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 100,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        781,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 5,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 120,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        781,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 5,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 150,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        781,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 5,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 200,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        776.9,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 15,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 100,
+      "labelLineCount": 1,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        505,
+        225,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 15,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 120,
+      "labelLineCount": 1,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        505,
+        225,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 15,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 150,
+      "labelLineCount": 2,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        505,
+        225,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 15,
+      "viewport": [
+        320,
+        568
+      ],
+      "rootFontPercent": 200,
+      "labelLineCount": 2,
+      "labelWidth": 279,
+      "nextButton": [
+        23,
+        470.8,
+        225,
+        82.2
+      ],
+      "nextHit": true,
+      "pageHeight": 568
+    },
+    {
+      "win": 15,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 100,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        781,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 15,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 120,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        781,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 15,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 150,
+      "labelLineCount": 1,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        781,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    },
+    {
+      "win": 15,
+      "viewport": [
+        390,
+        844
+      ],
+      "rootFontPercent": 200,
+      "labelLineCount": 2,
+      "labelWidth": 349,
+      "nextButton": [
+        23,
+        776.9,
+        295,
+        48
+      ],
+      "nextHit": true,
+      "pageHeight": 844
+    }
+  ],
+  "regression": [
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "step": "board",
+      "differentPixelBounds": null
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "step": "settled +10",
+      "differentPixelBounds": null
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "step": "board",
+      "differentPixelBounds": null
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "step": "settled +10",
+      "differentPixelBounds": null
+    }
+  ],
+  "lockedBefore": {
+    "2": true,
+    "4": true,
+    "14": true
+  }
+}

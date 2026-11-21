@@ -1,0 +1,128 @@
+/* Game palette. The Workshop uses the 0.5.12 blue desk, ivory board and amber pieces. */
+:root {
+  color-scheme: light;
+  --desk: #fff;
+  --play-panel: #f8faf8;
+  --play-ink: #182c27;
+  --play-muted: #495e57;
+  --play-line: #c8d6cf;
+  --action-ink: #21654f;
+  --action-fill: #21654f;
+  --action-label: #fff;
+  --action-wash: #e1f2e9;
+  --play-good: #22624a;
+  --play-bad: #a0362e;
+  --play-bad-wash: #fce6e1;
+  --reward-ink: #81520c;
+  --reward-edge: #b38a46;
+  --reward-wash: #fff3d9;
+
+  --play-board: #f9f0dc;
+  --play-board-ink: #232f2b;
+  --play-board-muted: #49574c;
+  --play-grid: #b5ab90;
+  --play-board-edge: #a59b81;
+  --play-socket: #fdfefa;
+  --play-socket-line: #7a8c82;
+  --play-target: #e2f3e9;
+  --play-outline: #21654f;
+  --play-board-good: #245646;
+  --play-good-wash: #d7ebdc;
+  --play-board-bad: #a0362e;
+  --paper-fiber: transparent;
+
+  --play-chip: #b9e6cc;
+  --play-chip-top: #d2f0de;
+  --chip-glint: #e4faed;
+  --chip-ledge: #e4faed;
+  --chip-end: #a8dbc0;
+  --play-chip-ink: #1c4736;
+  --play-chip-edge: #5a9279;
+  --play-chip-rim: #437a62;
+  --chip-inset: #3c896328;
+
+  --desk-glow: transparent;
+  --panel-rim: #304d4022;
+  --panel-shadow: #24443529;
+  --dialog-shadow: #16382c28;
+  --dialog-dim: #2338306b;
+  --modes-dim: #23383081;
+  --tray-slot: #edf2ee;
+  --workbench-wash: #edf6ef;
+  --mode-tile: #eaf2ed;
+  --relax-mark: #327a60;
+  --challenge-mark: #984639;
+  --instrument-outline: #60796b;
+  --instrument-felt: #eaf3ec;
+}
+
+body.dark {
+  color-scheme: dark;
+  --desk: #263143;
+  --play-panel: #2e4059;
+  --play-ink: #fff3dd;
+  --play-muted: #c4cfdf;
+  --play-line: #61728a;
+  --action-ink: #ffd28d;
+  --action-fill: #ffd28d;
+  --action-label: #352717;
+  --action-wash: #3d526e;
+  --play-good: #c5e4b9;
+  --play-bad: #ffc2b3;
+  --play-bad-wash: #643b38;
+  --reward-ink: #efc287;
+  --reward-edge: #ba8b54;
+  --reward-wash: #82512254;
+
+  --play-board: #f8efdf;
+  --play-board-ink: #253145;
+  --play-board-muted: #506075;
+  --play-grid: #c8baa5;
+  --play-board-edge: #d8c7a9;
+  --play-socket: #dce3e9;
+  --play-socket-line: #a0adba;
+  --play-target: #eef8ff;
+  --play-outline: #285585;
+  --play-board-good: #245646;
+  --play-good-wash: #d5e7cb;
+  --play-board-bad: #a33325;
+  --paper-fiber: #77513717;
+
+  --play-chip: #ffd184;
+  --play-chip-top: #ffdf9b;
+  --chip-glint: #ffe4aa;
+  --chip-ledge: #fff2cc;
+  --chip-end: #eeb76f;
+  --play-chip-ink: #432b18;
+  --play-chip-edge: #a96331;
+  --play-chip-rim: #87451d;
+  --chip-inset: #c5794654;
+
+  --desk-glow: #b9955e25;
+  --panel-rim: #142133;
+  --panel-shadow: #10192454;
+  --dialog-shadow: #10192470;
+  --dialog-dim: #10192866;
+  --modes-dim: #111b2bbd;
+  --tray-slot: #0c19283b;
+  --workbench-wash: #88664c43;
+  --mode-tile: #192631;
+  --relax-mark: #b7dec7;
+  --challenge-mark: #f6ad96;
+  --instrument-outline: #d2dfd7;
+  --instrument-felt: #17352d;
+}
+
+body {
+  --paper: var(--desk);
+  --card: var(--play-panel);
+  --ink: var(--play-ink);
+  --soft: var(--play-muted);
+  --edge: var(--play-line);
+  --teal: var(--action-ink);
+  --mint: var(--action-wash);
+  --bad: var(--play-bad);
+  --bad-bg: var(--play-bad-wash);
+  --shadow: var(--dialog-shadow);
+  background: radial-gradient(ellipse 75% 72% at 50% 27%, var(--desk-glow), transparent 90%), var(--desk);
+}

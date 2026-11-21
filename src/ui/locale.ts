@@ -1,3 +1,5 @@
+import { challengeUnlockWins } from '../content/rotation';
+import { config } from '../content/catalog';
 import type { FreeTrack } from '../content/rotation';
 import type { Operator } from '../core/types';
 
@@ -11,6 +13,25 @@ export function localize(language: Language, russian: string, english: string): 
 
 export function trackName(language: Language, track: FreeTrack): string {
   return track === 'relax' ? localize(language, 'Спокойная игра', 'Relax') : localize(language, 'Испытание', 'Challenge');
+}
+
+export function dailyName(language: Language): string {
+  return localize(language, 'Задача дня', 'Daily challenge');
+}
+
+// Historical completions stored only "endless" at the shared Challenge/Endless milestone.
+export function unlockAnnouncement(language: Language, modes: readonly string[] = []): string {
+  const names: string[] = [];
+  if (modes.includes('free')) names.push(trackName(language, 'relax'));
+  if (modes.includes('daily')) names.push(dailyName(language));
+  const sharedLegacyUnlock = modes.includes('endless') && challengeUnlockWins === config.unlockProposal.endlessAfterNewWins;
+  if (modes.includes('challenge') || sharedLegacyUnlock) names.push(trackName(language, 'challenge'));
+  if (modes.includes('endless')) names.push('Endless');
+  if (!names.length) return '';
+  const joined = names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + localize(language, ' и ', ' and ') + names.at(-1);
+  const label = names.length === 1 ? localize(language, 'Новый режим', 'New mode')
+    : localize(language, 'Новые режимы', 'New modes');
+  return `${label} · ${joined}`;
 }
 
 export function conflictText(language: Language, horizontal: boolean, equation: string): string {

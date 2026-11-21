@@ -43,6 +43,7 @@ try{
   if(win===3){
    const frame=page.locator('#instrument-reward');
    assert.equal(await frame.innerText(),'Рамка счётов · 1/4');
+   assert.equal(await page.locator('#result-detail').innerText(),'Новый режим · Спокойная игра');
    assert.equal(await frame.locator('[data-part="1"]:visible').count(),1);
    assert.equal(await page.locator('#next').isEnabled(),true);
    for (const [width,height] of [[320,568],[390,844]]) {
@@ -50,6 +51,19 @@ try{
     const box=await frame.boundingBox();
     assert.ok(box && box.height>=48 && box.y>=0 && box.y+box.height<=height);
    }
+   await page.setViewportSize({width:320,height:568});
+   await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+   const milestone = await page.evaluate(() => {
+    const bounds = id => document.getElementById(id).getBoundingClientRect();
+    const next = document.getElementById('next'), button = next.getBoundingClientRect();
+    return {partBottom:bounds('instrument-reward').bottom, dockTop:bounds('result').top,
+     labelWidth:bounds('result-detail').width, buttonBottom:button.bottom,
+     hit:next.contains(document.elementFromPoint(button.x + button.width / 2, button.y + button.height / 2))};
+   });
+   assert.ok(milestone.hit && milestone.buttonBottom <= 568 && milestone.labelWidth > 200
+    && milestone.partBottom <= milestone.dockTop, JSON.stringify(milestone));
+   await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
+   await page.setViewportSize({width:390,height:844});
    await frame.tap();
    await page.locator('#card-dialog[open]').waitFor();
    assert.equal(await page.locator('#card-title').innerText(),'Счёты');
@@ -65,11 +79,12 @@ try{
    assert.equal(restored.profile.fragments,1);
    assert.equal(restored.profile.coins,s.profile.coins);
    await tap('#result-details summary');
-   assert.match(await page.locator('#reward-breakdown').innerText(),/Открыта свободная игра/);
+   assert.match(await page.locator('#reward-breakdown').innerText(),/Новый режим · Спокойная игра/);
    await tap('#result-details summary');
    checks.push('frame in tray, direct abacus inspection, same result on close and cold reload; no duplicate grant');
    await tap('#home');await openModes();assert.equal(await page.locator('#free-open').isEnabled(),true);await tap('#free-open');const free=await snapshot();assert.equal(free.attempt.mode,'free');assert.equal(free.meta.inactive.campaign.attempt.status,'won');await tap('#home');await page.reload();await ready();await tap('#continue-game');assert.equal((await snapshot()).attempt.id,free.attempt.id);await tap('#home');await openModes();await tap('#campaign-open');await tap('#campaign-continue');assert.equal((await snapshot()).attempt.mode,'campaign');await solve();win=4;assert.equal((await snapshot()).profile.fragments,2);}
  }
+ assert.equal(await page.locator('#result-detail').innerText(),'Новый режим · Задача дня');
  const fifth=await snapshot();assert.equal(fifth.meta.quests.slots.every(s=>s.progress===0&&!s.paid),true);checks.push('fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore');
  await tap('#home');
  assert.equal(await page.locator('.resume-card h1').innerText(),'Поле 6');

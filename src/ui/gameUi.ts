@@ -1,6 +1,6 @@
 import { AdsController } from '../platform/ads';
 import type { AdsProvider } from '../platform/ads';
-import { localize, localizeDocument, quantity, trackName } from './locale';
+import { dailyName, localize, localizeDocument, quantity, trackName } from './locale';
 import type { Language } from './locale';
 import { config, getPuzzle, routes } from '../content/catalog';
 import { rankThreshold } from '../app/model';
@@ -260,6 +260,7 @@ export class GameUi {
     this.updateHelpPrice();
     this.blocker('modal',true);
     $<HTMLDialogElement>('help-dialog').showModal();
+    $('help-content').scrollTop = 0;
   }
 
   private updateHelpPrice(): void {
@@ -328,12 +329,18 @@ export class GameUi {
       button.disabled=this.busy||this.session.writing||this.saveFailed;
     }
     if($<HTMLDialogElement>('help-dialog').open)this.updateHelpPrice();
-    document.body.classList.toggle('dark',settings.theme==='dark');document.body.classList.toggle('calm',this.reduced());
+    const workshop = settings.theme === 'dark';
+    if (document.body.classList.contains('dark') !== workshop) {
+      document.body.classList.toggle('dark', workshop);
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', workshop ? '#263143' : '#ffffff');
+    }
+    document.body.classList.toggle('calm',this.reduced());
     $('wallet').textContent=`◈ ${quantity(this.language, s.profile.coins, 'coin')}`;$('rank').textContent=this.t(`Ранг ${s.profile.rank}`, `Rank ${s.profile.rank}`);const threshold=rankThreshold(s.profile.rank),xp=$('xp');xp.style.setProperty('--xp',`${100*s.profile.xp/threshold}%`);xp.setAttribute('aria-valuemin','0');xp.setAttribute('aria-valuemax',String(threshold));xp.setAttribute('aria-valuenow',String(s.profile.xp));xp.setAttribute('aria-valuetext',this.t(`${s.profile.xp} из ${threshold} опыта`, `${s.profile.xp} of ${threshold} XP`));
     const playing = s.meta.screen === 'play';
     document.body.classList.toggle('in-play', playing);
     document.body.classList.toggle('in-hub', !playing);
     $('play-screen').hidden = !playing;
+    $('play-screen').classList.toggle('is-solving', playing && a.status === 'playing' && !this.saveFailed);
     $('level').hidden = !playing;
     this.meta.render(s, this.busy || this.session.writing || this.saveFailed);
     const wallet = $('hub-wallet');
@@ -353,7 +360,7 @@ export class GameUi {
       : p.difficulty === 'standard' ? this.t('Обычно', 'Normal')
       : p.difficulty === 'hard' ? this.t('Сложно', 'Hard') : this.t('Эксперт', 'Expert');
     const run = s.career.run;
-    $('level').textContent = a.mode === 'daily' ? this.t('Задача дня', 'Daily challenge')
+    $('level').textContent = a.mode === 'daily' ? dailyName(this.language)
       : a.mode === 'free' ? a.freeTrack ? trackName(this.language, a.freeTrack) : this.t('Свободная игра', 'Free Play')
       : a.mode === 'endless' ? this.t(`Этап ${(a.stageId ?? 0) + 1}`, `Stage ${(a.stageId ?? 0) + 1}`)
       : this.t(`Поле ${p.campaignPosition}`, `Board ${p.campaignPosition}`);
