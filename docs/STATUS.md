@@ -2,9 +2,9 @@
 
 ## Current development preview · 21 November 2026
 
-`feat/mode-unlocks-0.5.10` / PR #4 carries 0.5.16 (versionCode 21). The post-0.5.13 packages cover campaign result routing, Daily archive and help, unsolved Relax/Challenge assignments, and the three-Easy-board Relax goal. [Package acceptance](acceptance/PACKAGES_ABC_0516.md) · [Reference adoption ledger](porting/ADOPTION_LEDGER.json).
+`feat/mode-unlocks-0.5.10` / PR #4 carries 0.5.19 (versionCode 24). M0 fixes the Daily goal entry to Endless and distinguishes a campaign replay from the first finish. M1 adds earned monthly seals to the Daily calendar. M2 continues the first personal step in Relax and Challenge. [Acceptance M0–M2](acceptance/PACKAGES_M0_M2_0519.md) · [Acceptance A–C](acceptance/PACKAGES_ABC_0516.md) · [Reference adoption ledger](porting/ADOPTION_LEDGER.json).
 
-The preview APKs share the `com.danilah.crossmath.themecheck` identity and 0.5.13 preview certificate. Physical-device update, Android system text scaling and native resume remain open. The dated trophy and local duel are separate release packages.
+The preview APKs share the `com.danilah.crossmath.themecheck` identity and 0.5.13 preview certificate. Physical-device update, Android system text scaling and native resume remain open. The local duel is scoped separately as M3.
 
 Earlier baseline, 19 November 2026: `main`, `feat/vertical-slice-20261118` and PR #1. Version 0.4.0 / versionCode 4 / schema 4. E2 adds RU/EN and the optional Android ads bridge, verified with a scripted provider. Real SDK acceptance remains open.
 
