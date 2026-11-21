@@ -1,8 +1,8 @@
 # Crossmath status
 
-## Current development preview · 21 November 2026
+## Current development preview · 22 November 2026
 
-`feat/mode-unlocks-0.5.10` / PR #4 carries 0.5.19 (versionCode 24). M0 fixes the Daily goal entry to Endless and distinguishes a campaign replay from the first finish. M1 adds earned monthly seals to the Daily calendar. M2 continues the first personal step in Relax and Challenge. [Acceptance M0–M2](acceptance/PACKAGES_M0_M2_0519.md) · [Acceptance A–C](acceptance/PACKAGES_ABC_0516.md) · [Reference adoption ledger](porting/ADOPTION_LEDGER.json).
+`feat/mode-unlocks-0.5.10` / PR #4 carries 0.5.20 (versionCode 25). It compacts expired Daily layouts, exposes reachable trophies for past months and restores the title on historical campaign finishes. [0.5.20 acceptance and timing](acceptance/qa-0520/README.md) · [Acceptance M0–M2](acceptance/PACKAGES_M0_M2_0519.md) · [Reference adoption ledger](porting/ADOPTION_LEDGER.json).
 
 The preview APKs share the `com.danilah.crossmath.themecheck` identity and 0.5.13 preview certificate. Physical-device update, Android system text scaling and native resume remain open. The local duel is scoped separately as M3.
 
