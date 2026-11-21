@@ -16,7 +16,7 @@ import { refreshDay } from '../meta/progress';
 import { availableOffers, contribution, mastered, refreshQuests } from '../meta/missions';
 import { finishRun, recordTime, recordVersion } from '../meta/career';
 import type { EndlessRun } from '../meta/career';
-import { calendarPuzzle, dateAvailable, profileDay } from '../meta/calendar';
+import { calendarPuzzle, canResumeDaily, dateAvailable, profileDay } from '../meta/calendar';
 import type { Difficulty } from '../core/types';
 import type { MetaScreen, Offer, SavedSlot } from '../meta/types';
 
@@ -27,6 +27,12 @@ export function campaignContinuation(save: Save): string | undefined {
     : campaignSequence(save.contentVersion)[save.profile.campaignCursor] ?? saved?.attempt.puzzleId;
 }
 export type OpenOutcome='opened'|'confirm_replace'|'unavailable';
+
+export function hintPayment({coins, hintCredits}: Save['profile']) {
+  const costCredits = hintCredits > 0 ? 1 : 0;
+  const costCoins = costCredits ? 0 : config.hintCostCoins;
+  return { costCredits, costCoins, missingCoins: Math.max(0, costCoins - coins) };
+}
 
 export class GameSession {
   private busy=false;
@@ -124,8 +130,8 @@ export class GameSession {
       if (!plan) return await reject('no_step');
       if (plan.kind!==kind || plan.boardRevision!==a.boardRevision || plan.puzzleId!==p.puzzleId || kind==='explain' && !verifyExplanation(p,a,plan)) return await reject('invalid_proof');
       const layout=materializeHelp(p,a,plan); if (!layout) return await reject('invalid_proof');
-      const costCredits=this.state.profile.hintCredits>0 ? 1 : 0, costCoins=costCredits ? 0 : config.hintCostCoins;
-      if (this.state.profile.coins<costCoins) return await reject('insufficient_resource');
+      const {costCredits,costCoins,missingCoins}=hintPayment(this.state.profile);
+      if (missingCoins > 0) return await reject('insufficient_resource');
       const next=structuredClone(this.state),result=receipt('applied',costCoins,costCredits);
       next.attempt=applyHelpLayout(p,a,layout,operationId);next.profile.coins-=costCoins;next.profile.hintCredits-=costCredits;next.helpReceipts[operationId]=result;
       next.career.modes[a.mode][kind==='explain'?'explains':'reveals']++;if(a.mode==='endless')next.career.run!.assisted=true;
@@ -204,7 +210,8 @@ export class GameSession {
           if (expected.puzzleId !== puzzle.puzzleId && !sameBoard) return 'unavailable';
         } else if (!mastered(next).includes(puzzle.difficulty) || !routes.freePlayPools[puzzle.difficulty].includes(puzzle.puzzleId)) return 'unavailable';
       }
-      if(offer.mode==='daily'&&(wins<config.unlockProposal.dailyAfterNewWins||!offer.dayKey||(!saved&&!dateAvailable(next.profile.createdAt,next.profile.timeZone,next.meta.effectiveDay,offer.dayKey))))return 'unavailable';
+      if (offer.mode === 'daily' && (wins < config.unlockProposal.dailyAfterNewWins || !offer.dayKey ||
+        (!canResumeDaily(saved?.attempt) && !dateAvailable(next.profile.createdAt, next.profile.timeZone, next.meta.effectiveDay, offer.dayKey)))) return 'unavailable';
       if(saved&&!sameBoard&&saved.attempt.status==='playing'&&!replace)return 'confirm_replace';
       const continuing=sameBoard&&!(repeatCompleted&&saved.attempt.status==='won');
       if(offer.mode==='free'&&!track&&!continuing&&next.profile.solvedIds.includes(offer.puzzleId)&&routes.freePlayPools[puzzle.difficulty].some(id=>!next.profile.solvedIds.includes(id)))return 'unavailable';

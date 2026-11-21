@@ -1,5 +1,6 @@
 import { calendarDayIndex, isCalendarDay } from '@danilah/mini-games-kit/core';
 import { config, dailyBank, routes } from '../content/catalog';
+import type { Attempt } from '../core/types';
 export { calendarDayIndex, isCalendarDay };
 export function profileDay(instant:string,zone:string):string {
   const parts=new Intl.DateTimeFormat('en-CA',{timeZone:zone,calendar:'gregory',numberingSystem:'latn',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(instant));
@@ -16,4 +17,8 @@ export function dateAvailable(createdAt:string,zone:string,effectiveDay:string,s
   if(!isCalendarDay(selected))return false;
   const lower=Math.max(calendarDayIndex(profileDay(createdAt,zone)),calendarDayIndex(effectiveDay)-config.calendar.previousDaysAccessible);
   return calendarDayIndex(selected)>=lower&&selected<=effectiveDay;
+}
+
+export function canResumeDaily(attempt: Attempt | undefined): boolean {
+  return attempt?.mode === 'daily' && attempt.status === 'playing' && attempt.lives > 0;
 }

@@ -52,6 +52,11 @@ export function quantity(language: Language, value: number, noun: keyof typeof n
   return value + ' ' + nouns[noun][language][index];
 }
 
+export function missingCoinsLabel(language: Language, value: number): string {
+  return language === 'en' ? `You need ${quantity(language, value, 'coin')} more`
+    : `Не хватает ${value} ${russianPlural.select(value) === 'one' ? 'монеты' : 'монет'}`;
+}
+
 // Static leaf labels retain their authored Russian copy when the session switches back.
 const originals = new WeakMap<Element, { text: string; label: string | null }>();
 

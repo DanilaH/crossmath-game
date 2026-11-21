@@ -327,6 +327,11 @@ body.in-hub, #mode-dialog, #replace-dialog {
   font-weight: 700;
 }
 
+#hub[data-screen="calendar"] :is(.hub-heading h1, .calendar-subtitle, #older-dates h2), #defeat h2 {
+  font-family: Rubik, system-ui, sans-serif;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 480px) {
   body.in-hub, #mode-dialog, #replace-dialog {
     /* The narrow navigation grows from 16px to 24px when the root goes from 100% to 200%. */

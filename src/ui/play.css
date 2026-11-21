@@ -807,7 +807,9 @@ html[data-host="browser"] #help-dialog { margin-bottom: calc(8px + env(safe-area
   background: var(--action-wash);
   border-color: var(--action-ink);
 }
-#help-dialog :is(#help-cost, #help-description) { font-size: .86rem; margin: 7px 0 0; }
+#help-dialog :is(#help-cost, #help-description, #help-shortage, #help-impact) { font-size: .86rem; margin: 7px 0 0; }
+#help-dialog #help-shortage { color: var(--play-bad); font-weight: 700; }
+#help-dialog #help-impact { color: var(--play-ink); font-weight: 650; }
 #help-dialog .buttons { flex: none; margin-top: 6px; justify-content: space-between; }
 #help-dialog .primary { padding-inline: 10px; }
 

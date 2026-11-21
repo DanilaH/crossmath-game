@@ -6,7 +6,7 @@ import { getTierProgress } from '@danilah/mini-games-kit/core';
 import { campaignSequence, config, getPuzzle } from '../content/catalog';
 import { campaignContinuation, storedSlot } from '../app/session';
 import { goals } from '../meta/missions';
-import { calendarDayIndex, dateAvailable, dayFromIndex, profileDay } from '../meta/calendar';
+import { calendarDayIndex, canResumeDaily, dateAvailable, dayFromIndex, profileDay } from '../meta/calendar';
 import type { Completion, Save } from '../app/model';
 import { rankThreshold } from '../app/model';
 import { achievementValue, recordVersion } from '../meta/career';
@@ -205,7 +205,8 @@ export class MetaView {
   private home(save: Save): void {
     const { attempt, profile } = save;
     const wins = profile.solvedIds.length;
-    const resume = attempt.status !== 'won' && !(attempt.mode === 'endless' && save.career.run?.status === 'ended');
+    const resume = attempt.mode === 'daily' ? canResumeDaily(attempt)
+      : attempt.status !== 'won' && !(attempt.mode === 'endless' && save.career.run?.status === 'ended');
     const campaignId = campaignContinuation(save);
     const campaignAttempt = storedSlot(save, 'campaign')?.attempt;
     const campaignFinished = profile.campaignCursor === campaignSequence(save.contentVersion).length
@@ -388,16 +389,11 @@ export class MetaView {
     this.modeChoices.append(this.button(this.t(`Продолжить · Поле ${position}`, `Continue · Board ${position}`),
       this.actions.campaign, 'campaign-continue', true));
 
-    if (save.result) {
-      this.modeChoices.append(this.button(this.t('Последний результат', 'Last result'),
-        () => this.actions.navigate('play'), 'last-result'));
-    } else {
-      const result = storedSlot(save, 'campaign')?.result;
-      if (result) {
-        const board = getPuzzle(result.puzzleId).campaignPosition;
-        this.modeChoices.append(this.button(this.t(`Результат поля ${board}`, `Board ${board} result`),
-          () => this.actions.offer({puzzleId:result.puzzleId,mode:'campaign'}), 'last-result'));
-      }
+    const result = storedSlot(save, 'campaign')?.result;
+    if (result) {
+      const board = getPuzzle(result.puzzleId).campaignPosition;
+      this.modeChoices.append(this.button(this.t(`Результат поля ${board}`, `Board ${board} result`),
+        () => this.actions.offer({puzzleId:result.puzzleId,mode:'campaign'}), 'last-result'));
     }
     if (!completed.length) return;
     const details = el('details', 'campaign-history');
@@ -481,8 +477,18 @@ export class MetaView {
     for (let i=today+1;i<=today+7;i++) future.append(this.dateButton(save,dayFromIndex(i)));
     upcoming.append(el('summary','',this.t('Следующие даты','Upcoming dates')), future);
     this.root.append(upcoming);
-    const all=[{attempt:save.attempt,result:save.result},...Object.values(save.meta.inactive)].filter(s=>s.attempt.mode==='daily'&&s.attempt.status!=='won'&&!dateAvailable(save.profile.createdAt,save.profile.timeZone,save.meta.effectiveDay,s.attempt.dayKey!));
-    if(all.length){const old=el('section','hub-panel');old.append(el('h2','',this.t("Начатые ранее", "Earlier unfinished boards")));for(const slot of all)old.append(this.button(slot.attempt.dayKey+this.t(" · продолжить", " · resume"),()=>this.actions.daily(slot.attempt.dayKey!)));this.root.append(old);}
+    const older = [save.attempt, ...Object.values(save.meta.inactive).map(slot => slot.attempt)]
+      .filter(attempt => canResumeDaily(attempt) && !dateAvailable(save.profile.createdAt, save.profile.timeZone, save.meta.effectiveDay, attempt.dayKey!));
+    if (older.length) {
+      const old = el('section', 'hub-panel');
+      old.id = 'older-dates';
+      old.append(el('h2', '', this.t('Начатые ранее', 'Earlier unfinished boards')));
+      for (const {dayKey} of older) {
+        const day = dayKey!;
+        old.append(this.button(day + this.t(' · продолжить', ' · resume'), () => this.actions.daily(day), `resume-${day}`));
+      }
+      this.root.append(old);
+    }
   }
   private album(save: Save): void {
     const total = save.profile.fragments;

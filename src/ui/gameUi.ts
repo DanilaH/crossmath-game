@@ -1,6 +1,6 @@
 import { AdsController } from '../platform/ads';
 import type { AdsProvider } from '../platform/ads';
-import { dailyName, localize, localizeDocument, quantity, trackName } from './locale';
+import { dailyName, localize, localizeDocument, missingCoinsLabel, quantity, trackName } from './locale';
 import type { Language } from './locale';
 import { config, getPuzzle, routes } from '../content/catalog';
 import { rankThreshold } from '../app/model';
@@ -9,6 +9,7 @@ import type { MoveFeedback } from './board';
 import { Feedback } from './feedback';
 import type { AwardTone } from './feedback';
 import type { GameSession, OpenOutcome } from '../app/session';
+import { hintPayment } from '../app/session';
 import { MetaView } from './metaView';
 import type { MetaScreen, Offer } from '../meta/types';
 import { RecoveryRequired } from '../app/saveRepository';
@@ -45,6 +46,7 @@ export class GameUi {
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});for(const id of ['end-run','finish-run'])$(id).onclick=()=>this.run(async time=>({committed:await session.endRun(time)}),()=>this.leaveModal());
     for(const id of ['home','home-from-pause','result-home'])$(id).onclick=()=>this.navigate('home');
     $('profile-open').onclick = () => this.navigate('profile');
+    $('defeat-calendar').onclick = () => this.navigate('calendar');
     $('instrument-reward').onclick = () => this.meta.openInstrumentReward(session.state);
     $('rank').onclick=()=>{if(!this.busy&&!this.saveFailed)this.meta.openRank(session.state);};
     for(const id of ['retry-daily','result-replay'])$(id).onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{this.board.clearSelection();window.scrollTo(0,0);});
@@ -264,12 +266,22 @@ export class GameUi {
   }
 
   private updateHelpPrice(): void {
-    const { coins, hintCredits } = this.session.state.profile;
+    const {profile, attempt, career} = this.session.state;
+    const { coins, hintCredits } = profile;
+    const {costCredits, costCoins, missingCoins} = hintPayment(profile);
     const balance = quantity(this.language, coins, 'coin');
     const credits = quantity(this.language, hintCredits, 'credit');
-    const price = hintCredits > 0 ? quantity(this.language, 1, 'credit') : quantity(this.language, config.hintCostCoins, 'coin');
+    const price = costCredits ? quantity(this.language, costCredits, 'credit') : quantity(this.language, costCoins, 'coin');
     $('help-cost').textContent = this.t(`Стоимость ${price} · У вас ${balance} и ${credits}`, `Cost ${price} · Balance ${balance} and ${credits}`);
-    $('apply-help').textContent = this.plan ? this.t(`Применить · ${price}`, `Apply · ${price}`) : this.t('Применить', 'Apply');
+    const shortage = $('help-shortage');
+    shortage.hidden = missingCoins === 0;
+    shortage.textContent = missingCoins > 0 ? missingCoinsLabel(this.language, missingCoins) : '';
+    const impact = $('help-impact');
+    impact.hidden = attempt.mode !== 'endless' || career.run?.assisted === true;
+    impact.textContent = impact.hidden ? '' : this.t('Этот забег попадёт в рекорды с помощью', 'This run will count toward assisted records');
+    const apply = $<HTMLButtonElement>('apply-help');
+    apply.disabled = this.busy || !this.plan || missingCoins > 0;
+    apply.textContent = this.plan && !missingCoins ? this.t(`Применить · ${price}`, `Apply · ${price}`) : this.t('Применить', 'Apply');
   }
 
   private chooseHelp(kind:'explain'|'reveal'):void{
@@ -281,11 +293,10 @@ export class GameUi {
     }
     $('help-description').hidden = false;
     $('help-description').textContent=this.plan?kind==='explain'?this.t("Применим доказуемый ход и покажем, как его получить из равенств и лотка.", "Place a number and see why it follows from the equations and the tray."):this.t("Покажем правильное число. Мешающие неверные фишки вернутся в лоток.", "Reveal the correct number. Any pieces in the way go back to the tray."):this.t("Сейчас нет доказуемого хода из этой расстановки. Можно исправить гипотезу или отдельно показать число.", "No step can be proved from this layout. Change a placement or reveal a number.");
-    $<HTMLButtonElement>('apply-help').disabled=!this.plan;
     this.updateHelpPrice();
   }
   private closeHelp():void{if(this.busy)return;$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);}
-  private applyHelp():void{const plan=this.plan;if(this.busy||!plan)return;let applied=false;
+  private applyHelp():void{const plan=this.plan;if(this.busy||!plan||hintPayment(this.session.state.profile).missingCoins>0)return;let applied=false;
     this.run(async time=>{const revision=this.session.state.revision,result=await this.session.help(this.helpKind,this.helpOperation,this.helpRevision,plan,time);applied=result.outcome==='applied';
       if(!applied)$('help-description').textContent=result.outcome==='insufficient_resource'?this.t("Не хватает монет. Продолжать решать и начинать поле заново можно бесплатно.", "You need more coins for help. Keep playing or restart for free."):this.t("Поле изменилось или этот ход больше недоступен. Закройте помощь и попробуйте снова.", "The board changed or this move is no longer available. Close Help and try again.");return {committed:this.session.state.revision!==revision};
     },()=>{if(!applied)return;
@@ -379,7 +390,12 @@ export class GameUi {
     $('run-kind').hidden = a.mode !== 'endless' || !run?.assisted;
     $('run-kind').textContent = this.t('С помощью', 'Assisted');
     $('submit').hidden=a.mode!=='endless'||a.status!=='playing';$<HTMLButtonElement>('submit').disabled=this.busy||this.blocked||this.saveFailed||Object.keys(a.placements).length!==p.tray.length||run?.status!=='active';
-    $('defeat').hidden=a.status!=='out-of-lives';$('defeat-detail').textContent=this.session.canRestart()?this.t("Можно бесплатно начать эту дату заново.", "Retry this date for free."):this.t("Эта дата вышла из архива. Выберите другую дату в календаре.", "This date is outside the archive. Choose another date in the calendar.");$<HTMLButtonElement>('retry-daily').disabled=this.busy||this.saveFailed||!this.session.canRestart();
+    const canRetry = this.session.canRestart();
+    $('defeat').hidden=a.status!=='out-of-lives';$('defeat-detail').textContent=canRetry?this.t("Можно бесплатно начать эту дату заново.", "Retry this date for free."):this.t("Эта дата вышла из архива. Выберите другую дату в календаре.", "This date is outside the archive. Choose another date in the calendar.");
+    $('retry-daily').hidden = !canRetry;
+    $<HTMLButtonElement>('retry-daily').disabled = this.busy || this.saveFailed;
+    $('defeat-calendar').hidden = canRetry;
+    $<HTMLButtonElement>('defeat-calendar').disabled = this.busy || this.saveFailed;
     if(a.mode==='endless')$('defeat-detail').textContent=this.t(`В забеге ${run?.score??0} очков. Сохраните итог или начните новый забег бесплатно.`, `Run score: ${run?.score??0}. Save your result or start a new run for free.`);$('retry-daily').textContent=a.mode==='endless'?this.t("Новый забег · бесплатно", "New run · free"):this.t("Ещё попытка · бесплатно", "Retry · free");$('finish-run').hidden=a.mode!=='endless';$<HTMLButtonElement>('finish-run').disabled=this.busy||this.saveFailed;
     const unavailable=this.busy||this.session.writing||this.blocked||this.saveFailed||a.status!=='playing';for(const id of ['help','sort'])$<HTMLButtonElement>(id).disabled=unavailable;$<HTMLButtonElement>('undo').disabled=unavailable||!a.history.length;
     const result = $('result');

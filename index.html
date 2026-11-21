@@ -46,7 +46,7 @@
   </div>
   </div>
 <button class="primary" id="submit" type="button" hidden data-en="Check">Проверить</button>
-<section class="hub-panel" id="defeat" hidden><h2 data-en="Out of lives">Жизни закончились</h2><p id="defeat-detail">Можно бесплатно начать эту дату заново.</p><button class="primary" id="retry-daily" type="button">Ещё попытка · бесплатно</button><button class="hub-button" id="ad-continue" type="button" hidden>Ещё одна жизнь за видео</button><button class="hub-button" id="finish-run" type="button" hidden data-en="Save run result">Сохранить итог забега</button></section>
+<section class="hub-panel" id="defeat" hidden><h2 data-en="Out of lives">Жизни закончились</h2><p id="defeat-detail">Можно бесплатно начать эту дату заново.</p><button class="primary" id="retry-daily" type="button">Ещё попытка · бесплатно</button><button class="primary" id="defeat-calendar" type="button" hidden data-en="Back to calendar">В календарь</button><button class="hub-button" id="ad-continue" type="button" hidden>Ещё одна жизнь за видео</button><button class="hub-button" id="finish-run" type="button" hidden data-en="Save run result">Сохранить итог забега</button></section>
 <section id="result" class="win-dock" hidden aria-labelledby="result-title">
   <div class="win-copy">
     <h2 id="result-title" tabindex="-1">Поле решено</h2>
@@ -100,10 +100,13 @@
       <button id="explain" type="button" data-en="Explain a move">Объяснить ход</button>
       <button id="reveal" type="button" data-en="Reveal a number">Показать число</button>
     </div>
+    <div class="help-payment">
+      <p id="help-cost"></p><p id="help-shortage" role="status" hidden></p><p id="help-impact" hidden></p>
+      <button class="hub-button" id="ad-hint" type="button" hidden>Кредит подсказки за видео</button>
+    </div>
     <p id="help-description" role="status" hidden></p>
-    <div class="help-payment"><p id="help-cost"></p><button class="hub-button" id="ad-hint" type="button" hidden>Кредит подсказки за видео</button></div>
   </div>
-  <div class="buttons"><button id="close-help" type="button" autofocus data-en="Back to board">К полю</button><button class="primary" id="apply-help" type="button" disabled data-en="Apply">Применить</button></div>
+  <div class="buttons"><button id="close-help" type="button" autofocus data-en="Back to board">К полю</button><button class="primary" id="apply-help" type="button" aria-describedby="help-impact help-cost" disabled data-en="Apply">Применить</button></div>
 </dialog>
 <div class="token ghost" id="ghost" aria-hidden="true" hidden></div>
 <dialog id="mode-dialog" aria-labelledby="mode-title">

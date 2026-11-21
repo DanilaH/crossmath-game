@@ -79,6 +79,18 @@ describe('D calendar and mode state',()=>{
   const{session,clock}=await setup();await campaign(session,5);await session.openDaily('2026-11-18');const attempt=session.state.attempt.id;await session.openCampaign();
   clock.now='2026-12-20T12:00:00Z';await session.refreshDay();expect(dateAvailable(session.state.profile.createdAt,'UTC',session.state.meta.effectiveDay,'2026-11-18')).toBe(false);
   expect(await session.openDaily('2026-11-18')).toBe('opened');expect(session.state.attempt.id).toBe(attempt);expect(await session.restart()).toBe(false);await win(session);expect(session.state.meta.completedDates).toContain('2026-11-18');expect(contribution('daily',{puzzleId:session.state.attempt.puzzleId,mode:'daily',dayKey:'2026-11-18'},session.state.meta.effectiveDay)).toBe(0);
+  expect(await session.openDaily('2026-11-18')).toBe('unavailable');
+ });
+ it('allows an in-window retry but refuses an expired exhausted Daily from either slot',async()=>{
+  const day='2026-11-18';const {session,clock}=await setup(day);await campaign(session,5);
+  await session.openDaily(day);
+  session.state.attempt.lives=0;session.state.attempt.status='out-of-lives';await session.update({},false);
+  const id=session.state.attempt.id;
+  clock.now='2026-12-18T12:00:00Z';await session.refreshDay();
+  expect(await session.openDaily(day)).toBe('opened');expect(session.state.attempt.id).toBe(id);expect(session.canRestart()).toBe(true);
+  clock.now='2026-12-19T12:00:00Z';await session.refreshDay();const revision=session.state.revision;
+  expect(await session.openDaily(day)).toBe('unavailable');expect(await session.restart()).toBe(false);expect(session.state.revision).toBe(revision);
+  await session.openCampaign();expect(await session.openDaily(day)).toBe('unavailable');expect(storedSlot(session.state,`daily:${day}`)?.attempt.id).toBe(id);
  });
  it('keeps old assigned dates and the legacy campaign while unassigned dates use the new bank',async()=>{
   const day='2026-11-18',previous=createSave('p',day+'T12:00:00Z','UTC','a','content-v1');
