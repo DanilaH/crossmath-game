@@ -41,7 +41,11 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L34",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/content/rotation.ts",
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "deliverySpec0513": {
+        "package": "B",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-six-challenge",
@@ -56,7 +60,11 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L45",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/content/rotation.ts",
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "deliverySpec0513": {
+        "package": "B",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-bank-reindex",
@@ -71,7 +79,11 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L56",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/content/rotation.ts",
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "deliverySpec0513": {
+        "package": "B",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-owl-equality",
@@ -243,7 +255,11 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L200",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/ui/gameUi.ts",
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "deliverySpec0513": {
+        "package": "A",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "guru-direct-hint",
@@ -527,9 +543,13 @@
       "codePath": "src/meta/progress.ts",
       "stage": "P1",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Показать одну следующую достижимую цель, проверить восстановление",
+      "nextAction": "Выполнить пакет C: цель из строки 2 таблицы Relax EasyFun 1.1.9 (3 лёгких Classic); адаптация Crossmath — три разных лёгких поля Relax после активации. Проверить 1 → 2 → 2 → 3, повтор и восстановление.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L438",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "deliverySpec0513": {
+        "package": "C",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-rank-challenge",
@@ -615,7 +635,11 @@
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
       "nextAction": "Сделать ошибку одновременно в строке и столбце",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L504",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/core/engine.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/core/engine.ts",
+      "deliverySpec0513": {
+        "package": "A",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-restart-coins",
@@ -641,7 +665,11 @@
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
       "nextAction": "Проверить 28/29/30/31-й день, прошлый месяц и повтор. Видимое окно на Android и глубина доступного архива UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L526",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/calendar.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/calendar.ts",
+      "deliverySpec0513": {
+        "package": "D",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-event-badge",
@@ -820,7 +848,11 @@
         "observed": "Веб-код подписанного APK. После 14 разных полей входы в «Испытание» и Endless закрыты. После 15 результат называет оба и каждое нажатие открывает соответствующий режим. Порог 15 и совместное объявление — решения нашей игры."
       },
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "deliverySpec0513": {
+        "package": "A",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "guru-achievements",
@@ -945,7 +977,11 @@
       "nextAction": "16 уравнений, уровень 6, без трёх операторов дают базу 70 с",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L773",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "deliverySpec0513": {
+        "package": "E",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "guru-battle-react",
@@ -959,7 +995,11 @@
       "nextAction": "Разделить реакцию и таймер; реакция в одиночку не завершает матч",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L785",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "deliverySpec0513": {
+        "package": "E",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "guru-battle-ticket",
@@ -973,7 +1013,11 @@
       "nextAction": "Записать нулевой остаток, цену повтора и восстановление после выхода",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L797",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "deliverySpec0513": {
+        "package": "E",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "guru-battle-streak",
@@ -987,7 +1031,11 @@
       "nextAction": "Записать две победы, поражение и повтор; снять экран множителя",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L808",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "deliverySpec0513": {
+        "package": "E",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "guru-brains-week",
@@ -1042,7 +1090,11 @@
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
       "nextAction": "Для источника нужны наблюдаемые парные матчи с двумя устройствами и трассировка участия",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L854",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "deliverySpec0513": {
+        "package": "E",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-base-coins",
@@ -1084,7 +1136,11 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L885",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/app/session.ts",
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "deliverySpec0513": {
+        "package": "A",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "guru-ad-protect",
@@ -1204,7 +1260,11 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L982",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/ui/gameUi.ts",
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "deliverySpec0513": {
+        "package": "A",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-tray-sign",
@@ -1392,7 +1452,11 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1136",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/meta/calendar.ts",
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "deliverySpec0513": {
+        "package": "A",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "plan-editor",
@@ -2371,7 +2435,11 @@
       "dependencies": "Событие завершения, схема сохранения и календарь/карьера",
       "nextAction": "Закрыть последнюю дату, открыть её снова и проверить одну запись дня и одну награду месяца.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1937",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "deliverySpec0513": {
+        "package": "D",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-month-archive-key",
@@ -2384,7 +2452,11 @@
       "dependencies": "Событие завершения, схема сохранения и календарь/карьера",
       "nextAction": "Для доступного архивного дня закончить январь в феврале. Проверить январскую, а затем февральскую запись.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1948",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/calendar.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/calendar.ts",
+      "deliverySpec0513": {
+        "package": "D",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     },
     {
       "id": "easy-month-award-flag",
@@ -2397,7 +2469,11 @@
       "dependencies": "Событие завершения, схема сохранения и календарь/карьера",
       "nextAction": "Повтор после перезапуска и заново открытый экран календаря сохраняют одну месячную награду.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1959",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "deliverySpec0513": {
+        "package": "D",
+        "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
+      }
     }
   ],
   "latestReview": {
