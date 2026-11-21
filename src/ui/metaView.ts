@@ -6,6 +6,7 @@ import { getTierProgress } from '@danilah/mini-games-kit/core';
 import { campaignSequence, config, getPuzzle } from '../content/catalog';
 import { campaignContinuation, storedSlot } from '../app/session';
 import { goals } from '../meta/missions';
+import { relaxGoalTarget } from '../meta/progress';
 import { calendarDayIndex, canResumeDaily, dateAvailable, dayFromIndex, profileDay } from '../meta/calendar';
 import type { Completion, Save } from '../app/model';
 import { rankThreshold } from '../app/model';
@@ -361,14 +362,16 @@ export class MetaView {
         this.t('Есть сохранение', 'Saved board'),
         () => this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId})));
     }
+    const count = save.meta.relaxGoalIds?.length ?? 0;
+    const goal = `${this.t(`Решите ${relaxGoalTarget} лёгких поля`, `Solve ${relaxGoalTarget} Easy boards`)} · ${count}/${relaxGoalTarget}${count===relaxGoalTarget?' ✓':''}`;
     for (const track of freeTracks) {
       const threshold = track === 'challenge' ? challengeUnlockWins : freePlayAfterNewWins;
       const isSaved = savedFree?.freeTrack === track && savedFree.status === 'playing';
-      const subtitle = wins < threshold ? this.unlockText(threshold) : isSaved
-        ? this.t('Есть сохранение', 'Saved board') : track === 'relax'
-        ? this.t('Без потери жизней', 'No lives lost') : this.t('Сложные поля', 'Harder boards');
+      const subtitle = wins < threshold ? this.unlockText(threshold) : track === 'relax' ? goal
+        : isSaved ? this.t('Есть сохранение', 'Saved board') : this.t('Сложные поля', 'Harder boards');
       const open = this.modeButton(track, track === 'relax' ? 'free-open' : 'challenge-open',
         trackName(this.language, track), subtitle, () => this.actions.free(track));
+      if (track === 'relax' && isSaved) open.querySelector('.quick-copy')!.append(el('span', 'quick-status', this.t('Есть сохранение', 'Saved board')));
       open.disabled = disabledOrLocked(this.disabled, wins < threshold);
       games.append(open);
     }
@@ -712,6 +715,10 @@ export class MetaView {
       else if (r.setCoins) title = this.t('План дня выполнен','Daily goals complete');
     }
     document.getElementById('result-detail')!.textContent = title;
+    const goal = document.getElementById('relax-goal-result')!;
+    const count = r.relaxGoalProgress;
+    goal.hidden = count === undefined;
+    goal.textContent = count === undefined ? '' : `${count===relaxGoalTarget ? this.t('Цель выполнена','Goal complete') : this.t('Лёгкие поля','Easy boards')} · ${count}/${relaxGoalTarget}`;
     const sources:[string,number][]=[[this.t("За поле", "Board"),r.baseCoins??(r.first?config.difficultyRewards[getPuzzle(r.puzzleId).difficulty].coins:0)],[this.t("За дату", "Daily date"),r.dailyCoins??0],[this.t("За цели", "Goals"),r.taskCoins??0],[this.t("За весь план", "Full goal set"),r.setCoins??0],[this.t("За ранг", "Rank"),r.rankCoins??r.rankUps*config.rank.rewardCoins],[this.t("За прибор", "Instrument"),r.cardCoins]];
     for(const [name,coins] of sources)if(coins)details.append(el('p','',`${name}: +${coins}`));details.append(el('p','',this.t(`Опыт: +${r.xp}`, `XP: +${r.xp}`)));if(r.fragments)details.append(el('p','',this.t(`Новых деталей: ${r.fragments} · всего ${r.collectionFragments} / 48`, `New parts: ${r.fragments} · total ${r.collectionFragments} / 48`)));if(r.rankUps)details.append(el('p','',this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`)));
     if (announcement) {

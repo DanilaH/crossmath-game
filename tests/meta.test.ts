@@ -205,6 +205,49 @@ describe('D calendar and mode state',()=>{
   expect(await session.restart()).toBe(true);expect(session.state.attempt.lives).toBe(3);expect(session.state.profile.coins).toBe(balance);await session.openCampaign();expect(session.state.attempt.mode).toBe('campaign');
  });
 });
+describe('Relax Easy goal',()=>{
+ it('records 1, 2, 2, 3 on the first rotation, survives a cold load, and never adds coins',async()=>{
+  const {session,repo}=await setup();await campaign(session,3);
+  expect(session.state.meta.relaxGoalIds).toBeUndefined();
+  await session.openFreeTrack('relax');
+  for(const [index,count] of [1,2,2,3].entries()){
+   const balance=session.state.profile.coins;await win(session);const persisted=await repo.load(), result=persisted.result!;
+   expect(persisted.meta.relaxGoalIds).toHaveLength(count);expect(result.relaxGoalProgress).toBe(count);
+   expect(persisted.profile.coins-balance).toBe(result.coins);
+   expect(result.coins).toBe(result.baseCoins!+result.rankCoins!+result.dailyCoins!+result.taskCoins!+result.setCoins!+result.cardCoins);
+   expect(settleCompletion(persisted)).toEqual(persisted);
+   if(index===1){
+    await session.openCampaign();await win(session);expect(session.state.meta.relaxGoalIds).toHaveLength(2);
+    expect(session.state.result?.relaxGoalProgress).toBeUndefined();await session.openFreeTrack('relax');
+   } else if(index<3)await session.next();
+  }
+ });
+ it('counts an assisted legacy Relax win on a previously paid campaign ID exactly once',async()=>{
+  const {session,repo}=await setup();await campaign(session,16);
+  const id=session.state.attempt.puzzleId;
+  const old=createAttempt(getPuzzle(id),'old-relax-assignment','free');old.freeTrack='relax';old.freeIndex=0;
+  session.state.meta.inactive.free={attempt:old,result:null};await session.update({},false);
+  await session.openFreeTrack('relax');
+  const plan=session.prepareHelp('reveal')!;
+  const paid=await session.help('reveal','relax-assisted',session.state.attempt.boardRevision,plan);expect(paid.outcome).toBe('applied');
+  await win(session);expect(session.state.attempt.assisted).toBe(true);
+  expect(session.state.result).toMatchObject({puzzleId:id,baseCoins:0,relaxGoalProgress:1});
+  await session.restart();await win(session);expect((await repo.load()).meta.relaxGoalIds).toEqual([id]);
+  expect(session.state.result).toMatchObject({baseCoins:0,relaxGoalProgress:1});
+  const duplicate=await repo.load();duplicate.meta.relaxGoalIds!.push(id);expect(()=>decodeSave(duplicate)).toThrow();
+ });
+ it('does not credit existing Relax receipts after an update; old receipt progress stays historical',async()=>{
+  const {session,repo}=await setup();await campaign(session,3);await session.openFreeTrack('relax');
+  await win(session);await session.next();await win(session);const second=await repo.load();
+  const old=structuredClone(second);delete old.meta.relaxGoalIds;delete old.result!.relaxGoalProgress;
+  const upgraded=decodeSave(old);expect(settleCompletion(upgraded)).toEqual(upgraded);
+  expect(upgraded.meta.relaxGoalIds).toBeUndefined();
+  await session.next();await win(session);await session.next();await win(session);const completed=await repo.load();
+  const historical=decodeSave({...second,meta:{...second.meta,relaxGoalIds:completed.meta.relaxGoalIds!},profile:{...second.profile,solvedIds:completed.profile.solvedIds}});
+  expect(historical.result?.relaxGoalProgress).toBe(2);
+  expect(historical.meta.relaxGoalIds).toHaveLength(3);
+ });
+});
 describe('D reachable daily missions',()=>{
  it('starts an actual replay for a mission instead of reopening an old result',async()=>{
   const{session,clock}=await setup();await campaign(session,5);const old=session.state.attempt.id;

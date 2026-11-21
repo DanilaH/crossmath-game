@@ -11,4 +11,5 @@ export interface MetaState {
   effectiveDay:string; issuedDays:number; quests:QuestSet|null; contributedIds:string[];
   assignments:Record<string,{puzzleId:string;calendarVersion:string}>; completedDates:string[];
   slotReceipts:string[]; setReceipts:string[];
+  relaxGoalIds?: string[];
 }

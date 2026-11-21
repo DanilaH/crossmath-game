@@ -7,7 +7,7 @@ import { createAttempt } from '../core/engine';
 import { assertInventory, isSolved } from '../core/types';
 import type { Attempt } from '../core/types';
 import type { MetaState } from '../meta/types';
-import { createMeta, refreshDay, settleDailyAndQuests, upgradeSave, validateMeta } from '../meta/progress';
+import { createMeta, refreshDay, settleDailyAndQuests, settleRelaxGoal, upgradeSave, validateMeta } from '../meta/progress';
 import { isCalendarDay } from '../meta/calendar';
 import { createCareer, settleAchievements, settleStage, upgradeCareer, validateCareer } from '../meta/career';
 import type { Career } from '../meta/career';
@@ -19,6 +19,7 @@ export interface Completion {
   baseCoins?: number; rankCoins?: number; dailyCoins?: number; taskCoins?: number; setCoins?: number; unlockedModes?: string[];
   collectionFragments?:number; rankLevel?:number;
   stageScore?:number; runScore?:number; stageKey?:string; badges?:string[];
+  relaxGoalProgress?: number;
 }
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
@@ -73,6 +74,7 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
       .filter(([, threshold]) => previousWins < threshold && profile.solvedIds.length >= threshold)
       .map(([mode]) => mode)};
   settleDailyAndQuests(next,next.result);
+  settleRelaxGoal(next,next.result);
   next.career.modes[next.attempt.mode].completions++;
   if(next.attempt.mode==='endless'){next.result.stageScore=settleStage(next);next.result.runScore=next.career.run!.score;next.result.stageKey=`${next.attempt.runId}:${next.attempt.stageId}`;}
   next.result.badges=settleAchievements(next,now,next.result.id);
@@ -126,6 +128,8 @@ export function decodeSave(input: unknown): Save {
   if (a.status!=='won' && result!==null) return fail();
   if (result && (![result.coins,result.xp,result.rankUps,result.fragments,result.cardCoins].every(nonnegative) || typeof result.first!=='boolean' || !Number.isFinite(result.elapsedPlaying) || result.elapsedPlaying<0)) return fail();
   if(result?.badges&&(!Array.isArray(result.badges)||result.badges.some(id=>!config.achievements.some(b=>b.id===id))))fail();
+  if (result?.relaxGoalProgress !== undefined && (a.mode !== 'free' || a.freeTrack !== 'relax' ||
+    !nonnegative(result.relaxGoalProgress) || result.relaxGoalProgress > (s.meta.relaxGoalIds?.length ?? 0))) fail();
   };
   validateAttempt(a,s.result,s.meta.activeSlot);
   const attempts=new Set([a.id]);

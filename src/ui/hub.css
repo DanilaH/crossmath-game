@@ -289,6 +289,11 @@ body.in-hub, #mode-dialog, #replace-dialog {
   padding: 16px;
 }
 
+#mode-dialog:has(#free-open) {
+  max-height: calc(100svh - 16px);
+  padding-block: clamp(12px, calc(24px - .5rem), 16px);
+}
+
 #mode-dialog::backdrop { background: var(--modes-dim); }
 
 #daily-goals {

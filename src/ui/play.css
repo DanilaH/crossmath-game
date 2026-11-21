@@ -510,6 +510,15 @@ html[data-host="browser"] .win-dock {
 #result-rewards { margin-top: 2px; color: var(--reward-ink); font-size: .76rem; font-weight: 740; }
 #result-detail:empty { display: none; }
 
+#relax-goal-result {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--play-good);
+  font-size: .78rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
 .win-dock :is(#next, #result-home) {
   max-width: 20ch;
   overflow-wrap: anywhere;
