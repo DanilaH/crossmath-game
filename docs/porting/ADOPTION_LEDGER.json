@@ -33,39 +33,45 @@
       "sourceFeatureId": "easy-six-relax",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "MATCH",
-      "currentImplementation": "В content-v2 есть отдельный шестишаговый Relax",
+      "currentImplementation": "Дорожка Relax имеет собственный курсор. Её первый ID совпал с полем 16 новой кампании; после обеих побед курсор Relax равен 1, второй базовой выплаты нет.",
       "codePath": "src/content/rotation.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Сверить позиции 0–5 после восстановления Free",
+      "nextAction": "Перед сменой порядка выдачи согласовать подбор нерешённого ID той же корзины и версионирование старого прогресса.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L34",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/content/rotation.ts",
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "easy-six-challenge",
       "sourceFeatureId": "easy-six-challenge",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "MATCH",
-      "currentImplementation": "Free Challenge ведёт собственный курсор",
+      "currentImplementation": "Курсор Challenge независим. Кампания 136–240 буквально вызывает ту же дорожку с индексами 0–104. Сверено по src/content/catalog.ts.",
       "codePath": "src/content/rotation.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Проверить смену дорожки и возврат на тот же шаг",
+      "nextAction": "Проверить переход из кампании 136 в первую игру Challenge, включая старую версию сохранения.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L45",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/content/rotation.ts",
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "easy-bank-reindex",
       "sourceFeatureId": "easy-bank-reindex",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Собственный банк и переиндексация, другой объём и период",
+      "currentImplementation": "Переиспользование и перестановка банка есть; размер и интервалы отличаются. В двух разных режимах одно и то же поле может появиться подряд уже до первого оборота.",
       "codePath": "src/content/rotation.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Сравнить расстояние до повтора перед и после оборота",
+      "nextAction": "Проверить раздельно повтор после оборота и ранний переход между режимами; не удваивать награду за ID.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L56",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/content/rotation.ts",
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "easy-owl-equality",
@@ -229,13 +235,15 @@
       "sourceFeatureId": "easy-switch",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Выбор Free и замена партии доступны через навигацию",
+      "currentImplementation": "У режимов есть слоты. В меню кампании «Последний результат» при активном результате Relax открыл Relax.",
       "codePath": "src/ui/gameUi.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Сравнить число касаний и сохранность партии при смене из поля",
+      "nextAction": "Открывать результат выбранного режима по слоту; тестировать тот же ID и баланс после возврата.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L200",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/ui/gameUi.ts",
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "guru-direct-hint",
@@ -796,13 +804,13 @@
       "sourceFeatureId": "guru-endless",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Есть Endless, Submit и отдельные личные рекорды solo/assisted",
+      "currentImplementation": "В Endless игрок подаёт полную раскладку и ведёт отдельные личные рекорды. Применение помощи переводит забег в assisted, Undo статус не снимает; диалог до применения сообщает только цену и действие.",
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Записать один одинаковый по сложности этап и условия финиша в обоих приложениях",
+      "nextAction": "Показать последствие для рекорда до первой помощи. Сопоставить с исходным экраном и записями оригинала.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L669",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/meta/career.ts",
       "consumerCheck0510": {
         "version": "0.5.10",
         "versionCode": 15,
@@ -810,7 +818,9 @@
         "evidence": "https://github.com/DanilaH/crossmath-game/blob/64c4ada23f8a5f03bf5f0699d5c629c88ffdddf4/docs/acceptance/mode-unlocks-0510/README.md",
         "comparison": "PARTIAL",
         "observed": "Веб-код подписанного APK. После 14 разных полей входы в «Испытание» и Endless закрыты. После 15 результат называет оба и каждое нажатие открывает соответствующий режим. Порог 15 и совместное объявление — решения нашей игры."
-      }
+      },
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "guru-achievements",
@@ -1066,13 +1076,15 @@
       "sourceFeatureId": "easy-hint-price",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Покупка помощи списала 60, наблюдалось 240→180",
+      "currentImplementation": "В 0.5.13 при нуле кредитов стоимость 60. На балансе 10 кнопка покупки активна; отказ безопасно сохраняет деньги и расстановку. EasyFun 1.1.9 указывает цену 120.",
       "codePath": "src/app/session.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "До подтверждения показать фактическую нехватку или цену с кредитом. Проверить состояния 1/60, 60/60, один кредит, отмену и повторный тап на той же расстановке. См. docs/porting/ui-audit-057/README.md.",
+      "nextAction": "Сразу показать недостающую сумму, проверить кредит, баланс 59/60, отмену и повтор.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L885",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/session.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/app/session.ts",
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "guru-ad-protect",
@@ -1184,13 +1196,15 @@
       "sourceFeatureId": "easy-result-tabs",
       "status": "ROADMAPPED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Есть основное действие и раскрытие состава награды, цели и статистика открываются отдельно",
+      "currentImplementation": "Состав выплаты доступен в результате. Из меню кампании после победы вне кампании выбирается результат активного режима.",
       "codePath": "src/ui/gameUi.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Отдельно проверить доступность подробностей результата, открытие нового режима и возврат из карточки детали. Сохранить одобренный показ выплаты и сразу доступный следующий ход. См. docs/porting/ui-audit-057/README.md.",
+      "nextAction": "Привязать результат к контексту раздела и показать номер последнего поля кампании.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L982",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/ui/gameUi.ts",
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "easy-tray-sign",
@@ -1209,14 +1223,16 @@
       "id": "easy-theme",
       "sourceFeatureId": "easy-theme",
       "status": "EVIDENCE_GAP",
-      "comparison": "UNKNOWN",
-      "currentImplementation": "У продукта утверждён свoй стиль, доступны настройки комфорта; условия исходного переключателя UNKNOWN",
+      "comparison": "PARTIAL",
+      "currentImplementation": "Светлая тема при первом пуске и тёмная Мастерская в 0.5.13; смена через паузу, холодный запуск и сохранение фишки и кошелька проверены. У EasyFun в prefab есть BtnTheme, путь, условия и доступные темы требуют запуска.",
       "codePath": "src/ui/metaView.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Открыть поле и проверить доступные темы, включая сохранение выбора",
+      "nextAction": "Записать выбор темы на оригинале EasyFun 1.1.9, включая повторный запуск.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1004",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/metaView.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/ui/metaView.ts",
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "easy-level-change",
@@ -1340,13 +1356,15 @@
       "sourceFeatureId": "easy-wallet-visual",
       "status": "ROADMAPPED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Баланс и состав награды видны, свой материал и траектория жетона остаются предложением",
+      "currentImplementation": "В 0.5.13 реализована одобренная прибавка монет; первая победа +10, а повтор одного ID в другом режиме +0.",
       "codePath": "src/ui/gameUi.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Зафиксировать одобренный владельцем вид текущей прибавки монет и сверить его до/после изменения оболочки на тех же сохранениях, включая пропуск, reload и повтор поля. Сумма, момент выплаты и повторная выдача проверяются отдельно. См. docs/porting/ui-audit-057/README.md.",
+      "nextAction": "Сохранить вид и однократность выплаты. На устройстве проверить синхронизацию при сворачивании в момент получения.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1114",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/ui/gameUi.ts",
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "easy-pause",
@@ -1366,13 +1384,15 @@
       "sourceFeatureId": "easy-daily-archive",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Daily и архив сохраняют назначения, правила доступны по собственной дате",
+      "currentImplementation": "Незаконченная старая дата с жизнями восстанавливается. Просроченный проигрыш тоже получает кнопку «продолжить» и ведёт к недоступному повтору. На главной тот же тупик.",
       "codePath": "src/meta/calendar.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Проверить новый календарь на свежем и старом профилях, сегодняшнюю дату, пройденную, закрытую и начатую за границей окна. См. docs/porting/ui-audit-057/README.md.",
+      "nextAction": "Развести игровые и завершённые слоты; проверить возраст 30/31 дней у активной и отложенной партии.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1136",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/calendar.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/meta/calendar.ts",
+      "reviewedVersion": "0.5.13",
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
     },
     {
       "id": "plan-editor",
@@ -2379,5 +2399,14 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1959",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
     }
-  ]
+  ],
+  "latestReview": {
+    "version": "0.5.13",
+    "versionCode": 18,
+    "codeCommit": "96dc46873398b6d8367ce455d0bd6e7db6ffe25b",
+    "artifactSource": "071c35c330c457901eeb778246fed2fb659bfb5c",
+    "apkSha256": "fe31812947c181b0345c9af5a9b958d841cd1d727479e42aa825ccf9f043d607",
+    "report": "docs/porting/play-audit-0513/README.md",
+    "scope": "Delta over consumer baseline. Per-ID check types and file comparison are in play-audit-0513/coverage.csv. Original runtime conditions stay UNKNOWN unless supported by original evidence."
+  }
 }
