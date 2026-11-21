@@ -257,6 +257,15 @@ export class GameSession {
     const witness = set.witness.filter(offer => !offer.freeTrack || available.some(current => current.freeTrack===offer.freeTrack && current.puzzleId===offer.puzzleId));
     return witness.find(o=>contribution(slot.goalId,o,set.dayKey)>0&&!this.state.meta.contributedIds.includes(o.puzzleId)&&(o.campaignPosition===undefined||o.campaignPosition<=this.state.profile.campaignCursor)&&!o.requiresSolved?.length)??witness[0]??available.find(o=>!this.state.meta.contributedIds.includes(o.puzzleId))??null;
   }
+  questStartsNewRun(index: number): boolean {
+    return this.state.career.run?.status === 'failed' && this.questOffer(index)?.mode === 'endless';
+  }
+  openQuest(index: number, replace = false, elapsed = 0): Promise<OpenOutcome> {
+    const offer = this.questOffer(index);
+    if (!offer) return Promise.resolve('unavailable');
+    if (offer.mode === 'endless' && this.state.career.run?.status === 'failed') return this.newRun(false, elapsed);
+    return this.openOffer(offer, replace, elapsed, true);
+  }
   async openEndless(elapsed=0,advanceWon=false):Promise<OpenOutcome>{
     if(this.busy||this.state.profile.solvedIds.length<config.unlockProposal.endlessAfterNewWins)return 'unavailable';
     const saved=storedSlot(this.state,'endless');if(!saved||this.state.career.run?.status==='ended')return this.newRun(false,elapsed);

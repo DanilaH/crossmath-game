@@ -42,9 +42,19 @@ export class GameUi {
     this.ads=adsProvider?new AdsController(session,adsProvider,value=>this.blocker('ad',value),()=>this.render()):undefined;
     this.feedback=new Feedback(()=>session.state.settings);
     this.board=new BoardView($('board'),$('tray'),$('note'),this.feedback,()=>this.busy||session.writing||this.blocked||this.saveFailed||!this.ready,()=>this.reduced(),(action,metadata)=>this.command(action,metadata),()=>this.language);
-    this.meta=new MetaView($('hub'),{navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:offer=>this.openOffer(offer),quest:index=>{const offer=session.questOffer(index);if(offer)this.openOffer(offer,true);},blocking:value=>this.blocker('modal',value)});
+    this.meta=new MetaView($('hub'),{
+      navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),
+      free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),
+      endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:(offer,repeat)=>this.openOffer(offer,repeat),
+      quest:index=>{
+        const offer=session.questOffer(index);
+        if (offer) this.open((replace,time)=>session.openQuest(index,replace,time),offer.mode);
+      },
+      questStartsNewRun:index=>session.questStartsNewRun(index),blocking:value=>this.blocker('modal',value),
+    });
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});for(const id of ['end-run','finish-run'])$(id).onclick=()=>this.run(async time=>({committed:await session.endRun(time)}),()=>this.leaveModal());
-    for(const id of ['home','home-from-pause','result-home'])$(id).onclick=()=>this.navigate('home');
+    for(const id of ['home','home-from-pause'])$(id).onclick=()=>this.navigate('home');
+    $('result-home').onclick=()=>this.navigate('home',!session.state.result?.campaignFinished);
     $('profile-open').onclick = () => this.navigate('profile');
     $('defeat-calendar').onclick = () => this.navigate('calendar');
     $('instrument-reward').onclick = () => this.meta.openInstrumentReward(session.state);
@@ -82,14 +92,15 @@ export class GameUi {
     this.timer=setInterval(()=>{this.tick();this.renderTime();if(this.ready)this.ads?.refresh();if(!this.busy&&this.ready&&!this.saveFailed&&session.hasDayChange())this.run(async()=>({committed:await session.refreshDay()}));else if(this.elapsed>=10)this.checkpoint();},2000);this.render();
   }
   private leaveModal():void{for(const id of ['pause-dialog','help-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}this.blocker('user',false);this.blocker('modal',false);$('restart-confirm').hidden=true;this.board.clearSelection();window.scrollTo(0,0);}
-  private navigate(screen: MetaScreen): void {
+  private navigate(screen: MetaScreen, campaignHistory = false): void {
     const from = this.session.state.meta.screen;
     if (from === screen) return;
     this.run(async time => ({committed:await this.session.navigate(screen,time)}), () => {
       this.leaveModal();
       const returnTo = {album:'album-open', calendar:'calendar-open', profile:'profile-open'} as const;
       requestAnimationFrame(() => {
-        if (screen === 'home' && from !== 'home' && from !== 'play') $(returnTo[from]).focus({preventScroll:true});
+        if (campaignHistory) this.meta.openCampaignHistory(this.session.state);
+        else if (screen === 'home' && from !== 'home' && from !== 'play') $(returnTo[from]).focus({preventScroll:true});
         else if (screen === 'play') $('level').focus({preventScroll:true});
         else if (screen !== 'home') {
           const heading = $('hub').querySelector('h1');
@@ -406,11 +417,13 @@ export class GameUi {
     if (showResult && s.result) {
       const reward = s.result;
       const endless = a.mode === 'endless';
-      const finished = a.mode === 'campaign' && s.profile.campaignCursor === routes.campaignSequence.length;
+      const campaignClosed = a.mode === 'campaign' && s.profile.campaignCursor === routes.campaignSequence.length;
+      const finished = reward.campaignFinished === true;
       const next = $<HTMLButtonElement>('next');
       const resultHome = $<HTMLButtonElement>('result-home');
       const replay = $<HTMLButtonElement>('result-replay');
       $('result-title').textContent = finished ? this.t('Маршрут пройден', 'Campaign complete')
+        : campaignClosed ? this.t(`Поле ${p.campaignPosition} решено повторно`, `Board ${p.campaignPosition} solved again`)
         : endless ? this.t('Этап пройден', 'Stage cleared') : this.t('Поле решено', 'Board solved');
       $('result-rewards').textContent = endless ? `+${quantity(this.language, reward.stageScore ?? 0, 'point')}`
         : reward.coins ? `+${quantity(this.language, reward.coins, 'coin')}`
@@ -418,9 +431,10 @@ export class GameUi {
         : this.t('Решено повторно', 'Solved again');
       next.textContent = a.mode === 'daily' ? this.t('В календарь', 'Back to calendar')
         : endless ? this.t('Следующий этап', 'Next stage') : this.t('Следующее поле', 'Next board');
-      next.hidden = finished;
+      next.hidden = campaignClosed;
       next.disabled = this.busy || (endless && run?.status !== 'active');
-      resultHome.hidden = !finished;
+      resultHome.textContent = finished ? this.t('На главную', 'Home') : this.t('Пройденные поля', 'Completed boards');
+      resultHome.hidden = !campaignClosed;
       resultHome.disabled = this.busy;
       replay.disabled = this.busy || !this.session.canRestart();
       replay.hidden = endless;

@@ -20,6 +20,7 @@ export interface Completion {
   collectionFragments?:number; rankLevel?:number;
   stageScore?:number; runScore?:number; stageKey?:string; badges?:string[];
   relaxGoalProgress?: number;
+  campaignFinished?: true;
 }
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
@@ -63,7 +64,9 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
     }
   }
   coins+=cardCoins; profile.coins+=coins;
-  if (next.attempt.mode === 'campaign' && campaignSequence(next.contentVersion)[profile.campaignCursor] === p.puzzleId) profile.campaignCursor++;
+  const campaign = campaignSequence(next.contentVersion);
+  const previousCursor = profile.campaignCursor;
+  if (next.attempt.mode === 'campaign' && campaign[previousCursor] === p.puzzleId) profile.campaignCursor++;
   const track = next.attempt.freeTrack;
   if (track) {
     const progress = next.meta.freeProgress ??= {relax: 0, challenge: 0};
@@ -73,6 +76,7 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
     collectionFragments:profile.fragments,rankLevel:profile.rank,unlockedModes:modeUnlockThresholds
       .filter(([, threshold]) => previousWins < threshold && profile.solvedIds.length >= threshold)
       .map(([mode]) => mode)};
+  if (previousCursor < campaign.length && profile.campaignCursor === campaign.length) next.result.campaignFinished = true;
   settleDailyAndQuests(next,next.result);
   settleRelaxGoal(next,next.result);
   next.career.modes[next.attempt.mode].completions++;
@@ -128,6 +132,8 @@ export function decodeSave(input: unknown): Save {
   if (a.status!=='won' && result!==null) return fail();
   if (result && (![result.coins,result.xp,result.rankUps,result.fragments,result.cardCoins].every(nonnegative) || typeof result.first!=='boolean' || !Number.isFinite(result.elapsedPlaying) || result.elapsedPlaying<0)) return fail();
   if(result?.badges&&(!Array.isArray(result.badges)||result.badges.some(id=>!config.achievements.some(b=>b.id===id))))fail();
+  if (result?.campaignFinished !== undefined && (result.campaignFinished !== true || a.mode !== 'campaign' ||
+    p.campaignCursor !== 240 || campaignSequence(s.contentVersion).at(-1) !== a.puzzleId)) fail();
   if (result?.relaxGoalProgress !== undefined && (a.mode !== 'free' || a.freeTrack !== 'relax' ||
     !nonnegative(result.relaxGoalProgress) || result.relaxGoalProgress > (s.meta.relaxGoalIds?.length ?? 0))) fail();
   };

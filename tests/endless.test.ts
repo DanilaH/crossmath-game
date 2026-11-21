@@ -39,6 +39,50 @@ describe('E1 Endless transaction and statistics',()=>{
   expect(session.state.attempt.status).toBe('out-of-lives');expect(session.state.career.run!.status).toBe('failed');expect(session.state.career.records[recordVersion].solo).toBeNull();expect(await session.endRun()).toBe(true);const record=structuredClone(session.state.career.records[recordVersion].solo);expect(record?.boards).toBe(1);expect(await session.endRun()).toBe(false);
   await session.newRun();await win(session);expect(session.state.career.run!.solvedStages).toBe(1);expect(session.state.career.achievements.run3).toBeUndefined();expect(session.state.career.records[recordVersion].solo).toEqual(record);
  });
+ it('routes the Daily Endless goal through active, won, failed and finished runs',async()=>{
+  const {session,repo}=await setup();
+  await session.openEndless();
+  const runId=session.state.career.run!.id;
+  async function fromGoal(startsNew=false){
+    await session.navigate('calendar');
+    const set=session.state.meta.quests!;
+    set.slots[0]={goalId:'endless',progress:0,target:1,paid:false};
+    set.witness=[{puzzleId:routes.endlessSequence[0]!,mode:'endless'}];
+    session.state.meta.slotReceipts=session.state.meta.slotReceipts.filter(key=>key!==`${set.dayKey}:0`);
+    expect(session.questStartsNewRun(0)).toBe(startsNew);
+    const balance=session.state.profile.coins;
+    expect(await session.openQuest(0)).toBe('opened');
+    expect(session.state.profile.coins).toBe(balance);
+    expect(session.state.meta.quests?.slots[0]?.progress).toBe(0);
+  }
+  await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:getPuzzle(session.state.attempt.puzzleId).cells.find(c=>c.given===undefined)!.id});
+  const active=structuredClone(session.state.attempt);
+  await fromGoal();
+  expect(session.state.attempt).toEqual(active);
+  await session.restart();
+  await win(session);
+  const scoredRun=session.state.career.run!.id;
+  await fromGoal();
+  expect(session.state.career.run).toMatchObject({id:scoredRun,stage:1,solvedStages:1});
+  await fill(session);
+  const cells=getPuzzle(session.state.attempt.puzzleId).cells.filter(c=>c.given===undefined);
+  for(let i=0;i<3;i++){await session.command({type:'MoveCell',from:cells[0]!.id,to:cells[i+1]!.id});await session.command({type:'SubmitEndless'});}
+  expect(session.state.career.run?.status).toBe('failed');
+  await session.navigate('calendar');
+  expect(await session.openEndless()).toBe('opened');
+  expect(session.state.career.run?.id).toBe(scoredRun);
+  await fromGoal(true);
+  const newId=session.state.career.run!.id;
+  expect(newId).not.toBe(scoredRun);
+  expect(newId).not.toBe(runId);
+  expect(session.state.attempt).toMatchObject({status:'playing',lives:3,stageId:0});
+  const record=structuredClone((await repo.load()).career.records[recordVersion].solo);
+  expect(record).toMatchObject({runId:scoredRun,boards:1});
+  await session.endRun();
+  await fromGoal();
+  expect(session.state.career.run!.id).not.toBe(newId);
+  expect((await repo.load()).career.records[recordVersion].solo).toEqual(record);
+ });
  it('marks the whole run assisted and keeps solo/assisted records separate, including help retry',async()=>{
   const{session,repo}=await setup();await session.openEndless();await win(session);await session.endRun();const solo=structuredClone(session.state.career.records[recordVersion].solo);
   await session.openEndless();const plan=session.prepareHelp('reveal')!;await session.help('reveal','help-once',0,plan);await session.help('reveal','help-once',0,plan);expect(session.state.career.run!.assisted).toBe(true);expect(session.state.career.modes.endless.reveals).toBe(1);expect(session.state.attempt.status).toBe('playing');

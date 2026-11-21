@@ -75,7 +75,7 @@ export function nextFragmentText(save:Save):string {
   const remaining=progress.complete?progress.nextTier?.remaining:progress.target-save.profile.solvedIds.length;
   return localize(save.settings.language,`Новых полей до детали: ${remaining??0}`,`New boards until next part: ${remaining??0}`);
 }
-interface Actions { navigate:(screen:MetaScreen)=>void; campaign:()=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer)=>void; quest:(index:number)=>void; blocking:(blocked:boolean)=>void }
+interface Actions { navigate:(screen:MetaScreen)=>void; campaign:()=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
 const partsEN = [
   ['Frame','Rods','Left beads','Right beads'],
   ['Tray','Units','Fives','Tens'],
@@ -129,6 +129,11 @@ export class MetaView {
     if (!this.modeDialog.open) return false;
     this.modeDialog.close();
     return true;
+  }
+  openCampaignHistory(save: Save): void {
+    this.showModePage(save, 'campaign', true);
+    if (!this.modeDialog.open) this.modeDialog.showModal();
+    this.modeChoices.querySelector('summary')?.focus({preventScroll:true});
   }
   backFromModes(): boolean {
     if (!this.modeDialog.open) return false;
@@ -228,8 +233,8 @@ export class MetaView {
 
     const stage = el('section', 'resume-card');
     const completed = !resume && campaignFinished;
-    const primary = this.button(completed ? this.t('Смотреть результат', 'View result') : this.t('Продолжить', 'Continue'),
-      resume ? () => this.actions.navigate('play') : this.actions.campaign,
+    const primary = this.button(completed ? this.t('Пройденные поля', 'Completed boards') : this.t('Продолжить', 'Continue'),
+      resume ? () => this.actions.navigate('play') : completed ? () => this.openCampaignHistory(save) : this.actions.campaign,
       resume ? 'continue-game' : 'campaign-primary', true);
     primary.append(this.arrow());
     stage.append(el('p', 'resume-context', contexts[mode]),
@@ -322,10 +327,12 @@ export class MetaView {
     return button;
   }
 
-  private showModePage(save: Save, page: ModePage): void {
+  private showModePage(save: Save, page: ModePage, openHistory = false): void {
     this.modePage = page;
     this.modeChoices.replaceChildren();
     this.renderModes(save);
+    const history = this.modeChoices.querySelector('details');
+    if (history && openHistory) history.open = true;
     this.modeDialog.scrollTop = 0;
   }
 
@@ -389,8 +396,10 @@ export class MetaView {
     const id = campaignContinuation(save);
     const position = id && getPuzzle(id).campaignPosition;
     const completed = campaignSequence(save.contentVersion).slice(0, save.profile.campaignCursor);
-    this.modeChoices.append(this.button(this.t(`Продолжить · Поле ${position}`, `Continue · Board ${position}`),
-      this.actions.campaign, 'campaign-continue', true));
+    if (completed.length < campaignSequence(save.contentVersion).length || storedSlot(save,'campaign')?.attempt.status === 'playing') {
+      this.modeChoices.append(this.button(this.t(`Продолжить · Поле ${position}`, `Continue · Board ${position}`),
+        this.actions.campaign, 'campaign-continue', true));
+    }
 
     const result = storedSlot(save, 'campaign')?.result;
     if (result) {
@@ -406,7 +415,7 @@ export class MetaView {
     for (const puzzleId of completed) {
       const puzzle = getPuzzle(puzzleId);
       const item = this.button(String(puzzle.campaignPosition),
-        () => this.actions.offer({puzzleId, mode:'campaign'}), `replay-${puzzleId}`);
+        () => this.actions.offer({puzzleId, mode:'campaign'},true), `replay-${puzzleId}`);
       item.setAttribute('aria-label', this.t(`Открыть поле ${puzzle.campaignPosition}`, `Open board ${puzzle.campaignPosition}`));
       list.append(item);
     }
@@ -421,7 +430,18 @@ export class MetaView {
     const count = paid === undefined ? '' : ` · ${paid}/${set!.slots.length}`;
     panel.append(el('summary', '', this.t('Задания дня', 'Daily goals') + count));
     if(!set){panel.append(el('p','muted',save.profile.solvedIds.length<5?this.t("Откроются после пяти разных побед.", "Solve five different boards to unlock goals."):this.t("Сегодня можно продолжить маршрут.", "You can continue the campaign today.")));this.root.append(panel);return;}
-    for(const [i,slot] of set.slots.entries()){const goal=goals.get(slot.goalId)!,b=this.button('',()=>this.actions.quest(i));b.dataset.quest=String(i);b.disabled=this.disabled||slot.paid;b.classList.add('quest');b.append(el('span','',this.t(goal.ru,goal.en)),el('strong','',slot.paid?'✓ +10':`${slot.progress} / ${slot.target}`));panel.append(b);}
+    for (const [i,slot] of set.slots.entries()) {
+      const goal = goals.get(slot.goalId)!;
+      const button = this.button('', () => this.actions.quest(i));
+      button.dataset.quest = String(i);
+      button.disabled = this.disabled || slot.paid;
+      button.classList.add('quest');
+      const copy = el('span','quest-copy');
+      copy.append(el('span','',this.t(goal.ru,goal.en)));
+      if (!slot.paid && this.actions.questStartsNewRun(i)) copy.append(el('small','quest-action',this.t('Начать новый забег','Start a new run')));
+      button.append(copy,el('strong','',slot.paid?'✓ +10':`${slot.progress} / ${slot.target}`));
+      panel.append(button);
+    }
     panel.append(el('p','muted',set.slots.every(s=>s.paid)?this.t("План выполнен · +30 монет получены", "All goals complete · 30 coins earned"):this.t("За каждую цель +10, за весь план ещё +30 монет.", "Earn 10 coins per goal and 30 more for the full set.")));
     if(set.replacements.length)panel.append(el('p','muted',this.t("Недоступная цель заменена. Для новой цели нужно одно действие.", "An unavailable goal was replaced. The new goal takes one action.")));this.root.append(panel);
   }

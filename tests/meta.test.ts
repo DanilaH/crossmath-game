@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { boards, config, dailyBank, dailyVersion, freeAssignmentVersion, freeTrackPuzzle, getPuzzle, newFreeTrackPuzzle, referenceBoards, routes } from '../src/content/catalog';
+import { boards, campaignSequence, config, dailyBank, dailyVersion, freeAssignmentVersion, freeTrackPuzzle, getPuzzle, newFreeTrackPuzzle, referenceBoards, routes } from '../src/content/catalog';
 import { rotations } from '../src/content/rotation';
 import { createSave, decodeSave, settleCompletion } from '../src/app/model';
 import { GameSession, storedSlot } from '../src/app/session';
@@ -199,6 +199,25 @@ describe('D calendar and mode state',()=>{
  });
  it('moves the campaign cursor even when the next canonical ID was previously rewarded elsewhere',async()=>{
   const{session}=await setup();await campaign(session,5);await session.next();const id=session.state.attempt.puzzleId;session.state.profile.solvedIds.push(id);await session.update({},false);await win(session);expect(session.state.result!.baseCoins).toBe(0);expect(session.state.profile.campaignCursor).toBe(6);
+ });
+ it.each([false,true])('records the finish once even if the final puzzle was solved elsewhere (%s)',async previouslySolved=>{
+  const day='2026-11-18',seed=createSave('p',day+'T12:00:00Z','UTC','initial');
+  const sequence=campaignSequence(seed.contentVersion),final=sequence.at(-1)!;
+  seed.profile.campaignCursor=sequence.length-1;
+  seed.profile.solvedIds=sequence.slice(0,previouslySolved?sequence.length:-1);
+  seed.attempt=createAttempt(getPuzzle(final),'first-finish');
+  const {session,repo}=await setup(day,seed);
+  await win(session);
+  const finished=await repo.load();
+  expect(finished.result).toMatchObject({campaignFinished:true,first:!previouslySolved});
+  if(previouslySolved)expect(finished.result!.baseCoins).toBe(0);
+  for(const puzzleId of [final,sequence[0]!]){
+    expect(await session.openOffer({puzzleId,mode:'campaign'},false,0,true)).toBe('opened');
+    expect(session.state.attempt.status).toBe('playing');
+    await win(session);
+    expect((await repo.load()).result).toMatchObject({first:false,coins:0});
+    expect((await repo.load()).result?.campaignFinished).toBeUndefined();
+  }
  });
  it('Daily lives end at zero with free restart and do not leak into another mode',async()=>{
   const{session}=await setup();await campaign(session,5);await session.openDaily('2026-11-18');session.state.attempt.lives=0;session.state.attempt.status='out-of-lives';await session.update({},false);const balance=session.state.profile.coins;

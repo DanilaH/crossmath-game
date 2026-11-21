@@ -323,6 +323,8 @@ body.in-hub, #mode-dialog, #replace-dialog {
 #replace-error { color: var(--bad); }
 #replace-reload { margin-top: 8px; }
 .campaign-history { padding: 2px 0 8px; border-block: 1px solid var(--play-line); }
+.quest-copy { display: grid; gap: 4px; }
+.quest-action { color: var(--teal); font-weight: 600; }
 .mode-group { display: grid; gap: 5px; }
 
 .calendar-subtitle {
