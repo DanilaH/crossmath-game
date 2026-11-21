@@ -7,7 +7,9 @@ import { createAttempt } from '../core/engine';
 import { assertInventory, isSolved } from '../core/types';
 import type { Attempt } from '../core/types';
 import type { MetaState } from '../meta/types';
-import { createMeta, refreshDay, settleDailyAndQuests, settleRelaxGoal, upgradeSave, validateMeta } from '../meta/progress';
+import { createMeta, refreshDay, settleDailyAndQuests, upgradeSave, validateMeta } from '../meta/progress';
+import { activeTrackGoal, settleTrackGoal, validTrackGoalReceipt } from '../meta/trackGoals';
+import type { TrackGoalReceipt } from '../meta/trackGoals';
 import { isCalendarDay } from '../meta/calendar';
 import { createCareer, settleAchievements, settleStage, upgradeCareer, validateCareer } from '../meta/career';
 import type { Career } from '../meta/career';
@@ -22,6 +24,7 @@ export interface Completion {
   relaxGoalProgress?: number;
   campaignFinished?: true;
   dailyTrophyMonth?: string;
+  trackGoal?: TrackGoalReceipt;
 }
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
@@ -69,6 +72,7 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
   const previousCursor = profile.campaignCursor;
   if (next.attempt.mode === 'campaign' && campaign[previousCursor] === p.puzzleId) profile.campaignCursor++;
   const track = next.attempt.freeTrack;
+  const activeGoal = track ? activeTrackGoal(next,track) : null;
   if (track) {
     const progress = next.meta.freeProgress ??= {relax: 0, challenge: 0};
     if (next.attempt.freeIndex === progress[track]) progress[track]++;
@@ -79,7 +83,7 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
       .map(([mode]) => mode)};
   if (previousCursor < campaign.length && profile.campaignCursor === campaign.length) next.result.campaignFinished = true;
   settleDailyAndQuests(next,next.result,now);
-  settleRelaxGoal(next,next.result);
+  settleTrackGoal(next,next.result,activeGoal);
   next.career.modes[next.attempt.mode].completions++;
   if(next.attempt.mode==='endless'){next.result.stageScore=settleStage(next);next.result.runScore=next.career.run!.score;next.result.stageKey=`${next.attempt.runId}:${next.attempt.stageId}`;}
   next.result.badges=settleAchievements(next,now,next.result.id);
@@ -139,6 +143,7 @@ export function decodeSave(input: unknown): Save {
     !s.meta.monthlyTrophies?.[result.dailyTrophyMonth]?.earnedAt || result.dailyCoins !== config.dailyBonusCoins)) fail();
   if (result?.relaxGoalProgress !== undefined && (a.mode !== 'free' || a.freeTrack !== 'relax' ||
     !nonnegative(result.relaxGoalProgress) || result.relaxGoalProgress > (s.meta.relaxGoalIds?.length ?? 0))) fail();
+  if (result?.trackGoal !== undefined && (result.relaxGoalProgress !== undefined || !validTrackGoalReceipt(s,a,result.trackGoal))) fail();
   };
   validateAttempt(a,s.result,s.meta.activeSlot);
   const attempts=new Set([a.id]);

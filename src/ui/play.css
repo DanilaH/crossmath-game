@@ -519,6 +519,7 @@ html[data-host="browser"] .win-dock {
   overflow-wrap: anywhere;
 }
 #daily-trophy-result { color: var(--reward-ink); }
+#relax-goal-result.pending-goal { color: var(--play-muted); }
 
 .win-dock :is(#next, #result-home) {
   max-width: 20ch;

@@ -1,20 +1,10 @@
 import { config, getPuzzle } from '../content/catalog';
 import { isCalendarDay, profileDay } from './calendar';
 import { restoreMonthlyTrophies, settleMonthlyTrophy, validateMonthlyTrophies } from './monthlyTrophy';
+import { relaxGoalTarget, validateTrackGoalWins } from './trackGoals';
 import { contribution, refreshQuests } from './missions';
 import type { Save, Completion } from '../app/model';
 import type { MetaState } from './types';
-
-export const relaxGoalTarget = 3;
-
-export function settleRelaxGoal(save: Save, receipt: Completion): void {
-  if (save.attempt.mode !== 'free' || save.attempt.freeTrack !== 'relax') return;
-  const ids = save.meta.relaxGoalIds ??= [];
-  if (ids.length >= relaxGoalTarget) return;
-  const {puzzleId} = save.attempt;
-  if (getPuzzle(puzzleId).difficulty === 'easy' && !ids.includes(puzzleId)) ids.push(puzzleId);
-  receipt.relaxGoalProgress = ids.length;
-}
 
 export function createMeta(createdAt:string,zone:string):MetaState {
   return {version:1,screen:'play',activeSlot:'campaign',inactive:{},freeDifficulty:'easy',effectiveDay:profileDay(createdAt,zone),issuedDays:0,quests:null,contributedIds:[],assignments:{},completedDates:[],slotReceipts:[],setReceipts:[]};
@@ -68,6 +58,7 @@ export function validateMeta(save:Save):void {
   const goalIds = m.relaxGoalIds;
   if (goalIds !== undefined && (!Array.isArray(goalIds) || goalIds.length > relaxGoalTarget || new Set(goalIds).size !== goalIds.length ||
     goalIds.some(id => typeof id !== 'string' || !save.profile.solvedIds.includes(id) || getPuzzle(id).difficulty !== 'easy'))) throw Error('Corrupt Relax goal');
+  validateTrackGoalWins(save);
   if(!m.inactive||Array.isArray(m.inactive)||!m.assignments||Array.isArray(m.assignments)||m.activeSlot in m.inactive)throw Error('Duplicate active slot');
   if(m.quests){const q=m.quests;if(q.dayKey!==m.effectiveDay||q.configVersion!==config.configVersion||!nonnegative(q.issueIndex)||!Array.isArray(q.slots)||q.slots.length!==3||!Array.isArray(q.witness)||q.witness.length>3||!Array.isArray(q.replacements))throw Error('Corrupt quest set');
     q.slots.forEach((s,i)=>{if(!config.goals.some(g=>g.id===s.goalId)||!nonnegative(s.target)||s.target<1||!nonnegative(s.progress)||s.progress>s.target||typeof s.paid!=='boolean'||s.paid!==m.slotReceipts.includes(`${q.dayKey}:${i}`)||s.paid&&s.progress!==s.target)throw Error('Corrupt quest slot');});
