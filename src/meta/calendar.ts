@@ -15,8 +15,13 @@ export function calendarPuzzle(day:string, legacy = false):string {
 }
 export function dateAvailable(createdAt:string,zone:string,effectiveDay:string,selected:string):boolean {
   if(!isCalendarDay(selected))return false;
-  const lower=Math.max(calendarDayIndex(profileDay(createdAt,zone)),calendarDayIndex(effectiveDay)-config.calendar.previousDaysAccessible);
-  return calendarDayIndex(selected)>=lower&&selected<=effectiveDay;
+  return selected>=dailyArchiveStart(createdAt,zone,effectiveDay)&&selected<=effectiveDay;
+}
+
+export function dailyArchiveStart(createdAt:string,zone:string,effectiveDay:string):string {
+  const oldest=dayFromIndex(calendarDayIndex(effectiveDay)-config.calendar.previousDaysAccessible);
+  const created=profileDay(createdAt,zone);
+  return created>oldest?created:oldest;
 }
 
 export function canResumeDaily(attempt: Attempt | undefined): boolean {

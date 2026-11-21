@@ -12,6 +12,7 @@ export interface MetaState {
   version:1; screen:MetaScreen; activeSlot:string; inactive:Record<string,SavedSlot>; freeDifficulty:Difficulty; freeProgress?:Record<FreeTrack,number>;
   effectiveDay:string; issuedDays:number; quests:QuestSet|null; contributedIds:string[];
   assignments:Record<string,{puzzleId:string;calendarVersion:string}>; completedDates:string[];
+  archivedDailyResults?: Record<string,Completion>;
   slotReceipts:string[]; setReceipts:string[];
   relaxGoalIds?: string[];
   monthlyTrophies?: Record<string,MonthlyTrophy>;

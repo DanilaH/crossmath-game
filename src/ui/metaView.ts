@@ -9,7 +9,7 @@ import { goals } from '../meta/missions';
 import { activeTrackGoal, relaxGoalTarget, trackGoalDefinitions } from '../meta/trackGoals';
 import type { TrackGoalId } from '../meta/trackGoals';
 import { calendarDayIndex, canResumeDaily, dateAvailable, dayFromIndex, profileDay } from '../meta/calendar';
-import { trophyMonthStatus } from '../meta/monthlyTrophy';
+import { reachablePastTrophies, trophyMonthStatus } from '../meta/monthlyTrophy';
 import type { Completion, Save } from '../app/model';
 import { rankThreshold } from '../app/model';
 import { achievementValue, recordVersion } from '../meta/career';
@@ -505,8 +505,7 @@ export class MetaView {
     return button;
   }
 
-  private trophyRow(save: Save, month: string): HTMLElement {
-    const status = trophyMonthStatus(save,month);
+  private trophyRow(save: Save, month: string, status = trophyMonthStatus(save,month)): HTMLElement {
     const row = el('section','monthly-trophy');
     row.dataset.month = month;
     row.dataset.status = status.kind;
@@ -558,16 +557,9 @@ export class MetaView {
     month.id = 'month-trophy';
     month.tabIndex = -1;
     this.root.append(month);
+    for(const past of reachablePastTrophies(save)) this.root.append(this.trophyRow(save,past.month,past.status));
     this.quests(save);
     this.trophyArchive(save);
-    const previousMonthEnd = calendarDayIndex(`${currentMonth}-01`)-1;
-    const previousMonth = dayFromIndex(previousMonthEnd).slice(0,7);
-    if (created <= previousMonthEnd && !save.meta.monthlyTrophies?.[previousMonth]) {
-      const previous = el('details','hub-panel');
-      previous.id = 'previous-trophy-month';
-      previous.append(el('summary','',this.t('Предыдущий месяц','Previous month')),this.trophyRow(save,previousMonth));
-      this.root.append(previous);
-    }
     if (created < today) {
       this.root.append(el('h2', 'calendar-subtitle', this.t('Прошлые задачи','Past challenges')));
       const past = el('div','date-grid');

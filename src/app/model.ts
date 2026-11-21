@@ -10,7 +10,7 @@ import type { MetaState } from '../meta/types';
 import { createMeta, refreshDay, settleDailyAndQuests, upgradeSave, validateMeta } from '../meta/progress';
 import { activeTrackGoal, settleTrackGoal, validTrackGoalReceipt } from '../meta/trackGoals';
 import type { TrackGoalReceipt } from '../meta/trackGoals';
-import { isCalendarDay } from '../meta/calendar';
+import { dailyArchiveStart, isCalendarDay } from '../meta/calendar';
 import { createCareer, settleAchievements, settleStage, upgradeCareer, validateCareer } from '../meta/career';
 import type { Career } from '../meta/career';
 
@@ -22,7 +22,7 @@ export interface Completion {
   collectionFragments?:number; rankLevel?:number;
   stageScore?:number; runScore?:number; stageKey?:string; badges?:string[];
   relaxGoalProgress?: number;
-  campaignFinished?: true;
+  campaignFinished?: boolean;
   dailyTrophyMonth?: string;
   trackGoal?: TrackGoalReceipt;
 }
@@ -45,6 +45,16 @@ export function createSave(id: string, now: string, timeZone: string, attemptId:
     attempt:createAttempt(campaignPuzzle(0, contentVersion),attemptId),result:null,helpReceipts:{}};
 }
 export const rankThreshold = (rank: number): number => Math.min(config.rank.baseXp+config.rank.stepXp*(rank-1),config.rank.maxXpPerRank);
+
+export function campaignResultStatus(save:Save): 'finish'|'complete'|'replay'|null {
+  const {attempt,result}=save;
+  if (attempt.mode!=='campaign' || !result) return null;
+  const campaign=campaignSequence(save.contentVersion);
+  if (save.profile.campaignCursor!==campaign.length) return null;
+  if (result.campaignFinished===true) return 'finish';
+  if (result.campaignFinished===undefined && result.puzzleId===campaign.at(-1)) return result.first?'finish':'complete';
+  return 'replay';
+}
 const modeUnlockThresholds: ReadonlyArray<readonly [string, number]> = [
   ['free', config.unlockProposal.freePlayAfterNewWins],
   ['daily', config.unlockProposal.dailyAfterNewWins],
@@ -81,7 +91,9 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
     collectionFragments:profile.fragments,rankLevel:profile.rank,unlockedModes:modeUnlockThresholds
       .filter(([, threshold]) => previousWins < threshold && profile.solvedIds.length >= threshold)
       .map(([mode]) => mode)};
-  if (previousCursor < campaign.length && profile.campaignCursor === campaign.length) next.result.campaignFinished = true;
+  if (next.attempt.mode==='campaign' && profile.campaignCursor===campaign.length) {
+    next.result.campaignFinished=previousCursor<campaign.length;
+  }
   settleDailyAndQuests(next,next.result,now);
   settleTrackGoal(next,next.result,activeGoal);
   next.career.modes[next.attempt.mode].completions++;
@@ -116,6 +128,14 @@ export function decodeSave(input: unknown): Save {
   if(s.meta.freeProgress && ![s.meta.freeProgress.relax,s.meta.freeProgress.challenge].every(nonnegative)) return fail();
   validateCareer(s);
   validateAdState(s);
+  const validateReceipt=(result:Completion):void=>{
+    if (![result.coins,result.xp,result.rankUps,result.fragments,result.cardCoins].every(nonnegative) || typeof result.first!=='boolean' || !Number.isFinite(result.elapsedPlaying) || result.elapsedPlaying<0) fail();
+    if (result.badges&&(!Array.isArray(result.badges)||result.badges.some(id=>!config.achievements.some(b=>b.id===id)))) fail();
+  };
+  const validateDailyTrophyReceipt=(result:Completion,day:string):void=>{
+    if (result.dailyTrophyMonth !== undefined && (day.slice(0,7) !== result.dailyTrophyMonth ||
+      !s.meta.monthlyTrophies?.[result.dailyTrophyMonth]?.earnedAt || result.dailyCoins !== config.dailyBonusCoins)) fail();
+  };
   const validateAttempt=(a:Attempt,result:Completion|null,slot:string):void=>{
   const puzzle=getPuzzle(a.puzzleId);
   if (a.freeTrack !== undefined) {
@@ -135,12 +155,13 @@ export function decodeSave(input: unknown): Save {
   assertInventory(puzzle,a); for (const layout of a.history) assertInventory(puzzle,layout);
   if (a.status==='won' && (!isSolved(puzzle,a) || !result || result.attemptId!==a.id || result.puzzleId!==a.puzzleId || result.id!==`win:${a.id}` || !p.solvedIds.includes(a.puzzleId))) return fail();
   if (a.status!=='won' && result!==null) return fail();
-  if (result && (![result.coins,result.xp,result.rankUps,result.fragments,result.cardCoins].every(nonnegative) || typeof result.first!=='boolean' || !Number.isFinite(result.elapsedPlaying) || result.elapsedPlaying<0)) return fail();
-  if(result?.badges&&(!Array.isArray(result.badges)||result.badges.some(id=>!config.achievements.some(b=>b.id===id))))fail();
-  if (result?.campaignFinished !== undefined && (result.campaignFinished !== true || a.mode !== 'campaign' ||
-    p.campaignCursor !== 240 || campaignSequence(s.contentVersion).at(-1) !== a.puzzleId)) fail();
-  if (result?.dailyTrophyMonth !== undefined && (a.mode !== 'daily' || a.dayKey?.slice(0,7) !== result.dailyTrophyMonth ||
-    !s.meta.monthlyTrophies?.[result.dailyTrophyMonth]?.earnedAt || result.dailyCoins !== config.dailyBonusCoins)) fail();
+  if (result) validateReceipt(result);
+  if (result?.campaignFinished !== undefined && (typeof result.campaignFinished!=='boolean' || a.mode!=='campaign' ||
+    p.campaignCursor!==campaignSequence(s.contentVersion).length || result.campaignFinished && campaignSequence(s.contentVersion).at(-1)!==a.puzzleId)) fail();
+  if (result?.dailyTrophyMonth !== undefined) {
+    if (a.mode !== 'daily' || !a.dayKey) return fail();
+    validateDailyTrophyReceipt(result,a.dayKey);
+  }
   if (result?.relaxGoalProgress !== undefined && (a.mode !== 'free' || a.freeTrack !== 'relax' ||
     !nonnegative(result.relaxGoalProgress) || result.relaxGoalProgress > (s.meta.relaxGoalIds?.length ?? 0))) fail();
   if (result?.trackGoal !== undefined && (result.relaxGoalProgress !== undefined || !validTrackGoalReceipt(s,a,result.trackGoal))) fail();
@@ -149,6 +170,23 @@ export function decodeSave(input: unknown): Save {
   const attempts=new Set([a.id]);
   for(const [key,slot] of Object.entries(s.meta.inactive)){if(!slot||attempts.has(slot.attempt?.id))return fail();attempts.add(slot.attempt.id);validateAttempt(slot.attempt,slot.result,key);}
   for(const [day,assignment] of Object.entries(s.meta.assignments)){if(!isCalendarDay(day)||![routes.version,dailyVersion].includes(assignment.calendarVersion)) return fail();const puzzle=getPuzzle(assignment.puzzleId);if (assignment.calendarVersion === dailyVersion ? puzzle.bucket !== 'daily' : puzzle.contentVersion !== 1) return fail();}
+  const archive=s.meta.archivedDailyResults;
+  if (archive !== undefined) {
+    if (!archive || typeof archive!=='object' || Array.isArray(archive)) return fail();
+    const first=dailyArchiveStart(p.createdAt,p.timeZone,s.meta.effectiveDay);
+    const completed=new Set(s.meta.completedDates);
+    const solved=new Set(p.solvedIds);
+    for (const [day,receipt] of Object.entries(archive)) {
+      const slot=`daily:${day}`;
+      if (!receipt || day>=first || !completed.has(day) || s.meta.assignments[day]?.puzzleId!==receipt.puzzleId || !solved.has(receipt.puzzleId) ||
+        slot===s.meta.activeSlot || Object.hasOwn(s.meta.inactive,slot) || typeof receipt.attemptId!=='string' || !receipt.attemptId ||
+        attempts.has(receipt.attemptId) || receipt.id!==`win:${receipt.attemptId}` || receipt.campaignFinished!==undefined ||
+        receipt.relaxGoalProgress!==undefined || receipt.trackGoal!==undefined) return fail();
+      attempts.add(receipt.attemptId);
+      validateReceipt(receipt);
+      validateDailyTrophyReceipt(receipt,day);
+    }
+  }
   for (const receipt of Object.values(s.helpReceipts)) if (!receipt || !['applied','no_step','stale_snapshot','busy','already_solved','insufficient_resource','invalid_proof'].includes(receipt.outcome) || !['explain','reveal'].includes(receipt.kind) || !nonnegative(receipt.costCoins) || !nonnegative(receipt.costCredits)) return fail();
   return structuredClone(s);
 }

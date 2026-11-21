@@ -2,8 +2,8 @@ import { AdsController } from '../platform/ads';
 import type { AdsProvider } from '../platform/ads';
 import { dailyName, localize, localizeDocument, missingCoinsLabel, quantity, trackName } from './locale';
 import type { Language } from './locale';
-import { config, getPuzzle, routes } from '../content/catalog';
-import { rankThreshold } from '../app/model';
+import { config, getPuzzle } from '../content/catalog';
+import { campaignResultStatus, rankThreshold } from '../app/model';
 import { BoardView, equationText } from './board';
 import type { MoveFeedback } from './board';
 import { Feedback } from './feedback';
@@ -54,7 +54,7 @@ export class GameUi {
     });
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});for(const id of ['end-run','finish-run'])$(id).onclick=()=>this.run(async time=>({committed:await session.endRun(time)}),()=>this.leaveModal());
     for(const id of ['home','home-from-pause'])$(id).onclick=()=>this.navigate('home');
-    $('result-home').onclick=()=>this.navigate('home',!session.state.result?.campaignFinished);
+    $('result-home').onclick=()=>this.navigate('home',campaignResultStatus(session.state)!=='finish');
     $('profile-open').onclick = () => this.navigate('profile');
     $('defeat-calendar').onclick = () => this.navigate('calendar');
     $('instrument-reward').onclick = () => this.meta.openInstrumentReward(session.state);
@@ -423,18 +423,20 @@ export class GameUi {
     if (showResult && s.result) {
       const reward = s.result;
       const endless = a.mode === 'endless';
-      const campaignClosed = a.mode === 'campaign' && s.profile.campaignCursor === routes.campaignSequence.length;
-      const finished = reward.campaignFinished === true;
+      const campaignStatus = campaignResultStatus(s);
+      const campaignClosed = campaignStatus !== null;
+      const finished = campaignStatus === 'finish';
       const next = $<HTMLButtonElement>('next');
       const resultHome = $<HTMLButtonElement>('result-home');
       const replay = $<HTMLButtonElement>('result-replay');
       $('result-title').textContent = finished ? this.t('Маршрут пройден', 'Campaign complete')
-        : campaignClosed ? this.t(`Поле ${p.campaignPosition} решено повторно`, `Board ${p.campaignPosition} solved again`)
+        : campaignStatus === 'complete' ? this.t('Кампания завершена','Campaign completed')
+        : campaignStatus === 'replay' ? this.t(`Поле ${p.campaignPosition} решено повторно`, `Board ${p.campaignPosition} solved again`)
         : endless ? this.t('Этап пройден', 'Stage cleared') : this.t('Поле решено', 'Board solved');
       $('result-rewards').textContent = endless ? `+${quantity(this.language, reward.stageScore ?? 0, 'point')}`
         : reward.coins ? `+${quantity(this.language, reward.coins, 'coin')}`
         : reward.xp ? `+${reward.xp} XP`
-        : this.t('Решено повторно', 'Solved again');
+        : campaignClosed ? '' : this.t('Решено повторно', 'Solved again');
       next.textContent = a.mode === 'daily' ? this.t('В календарь', 'Back to calendar')
         : endless ? this.t('Следующий этап', 'Next stage') : this.t('Следующее поле', 'Next board');
       next.hidden = campaignClosed;

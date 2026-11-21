@@ -1,5 +1,5 @@
 import type { Completion, Save } from '../app/model';
-import { calendarDayIndex, canResumeDaily, dateAvailable, dayFromIndex, isCalendarDay, profileDay } from './calendar';
+import { calendarDayIndex, canResumeDaily, dailyArchiveStart, dayFromIndex, isCalendarDay, profileDay } from './calendar';
 
 export interface MonthlyTrophy { earnedAt: string | null }
 
@@ -68,14 +68,32 @@ export function trophyMonthStatus(save: Save, month: string) {
     return {...base,kind:'partial',nextMonth:dayFromIndex(first+total).slice(0,7)} as const;
   }
   let playableDay: string | undefined;
+  const archiveStart=dailyArchiveStart(createdAt,timeZone,effectiveDay);
   for (let index=first; index<first+total; index++) {
     const day = dayFromIndex(index);
     if (day > effectiveDay) break;
     if (solved.has(day)) continue;
     const slot = `daily:${day}`;
     const attempt = save.meta.activeSlot === slot ? save.attempt : inactive[slot]?.attempt;
-    if (!dateAvailable(createdAt,timeZone,effectiveDay,day) && !canResumeDaily(attempt)) return {...base,kind:'missed'} as const;
+    if (day<archiveStart && !canResumeDaily(attempt)) return {...base,kind:'missed'} as const;
     playableDay ??= day;
   }
   return {...base,kind:'available',playableDay} as const;
+}
+
+export function reachablePastTrophies(save:Save) {
+  const {effectiveDay,inactive}=save.meta;
+  const current=effectiveDay.slice(0,7);
+  const first=dailyArchiveStart(save.profile.createdAt,save.profile.timeZone,effectiveDay);
+  const months=new Set<string>();
+  for(let index=calendarDayIndex(first);index<calendarDayIndex(current+'-01');index++) {
+    months.add(dayFromIndex(index).slice(0,7));
+  }
+  for(const attempt of [save.attempt,...Object.values(inactive).map(slot=>slot.attempt)]) {
+    if (canResumeDaily(attempt) && attempt.dayKey && attempt.dayKey<first) months.add(attempt.dayKey.slice(0,7));
+  }
+  return [...months].sort().reverse().flatMap(month=>{
+    const status=trophyMonthStatus(save,month);
+    return status.kind==='available' && status.playableDay ? [{month,status}] : [];
+  });
 }

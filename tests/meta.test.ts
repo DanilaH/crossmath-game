@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { boards, campaignSequence, config, dailyBank, dailyVersion, freeAssignmentVersion, freeTrackPuzzle, getPuzzle, newFreeTrackPuzzle, referenceBoards, routes } from '../src/content/catalog';
 import { rotations } from '../src/content/rotation';
-import { createSave, decodeSave, settleCompletion } from '../src/app/model';
+import { campaignResultStatus, createSave, decodeSave, settleCompletion } from '../src/app/model';
 import { GameSession, storedSlot } from '../src/app/session';
 import { SaveRepository, SAVE_KEY } from '../src/app/saveRepository';
 import { unlockAnnouncement } from '../src/ui/locale';
 import { createAttempt } from '../src/core/engine';
 import { calendarDayIndex, calendarPuzzle, dateAvailable, dayFromIndex, profileDay } from '../src/meta/calendar';
-import { trophyMonthStatus } from '../src/meta/monthlyTrophy';
+import { reachablePastTrophies, trophyMonthStatus } from '../src/meta/monthlyTrophy';
 import { activeTrackGoal } from '../src/meta/trackGoals';
 import { availableOffers, contribution, findWitness, freeTrackOffer, goals, resolveQuests } from '../src/meta/missions';
 import type { Save } from '../src/app/model';
@@ -93,7 +93,9 @@ describe('D calendar and mode state',()=>{
   expect(await session.openDaily(day)).toBe('opened');expect(session.state.attempt.id).toBe(id);expect(session.canRestart()).toBe(true);
   clock.now='2026-12-19T12:00:00Z';await session.refreshDay();const revision=session.state.revision;
   expect(await session.openDaily(day)).toBe('unavailable');expect(await session.restart()).toBe(false);expect(session.state.revision).toBe(revision);
-  await session.openCampaign();expect(await session.openDaily(day)).toBe('unavailable');expect(storedSlot(session.state,`daily:${day}`)?.attempt.id).toBe(id);
+  await session.openCampaign();expect(await session.openDaily(day)).toBe('unavailable');
+  expect(storedSlot(session.state,`daily:${day}`)).toBeUndefined();
+  expect(session.state.meta.assignments[day]?.puzzleId).toBe(calendarPuzzle(day));
  });
  it('keeps old assigned dates and the legacy campaign while unassigned dates use the new bank',async()=>{
   const day='2026-11-18',previous=createSave('p',day+'T12:00:00Z','UTC','a','content-v1');
@@ -212,13 +214,30 @@ describe('D calendar and mode state',()=>{
   await win(session);
   const finished=await repo.load();
   expect(finished.result).toMatchObject({campaignFinished:true,first:!previouslySolved});
+  expect(campaignResultStatus(finished)).toBe('finish');
   if(previouslySolved)expect(finished.result!.baseCoins).toBe(0);
+  const legacy=structuredClone(finished);
+  delete legacy.result!.campaignFinished;
+  const old=await setup(day,legacy);
+  const caption=previouslySolved?'complete':'finish';
+  expect(campaignResultStatus(await old.repo.load())).toBe(caption);
+  await old.session.openDaily(day);await old.session.openCampaign();
+  const returned=await old.repo.load();
+  expect(campaignResultStatus(returned)).toBe(caption);
+  expect(returned.result).toEqual(legacy.result);
+  expect(returned.profile).toEqual(legacy.profile);
   for(const puzzleId of [final,sequence[0]!]){
     expect(await session.openOffer({puzzleId,mode:'campaign'},false,0,true)).toBe('opened');
     expect(session.state.attempt.status).toBe('playing');
     await win(session);
     expect((await repo.load()).result).toMatchObject({first:false,coins:0});
-    expect((await repo.load()).result?.campaignFinished).toBeUndefined();
+    const replay=await repo.load();
+    expect(replay.result?.campaignFinished).toBe(false);
+    expect(campaignResultStatus(replay)).toBe('replay');
+    if(puzzleId!==final){
+      delete replay.result!.campaignFinished;
+      expect(campaignResultStatus(decodeSave(replay))).toBe('replay');
+    }
   }
  });
  it('Daily lives end at zero with free restart and do not leak into another mode',async()=>{
@@ -379,7 +398,9 @@ describe('Daily calendar trophies',()=>{
   expect(saved.meta.monthlyTrophies).toEqual({[month]:{earnedAt:null}});
   expect(saved.profile.coins).toBe(legacy.profile.coins);
   expect(saved.attempt).toEqual(legacy.attempt);
-  expect(saved.meta.inactive).toEqual((await repo.load()).meta.inactive);
+  const parked=await repo.load();
+  expect(saved.meta.inactive).toEqual({});
+  expect(saved.meta.archivedDailyResults?.[month+'-01']).toEqual(parked.meta.inactive['daily:'+month+'-01']?.result);
   expect(saved.result).toBeNull();
  });
  it.each(['before','after'] as const)('keeps trophy, wallet and receipt atomic on an error %s persistence',async timing=>{
@@ -514,5 +535,133 @@ describe('First personal goal step by track',()=>{
   await session.command({type:'Undo'});await win(session);
   expect((await repo.load()).result?.relaxGoalProgress).toBe(1);
   expect(session.state.meta.quests?.slots[0]?.paid).toBe(true);
+ });
+});
+
+describe('Expired Daily layouts',()=>{
+ async function legacyArchive() {
+  const first='2026-01-01';
+  const {session,clock}=await setup(first);
+  await campaign(session,5);
+  await session.openDaily(first);await win(session);
+  for(const day of ['2026-01-02','2026-01-03','2026-01-04']){
+   clock.now=day+'T12:00:00Z';
+   await session.openDaily(day);
+   if(day.endsWith('02')){
+    const puzzle=getPuzzle(session.state.attempt.puzzleId);
+    await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:puzzle.cells.find(c=>c.given===undefined)!.id});
+   }else if(day.endsWith('03')){
+    session.state.attempt.status='out-of-lives';session.state.attempt.lives=0;
+    await session.update({},false);
+   }else await win(session);
+  }
+  await session.openCampaign();
+  const seed=structuredClone(session.state);
+  seed.meta.effectiveDay='2026-02-03';seed.meta.quests=null;seed.meta.contributedIds=[];
+  return seed;
+ }
+ function verifyCompaction(seed:Save,saved:Save){
+  expect(saved.attempt).toEqual(seed.attempt);
+  expect(saved.profile).toEqual(seed.profile);
+  expect(saved.meta.assignments).toEqual(seed.meta.assignments);
+  expect(saved.meta.completedDates).toEqual(seed.meta.completedDates);
+  expect(saved.meta.monthlyTrophies).toEqual(seed.meta.monthlyTrophies);
+  expect(saved.meta.slotReceipts).toEqual(seed.meta.slotReceipts);
+  expect(saved.meta.setReceipts).toEqual(seed.meta.setReceipts);
+  expect(saved.meta.archivedDailyResults).toEqual({'2026-01-01':seed.meta.inactive['daily:2026-01-01']!.result});
+  expect(saved.meta.inactive).toEqual({
+   'daily:2026-01-02':seed.meta.inactive['daily:2026-01-02'],
+   'daily:2026-01-04':seed.meta.inactive['daily:2026-01-04'],
+  });
+ }
+ it('retains a live expired board and an in-window replay across migration and moves a closed result only when parked',async()=>{
+  const seed=await legacyArchive();
+  const {session,repo}=await setup('2026-02-03',seed);
+  verifyCompaction(seed,await repo.load());
+  expect(await session.openDaily('2026-01-01')).toBe('unavailable');
+  expect(await session.openDaily('2026-01-02')).toBe('opened');
+  expect(session.state.attempt).toEqual(seed.meta.inactive['daily:2026-01-02']!.attempt);
+  expect(await session.restart()).toBe(false);
+  await session.command({type:'Undo'});await win(session);
+  const last=(await repo.load()).result;
+  expect(last?.dailyCoins).toBe(30);
+  expect((await repo.load()).meta.activeSlot).toBe('daily:2026-01-02');
+  expect(await session.openDaily('2026-01-04')).toBe('opened');
+  expect(session.state.result).toEqual(seed.meta.inactive['daily:2026-01-04']!.result);
+  expect((await repo.load()).meta.archivedDailyResults?.['2026-01-02']).toEqual(last);
+  await session.restart();await win(session);
+  expect((await repo.load()).result?.dailyCoins).toBe(0);
+ });
+ it.each(['before','after','backup'] as const)('restores the same legacy profile after %s migration scenario',async scenario=>{
+  const seed=await legacyArchive(),raw=JSON.stringify(seed),storage=new Memory();
+  const backup=SAVE_KEY+'.backup';
+  storage.data.set(SAVE_KEY,scenario==='backup'?'broken':raw);
+  storage.data.set(backup,raw);
+  const write=storage.setItem.bind(storage);
+  storage.setItem=async(key,value)=>{
+   if(key===SAVE_KEY && scenario==='before')throw Error('interrupted before replacement');
+   await write(key,value);
+   if(key===SAVE_KEY && scenario==='after')throw Error('interrupted after replacement');
+  };
+  const fresh=()=>{throw Error('must recover the original profile');};
+  const repo=new SaveRepository(storage,fresh);
+  if(scenario==='before'){
+   await expect(repo.load()).rejects.toThrow('interrupted before replacement');
+   expect(storage.data.get(SAVE_KEY)).toBe(raw);
+   verifyCompaction(seed,decodeSave(JSON.parse(storage.data.get(backup)!)));
+   storage.setItem=write;
+  } else verifyCompaction(seed,await repo.load());
+  const recovered=new SaveRepository(storage,fresh);
+  verifyCompaction(seed,await recovered.load());
+  expect(JSON.parse(storage.data.get(SAVE_KEY)!).meta.archivedDailyResults).toBeDefined();
+ });
+});
+
+describe('Reachable previous monthly trophies',()=>{
+ function almostDone(month:string,total:number,created=month+'-01'){
+  const seed=createSave('p',created+'T12:00:00Z','UTC','initial');
+  const start=calendarDayIndex(month+'-01');
+  seed.profile.solvedIds=campaignSequence(seed.contentVersion).slice(0,5);
+  seed.meta.completedDates=Array.from({length:total-1},(_,i)=>dayFromIndex(start+i)).filter(day=>day>=created);
+  return seed;
+ }
+ it.each(['2026-03-01','2026-03-02'])('exposes January, including the inclusive archive edge on %s',async now=>{
+  const seed=almostDone('2026-01',31);
+  const {session,repo}=await setup(now,seed);
+  await session.refreshDay();
+  const january=reachablePastTrophies(session.state).find(item=>item.month==='2026-01');
+  expect(january?.status).toEqual({kind:'available',solved:30,total:31,playableDay:'2026-01-31'});
+  expect(await session.openDaily(january!.status.playableDay!)).toBe('opened');
+  await win(session);
+  const won=await repo.load();
+  expect(won.result).toMatchObject({dailyTrophyMonth:'2026-01',dailyCoins:30});
+  expect(reachablePastTrophies(won).some(item=>item.month==='2026-01')).toBe(false);
+  await session.next();
+  expect((await repo.load()).meta.calendarTrophyMonth).toBe('2026-01');
+ });
+ it.each(['playing','out-of-lives','missing'] as const)('on 3 March January requires an old live attempt (%s)',async status=>{
+  const day='2026-01-31',seed=almostDone('2026-01',31);
+  if(status!=='missing'){
+   const puzzle=getPuzzle(calendarPuzzle(day)),attempt=createAttempt(puzzle,'old-january','daily');
+   attempt.dayKey=day;
+   attempt.status=status;
+   if(status==='out-of-lives')attempt.lives=0;
+   seed.meta.inactive['daily:'+day]={attempt,result:null};
+   seed.meta.assignments[day]={puzzleId:puzzle.puzzleId,calendarVersion:dailyVersion};
+  }
+  const {session}=await setup('2026-03-03',seed);
+  await session.refreshDay();
+  const january=reachablePastTrophies(session.state).find(item=>item.month==='2026-01');
+  expect(january?.status.playableDay).toBe(status==='playing'?day:undefined);
+  expect(await session.openDaily(day)).toBe(status==='playing'?'opened':'unavailable');
+ });
+ it('handles a leap day and excludes a partial first month',async()=>{
+  for(const created of ['2028-02-01','2028-02-20']){
+   const seed=almostDone('2028-02',29,created);
+   const {session}=await setup('2028-03-30',seed);
+   await session.refreshDay();
+   const feb=reachablePastTrophies(session.state).find(item=>item.month==='2028-02');
+   expect(feb?.status.playableDay).toBe(created.endsWith('01')?'2028-02-29':undefined);
+  }
  });
 });

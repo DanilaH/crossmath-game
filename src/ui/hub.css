@@ -426,7 +426,7 @@ body.in-hub, #mode-dialog, #replace-dialog {
 .monthly-trophy[data-status="earned"] { border-color: var(--reward-edge); background: linear-gradient(120deg, var(--reward-wash), transparent 75%), var(--play-panel); }
 .monthly-trophy[data-status="earned"] :is(.month-seal, .month-copy span) { color: var(--reward-ink); }
 .trophy-play-day { grid-column: 1 / -1; color: var(--action-ink); font: inherit; }
-#trophy-archive, #previous-trophy-month { padding-block: 2px 10px; }
+#trophy-archive { padding-block: 2px 10px; }
 #trophy-archive .monthly-trophy + .monthly-trophy { margin-top: 8px; }
 
 .workbench {
