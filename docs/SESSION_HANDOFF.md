@@ -1,5 +1,7 @@
 # Crossmath handoff
 
+**Current preview, 21 November 2026.** Start from the live head of `feat/mode-unlocks-0.5.10` / PR #4. [0.5.14–0.5.16 acceptance](acceptance/PACKAGES_ABC_0516.md) records the signed builds, checks and physical-device follow-up. New Free assignments record the version, basket position and puzzle ID with the attempt. Versions without an assignment marker retain their legacy ID check. The optional Relax goal IDs and receipt snapshots are durable within schema 4. Scope for the next release is in the [roadmap](ROADMAP.md#пакеты-после-аудита-0513).
+
 1. Read AGENTS, STATUS, PROJECT_DECISIONS, ROADMAP and latest acceptance. Owner TZ 1.0 and delivered product JSON govern rules. Current baseline `main`; PR #1 tracks the original implementation history. Inspect actual remote HEAD and preserve existing work.
 2. A–C delivered 0.1.0; D in 0.2.0; E1 in 0.3.0 (versionCode 3, schema 3) implements offline Endless/profile/achievements. Next is E2: full RU/EN, platform reward/interstitial adapters and scripted callbacks. E is not complete. Physical phone acceptance of A–D is still pending, not inferred from automation.
 3. Run `npm run check`, `npm run content:verify`, `npm run android:sync:release`, `npm run test:browser`; real Gradle debug/releaseCheck and exact APK inspection. Browser script includes A–C first25 plus D fresh unlocks/+100/eight-win card; long-progress display fixtures are labelled.

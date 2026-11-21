@@ -1,6 +1,12 @@
-# Crossmath status — 19 November 2026
+# Crossmath status
 
-Baseline: `main`. Development history: `feat/vertical-slice-20261118` and PR #1. Version 0.4.0 / versionCode 4 / schema 4. E2 adds RU/EN and the optional Android ads bridge, verified with a scripted provider. Real SDK acceptance remains open.
+## Current development preview · 21 November 2026
+
+`feat/mode-unlocks-0.5.10` / PR #4 carries 0.5.16 (versionCode 21). The post-0.5.13 packages cover campaign result routing, Daily archive and help, unsolved Relax/Challenge assignments, and the three-Easy-board Relax goal. [Package acceptance](acceptance/PACKAGES_ABC_0516.md) · [Reference adoption ledger](porting/ADOPTION_LEDGER.json).
+
+The preview APKs share the `com.danilah.crossmath.themecheck` identity and 0.5.13 preview certificate. Physical-device update, Android system text scaling and native resume remain open. The dated trophy and local duel are separate release packages.
+
+Earlier baseline, 19 November 2026: `main`, `feat/vertical-slice-20261118` and PR #1. Version 0.4.0 / versionCode 4 / schema 4. E2 adds RU/EN and the optional Android ads bridge, verified with a scripted provider. Real SDK acceptance remains open.
 
 0.5.3 preview adds a home screen with one continuation action, direct Daily and workshop entry, and a separate modes dialog. See [preview acceptance](ACCEPTANCE_PLAY_SCREEN_2026-11-19.md) for the exact APK and verification on `feat/play-screen-0.5`.
 
