@@ -2,7 +2,7 @@ import { challengeUnlockWins } from '../content/rotation';
 import type { FreeTrack } from '../content/rotation';
 import { activeSeconds, canRequestReward, createRewardRequest, settleReward } from '../platform/adState';
 import type { RewardEvent, RewardKind, RewardRequest } from '../platform/adState';
-import { campaignPuzzle, campaignSequence, config, dailyVersion, freeTrackPuzzle, getPuzzle, routes } from '../content/catalog';
+import { campaignPuzzle, campaignSequence, config, dailyVersion, freeAssignmentVersion, getPuzzle, routes } from '../content/catalog';
 import { applyCommand, applyHelpLayout, createAttempt } from '../core/engine';
 import { explain, verifyExplanation } from '../help/logic';
 import { materializeHelp, reveal } from '../help/reveal';
@@ -13,7 +13,7 @@ import type { HintPlan } from '../help/logic';
 import type { Transition } from '../core/engine';
 import type { SaveRepository } from './saveRepository';
 import { refreshDay } from '../meta/progress';
-import { availableOffers, contribution, mastered, refreshQuests } from '../meta/missions';
+import { availableOffers, contribution, freeTrackOffer, mastered, refreshQuests } from '../meta/missions';
 import { finishRun, recordTime, recordVersion } from '../meta/career';
 import type { EndlessRun } from '../meta/career';
 import { calendarPuzzle, canResumeDaily, dateAvailable, profileDay } from '../meta/calendar';
@@ -153,7 +153,23 @@ export class GameSession {
   async restart():Promise<boolean> {
     if(this.state.attempt.mode==='endless')return await this.newRun(true)==='opened';
     if (this.busy) return false;this.busy=true;
-    try { const next=structuredClone(this.state);refreshDay(next,this.now());if(!this.canRestart(next))return false;const old=next.attempt;next.attempt=createAttempt(getPuzzle(old.puzzleId),this.id(),old.mode);next.career.modes[old.mode].starts++;next.career.modes[old.mode].restarts++;if(old.dayKey)next.attempt.dayKey=old.dayKey;if(old.freeTrack){next.attempt.freeTrack=old.freeTrack;next.attempt.freeIndex=old.freeIndex!;}next.result=null;await this.persist(next,0);return true; } finally {this.finishWrite();}
+    try {
+      const next=structuredClone(this.state);
+      refreshDay(next,this.now());
+      if(!this.canRestart(next))return false;
+      const old=next.attempt, attempt=createAttempt(getPuzzle(old.puzzleId),this.id(),old.mode);
+      const stats=next.career.modes[old.mode];stats.starts++;stats.restarts++;
+      if (old.dayKey) attempt.dayKey=old.dayKey;
+      if (old.freeTrack) {
+        attempt.freeTrack=old.freeTrack;
+        attempt.freeIndex=old.freeIndex!;
+        if (old.freeAssignmentVersion!==undefined) attempt.freeAssignmentVersion=old.freeAssignmentVersion;
+      }
+      next.attempt=attempt;
+      next.result=null;
+      await this.persist(next,0);
+      return true;
+    } finally {this.finishWrite();}
   }
   async update(settings:Partial<Settings>, userPaused:boolean, elapsed=0):Promise<void> {
     if (this.busy) return;this.busy=true;
@@ -167,7 +183,10 @@ export class GameSession {
   canRestart(save=this.state):boolean{return save.attempt.mode!=='daily'||dateAvailable(save.profile.createdAt,save.profile.timeZone,save.meta.effectiveDay,save.attempt.dayKey!);}
   hasDayChange():boolean{return profileDay(this.now(),this.state.profile.timeZone)>this.state.meta.effectiveDay;}
   async refreshDay():Promise<boolean>{
-    if(this.busy)return false;const next=structuredClone(this.state);refreshDay(next,this.now());if(JSON.stringify(next.meta)===JSON.stringify(this.state.meta))return false;
+    if(this.busy)return false;const next=structuredClone(this.state), previousSet=next.meta.quests;
+    refreshDay(next,this.now());
+    if(previousSet && next.meta.quests===previousSet)refreshQuests(next);
+    if(JSON.stringify(next.meta)===JSON.stringify(this.state.meta))return false;
     this.busy=true;try{await this.persist(next,0);return true;}finally{this.finishWrite();}
   }
   async navigate(screen:MetaScreen,elapsed=0):Promise<boolean>{
@@ -186,10 +205,7 @@ export class GameSession {
     return id?this.openOffer({puzzleId:id,mode:'free'},replace,elapsed):Promise.resolve('unavailable');
   }
   openFreeTrack(track: FreeTrack, replace = false, elapsed = 0): Promise<OpenOutcome> {
-    const saved = storedSlot(this.state,'free')?.attempt;
-    const puzzleId = saved?.status === 'playing' && saved.freeTrack === track
-      ? saved.puzzleId : freeTrackPuzzle(track, this.state.meta.freeProgress?.[track] ?? 0).puzzleId;
-    return this.openOffer({puzzleId,mode:'free',freeTrack:track},replace,elapsed);
+    return this.openOffer(freeTrackOffer(this.state, track), replace, elapsed);
   }
   openDaily(day:string,elapsed=0):Promise<OpenOutcome>{return this.openOffer({puzzleId:this.state.meta.assignments[day]?.puzzleId??calendarPuzzle(day),mode:'daily',dayKey:day},false,elapsed);}
   async openOffer(offer:Offer,replace=false,elapsed=0,repeatCompleted=false):Promise<OpenOutcome>{
@@ -206,14 +222,13 @@ export class GameSession {
         const minimum = track === 'challenge' ? challengeUnlockWins : config.unlockProposal.freePlayAfterNewWins;
         if (wins < minimum) return 'unavailable';
         if (track) {
-          const expected = freeTrackPuzzle(track, next.meta.freeProgress?.[track] ?? 0);
-          if (expected.puzzleId !== puzzle.puzzleId && !sameBoard) return 'unavailable';
+          if (freeTrackOffer(next, track).puzzleId !== puzzle.puzzleId) return 'unavailable';
         } else if (!mastered(next).includes(puzzle.difficulty) || !routes.freePlayPools[puzzle.difficulty].includes(puzzle.puzzleId)) return 'unavailable';
       }
       if (offer.mode === 'daily' && (wins < config.unlockProposal.dailyAfterNewWins || !offer.dayKey ||
         (!canResumeDaily(saved?.attempt) && !dateAvailable(next.profile.createdAt, next.profile.timeZone, next.meta.effectiveDay, offer.dayKey)))) return 'unavailable';
       if(saved&&!sameBoard&&saved.attempt.status==='playing'&&!replace)return 'confirm_replace';
-      const continuing=sameBoard&&!(repeatCompleted&&saved.attempt.status==='won');
+      const continuing=sameBoard&&!(saved.attempt.status==='won'&&(track||repeatCompleted));
       if(offer.mode==='free'&&!track&&!continuing&&next.profile.solvedIds.includes(offer.puzzleId)&&routes.freePlayPools[puzzle.difficulty].some(id=>!next.profile.solvedIds.includes(id)))return 'unavailable';
       if(offer.mode==='daily'){
         const assignment=next.meta.assignments[offer.dayKey!];
@@ -228,15 +243,19 @@ export class GameSession {
       if(offer.mode==='daily')next.attempt.dayKey=offer.dayKey!;
       if (track && !continuing) {
         next.attempt.freeTrack = track;
-        next.attempt.freeIndex = sameBoard ? saved.attempt.freeIndex! : next.meta.freeProgress?.[track] ?? 0;
+        next.attempt.freeIndex = next.meta.freeProgress?.[track] ?? 0;
+        next.attempt.freeAssignmentVersion = freeAssignmentVersion;
       }
       delete next.meta.inactive[key];next.meta.activeSlot=key;next.meta.screen='play';if(offer.mode==='free')next.meta.freeDifficulty=puzzle.difficulty;
+      if (offer.mode === 'free' && !continuing) refreshQuests(next);
       await this.persist(next,0);return 'opened';
     }finally{this.finishWrite();}
   }
   questOffer(index:number):Offer|null{
     const set=this.state.meta.quests,slot=set?.slots[index];if(!set||!slot||slot.paid)return null;
-    return set.witness.find(o=>contribution(slot.goalId,o,set.dayKey)>0&&!this.state.meta.contributedIds.includes(o.puzzleId)&&(o.campaignPosition===undefined||o.campaignPosition<=this.state.profile.campaignCursor)&&!o.requiresSolved?.length)??set.witness[0]??availableOffers(this.state).find(o=>!this.state.meta.contributedIds.includes(o.puzzleId))??null;
+    const available = availableOffers(this.state);
+    const witness = set.witness.filter(offer => !offer.freeTrack || available.some(current => current.freeTrack===offer.freeTrack && current.puzzleId===offer.puzzleId));
+    return witness.find(o=>contribution(slot.goalId,o,set.dayKey)>0&&!this.state.meta.contributedIds.includes(o.puzzleId)&&(o.campaignPosition===undefined||o.campaignPosition<=this.state.profile.campaignCursor)&&!o.requiresSolved?.length)??witness[0]??available.find(o=>!this.state.meta.contributedIds.includes(o.puzzleId))??null;
   }
   async openEndless(elapsed=0,advanceWon=false):Promise<OpenOutcome>{
     if(this.busy||this.state.profile.solvedIds.length<config.unlockProposal.endlessAfterNewWins)return 'unavailable';

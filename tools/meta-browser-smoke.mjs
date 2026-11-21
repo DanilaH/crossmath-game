@@ -252,8 +252,9 @@ try{
  dense.profile.campaignCursor=hell.campaignPosition-1;
  dense.meta.screen='play';dense.meta.activeSlot='campaign';delete dense.meta.inactive.campaign;dense.result=null;
  dense.attempt={...dense.attempt,id:'dense-v2-check',puzzleId:hell.puzzleId,mode:'campaign',placements:{},trayOrder:hell.tray.map((_,i)=>'t'+i),history:[],commandIds:[],boardRevision:0};
- delete dense.attempt.freeTrack;delete dense.attempt.freeIndex;
+ delete dense.attempt.freeTrack;delete dense.attempt.freeIndex;delete dense.attempt.freeAssignmentVersion;
  await page.evaluate(save=>localStorage.setItem('crossmath.save.v1',JSON.stringify(save)),dense);await page.reload();await ready();
+ assert.equal((await snapshot()).attempt.id,dense.attempt.id);
  for(const [width,height] of [[320,568],[390,844]]){
    await page.setViewportSize({width,height});
    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));

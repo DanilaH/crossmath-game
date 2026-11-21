@@ -1,8 +1,8 @@
-import { challengeUnlockWins, isFreeTrack } from '../content/rotation';
+import { bucketTurn, challengeUnlockWins, isFreeTrack } from '../content/rotation';
 import type { ContentVersion } from '../content/rotation';
 import { createAdState, validateAdState } from '../platform/adState';
 import type { AdState } from '../platform/adState';
-import { config, getPuzzle, routes, campaignPuzzle, campaignSequence, dailyVersion, freeTrackPuzzle } from '../content/catalog';
+import { config, getPuzzle, routes, campaignPuzzle, campaignSequence, dailyVersion, freeAssignmentVersion, freeTrackPuzzle } from '../content/catalog';
 import { createAttempt } from '../core/engine';
 import { assertInventory, isSolved } from '../core/types';
 import type { Attempt } from '../core/types';
@@ -110,8 +110,12 @@ export function decodeSave(input: unknown): Save {
   if (a.freeTrack !== undefined) {
     if (a.mode !== 'free' || !isFreeTrack(a.freeTrack)) return fail();
     const cursor = s.meta.freeProgress?.[a.freeTrack] ?? 0;
-    if (!nonnegative(a.freeIndex) || a.freeIndex < cursor-1 || a.freeIndex > cursor-Number(a.status === 'won') || freeTrackPuzzle(a.freeTrack,a.freeIndex).puzzleId !== a.puzzleId) return fail();
-  } else if (a.freeIndex !== undefined || a.mode === 'free' && puzzle.contentVersion === 2) return fail();
+    if (!nonnegative(a.freeIndex) || a.freeIndex < cursor-1 || a.freeIndex > cursor-Number(a.status === 'won')) return fail();
+    const matchesAssignment = a.freeAssignmentVersion === undefined
+      ? freeTrackPuzzle(a.freeTrack, a.freeIndex).puzzleId === a.puzzleId
+      : a.freeAssignmentVersion === freeAssignmentVersion && puzzle.bucket === bucketTurn(a.freeTrack, a.freeIndex).bucket;
+    if (!matchesAssignment) return fail();
+  } else if (a.freeIndex !== undefined || a.freeAssignmentVersion !== undefined || a.mode === 'free' && puzzle.contentVersion === 2) return fail();
   if(a.mode==='endless'?typeof a.runId!=='string'||!nonnegative(a.stageId):a.runId!==undefined||a.stageId!==undefined)fail();
   if(slot!==(a.mode==='daily'?`daily:${a.dayKey}`:a.mode)||a.mode==='daily'&&(!isCalendarDay(a.dayKey)||s.meta.assignments[a.dayKey]?.puzzleId!==a.puzzleId)||a.mode!=='daily'&&a.dayKey!==undefined)fail();
   if (typeof a.id !== 'string' || !a.id || a.contentVersion!==puzzle.contentVersion || a.rulesetVersion!==puzzle.rulesetVersion || !['campaign','free','daily','endless'].includes(a.mode) || !['playing','won','out-of-lives'].includes(a.status)) return fail();

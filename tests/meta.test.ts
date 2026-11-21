@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { boards, config, dailyBank, dailyVersion, freeTrackPuzzle, getPuzzle, routes } from '../src/content/catalog';
+import { boards, config, dailyBank, dailyVersion, freeAssignmentVersion, freeTrackPuzzle, getPuzzle, newFreeTrackPuzzle, referenceBoards, routes } from '../src/content/catalog';
+import { rotations } from '../src/content/rotation';
 import { createSave, decodeSave, settleCompletion } from '../src/app/model';
 import { GameSession, storedSlot } from '../src/app/session';
 import { SaveRepository, SAVE_KEY } from '../src/app/saveRepository';
 import { unlockAnnouncement } from '../src/ui/locale';
 import { createAttempt } from '../src/core/engine';
 import { calendarDayIndex, calendarPuzzle, dateAvailable, dayFromIndex, profileDay } from '../src/meta/calendar';
-import { availableOffers, contribution, findWitness, goals, resolveQuests } from '../src/meta/missions';
+import { availableOffers, contribution, findWitness, freeTrackOffer, goals, resolveQuests } from '../src/meta/missions';
 import type { Save } from '../src/app/model';
 import type { Offer, QuestSet } from '../src/meta/types';
 import type { StorageAdapter } from '@danilah/mini-games-kit/platform';
@@ -111,7 +112,7 @@ describe('D calendar and mode state',()=>{
   const{session,repo}=await setup();await campaign(session,3);
   expect(await session.openFreeTrack('challenge')).toBe('unavailable');
   await session.openFreeTrack('relax');
-  expect(session.state.attempt.puzzleId).toBe(freeTrackPuzzle('relax',0).puzzleId);
+  expect(session.state.attempt.puzzleId).toBe('cm-own-02-040');
   await win(session);
   expect(session.state.meta.freeProgress).toEqual({relax:1,challenge:0});
   await session.restart();
@@ -119,7 +120,7 @@ describe('D calendar and mode state',()=>{
   await win(session);
   expect(session.state.meta.freeProgress).toEqual({relax:1,challenge:0});
   await session.next();
-  expect(session.state.attempt.puzzleId).toBe(freeTrackPuzzle('relax',1).puzzleId);
+  expect(session.state.attempt.puzzleId).toBe(newFreeTrackPuzzle('relax',1,session.state.profile.solvedIds).puzzleId);
   await session.openCampaign();await campaign(session,12);
   const current=storedSlot(session.state,'free')!.attempt;
   expect(await session.openFreeTrack('challenge')).toBe('confirm_replace');
@@ -128,6 +129,68 @@ describe('D calendar and mode state',()=>{
   expect((await repo.load()).attempt.freeIndex).toBe(0);
   await win(session);
   expect(session.state.meta.freeProgress).toEqual({relax:1,challenge:1});
+ });
+ it.each([true,false])('issues distinct first-pay IDs in both campaign/Relax orders (campaign first: %s)',async campaignFirst=>{
+  const {session,repo}=await setup();await campaign(session,campaignFirst?16:3);
+  if(campaignFirst)expect(session.state.result).toMatchObject({puzzleId:'cm-own-02-001',baseCoins:10});
+  expect(await session.openFreeTrack('relax')).toBe('opened');await win(session);
+  expect(session.state.result).toMatchObject({puzzleId:'cm-own-02-040',baseCoins:10});
+  if(!campaignFirst){await session.openCampaign();await campaign(session,13);expect(session.state.result).toMatchObject({puzzleId:'cm-own-02-001',baseCoins:10});}
+  expect((await repo.load()).meta.freeProgress?.relax).toBe(1);
+ });
+ it.each(['relax','challenge'] as const)('uses the same six baskets and issue policy for the menu, mission witness and Next in %s',async track=>{
+  const {session}=await setup();await campaign(session,15);
+  for(const [index,bucket] of rotations[track].entries()){
+   const offer=availableOffers(session.state).find(o=>o.freeTrack===track)!;
+   expect(getPuzzle(offer.puzzleId).bucket).toBe(bucket);
+   expect(session.state.profile.solvedIds).not.toContain(offer.puzzleId);
+   const opened=index===0 ? await session.openOffer(offer,false,0,true) : await session.next();
+   expect(opened).toBe(index===0?'opened':true);
+   expect(session.state.attempt).toMatchObject({puzzleId:offer.puzzleId,freeIndex:index,freeAssignmentVersion});
+   if(track==='challenge'&&index===0)expect(offer.puzzleId).toBe('cm-own-02-190');
+   await win(session);
+  }
+ });
+ it('uses the last unsolved puzzle and advances the cursor when exhausted fallback repeats the last won ID',async()=>{
+  const {session,repo}=await setup();await campaign(session,15);
+  const pool=referenceBoards.filter(p=>p.bucket==='hard-short');
+  const remaining=freeTrackPuzzle('challenge',1).puzzleId;
+  session.state.profile.solvedIds.push(...pool.filter(p=>p.puzzleId!==remaining).map(p=>p.puzzleId));
+  await session.update({},false);
+  await session.openFreeTrack('challenge');expect(session.state.attempt.puzzleId).toBe(remaining);await win(session);
+  const won=session.state.attempt.id;expect(await session.next()).toBe(true);
+  expect((await repo.load()).attempt).toMatchObject({puzzleId:remaining,freeIndex:1,status:'playing'});
+  expect(session.state.attempt.id).not.toBe(won);await win(session);
+  expect(session.state.result?.baseCoins).toBe(0);expect(session.state.meta.freeProgress?.challenge).toBe(2);
+ });
+ it('rechecks an unaccepted Free quest offer after the old ID becomes solved',async()=>{
+  const {session}=await setup();await campaign(session,5);
+  session.state.meta.quests=set(['free','win1','eq1']);
+  await session.refreshDay();
+  const advertised=session.questOffer(0)!;expect(advertised).toMatchObject({mode:'free',freeTrack:'relax',puzzleId:'cm-own-02-040'});
+  session.state.profile.solvedIds.push(advertised.puzzleId);
+  await session.refreshDay();
+  const updated=session.questOffer(0)!;
+  expect(updated).toMatchObject({freeTrack:'relax',puzzleId:freeTrackOffer(session.state,'relax').puzzleId});
+  expect(updated.puzzleId).not.toBe(advertised.puzzleId);
+  expect(await session.openOffer(advertised,false,0,true)).toBe('unavailable');
+  expect(await session.openOffer(updated,false,0,true)).toBe('opened');
+  expect(session.state.attempt.puzzleId).toBe(updated.puzzleId);
+ });
+ it('restores a legacy active or parked layout and rejects a forged assignment bucket or version',async()=>{
+  const {session,repo}=await setup();await campaign(session,15);
+  const initial=session.state;
+  const p=freeTrackPuzzle('relax',0),first=p.cells.find(c=>c.given===undefined)!;
+  const old=createAttempt(p,'issued-previously','free');old.freeTrack='relax';old.freeIndex=0;
+  old.placements[first.id]='t0';
+  initial.meta.inactive.free={attempt:old,result:null};await session.update({},false);
+  expect(freeTrackOffer(session.state,'relax').puzzleId).toBe(p.puzzleId);
+  expect(await session.openFreeTrack('challenge')).toBe('confirm_replace');
+  expect(storedSlot(await repo.load(),'free')?.attempt).toEqual(old);
+  await session.openFreeTrack('relax');expect((await repo.load()).attempt).toEqual(old);
+  const corrupt=await repo.load();corrupt.attempt.freeAssignmentVersion=freeAssignmentVersion;corrupt.attempt.freeIndex=1;corrupt.meta.freeProgress={relax:1,challenge:0};
+  expect(()=>decodeSave(corrupt)).toThrow();
+  await session.openCampaign();expect(storedSlot(await repo.load(),'free')?.attempt.placements).toEqual(old.placements);
  });
  it('advances active issuance once after missed days and never regresses on a clock rollback',async()=>{
   const{session,clock}=await setup();await campaign(session,5);const first=session.state.meta.issuedDays;

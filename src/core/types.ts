@@ -21,6 +21,7 @@ export interface Attempt extends Layout {
   dayKey?: string;
   freeTrack?: FreeTrack;
   freeIndex?: number;
+  freeAssignmentVersion?: 1;
   runId?:string; stageId?:number;
 }
 export type BoardAction =

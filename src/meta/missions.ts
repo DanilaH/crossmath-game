@@ -1,11 +1,19 @@
 import { challengeUnlockWins, freeTracks } from '../content/rotation';
-import { campaignSequence, config, freeTrackPuzzle, getPuzzle, routes } from '../content/catalog';
+import { campaignSequence, config, getPuzzle, newFreeTrackPuzzle, routes } from '../content/catalog';
+import type { FreeTrack } from '../content/rotation';
 import { calendarPuzzle } from './calendar';
 import type { Save } from '../app/model';
 import type { Difficulty } from '../core/types';
 import type { Offer, QuestSet, QuestSlot } from './types';
 export const goals=new Map(config.goals.map(g=>[g.id,g]));
 export const mastered=(save:Save):Difficulty[]=>[...new Set(save.profile.solvedIds.map(id=>getPuzzle(id).difficulty))];
+export function freeTrackOffer(save: Save, track: FreeTrack): Offer {
+  const {meta} = save;
+  const saved = meta.activeSlot === 'free' ? save.attempt : meta.inactive.free?.attempt;
+  const puzzleId = saved?.status === 'playing' && saved.freeTrack === track ? saved.puzzleId
+    : newFreeTrackPuzzle(track, meta.freeProgress?.[track] ?? 0, save.profile.solvedIds).puzzleId;
+  return {puzzleId, mode:'free', freeTrack:track};
+}
 export function nextEndlessStage(save:Save):number {const run=save.career.run,slot=save.meta.activeSlot==='endless'?save.attempt:save.meta.inactive.endless?.attempt;return run?.status==='active'?run.stage+Number(slot?.status==='won'):0;}
 export function availableOffers(save:Save):Offer[] {
   const {profile,meta}=save,offers:Offer[]=[];
@@ -20,7 +28,7 @@ export function availableOffers(save:Save):Offer[] {
   for (const track of freeTracks) {
     const threshold = track === 'challenge' ? challengeUnlockWins : config.unlockProposal.freePlayAfterNewWins;
     if (profile.solvedIds.length >= threshold) {
-      offers.push({puzzleId:freeTrackPuzzle(track, meta.freeProgress?.[track] ?? 0).puzzleId,mode:'free',freeTrack:track});
+      offers.push(freeTrackOffer(save, track));
     }
   }
   if(profile.solvedIds.length>=config.unlockProposal.dailyAfterNewWins&&!meta.completedDates.includes(meta.effectiveDay))offers.push({puzzleId:meta.assignments[meta.effectiveDay]?.puzzleId??calendarPuzzle(meta.effectiveDay),mode:'daily',dayKey:meta.effectiveDay});
