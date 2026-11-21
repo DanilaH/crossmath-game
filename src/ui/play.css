@@ -1,62 +1,3 @@
-/* Workshop palette shared by the board and navigation. */
-body:is(.in-play, .in-hub) {
-  --play-bg: #263143;
-  --play-ink: #fff3dd;
-  --play-muted: #c4cfdf;
-  --play-board: #f8efdf;
-  --play-board-ink: #253145;
-  --play-board-muted: #506075;
-  --play-grid: #c8baa5;
-  --play-board-edge: #d8c7a9;
-  --play-line: #61728a;
-  --play-socket: #dce3e9;
-  --play-socket-line: #a0adba;
-  --play-target: #eef8ff;
-  --play-outline: #285585;
-  --play-blue: #ffd28d;
-  --play-blue-ink: #352717;
-  --play-blue-wash: #3d526e;
-  --play-chip: #ffd184;
-  --play-chip-top: #ffdf9b;
-  --play-chip-ink: #432b18;
-  --play-chip-edge: #a96331;
-  --play-chip-rim: #87451d;
-  --play-good: #c5e4b9;
-  --play-board-good: #245646;
-  --play-good-wash: #d5e7cb;
-  --play-bad: #ffc2b3;
-  --play-board-bad: #a33325;
-  --play-bad-wash: #f9dad0;
-  --play-panel: #2e4059;
-  --table-glow: #b9955e25;
-  --paper-fiber: #77513717;
-  background: radial-gradient(ellipse 75% 72% at 50% 27%, var(--table-glow), transparent 90%), var(--play-bg);
-  color: var(--play-ink);
-}
-
-body:is(.in-play, .in-hub).dark {
-  --play-bg: #121c2a;
-  --play-muted: #b9c5d8;
-  --play-board: #334154;
-  --play-board-ink: #fff1d9;
-  --play-board-muted: #cad5e6;
-  --play-grid: #6a788d;
-  --play-board-edge: #a0adbf;
-  --play-line: #495a72;
-  --play-socket: #222f43;
-  --play-socket-line: #75869d;
-  --play-target: #3e5680;
-  --play-outline: #b5ddff;
-  --play-blue-wash: #334867;
-  --play-board-good: #c5e4b9;
-  --play-good-wash: #264438;
-  --play-board-bad: #ffc2b3;
-  --play-bad-wash: #663d3c;
-  --play-panel: #223146;
-  --table-glow: #b9955e0d;
-  --paper-fiber: #c6c4b011;
-}
-
 body.in-play #shell {
   max-width: 540px;
   height: 100vh;
@@ -89,7 +30,7 @@ html[data-host="browser"] body.in-play #shell {
   grid-template-columns: 48px minmax(0, 1fr) 48px;
   padding: 0;
   border: 0;
-  background: var(--play-bg);
+  background: var(--desk);
 }
 
 #level {
@@ -107,7 +48,7 @@ html[data-host="browser"] body.in-play #shell {
   height: 48px;
   padding: 0;
   border-radius: 50%;
-  color: var(--play-blue);
+  color: var(--action-ink);
 }
 
 .in-play #screen-header svg, .tools svg, #tray-nav svg {
@@ -122,11 +63,11 @@ html[data-host="browser"] body.in-play #shell {
 }
 
 .in-play #screen-header button:active, .tools button:active {
-  background: var(--play-blue-wash);
+  background: var(--action-wash);
 }
 
 .in-play :is(button, summary, select):focus-visible, .in-play #level:focus-visible, #result-title:focus-visible {
-  outline: 2px solid var(--play-blue);
+  outline: 2px solid var(--action-ink);
   outline-offset: -2px;
 }
 
@@ -313,8 +254,8 @@ body.in-play:has(#help-dialog[open]) .play-area {
 .placed .tile, .token {
   border: 1px solid var(--play-chip-edge);
   border-bottom-color: var(--play-chip-rim);
-  background: linear-gradient(163deg, #ffe4aa 0%, var(--play-chip-top) 22%, var(--play-chip) 73%, #eeb76f);
-  box-shadow: 0 2px var(--play-chip-rim), inset 0 1px #fff2cc, inset 0 -2px #c5794654;
+  background: linear-gradient(163deg, var(--chip-glint) 0%, var(--play-chip-top) 22%, var(--play-chip) 73%, var(--chip-end));
+  box-shadow: 0 2px var(--play-chip-rim), inset 0 1px var(--chip-ledge), inset 0 -2px var(--chip-inset);
   color: var(--play-chip-ink);
 }
 
@@ -338,7 +279,7 @@ body.in-play:has(#help-dialog[open]) .play-area {
 
 .op.invalid {
   border-radius: min(4px, calc(var(--step) * .12));
-  background: var(--play-bad-wash);
+  background: #f9dad0;
   color: var(--play-board-bad);
 }
 
@@ -356,7 +297,7 @@ body.in-play:has(#help-dialog[open]) .play-area {
 }
 
 .token.selected, .traybox.hover, .first-move .token {
-  outline: 2px solid var(--play-blue);
+  outline: 2px solid var(--action-ink);
   outline-offset: 2px;
 }
 
@@ -449,7 +390,7 @@ body.in-play:has(#help-dialog[open]) .play-area {
   width: 48px;
   min-height: 48px;
   place-items: center;
-  color: var(--play-blue);
+  color: var(--action-ink);
   background: var(--play-panel);
   border: 1px solid var(--play-line);
   border-radius: 8px;
@@ -463,7 +404,7 @@ body.in-play:has(#help-dialog[open]) .play-area {
 
 .slot:has(.token[hidden]) {
   border: 1px solid var(--play-line);
-  background: #0c19283b;
+  background: var(--tray-slot);
 }
 
 .token {
@@ -509,13 +450,8 @@ body.in-play:has(#help-dialog[open]) .play-area {
 }
 
 #return:disabled { visibility: hidden; }
-#help { color: var(--play-blue); }
-#help svg { fill: var(--play-blue-wash); }
-
-.in-play .primary {
-  background: var(--play-blue);
-  color: var(--play-blue-ink);
-}
+#help { color: var(--action-ink); }
+#help svg { fill: var(--action-wash); }
 
 .in-play dialog {
   background: var(--play-panel);
@@ -524,7 +460,7 @@ body.in-play:has(#help-dialog[open]) .play-area {
 }
 .in-play dialog h2 { font: 800 1.5rem/1.15 system-ui, sans-serif; }
 .in-play dialog p, .in-play dialog .control { color: var(--play-muted); }
-.in-play dialog .hub-button, .in-play #language { background: var(--play-bg); border-color: var(--play-line); }
+.in-play dialog .hub-button, .in-play #language { background: var(--desk); border-color: var(--play-line); }
 .in-play #submit { flex: none; }
 #play-screen:has(> #defeat:not([hidden])) :is(.play-area, .boardpad) { min-height: 0; }
 #play-screen:has(> #defeat:not([hidden])) :is(.traybox, .tools) { display: none; }
@@ -552,10 +488,10 @@ body.in-play:has(#help-dialog[open]) .play-area {
   width: min(calc(100% - 20px), 520px);
   padding: 6px 7px 6px 12px;
   border: 1px solid var(--play-line);
-  border-top-color: var(--play-blue);
+  border-top-color: var(--reward-edge);
   border-radius: 11px;
   background: var(--play-panel);
-  box-shadow: 0 3px 0 #142133, 0 8px 18px #10192454;
+  box-shadow: 0 3px 0 var(--panel-rim), 0 8px 18px var(--panel-shadow);
 }
 
 html[data-host="browser"] .win-dock {
@@ -571,7 +507,7 @@ html[data-host="browser"] .win-dock {
 
 #result-title { font-size: .9rem; font-weight: 800; line-height: 1.15; }
 #result-detail { margin-top: 2px; color: var(--play-ink); font-size: .75rem; }
-#result-rewards { margin-top: 2px; color: var(--play-good); font-size: .76rem; font-weight: 740; }
+#result-rewards { margin-top: 2px; color: var(--reward-ink); font-size: .76rem; font-weight: 740; }
 #result-detail:empty { display: none; }
 
 .win-dock :is(#next, #result-home) {
@@ -648,7 +584,7 @@ html[data-host="browser"] .win-dock.shows-unlock { bottom: auto; }
   border: 1px solid var(--play-line);
   border-radius: 9px;
   background: var(--play-panel);
-  box-shadow: 0 4px 14px #10192454;
+  box-shadow: 0 4px 14px var(--panel-shadow);
 }
 
 #reward-breakdown {
@@ -659,13 +595,13 @@ html[data-host="browser"] .win-dock.shows-unlock { bottom: auto; }
 }
 
 #reward-breakdown p { margin: 0 0 .4em; }
-.win-secondary { padding: 0; color: var(--play-blue); }
+.win-secondary { padding: 0; color: var(--action-ink); }
 
 .ghost {
   width: 48px;
   height: 48px;
   transform: translate(-50%, -100%);
-  box-shadow: 0 3px var(--play-chip-rim), 0 8px 18px #151c4040;
+  box-shadow: 0 3px var(--play-chip-rim), 0 8px 18px var(--panel-shadow);
   opacity: .98;
 }
 
@@ -695,10 +631,10 @@ html[data-host="browser"] .win-dock.shows-unlock { bottom: auto; }
   max-width: 100%;
   min-height: 48px;
   padding: 3px 9px 3px 4px;
-  border: 1px solid #ba8b54;
+  border: 1px solid var(--reward-edge);
   border-radius: 8px;
   background: var(--play-panel);
-  box-shadow: 0 3px 0 #142133;
+  box-shadow: 0 3px 0 var(--panel-rim);
   color: var(--play-ink);
   font-size: .79rem;
   font-weight: 730;
@@ -715,13 +651,13 @@ html[data-host="browser"] .win-dock.shows-unlock { bottom: auto; }
 .instrument-reward-label { min-width: 0; overflow-wrap: anywhere; }
 
 #instrument-reward[data-complete="true"] {
-  background: linear-gradient(120deg, #82512254, transparent 74%), var(--play-panel);
-  border-color: var(--play-blue);
+  background: linear-gradient(120deg, var(--reward-wash), transparent 74%), var(--play-panel);
+  border-color: var(--reward-edge);
 }
 
 #instrument-reward::after {
   content: '›';
-  color: #efc287;
+  color: var(--reward-ink);
   font-size: 1.13rem;
 }
 
@@ -797,7 +733,7 @@ html[data-host="browser"] .win-dock.shows-unlock { bottom: auto; }
 
 .instrument .unearned-part :where(rect, circle, ellipse, path, polygon, polyline, line, text) {
   fill: none;
-  stroke: #d2dfd7;
+  stroke: var(--instrument-outline);
   stroke-width: 1.65;
 }
 
@@ -825,7 +761,7 @@ html[data-host="browser"] .win-dock.shows-unlock { bottom: auto; }
 #pause-dialog label[for="language"] { flex-wrap: wrap; }
 #pause-dialog summary { color: var(--play-ink); }
 #pause-dialog :is(#restart, #restart-yes) { color: var(--play-bad); }
-#pause-dialog #restart-no { color: var(--play-blue); }
+#pause-dialog #restart-no { color: var(--action-ink); }
 
 .in-hub #settings-options > summary { display: none; }
 .in-hub .pause-actions { margin-top: 4px; }
@@ -855,7 +791,6 @@ html[data-host="browser"] .win-dock.shows-unlock { bottom: auto; }
 }
 
 html[data-host="browser"] #help-dialog { margin-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
-#help-dialog::backdrop { background: #10192866; }
 #help-dialog h2 { margin-bottom: 8px; font-size: 1.15rem; }
 #help-dialog .help-choices {
   display: grid;
@@ -869,8 +804,8 @@ html[data-host="browser"] #help-dialog { margin-bottom: calc(8px + env(safe-area
   border-radius: 8px;
 }
 #help-dialog .help-choices .chosen {
-  background: var(--play-blue-wash);
-  border-color: var(--play-blue);
+  background: var(--action-wash);
+  border-color: var(--action-ink);
 }
 #help-dialog :is(#help-cost, #help-description) { font-size: .86rem; margin: 7px 0 0; }
 #help-dialog .buttons { flex: none; margin-top: 6px; justify-content: space-between; }

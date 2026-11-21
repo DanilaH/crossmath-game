@@ -329,7 +329,12 @@ export class GameUi {
       button.disabled=this.busy||this.session.writing||this.saveFailed;
     }
     if($<HTMLDialogElement>('help-dialog').open)this.updateHelpPrice();
-    document.body.classList.toggle('dark',settings.theme==='dark');document.body.classList.toggle('calm',this.reduced());
+    const workshop = settings.theme === 'dark';
+    if (document.body.classList.contains('dark') !== workshop) {
+      document.body.classList.toggle('dark', workshop);
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', workshop ? '#263143' : '#ffffff');
+    }
+    document.body.classList.toggle('calm',this.reduced());
     $('wallet').textContent=`◈ ${quantity(this.language, s.profile.coins, 'coin')}`;$('rank').textContent=this.t(`Ранг ${s.profile.rank}`, `Rank ${s.profile.rank}`);const threshold=rankThreshold(s.profile.rank),xp=$('xp');xp.style.setProperty('--xp',`${100*s.profile.xp/threshold}%`);xp.setAttribute('aria-valuemin','0');xp.setAttribute('aria-valuemax',String(threshold));xp.setAttribute('aria-valuenow',String(s.profile.xp));xp.setAttribute('aria-valuetext',this.t(`${s.profile.xp} из ${threshold} опыта`, `${s.profile.xp} of ${threshold} XP`));
     const playing = s.meta.screen === 'play';
     document.body.classList.toggle('in-play', playing);

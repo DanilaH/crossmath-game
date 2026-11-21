@@ -73,6 +73,8 @@ try{
  };
  // Campaign starts at 1. No diagnostic selector, imported profile or direct engine commands.
  assert.equal((await snapshot()).attempt.puzzleId,'cm-own-01-001');
+ assert.equal((await snapshot()).settings.theme,'light');
+ assert.equal(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 255, 255)');
  assert.ok(await page.locator('#board').evaluate(e=>parseFloat(e.style.getPropertyValue('--step')))>=40,'small boards must use available width instead of collapsing to intrinsic grid width');
  await verifyViewport(1);
  await page.locator('[data-cell="2"]').focus();await page.keyboard.press('Enter');await page.locator('[data-token="t0"]').focus();await page.keyboard.press('Enter');await page.locator('#result').waitFor({state:'visible'});
@@ -94,12 +96,15 @@ try{
   }
   if(p.campaignPosition===12){
    await verifyViewport(12);
-   await place('t0',0);await place('t1',1);await place('t2',3);assert.equal((await snapshot()).attempt.status,'playing');assert.match(await page.locator('#note').innerText(),/4 − 5 ≠ 2/);assert.equal(await page.locator('.op.right').count(),1);
+   await tap('[data-token="t0"]');await page.locator('[data-token="t0"].selected').waitFor();await tap('[data-cell="0"]');await idle();
+   await place('t1',1);await place('t2',3);assert.equal((await snapshot()).attempt.status,'playing');assert.match(await page.locator('#note').innerText(),/4 − 5 ≠ 2/);assert.equal(await page.locator('.op.right').count(),1);
    assert.equal(await page.locator('.op.invalid').innerText(),'≠');
    assert.equal(await page.locator('.equation-line[data-axis="column"][data-state="invalid"]').count(),1);
    assert.equal(await page.locator('.equation-line[data-axis="row"][data-state="valid"]').count(),1);
    assert.equal(await page.locator('.cell.invalid,.given.invalid').count(),0);
    await page.screenshot({path:out+'/field12-conflict.png',fullPage:true});
+   await tap('#undo');await idle();assert.equal(await page.locator('.op.invalid').count(),0);
+   await place('t2',3);
    await tap('[data-cell="0"]');await tap('[data-cell="1"]');await idle();assert.equal((await snapshot()).attempt.status,'won');await verifyViewport(12,true);await page.screenshot({path:out+'/field12-solved.png',fullPage:true});
    await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#restart');await tap('#restart-yes');await idle();
    await place('t2',0);await place('t0',1);
@@ -147,6 +152,8 @@ try{
   assert.ok(data.minTarget>=47.9);assert.equal(data.overflow,false);assert.equal(data.overlap,false);geometry.push({viewport:[width,height],...data});await page.screenshot({path:out+`/dense-${width}x${height}.png`,fullPage:true});
  }
  await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#settings-options summary');await page.locator('#theme').check();await page.locator('#resume:enabled').waitFor();await page.locator('#reduced').check();await page.locator('#resume:enabled').waitFor();await tap('#resume');await idle();assert.equal((await snapshot()).settings.theme,'dark');assert.equal((await snapshot()).settings.reducedMotion,true);checks.push('dark theme and reduced motion settings persist');
+ assert.equal(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(38, 49, 67)');
+ assert.equal(await page.locator('#board .given').first().evaluate(el=>getComputedStyle(el).color),'rgb(37, 49, 69)');
  await page.evaluate(()=>document.documentElement.style.fontSize='200%');await page.setViewportSize({width:390,height:844});await page.screenshot({path:out+'/large-text.png',fullPage:true});
  await page.setViewportSize({width:320,height:568});
  const largeTools=await page.locator('.tools').boundingBox();

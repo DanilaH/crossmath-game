@@ -13,6 +13,7 @@ import { GameSession } from './app/session';
 import { GameUi } from './ui/gameUi';
 import { WorkshopScene, PRESENTABLE } from './game/WorkshopScene';
 import './style.css';
+import './ui/theme.css';
 import './ui/play.css';
 import './ui/hub.css';
 

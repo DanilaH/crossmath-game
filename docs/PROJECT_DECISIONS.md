@@ -55,3 +55,8 @@ Runtime source: @danilah/mini-games-kit at 469928d03f4bae5053e23db26e82187bedbc2
 - EasyFun 1.1.9 supplies level-size targets, the single-gap opening and both six-step rotations. Crossmath owns all content. `content-v2` is the default for fresh campaigns, including unchanged tutorial IDs. Existing profiles keep their versioned campaign. Both Free rotations are available on upgraded profiles. Daily switches only unassigned dates. See [R1 measurements](spec/product/content_v2/README.md).
 - Free tracks share the active Free slot and count completed positions independently. A replay or an abandoned attempt leaves the track cursor at its prior position. First-clear awards remain keyed by puzzle ID. The historical Endless route and records retain their score version.
 - U1 uses a localized modal with safe default focus and explicit replacement. Failure leaves a retry or reload in the modal. U2 announces a changed invalid equation and its axis. Endless reveals correctness only through its explicit submit/help contract.
+
+## 0.5.13 · light and Workshop themes
+
+- The default presentation uses a white desk, cream givens and equation grid, near-white empty sockets and mint number pieces. Gold marks rewards. Selection retains its outline, and incorrect equations retain their line, `≠` sign and text explanation.
+- Workshop is the dark presentation. It reuses the 0.5.12 blue-graphite desk, ivory board and amber pieces. Both themes cover the full in-game and navigation UI. The existing `light` and `dark` settings now select these palettes. Saves and reward settlement use their existing formats and logic.
