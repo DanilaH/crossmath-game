@@ -1,6 +1,7 @@
 import type { FreeTrack } from '../content/rotation';
 import type { Attempt, Difficulty, Mode } from '../core/types';
 import type { Completion } from '../app/model';
+import type { MonthlyTrophy } from './monthlyTrophy';
 export type MetaScreen='play'|'home'|'calendar'|'album'|'profile';
 export interface Offer { puzzleId:string; mode:Mode; dayKey?:string; campaignPosition?:number; endlessStage?:number; freeTrack?:FreeTrack; requiresSolved?:string[] }
 export interface QuestSlot { goalId:string; target:number; progress:number; paid:boolean }
@@ -12,4 +13,6 @@ export interface MetaState {
   assignments:Record<string,{puzzleId:string;calendarVersion:string}>; completedDates:string[];
   slotReceipts:string[]; setReceipts:string[];
   relaxGoalIds?: string[];
+  monthlyTrophies?: Record<string,MonthlyTrophy>;
+  calendarTrophyMonth?: string;
 }

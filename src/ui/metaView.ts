@@ -8,6 +8,7 @@ import { campaignContinuation, storedSlot } from '../app/session';
 import { goals } from '../meta/missions';
 import { relaxGoalTarget } from '../meta/progress';
 import { calendarDayIndex, canResumeDaily, dateAvailable, dayFromIndex, profileDay } from '../meta/calendar';
+import { trophyMonthStatus } from '../meta/monthlyTrophy';
 import type { Completion, Save } from '../app/model';
 import { rankThreshold } from '../app/model';
 import { achievementValue, recordVersion } from '../meta/career';
@@ -301,6 +302,12 @@ export class MetaView {
       {day:'numeric', month:'long', timeZone:'UTC'}).format(new Date(`${day}T00:00:00Z`));
   }
 
+  private monthName(month: string, genitive = false): string {
+    const parts = new Intl.DateTimeFormat(this.language, {month:'long',timeZone:'UTC',...(genitive && {day:'numeric'})})
+      .formatToParts(new Date(`${month}-01T00:00:00Z`));
+    return parts.find(part=>part.type==='month')!.value;
+  }
+
   private unlockText(wins: number): string {
     return this.t(`После ${wins} разных побед`, `After ${wins} unique wins`);
   }
@@ -481,13 +488,69 @@ export class MetaView {
     return button;
   }
 
+  private trophyRow(save: Save, month: string): HTMLElement {
+    const status = trophyMonthStatus(save,month);
+    const row = el('section','monthly-trophy');
+    row.dataset.month = month;
+    row.dataset.status = status.kind;
+    const seal = el('span','month-seal');
+    seal.setAttribute('aria-hidden','true');
+    seal.append(el('b','',month.slice(5)),el('span','',month.slice(0,4)));
+    const name = this.monthName(month);
+    const copy = el('div','month-copy');
+    copy.append(el('strong','',`${name.charAt(0).toLocaleUpperCase(this.language)}${name.slice(1)} ${month.slice(0,4)} · ${status.solved}/${status.total}`));
+    let subtitle: string;
+    if (status.kind === 'earned') subtitle = this.t('Трофей получен','Trophy earned');
+    else if (status.kind === 'partial') {
+      const next = this.monthName(status.nextMonth);
+      subtitle = this.t(`Первый полный месяц для трофея — ${next}`,`Your first full trophy month is ${next}`);
+    } else if (status.kind === 'missed') subtitle = this.t('Этот месяц полностью закрыть уже нельзя','This month can no longer be completed');
+    else subtitle = status.total-status.solved === 1 ? this.t('Остался один день до трофея','One day left to earn the trophy')
+      : this.t('Решите задачи за все дни месяца','Solve every day of the month');
+    copy.append(el('span','',subtitle));
+    row.append(seal,copy);
+    if (status.kind === 'available' && status.playableDay && status.playableDay !== save.meta.effectiveDay) {
+      const day = status.playableDay;
+      const button = this.button(this.t(`Открыть задачу за ${this.dateLabel(day)}`,`Open the challenge for ${this.dateLabel(day)}`),
+        ()=>this.actions.daily(day));
+      button.classList.add('trophy-play-day');
+      button.dataset.day = day;
+      row.append(button);
+    }
+    return row;
+  }
+
+  private trophyArchive(save: Save): void {
+    const months = Object.keys(save.meta.monthlyTrophies ?? {}).sort().reverse();
+    if (!months.length) return;
+    const archive = el('details','hub-panel');
+    archive.id = 'trophy-archive';
+    archive.append(el('summary','',this.t('Мои трофеи','My trophies')));
+    for (const month of months) archive.append(this.trophyRow(save,month));
+    this.root.append(archive);
+  }
+
   private calendar(save:Save):void {
     this.heading(this.t('Календарь задач', 'Challenge calendar'), '', true);
     this.root.append(this.button(this.t('← На главную', '← Home'),()=>this.actions.navigate('home'),'calendar-back'));
     const today = calendarDayIndex(save.meta.effectiveDay);
     const created = calendarDayIndex(profileDay(save.profile.createdAt,save.profile.timeZone));
     this.root.append(this.dateButton(save,save.meta.effectiveDay));
+    const currentMonth = save.meta.effectiveDay.slice(0,7);
+    const month = this.trophyRow(save,save.meta.calendarTrophyMonth ?? currentMonth);
+    month.id = 'month-trophy';
+    month.tabIndex = -1;
+    this.root.append(month);
     this.quests(save);
+    this.trophyArchive(save);
+    const previousMonthEnd = calendarDayIndex(`${currentMonth}-01`)-1;
+    const previousMonth = dayFromIndex(previousMonthEnd).slice(0,7);
+    if (created <= previousMonthEnd && !save.meta.monthlyTrophies?.[previousMonth]) {
+      const previous = el('details','hub-panel');
+      previous.id = 'previous-trophy-month';
+      previous.append(el('summary','',this.t('Предыдущий месяц','Previous month')),this.trophyRow(save,previousMonth));
+      this.root.append(previous);
+    }
     if (created < today) {
       this.root.append(el('h2', 'calendar-subtitle', this.t('Прошлые задачи','Past challenges')));
       const past = el('div','date-grid');
@@ -696,6 +759,10 @@ export class MetaView {
     const details = document.getElementById('reward-breakdown')!;
     details.replaceChildren();
     if (!r) return;
+    const trophy = document.getElementById('daily-trophy-result')!;
+    trophy.hidden = !r.dailyTrophyMonth;
+    trophy.textContent = r.dailyTrophyMonth
+      ? this.t(`Трофей ${this.monthName(r.dailyTrophyMonth,true)} получен`,`${this.monthName(r.dailyTrophyMonth)} trophy earned`) : '';
     const award = instrumentAward(r);
     const announcement = unlockAnnouncement(this.language, r.unlockedModes);
     document.getElementById('result')!.classList.toggle('shows-unlock', Boolean(announcement));

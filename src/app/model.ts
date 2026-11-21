@@ -21,6 +21,7 @@ export interface Completion {
   stageScore?:number; runScore?:number; stageKey?:string; badges?:string[];
   relaxGoalProgress?: number;
   campaignFinished?: true;
+  dailyTrophyMonth?: string;
 }
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
@@ -77,7 +78,7 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
       .filter(([, threshold]) => previousWins < threshold && profile.solvedIds.length >= threshold)
       .map(([mode]) => mode)};
   if (previousCursor < campaign.length && profile.campaignCursor === campaign.length) next.result.campaignFinished = true;
-  settleDailyAndQuests(next,next.result);
+  settleDailyAndQuests(next,next.result,now);
   settleRelaxGoal(next,next.result);
   next.career.modes[next.attempt.mode].completions++;
   if(next.attempt.mode==='endless'){next.result.stageScore=settleStage(next);next.result.runScore=next.career.run!.score;next.result.stageKey=`${next.attempt.runId}:${next.attempt.stageId}`;}
@@ -134,6 +135,8 @@ export function decodeSave(input: unknown): Save {
   if(result?.badges&&(!Array.isArray(result.badges)||result.badges.some(id=>!config.achievements.some(b=>b.id===id))))fail();
   if (result?.campaignFinished !== undefined && (result.campaignFinished !== true || a.mode !== 'campaign' ||
     p.campaignCursor !== 240 || campaignSequence(s.contentVersion).at(-1) !== a.puzzleId)) fail();
+  if (result?.dailyTrophyMonth !== undefined && (a.mode !== 'daily' || a.dayKey?.slice(0,7) !== result.dailyTrophyMonth ||
+    !s.meta.monthlyTrophies?.[result.dailyTrophyMonth]?.earnedAt || result.dailyCoins !== config.dailyBonusCoins)) fail();
   if (result?.relaxGoalProgress !== undefined && (a.mode !== 'free' || a.freeTrack !== 'relax' ||
     !nonnegative(result.relaxGoalProgress) || result.relaxGoalProgress > (s.meta.relaxGoalIds?.length ?? 0))) fail();
   };

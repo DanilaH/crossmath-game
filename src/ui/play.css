@@ -510,7 +510,7 @@ html[data-host="browser"] .win-dock {
 #result-rewards { margin-top: 2px; color: var(--reward-ink); font-size: .76rem; font-weight: 740; }
 #result-detail:empty { display: none; }
 
-#relax-goal-result {
+#relax-goal-result, #daily-trophy-result {
   grid-column: 1 / -1;
   margin: 0;
   color: var(--play-good);
@@ -518,6 +518,7 @@ html[data-host="browser"] .win-dock {
   font-weight: 700;
   overflow-wrap: anywhere;
 }
+#daily-trophy-result { color: var(--reward-ink); }
 
 .win-dock :is(#next, #result-home) {
   max-width: 20ch;

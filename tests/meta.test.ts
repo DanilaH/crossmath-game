@@ -7,6 +7,7 @@ import { SaveRepository, SAVE_KEY } from '../src/app/saveRepository';
 import { unlockAnnouncement } from '../src/ui/locale';
 import { createAttempt } from '../src/core/engine';
 import { calendarDayIndex, calendarPuzzle, dateAvailable, dayFromIndex, profileDay } from '../src/meta/calendar';
+import { trophyMonthStatus } from '../src/meta/monthlyTrophy';
 import { availableOffers, contribution, findWitness, freeTrackOffer, goals, resolveQuests } from '../src/meta/missions';
 import type { Save } from '../src/app/model';
 import type { Offer, QuestSet } from '../src/meta/types';
@@ -303,5 +304,115 @@ describe('D schema/album migration',()=>{
   const historic=decodeSave(legacy(8,4));expect(historic.profile.coins).toBe(120);expect(historic.profile.paidCardIds).toEqual(['abacus']);
   const ahead=decodeSave(legacy(8,48));expect(ahead.profile.fragments).toBe(48);expect(ahead.profile.paidCardIds).toHaveLength(12);expect(ahead.profile.coins).toBe(120);
   expect(()=>decodeSave({...ahead,meta:{...ahead.meta,effectiveDay:'not-a-date'}})).toThrow();
+ });
+});
+
+describe('Daily calendar trophies',()=>{
+ function days(month:string,count:number):string[]{
+  const first=calendarDayIndex(month+'-01');
+  return Array.from({length:count},(_,i)=>dayFromIndex(first+i));
+ }
+ function profile(day:string):Save{
+  const seed=createSave('trophy-test',day+'T12:00:00Z','UTC','initial');
+  seed.profile.solvedIds=campaignSequence(seed.contentVersion).slice(0,5);
+  return seed;
+ }
+ it.each([
+  ['2025-02',28,'2025-02-28'],
+  ['2024-02',29,'2024-02-29'],
+  ['2026-04',30,'2026-04-30'],
+  ['2026-01',31,'2026-02-01'],
+  ['2026-12',31,'2027-01-01'],
+ ] as const)('awards %s once after all %i dates, even when completed on %s',async(month,total,nowDay)=>{
+  const seed=profile(month+'-01');
+  seed.meta.completedDates=days(month,total-1);
+  const day=days(month,total).at(-1)!;
+  const {session,repo}=await setup(nowDay,seed);
+  expect(await session.refreshDay()).toBe(true);
+  expect(trophyMonthStatus(session.state,month)).toEqual({kind:'available',total,solved:total-1,playableDay:day});
+  expect(await session.openDaily(day)).toBe('opened');
+  await win(session);
+  const saved=await repo.load();
+  expect(saved.result).toMatchObject({dailyTrophyMonth:month,dailyCoins:30});
+  expect(saved.meta.monthlyTrophies).toEqual({[month]:{earnedAt:nowDay+'T12:00:00.000Z'}});
+  expect(trophyMonthStatus(saved,month)).toEqual({kind:'earned',total,solved:total});
+  expect(await session.next()).toBe(true);
+  expect((await repo.load()).meta.calendarTrophyMonth).toBe(month);
+  await session.navigate('home');await session.navigate('calendar');
+  expect((await repo.load()).meta.calendarTrophyMonth).toBeUndefined();
+  const wallet=saved.profile.coins;
+  await session.openDaily(day);await session.restart();await win(session);
+  expect(session.state.result?.dailyTrophyMonth).toBeUndefined();
+  expect(session.state.result?.dailyCoins).toBe(0);
+  expect(session.state.meta.monthlyTrophies).toEqual(saved.meta.monthlyTrophies);
+  expect(session.state.profile.coins).toBe(wallet);
+ });
+ it('uses the creation day and live saved layouts to find the earliest eligible missing day',async()=>{
+  const month='2026-01',first=month+'-01',second=month+'-02';
+  const late=profile(month+'-20');
+  expect(trophyMonthStatus(late,month)).toEqual({kind:'partial',total:31,solved:0,nextMonth:'2026-02'});
+  const {session,clock}=await setup('2026-01-05',profile(first));
+  expect(await session.openDaily(first)).toBe('opened');
+  const live=structuredClone(session.state.attempt);
+  session.state.meta.completedDates=days(month,31).slice(2);
+  clock.now='2026-02-01T12:00:00Z';await session.openCampaign();
+  expect(trophyMonthStatus(session.state,month)).toEqual({kind:'available',total:31,solved:29,playableDay:first});
+  expect(await session.openDaily(first)).toBe('opened');
+  expect(session.state.attempt).toEqual(live);
+  session.state.attempt.status='out-of-lives';session.state.attempt.lives=0;
+  await session.update({},false);
+  expect(trophyMonthStatus(session.state,month)).toEqual({kind:'missed',total:31,solved:29});
+  expect(await session.openDaily(first)).toBe('unavailable');
+  expect(await session.openDaily(second)).toBe('opened');
+  expect(await session.openDaily('2026-02-02')).toBe('unavailable');
+ });
+ it('restores only proven legacy months while keeping the wallet, old receipt and parked board',async()=>{
+  const month='2024-02', {session,repo}=await setup('2024-02-01',profile('2024-02-01'));
+  await session.openDaily(month+'-01');await win(session);await session.openCampaign();
+  const legacy=structuredClone(session.state);
+  legacy.meta.completedDates=[...days(month,29),...days('2025-02',27)];
+  delete legacy.meta.monthlyTrophies;
+  const restored=await setup('2025-03-01',legacy);
+  await restored.session.refreshDay();
+  const saved=await restored.repo.load();
+  expect(saved.meta.monthlyTrophies).toEqual({[month]:{earnedAt:null}});
+  expect(saved.profile.coins).toBe(legacy.profile.coins);
+  expect(saved.attempt).toEqual(legacy.attempt);
+  expect(saved.meta.inactive).toEqual((await repo.load()).meta.inactive);
+  expect(saved.result).toBeNull();
+ });
+ it.each(['before','after'] as const)('keeps trophy, wallet and receipt atomic on an error %s persistence',async timing=>{
+  const month='2025-02',day=month+'-28',seed=profile(month+'-01');
+  seed.meta.completedDates=days(month,27);
+  const {session,repo,storage}=await setup(day,seed);
+  await session.openDaily(day);
+  const puzzle=getPuzzle(session.state.attempt.puzzleId),answer=solutions[puzzle.puzzleId]!.answer;
+  const moves=puzzle.cells.filter(c=>c.given===undefined).map(cell=>cell.id);
+  const action=(cellId:number)=>{
+   const taken=new Set(Object.values(session.state.attempt.placements));
+   const token=puzzle.tray.findIndex((n,i)=>n===answer[cellId]&&!taken.has('t'+i));
+   return {type:'PlaceFromTray' as const,cellId,tokenId:'t'+token};
+  };
+  for(const cellId of moves.slice(0,-1))await session.command(action(cellId));
+  const last=action(moves.at(-1)!);
+  const wallet=session.state.profile.coins,identity={commandId:'last-trophy-move',expectedRevision:session.state.attempt.boardRevision};
+  const write=storage.setItem.bind(storage);
+  storage.setItem=async(key,value)=>{
+   if(key===SAVE_KEY && timing==='before')throw Error('before write');
+   await write(key,value);
+   if(key===SAVE_KEY && timing==='after')throw Error('after write');
+  };
+  if(timing==='before')await expect(session.command(last,0,identity)).rejects.toThrow();
+  else await session.command(last,0,identity);
+  storage.setItem=write;
+  const check=await repo.load();
+  expect(check.meta.monthlyTrophies?.[month]!==undefined).toBe(timing==='after');
+  expect(check.result?.dailyTrophyMonth!==undefined).toBe(timing==='after');
+  expect(check.profile.coins).toBe(wallet+(check.result?.coins ?? 0));
+  await session.command(last,0,identity);
+  const won=await repo.load();
+  expect(won.result).toMatchObject({dailyTrophyMonth:month,dailyCoins:30});
+  expect(won.profile.coins).toBe(wallet+won.result!.coins);
+  expect(won.meta.completedDates).toHaveLength(28);
  });
 });

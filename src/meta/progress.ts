@@ -1,5 +1,6 @@
 import { config, getPuzzle } from '../content/catalog';
 import { isCalendarDay, profileDay } from './calendar';
+import { restoreMonthlyTrophies, settleMonthlyTrophy, validateMonthlyTrophies } from './monthlyTrophy';
 import { contribution, refreshQuests } from './missions';
 import type { Save, Completion } from '../app/model';
 import type { MetaState } from './types';
@@ -19,13 +20,18 @@ export function createMeta(createdAt:string,zone:string):MetaState {
   return {version:1,screen:'play',activeSlot:'campaign',inactive:{},freeDifficulty:'easy',effectiveDay:profileDay(createdAt,zone),issuedDays:0,quests:null,contributedIds:[],assignments:{},completedDates:[],slotReceipts:[],setReceipts:[]};
 }
 export function refreshDay(save:Save,now:string):void {
+  restoreMonthlyTrophies(save);
   const day=profileDay(now,save.profile.timeZone),meta=save.meta;
   if(day>meta.effectiveDay){meta.effectiveDay=day;meta.quests=null;meta.contributedIds=[];}
   if(!meta.quests)refreshQuests(save);
 }
-export function settleDailyAndQuests(save:Save,receipt:Completion):void {
+export function settleDailyAndQuests(save:Save,receipt:Completion,now:string):void {
   const meta=save.meta,a=save.attempt;receipt.dailyCoins=0;receipt.taskCoins=0;receipt.setCoins=0;
-  if(a.mode==='daily'&&a.dayKey&&!meta.completedDates.includes(a.dayKey)){meta.completedDates.push(a.dayKey);receipt.dailyCoins=config.dailyBonusCoins;}
+  if(a.mode==='daily'&&a.dayKey&&!meta.completedDates.includes(a.dayKey)){
+    meta.completedDates.push(a.dayKey);
+    receipt.dailyCoins=config.dailyBonusCoins;
+    settleMonthlyTrophy(save,receipt,a.dayKey,now);
+  }
   if(!meta.contributedIds.includes(a.puzzleId)){
     const set=meta.quests;
     if(set)for(const [i,slot] of set.slots.entries()){
@@ -58,6 +64,7 @@ export function validateMeta(save:Save):void {
   if(!m||m.version!==1||!['play','home','calendar','album','profile'].includes(m.screen)||typeof m.activeSlot!=='string'||!isCalendarDay(m.effectiveDay)||!nonnegative(m.issuedDays)||!['easy','standard','hard','expert'].includes(m.freeDifficulty))throw Error('Corrupt meta header');
   for(const list of [m.completedDates,m.contributedIds,m.slotReceipts,m.setReceipts])if(!Array.isArray(list)||list.some(x=>typeof x!=='string')||new Set(list).size!==list.length)throw Error('Corrupt meta ledger');
   if(m.completedDates.some(d=>!isCalendarDay(d))||m.setReceipts.some(d=>!isCalendarDay(d)))throw Error('Corrupt meta dates');
+  validateMonthlyTrophies(save);
   const goalIds = m.relaxGoalIds;
   if (goalIds !== undefined && (!Array.isArray(goalIds) || goalIds.length > relaxGoalTarget || new Set(goalIds).size !== goalIds.length ||
     goalIds.some(id => typeof id !== 'string' || !save.profile.solvedIds.includes(id) || getPuzzle(id).difficulty !== 'easy'))) throw Error('Corrupt Relax goal');

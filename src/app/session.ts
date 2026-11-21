@@ -140,7 +140,7 @@ export class GameSession {
   }
   async next(elapsed=0):Promise<boolean> {
     if(this.state.attempt.status!=='won')return false;
-    if(this.state.attempt.mode==='daily'){await this.navigate('calendar',elapsed);return true;}
+    if(this.state.attempt.mode==='daily')return this.navigate('calendar',elapsed,this.state.result?.dailyTrophyMonth);
     if(this.state.attempt.mode==='free') {
       const track = this.state.attempt.freeTrack;
       return (track ? await this.openFreeTrack(track, true, elapsed) : await this.openFree(this.state.meta.freeDifficulty,true,elapsed)) === 'opened';
@@ -189,9 +189,14 @@ export class GameSession {
     if(JSON.stringify(next.meta)===JSON.stringify(this.state.meta))return false;
     this.busy=true;try{await this.persist(next,0);return true;}finally{this.finishWrite();}
   }
-  async navigate(screen:MetaScreen,elapsed=0):Promise<boolean>{
+  async navigate(screen:MetaScreen,elapsed=0,calendarTrophyMonth?:string):Promise<boolean>{
     if(this.busy)return false;this.busy=true;
-    try{const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;}finally{this.finishWrite();}
+    try{
+      const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;
+      delete next.meta.calendarTrophyMonth;
+      if(screen==='calendar' && calendarTrophyMonth)next.meta.calendarTrophyMonth=calendarTrophyMonth;
+      await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;
+    }finally{this.finishWrite();}
   }
   openCampaign(elapsed=0):Promise<OpenOutcome>{
     const id = campaignContinuation(this.state);
