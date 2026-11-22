@@ -427,6 +427,13 @@ export class GameUi {
       : a.mode === 'endless' ? this.t(`Этап ${(a.stageId ?? 0) + 1}`, `Stage ${(a.stageId ?? 0) + 1}`)
       : this.t(`Поле ${p.campaignPosition}`, `Board ${p.campaignPosition}`);
     $('level').setAttribute('aria-description', a.mode === 'daily' ? a.dayKey ?? '' : band);
+    const formattedDate = a.dayKey && new Intl.DateTimeFormat(this.language === 'ru' ? 'ru-RU' : 'en-US',
+      {day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(a.dayKey+'T00:00:00Z'));
+    for (const id of ['pause-date','result-date']) {
+      const node = $(id);
+      node.hidden = !formattedDate || !playing;
+      node.textContent = formattedDate || '';
+    }
     const context = $('play-context');
     context.hidden = a.mode !== 'daily' && a.mode !== 'free';
     context.textContent = a.mode === 'daily' ? a.dayKey ?? '' : band;
@@ -443,6 +450,7 @@ export class GameUi {
     $('submit').hidden=a.mode!=='endless'||a.status!=='playing';$<HTMLButtonElement>('submit').disabled=this.busy||this.blocked||this.saveFailed||Object.keys(a.placements).length!==p.tray.length||run?.status!=='active';
     const canRetry = this.session.canRestart();
     $('defeat').hidden=a.status!=='out-of-lives';$('defeat-detail').textContent=canRetry?this.t("Можно бесплатно начать эту дату заново.", "Retry this date for free."):this.t("Эта дата вышла из архива. Выберите другую дату в календаре.", "This date is outside the archive. Choose another date in the calendar.");
+    if (formattedDate && a.status==='out-of-lives') $('defeat-detail').prepend(formattedDate+' · ');
     $('retry-daily').hidden = !canRetry;
     $<HTMLButtonElement>('retry-daily').disabled = this.busy || this.saveFailed;
     $('defeat-calendar').hidden = canRetry;

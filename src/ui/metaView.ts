@@ -254,10 +254,7 @@ export class MetaView {
     const status = this.dayStatus(save, day);
     const dayStatus = wins < dailyWins ? this.unlockText(dailyWins)
       : status === this.t('Сегодня', 'Today') ? this.t(`${config.dailyLives} жизни`, `${config.dailyLives} lives`) : status;
-    const date = el('time','home-tear');
-    date.dateTime = day;
-    date.setAttribute('aria-label',this.dateLabel(day));
-    date.append(el('span','tear-month',this.monthName(day.slice(0,7))),el('strong','tear-day',String(Number(day.slice(-2)))));
+    const date = this.dateTicket(day);
     const dailyCopy = el('span', 'quick-copy');
     const dateStatus = el('span', 'quick-status');
     if (wins >= dailyWins && status === this.t('Сегодня','Today')) dateStatus.append(menuIcon('life-full'));
@@ -302,6 +299,14 @@ export class MetaView {
     const shortcuts=el('div','home-shortcuts');
     shortcuts.append(menu,calendar);
     this.root.append(shortcuts);
+  }
+
+  private dateTicket(day:string): HTMLTimeElement {
+    const ticket = el('time','home-tear');
+    ticket.dateTime = day;
+    ticket.setAttribute('aria-label',this.dateLabel(day));
+    ticket.append(el('span','tear-month',this.monthName(day.slice(0,7))),el('strong','tear-day',String(Number(day.slice(-2)))));
+    return ticket;
   }
 
   private dateLabel(day: string): string {
@@ -532,22 +537,63 @@ export class MetaView {
     button.classList.toggle('today',today);
     button.classList.toggle('completed',save.meta.completedDates.includes(day));
     button.disabled = this.disabled || day > save.meta.effectiveDay;
-    const stamp = el('strong', today ? 'home-date' : '', day.slice(8,10)+'.'+day.slice(5,7));
-    stamp.setAttribute('aria-hidden','true');
-    button.append(stamp);
     if (today) {
-      const copy = el('span', 'today-copy');
-      const action = status === this.t('Сегодня','Today') ? this.t('Играть · 3 жизни','Play · 3 lives') : status;
-      copy.append(el('strong','',this.t('Сегодня','Today')), el('span','',action));
-      const arrow = el('span','today-arrow','›');
-      arrow.setAttribute('aria-hidden','true');
-      button.append(copy,arrow);
-      button.setAttribute('aria-label',this.t(`Сегодня, ${day}. ${action}`, `Today, ${day}. ${action}`));
+      const copy = el('span','today-copy');
+      const current = storedSlot(save,'daily:'+day)?.attempt;
+      const action = current?.status === 'playing' ? this.t(`Продолжить · ${current.lives}/3 жизни`,`Continue · ${current.lives}/3 lives`)
+        : current?.status === 'won' || save.meta.completedDates.includes(day) ? this.t('Открыть результат','View result')
+        : current?.status === 'out-of-lives' ? this.t('Открыть итог','View attempt')
+        : this.t(`Играть · ${config.dailyLives} жизни`,`Play · ${config.dailyLives} lives`);
+      copy.append(el('strong','',this.t('Сегодня','Today')),el('span','',action));
+      button.append(this.dateTicket(day),copy,this.arrow());
+      button.setAttribute('aria-label',this.t(`Сегодня, ${this.dateLabel(day)}. ${action}`, `Today, ${this.dateLabel(day)}. ${action}`));
     } else {
-      button.append(el('span','',status));
+      button.append(el('strong','',day.slice(8,10)+'.'+day.slice(5,7)),el('span','',status));
       button.setAttribute('aria-label', `${day}, ${status}`);
     }
     return button;
+  }
+
+  private monthGrid(save:Save):HTMLElement {
+    const day = save.meta.effectiveDay;
+    const month = day.slice(0,7);
+    const first = calendarDayIndex(month+'-01');
+    const [year, number] = month.split('-').map(Number);
+    const end = calendarDayIndex(new Date(Date.UTC(year!,number!,1)).toISOString().slice(0,10));
+    const grid = el('section','daily-month');
+    const title = el('h2','',`${this.monthName(month)} ${year}`);
+    title.id = 'calendar-month';
+    grid.setAttribute('aria-labelledby',title.id);
+    const dates = el('div','month-grid');
+    const names = this.language === 'ru' ? ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'] : ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    for (const name of names) dates.append(el('abbr','month-weekday',name));
+    const offset = (new Date(first*86_400_000).getUTCDay()+6)%7;
+    for(let i=0;i<offset;i++) dates.append(el('span','month-padding'));
+    const solved = new Set(save.meta.completedDates);
+    for(let index=first;index<end;index++) {
+      const date = dayFromIndex(index);
+      const attempt = storedSlot(save,'daily:'+date)?.attempt;
+      const available = dateAvailable(save.profile.createdAt,save.profile.timeZone,day,date) || canResumeDaily(attempt);
+      const current = date === day;
+      const status = solved.has(date) ? 'solved' : attempt?.status === 'playing' ? 'started'
+        : attempt?.status === 'out-of-lives' ? 'defeat' : date > day ? 'future' : available ? 'available' : 'closed';
+      const button = this.button('',()=>this.actions.daily(date));
+      button.className = 'month-day';
+      button.dataset.day = date;
+      button.dataset.state = status;
+      button.disabled = this.disabled || !available;
+      if (current) button.setAttribute('aria-current','date');
+      if (date === save.attempt.dayKey) button.classList.add('selected-date');
+      const spoken = status==='closed' ? this.t('Дата недоступна','Date unavailable') : this.dayStatus(save,date);
+      button.setAttribute('aria-label',`${this.dateLabel(date)} · ${spoken}`);
+      const numberLabel = el('span','',String(index-first+1));
+      const mark = el('span','month-day-mark',status==='solved'?'✓':status==='started'?'•':status==='defeat'?'×':'');
+      mark.setAttribute('aria-hidden','true');
+      button.append(numberLabel,mark);
+      dates.append(button);
+    }
+    grid.append(title,dates);
+    return grid;
   }
 
   private trophyRow(save: Save, month: string, status = trophyMonthStatus(save,month)): HTMLElement {
@@ -601,22 +647,17 @@ export class MetaView {
     const month = this.trophyRow(save,save.meta.calendarTrophyMonth ?? currentMonth);
     month.id = 'month-trophy';
     month.tabIndex = -1;
-    this.root.append(month);
+    this.root.append(this.monthGrid(save),month);
     for(const past of reachablePastTrophies(save)) this.root.append(this.trophyRow(save,past.month,past.status));
     this.quests(save);
     this.trophyArchive(save);
-    if (created < today) {
+    const previousMonthEnd = calendarDayIndex(currentMonth+'-01')-1;
+    if (Math.max(created,today-config.calendar.previousDaysAccessible)<=previousMonthEnd) {
       this.root.append(el('h2', 'calendar-subtitle', this.t('Прошлые задачи','Past challenges')));
       const past = el('div','date-grid');
-      for(let i=today-1;i>=Math.max(created,today-30);i--) past.append(this.dateButton(save,dayFromIndex(i)));
+      for(let i=previousMonthEnd;i>=Math.max(created,today-config.calendar.previousDaysAccessible);i--) past.append(this.dateButton(save,dayFromIndex(i)));
       this.root.append(past);
     }
-    const upcoming = el('details','hub-panel');
-    upcoming.id = 'daily-upcoming';
-    const future = el('div','date-grid');
-    for (let i=today+1;i<=today+7;i++) future.append(this.dateButton(save,dayFromIndex(i)));
-    upcoming.append(el('summary','',this.t('Следующие даты','Upcoming dates')), future);
-    this.root.append(upcoming);
     const older = [save.attempt, ...Object.values(save.meta.inactive).map(slot => slot.attempt)]
       .filter(attempt => canResumeDaily(attempt) && !dateAvailable(save.profile.createdAt, save.profile.timeZone, save.meta.effectiveDay, attempt.dayKey!));
     if (older.length) {
