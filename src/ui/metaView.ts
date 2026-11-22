@@ -2,7 +2,6 @@ import { challengeUnlockWins, freeTracks } from '../content/rotation';
 import type { FreeTrack } from '../content/rotation';
 import { dailyName, localize, trackName, unlockAnnouncement } from './locale';
 import type { Language } from './locale';
-import { getTierProgress } from '@danilah/mini-games-kit/core';
 import { campaignSequence, config, getPuzzle } from '../content/catalog';
 import { campaignContinuation, storedSlot } from '../app/session';
 import { goals } from '../meta/missions';
@@ -76,8 +75,7 @@ function partMeter(parts: number): HTMLElement {
 }
 export function nextFragmentText(save:Save):string {
   if(save.profile.fragments>=48)return localize(save.settings.language,'Мастерская собрана','Workshop complete');
-  const progress=getTierProgress(save.profile.solvedIds.length,config.collection.fragmentWinThresholds);
-  const remaining=progress.complete?progress.nextTier?.remaining:progress.target-save.profile.solvedIds.length;
+  const remaining=workshopTarget(save.profile.solvedIds.length,save.profile.fragments)?.remaining;
   return localize(save.settings.language,`Новых полей до детали: ${remaining??0}`,`New boards until next part: ${remaining??0}`);
 }
 interface Actions { navigate:(screen:MetaScreen)=>void; campaign:()=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
@@ -679,6 +677,11 @@ export class MetaView {
       : this.t(`${assembled} из ${limit} приборов`, `${assembled} of ${limit} instruments`);
     this.heading(this.t('Мастерская счёта', 'The Counting Workshop'), summary);
     this.root.append(this.button(this.t('← На главную','← Home'), () => this.actions.navigate('home'), 'album-back'));
+    if (assembled === limit) {
+      const complete = el('div','collection-complete');
+      complete.append(menuIcon('workshop'),el('strong','',this.t('12 из 12 приборов','12 of 12 instruments')));
+      this.root.append(complete);
+    }
     if (assembled < limit) {
       const parts = partsOnShelf(total, assembled);
       const bench = this.button('', () => this.openCard(assembled, parts, 'workbench','current'), 'workbench');
@@ -693,6 +696,8 @@ export class MetaView {
         el('span','',this.t(`${parts} / 4 частей`, `${parts} of 4 parts`)),
         el('span','workbench-next',this.nextPartLabel(assembled,parts)),
         el('span','workbench-next',nextFragmentText(save)));
+      const progress = workshopTarget(save.profile.solvedIds.length,total);
+      if (progress) copy.append(this.workshopMeter(progress.percent));
       bench.append(art,copy);
       this.root.append(bench);
     }
@@ -717,6 +722,18 @@ export class MetaView {
     });
     this.root.append(grid);
   }
+  private workshopMeter(percent:number):HTMLElement {
+    const meter=el('span','collection-progress');
+    const bar=el('span','collection-progress-track');
+    const fill=el('i');
+    fill.style.width=percent+'%';
+    bar.append(fill);
+    bar.setAttribute('aria-hidden','true');
+    meter.append(bar,el('strong','',percent+'%'));
+    meter.setAttribute('aria-label',this.t(`${percent}% до детали`,`${percent}% to next part`));
+    return meter;
+  }
+
   private profile(save: Save): void {
     const p = save.profile;
     const c = save.career;
@@ -728,18 +745,34 @@ export class MetaView {
     const rankCopy = el('span', 'quick-copy');
     rankCopy.append(el('strong', '', this.t(`Ранг ${p.rank}`, `Rank ${p.rank}`)),
       el('span', 'quick-status', `${p.xp} / ${rankThreshold(p.rank)} XP`));
-    rank.append(rankCopy, this.arrow());
-    this.root.append(rank);
+    const tier = rankThreshold(p.rank);
+    const rankBar = el('span','rank-hero-progress');
+    rankBar.setAttribute('aria-hidden','true');
+    rankBar.style.setProperty('--rank-progress',`${100*p.xp/tier}%`);
+    rankCopy.append(rankBar);
+    rank.append(menuIcon('rank'),rankCopy,this.arrow());
 
     const latest = Object.entries(c.achievements).reduce<string | undefined>((id, [candidate, entry]) =>
       !id || entry.earnedAt >= c.achievements[id]!.earnedAt ? candidate : id, undefined);
     const achievement = config.achievements.find(badge => badge.id === latest);
+    const header = el('section','profile-hero');
     if (achievement) {
-      const recent = el('section', 'profile-achievement');
-      recent.append(el('h2', '', this.t('Последнее достижение', 'Latest achievement')),
-        el('p', '', this.t(achievement.titleRU, achievement.titleEN)));
-      this.root.append(recent);
+      const recent = el('div','profile-achievement');
+      const achieved = el('span','achievement-stamp','✓');
+      achieved.setAttribute('aria-hidden','true');
+      const caption=el('span','achievement-copy');
+      caption.append(el('span','muted',this.t('Последний знак','Latest badge')),
+        el('strong','',this.t(achievement.titleRU,achievement.titleEN)));
+      recent.append(achieved,caption);
+      header.append(recent);
+    } else {
+      const first = config.achievements.find(badge=>badge.metric==='distinctWins');
+      if (first) header.append(el('p','achievement-goal',this.t(
+        `${first.titleRU} · ${achievementValue(save,first.metric)}/${first.threshold}`,
+        `${first.titleEN} · ${achievementValue(save,first.metric)}/${first.threshold}`)));
     }
+    header.append(rank);
+    this.root.append(header);
 
     const overview = el('dl','profile-overview');
     for (const [label, value] of [

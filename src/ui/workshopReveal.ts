@@ -57,6 +57,8 @@ export class WorkshopReveal {
     const image = node('div','workshop-figure');
     image.setAttribute('aria-hidden','true');
     const count = node('span','workshop-count');
+    const digit = node('b','workshop-digit');
+    count.append(digit,document.createTextNode(copy.t(' из 4',' of 4')));
     const name = node('span','workshop-name');
     const stamp = node('span','workshop-stamp');
     const label = node('div','workshop-label');
@@ -84,7 +86,7 @@ export class WorkshopReveal {
       const index = target?.index ?? config.cards.length - 1;
       const parts = target ? target.part - Number(!installed) : config.collection.fragmentsPerCard;
       image.replaceChildren(copy.art(index,parts));
-      count.textContent = copy.t(`${parts} из 4`,`${parts} of 4`);
+      digit.textContent=String(parts);
       name.textContent = target ? copy.part(index,target.part) : copy.t('Коллекция собрана','Collection complete');
       stamp.textContent = installed ? copy.t('✓ Получено','✓ Fitted') : copy.t('На очереди','Up next');
       label.classList.toggle('landed',installed);
@@ -150,7 +152,7 @@ export class WorkshopReveal {
         const duration = i ? 430 : 500;
         render(beat,true);
         this.root.dataset.phase = 'flight';
-        count.textContent = copy.t(`${beat.part - 1} из 4`,`${beat.part - 1} of 4`);
+        digit.textContent=String(beat.part-1);
         label.classList.remove('landed');
         stamp.textContent = copy.t('На очереди','Up next');
         const art = image.querySelector('svg')!;
@@ -190,8 +192,14 @@ export class WorkshopReveal {
         this.root.querySelector('.workshop-flight')?.remove();
         render(beat,true);
         this.contact();
+        const fitted=image.querySelector(`[data-part="${beat.part}"]`);
+        this.motion.animate(fitted,[{filter:'brightness(1.8)'},{filter:'brightness(1)'}],{duration:190});
+        const dust=node('span','workshop-dust');
+        for(let mote=0;mote<4;mote++)dust.append(node('i',''));
+        image.append(dust);
+        this.motion.animate(dust,[{opacity:.9,scale:'.45'},{opacity:0,scale:'1.3'}],{duration:200});
         this.motion.animate(stamp,[{translate:'0 -2.5px',scale:'1.1'},{translate:'0 0',scale:'1'}],{duration:140,easing:'ease-out'});
-        this.motion.animate(count,[{translate:'0 -.35em',opacity:.7},{translate:'0 0',opacity:1}],{duration:145});
+        this.motion.animate(digit,[{translate:'0 -.35em',opacity:.7},{translate:'0 0',opacity:1}],{duration:145});
         this.motion.animate(image,[{translate:'0 0'},{translate:'0 2px',offset:.26},{translate:'0 0'}],{duration:180});
         await pause(i < beats.length - 1 ? 180 : 145);
       }

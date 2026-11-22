@@ -63,3 +63,34 @@
 .month-day:enabled:active { background:var(--action-wash); }
 #pause-date, #result-date { margin-block:2px; color:var(--play-muted); font-size:.79em; font-variant-numeric:tabular-nums; }
 #result.shows-unlock #result-date { grid-row:3; grid-column:1/-1; }
+
+#hub[data-screen="album"] .workbench {
+  min-height:116px; padding:11px; border-radius:15px;
+  background:linear-gradient(145deg,#fff6db1f,transparent),var(--home-wood);
+  color:var(--home-wood-ink); border-color:var(--home-wood-edge);
+}
+#hub[data-screen="album"] .workbench :is(.workbench-stage,.workbench-next) { color:inherit; }
+#hub[data-screen="album"] .collection-card { background:var(--play-panel); border-radius:13px; border-color:var(--play-line); }
+#hub[data-screen="album"] .collection-card[data-assembly="current"] { border-color:var(--home-wood-edge); }
+#hub[data-screen="album"] .collection-card[data-assembly="pending"] { background:var(--desk); }
+.collection-progress { display:flex; gap:6px; align-items:center; font-size:.8em; font-variant-numeric:tabular-nums; }
+.collection-progress-track { min-width:20px; flex:1; height:6px; border-radius:9px; background:var(--play-line); overflow:hidden; }
+.collection-progress-track i { height:100%; display:block; border-radius:9px; background:#9b7531; }
+.collection-complete { display:flex; align-items:center; gap:8px; padding:10px; border:1px solid var(--reward-edge); border-radius:13px; background:var(--reward-wash); }
+
+#hub[data-screen="profile"] .profile-hero {
+  display:grid; gap:10px; padding:11px;
+  border:1px solid var(--home-green-edge); border-radius:16px;
+  background:var(--home-green); color:var(--home-ink);
+}
+#hub[data-screen="profile"] :is(.profile-achievement,.achievement-goal) { margin:0; padding:3px; border:0; background:transparent; }
+#hub[data-screen="profile"] .profile-achievement { display:flex; gap:10px; align-items:center; }
+.achievement-stamp { display:grid; place-items:center; flex:0 0 38px; height:38px; border-radius:12px; rotate:-4deg; color:#6a481d; background:#f5d788; font-weight:850; }
+.achievement-copy { display:grid; gap:2px; }
+.achievement-copy strong { font-size:1.12em; }
+#profile-rank {
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:8px;
+  padding:8px; border:1px solid var(--home-green-edge); border-radius:10px;
+  background:var(--play-panel);
+}
+.rank-hero-progress { display:block; height:6px; border-radius:9px; background:linear-gradient(to right,var(--action-ink) var(--rank-progress),var(--play-line) 0); }

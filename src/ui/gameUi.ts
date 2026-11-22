@@ -75,18 +75,21 @@ export class GameUi {
     $('explain').onclick=()=>this.chooseHelp('explain');$('reveal').onclick=()=>this.chooseHelp('reveal');$('apply-help').onclick=()=>this.applyHelp();
     $('ad-hint').onclick=()=>this.run(time=>this.ads!.reward('hint',time));
     $('ad-continue').onclick=()=>this.run(time=>this.ads!.reward('continue',time));
-    $('next').onclick=()=>this.run(async()=>{
-      await this.ads?.beforeNext();
-      await session.waitForWrite();
-      if(this.disposed)return {committed:false};
-      return {committed:await session.next()};
-    },()=>{
-      this.board.clearSelection();window.scrollTo(0,0);
-      requestAnimationFrame(()=>{
-        if(session.state.meta.calendarTrophyMonth)document.getElementById('month-trophy')?.focus();
-        else $('level').focus({preventScroll:true});
+    $('next').onclick=()=>{
+      this.meta.skipWorkshopReveal();
+      this.run(async()=>{
+        await this.ads?.beforeNext();
+        await session.waitForWrite();
+        if(this.disposed)return {committed:false};
+        return {committed:await session.next()};
+      },()=>{
+        this.board.clearSelection();window.scrollTo(0,0);
+        requestAnimationFrame(()=>{
+          if(session.state.meta.calendarTrophyMonth)document.getElementById('month-trophy')?.focus();
+          else $('level').focus({preventScroll:true});
+        });
       });
-    });
+    };
     $('restart').onclick=()=>{$('restart-confirm').hidden=false;};$('restart-no').onclick=()=>{$('restart-confirm').hidden=true;};
     $('restart-yes').onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{$<HTMLDialogElement>('pause-dialog').close();this.blocker('user',false);$('restart-confirm').hidden=true;window.scrollTo(0,0);});
     $<HTMLDialogElement>('pause-dialog').addEventListener('cancel',e=>{e.preventDefault();this.resume();});$<HTMLDialogElement>('help-dialog').addEventListener('cancel',e=>{e.preventDefault();this.closeHelp();});
