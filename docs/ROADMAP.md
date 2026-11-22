@@ -1,5 +1,9 @@
 # Crossmath roadmap
 
+## Редизайн меню и выдачи деталей · 22 ноября 2026
+
+[Единое ТЗ и очередь пяти пакетов](porting/menu-direction-0521/IMPLEMENTATION_TZ_RU.md). Исследовательская ветка передаёт макеты, звук и критерии в игровой PR №4. Первый пакет — главная и маршрут от 17 разных побед до получения «Единиц» на 18-й. Приёмка реализации ведётся на последующей игровой сборке.
+
 Source: [owner specification 1.0](spec/Crossmath_TZ_v1.0_RU.md), sections 12–13. Scope is not replaced by an approximate plan.
 
 | Stage | Implementation | Acceptance gate |
