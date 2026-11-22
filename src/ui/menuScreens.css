@@ -94,3 +94,24 @@
   background:var(--play-panel);
 }
 .rank-hero-progress { display:block; height:6px; border-radius:9px; background:linear-gradient(to right,var(--action-ink) var(--rank-progress),var(--play-line) 0); }
+
+#pause-dialog, #help-dialog, #end-run-dialog, #replace-dialog, #reset-save-dialog { border-radius:16px; }
+:is(#pause-dialog,#help-dialog,#end-run-dialog,#replace-dialog,#reset-save-dialog) h2 { font-weight:790; }
+#settings-options label {
+  display:flex; align-items:center; gap:9px; padding:5px 3px;
+  border-top:1px solid var(--play-line); color:var(--play-ink);
+}
+#settings-options label input { accent-color:var(--action-ink); width:1.05em; height:1.05em; }
+#settings-options label:last-child { justify-content:space-between; }
+#settings-options label select { max-width:100%; min-height:44px; font:inherit; }
+#help-title { display:flex; align-items:center; gap:7px; }
+#help-dialog :is(#explain,#reveal) {
+  min-height:48px; background:var(--desk); color:var(--play-ink); border-color:var(--play-line);
+}
+#help-dialog .help-choices .chosen { background:var(--action-wash); border-color:var(--action-ink); }
+.help-payment { margin-top:8px; padding:3px 8px 8px; border:1px solid var(--play-line); border-radius:9px; background:var(--desk); }
+#end-run-dialog .buttons > :first-child, #reset-save-cancel { color:var(--action-ink); background:var(--action-wash); }
+:is(#replace-error,#save-error,#reset-save-dialog [role="alert"]) { color:var(--play-bad); overflow-wrap:anywhere; }
+.tools button .menu-icon { width:23px; height:23px; }
+#life-icons { display:inline-flex; align-items:center; gap:1px; }
+#life-icons .menu-icon { width:16px; height:16px; }

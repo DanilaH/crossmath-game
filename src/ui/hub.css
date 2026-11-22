@@ -262,58 +262,11 @@ body.in-hub, #mode-dialog, #replace-dialog {
   border-bottom: 0;
 }
 
-.mode-mark {
-  display: grid;
-  width: 37px;
-  height: 37px;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 3px;
-  padding: 6px;
-  border-radius: 6px;
-  background: var(--mode-tile);
-  color: var(--action-ink);
-}
-
-.mode-mark i { border: 1px solid currentColor; border-radius: 2px; }
-.mode-mark--campaign i:nth-child(-n+2) { background: currentColor; }
-.mode-mark--relax { color: var(--relax-mark); }
-.mode-mark--relax i { border-radius: 50%; }
-.mode-mark--relax i:nth-child(2), .mode-mark--relax i:nth-child(3) { visibility: hidden; }
-.mode-mark--challenge { color: var(--challenge-mark); }
-.mode-mark--challenge i { transform: rotate(45deg) scale(.78); background: currentColor; }
-.mode-mark--endless::before {
-  content: '∞';
-  grid-area: 1 / 1 / -1 / -1;
-  place-self: center;
-  font-size: 29px;
-  line-height: 1;
-}
-.mode-mark--endless i { display: none; }
-
-#mode-dialog {
-  max-height: 90svh;
-  padding: 16px;
-}
-
-#mode-dialog:has(#free-open) {
-  max-height: calc(100svh - 16px);
-  padding-block: clamp(12px, calc(24px - .5rem), 16px);
-}
-
-#mode-dialog::backdrop { background: var(--modes-dim); }
-
-#daily-goals {
-  padding-block: 4px;
-}
-
-#daily-goals[open] > :not(summary) {
-  margin-bottom: 6px;
-}
-
-#mode-title, #replace-dialog h2 {
-  font: 740 1.45em/1.12 Rubik, system-ui, sans-serif;
-}
+#mode-dialog:has(#free-open) { max-height:calc(100svh - 16px); }
+#mode-dialog::backdrop { background:var(--modes-dim); }
+#daily-goals { padding-block:4px; }
+#daily-goals[open] > :not(summary) { margin-bottom:6px; }
+#replace-dialog h2 { font:740 1.45em/1.12 Rubik,system-ui,sans-serif; }
 
 #mode-choices { display: grid; gap: 10px; }
 #mode-back { padding-inline: 0; color: var(--play-muted); }
@@ -397,8 +350,6 @@ body.in-hub, #mode-dialog, #replace-dialog {
 .today-copy > strong { font-size: 1em; }
 .today-copy > span { color: var(--play-muted); }
 .today-arrow { margin-inline-start: auto; color: var(--action-ink); }
-#daily-upcoming { padding-block: 2px; }
-#daily-upcoming .date-grid { padding-bottom: 10px; }
 
 .monthly-trophy {
   display: grid;

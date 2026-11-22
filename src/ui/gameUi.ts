@@ -57,6 +57,11 @@ export class GameUi {
     settingsIcon.classList.add('hub-settings');
     $('pause').querySelector('.hub-settings')?.replaceWith(settingsIcon);
     $('profile-open').replaceChildren(menuIcon('profile'));
+    for (const [id,name] of [['undo','undo'],['sort','sort'],['return','return-to-tray'],['help','hint']] as const) {
+      $(id).querySelector('svg')?.replaceWith(menuIcon(name));
+    }
+    $('help-title').insertBefore(menuIcon('hint'),$('help-title').firstChild);
+
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});
     $('end-run').onclick=()=>this.requestEndRun();
     $('finish-run').onclick=$('end-run-yes').onclick=()=>this.finishEndless();
@@ -444,7 +449,13 @@ export class GameUi {
     this.moveFeedback = undefined;
     this.board.update(p, a, move);
     $('lives').hidden = a.mode !== 'daily' && a.mode !== 'endless';
-    $('life-icons').textContent = '♥'.repeat(a.lives) + '♡'.repeat(3 - a.lives);
+    const icons = $('life-icons');
+    if (icons.dataset.lives !== String(a.lives)) {
+      const remaining = document.createElement('span');
+      remaining.textContent = '♡'.repeat(config.dailyLives - a.lives);
+      icons.replaceChildren(...Array.from({length:a.lives}, () => menuIcon('life-full')),remaining);
+      icons.dataset.lives = String(a.lives);
+    }
     $('life-count').textContent = this.t(`Жизни ${a.lives}/3`, `Lives ${a.lives}/3`);
     $('run-status').hidden = a.mode !== 'endless';
     $('run-status').textContent = run ? `${this.t('Очки', 'Score')} ${run.score}` : '';
