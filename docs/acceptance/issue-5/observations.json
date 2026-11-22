@@ -1,0 +1,485 @@
+{
+  "apk": {
+    "kind": "releasecheck",
+    "package": "com.danilah.crossmath.releasecheck",
+    "versionName": "0.5.23",
+    "versionCode": 28,
+    "kitRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+    "source": "9fa8ab94a7bfa21d343163d922f8395a720fb495",
+    "apkSha256": "9dcb0a5f915b272f230e7263b7396d13ab59949b802603aa967d88078a6323d1",
+    "bytes": 1394761,
+    "certificateSha256": "c617436542408ff1b81c8acd860c6b914dee6a9f5c0cc94b9c5109399ea03000",
+    "productionSigner": false,
+    "v2": true,
+    "zipalign16k": true,
+    "debuggable": false,
+    "webViewDebuggingConfigured": false,
+    "nativeInsetOwner": "content-root",
+    "webPayload": {
+      "index.html": "b8ad5e5f7fe24a8f2802f1f010b7f3691643be55f629a40bd7fb6fa0fae389d2",
+      "native-build.json": "d6776c22b4d785acafac6f324de6e51d9700f8d00340e5638b59090fc0a0fc70",
+      "assets/index--m5WMbaO.css": "6469811529567f658acb4cf46a298c188b3879f4c50a3a976fd2d11f1f5608e3",
+      "assets/rubik-latin-wght-normal-CnQIisVs.woff2": "691cd1d9b4c0cdf31a1dcf04259c86f92c85e69f6622abab7964d81e36890691",
+      "assets/web-BM7xF5pS.js": "874bbd026b2a3757b6c7bedc1bd163f0c735a3e0a943605c9853f660d828d658",
+      "assets/dist-CMedSjkm.js": "067d9ca66629f984cf538346471032b4b24f9acd1cb914834126e2b88d3250fe",
+      "assets/coin-Nc673Wm5.webp": "43d4015719e303ce25192964784be7bacb70aa63e4717a339162aaf829ea20bf",
+      "assets/rubik-cyrillic-wght-normal-DveCct9I.woff2": "bdb2b33ab916e9e7b42edb61f8aea5f5dd83ad773d6ee4e9b55665daf8954ce8",
+      "assets/index-Buif59zJ.js": "dd1c6cf938327daf684064342c38a8064f47555f5efbfb195ed7dca67903adc1",
+      "licenses/Rubik-OFL.txt": "46a250495a963b0b84f2736c0185d0e3af8df9d23427bd425b92a8ece020283c"
+    },
+    "nativeRuntime": "NOT RUN",
+    "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE"
+  },
+  "firstRoute": {
+    "skipDuringFlight": true,
+    "parts": 6,
+    "coins": 450,
+    "delta": 15
+  },
+  "baselineReceipt": {
+    "id": "win:f6f4b343-43a9-49aa-bdaa-862a5f709b3f",
+    "attemptId": "f6f4b343-43a9-49aa-bdaa-862a5f709b3f",
+    "puzzleId": "cm-own-02-081",
+    "first": true,
+    "coins": 15,
+    "xp": 15,
+    "rankUps": 0,
+    "fragments": 1,
+    "cardCoins": 0,
+    "elapsedPlaying": 1.741099999997765,
+    "baseCoins": 15,
+    "rankCoins": 0,
+    "collectionFragments": 6,
+    "rankLevel": 2,
+    "unlockedModes": [],
+    "dailyCoins": 0,
+    "taskCoins": 0,
+    "setCoins": 0,
+    "badges": []
+  },
+  "implementedReceipt": {
+    "id": "win:f6f4b343-43a9-49aa-bdaa-862a5f709b3f",
+    "attemptId": "f6f4b343-43a9-49aa-bdaa-862a5f709b3f",
+    "puzzleId": "cm-own-02-081",
+    "first": true,
+    "coins": 15,
+    "xp": 15,
+    "rankUps": 0,
+    "fragments": 1,
+    "cardCoins": 0,
+    "elapsedPlaying": 1.6254999999962747,
+    "baseCoins": 15,
+    "rankCoins": 0,
+    "collectionFragments": 6,
+    "rankLevel": 2,
+    "workshop": {
+      "from": 17,
+      "to": 18
+    },
+    "unlockedModes": [],
+    "dailyCoins": 0,
+    "taskCoins": 0,
+    "setCoins": 0,
+    "badges": []
+  },
+  "baselineTiming": {
+    "audioPeak": 0.13268014788627625,
+    "cueTimes": [
+      {
+        "at": 0.858,
+        "duration": 0.024
+      },
+      {
+        "at": 0.992,
+        "duration": 0.118
+      },
+      {
+        "at": 0.996,
+        "duration": 0.024
+      },
+      {
+        "at": 1.12,
+        "duration": 0.045
+      },
+      {
+        "at": 1.122,
+        "duration": 0.024
+      },
+      {
+        "at": 1.253,
+        "duration": 0.118
+      },
+      {
+        "at": 1.256,
+        "duration": 0.024
+      },
+      {
+        "at": 1.369,
+        "duration": 0.045
+      },
+      {
+        "at": 1.371,
+        "duration": 0.024
+      },
+      {
+        "at": 1.47,
+        "duration": 0.024
+      },
+      {
+        "at": 1.487,
+        "duration": 0.118
+      },
+      {
+        "at": 1.57,
+        "duration": 0.024
+      },
+      {
+        "at": 1.586,
+        "duration": 0.118
+      },
+      {
+        "at": 1.686,
+        "duration": 0.118
+      },
+      {
+        "at": 1.689,
+        "duration": 0.024
+      },
+      {
+        "at": 1.82,
+        "duration": 0.118
+      },
+      {
+        "at": 1.822,
+        "duration": 0.024
+      },
+      {
+        "at": 1.922,
+        "duration": 0.024
+      },
+      {
+        "at": 1.938,
+        "duration": 0.159
+      },
+      {
+        "at": 2.275,
+        "duration": 0.365
+      }
+    ],
+    "nativeCaptureFrames": 95
+  },
+  "implementedTiming": {
+    "audioPeak": 0.17457914352416992,
+    "cueTimes": [
+      {
+        "at": 0.86,
+        "duration": 0.024
+      },
+      {
+        "at": 0.976,
+        "duration": 0.118
+      },
+      {
+        "at": 0.979,
+        "duration": 0.024
+      },
+      {
+        "at": 1.107,
+        "duration": 0.045
+      },
+      {
+        "at": 1.109,
+        "duration": 0.024
+      },
+      {
+        "at": 1.211,
+        "duration": 0.024
+      },
+      {
+        "at": 1.224,
+        "duration": 0.118
+      },
+      {
+        "at": 1.323,
+        "duration": 0.045
+      },
+      {
+        "at": 1.326,
+        "duration": 0.024
+      },
+      {
+        "at": 1.424,
+        "duration": 0.024
+      },
+      {
+        "at": 1.441,
+        "duration": 0.118
+      },
+      {
+        "at": 1.525,
+        "duration": 0.024
+      },
+      {
+        "at": 1.541,
+        "duration": 0.118
+      },
+      {
+        "at": 1.624,
+        "duration": 0.024
+      },
+      {
+        "at": 1.641,
+        "duration": 0.118
+      },
+      {
+        "at": 1.725,
+        "duration": 0.024
+      },
+      {
+        "at": 1.741,
+        "duration": 0.118
+      },
+      {
+        "at": 1.824,
+        "duration": 0.024
+      },
+      {
+        "at": 1.843,
+        "duration": 0.159
+      },
+      {
+        "at": 2.162,
+        "duration": 0.365
+      },
+      {
+        "at": 3.185,
+        "duration": 0.045
+      }
+    ],
+    "nativeCaptureFrames": 149
+  },
+  "screenRoutes": {
+    "modes": {
+      "history": 240,
+      "startScore": null,
+      "activeRunRestored": true,
+      "soloBest": 40
+    },
+    "calendar": {
+      "profileNewYear": "2026-12-31 → 2027-01-01",
+      "januaryTrophy": "31/31"
+    },
+    "workshop": {
+      "visibleTools": 12,
+      "completionTools": 12,
+      "historicParts": 1,
+      "benchProgressAt15": 40
+    },
+    "firstWinSettings": [
+      {
+        "sound": true,
+        "vibration": false,
+        "winAudio": 1,
+        "winVibration": 0
+      },
+      {
+        "sound": false,
+        "vibration": true,
+        "winAudio": 0,
+        "winVibration": 1
+      },
+      {
+        "sound": true,
+        "vibration": true,
+        "winAudio": 1,
+        "winVibration": 1
+      },
+      {
+        "sound": false,
+        "vibration": false,
+        "winAudio": 0,
+        "winVibration": 0
+      }
+    ],
+    "layout": [
+      [
+        320,
+        568,
+        100,
+        "light",
+        "ru"
+      ],
+      [
+        320,
+        568,
+        100,
+        "dark",
+        "en"
+      ],
+      [
+        320,
+        568,
+        120,
+        "light",
+        "ru"
+      ],
+      [
+        320,
+        568,
+        120,
+        "dark",
+        "en"
+      ],
+      [
+        320,
+        568,
+        150,
+        "light",
+        "ru"
+      ],
+      [
+        320,
+        568,
+        150,
+        "dark",
+        "en"
+      ],
+      [
+        320,
+        568,
+        200,
+        "light",
+        "ru"
+      ],
+      [
+        320,
+        568,
+        200,
+        "dark",
+        "en"
+      ],
+      [
+        390,
+        844,
+        100,
+        "light",
+        "ru"
+      ],
+      [
+        390,
+        844,
+        100,
+        "dark",
+        "en"
+      ],
+      [
+        390,
+        844,
+        120,
+        "light",
+        "ru"
+      ],
+      [
+        390,
+        844,
+        120,
+        "dark",
+        "en"
+      ],
+      [
+        390,
+        844,
+        150,
+        "light",
+        "ru"
+      ],
+      [
+        390,
+        844,
+        150,
+        "dark",
+        "en"
+      ],
+      [
+        390,
+        844,
+        200,
+        "light",
+        "ru"
+      ],
+      [
+        390,
+        844,
+        200,
+        "dark",
+        "en"
+      ]
+    ]
+  },
+  "januaryBackfill": {
+    "earned": "2026-01",
+    "date": "2026-01-31",
+    "effective": "2026-03-01",
+    "amountForDate": 30,
+    "dates": 31
+  },
+  "recovery": {
+    "cancelClean": true,
+    "rawsRetainedAfterReset": true,
+    "goodBackup": true,
+    "failedReadNoReset": true
+  },
+  "helpAtMidnight": {
+    "shortage": 50,
+    "coinsTest": 60,
+    "creditTest": 1
+  },
+  "interruptions": {
+    "rejectedWriteUnaffected": true,
+    "retryDeduped": true,
+    "backgroundFinishesWithoutLateCue": true,
+    "coldReopenNoCue": true,
+    "fragments": 6,
+    "coins": 450
+  },
+  "gameplayPixels": [
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "boardCrop": [
+        192,
+        49
+      ],
+      "changedPixels": 0
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "boardCrop": [
+        280,
+        57
+      ],
+      "changedPixels": 0
+    }
+  ],
+  "mediaSha256": {
+    "Crossmath_0.5.21_baseline.mp4": "c3c0c304ef277760305c534f00aca87b8d1c2304dedac25244174e44414e24d6",
+    "Crossmath_0.5.22_Home_320x568.png": "86c76ce9c8e9cf572ecabfd685148af0c4004e5e0610ffab145f1b3c432bbdb2",
+    "Crossmath_0.5.22_Home_390x844.png": "91c27743598303713f03a53110706f7a0c664dd723cce384ac21435263ce61bf",
+    "Crossmath_0.5.22_Victory_to_part.mp4": "1ff7e6684d44637c10d214478ae3ca30ea6dd06bc04d769d73169b58f1e7d497",
+    "Crossmath_0.5.23_Calendar_and_daily.png": "6ca672b56061698e283b8aacfc79a3c1e9cc03a99f5a55d56bfbf21e57fd8dd9",
+    "Crossmath_0.5.23_Modes_and_campaign.png": "8128bcb9255ae303904e8a5ef86cf5934b5ed98541e5276998d3febde521cedf",
+    "Crossmath_0.5.23_Settings_and_help.png": "1b6e0cf5bee479842d5c228589a660a5312d6de9a015adcde7928f40ce1fbd3e",
+    "Crossmath_0.5.23_Workshop_and_profile.png": "e37c8e7ea69e526e5f9986f8897461b12d9261fcf11d17ab0af7efdd7b7df451"
+  },
+  "oldUnfinishedDate": {
+    "issued": "2026-11-01",
+    "today": "2026-12-03",
+    "retainedTiles": 1,
+    "retainedLives": 3
+  }
+}

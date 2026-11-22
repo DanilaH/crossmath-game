@@ -41,3 +41,7 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 | M3 · локальная дуэль | Отдельный выпуск, после выбора соревнования владельцем |
 
 [ТЗ M0–M3](https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md) · [Протокол M0–M2](acceptance/PACKAGES_M0_M2_0519.md) · [Замеры 0.5.20](acceptance/qa-0520/README.md).
+
+## Редизайн задачи №5
+
+Пакеты 1–5 реализованы в 0.5.22–0.5.23. Приёмка Chromium и подписанного APK завершена. Физическое устройство требуется для проверки системного масштаба, слышимого звука и вибрации. [Протокол](acceptance/issue-5/README.md).

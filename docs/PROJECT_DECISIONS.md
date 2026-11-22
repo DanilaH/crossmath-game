@@ -60,3 +60,9 @@ Runtime source: @danilah/mini-games-kit at 469928d03f4bae5053e23db26e82187bedbc2
 
 - The default presentation uses a white desk, cream givens and equation grid, near-white empty sockets and mint number pieces. Gold marks rewards. Selection retains its outline, and incorrect equations retain their line, `≠` sign and text explanation.
 - Workshop is the dark presentation. It reuses the 0.5.12 blue-graphite desk, ivory board and amber pieces. Both themes cover the full in-game and navigation UI. The existing `light` and `dark` settings now select these palettes. Saves and reward settlement use their existing formats and logic.
+
+## 0.5.23 · меню и мастерская
+
+- Для главной, режимов, календаря, мастерской, профиля и служебных окон используем локальный Rubik с латиницей и кириллицей. Главная показывает фрагмент фактического поля, золотую монету, лист текущей даты и текущий прибор.
+- Победа сначала подтверждает существующее начисление. Прогресс детали считается между двумя соседними порогами. Посадка и оттиск воспроизводятся из уже записанной квитанции. Кнопка продолжения доступна во время полёта.
+- Принятые рисунки и хронометраж взяты из PR №3. Правила поля, банк задач, пороги, монеты и политика масштабирования сохраняются. [ТЗ задачи №5](https://github.com/DanilaH/crossmath-game/issues/5) · [Протокол](acceptance/issue-5/README.md)

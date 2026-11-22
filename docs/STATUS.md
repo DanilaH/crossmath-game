@@ -2,9 +2,9 @@
 
 ## Current development preview · 22 November 2026
 
-`feat/mode-unlocks-0.5.10` / PR #4 carries 0.5.21 (versionCode 26), with the first victory feedback, historical rewards, Endless exit confirmation, save recovery, midnight help state, campaign continuation, mode unlocks and workshop refinements from the 0.5.20 screen audit. [0.5.21 acceptance](acceptance/qa-0521/README.md) · [0.5.20 acceptance and timing](acceptance/qa-0520/README.md) · [Reference adoption ledger](porting/ADOPTION_LEDGER.json).
+`feat/mode-unlocks-0.5.10` / PR #4 carries 0.5.23 (versionCode 28). Issue #5 adds the redesigned home and mode tiles, a profile-zone month grid, the workshop receipt sequence and updated service dialogs. [0.5.23 acceptance](acceptance/issue-5/README.md) · [0.5.21 acceptance](acceptance/qa-0521/README.md) · [Reference adoption ledger](porting/ADOPTION_LEDGER.json).
 
-The 0.5.21 APK uses the isolated `com.danilah.crossmath.releasecheck` identity. Earlier previews used `com.danilah.crossmath.themecheck`. Android device acceptance, physical feedback, system text scaling and native resume remain open. The local duel is scoped separately as M3.
+The 0.5.23 APK retains the `com.danilah.crossmath.releasecheck` package and 0.5.21 certificate. Physical Android feedback, system text scaling and on-device update remain open. The local duel is a separate M3 scope.
 
 Earlier baseline, 19 November 2026: `main`, `feat/vertical-slice-20261118` and PR #1. Version 0.4.0 / versionCode 4 / schema 4. E2 adds RU/EN and the optional Android ads bridge, verified with a scripted provider. Real SDK acceptance remains open.
 
