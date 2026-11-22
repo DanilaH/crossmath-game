@@ -458,7 +458,7 @@ body.in-play:has(#help-dialog[open]) .play-area {
   color: var(--play-ink);
   border-color: var(--play-line);
 }
-.in-play dialog h2 { font: 800 1.5rem/1.15 system-ui, sans-serif; }
+.in-play dialog h2 { font: 800 1.5rem/1.15 Rubik, system-ui, sans-serif; }
 .in-play dialog p, .in-play dialog .control { color: var(--play-muted); }
 .in-play dialog .hub-button, .in-play #language { background: var(--desk); border-color: var(--play-line); }
 .in-play #submit { flex: none; }
@@ -568,6 +568,20 @@ html[data-host="browser"] .win-dock.shows-unlock { bottom: auto; }
   margin-top: 4px;
   line-height: 1.2;
 }
+.win-unlock-action {
+  min-height: 48px;
+  width: 100%;
+  padding: 5px 9px;
+  border: 1px solid var(--play-line);
+  border-radius: 7px;
+  background: var(--desk);
+  color: var(--action-ink);
+  text-align: start;
+  font-size: inherit;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.win-unlock-action::after { content: ' ›'; }
 .win-dock.shows-unlock :is(#next, #result-home) {
   width: 100%;
   max-width: none;

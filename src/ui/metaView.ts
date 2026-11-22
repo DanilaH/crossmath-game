@@ -21,7 +21,8 @@ const artwork=import.meta.glob('../../docs/spec/product/meta_v08/art/*.svg',{eag
 const el=<K extends keyof HTMLElementTagNameMap>(tag:K,className='',text=''):HTMLElementTagNameMap[K]=>{const n=document.createElement(tag);n.className=className;n.textContent=text;return n;};
 type ArtPreview = 'earned' | 'next' | 'outline';
 const partCount = 4;
-type ModePage = 'modes' | 'campaign';
+type ModePage = 'modes' | 'campaign' | 'unlocked';
+type CardView = 'current' | 'future' | 'assembled' | 'receipt';
 
 function formatDuration(seconds: number, language: Language): string {
   const wholeSeconds = Math.floor(seconds);
@@ -44,7 +45,7 @@ function instrumentAward(result: Completion | null): {index: number; parts: numb
 }
 
 function cardArt(index: number, parts: number, language: Language, preview: ArtPreview): HTMLElement {
-  const wrapper = el('span', 'instrument');
+  const wrapper = el('span', preview==='outline'?'instrument instrument-outline':'instrument');
   const card = config.cards[index]!;
   wrapper.innerHTML = artwork[`../../docs/spec/product/meta_v08/art/${card.id}.svg`] ?? '';
   const svg = wrapper.querySelector('svg');
@@ -169,8 +170,12 @@ export class MetaView {
     this.disabled = disabled;
     this.root.hidden = screen === 'play';
     this.root.dataset.screen = screen;
-    if (screen !== 'home') this.closeModes();
-    if (screen === 'play') return;
+    const unlockPicker=screen==='play' && this.modePage==='unlocked' && Boolean(save.result);
+    if (screen !== 'home' && !unlockPicker) this.closeModes();
+    if (screen === 'play') {
+      if(unlockPicker && this.modeDialog.open) this.renderModes(save);
+      return;
+    }
 
     const focused = document.activeElement?.id;
     const openPanels = new Set([...this.root.querySelectorAll('details[id][open]')].map(panel => panel.id));
@@ -346,9 +351,11 @@ export class MetaView {
 
   private renderModes(save: Save): void {
     const campaign = this.modePage === 'campaign';
+    const unlocked = this.modePage === 'unlocked';
     const scroll = this.modeDialog.scrollTop;
     const historyOpen = this.modeChoices.querySelector('details')?.open ?? false;
-    this.modeTitle.textContent = campaign ? this.t('Кампания', 'Campaign') : this.t('Режимы', 'Modes');
+    this.modeTitle.textContent = campaign ? this.t('Кампания', 'Campaign')
+      : unlocked ? this.t('Новые режимы','New modes') : this.t('Режимы', 'Modes');
     this.modeBack.hidden = !campaign;
     this.modeBack.textContent = this.t('← Режимы', '← Modes');
     this.modeBack.onclick = () => {
@@ -357,13 +364,16 @@ export class MetaView {
     };
     this.modeChoices.replaceChildren();
     if (campaign) this.campaign(save, historyOpen);
+    else if(unlocked) {
+      const choices=el('div','mode-group');
+      choices.append(this.freeModeOption(save,'challenge'),this.endlessModeOption(save));
+      this.modeChoices.append(choices);
+    }
     else this.modeOptions(save);
     this.modeDialog.scrollTop = scroll;
   }
 
   private modeOptions(save: Save): void {
-    const wins = save.profile.solvedIds.length;
-    const { freePlayAfterNewWins, endlessAfterNewWins } = config.unlockProposal;
     const games = el('div', 'mode-group');
     games.append(this.modeButton('campaign', 'campaign-open', this.t('Кампания', 'Campaign'),
       this.t('Поля по порядку', 'Boards in sequence'), () => {
@@ -377,26 +387,35 @@ export class MetaView {
         this.t('Есть сохранение', 'Saved board'),
         () => this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId})));
     }
-    for (const track of freeTracks) {
-      const threshold = track === 'challenge' ? challengeUnlockWins : freePlayAfterNewWins;
-      const isSaved = savedFree?.freeTrack === track && savedFree.status === 'playing';
-      const goal = activeTrackGoal(save,track);
-      const subtitle = wins < threshold ? this.unlockText(threshold)
-        : goal ? this.trackGoalText(goal.id,goal.progress) : this.t('Ступень пройдена ✓','Step complete ✓');
-      const open = this.modeButton(track, track === 'relax' ? 'free-open' : 'challenge-open',
-        trackName(this.language, track), subtitle, () => this.actions.free(track));
-      if (isSaved) open.querySelector('.quick-copy')!.append(el('span', 'quick-status', this.t('Есть сохранение', 'Saved board')));
-      open.disabled = disabledOrLocked(this.disabled, wins < threshold);
-      games.append(open);
-    }
+    for (const track of freeTracks) games.append(this.freeModeOption(save,track));
+    games.append(this.endlessModeOption(save));
+    this.modeChoices.append(games);
+  }
 
+  private freeModeOption(save:Save,track:FreeTrack):HTMLButtonElement {
+    const saved=storedSlot(save,'free')?.attempt;
+    const threshold=track==='challenge'?challengeUnlockWins:config.unlockProposal.freePlayAfterNewWins;
+    const locked=save.profile.solvedIds.length<threshold;
+    const goal=activeTrackGoal(save,track);
+    const subtitle=locked?this.unlockText(threshold)
+      : goal?this.trackGoalText(goal.id,goal.progress):this.t('Ступень пройдена ✓','Step complete ✓');
+    const open=this.modeButton(track,track==='relax'?'free-open':'challenge-open',trackName(this.language,track),subtitle,()=>this.actions.free(track));
+    if(saved?.freeTrack===track && saved.status==='playing') {
+      open.querySelector('.quick-copy')!.append(el('span','quick-status',this.t('Есть сохранение','Saved board')));
+    }
+    open.disabled=disabledOrLocked(this.disabled,locked);
+    return open;
+  }
+
+  private endlessModeOption(save:Save):HTMLButtonElement {
+    const {endlessAfterNewWins}=config.unlockProposal;
+    const locked=save.profile.solvedIds.length<endlessAfterNewWins;
     const endless = this.modeButton('endless', 'endless-open', 'Endless',
-      wins < endlessAfterNewWins ? this.unlockText(endlessAfterNewWins)
+      locked ? this.unlockText(endlessAfterNewWins)
         : save.career.run && save.career.run.status !== 'ended' ? this.t('Продолжить забег', 'Resume run')
         : this.t('Проверка всей доски', 'Check the full board'), this.actions.endless);
-    endless.disabled = disabledOrLocked(this.disabled, wins < endlessAfterNewWins);
-    games.append(endless);
-    this.modeChoices.append(games);
+    endless.disabled = disabledOrLocked(this.disabled, locked);
+    return endless;
   }
 
   private trackGoalText(id: TrackGoalId, progress: number): string {
@@ -595,7 +614,7 @@ export class MetaView {
     this.root.append(this.button(this.t('← На главную','← Home'), () => this.actions.navigate('home'), 'album-back'));
     if (assembled < limit) {
       const parts = partsOnShelf(total, assembled);
-      const bench = this.button('', () => this.openCard(assembled, parts, 'workbench'), 'workbench');
+      const bench = this.button('', () => this.openCard(assembled, parts, 'workbench','current'), 'workbench');
       bench.classList.add('workbench');
       bench.setAttribute('aria-haspopup','dialog');
       const art = this.art(assembled, parts, 'next');
@@ -605,6 +624,7 @@ export class MetaView {
         el('strong','',this.toolTitle(assembled)),
         partMeter(parts),
         el('span','',this.t(`${parts} / 4 частей`, `${parts} of 4 parts`)),
+        el('span','workbench-next',this.nextPartLabel(assembled,parts)),
         el('span','workbench-next',nextFragmentText(save)));
       bench.append(art,copy);
       this.root.append(bench);
@@ -614,15 +634,18 @@ export class MetaView {
     config.cards.forEach((card, index) => {
       const parts = partsOnShelf(total,index);
       const id = `instrument-card-${card.id}`;
-      const button = this.button('', () => this.openCard(index,parts,id), id);
+      const view=parts===partCount?'assembled':index===assembled?'current':'future';
+      const button = this.button('', () => this.openCard(index,parts,id,view), id);
       button.dataset.card = card.id;
       button.dataset.assembly = parts === partCount ? 'complete' : index === assembled ? 'current' : 'pending';
       button.classList.add('collection-card');
       button.setAttribute('aria-haspopup','dialog');
       const art = this.art(index, parts, parts || index === assembled ? 'next' : 'outline');
       art.setAttribute('aria-hidden','true');
-      const quantity = this.t(`${parts} / 4 частей`, `${parts} of 4 parts`);
-      button.append(art, el('strong','',this.toolTitle(index)), partMeter(parts), el('span','muted',quantity));
+      button.append(art, el('strong','',this.toolTitle(index)));
+      if(view==='future') button.append(el('span','muted',this.t('Позже в коллекции','Later in the collection')),
+        el('span','muted',this.instrumentUnlockLabel(index)));
+      else button.append(partMeter(parts),el('span','muted',this.t(`${parts} / 4 частей`, `${parts} of 4 parts`)));
       grid.append(button);
     });
     this.root.append(grid);
@@ -733,19 +756,32 @@ export class MetaView {
     const award = instrumentAward(save.result);
     if (!award) return;
     this.language = save.settings.language;
-    this.openCard(award.index, partsOnShelf(save.profile.fragments, award.index), this.reward.id);
+    this.openCard(award.index, award.parts, this.reward.id,'receipt');
   }
 
-  private openCard(index: number, parts: number, trigger: string): void {
+  private nextPartLabel(index:number,parts:number):string {
+    return this.t(`Следующая деталь · ${config.cards[index]!.partsRU[parts]}`,`Next part · ${partsEN[index]![parts]}`);
+  }
+
+  private instrumentUnlockLabel(index:number):string {
+    return this.unlockText(config.collection.fragmentWinThresholds[index*partCount]!);
+  }
+
+  private openCard(index: number, parts: number, trigger: string, view:CardView): void {
     const card = config.cards[index]!;
     const body = document.getElementById('card-body')!;
     const names = this.language === 'en' ? partsEN[index]! : card.partsRU;
     document.getElementById('card-title')!.textContent = this.toolTitle(index);
     document.getElementById('close-card')!.textContent = trigger === this.reward.id
       ? this.t('К результату','Back to result') : this.t('В мастерскую','Back to workshop');
-    body.replaceChildren(this.art(index,parts,'next'));
-    body.append(el('p', 'next-part', parts === partCount ? this.t('Собрано · 4/4','Assembled · 4/4')
-      : this.t(`Дальше — ${names[parts]}`, `Next — ${names[parts]}`)));
+    body.replaceChildren(this.art(index,parts,view==='future'?'outline':view==='current'?'next':'earned'));
+    const status=parts===partCount?this.t('Собрано · 4/4','Assembled · 4/4')
+      : view==='future'?this.t('Позже в коллекции','Later in the collection')
+      : view==='receipt'?this.t(`На момент награды · ${parts}/4`,`At the time of the reward · ${parts}/4`)
+      : this.t(`Собрано · ${parts}/4`,`Assembled · ${parts}/4`);
+    body.append(el('p','next-part',status));
+    if(view==='future')body.append(el('p','muted',this.instrumentUnlockLabel(index)));
+    if(view==='current')body.append(el('p','next-part',this.nextPartLabel(index,parts)));
     const list = el('ol', 'parts-list');
     names.forEach((name, i) => list.append(el('li', i < parts ? 'earned' : '', `${i < parts ? '✓ ' : ''}${name}`)));
     body.append(list);
@@ -763,6 +799,34 @@ export class MetaView {
     this.reward.classList.remove('arrived');
   }
 
+  private renderUnlockAction(save:Save,detail:HTMLElement,disabled:boolean):void {
+    const modes=save.result?.unlockedModes ?? [];
+    const double=modes.includes('endless') && (modes.includes('challenge') || challengeUnlockWins===config.unlockProposal.endlessAfterNewWins);
+    const daily=modes.includes('daily');
+    const label=double?this.t('Выбрать новый режим','Choose a new mode')
+      : daily?this.t('Открыть задачу дня','Open Daily challenge')
+      : modes.includes('challenge')?this.t('Попробовать испытание','Try Challenge')
+      : modes.includes('endless')?this.t('Попробовать Endless','Try Endless')
+      : this.t('Попробовать спокойную игру','Try Relax');
+    const action=detail.querySelector('button') ?? this.button('',()=>{},'result-unlock');
+    action.className='win-unlock-action';
+    action.textContent=label;
+    action.disabled=disabled;
+    action.onclick=()=>{
+      if(double) {
+        this.showModePage(save,'unlocked');
+        if(!this.modeDialog.open)this.modeDialog.showModal();
+        this.modeChoices.querySelector('button')?.focus({preventScroll:true});
+      } else if(daily) this.actions.daily(save.meta.effectiveDay);
+      else if(modes.includes('challenge')) this.actions.free('challenge');
+      else if(modes.includes('endless')) this.actions.endless();
+      else this.actions.free('relax');
+    };
+    if(double){action.setAttribute('aria-haspopup','dialog');action.setAttribute('aria-controls','mode-dialog');}
+    else {action.removeAttribute('aria-haspopup');action.removeAttribute('aria-controls');}
+    if(!detail.contains(action))detail.replaceChildren(action);
+  }
+
   renderResult(save: Save, animateReward = false, disabled = false): void {
     const r = save.result;
     const details = document.getElementById('reward-breakdown')!;
@@ -775,7 +839,7 @@ export class MetaView {
     const award = instrumentAward(r);
     const announcement = unlockAnnouncement(this.language, r.unlockedModes);
     document.getElementById('result')!.classList.toggle('shows-unlock', Boolean(announcement));
-    let title = announcement;
+    let title = '';
     if (award) {
       const { index, parts } = award;
       const complete = parts === partCount;
@@ -810,7 +874,9 @@ export class MetaView {
       if (r.rankUps) title = this.t(`Новый ранг: ${r.rankLevel ?? save.profile.rank}`, `New rank: ${r.rankLevel ?? save.profile.rank}`);
       else if (r.setCoins) title = this.t('План дня выполнен','Daily goals complete');
     }
-    document.getElementById('result-detail')!.textContent = title;
+    const detail=document.getElementById('result-detail')!;
+    if(announcement)this.renderUnlockAction(save,detail,disabled);
+    else detail.textContent=title;
     const goal = document.getElementById('relax-goal-result')!;
     const count = r.relaxGoalProgress;
     const snapshot = r.trackGoal;
@@ -822,13 +888,7 @@ export class MetaView {
     goal.classList.toggle('pending-goal',snapshot !== undefined && snapshot.progress < trackGoalDefinitions[snapshot.id].target);
     const sources:[string,number][]=[[this.t("За поле", "Board"),r.baseCoins??(r.first?config.difficultyRewards[getPuzzle(r.puzzleId).difficulty].coins:0)],[this.t("За дату", "Daily date"),r.dailyCoins??0],[this.t("За цели", "Goals"),r.taskCoins??0],[this.t("За весь план", "Full goal set"),r.setCoins??0],[this.t("За ранг", "Rank"),r.rankCoins??r.rankUps*config.rank.rewardCoins],[this.t("За прибор", "Instrument"),r.cardCoins]];
     for(const [name,coins] of sources)if(coins)details.append(el('p','',`${name}: +${coins}`));details.append(el('p','',this.t(`Опыт: +${r.xp}`, `XP: +${r.xp}`)));if(r.fragments)details.append(el('p','',this.t(`Новых деталей: ${r.fragments} · всего ${r.collectionFragments} / 48`, `New parts: ${r.fragments} · total ${r.collectionFragments} / 48`)));if(r.rankUps)details.append(el('p','',this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`)));
-    if (announcement) {
-      details.append(el('p', '', announcement));
-      const route = r.unlockedModes?.includes('daily')
-        ? this.t('Задача дня — на главной. Задания дня — в календаре.', 'Find the daily challenge on Home and daily goals in the calendar.')
-        : this.t('На главной нажмите «Все режимы».', 'On Home, choose All modes.');
-      details.append(el('p', '', route));
-    }
+    if (announcement) details.append(el('p','',announcement));
     if(r.stageScore!==undefined)details.append(el('p','',this.t(`За этап: +${r.stageScore} очков · В забеге: ${r.runScore}`, `Stage points: +${r.stageScore} · Run score: ${r.runScore}`)));for(const id of r.badges??[]){const badge=config.achievements.find(b=>b.id===id)!;details.append(el('p','',this.t(`Знак: ${badge.titleRU}`,`Badge: ${badge.titleEN}`)));}
   }
 }

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { config, getPuzzle } from '../src/content/catalog';
 import { createAttempt } from '../src/core/engine';
 import { createSave, decodeSave, settleCompletion } from '../src/app/model';
-import { RecoveryRequired, SAVE_KEY, SaveRepository } from '../src/app/saveRepository';
+import { RecoveryRequired, SAVE_KEY, SaveRepository, UnrecoverableSave } from '../src/app/saveRepository';
 import { GameSession } from '../src/app/session';
 import type { StorageAdapter } from '@danilah/mini-games-kit/platform';
 import type { Save } from '../src/app/model';
@@ -63,6 +63,41 @@ describe('P04/P05/P06: durable game operations',()=>{
  it('quarantines corrupt primary, restores last-good backup, and rejects corruption without a backup',async()=>{
   const{storage,session,repo}=await setup();await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});storage.data.set(SAVE_KEY,'broken bytes');const loaded=await repo.load();expect(loaded.profile.coins).toBe(120);expect(storage.data.get(SAVE_KEY+'.quarantine')).toBe('broken bytes');expect(repo.recoveredBackup).toBe(true);
   const bad=new Memory();bad.data.set(SAVE_KEY,'broken');await expect(new SaveRepository(bad,fresh).load()).rejects.toThrow();
+ });
+ it('leaves both damaged copies intact until reset, then archives both and opens a fresh board',async()=>{
+  const storage=new Memory(),backup=SAVE_KEY+'.backup';
+  storage.data.set(SAVE_KEY,'bad primary');
+  storage.data.set(backup,'bad backup');
+  const repo=new SaveRepository(storage,fresh);
+  const error=await repo.load().catch((failure:unknown)=>failure);
+  expect(error).toBeInstanceOf(UnrecoverableSave);
+  expect([...storage.data.values()]).toEqual(['bad primary','bad backup']);
+  await repo.resetCorrupt(error as UnrecoverableSave);
+  expect(storage.data.get(SAVE_KEY+'.quarantine')).toBe('bad primary');
+  expect(storage.data.get(backup+'.quarantine')).toBe('bad backup');
+  expect(await repo.load()).toEqual(fresh());
+  expect(storage.data.get(backup)).toBe(storage.data.get(SAVE_KEY));
+ });
+ it('does not offer a reset for unavailable reads or a future schema and detects a copy repaired during confirmation',async()=>{
+  const storage=new Memory(),backup=SAVE_KEY+'.backup';
+  storage.data.set(SAVE_KEY,'bad primary');
+  storage.data.set(backup,'bad backup');
+  const repo=new SaveRepository(storage,fresh);
+  const reset=await repo.load().catch((failure:unknown)=>failure) as UnrecoverableSave;
+  const read=storage.getItem.bind(storage);
+  storage.getItem=async key=>{
+   if(key===backup)throw Error('backup unavailable');
+   return read(key);
+  };
+  await expect(repo.load()).rejects.toThrow('backup unavailable');
+  await expect(repo.resetCorrupt(reset)).rejects.toThrow('backup unavailable');
+  storage.getItem=read;
+  storage.data.set(backup,JSON.stringify(fresh()));
+  await expect(repo.resetCorrupt(reset)).rejects.toThrow('changed before reset');
+  const future=JSON.stringify({...fresh(),schemaVersion:5});
+  storage.data.set(SAVE_KEY,future);
+  await expect(repo.load()).rejects.not.toBeInstanceOf(UnrecoverableSave);
+  expect(storage.data.get(SAVE_KEY)).toBe(future);
  });
  it('detects a stale writer instead of overwriting a newer confirmed profile',async()=>{
   const{storage,session}=await setup();const repo2=new SaveRepository(storage,fresh);const old=await repo2.load();await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});await expect(repo2.commit(0,{...old,revision:1})).rejects.toThrow('revision');

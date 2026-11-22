@@ -17,6 +17,7 @@ export class BoardView {
   private readonly motion=new OwnedDomMotion();private readonly cells=new Map<number,HTMLElement>();private signs:HTMLElement[][]=[];
   private equationLines: HTMLElement[] = [];
   private landing: Landing | undefined;
+  private pendingWinContact: (() => void) | undefined;
   private consumedPointerClick = false;
   private freshErrors: number[] = [];
   private preferredAxis: 'row' | 'column' | undefined;
@@ -54,6 +55,7 @@ export class BoardView {
     this.attempt = attempt;
     if (changed) {
       this.landing = undefined;
+      this.pendingWinContact = undefined;
       this.cancel();
       this.selected = null;
       this.explanation = '';
@@ -89,13 +91,17 @@ export class BoardView {
         ?? placements.find(cell => eq.cells.includes(cell.id));
       return [{index, origin}];
     });
-    const atContact = () => {
+    let contacted = false;
+    const atContact = (animate = true) => {
+      if (contacted) return;
+      contacted = true;
+      if (this.pendingWinContact === finishWin) this.pendingWinContact = undefined;
       if (this.disabled() || this.attempt.id !== attempt.id || this.attempt.boardRevision !== attempt.boardRevision) return;
       if (move) {
         const double = move.cell !== undefined && axes.filter(axis => axis.origin?.id === move.cell).length > 1;
         this.feedback.cue(move.cue, move.cell !== undefined, double, move.award);
       }
-      if (this.reduced()) return;
+      if (!animate || this.reduced()) return;
       for (const {index, origin} of axes) {
         const line = this.equationLines[index]!;
         const row = line.dataset.axis === 'row';
@@ -109,6 +115,7 @@ export class BoardView {
         ], {duration: 230, easing: 'ease-out'});
       }
     };
+    const finishWin = () => atContact(false);
 
     let animatingContact = false;
     if (!this.reduced()) for (const cell of placements) {
@@ -134,6 +141,7 @@ export class BoardView {
       if (main && arrival) animatingContact = true;
     }
     if (!animatingContact) atContact();
+    else if (move?.cue === 'win') this.pendingWinContact = finishWin;
   }
   private part(tag:string,className:string,x:number,y:number):HTMLElement{const e=document.createElement(tag);e.className='part '+className;e.style.setProperty('--x',String(x));e.style.setProperty('--y',String(y));return e;}
   private build(): void {
@@ -383,7 +391,7 @@ export class BoardView {
   }
   private clearHover():void{for(const el of document.querySelectorAll('.hover'))el.classList.remove('hover');}
   cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};
-  suspend():void {this.landing=undefined;this.cancel();this.motion.cancelAll();}
+  suspend():void {this.landing=undefined;this.pendingWinContact=undefined;this.cancel();this.motion.cancelAll();}
   private pointerCancel=(e:PointerEvent):void=>{if(this.gesture?.pointer===e.pointerId)this.cancel();};
   private scroll=():void=>{if(this.gesture)this.cancel();};
   private click = (e: MouseEvent): void => {
@@ -402,7 +410,7 @@ export class BoardView {
     this.dismissTutorial();
     this.tap(source, {commandId: crypto.randomUUID(), expectedRevision: this.attempt.boardRevision});
   };
-  resize=():void=>{this.cancel();this.motion.cancelAll();if(!this.puzzle)return;const p=this.puzzle,pad=this.board.closest<HTMLElement>('.boardpad')!,scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
+  resize=():void=>{this.cancel();this.motion.cancelAll();this.pendingWinContact?.();if(!this.puzzle)return;const p=this.puzzle,pad=this.board.closest<HTMLElement>('.boardpad')!,scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
     this.boardWidth = this.boardScroll.offsetWidth;
     if (!this.boardWidth) return;
     const roomy = p.width <= 5 && p.height <= 5 && innerHeight >= 650;
@@ -415,5 +423,5 @@ export class BoardView {
     for(const [key,value] of Object.entries({step,hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));
     this.sizeTray();
   };
-  dispose():void{this.cancel();this.motion.cancelAll();this.boardSize.disconnect();this.tray.removeEventListener('scroll',this.updateTrayButtons);this.trayPrev.onclick=this.trayNext.onclick=null;document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
+  dispose():void{this.suspend();this.boardSize.disconnect();this.tray.removeEventListener('scroll',this.updateTrayButtons);this.trayPrev.onclick=this.trayNext.onclick=null;document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
 }

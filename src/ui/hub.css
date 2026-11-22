@@ -78,9 +78,16 @@ body.in-hub, #mode-dialog, #replace-dialog {
 .in-hub .hub-heading { overflow-wrap: anywhere; }
 #hub, #mode-dialog, #replace-dialog { font-size: var(--hub-font-size); }
 
-#hub[data-screen="home"], #hub[data-screen="profile"], #mode-dialog, #replace-dialog {
+#hub, dialog, #startup, .win-dock, #defeat, #level, #pause-label, .tools button {
   font-family: Rubik, system-ui, sans-serif;
+}
+
+#hub, dialog {
   overflow-wrap: anywhere;
+}
+
+#hub :is(.hub-heading h1, .hub-panel h2, .collection-card strong), #card-title {
+  font-family: Rubik, system-ui, sans-serif;
 }
 
 .resume-card {
@@ -450,7 +457,7 @@ body.in-hub, #mode-dialog, #replace-dialog {
 
 .workbench-copy > strong {
   color: var(--play-ink);
-  font: 700 1.18rem/1.12 Georgia, serif;
+  font: 700 1.18rem/1.12 Rubik, system-ui, sans-serif;
 }
 
 .workbench-stage, .workbench-next { color: var(--reward-ink); }
@@ -469,7 +476,8 @@ body.in-hub, #mode-dialog, #replace-dialog {
 .collection-card .part-meter { width: 100%; justify-content: center; }
 .collection-card[data-assembly="current"] { border-color: var(--reward-edge); }
 .collection-card[data-assembly="complete"] { border-color: var(--play-good); }
-.collection-card[data-assembly="pending"] .unearned-part { opacity: .43; }
+.instrument-outline .unearned-part { opacity: .84; stroke-dasharray: none; }
+.collection-card[data-assembly="pending"] .muted { font-size: .78em; }
 
 /* Rank and XP are already shown by the profile heading. */
 .in-hub:has(#hub[data-screen="profile"]) .progress { display: none; }

@@ -15,7 +15,17 @@ try{
  const openModes=async()=>{await tap('#modes-open');await page.locator('#mode-dialog[open]').waitFor();};
  const fill=async()=>{const state=await snapshot(),p=boards.find(p=>p.puzzleId===state.attempt.puzzleId),answer=answers[p.puzzleId].answer;for(const c of p.cells.filter(c=>c.given===undefined)){const s=await snapshot();if(p.tray[Number(s.attempt.placements[c.id]?.slice(1))]===answer[c.id])continue;const used=new Set(Object.values(s.attempt.placements)),token=p.tray.findIndex((v,i)=>v===answer[c.id]&&!used.has('t'+i));assert.notEqual(token,-1);await tap(`[data-token="t${token}"]`);await tap(`[data-cell="${c.id}"]`);}};
  const swap=async(a,b)=>{await tap(`[data-cell="${a}"]`);await tap(`[data-cell="${b}"]`);};
- const finish=async()=>{await tap('#pause');await page.locator('#end-run:enabled').waitFor();await tap('#end-run');await page.locator('#profile-back').waitFor();};
+ const finish=async()=>{
+  const before=await snapshot();
+  await tap('#pause');await page.locator('#end-run:enabled').waitFor();await tap('#end-run');
+  if(before.career.run.status==='active'){
+   await page.locator('#end-run-dialog[open]').waitFor();
+   assert.match(await page.locator('#end-run-title').innerText(),new RegExp(String(before.career.run.score)));
+   assert.equal(await page.evaluate(()=>document.activeElement?.id),'end-run-no');
+   await tap('#end-run-yes');
+  }
+  await page.locator('#profile-back').waitFor();
+ };
  await page.goto(`http://127.0.0.1:${server.address().port}/`);await ready();
  for(let i=1;i<=15;i++){if(i>1)await tap('#next');await fill();assert.equal((await snapshot()).attempt.status,'won');if(i===14){await tap('#home');await openModes();assert.equal(await page.locator('#endless-open').isDisabled(),true);await tap('#campaign-open');await tap('#last-result');}}
  await tap('#home');await openModes();assert.equal(await page.locator('#endless-open').isEnabled(),true);await tap('#endless-open');const first=await snapshot();assert.equal(first.attempt.puzzleId,'cm-own-01-016');checks.push('actual fresh-profile campaign 1–15, Endless locked at 14 and unlocked at 15');

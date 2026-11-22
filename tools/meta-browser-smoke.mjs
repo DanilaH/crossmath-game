@@ -43,7 +43,7 @@ try{
   if(win===3){
    const frame=page.locator('#instrument-reward');
    assert.equal(await frame.innerText(),'Рамка счётов · 1/4');
-   assert.equal(await page.locator('#result-detail').innerText(),'Новый режим · Спокойная игра');
+   assert.equal(await page.locator('#result-unlock').innerText(),'Попробовать спокойную игру');
    assert.equal(await frame.locator('[data-part="1"]:visible').count(),1);
    assert.equal(await page.locator('#next').isEnabled(),true);
    for (const [width,height] of [[320,568],[390,844]]) {
@@ -67,7 +67,7 @@ try{
    await frame.tap();
    await page.locator('#card-dialog[open]').waitFor();
    assert.equal(await page.locator('#card-title').innerText(),'Счёты');
-   assert.equal(await page.locator('#card-body .unearned-part[data-part="2"]:visible').count(),1);
+   assert.match(await page.locator('#card-body .next-part').innerText(),/1\/4/);
    assert.equal(await page.locator('#card-body .earned').count(),1);
    await tap('#close-card');
    await page.waitForFunction(()=>document.activeElement?.id==='instrument-reward');
@@ -84,7 +84,7 @@ try{
    checks.push('frame in tray, direct abacus inspection, same result on close and cold reload; no duplicate grant');
    await tap('#home');await openModes();assert.equal(await page.locator('#free-open').isEnabled(),true);await tap('#free-open');const free=await snapshot();assert.equal(free.attempt.mode,'free');assert.equal(free.meta.inactive.campaign.attempt.status,'won');await tap('#home');await page.reload();await ready();await tap('#continue-game');assert.equal((await snapshot()).attempt.id,free.attempt.id);await tap('#home');await openModes();await tap('#campaign-open');await tap('#campaign-continue');assert.equal((await snapshot()).attempt.mode,'campaign');await solve();win=4;assert.equal((await snapshot()).profile.fragments,2);}
  }
- assert.equal(await page.locator('#result-detail').innerText(),'Новый режим · Задача дня');
+ assert.equal(await page.locator('#result-unlock').innerText(),'Открыть задачу дня');
  const fifth=await snapshot();assert.equal(fifth.meta.quests.slots.every(s=>s.progress===0&&!s.paid),true);checks.push('fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore');
  await tap('#home');
  assert.equal(await page.locator('.resume-card h1').innerText(),'Поле 6');
