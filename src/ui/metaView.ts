@@ -1,6 +1,6 @@
 import { challengeUnlockWins, freeTracks } from '../content/rotation';
 import type { FreeTrack } from '../content/rotation';
-import { dailyName, localize, operatorGlyph, trackName, unlockAnnouncement } from './locale';
+import { dailyName, localize, trackName, unlockAnnouncement } from './locale';
 import type { Language } from './locale';
 import { getTierProgress } from '@danilah/mini-games-kit/core';
 import { campaignSequence, config, getPuzzle } from '../content/catalog';
@@ -13,8 +13,10 @@ import { reachablePastTrophies, trophyMonthStatus } from '../meta/monthlyTrophy'
 import type { Completion, Save } from '../app/model';
 import { rankThreshold } from '../app/model';
 import { achievementValue, recordVersion } from '../meta/career';
-import { cellValue } from '../core/types';
-import type { Attempt, Puzzle } from '../core/types';
+import { resumePreview } from './resumePreview';
+import { menuIcon } from './icons';
+import { WorkshopReveal } from './workshopReveal';
+import { workshopTarget } from '../meta/workshopProgress';
 import type { MetaScreen, Offer } from '../meta/types';
 
 const artwork=import.meta.glob('../../docs/spec/product/meta_v08/art/*.svg',{eager:true,query:'?raw',import:'default'}) as Record<string,string>;
@@ -100,17 +102,21 @@ export class MetaView {
   private art(index: number, parts: number, preview: ArtPreview = 'earned'): HTMLElement {
     return cardArt(index, parts, this.language, preview);
   }
+  private partName(index:number,partIndex:number):string { return this.t(config.cards[index]!.partsRU[partIndex]!,partsEN[index]![partIndex]!); }
   private toolTitle(index:number):string { const c=config.cards[index]!;return this.t(c.titleRU,c.titleEN); }
   private readonly dialog=document.getElementById('card-dialog') as HTMLDialogElement;
   private readonly reward = document.getElementById('instrument-reward') as HTMLButtonElement;
   private returnTarget: string | undefined;
+  private readonly workshopReveal: WorkshopReveal;
   private readonly modeDialog = document.getElementById('mode-dialog') as HTMLDialogElement;
   private readonly modeChoices = document.getElementById('mode-choices')!;
   private readonly modeTitle = document.getElementById('mode-title')!;
   private readonly modeBack = document.getElementById('mode-back') as HTMLButtonElement;
   private modePage: ModePage = 'modes';
   private disabled=false;
-  constructor(private readonly root:HTMLElement,private readonly actions:Actions){this.dialog.addEventListener('close',()=>{
+  constructor(private readonly root:HTMLElement,private readonly actions:Actions,workshopContact:()=>void) {
+    this.workshopReveal = new WorkshopReveal(document.getElementById('workshop-award')!,workshopContact);
+    this.dialog.addEventListener('close',()=>{
       actions.blocking(false);
       if (this.returnTarget) document.getElementById(this.returnTarget)?.focus({preventScroll:true});
       this.returnTarget = undefined;
@@ -196,25 +202,6 @@ export class MetaView {
     }
   }
 
-  private preview(puzzle: Puzzle, attempt?: Attempt): HTMLElement {
-    const view = el('div', 'resume-preview');
-    // Prefer a row or column that shows the player's own placement.
-    const equation = (attempt && puzzle.equations.find(eq => eq.cells.some(id => attempt.placements[id])))
-      || puzzle.equations.find(eq => eq.cells.filter(id => puzzle.cells[id]!.given === undefined).length === 1)
-      || puzzle.equations[0]!;
-    const values = equation.cells.map(id => attempt ? cellValue(puzzle, attempt, id) : puzzle.cells[id]!.given);
-    const [left, right, result] = values.map(value => value ?? '□');
-    view.setAttribute('role', 'img');
-    view.setAttribute('aria-label', `${left} ${operatorGlyph[equation.op]} ${right} = ${result}`);
-    equation.cells.forEach((id, index) => {
-      const value = values[index];
-      if (index > 0) view.append(el('span', 'preview-slot preview-operator', index === 1 ? operatorGlyph[equation.op] : '='));
-      const state = value === undefined ? ' preview-blank' : puzzle.cells[id]!.given === undefined ? ' preview-piece' : '';
-      view.append(el('span', 'preview-slot' + state, value === undefined ? '·' : String(value)));
-    });
-    return view;
-  }
-
   private home(save: Save): void {
     const { attempt, profile } = save;
     const wins = profile.solvedIds.length;
@@ -243,10 +230,19 @@ export class MetaView {
     const primary = this.button(completed ? this.t('Пройденные поля', 'Completed boards') : this.t('Продолжить', 'Continue'),
       resume ? () => this.actions.navigate('play') : completed ? () => this.openCampaignHistory(save) : this.actions.campaign,
       resume ? 'continue-game' : 'campaign-primary', true);
-    primary.append(this.arrow());
-    stage.append(el('p', 'resume-context', contexts[mode]),
+    const play = el('span','start-mark','▸');
+    play.setAttribute('aria-hidden','true');
+    primary.prepend(play);
+    const preview = resumePreview(puzzle, previewAttempt?.puzzleId === puzzle.puzzleId ? previewAttempt : undefined);
+    if (!completed) {
+      const previewButton = this.button('',()=>primary.click(),'resume-board-open');
+      previewButton.className = 'resume-board-open';
+      previewButton.append(preview);
+      previewButton.setAttribute('aria-label',`${primary.textContent?.slice(1)} · ${preview.getAttribute('aria-label')}`);
+      stage.append(el('p', 'resume-context', contexts[mode]), el('h1','',title), previewButton, primary);
+    } else stage.append(el('p', 'resume-context', contexts[mode]),
       el('h1', '', completed ? this.t('Маршрут завершён', 'Campaign complete') : title),
-      this.preview(puzzle, previewAttempt?.puzzleId === puzzle.puzzleId ? previewAttempt : undefined), primary);
+      primary);
     this.root.append(stage);
 
     const quick = el('div', 'home-quick');
@@ -258,18 +254,20 @@ export class MetaView {
     const status = this.dayStatus(save, day);
     const dayStatus = wins < dailyWins ? this.unlockText(dailyWins)
       : status === this.t('Сегодня', 'Today') ? this.t(`${config.dailyLives} жизни`, `${config.dailyLives} lives`) : status;
-    const date = el('span', 'home-date', day.slice(8, 10));
-    date.setAttribute('aria-hidden', 'true');
-    const dateLabel = el('time', '', this.dateLabel(day));
-    dateLabel.dateTime = day;
+    const date = el('time','home-tear');
+    date.dateTime = day;
+    date.setAttribute('aria-label',this.dateLabel(day));
+    date.append(el('span','tear-month',this.monthName(day.slice(0,7))),el('strong','tear-day',String(Number(day.slice(-2)))));
     const dailyCopy = el('span', 'quick-copy');
     const dateStatus = el('span', 'quick-status');
-    dateStatus.append(dateLabel, ` · ${dayStatus}`);
+    if (wins >= dailyWins && status === this.t('Сегодня','Today')) dateStatus.append(menuIcon('life-full'));
+    dateStatus.append(dayStatus);
     dailyCopy.append(el('strong', '', contexts.daily), dateStatus);
-    daily.append(date, dailyCopy, this.arrow());
+    daily.append(date, dailyCopy);
 
-    const calendar = this.button(this.t('Календарь задач', 'Challenge calendar'),
+    const calendar = this.button(this.t('Календарь', 'Calendar'),
       () => this.actions.navigate('calendar'), 'calendar-open');
+    calendar.prepend(menuIcon('calendar'));
     calendar.disabled = daily.disabled;
 
     const album = this.button('', () => this.actions.navigate('album'), 'album-open');
@@ -280,15 +278,17 @@ export class MetaView {
     const parts = partsOnShelf(profile.fragments, index);
     const art = this.art(index, parts, 'next');
     art.setAttribute('aria-hidden', 'true');
+    const complete = profile.fragments === config.cards.length * partCount;
+    const remaining = workshopTarget(wins,profile.fragments)?.remaining ?? 0;
     const albumStatus = wins < albumWins ? this.unlockText(albumWins)
-      : profile.fragments === config.cards.length * partCount ? this.t('Все приборы собраны', 'All instruments collected')
-        : `${this.toolTitle(index)} · ${parts}/${partCount}`;
-    const albumCopy = el('span', 'quick-copy');
-    albumCopy.append(el('strong', '', this.t('Мастерская', 'Workshop')), el('span', 'quick-status', albumStatus));
-    const felt = el('span', 'instrument-felt');
-    felt.append(art);
-    album.append(felt, albumCopy, this.arrow());
-    quick.append(daily, calendar, album);
+      : complete ? this.t('Все приборы собраны','All instruments collected')
+        : `${this.partName(index,parts)} · ${this.t(`Ещё ${remaining} ${remaining===1?'поле':remaining<5?'поля':'полей'}`, `${remaining} more ${remaining===1?'board':'boards'}`)}`;
+    const albumCopy = el('span','quick-copy');
+    albumCopy.append(el('strong','',this.t('Мастерская','Workshop')),el('span','quick-status',albumStatus));
+    const felt = el('span','instrument-felt');
+    felt.append(art,el('span','home-parts-count',`${parts}/${partCount}`));
+    album.append(felt,albumCopy);
+    quick.append(daily,album);
     this.root.append(quick);
 
     const menu = this.button(this.t('Все режимы', 'All modes'), () => {
@@ -296,11 +296,12 @@ export class MetaView {
       this.showModePage(save, 'modes');
       this.modeDialog.showModal();
     }, 'modes-open');
-    menu.prepend(this.modeMark('modes'));
-    menu.append(this.arrow());
+    menu.prepend(menuIcon('modes'));
     menu.setAttribute('aria-haspopup', 'dialog');
     menu.setAttribute('aria-controls', 'mode-dialog');
-    this.root.append(menu);
+    const shortcuts=el('div','home-shortcuts');
+    shortcuts.append(menu,calendar);
+    this.root.append(shortcuts);
   }
 
   private dateLabel(day: string): string {
@@ -827,7 +828,9 @@ export class MetaView {
     if(!detail.contains(action))detail.replaceChildren(action);
   }
 
-  renderResult(save: Save, animateReward = false, disabled = false): void {
+  skipWorkshopReveal(): void { this.workshopReveal.skip(); }
+  hideWorkshopReveal(): void { this.workshopReveal.hide(); }
+  renderResult(save: Save, fresh = false, disabled = false): void {
     const r = save.result;
     const details = document.getElementById('reward-breakdown')!;
     details.replaceChildren();
@@ -836,6 +839,12 @@ export class MetaView {
     trophy.hidden = !r.dailyTrophyMonth;
     trophy.textContent = r.dailyTrophyMonth
       ? this.t(`Трофей ${this.monthName(r.dailyTrophyMonth,true)} получен`,`${this.monthName(r.dailyTrophyMonth)} trophy earned`) : '';
+    const animateReward = fresh && !r.workshop;
+    this.workshopReveal.show(r,this.language,{
+      t:(ru,en)=>this.t(ru,en),
+      part:(index,part)=>this.partName(index,part-1),
+      art:(index,parts)=>this.art(index,parts,'next'),
+    },fresh && !disabled);
     const award = instrumentAward(r);
     const announcement = unlockAnnouncement(this.language, r.unlockedModes);
     document.getElementById('result')!.classList.toggle('shows-unlock', Boolean(announcement));

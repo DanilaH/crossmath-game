@@ -11,6 +11,7 @@ import type { AwardTone } from './feedback';
 import type { GameSession, OpenOutcome } from '../app/session';
 import { hintPayment } from '../app/session';
 import { MetaView } from './metaView';
+import { menuIcon } from './icons';
 import type { MetaScreen, Offer } from '../meta/types';
 import { RecoveryRequired } from '../app/saveRepository';
 import type { FreeTrack } from '../content/rotation';
@@ -51,7 +52,11 @@ export class GameUi {
         if (offer) this.open((replace,time)=>session.openQuest(index,replace,time),offer.mode);
       },
       questStartsNewRun:index=>session.questStartsNewRun(index),blocking:value=>this.blocker('modal',value),
-    });
+    },()=>this.feedback.workshopContact());
+    const settingsIcon = menuIcon('settings');
+    settingsIcon.classList.add('hub-settings');
+    $('pause').querySelector('.hub-settings')?.replaceWith(settingsIcon);
+    $('profile-open').replaceChildren(menuIcon('profile'));
     $('submit').onclick=()=>this.command({type:'SubmitEndless'});
     $('end-run').onclick=()=>this.requestEndRun();
     $('finish-run').onclick=$('end-run-yes').onclick=()=>this.finishEndless();
@@ -220,7 +225,7 @@ export class GameUi {
   }
   private tick():void{const now=performance.now();if(this.wasActive)this.elapsed+=(now-this.lastTime)/1000;this.lastTime=now;this.wasActive=this.ready&&!this.blocked&&!this.saveFailed&&this.session.state.meta.screen==='play'&&!this.session.state.attempt.userPaused&&this.session.state.attempt.status==='playing';}
   setReady():void{this.ready=true;this.ads?.start();this.syncNavigation();this.tick();this.render();if(this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused){this.showPause();}}
-  activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.suspend();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
+  activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.suspend();this.meta.skipWorkshopReveal();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
   private checkpoint():void{if(this.busy||!this.ready||this.saveFailed||this.elapsed<=0||this.session.state.attempt.status!=='playing')return;this.run(async time=>({committed:await this.session.checkpoint(time)}));}
   private run(operation:(elapsed:number)=>Promise<{committed:boolean}>,after:()=>void=()=>{},onFailure?:(error:unknown)=>void):void{
     if(this.busy||this.session.writing)return;this.tick();const time=this.elapsed;this.busy=true;this.render();this.retryAction=()=>this.run(operation,after,onFailure);
@@ -252,8 +257,9 @@ export class GameUi {
 
   private markReward(): AwardTone | undefined {
     const receipt = this.session.state.result;
-    if (!receipt?.fragments) return;
+    if (!receipt) return;
     this.freshRewardId = receipt.id;
+    if (!receipt.fragments) return;
     return receipt.cardCoins ? 'instrument' : 'part';
   }
 
@@ -398,7 +404,10 @@ export class GameUi {
     this.meta.render(s, this.busy || this.session.writing || this.saveFailed);
     const wallet = $('hub-wallet');
     wallet.hidden = s.meta.screen !== 'home';
-    wallet.textContent = $('wallet').textContent;
+    wallet.setAttribute('aria-label',quantity(this.language,s.profile.coins,'coin'));
+    const balance = document.createElement('span');
+    balance.textContent = String(s.profile.coins);
+    wallet.replaceChildren(menuIcon('coin'),balance);
     const profile = $<HTMLButtonElement>('profile-open');
     profile.hidden = playing;
     profile.disabled = this.busy || this.session.writing || this.saveFailed;
@@ -444,7 +453,7 @@ export class GameUi {
     const showResult = playing && !!s.result && !this.saveFailed;
     const arriving = result.hidden && showResult;
     result.hidden = !showResult;
-    if (!showResult) this.meta.hideInstrumentReward();
+    if (!showResult) { this.meta.hideInstrumentReward(); this.meta.hideWorkshopReveal(); }
     if (showResult && s.result) {
       const reward = s.result;
       const endless = a.mode === 'endless';
@@ -462,6 +471,7 @@ export class GameUi {
         : reward.coins ? `+${quantity(this.language, reward.coins, 'coin')}`
         : reward.xp ? `+${reward.xp} XP`
         : campaignClosed ? '' : this.t('Решено повторно', 'Solved again');
+      if (!endless && reward.coins) $('result-rewards').prepend(menuIcon('coin'));
       const nextPosition=s.profile.campaignCursor+1;
       next.textContent = a.mode === 'daily' ? this.t('В календарь', 'Back to calendar')
         : endless ? this.t('Следующий этап', 'Next stage')
@@ -493,5 +503,5 @@ export class GameUi {
     $('mode-rules').textContent=a.mode==='endless'?this.t("Три жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.", "Three lives for the entire run. Select Check to submit a full board. A different incorrect layout costs a life. Using help counts toward the assisted record."):a.mode==='daily'?this.t("Три жизни на попытку. Новая ошибка снимает максимум одну жизнь за ход. Отмена, возврат и помощь жизнь не снимают. Повтор бесплатный.", "Three lives per attempt. A new error costs at most one life per move. Undo, returning numbers and help cost no lives. Retrying is free."):this.t("Числа сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.", "Your board is saved. There is no penalty for mistakes, and correct equations remain editable. Tap a number and a cell in either order, or drag a piece.");
   }
   onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.backFromModes())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
-  dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.board.dispose();this.feedback.dispose();}
+  dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
 }

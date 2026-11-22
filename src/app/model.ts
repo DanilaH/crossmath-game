@@ -13,6 +13,7 @@ import type { TrackGoalReceipt } from '../meta/trackGoals';
 import { dailyArchiveStart, isCalendarDay } from '../meta/calendar';
 import { createCareer, settleAchievements, settleStage, upgradeCareer, validateCareer } from '../meta/career';
 import type { Career } from '../meta/career';
+import type { WorkshopReceipt } from '../meta/workshopProgress';
 
 export interface Settings { theme: 'light' | 'dark'; sound: boolean; vibration: boolean; reducedMotion: boolean; language: 'ru' | 'en'; timerVisible: boolean }
 export interface Completion {
@@ -25,6 +26,7 @@ export interface Completion {
   campaignFinished?: boolean;
   dailyTrophyMonth?: string;
   trackGoal?: TrackGoalReceipt;
+  workshop?: WorkshopReceipt;
 }
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
@@ -88,7 +90,7 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
     if (next.attempt.freeIndex === progress[track]) progress[track]++;
   }
   next.result={id:`win:${next.attempt.id}`,attemptId:next.attempt.id,puzzleId:p.puzzleId,first,coins,xp:reward.xp,rankUps,fragments:profile.fragments-previousFragments,cardCoins,elapsedPlaying:next.attempt.elapsedPlaying,baseCoins:reward.coins,rankCoins:rankUps*config.rank.rewardCoins,
-    collectionFragments:profile.fragments,rankLevel:profile.rank,unlockedModes:modeUnlockThresholds
+    collectionFragments:profile.fragments,rankLevel:profile.rank,workshop:{from:previousWins,to:profile.solvedIds.length},unlockedModes:modeUnlockThresholds
       .filter(([, threshold]) => previousWins < threshold && profile.solvedIds.length >= threshold)
       .map(([mode]) => mode)};
   if (next.attempt.mode==='campaign' && profile.campaignCursor===campaign.length) {
@@ -130,6 +132,12 @@ export function decodeSave(input: unknown): Save {
   validateAdState(s);
   const validateReceipt=(result:Completion):void=>{
     if (![result.coins,result.xp,result.rankUps,result.fragments,result.cardCoins].every(nonnegative) || typeof result.first!=='boolean' || !Number.isFinite(result.elapsedPlaying) || result.elapsedPlaying<0) fail();
+    if (result.workshop !== undefined) {
+      const {workshop, collectionFragments: total, fragments} = result;
+      if (!workshop || !nonnegative(workshop.from) || !nonnegative(workshop.to) ||
+        workshop.from > workshop.to || workshop.to > p.solvedIds.length || !nonnegative(total) ||
+        total > config.collection.fragmentWinThresholds.length || fragments > total) fail();
+    }
     if (result.badges&&(!Array.isArray(result.badges)||result.badges.some(id=>!config.achievements.some(b=>b.id===id)))) fail();
   };
   const validateDailyTrophyReceipt=(result:Completion,day:string):void=>{

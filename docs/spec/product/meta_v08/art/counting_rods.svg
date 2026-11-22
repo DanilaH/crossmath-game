@@ -1,1 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 196 154" role="img"><title>Счётные палочки</title><g id="plate"><rect x="0" y="0" width="196" height="154" rx="12" fill="#192a2d" stroke="none" stroke-width="2"/><rect x="7" y="7" width="182" height="140" rx="8" fill="none" stroke="#52615b" stroke-width="1"/><circle cx="14.00" cy="14.00" r="1.5" fill="#d2ab60" stroke="none" stroke-width="2"/><circle cx="182.00" cy="14.00" r="1.5" fill="#d2ab60" stroke="none" stroke-width="2"/><circle cx="14.00" cy="140.00" r="1.5" fill="#d2ab60" stroke="none" stroke-width="2"/><circle cx="182.00" cy="140.00" r="1.5" fill="#d2ab60" stroke="none" stroke-width="2"/></g><g id="part-1"><rect x="24" y="33" width="147" height="91" rx="8" fill="none" stroke="#eaa166" stroke-width="5"/></g><g id="part-2"><path d="M41 54v48" fill="none" stroke="#f8e4b6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M48 54v48" fill="none" stroke="#f8e4b6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M55 54v48" fill="none" stroke="#f8e4b6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g><g id="part-3"><path d="M75 54v48" fill="none" stroke="#d2ab60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M82 54v48" fill="none" stroke="#d2ab60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M89 54v48" fill="none" stroke="#d2ab60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 54v48" fill="none" stroke="#d2ab60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M72 91l27 -25" fill="none" stroke="#d2ab60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g><g id="part-4"><path d="M119 54v48" fill="none" stroke="#9ad6c2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M126 54v48" fill="none" stroke="#9ad6c2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M133 54v48" fill="none" stroke="#9ad6c2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M140 54v48" fill="none" stroke="#9ad6c2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M116 91l27 -25" fill="none" stroke="#9ad6c2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M116 110h30" fill="none" stroke="#9ad6c2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 196 130" role="img">
+  <title>Счётные палочки</title>
+  <g id="plate">
+    <rect x="5" y="9" width="186" height="116" rx="14" fill="#8f6138" stroke="#714829" stroke-width="2"/>
+    <rect x="5" y="5" width="186" height="115" rx="14" fill="#d3a470" stroke="#a67549" stroke-width="2"/>
+    <rect x="11" y="10" width="174" height="103" rx="10" fill="#e9bf87" stroke="#efcd9b" stroke-width="1.5"/>
+    <path d="M18 20c38-7 93-6 157-3M17 108c47 3 97 4 158-2" fill="none" stroke="#ad7746" stroke-opacity=".4"/>
+  </g>
+  <g id="part-1">
+    <rect x="21" y="25" width="154" height="20" rx="9" fill="#a57547" stroke="#946037"/>
+    <rect x="21" y="53" width="154" height="20" rx="9" fill="#b2895e" stroke="#a1734b"/>
+    <rect x="21" y="81" width="154" height="20" rx="9" fill="#b2895e" stroke="#a1734b"/>
+    <path d="M33 35h130M33 63h130M33 91h130" fill="none" stroke="#eed2a6" stroke-width="1" stroke-dasharray="3 3"/>
+  </g>
+  <g id="part-2" stroke="#f6d78e" stroke-width="3.6" stroke-linecap="round">
+    <path d="M44 31h108"/><path d="M44 35h108"/><path d="M44 39h108"/>
+  </g>
+  <g id="part-3" stroke="#f8cd6b" stroke-width="4" stroke-linecap="round">
+    <path d="M38 59h121"/><path d="M38 64h121"/><path d="M38 68h121"/>
+  </g>
+  <g id="part-4" stroke="#e3efe0" stroke-width="4" stroke-linecap="round">
+    <path d="M32 87h132"/><path d="M32 92h132"/><path d="M32 96h132"/>
+  </g>
+</svg>

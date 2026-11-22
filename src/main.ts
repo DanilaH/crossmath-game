@@ -16,6 +16,8 @@ import './style.css';
 import './ui/theme.css';
 import './ui/play.css';
 import './ui/hub.css';
+import './ui/home.css';
+import './ui/workshopReveal.css';
 
 const startup=new StartupTimeline<'hostReady'|'storageReady'|'firstFrame'|'ready'>(),cover=document.querySelector<HTMLElement>('#startup')!,root=document.querySelector<HTMLElement>('#game-root')!;
 let language:Language='ru';

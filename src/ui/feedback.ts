@@ -6,7 +6,7 @@ export type AwardTone = 'part' | 'instrument';
 
 export class Feedback {
   private readonly audio = new OneShotPlayer({
-    groups: {selection: {minIntervalMs: 25}, action: {minIntervalMs: 0, replacementFadeMs: 8}},
+    groups: {selection: {minIntervalMs: 25}, action: {minIntervalMs: 0, replacementFadeMs: 8}, workshop: {minIntervalMs: 25}},
     maxVoices: 4,
   });
   private readonly buffers = new Map<string, AudioBuffer>();
@@ -38,6 +38,16 @@ export class Feedback {
       },
     });
     if (settings.vibration && kind !== 'pick') navigator.vibrate?.(kind === 'win' ? [12, 35, 16] : kind === 'wrong' ? 15 : 7);
+  }
+
+  workshopContact(): void {
+    if (!this.allowed) return;
+    const settings = this.settings();
+    if (settings.sound) this.audio.play({
+      group:'workshop', channel:'gameplay', gain:.25,
+      buffer:context=>this.renderCue(context,'place',true,false),
+    });
+    if (settings.vibration) navigator.vibrate?.(9);
   }
 
   private renderCue(context: AudioContext, kind: Cue, seated: boolean, double: boolean, award?: AwardTone): AudioBuffer {
