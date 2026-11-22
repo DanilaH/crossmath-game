@@ -37,6 +37,7 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 | M1 · трофеи Daily | 0.5.18, проверены календарные границы, архив печатей и миграция |
 | M2 · цели Relax и Challenge | 0.5.19, проверена первая ступень по строкам id 2–4 |
 | Исправления по аудиту 0.5.19 | 0.5.20, архив Daily до 1100 дат, достижимые месяцы и старый финал кампании |
+| Исправления экранов по аудиту 0.5.20 | 0.5.21, UI-01–08. Chromium и APK проверены, физический отклик Android ожидает проверки. [Протокол](acceptance/qa-0521/README.md) |
 | M3 · локальная дуэль | Отдельный выпуск, после выбора соревнования владельцем |
 
 [ТЗ M0–M3](https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md) · [Протокол M0–M2](acceptance/PACKAGES_M0_M2_0519.md) · [Замеры 0.5.20](acceptance/qa-0520/README.md).
