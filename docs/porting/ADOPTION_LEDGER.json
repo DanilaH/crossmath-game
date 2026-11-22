@@ -7,10 +7,10 @@
   },
   "consumer": {
     "repository": "DanilaH/crossmath-game",
-    "codeCommit": "b24e2832de9c4eef78a84826b1168c218961cf41",
-    "artifactSource": "b24e2832de9c4eef78a84826b1168c218961cf41",
-    "version": "0.5.19",
-    "versionCode": 24,
+    "codeCommit": "297feadd480ceca40ba2dceaefd2a7987c86ae3a",
+    "artifactSource": "297feadd480ceca40ba2dceaefd2a7987c86ae3a",
+    "version": "0.5.20",
+    "versionCode": 25,
     "runtimeKit": "469928d03f4bae5053e23db26e82187bedbc252e"
   },
   "interpretation": "comparison answers functional parity for the named behavior at this snapshot. status answers workflow. ROADMAPPED = proposed research or acceptance stage, not owner commitment. Evidence locators use sourceInventory.commit + path and lookup by sourceFeatureId.",
@@ -47,7 +47,7 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_ABC_0516.md#b--0515 · Chromium/проверка APK · исходник 5042b034e2af03e0c42f25affb13199aa2fe03ba"
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_ABC_0516.md#b--0515 · Chromium/проверка APK · исходник 5042b034e2af03e0c42f25affb13199aa2fe03ba"
     },
     {
       "id": "easy-six-challenge",
@@ -68,7 +68,7 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_ABC_0516.md#b--0515 · Chromium/проверка APK · исходник 5042b034e2af03e0c42f25affb13199aa2fe03ba"
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_ABC_0516.md#b--0515 · Chromium/проверка APK · исходник 5042b034e2af03e0c42f25affb13199aa2fe03ba"
     },
     {
       "id": "easy-bank-reindex",
@@ -89,7 +89,7 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_ABC_0516.md#b--0515 · Chromium/проверка APK · исходник 5042b034e2af03e0c42f25affb13199aa2fe03ba"
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_ABC_0516.md#b--0515 · Chromium/проверка APK · исходник 5042b034e2af03e0c42f25affb13199aa2fe03ba"
     },
     {
       "id": "easy-owl-equality",
@@ -267,7 +267,7 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_ABC_0516.md#a--0514 · Chromium/проверка APK · исходник 267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9"
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_ABC_0516.md#a--0514 · Chromium/проверка APK · исходник 267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9"
     },
     {
       "id": "guru-direct-hint",
@@ -389,21 +389,21 @@
     {
       "id": "guru-result-next",
       "sourceFeatureId": "guru-result-next",
-      "status": "IMPLEMENTED_UNVERIFIED",
-      "comparison": "PARTIAL",
-      "currentImplementation": "В квитанции зафиксирован первый финиш 239 → 240. Повтор ведёт в историю, финал маршрута виден на исходной квитанции.",
-      "codePath": "src/ui/gameUi.ts",
+      "status": "ACCEPTED",
+      "comparison": "MATCH",
+      "currentImplementation": "Старый первый финиш поля 240 подтверждается first=true. При неоднозначной квитанции заголовок нейтральный. Новые квитанции различают первый финиш и повтор.",
+      "codePath": "src/app/model.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Исправить классификацию исторической квитанции. Проверить старые first=true и неоднозначные first=false, кошелёк и CTA. На телефоне проверить область видимости кнопки при системном крупном шрифте.",
+      "nextAction": "На телефоне проверить область видимости кнопки при системном крупном шрифте.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L310",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/d070465e762b6de5921af40294f28a52096e11a0/src/ui/gameUi.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/297feadd480ceca40ba2dceaefd2a7987c86ae3a/src/app/model.ts",
       "deliverySpec0516": {
         "package": "M0",
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md#m0 · Chromium и аудит APK · d070465e762b6de5921af40294f28a52096e11a0",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/qa-0520/README.md · 0.5.20 / 25 · 297feadd480ceca40ba2dceaefd2a7987c86ae3a",
       "metaDelivery0516": {
         "package": "M0",
         "path": "docs/porting/meta-0516/README.md"
@@ -413,6 +413,12 @@
         "package": "M0",
         "observation": "Новые финал и повтор различаются. При обновлении с 0.5.16 старый первый финиш подписан как повтор.",
         "report": "docs/porting/qa-0519/README.md"
+      },
+      "independent0520": {
+        "case": "UI-02/06/07",
+        "observation": "Исторический финал 0.5.16 восстановлен верно. После повтора поля 1 кнопка «Следующее поле» возвращает к полю 16. Старая награда показывает 1/4 и открывает нынешние 4/4. Открытия режимов показаны текстом.",
+        "nextAction": "Уточнить кнопку повтора, передавать снимок награды, дать прямой переход в новый режим.",
+        "report": "docs/porting/screen-audit-0520/README.md"
       }
     },
     {
@@ -575,7 +581,7 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md#m2 · Chromium и аудит APK · b24e2832de9c4eef78a84826b1168c218961cf41",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_M0_M2_0519.md#m2 · Chromium и аудит APK · b24e2832de9c4eef78a84826b1168c218961cf41",
       "deliverySpec0516": {
         "package": "M2",
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
@@ -607,7 +613,7 @@
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md#m2 · Chromium и аудит APK · b24e2832de9c4eef78a84826b1168c218961cf41",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_M0_M2_0519.md#m2 · Chromium и аудит APK · b24e2832de9c4eef78a84826b1168c218961cf41",
       "metaDelivery0516": {
         "package": "M2",
         "path": "docs/porting/meta-0516/README.md"
@@ -676,6 +682,12 @@
         "evidence": "https://github.com/DanilaH/crossmath-game/blob/64c4ada23f8a5f03bf5f0699d5c629c88ffdddf4/docs/acceptance/mode-unlocks-0510/README.md",
         "comparison": "PARTIAL",
         "observed": "Веб-код подписанного APK. После четырёх разных побед карточка «Задача дня» закрыта, после пяти результат и карточка дают одинаковое название. Касание открывает сегодняшний пазл. Отдельный вход через «Календарь задач» ведёт к целям."
+      },
+      "independent0520": {
+        "case": "UI-07",
+        "observation": "На пятой разной победе показано открытие задачи дня. Главная и календарь дают доступ.",
+        "nextAction": "Проверить прямой вторичный вход с самой квитанции.",
+        "report": "docs/porting/screen-audit-0520/README.md"
       }
     },
     {
@@ -695,7 +707,7 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_ABC_0516.md#a--0514 · Chromium/проверка APK · исходник 267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9"
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_ABC_0516.md#a--0514 · Chromium/проверка APK · исходник 267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9"
     },
     {
       "id": "easy-restart-coins",
@@ -713,15 +725,15 @@
     {
       "id": "easy-month-trophy",
       "sourceFeatureId": "easy-month-trophy",
-      "status": "IMPLEMENTED_UNVERIFIED",
+      "status": "ACCEPTED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Печать за все даты месяца с григорианской длиной 28–31 день. В календаре отдельная история полученных печатей.",
+      "currentImplementation": "Календарь показывает все достижимые предыдущие месяцы и открывает ближайшую недостающую дату. История выданных печатей сохраняется отдельно.",
       "codePath": "src/meta/monthlyTrophy.ts",
       "stage": "D",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Показать достижимые месяцы из окна дат и сохранённых живых партий. Проверить январь из марта, в том числе после холодного старта. Телефон и восстановление процесса Android. Активный экран варианта оригинала и срок показа UNKNOWN.",
+      "nextAction": "Телефон и восстановление процесса Android. Активный экран варианта оригинала и срок показа UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L526",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/254554683183561155d1874193f205a5501001ae/src/meta/monthlyTrophy.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/297feadd480ceca40ba2dceaefd2a7987c86ae3a/src/meta/monthlyTrophy.ts",
       "deliverySpec0513": {
         "package": "D",
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
@@ -731,8 +743,7 @@
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md#m1 · Chromium и аудит APK · 254554683183561155d1874193f205a5501001ae",
-      "reason": "Отдельный выпуск после A–C.",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/qa-0520/README.md · 0.5.20 / 25 · 297feadd480ceca40ba2dceaefd2a7987c86ae3a",
       "metaDelivery0516": {
         "package": "M1",
         "path": "docs/porting/meta-0516/README.md"
@@ -741,6 +752,12 @@
         "package": "M1",
         "observation": "Штатная выдача работает. При 30/31 в январе его карточка исчезает 1 марта, когда победа и печать ещё доступны.",
         "report": "docs/porting/qa-0519/README.md"
+      },
+      "independent0520": {
+        "case": "Регрессия 0.5.19",
+        "observation": "1 марта задача за 31 января открыта из строки 30/31. Одна печать пережила перезагрузку.",
+        "nextAction": "Сохранять маршрут в тесте следующей миграции.",
+        "report": "docs/porting/screen-audit-0520/README.md"
       }
     },
     {
@@ -926,7 +943,7 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md#m0 · Chromium и аудит APK · d070465e762b6de5921af40294f28a52096e11a0",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_M0_M2_0519.md#m0 · Chromium и аудит APK · d070465e762b6de5921af40294f28a52096e11a0",
       "deliverySpec0516": {
         "package": "M0",
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
@@ -939,6 +956,12 @@
         "package": "M0",
         "observation": "Итог старого проигранного забега сохраняется однократно.",
         "report": "docs/porting/qa-0519/README.md"
+      },
+      "independent0520": {
+        "case": "UI-03",
+        "observation": "После первого этапа с 40 очками и живой фишкой одно нажатие в паузе завершает забег. Профиль сохраняет нужную категорию.",
+        "nextAction": "Добавить подтверждение только живому забегу, сохранить прямой выход после поражения.",
+        "report": "docs/porting/screen-audit-0520/README.md"
       }
     },
     {
@@ -1249,7 +1272,13 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_ABC_0516.md#a--0514 · Chromium/проверка APK · исходник 267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9"
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_ABC_0516.md#a--0514 · Chromium/проверка APK · исходник 267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9",
+      "independent0520": {
+        "case": "UI-05",
+        "observation": "Цены Crossmath отличны от источника. После смены даты при 10 монетах кнопка на 60 активна. Списание не произошло.",
+        "nextAction": "Связать доступность кнопки с проверкой цены во всех перерисовках.",
+        "report": "docs/porting/screen-audit-0520/README.md"
+      }
     },
     {
       "id": "guru-ad-protect",
@@ -1354,7 +1383,13 @@
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
       "nextAction": "На Android повторить уход во время поля, выдачи и выбора следующей партии",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L973",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/nativeLifecycle.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/nativeLifecycle.ts",
+      "independent0520": {
+        "case": "UI-04",
+        "observation": "Браузер восстановился при одной повреждённой записи. При двух повреждённых записях повтор загрузки зациклен. Аппаратное убийство процесса UNKNOWN.",
+        "nextAction": "Проверить отделение повреждения данных от временной ошибки чтения и повторить системный сценарий на Android.",
+        "report": "docs/porting/screen-audit-0520/README.md"
+      }
     },
     {
       "id": "easy-result-tabs",
@@ -1375,7 +1410,13 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_ABC_0516.md#a--0514 · Chromium/проверка APK · исходник 267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9"
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_ABC_0516.md#a--0514 · Chromium/проверка APK · исходник 267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9",
+      "independent0520": {
+        "case": "UI-02",
+        "observation": "Суммы доступны в деталях результата. На карточке, открытой из старой квитанции, показаны новые четыре детали вместо одной.",
+        "nextAction": "Для детали использовать снимок квитанции, сравнить с актуальной мастерской.",
+        "report": "docs/porting/screen-audit-0520/README.md"
+      }
     },
     {
       "id": "easy-tray-sign",
@@ -1403,7 +1444,13 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1004",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/ui/metaView.ts",
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "independent0520": {
+        "case": "UI-08",
+        "observation": "Переключение светлой и тёмной темы пережило перезагрузку. В разных разделах одновременно используются Rubik, Georgia и system-ui.",
+        "nextAction": "Выверить подписи мастерской и диалогов в обеих темах.",
+        "report": "docs/porting/screen-audit-0520/README.md"
+      }
     },
     {
       "id": "easy-level-change",
@@ -1535,7 +1582,13 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1114",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/96dc46873398b6d8367ce455d0bd6e7db6ffe25b/src/ui/gameUi.ts",
       "reviewedVersion": "0.5.13",
-      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md"
+      "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
+      "independent0520": {
+        "case": "UI-02",
+        "observation": "Регрессии выплаты при повторе результата не обнаружено. Проблема относится к состоянию карточки детали.",
+        "nextAction": "Сохранить согласованную владельцем прибавку монет при исправлении карточки.",
+        "report": "docs/porting/screen-audit-0520/README.md"
+      }
     },
     {
       "id": "easy-pause",
@@ -1553,15 +1606,15 @@
     {
       "id": "easy-daily-archive",
       "sourceFeatureId": "easy-daily-archive",
-      "status": "IMPLEMENTED_UNVERIFIED",
+      "status": "ACCEPTED",
       "comparison": "PARTIAL",
-      "currentImplementation": "30 дней включительно; позднее открываются начатые партии с жизнями, у закончившихся доступен выход в календарь.",
-      "codePath": "src/meta/calendar.ts",
+      "currentImplementation": "Окно в 30 дней и старые живые попытки сохраняются. У истёкших закрытых дат сохраняются назначения и квитанции, объём раскладок ограничен доступными партиями.",
+      "codePath": "src/meta/dailyArchive.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Сократить сохраняемую историю завершённых дат, мигрировать старые записи, проверить 1100 дат, активные слоты, кошелёк и восстановление. Окно и политика старой партии являются правилами Crossmath.",
+      "nextAction": "Окно и политика старой партии являются правилами Crossmath.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1136",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9/src/meta/calendar.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/297feadd480ceca40ba2dceaefd2a7987c86ae3a/src/meta/dailyArchive.ts",
       "reviewedVersion": "0.5.13",
       "consumerEvidence0513": "docs/porting/play-audit-0513/README.md",
       "deliverySpec0513": {
@@ -1569,11 +1622,17 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_ABC_0516.md#a--0514 · Chromium/проверка APK · исходник 267739f7bb39847dbd7d1ee9ba2c34a6c6ee14c9",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/qa-0520/README.md · 0.5.20 / 25 · 297feadd480ceca40ba2dceaefd2a7987c86ae3a",
       "independent0519": {
         "package": "M1",
         "observation": "В контроле с 828 завершёнными датами следующий ход превышает лимит корня профиля 4 МиБ. Проверена также зависимость задержки хода кампании от длины календарного архива.",
         "report": "docs/porting/qa-0519/README.md"
+      },
+      "independent0520": {
+        "case": "Регрессия 0.5.19",
+        "observation": "Модель дошла до 1100 дней. Браузер восстановил фишку в начатой 32 дня назад партии.",
+        "nextAction": "Отдельно проверить нативный ввод-вывод и восстановление после смерти процесса.",
+        "report": "docs/porting/screen-audit-0520/README.md"
       }
     },
     {
@@ -1691,7 +1750,13 @@
       "dependencies": "банк + валидатор + контракт сохранения",
       "nextAction": "Выключить в паузе, проверить ход и победу после перезапуска",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1233",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts",
+      "independent0520": {
+        "case": "UI-01",
+        "observation": "Настройка работает. С включённым звуком первое поле потеряло событие победы в четырёх из четырёх прогонов с обычным движением.",
+        "nextAction": "Доставить единственный звук принятого хода при отмене анимации, повторить на APK в Android.",
+        "report": "docs/porting/screen-audit-0520/README.md"
+      }
     },
     {
       "id": "easy-vibration-setting",
@@ -1704,7 +1769,13 @@
       "dependencies": "банк + валидатор + контракт сохранения",
       "nextAction": "На физическом Android разделить звук и отклик мотора, затем восстановить настройки",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1244",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts",
+      "independent0520": {
+        "case": "UI-01",
+        "observation": "Настройка реализована. На первом поле с обычным движением пропал вызов браузерной вибрации, с уменьшенным движением вызов есть.",
+        "nextAction": "Проверить исправление на Android с включённым и выключенным откликом.",
+        "report": "docs/porting/screen-audit-0520/README.md"
+      }
     },
     {
       "id": "guru-ad-daily-restart",
@@ -2312,7 +2383,7 @@
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md#m0 · Chromium и аудит APK · d070465e762b6de5921af40294f28a52096e11a0",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_M0_M2_0519.md#m0 · Chromium и аудит APK · d070465e762b6de5921af40294f28a52096e11a0",
       "metaDelivery0516": {
         "package": "M0",
         "path": "docs/porting/meta-0516/README.md"
@@ -2579,7 +2650,7 @@
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md#m1 · Chromium и аудит APK · 254554683183561155d1874193f205a5501001ae",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_M0_M2_0519.md#m1 · Chromium и аудит APK · 254554683183561155d1874193f205a5501001ae",
       "metaDelivery0516": {
         "package": "M1",
         "path": "docs/porting/meta-0516/README.md"
@@ -2588,6 +2659,12 @@
         "package": "M1",
         "observation": "Архив заработанных печатей работает после повторного входа, ссылка с результата ведёт в сыгранный месяц.",
         "report": "docs/porting/qa-0519/README.md"
+      },
+      "independent0520": {
+        "case": "Регрессия 0.5.19",
+        "observation": "Повтор сохранил нулевое начисление за дату на длинном маршруте.",
+        "nextAction": "Повторить на установке с обновлением приложения.",
+        "report": "docs/porting/screen-audit-0520/README.md"
       }
     },
     {
@@ -2595,13 +2672,13 @@
       "sourceFeatureId": "easy-month-archive-key",
       "comparison": "MATCH",
       "status": "ACCEPTED",
-      "currentImplementation": "Ключ YYYY-MM берётся у сыгранной даты. Переход с результата открывает заработанный месяц, включая переход года.",
+      "currentImplementation": "Полученные и доступные прошлые месяцы остаются привязаны к YYYY-MM даты; в том числе поздняя победа через месяц.",
       "codePath": "src/meta/monthlyTrophy.ts",
       "stage": "P1",
       "dependencies": "Событие завершения, схема сохранения и календарь/карьера",
       "nextAction": "Проверить восстановление истории после обновления на телефоне.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1948",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/254554683183561155d1874193f205a5501001ae/src/meta/monthlyTrophy.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/297feadd480ceca40ba2dceaefd2a7987c86ae3a/src/meta/monthlyTrophy.ts",
       "deliverySpec0513": {
         "package": "D",
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
@@ -2611,7 +2688,7 @@
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md#m1 · Chromium и аудит APK · 254554683183561155d1874193f205a5501001ae",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/qa-0520/README.md · 0.5.20 / 25 · 297feadd480ceca40ba2dceaefd2a7987c86ae3a",
       "metaDelivery0516": {
         "package": "M1",
         "path": "docs/porting/meta-0516/README.md"
@@ -2643,7 +2720,7 @@
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md#m1 · Chromium и аудит APK · 254554683183561155d1874193f205a5501001ae",
+      "acceptanceEvidence": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/PACKAGES_M0_M2_0519.md#m1 · Chromium и аудит APK · 254554683183561155d1874193f205a5501001ae",
       "metaDelivery0516": {
         "package": "M1",
         "path": "docs/porting/meta-0516/README.md"
@@ -2656,15 +2733,24 @@
     }
   ],
   "latestReview": {
-    "codeCommit": "b24e2832de9c4eef78a84826b1168c218961cf41",
-    "artifactSource": "b24e2832de9c4eef78a84826b1168c218961cf41",
-    "version": "0.5.19",
-    "versionCode": 24,
-    "apkSha256": "89c9e01b8d92ddb7ad77860f236dde8ca8b2d89f17b27bc149671a350a613ba8",
-    "report": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md",
-    "scope": "Приёмка M0–M2 на веб-ресурсах подписанных APK. Проверка Android на устройстве остаётся открытой."
+    "codeCommit": "297feadd480ceca40ba2dceaefd2a7987c86ae3a",
+    "artifactSource": "297feadd480ceca40ba2dceaefd2a7987c86ae3a",
+    "version": "0.5.20",
+    "versionCode": 25,
+    "apkSha256": "77472917177324698fd1813c5f047fd3d8d031b10fc56afaf14e8c72cddf3a5b",
+    "report": "https://github.com/DanilaH/crossmath-game/blob/1d3dae920de3cf14cc2ee7744c98f19fb44bb344/docs/acceptance/qa-0520/README.md",
+    "scope": "Исправления архива Daily, достижимых месяцев и исторической кампании. Измерения Chromium и статус Android приведены в протоколе."
   },
   "reviewHistory": [
+    {
+      "codeCommit": "b24e2832de9c4eef78a84826b1168c218961cf41",
+      "artifactSource": "b24e2832de9c4eef78a84826b1168c218961cf41",
+      "version": "0.5.19",
+      "versionCode": 24,
+      "apkSha256": "89c9e01b8d92ddb7ad77860f236dde8ca8b2d89f17b27bc149671a350a613ba8",
+      "report": "https://github.com/DanilaH/crossmath-game/blob/5b0ece5a9cad27f7749d5f22c21a37745be17dd6/docs/acceptance/PACKAGES_M0_M2_0519.md",
+      "scope": "Приёмка M0–M2 на веб-ресурсах подписанных APK. Проверка Android на устройстве остаётся открытой."
+    },
     {
       "codeCommit": "ee35526af7066dab1670cce1742d11a086e945d0",
       "artifactSource": "ee35526af7066dab1670cce1742d11a086e945d0",
@@ -2695,6 +2781,15 @@
     "version": "0.5.19",
     "report": "docs/porting/qa-0519/README.md",
     "evidence": "docs/porting/qa-0519/observations.json",
+    "deviceRuntime": "UNKNOWN"
+  },
+  "independentReview0520": {
+    "branchHead": "1d3dae920de3cf14cc2ee7744c98f19fb44bb344",
+    "codeCommit": "297feadd480ceca40ba2dceaefd2a7987c86ae3a",
+    "version": "0.5.20",
+    "report": "docs/porting/screen-audit-0520/README.md",
+    "screenMatrix": "docs/porting/screen-audit-0520/SCREENS_RU.md",
+    "evidence": "docs/porting/screen-audit-0520/observations.json",
     "deviceRuntime": "UNKNOWN"
   }
 }
