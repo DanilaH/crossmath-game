@@ -1,0 +1,34 @@
+#mode-dialog { width:min(calc(100vw - 20px),430px); padding:clamp(12px,4vw,20px); border-radius:19px; }
+#mode-dialog h2 { color:var(--play-ink); font-size:1.75em; font-weight:800; }
+#mode-dialog #mode-choices { gap:8px; }
+#mode-choices .mode-group { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+#mode-choices .mode-option {
+  position:relative; align-content:center; min-width:0; width:100%;
+  padding:10px; border:1px solid var(--home-small-edge,var(--play-line)); border-radius:13px;
+  background:var(--mode-tile); color:var(--play-ink); gap:8px;
+}
+#mode-choices .mode-option:disabled { opacity:.83; }
+#mode-choices .mode-option--campaign, #mode-choices .mode-option--endless { grid-column:1 / -1; }
+#mode-choices .mode-option--campaign { background:var(--home-green,var(--workbench-wash)); border-color:var(--home-green-edge,var(--play-line)); }
+#mode-choices .mode-option--relax, #mode-choices .mode-option--challenge {
+  grid-template-columns:minmax(0,1fr);
+  align-content:start;
+}
+#mode-choices .mode-option--relax .nav-arrow, #mode-choices .mode-option--challenge .nav-arrow {
+  position:absolute; top:9px; right:9px;
+}
+#mode-choices .mode-option--challenge { background:var(--home-wood,var(--reward-wash)); }
+#mode-choices .mode-option--endless { background:var(--home-date,var(--mode-tile)); }
+#mode-choices .mode-option .menu-icon { width:31px; height:31px; }
+#mode-choices .mode-option .quick-copy strong { font-size:1.04em; font-weight:790; }
+#mode-choices .mode-record { font-weight:720; color:var(--play-ink); font-variant-numeric:tabular-nums; font-size:.84em; }
+.campaign-track {
+  display:flex; position:relative; justify-content:space-between; align-items:center;
+  height:13px; margin-top:2px;
+  background:linear-gradient(to right,var(--action-ink) var(--campaign-progress),var(--play-line) 0) center / 100% 2px no-repeat;
+}
+.campaign-track i { z-index:1; display:block; width:8px; height:8px; border-radius:3px; background:var(--play-panel); border:1px solid var(--play-line); }
+.campaign-track i.passed { background:var(--action-ink); border-color:var(--action-ink); }
+.campaign-overview { padding:12px; background:var(--workbench-wash); border:1px solid var(--play-line); border-radius:12px; }
+#mode-choices .campaign-history { border:0; }
+#mode-choices .campaign-history[open] .replay-list { padding-top:4px; }

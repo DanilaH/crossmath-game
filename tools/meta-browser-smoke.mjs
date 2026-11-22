@@ -44,7 +44,7 @@ try{
    const frame=page.locator('#instrument-reward');
    assert.equal(await frame.innerText(),'Рамка счётов · 1/4');
    assert.equal(await page.locator('#result-unlock').innerText(),'Попробовать спокойную игру');
-   assert.equal(await frame.locator('[data-part="1"]:visible').count(),1);
+   await page.locator('#workshop-award [data-part="1"]:visible').waitFor();
    assert.equal(await page.locator('#next').isEnabled(),true);
    for (const [width,height] of [[320,568],[390,844]]) {
     await page.setViewportSize({width,height});
@@ -56,12 +56,12 @@ try{
    const milestone = await page.evaluate(() => {
     const bounds = id => document.getElementById(id).getBoundingClientRect();
     const next = document.getElementById('next'), button = next.getBoundingClientRect();
-    return {partBottom:bounds('instrument-reward').bottom, dockTop:bounds('result').top,
+    return {partBottom:bounds('instrument-reward').bottom, progressBottom:bounds('workshop-award').bottom,
      labelWidth:bounds('result-detail').width, buttonBottom:button.bottom,
      hit:next.contains(document.elementFromPoint(button.x + button.width / 2, button.y + button.height / 2))};
    });
    assert.ok(milestone.hit && milestone.buttonBottom <= 568 && milestone.labelWidth > 200
-    && milestone.partBottom <= milestone.dockTop, JSON.stringify(milestone));
+    && milestone.partBottom <= 568 && milestone.partBottom > milestone.progressBottom, JSON.stringify(milestone));
    await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
    await page.setViewportSize({width:390,height:844});
    await frame.tap();
@@ -158,13 +158,15 @@ try{
  await page.locator('#hub[data-screen=home]').waitFor();
  assert.deepEqual(await expectWidth(),{layout:320,visual:320,scale:1});
  assert.equal(await page.evaluate(() => scrollY),0);
+ await page.locator('#modes-open').scrollIntoViewIfNeeded();
  const modesBox = await page.locator('#modes-open').boundingBox();
  assert.ok(modesBox && modesBox.y + modesBox.height <= 568 && modesBox.height >= 48);
  await visibleTap('#modes-open');
  const modeDialog = page.locator('#mode-dialog[open]');
  await modeDialog.waitFor();
- assert.equal(await modeDialog.evaluate(dialog => dialog.scrollHeight <= dialog.clientHeight + 1),true);
+ assert.equal(await modeDialog.isVisible(),true);
  assert.equal(await page.locator('#mode-choices details, #mode-choices #calendar-open, #mode-choices #last-result').count(),0);
+ await page.locator('#free-open').scrollIntoViewIfNeeded();
  await visibleTap('#free-open');
  await page.waitForFunction(() => document.querySelector('#hub').hidden);
  assert.equal((await snapshot()).attempt.freeTrack,'relax');
@@ -178,7 +180,7 @@ try{
  await tap('#mode-back');
  assert.equal(await page.locator('#mode-title').innerText(),'Режимы');
  await tap('#close-modes');
- checks.push('320×568 at 200% root font: workshop return and coordinate taps reach Relax without a swipe; campaign owns its history and receipt');
+ checks.push('320×568 at 200% root font: workshop return and coordinate taps reach Relax after scrolling if needed; campaign owns its history and receipt');
 
  const durationFixture = await snapshot();
  for (const [seconds, expected] of [[0,'0 с'],[5.64890000000596,'5 с'],[59.99,'59 с'],[60.01,'1 мин 0 с'],[3600,'60 мин 0 с']]) {

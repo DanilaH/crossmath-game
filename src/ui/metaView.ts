@@ -325,19 +325,12 @@ export class MetaView {
     return mark;
   }
 
-  private modeMark(kind: string): HTMLElement {
-    const mark = el('span', `mode-mark mode-mark--${kind}`);
-    mark.setAttribute('aria-hidden', 'true');
-    for (let i = 0; i < 4; i++) mark.append(el('i'));
-    return mark;
-  }
-
   private modeButton(kind: string, id: string, title: string, subtitle: string, action: () => void): HTMLButtonElement {
     const button = this.button('', action, id);
     const copy = el('span', 'quick-copy');
     copy.append(el('strong', '', title), el('span', 'quick-status', subtitle));
-    button.classList.add('mode-option');
-    button.append(this.modeMark(kind), copy, this.arrow());
+    button.classList.add('mode-option', 'mode-option--'+kind);
+    button.append(menuIcon(kind), copy, this.arrow());
     return button;
   }
 
@@ -376,11 +369,13 @@ export class MetaView {
 
   private modeOptions(save: Save): void {
     const games = el('div', 'mode-group');
-    games.append(this.modeButton('campaign', 'campaign-open', this.t('Кампания', 'Campaign'),
-      this.t('Поля по порядку', 'Boards in sequence'), () => {
+    const campaign = this.modeButton('campaign', 'campaign-open', this.t('Кампания', 'Campaign'),
+      this.campaignPosition(save), () => {
         this.showModePage(save, 'campaign');
         this.modeBack.focus({preventScroll:true});
-      }));
+      });
+    campaign.querySelector('.quick-copy')!.append(this.campaignTrack(save));
+    games.append(campaign);
 
     const savedFree = storedSlot(save, 'free')?.attempt;
     if (savedFree?.status === 'playing' && !savedFree.freeTrack) {
@@ -411,10 +406,16 @@ export class MetaView {
   private endlessModeOption(save:Save):HTMLButtonElement {
     const {endlessAfterNewWins}=config.unlockProposal;
     const locked=save.profile.solvedIds.length<endlessAfterNewWins;
+    const run = save.career.run;
+    const solo = save.career.records[recordVersion].solo;
+    const status = run?.status === 'active' ? this.t('Продолжить забег','Resume run')
+      : run?.status === 'failed' ? this.t('Итог забега','Run result') : this.t('Начать забег','Start run');
     const endless = this.modeButton('endless', 'endless-open', 'Endless',
-      locked ? this.unlockText(endlessAfterNewWins)
-        : save.career.run && save.career.run.status !== 'ended' ? this.t('Продолжить забег', 'Resume run')
-        : this.t('Проверка всей доски', 'Check the full board'), this.actions.endless);
+      locked ? this.unlockText(endlessAfterNewWins) : status, this.actions.endless);
+    if (!locked) {
+      const record = el('span','mode-record',this.t(`Рекорд · ${solo?.score ?? '—'}`,`Solo best · ${solo?.score ?? '—'}`));
+      endless.querySelector('.quick-copy')!.append(record);
+    }
     endless.disabled = disabledOrLocked(this.disabled, locked);
     return endless;
   }
@@ -436,10 +437,34 @@ export class MetaView {
     return `${label} · ${progress}/${target}${completed?' ✓':''}`;
   }
 
+  private campaignPosition(save: Save): string {
+    const puzzle = campaignContinuation(save);
+    const size = campaignSequence(save.contentVersion).length;
+    if (!puzzle || save.profile.campaignCursor === size && storedSlot(save,'campaign')?.attempt.status !== 'playing') {
+      return this.t(`Пройдено ${size}/${size}`,`Completed ${size}/${size}`);
+    }
+    const position = getPuzzle(puzzle).campaignPosition;
+    return this.t(`Поле ${position} из ${size}`,`Board ${position} of ${size}`);
+  }
+
+  private campaignTrack(save: Save): HTMLElement {
+    const position = save.profile.campaignCursor;
+    const cap = campaignSequence(save.contentVersion).length;
+    const route = el('div','campaign-track');
+    route.setAttribute('aria-label',this.t(`${position} из ${cap} полей пройдено`,`${position} of ${cap} boards completed`));
+    route.setAttribute('role','img');
+    route.style.setProperty('--campaign-progress',`${100*position/cap}%`);
+    for (let i=0;i<5;i++) route.append(el('i',position>=i*cap/4?'passed':''));
+    return route;
+  }
+
   private campaign(save: Save, historyOpen: boolean): void {
     const id = campaignContinuation(save);
     const position = id && getPuzzle(id).campaignPosition;
     const completed = campaignSequence(save.contentVersion).slice(0, save.profile.campaignCursor);
+    const route = el('section','campaign-overview');
+    route.append(el('strong','',this.campaignPosition(save)),this.campaignTrack(save));
+    this.modeChoices.append(route);
     if (completed.length < campaignSequence(save.contentVersion).length || storedSlot(save,'campaign')?.attempt.status === 'playing') {
       this.modeChoices.append(this.button(this.t(`Продолжить · Поле ${position}`, `Continue · Board ${position}`),
         this.actions.campaign, 'campaign-continue', true));
