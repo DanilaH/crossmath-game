@@ -34,3 +34,18 @@
 - **Для разработчика сейчас:** дойти до физической Android-приёмки issue #6 и старых дефектов #5; не перебирать весь банк из-за арифметического исследования и не копировать чужие Lottie/звуки/UI.
 
 **KIT IMPACT · RESEARCH/CANDIDATE:** источник стал точнее, код игры/общий runtime не менялись.
+
+
+## D. Приложенческий AdManager EasyFun: допуски и разделённая выдача (BUNDLED_IL2CPP_METADATA)
+
+[Первичный IL2CPP-аудит](https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md) дополнил предыдущий UnityFS TextAsset. В исходном `global-metadata.dat` EasyFun **1.1.9 / 1193**, SHA `21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6`, встречаются C# source paths `Assets/MainGame/Script/Manager/AdManager.cs`, `.../Template/RewardTemplate.cs`, `.../Template/InterstitialTemplate.cs`. Это **типы игрового прикладного слоя**, не просто строки SDK; активное использование и пути вызовов всё равно неизвестны.
+
+| Новый ID | Доказано из metadata | Наша 0.5.24 / acceptance |
+| --- | --- | --- |
+| `easy-ad-client-interstitial-gates` | Методы `CouldShowInterstitial`, `CheckShowInterstitialAvailable`, `ReportShowAdLimitedByClient`, `AdShowLimitation/ADControlLimitation`, `_lastInterstitialCloseTime`, `_firstSkipInterstitial` | `src/platform/adState.ts` уже содержит собственное ограничение interstitial и защиту после rewarded, `ads.ts` проверяет доступность; **PARTIAL / IMPLEMENTED_UNVERIFIED**: есть scripted tests, но нет original active formula/real Android SDK |
+| `easy-ad-rewarded-callback-states` | Отдельные `RewardedVideoLoadedSuccess/Failed`, `PlaySuccess/Failed`, `GetReward`, `Close` и `_lastRVCloseTime` | `src/platform/ads.ts` DurableReceiptQueue, `watchRewards`, `pendingRewards`, `acknowledge`, `showRewarded`; **PARTIAL / IMPLEMENTED_UNVERIFIED**, проверить реальный SDK и процесс-килл/дубликаты |
+
+**Граница:** метод в metadata не гарантирует вызов в реальном пользователе и не связывает 8 таблиц wheel/ball/diamonds с данной Crossmath. Следующий оригинальный Android опыт: одно no-fill, один отменённый rewarded, один успешный, затем crash/restart и однократность resource settlement. Для нашей игры не включать платёжные события без явно утверждённой SDK/consent политики.
+
+**Kit/source count теперь 271/271.** Исходный runtime 4.18.0 binary для Flutter Guru так и не получен; текущий игровой runtime не менялся.
+
