@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "4303c6962eeaa7ccdc796d90f574786dbe2dc44f",
+    "commit": "b6e368664265a0300efae484168bf767fa6d04af",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -208,12 +208,13 @@
       "codePath": "src/content/validator.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Оригинальная формула stuck всё ещё UNKNOWN: исследовать CrossMathSolver.solve (E29/H08–H12) и сопоставить controlled same-seed/same-hole-count pairs, начиная с board=103824, puzzle=10456, size=9; проверить количественно, отличает ли число прямых выводов/глубина стратегии stuck0 vs stuck1. Влияние на реальную адаптацию игрока требует отдельного Android и серверного конфига.",
+      "nextAction": "Авторский stuck UNKNOWN. На 12 899 исходных задачах 5-fold MODEL_TEST без group leakage показал baseline MAE 0.4037 и topology MAE 0.4185; 148/233 равнопустотных масочных пар упорядочены с учётом геометрии. Это НЕ авторский solver или трудность игрока. Следующий опыт: запуск полного native CrossMathSolver.solve 4.17 (H08–H12) на контрольных масках/ID, стратификация direct/monotonic/factor/intersection/limited backtracking и сравнение со stuck; после owner-гейта — human time/errors.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L155",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/validator.ts",
       "originalBehavior": "В SQLite cm_all есть дискретная оценка stuck 0–8. Сравнение 7 922 общих рецептов профилей default/easy1 подтвердило совпадение stuck на каждой общей записи. НОВОЕ: при фиксированных board/puzzle/size/tag и полностью одинаковых вычисленных числах, но других holes, во всех 2 671 наблюдаемых парах значение stuck различается; 233 пары имеют равное число пустот. Это доказательство зависимости от маски, НЕ авторская формула.",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/a623ff06e5f85360e14770301caac7c46a0db6d2/research/games/crossmath/porting/guru-mask-matched-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/a623ff06e5f85360e14770301caac7c46a0db6d2/research/games/crossmath/porting/guru-mask-matched-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
       ]
     },
     {
@@ -285,9 +286,12 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Сопоставить объяснение для неизвестного делителя и отрицательного промежуточного шага",
+      "nextAction": "Сопоставить объяснение для неизвестного делителя и отрицательного промежуточного шага | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L211",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
+      ]
     },
     {
       "id": "guru-monotonic-hint",
@@ -298,11 +302,12 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Теперь видео 13-49-19 1.5–10с показывает UI-объяснение 35>25 (после OK ручная постановка). Полный solve() и его покрытие банком остаются UNKNOWN; проверить точный нативный механизм, не объявлять parity.",
+      "nextAction": "Теперь видео 13-49-19 1.5–10с показывает UI-объяснение 35>25 (после OK ручная постановка). Полный solve() и его покрытие банком остаются UNKNOWN; проверить точный нативный механизм, не объявлять parity. | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L222",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
       ]
     },
     {
@@ -314,9 +319,12 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Проверить повторный делитель с одной и двумя физическими фишками",
+      "nextAction": "Проверить повторный делитель с одной и двумя физическими фишками | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L233",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
+      ]
     },
     {
       "id": "guru-intersect-hint",
@@ -327,9 +335,12 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Зафиксировать объяснение с двумя уравнениями и множественным пересечением",
+      "nextAction": "Зафиксировать объяснение с двумя уравнениями и множественным пересечением | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L244",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
+      ]
     },
     {
       "id": "guru-search-depth",
@@ -3625,8 +3636,11 @@
       "codePath": "docs/spec/product/content_v2/README.md",
       "dependencies": "Independent constraint solver and authored puzzle data only; calibrated own difficulty measure, real human playtime/error evidence if considered for future content; owner policy review.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/a623ff06e5f85360e14770301caac7c46a0db6d2/research/games/crossmath/porting/guru-mask-matched-20261123/README.md",
-      "nextAction": "Compare one same-seed pair from source report (board=103824,puzzle=10456,size=9, 11 holes in both, stuck1 vs stuck0) with an independently validated original-equivalent solve path, including direct, monotonic, factor, intersection and limited backtracking; measure feature coverage without equating correlation to formula. Optionally replicate masked-pair experiment on our own boards and human time/errors.",
-      "acceptanceRequirement": "To call MATCH, define and independently validate the matching original stuck semantics; a structural proxy or browser success metric is insufficient. 4.18.0 binary unknown."
+      "nextAction": "Подтверждена зависимость сохранённого stuck от маски, но не расчёт. 5-fold ML по 12899 строкам: 148/233 (63.52%) correct paired ordering при одинаковых holes, bootstrap по 228 numeric board groups 57.33–69.66%; absolute MAE хуже чем у metadata baseline. Проверить независимый native solve() и реальные опытные показатели для собственной difficulty, не внедрять прогностическую модель в 0.5.24.",
+      "acceptanceRequirement": "To call MATCH, define and independently validate the matching original stuck semantics; a structural proxy or browser success metric is insufficient. 4.18.0 binary unknown.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
+      ]
     }
   ],
   "latestReview": {
@@ -3696,11 +3710,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "4303c6962eeaa7ccdc796d90f574786dbe2dc44f",
+    "sourceInventoryCommit": "b6e368664265a0300efae484168bf767fa6d04af",
     "sourceCount": 246,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
-    "report": "research/games/crossmath/porting/guru-mask-matched-20261123/README.md",
-    "summary": "2 new BUNDLED_DB source IDs; Guru 3.5.2/4.17 cm4/cm5 share 12,899 distinct recipes and 10,598 full numeric board seeds. 2,671 same-board different-mask pairs, 233 same-number-of-holes different stuck, 18 more-holes-lower-stuck, only 19 nested masks; two independent Python/SQL calculations. Formula stuck / actual player adaptivity UNKNOWN. Game version 0.5.24/29 unchanged."
+    "report": "research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
+    "summary": "Independent MODEL_TEST: 5fold group-blocked 12,899 Guru label predictions; geometry orders 148/233 identical-hole-count matched pairs but worse global MAE; 228-group bootstrap CI 57.33–69.66%. Exact ARM64 BL chain/limited backtracking guard independently verified for Guru 4.17, still no full original solve execution. Existing 246 source IDs updated only. 0.5.24 gameplay unchanged."
   }
 }
