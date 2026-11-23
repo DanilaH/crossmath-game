@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "decf77cd397d99f5a1fe5fb171188456bbfec7b4",
+    "commit": "bd80dc0542d91e7d47675dcd1d0971f295537077",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -4188,6 +4188,20 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN"
+    },
+    {
+      "id": "guru-endless-score-countup",
+      "sourceFeatureId": "guru-endless-score-countup",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "VIDEO_OBSERVED: После успешного Submit в Endless оригинала HUD Score растёт примерно 0→140 видимыми шагами по 10 и финальным confetti до Stage 2/result. Из конкретной видео записи не доказаны универсальный тариф, серверная формула и длительность для любых стадий. VIDEO_OBSERVED 13-49-07.mp4 SHA 0b0313f8f0351834a3a650636a4ad2ad835e19fef72d48c89f518308415a4bbe: Stage1 Score0 t7.5–8.5, Score20 t9, Score40 t9.25, Score70 t10, Score120 t11, Stage2 Score140 + confetti t11.5; Stage1 result Score140 t16; ref research/games/crossmath/porting/guru-endless-video-contract-20261123/README.md",
+      "currentImplementation": "Crossmath 0.5.24 / versionCode 29 сохраняет run.score атомарно при settleStage в src/meta/career.ts; src/ui/gameUi.ts показывает конечный Score сразу и использует свою анимацию наград, но анимации Score по 10 нет. Собственная формула очков не приравнивается к Guru.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/ENDLESS · owner-reviewed feel prototype after physical acceptance of 0.5.24",
+      "dependencies": "src/meta/career.ts result/stage receipts, UI reducedMotion, haptic/audio own assets, Android 1× tap/submit/settle/next evidence, own save and idempotency",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/bd80dc0542d91e7d47675dcd1d0971f295537077/research/games/crossmath/porting/guru-endless-video-contract-20261123/README.md",
+      "nextAction": "На Android подтвердить игру с двумя ошибками отдельно от заявленного tutorial; снять точную видимую динамику Score при первом и повторном успешном Submit, отмене/фон/рестарте. Если владелец одобрит анимацию для Crossmath, делать только display count-up поверх уже атомарной квитанции; screenreader сразу видит final, reducedMotion мгновенно, нельзя менять собственную формулу и lives.",
+      "sourceVersionStatus": "Это наблюдение из video_2026-11-23_13-49-07.mp4, BUILD UNKNOWN. Подпись Guru 4.18.0 в другом ролике не подтверждает версию этого."
     }
   ],
   "latestReview": {
@@ -4257,15 +4271,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "decf77cd397d99f5a1fe5fb171188456bbfec7b4",
-    "sourceCount": 271,
+    "sourceInventoryCommit": "bd80dc0542d91e7d47675dcd1d0971f295537077",
+    "sourceCount": 272,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
-    "reports": [
-      "research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md",
-      "research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
-      "research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md"
-    ],
-    "summary": "269 prior IDs + 2 EasyFun own AdManager native metadata feature IDs = 271; four Guru long arithmetic source rules (Generator whole at each division vs runtime Fraction whole only final; operator-family restriction; direct-helper left fold synthetic); eight rewardtemplate typed isLimited fields with cap 4/10, other six false not disabled; seven interstitial template default probability 0.5/0.2, not actual SDK show. Game 0.5.24 own AdsController already partial analog with scripted test; live original/runtime SDK not accepted."
+    "report": "research/games/crossmath/porting/guru-endless-video-contract-20261123/README.md",
+    "summary": "Reconciled 272/272 inventory mapping including VIDEO_OBSERVED Guru Endless successful Submit count-up Score0→140 and owner review of separate lives/score controls. Original video build unknown, Android and score formula unverified. Game 0.5.24 unchanged."
   }
 }
