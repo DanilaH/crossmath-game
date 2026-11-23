@@ -7,16 +7,20 @@
     <svg class="play-back" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>
   </button>
   <h1 id="level" tabindex="-1" hidden></h1>
+  <h1 id="deep-title" tabindex="-1" hidden></h1>
   <span id="hub-wallet" hidden></span>
-  <button class="control" id="profile-open" type="button" hidden aria-label="Профиль" data-en-label="Profile">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 20v-1a7 5 0 0 1 14 0v1"/></svg>
-  </button>
   <button class="control" id="pause" type="button">
     <svg class="play-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="hub-settings" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M8 4v4m8 2v4m-6 2v4"/></svg><span id="pause-label">Пауза</span>
   </button>
 </header>
 <section class="progress" aria-label="Прогресс" data-en-label="Progress"><span id="wallet"></span><button id="rank" type="button" aria-haspopup="dialog"></button><span class="xp-track" role="progressbar" aria-label="Опыт ранга" data-en-label="Rank XP" id="xp"><i></i></span></section>
 <section id="hub" hidden></section>
+<nav id="root-tabs" hidden aria-label="Разделы игры" data-en-label="Game sections">
+  <button id="tab-home" type="button"><span data-en="Home">Главная</span></button>
+  <button id="tab-calendar" type="button"><span data-en="Daily">День</span></button>
+  <button id="tab-modes" type="button"><span data-en="Modes">Режимы</span></button>
+  <button id="tab-profile" type="button"><span data-en="Profile">Профиль</span></button>
+</nav>
 <section id="play-screen" aria-labelledby="level">
   <div class="play-stats">
     <p id="play-context" hidden></p>
@@ -66,6 +70,7 @@
     <button id="instrument-reward" type="button" hidden aria-haspopup="dialog"><span class="instrument-reward-label"></span></button>
   <p id="relax-goal-result" hidden></p>
   <p id="daily-trophy-result" hidden></p>
+  <button id="result-main" type="button" data-en="Home">Главная</button>
 </section>
 </section>
 <section class="error" id="save-error" hidden role="alert"><p id="save-error-text"></p><button id="retry" type="button" data-en="Retry">Повторить</button><button id="reload" type="button" data-en="Reload saved game">Восстановить сохранение</button></section>
@@ -121,11 +126,10 @@
   <div class="buttons"><button id="close-help" type="button" autofocus data-en="Back to board">К полю</button><button class="primary" id="apply-help" type="button" aria-describedby="help-impact help-cost" disabled data-en="Apply">Применить</button></div>
 </dialog>
 <div class="token ghost" id="ghost" aria-hidden="true" hidden></div>
-<dialog id="mode-dialog" aria-labelledby="mode-title">
-  <button id="mode-back" class="control" type="button" hidden>← Режимы</button>
-  <h2 id="mode-title">Режимы</h2>
-  <div id="mode-choices"></div>
-  <button id="close-modes" class="control" type="button" data-en="Done">Готово</button>
+<dialog id="game-choice" aria-labelledby="game-choice-title">
+  <h2 id="game-choice-title"></h2>
+  <div id="game-choice-options" class="mode-options"></div>
+  <button id="game-choice-close" class="hub-button" type="button" data-en="Cancel">Отмена</button>
 </dialog>
 <dialog id="replace-dialog" aria-labelledby="replace-title" aria-describedby="replace-description">
   <h2 id="replace-title"></h2>

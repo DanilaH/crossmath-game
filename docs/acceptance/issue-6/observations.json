@@ -1,0 +1,457 @@
+{
+  "NAV-01": {
+    "tabs": 4,
+    "locked": [
+      3,
+      5,
+      15
+    ],
+    "firstCoins": 10
+  },
+  "NAV-02": {
+    "step": [
+      17,
+      18
+    ],
+    "receiptCoins": 15,
+    "afterCold": {
+      "parts": 6,
+      "coins": 430
+    },
+    "skipFlight": true,
+    "video": {
+      "realFrames": 219,
+      "duration": 6.202,
+      "cues": [
+        {
+          "offset": 0.582,
+          "duration": 0.024
+        },
+        {
+          "offset": 0.803,
+          "duration": 0.118
+        },
+        {
+          "offset": 0.889,
+          "duration": 0.024
+        },
+        {
+          "offset": 1.127,
+          "duration": 0.045
+        },
+        {
+          "offset": 1.184,
+          "duration": 0.024
+        },
+        {
+          "offset": 1.41,
+          "duration": 0.118
+        },
+        {
+          "offset": 1.446,
+          "duration": 0.024
+        },
+        {
+          "offset": 1.693,
+          "duration": 0.045
+        },
+        {
+          "offset": 1.727,
+          "duration": 0.024
+        },
+        {
+          "offset": 1.958,
+          "duration": 0.118
+        },
+        {
+          "offset": 1.982,
+          "duration": 0.024
+        },
+        {
+          "offset": 2.196,
+          "duration": 0.118
+        },
+        {
+          "offset": 2.235,
+          "duration": 0.024
+        },
+        {
+          "offset": 2.446,
+          "duration": 0.118
+        },
+        {
+          "offset": 2.518,
+          "duration": 0.024
+        },
+        {
+          "offset": 2.725,
+          "duration": 0.118
+        },
+        {
+          "offset": 2.762,
+          "duration": 0.024
+        },
+        {
+          "offset": 2.997,
+          "duration": 0.159
+        },
+        {
+          "offset": 3.027,
+          "duration": 0.024
+        },
+        {
+          "offset": 3.318,
+          "duration": 0.365
+        },
+        {
+          "offset": 4.341,
+          "duration": 0.045
+        }
+      ]
+    }
+  },
+  "NAV-03": {
+    "revisionsBeforeConfirmation": 0,
+    "oldTilesRetained": 1
+  },
+  "NAV-04": {
+    "day": "2026-11-23",
+    "profileDay": "2026-12-27",
+    "lives": 3,
+    "retainedTiles": 1
+  },
+  "NAV-05": {
+    "score": 40,
+    "lives": 3,
+    "placed": 1
+  },
+  "NAV-07": {
+    "bridge": "mocked Capacitor App.backButton",
+    "sheetFirst": true,
+    "settingsClosed": true,
+    "albumOriginRestoredAfterReload": true,
+    "pausedBoardRetained": true
+  },
+  "NAV-08": {
+    "campaignDifficulty": "Пройдено по маршруту · 10/90",
+    "crossTabPreserved": true,
+    "partialHistoryMarked": true
+  },
+  "issue5Collection": [
+    [
+      "ru",
+      "no-preference",
+      48
+    ],
+    [
+      "en",
+      "reduce",
+      48
+    ]
+  ],
+  "previousWebSave": {
+    "from": "0.5.23",
+    "schema": 4,
+    "retainedTiles": 1
+  },
+  "boardPixels": [
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "changedPixels": 0
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "changedPixels": 0
+    }
+  ],
+  "NAV-06": {
+    "matrix": [
+      [
+        320,
+        568,
+        "ru",
+        "light",
+        100
+      ],
+      [
+        320,
+        568,
+        "ru",
+        "light",
+        120
+      ],
+      [
+        320,
+        568,
+        "ru",
+        "light",
+        150
+      ],
+      [
+        320,
+        568,
+        "ru",
+        "light",
+        200
+      ],
+      [
+        320,
+        568,
+        "ru",
+        "dark",
+        100
+      ],
+      [
+        320,
+        568,
+        "ru",
+        "dark",
+        120
+      ],
+      [
+        320,
+        568,
+        "ru",
+        "dark",
+        150
+      ],
+      [
+        320,
+        568,
+        "ru",
+        "dark",
+        200
+      ],
+      [
+        320,
+        568,
+        "en",
+        "light",
+        100
+      ],
+      [
+        320,
+        568,
+        "en",
+        "light",
+        120
+      ],
+      [
+        320,
+        568,
+        "en",
+        "light",
+        150
+      ],
+      [
+        320,
+        568,
+        "en",
+        "light",
+        200
+      ],
+      [
+        320,
+        568,
+        "en",
+        "dark",
+        100
+      ],
+      [
+        320,
+        568,
+        "en",
+        "dark",
+        120
+      ],
+      [
+        320,
+        568,
+        "en",
+        "dark",
+        150
+      ],
+      [
+        320,
+        568,
+        "en",
+        "dark",
+        200
+      ],
+      [
+        390,
+        844,
+        "ru",
+        "light",
+        100
+      ],
+      [
+        390,
+        844,
+        "ru",
+        "light",
+        120
+      ],
+      [
+        390,
+        844,
+        "ru",
+        "light",
+        150
+      ],
+      [
+        390,
+        844,
+        "ru",
+        "light",
+        200
+      ],
+      [
+        390,
+        844,
+        "ru",
+        "dark",
+        100
+      ],
+      [
+        390,
+        844,
+        "ru",
+        "dark",
+        120
+      ],
+      [
+        390,
+        844,
+        "ru",
+        "dark",
+        150
+      ],
+      [
+        390,
+        844,
+        "ru",
+        "dark",
+        200
+      ],
+      [
+        390,
+        844,
+        "en",
+        "light",
+        100
+      ],
+      [
+        390,
+        844,
+        "en",
+        "light",
+        120
+      ],
+      [
+        390,
+        844,
+        "en",
+        "light",
+        150
+      ],
+      [
+        390,
+        844,
+        "en",
+        "light",
+        200
+      ],
+      [
+        390,
+        844,
+        "en",
+        "dark",
+        100
+      ],
+      [
+        390,
+        844,
+        "en",
+        "dark",
+        120
+      ],
+      [
+        390,
+        844,
+        "en",
+        "dark",
+        150
+      ],
+      [
+        390,
+        844,
+        "en",
+        "dark",
+        200
+      ]
+    ],
+    "minTabTarget": 48,
+    "reducedMotion": true
+  },
+  "firstVideo": {
+    "realFrames": 31,
+    "duration": 5.899,
+    "cues": [
+      {
+        "offset": 3.745,
+        "duration": 0.024
+      },
+      {
+        "offset": 4.122,
+        "duration": 0.326
+      }
+    ],
+    "winVibration": 1
+  },
+  "apk": {
+    "kind": "releasecheck",
+    "package": "com.danilah.crossmath.releasecheck",
+    "versionName": "0.5.24",
+    "versionCode": 29,
+    "kitRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+    "source": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
+    "apkSha256": "1343854747189db57575417babd2094e89e595e276e279e384120ac15ffa2de3",
+    "bytes": 1397701,
+    "certificateSha256": "8a31efb02cb54bbaacf15ce312f5c185f0958fd669b482ef30730309f4f08c11",
+    "productionSigner": false,
+    "v2": true,
+    "zipalign16k": true,
+    "debuggable": false,
+    "webViewDebuggingConfigured": false,
+    "nativeInsetOwner": "content-root",
+    "webPayload": {
+      "index.html": "1a21523848d590660338d5b824a76ff278e590e55db43dd58ff1ca8b947d9d2b",
+      "native-build.json": "d6776c22b4d785acafac6f324de6e51d9700f8d00340e5638b59090fc0a0fc70",
+      "licenses/Rubik-OFL.txt": "46a250495a963b0b84f2736c0185d0e3af8df9d23427bd425b92a8ece020283c",
+      "assets/coin-Nc673Wm5.webp": "43d4015719e303ce25192964784be7bacb70aa63e4717a339162aaf829ea20bf",
+      "assets/index-4TTtmJQC.css": "292b3ac222de5a4457540e9e81e6b420b1db9415ae64156f1c45df57860d6b16",
+      "assets/rubik-cyrillic-wght-normal-DveCct9I.woff2": "bdb2b33ab916e9e7b42edb61f8aea5f5dd83ad773d6ee4e9b55665daf8954ce8",
+      "assets/rubik-latin-wght-normal-CnQIisVs.woff2": "691cd1d9b4c0cdf31a1dcf04259c86f92c85e69f6622abab7964d81e36890691",
+      "assets/index-Bl1DRQSZ.js": "29da1ed15d91b399c21cfb9b17f6b882e25bdc7b7e2ef66949b61c7fc32b29aa",
+      "assets/web-BM7xF5pS.js": "874bbd026b2a3757b6c7bedc1bd163f0c735a3e0a943605c9853f660d828d658",
+      "assets/dist-CMedSjkm.js": "067d9ca66629f984cf538346471032b4b24f9acd1cb914834126e2b88d3250fe"
+    },
+    "nativeRuntime": "NOT RUN",
+    "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE"
+  },
+  "mediaSha256": {
+    "Crossmath_0.5.23_Home_390x844.png": "3cc15f1660ce7b36e068d1b0757d01d2ef66dddb1b30fa65b33e7e1a0111263a",
+    "Crossmath_0.5.24_Home_320x568.png": "3205213f68a9fcebfcc46224c76559346fb38c642500315255552af5298c68ae",
+    "Crossmath_0.5.24_Home_390x844.png": "19642db36ff5696142597ed66c2a3757e481e8ebcb471b6c699d4e86fd98d1e1",
+    "Crossmath_0.5.24_Section_routes.png": "a8f79893ebda559ee9103518cf55cc00d43d878702b8d605f8998a4670e26f3d",
+    "Crossmath_0.5.24_Tab_route.mp4": "88c3efb4256e46427e5d65fc2d3d45966960eef515ad66a8f1fe3269e57445c9",
+    "Crossmath_0.5.24_Workshop_reward.mp4": "1af1b4493b9f3c7ed5bcacc6a7f50ad9a2e6a76fdcd39e0a2d1eabf1c2423835"
+  }
+}

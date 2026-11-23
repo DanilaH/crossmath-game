@@ -89,6 +89,7 @@ export class WorkshopReveal {
       digit.textContent=String(parts);
       name.textContent = target ? copy.part(index,target.part) : copy.t('Коллекция собрана','Collection complete');
       stamp.textContent = installed ? copy.t('✓ Получено','✓ Fitted') : copy.t('На очереди','Up next');
+      stamp.hidden=!target&&!installed;
       label.classList.toggle('landed',installed);
       amount.hidden = !target;
       track.hidden = !target;
@@ -101,7 +102,7 @@ export class WorkshopReveal {
       this.root.querySelector('.workshop-flight')?.remove();
       end.classList.remove('charged');
       const complete = total === config.collection.fragmentWinThresholds.length;
-      render(complete ? undefined : last, Boolean(last && last.percent === 100));
+      render(complete ? undefined : last, complete ? receipt.fragments>0 : Boolean(last && last.percent===100));
       if (granted.length) summary.textContent = copy.t(`В лотке · ${granted.join(' и ')}`,`In the tray · ${granted.join(' and ')}`);
       this.root.dataset.phase = 'done';
     };

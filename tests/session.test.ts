@@ -120,3 +120,38 @@ describe('P04/P05/P06: durable game operations',()=>{
   expect(session.state.profile.solvedIds).toHaveLength(240);expect(session.state.profile.campaignCursor).toBe(240);expect(await session.next()).toBe(false);expect(decodeSave(session.state)).toEqual(session.state);expect(config.collection.fragmentWinThresholds).toHaveLength(48);
  },75_000);
 });
+
+describe('durable root navigation',()=>{
+ it('parks the exact active attempt between root tabs and records the workshop origin',async()=>{
+  const{session,repo}=await setup();
+  const attempt=structuredClone(session.state.attempt);
+  await session.navigate('home');await session.navigate('modes');await session.navigate('profile');await session.navigate('album');
+  const loaded=await repo.load();
+  expect(loaded.meta).toMatchObject({screen:'album',albumOrigin:'profile',activeSlot:'campaign'});
+  expect(loaded.attempt).toEqual(attempt);
+  expect(loaded.profile.coins).toBe(120);
+ });
+ it('persists a selected date without creating a Daily attempt or replacing the active board',async()=>{
+  const{session,repo}=await setup();
+  await session.navigate('calendar');
+  const date=session.state.meta.effectiveDay, attempt=structuredClone(session.state.attempt);
+  await session.selectDailyDay(date);
+  const loaded=await repo.load();
+  expect(loaded.meta).toMatchObject({screen:'calendar',calendarSelectedDay:date,assignments:{},activeSlot:'campaign'});
+  expect(loaded.attempt).toEqual(attempt);
+  expect(await session.selectDailyDay('9999-12-31')).toBe(false);
+  expect(session.state.meta.calendarSelectedDay).toBe(date);
+ });
+ it('requires confirmation to start a fresh campaign attempt even when it is the same board',async()=>{
+  const{session,repo}=await setup();
+  await session.navigate('home');
+  const before=await repo.load();
+  expect(await session.newGame('campaign')).toBe('confirm_replace');
+  expect(await repo.load()).toEqual(before);
+  expect(await session.newGame('campaign',true)).toBe('opened');
+  const loaded=await repo.load();
+  expect(loaded.attempt.puzzleId).toBe(before.attempt.puzzleId);
+  expect(loaded.attempt.id).not.toBe(before.attempt.id);
+  expect(loaded.profile).toEqual(before.profile);
+ });
+});
