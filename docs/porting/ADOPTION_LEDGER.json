@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "a623ff06e5f85360e14770301caac7c46a0db6d2",
+    "commit": "4303c6962eeaa7ccdc796d90f574786dbe2dc44f",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -3696,7 +3696,7 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "a623ff06e5f85360e14770301caac7c46a0db6d2",
+    "sourceInventoryCommit": "4303c6962eeaa7ccdc796d90f574786dbe2dc44f",
     "sourceCount": 246,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
