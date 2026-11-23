@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "fd2186ed6f0397dddb4488788b2324b63424ff26",
+    "commit": "623fd9042f4f50295b24b2fe9ad58d0c31b5539f",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -1271,7 +1271,10 @@
       "nextAction": "Проверить offline, обязательные поля и способ доставки обращения",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L931",
       "reason": "Выбор монетизации относится к отдельному продуктовому решению. До него проверяем источник и стоимость.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/metaView.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/metaView.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/623fd9042f4f50295b24b2fe9ad58d0c31b5539f/research/games/crossmath/porting/full-system-audit-20261123/EASYFUN_FEEDBACK_EXIT_RECHECK.md"
+      ]
     },
     {
       "id": "easy-observability",
@@ -3853,14 +3856,45 @@
       "status": "EVIDENCE_GAP",
       "comparison": "UNKNOWN",
       "stage": "PLATFORM/LIFECYCLE · research",
-      "originalBehavior": "В EasyFun 1.1.9 присутствует отдельный prefab с именем Exit Reason, путь доступа неизвестен. ASSET_VERIFIED Unity AssetBundle assets/AssetBundles/Android/panelpopexitreason_prefab SHA256 d2ec0fa1bdc4baf628d5f3da6c023aeadcf9768550d3421391a48d32eca85b76, 46 RectTransforms, BtnClear/BtnClose; could be developer diagnostic, exact purpose/user route UNKNOWN. | research/games/crossmath/porting/full-system-audit-20261123/README.md. Evidence tier: ASSET_VERIFIED PREFAB_STATIC, not proven user-visible exit survey or gameplay event.",
+      "originalBehavior": "EasyFun original IL2CPP metadata PanelPopExitReason groups ExitHistory, mobileName, mobileSystemVersion, exitType, exitDes, SetLogged/SetUnlog and UploadEX. This suggests an INTERNAL diagnostic history/uploader rather than proved user-facing exit survey; runtime entry, recorded events and uploads UNKNOWN.",
       "currentImplementation": "В нашей игре нет отдельной панели exit reason; исходный Unity prefab может быть отладочной/внутренней панелью, нет доказанного пользовательского входа.",
       "codePath": "src/app/nativeLifecycle.ts",
-      "nextAction": "По Unity IL2CPP EasyFun 1.1.9 найти место загрузки panelpopexitreason_prefab и путь входа в production. На Android проверить кнопку Back/закрытие/сбой/crash recovery; до этого не считать exit-survey игрока.",
+      "nextAction": "IL2CPP caller chain and actual production route first: check internal exit/exceptions log exposure and consent; on original Android back/kill verify whether window appears; NEVER call it a confirmed user exit survey based on name.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/fd2186ed6f0397dddb4488788b2324b63424ff26/research/games/crossmath/porting/full-system-audit-20261123/README.md",
       "sourceVersionStatus": "Only specified archive version evidence",
       "dependencies": "Original device/version and access to correct event/store/Android SDK where relevant; separate owner decision, original art/sound replaced with authored alternatives, save state and user consent as applicable.",
-      "acceptanceRequirement": "Original actual trigger and user-facing route observed and independently reproduced on specified version; optional paid provider: real SDK and durable receipt plus recovery; Crossmath behavior verified in exact APK on Android."
+      "acceptanceRequirement": "Original actual trigger and user-facing route observed and independently reproduced on specified version; optional paid provider: real SDK and durable receipt plus recovery; Crossmath behavior verified in exact APK on Android.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/623fd9042f4f50295b24b2fe9ad58d0c31b5539f/research/games/crossmath/porting/full-system-audit-20261123/EASYFUN_FEEDBACK_EXIT_RECHECK.md"
+      ]
+    },
+    {
+      "id": "easy-feedback-photo-attachment",
+      "sourceFeatureId": "easy-feedback-photo-attachment",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Static original EasyFun 1.1.9 IL2CPP PanelPopFeedback offers image/gallery picker, permission check, add/delete image, max weight and async upload; actual Android original gallery content/permission/upload UNKNOWN.",
+      "currentImplementation": "Crossmath 0.5.24/29 has no user media attachment to feedback and no email/upload backend, no gallery permission for this task.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/USER FEEDBACK · later after owner/privacy approval",
+      "dependencies": "Personal data consent, gallery permission, image upload provider/retention, no secrets or other users' attachments, mobile Back/rotation and offline error UX.",
+      "nextAction": "Record EasyFun 1.1.9 real tap Feedback→Add Photo→Android permission denial/allow→gallery→add/delete→submit online/offline, measure visible image count/size and leak/retention. Only after owner's consent and privacy policy consider own picture upload.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/623fd9042f4f50295b24b2fe9ad58d0c31b5539f/research/games/crossmath/porting/full-system-audit-20261123/EASYFUN_FEEDBACK_EXIT_RECHECK.md",
+      "acceptanceRequirement": "Original Android before/tap/permission/error/success in version 1.1.9 and own Android 0.5.24+ equivalent, no unconsented private media/email transmission; never infer actual upload from IL2CPP method name"
+    },
+    {
+      "id": "easy-feedback-validated-submit",
+      "sourceFeatureId": "easy-feedback-validated-submit",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Static original EasyFun 1.1.9 IL2CPP PanelPopFeedback has email-change/content-change, CheckEmail/CheckCharacterLimit, OnBtnSubmitClick/SendFeedbackRequest/SubmitProcess/ResetLoading; precise validation and real submission UNKNOWN.",
+      "currentImplementation": "Crossmath 0.5.24/29 has no embedded feedback form, email validation or remote submission; no information about user emails is uploaded by this feature.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/USER FEEDBACK · later after owner/privacy approval",
+      "dependencies": "Owner permission, original Android observable validation, approved endpoint, data minimization, privacy/retention and user-provided email opt-in.",
+      "nextAction": "EasyFun 1.1.9 original Android: test empty content, invalid email, overlong content, offline submit, cancel/return and a permitted dummy message; record validation texts/limits and verified server acceptance before implementation.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/623fd9042f4f50295b24b2fe9ad58d0c31b5539f/research/games/crossmath/porting/full-system-audit-20261123/EASYFUN_FEEDBACK_EXIT_RECHECK.md",
+      "acceptanceRequirement": "Original Android before/tap/permission/error/success in version 1.1.9 and own Android 0.5.24+ equivalent, no unconsented private media/email transmission; never infer actual upload from IL2CPP method name"
     }
   ],
   "latestReview": {
@@ -3930,11 +3964,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "fd2186ed6f0397dddb4488788b2324b63424ff26",
-    "sourceCount": 260,
+    "sourceInventoryCommit": "623fd9042f4f50295b24b2fe9ad58d0c31b5539f",
+    "sourceCount": 262,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
     "report": "research/games/crossmath/porting/full-system-audit-20261123/README.md",
-    "summary": "Immediate full-system source-surface audit across Guru 3.5.2/4.17.0 and EasyFun 1.1.9; Guru 4.18 original video version identified in one clip. Covers 64 Unity UI prefabs/18 tables, 265 Guru AOT UI pathnames/17 families, 20 game systems, seven classes of external live evidence blockers, 14 newly separately recorded source IDs. No claim all 260 are active production. Game code still 0.5.24/29."
+    "summary": "Immediate full-system source-surface audit across Guru 3.5.2/4.17.0 and EasyFun 1.1.9; Guru 4.18 original video version identified in one clip. Covers 64 Unity UI prefabs/18 tables, 265 Guru AOT UI pathnames/17 families, 20 game systems, seven classes of external live evidence blockers, 14 newly separately recorded source IDs. No claim all 260 are active production. Game code still 0.5.24/29. Additional original EasyFun IL2CPP metadata validated independent feedback-media and validated-submit handlers; 2 stable new IDs; exit-reason panel is probably internal diagnostics but runtime UNKNOWN."
   }
 }
