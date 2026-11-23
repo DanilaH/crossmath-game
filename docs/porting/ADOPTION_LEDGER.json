@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "46e16cdb3645956b6b3f32b42481e3cb9cdabddb",
+    "commit": "6c8542981d292a8dd4621cd855cb18dab127b48b",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -294,9 +294,12 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Собрать поле, где помогает только порядок кандидатов",
+      "nextAction": "Теперь видео 13-49-19 1.5–10с показывает UI-объяснение 35>25 (после OK ручная постановка). Полный solve() и его покрытие банком остаются UNKNOWN; проверить точный нативный механизм, не объявлять parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L222",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md"
+      ]
     },
     {
       "id": "guru-factor-hint",
@@ -387,7 +390,10 @@
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "Проверить чтение 8÷2 и 8:2 на телефоне, источник переключателя UNKNOWN",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L299",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/locale.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/locale.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md"
+      ]
     },
     {
       "id": "guru-result-next",
@@ -879,7 +885,7 @@
       "codePath": "src/ui/metaView.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "На Android проверить отмену системной кнопкой «Назад» и восстановление жизни с платформенным SDK.",
+      "nextAction": "В оригинальной записи 13-49-14 t0–8 обучающее окно заявляет отсутствие проверки ошибок до Submit; остальные правила жизни/балла/перезапуска и Android acceptance оставить отдельно.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L669",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/metaView.ts",
       "consumerCheck0510": {
@@ -901,7 +907,10 @@
       "deliverySpec0516": {
         "package": "M0",
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
-      }
+      },
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md"
+      ]
     },
     {
       "id": "guru-achievements",
@@ -1204,7 +1213,10 @@
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
       "nextAction": "Проверить последовательность reward → возврат → результат, в том числе no-fill",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L896",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md"
+      ]
     },
     {
       "id": "guru-ad-retry",
@@ -2840,7 +2852,7 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/46e16cdb3645956b6b3f32b42481e3cb9cdabddb/research/games/crossmath/porting/guru-navigation-20261123/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/metaView.ts",
       "ownerDecisionRef": "Владелец 2026-11-23: по девяти видеозаписям одобрено перенести иерархию меню (не чужое оформление)",
-      "sourceVersionStatus": "UNKNOWN in original uploaded video; app-specific UI observed and frames indexed, exact APK version not displayed"
+      "sourceVersionStatus": "Part of source behavior directly visible in video_13-49-51.mp4; Settings in same MP4 t81.0 identifies 4.18.0-26111743. Other MP4 evidence same-session inferred."
     },
     {
       "id": "guru-ui-new-game-sheet",
@@ -2855,7 +2867,7 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/46e16cdb3645956b6b3f32b42481e3cb9cdabddb/research/games/crossmath/porting/guru-navigation-20261123/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts",
       "ownerDecisionRef": "Владелец 2026-11-23: по девяти видеозаписям одобрено перенести иерархию меню (не чужое оформление)",
-      "sourceVersionStatus": "UNKNOWN in original uploaded video; app-specific UI observed and frames indexed, exact APK version not displayed"
+      "sourceVersionStatus": "Part of source behavior directly visible in video_13-49-51.mp4; Settings in same MP4 t81.0 identifies 4.18.0-26111743. Other MP4 evidence same-session inferred."
     },
     {
       "id": "guru-ui-home-context-shortcuts",
@@ -2870,7 +2882,7 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/46e16cdb3645956b6b3f32b42481e3cb9cdabddb/research/games/crossmath/porting/guru-navigation-20261123/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/metaView.ts",
       "ownerDecisionRef": "Владелец 2026-11-23: по девяти видеозаписям одобрено перенести иерархию меню (не чужое оформление)",
-      "sourceVersionStatus": "UNKNOWN in original uploaded video; app-specific UI observed and frames indexed, exact APK version not displayed"
+      "sourceVersionStatus": "Part of source behavior directly visible in video_13-49-51.mp4; Settings in same MP4 t81.0 identifies 4.18.0-26111743. Other MP4 evidence same-session inferred."
     },
     {
       "id": "guru-ui-daily-full-tab",
@@ -2947,7 +2959,285 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/46e16cdb3645956b6b3f32b42481e3cb9cdabddb/research/games/crossmath/porting/guru-navigation-20261123/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts",
       "ownerDecisionRef": "Владелец 2026-11-23: по девяти видеозаписям одобрено перенести иерархию меню (не чужое оформление)",
-      "sourceVersionStatus": "UNKNOWN in original uploaded video; app-specific UI observed and frames indexed, exact APK version not displayed",
+      "sourceVersionStatus": "Part of source behavior directly visible in video_13-49-51.mp4; Settings in same MP4 t81.0 identifies 4.18.0-26111743. Other MP4 evidence same-session inferred.",
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4"
+    },
+    {
+      "id": "guru-ui-explain-coach",
+      "sourceFeatureId": "guru-ui-explain-coach",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "В игре есть кнопка «Помощь» и выбор «Объяснить ход», но нет отдельно возникающей контекстной команды Explain/первого bubble-Coach.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/HINT",
+      "originalBehavior": "Обучающая подсказка выделяет отдельную кнопку Explain и приглашает открыть объяснение. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-24.mp4 t=2.0–3.8s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "SOURCE BUILD UNKNOWN for this particular clip. Same recording batch as a verified 4.18.0 video is an inference, not proof.",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "Сравнить видео 13-49-24 2–4 c с реальным HUD нашей игры; вынести coaching в отдельную принятую стадию после решения владельца, не меняя цену подсказки.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts"
+    },
+    {
+      "id": "guru-ui-explain-lesson",
+      "sourceFeatureId": "guru-ui-explain-lesson",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "У нас Help → Explain → Apply применяет вычисленное назначение и расходует выбранный ресурс; оригинал показал объяснение двух связанных чисел без автоматической установки.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/HINT",
+      "originalBehavior": "Explain открывает разбор уравнения с двумя связанными назначениями, OK не заполняет поле автоматически. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-24.mp4 t=5.0–17.0s, A=1 B=29; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "SOURCE BUILD UNKNOWN for this particular clip. Same recording batch as a verified 4.18.0 video is an inference, not proof.",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "Прототипировать раздельный неплатёжный просмотр доказательства и расходное применение. Проверить последовательность 28+A=B, A=1, B=29, OK, ручное размещение, холодный возврат, кто платит и когда. Не изменять экономику без решения владельца.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts"
+    },
+    {
+      "id": "guru-ui-expert-hint-coach",
+      "sourceFeatureId": "guru-ui-expert-hint-coach",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "currentImplementation": "В собственной 0.5.23 нет отдельного первого подсказочного сообщения о трудности Expert/длинных выражений, есть 15 общих уроков.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/HINT",
+      "originalBehavior": "Первый Expert сопровождается подсказкой, что некоторые выражения нельзя вычислить напрямую. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-07.mp4 t=96.0s; Guru 4.17 ARM64 exact phrase; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "SOURCE BUILD UNKNOWN for this particular clip. Same recording batch as a verified 4.18.0 video is an inference, not proof.",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "На профильном Expert 4.18 при первом входе проверить show once; лишь после этого отдельная оригинальная авторская подсказка без блокирования поля.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts"
+    },
+    {
+      "id": "guru-ui-gesture-ftue",
+      "sourceFeatureId": "guru-ui-gesture-ftue",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "В 0.5.23 реализованы touch/drag и 15 собственных уроков. Тот же двухступенчатый оригинальный урок с указанием tap/drag и автопереходом к New Game не сопоставлялся по телефону.",
+      "codePath": "src/ui/board.ts",
+      "stage": "UX/FTUE",
+      "originalBehavior": "FTUE последовательно демонстрирует tap по пустой клетке и drag фишки в ячейку. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=0–10s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "Сверить наш первый экран при 320×568 и 390×844 с 13-49-51 0–15 s; отдельно tap/drag и сохранение шага при process kill, не заменять правильный банк слепой копией.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/board.ts",
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4"
+    },
+    {
+      "id": "guru-ui-setting-explain",
+      "sourceFeatureId": "guru-ui-setting-explain",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "currentImplementation": "Наши настройки не имеют отдельного Show Explanation Button, помощь всегда доступна как кнопка Help и модальное действие.",
+      "codePath": "index.html",
+      "stage": "UX/SETTINGS",
+      "originalBehavior": "В настройках отдельный видимый переключатель Show Explanation Button. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=80.0s; Guru 4.17 ARM64 exact phrase; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "Проверить оригинал с включённым и отключённым Show Explanation; сохраняется ли флаг после cold start и влияет ли на расходную Hint. Затем решение владельца о собственном контроле.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/index.html"
+    },
+    {
+      "id": "guru-ui-setting-autosubmit",
+      "sourceFeatureId": "guru-ui-setting-autosubmit",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "currentImplementation": "В Crossmath 0.5.23 обычные поля проверяются автоматически, Endless проверяется по явному Submit; пользовательского Auto Submit toggle нет.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/SETTINGS",
+      "originalBehavior": "В настройках видимый независимый переключатель Auto Submit. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=80.0s; Guru 4.17 ARM64 exact phrase; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "На 4.18 переключить Auto Submit ON/OFF в Classic и Endless, получить контролируемые ходы, отследить сохранение и полноту поля. Без опыта не вводить непроверенную политику.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts"
+    },
+    {
+      "id": "guru-ui-setting-large-font",
+      "sourceFeatureId": "guru-ui-setting-large-font",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "Тестируются CSS-масштабы 100/120/150/200%, но отдельной локальной настройки Large Font и A/A переключателя нет.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/SETTINGS",
+      "originalBehavior": "В настройках Large Font и в поле мини-переключатель двух размеров A. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=75–80s; Guru 4.17 ARM64 exact phrase; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "Проверить размер и сохранение Large Font в 4.18, сравнить реальные размеры клеток/панелей 320×568; отдельно решение о локальном масштабировании в нашей игре.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts"
+    },
+    {
+      "id": "guru-ui-setting-division",
+      "sourceFeatureId": "guru-ui-setting-division",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "currentImplementation": "Поле имеет фиксированную запись деления; выбора ÷ / : в настройках и инлайн-панели нет.",
+      "codePath": "src/ui/board.ts",
+      "stage": "UX/SETTINGS",
+      "originalBehavior": "В игре настраиваемый стиль знака деления из трёх вариантов ÷, /, :. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=75–80s; Guru 4.17 ARM64 exact phrase; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "Проверить все три вида на одном поле в 4.18 и сохранение после перезапуска; предложить собственные символы и корректную локализацию/доступность.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/board.ts"
+    },
+    {
+      "id": "guru-ui-setting-theme",
+      "sourceFeatureId": "guru-ui-setting-theme",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "У нас light/dark сохранены, но выбор идёт из общих настроек, а не из маленького меню прямо на поле.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/SETTINGS",
+      "originalBehavior": "Быстрая настройка светлой и тёмной темы в контекстном окне поля. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=75.0s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "После переноса навигации #6 проверить изменение темы без скачка board layout, при паузе, из игрового поля и после cold start.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts",
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4"
+    },
+    {
+      "id": "guru-ui-setting-sound",
+      "sourceFeatureId": "guru-ui-setting-sound",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH",
+      "currentImplementation": "В 0.5.23 есть независимая постоянная настройка sound и OneShotPlayer; подтверждён только браузерный/scripted контур, не реальная слышимость Android.",
+      "codePath": "src/ui/feedback.ts",
+      "stage": "UX/SETTINGS",
+      "originalBehavior": "Независимый переключатель Sound в Settings. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=80.0s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "На физическом телефоне проверить sound ON/OFF в 4.18 и в нашей 0.5.23; кадр touch+звуковая дорожка, фон/возврат и отсутствие отложенных cue.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/feedback.ts",
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4"
+    },
+    {
+      "id": "guru-ui-setting-vibration",
+      "sourceFeatureId": "guru-ui-setting-vibration",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH",
+      "currentImplementation": "В 0.5.23 есть независимый сохранённый флаг vibration и navigator.vibrate, физический Android-отклик не принят.",
+      "codePath": "src/ui/feedback.ts",
+      "stage": "UX/SETTINGS",
+      "originalBehavior": "Независимый переключатель Vibration в Settings. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=80.0s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "На Android отдельно проверить вибрацию с sound OFF/ON, синхронизацию pick/place/wrong/win; оригинальный фактический виброузор UNKNOWN.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/feedback.ts",
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4"
+    },
+    {
+      "id": "guru-ui-setting-timer",
+      "sourceFeatureId": "guru-ui-setting-timer",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "У нас есть сохранённый timerVisible только для Campaign/Free; в 4.18 видимый Timer-toggle, его область действия по режимам не проверена.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/SETTINGS",
+      "originalBehavior": "Независимый переключатель Timer в Settings. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=80.0s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "На 4.18 включить/выключить таймер в Classic/Daily/Endless и при паузе; не утверждать полного MATCH до проверки экрана и сохранения.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts",
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4"
+    },
+    {
+      "id": "guru-ui-setting-store",
+      "sourceFeatureId": "guru-ui-setting-store",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "currentImplementation": "В нашей 0.5.23 нет магазина/покупок; ранее зарегистрированы 11 Guru IAP и 4 rewarded placement как отдельные исходные возможности.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "COMMERCIAL/later",
+      "originalBehavior": "Настройки Guru содержат пункт Store и сервисные входы How to Play, Feedback, Redeem Code. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-51.mp4 t=80–81s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "VIDEO_CONFIRMED 4.18.0-26111743 in same video at t=81.0s",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "После решения владельца и легальной настройки billing проверить реальный Settings→Store, наличие/цены 11 SKU, no-fill, отмену, restore; не приравнивать Premium и RemoveAds без доказательств.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts",
+      "reason": "Реальный магазин и IAP вне первой версии: нет подключённой коммерческой инфраструктуры и отдельного решения владельца."
+    },
+    {
+      "id": "guru-ui-win-popup-queue",
+      "sourceFeatureId": "guru-ui-win-popup-queue",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "Наш результат уже начисляет атомарные награды и анимирует детали, но отдельная очередь LevelUp→DailyQuests→Cap не реализована; метаэкран выдаёт достижения текстом.",
+      "codePath": "src/ui/metaView.ts",
+      "stage": "UX/META",
+      "originalBehavior": "После победы цепочка Level Up → Daily Quests → Doctorate Cap поверх сохранённого результата. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-48-55.mp4 t=1.5–20s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "SOURCE BUILD UNKNOWN for this particular clip. Same recording batch as a verified 4.18.0 video is an inference, not proof.",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "Сохранить атомарность и воспроизводить отдельные собственные overlay-события из квитанций: same result, 1× звук, skip/фон/сохранение, без повторного начисления. После нового owner review.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/metaView.ts"
+    },
+    {
+      "id": "guru-ui-cap-first-guide",
+      "sourceFeatureId": "guru-ui-cap-first-guide",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "currentImplementation": "В Crossmath есть 12 собственных достижений и мастерская приборов, но ресурса Doctorate Cap/Brains, выдачи шапок и отдельного guide нет.",
+      "codePath": "src/meta/career.ts",
+      "stage": "META/LATER",
+      "originalBehavior": "Окно Doctorate Cap объясняет получение через уровни и события и предлагает переход в Leaderboard. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-48-55.mp4 t=14–22s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "SOURCE BUILD UNKNOWN for this particular clip. Same recording batch as a verified 4.18.0 video is an inference, not proof.",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "При принятии событий/Brains отдельно разработать аналог собственных наград, показать источник получения и понятный вход в таблицу; сначала live доказательство caps в 4.18.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/meta/career.ts",
+      "reason": "Doctorate Cap/Brains относится к поздней метасистеме; в 0.5.23 нет данной валюты/онлайн-системы."
+    },
+    {
+      "id": "guru-ui-endless-submit-confirm",
+      "sourceFeatureId": "guru-ui-endless-submit-confirm",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "currentImplementation": "У нас SubmitEndless с явной кнопкой, но нет отдельного Yes/No и сохраняемой опции Skip this message; уже существует подтверждение выхода из забега.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "UX/ENDLESS",
+      "originalBehavior": "Endless Submit запрашивает No/Yes и содержит опцию Skip this message. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-07.mp4 t=4–11s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "SOURCE BUILD UNKNOWN for this particular clip. Same recording batch as a verified 4.18.0 video is an inference, not proof.",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "Сверить оригинал 13-49-07 4–11с и повторный submit; оценить, нужна ли дополнительная задержка игроку, провести тест ошибок/усилий. Нельзя вводить лишнее подтверждение без решения владельца.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts"
+    },
+    {
+      "id": "guru-ui-endless-next-ad",
+      "sourceFeatureId": "guru-ui-endless-next-ad",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "В Crossmath есть опциональный ads.beforeNext перед session.next() со scripted callbacks; реальный провайдер отсутствует. После dismiss наш код продолжает сам, в оригинальном видео игрок повторно нажал Next Stage.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "COMMERCIAL/later",
+      "originalBehavior": "После Next Stage в Endless наблюдался полноэкранный playable ad, затем возврат к результату и повторный Next Stage. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-07.mp4 t=18–24,72–79s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "SOURCE BUILD UNKNOWN for this particular clip. Same recording batch as a verified 4.18.0 video is an inference, not proof.",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "На 4.18 проверить 3+ Next Stage online/offline с request/show/dismiss; видимое возвращение и точный момент открытия следующего поля. В нашей игре не вводить рекламную частоту без решения владельца и реальных SDK событий.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts"
+    },
+    {
+      "id": "guru-ui-gameplay-banner",
+      "sourceFeatureId": "guru-ui-gameplay-banner",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "В 0.5.23 есть опциональный bridge управления баннером, но нет подтверждённого живого provider и платного impression. Макет поля не копирует оригинальный баннер.",
+      "codePath": "src/ui/gameUi.ts",
+      "stage": "COMMERCIAL/later",
+      "originalBehavior": "Внизу поля наблюдаемая баннерная рекламная поверхность под игровыми инструментами. Источник: VIDEO_OBSERVED ORIGINAL_RUNTIME video_2026-11-23_13-49-14.mp4 t=8–20s; video_2026-11-23_13-49-24.mp4 t=0–20s; research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "sourceVersionStatus": "SOURCE BUILD UNKNOWN for this particular clip. Same recording batch as a verified 4.18.0 video is an inference, not proof.",
+      "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
+      "nextAction": "На Android 4.18 проверить banner show/hide на поле/в меню/в результате; в нашей release check - actual SDK и safe-area, не имитировать прибыль рекламного показa.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4"
     }
   ],
@@ -3009,11 +3299,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "46e16cdb3645956b6b3f32b42481e3cb9cdabddb",
-    "sourceCount": 204,
+    "sourceInventoryCommit": "6c8542981d292a8dd4621cd855cb18dab127b48b",
+    "sourceCount": 222,
     "consumerGameVersion": "0.5.23",
     "consumerGameplayCommit": "9fa8ab94a7bfa21d343163d922f8395a720fb495",
-    "report": "research/games/crossmath/porting/guru-navigation-20261123/README.md",
-    "summary": "Owner-provided 9 ORIGINAL_RUNTIME video clips: four persistent root tabs, separate Continue/New Game and difficulty sheet, Daily month view, locked Battle shell, nested profile filters and play immersive. Source video app version UNKNOWN; owner approved adopting information architecture, not original art."
+    "report": "research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
+    "summary": "Source GUI version 4.18.0-26111743 proven in video_13-49-51 at t81s; 18 new rule/surface IDs for explain without auto fill, FTUE, settings, reward queue, Endless confirmation, playable ad and banner. Other clips same-build only inferred. No gameplay code change."
   }
 }
