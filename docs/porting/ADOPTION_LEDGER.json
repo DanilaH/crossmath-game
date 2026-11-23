@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "a02958791b6c5e2fec5e561fa9bee24252ab2a04",
+    "commit": "7fef14def6bd31107becb7b83f0a947c412cda06",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -2785,6 +2785,32 @@
       "nextAction": "guru-rv-store: На оригинале guru417 найти вход/показ, снять 1× до→тап→показ/отмена→подтверждённая выдача и перезапуск; отдельно no-fill, офлайн и cooldown. До ORIGINAL_RUNTIME метка UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/a02958791b6c5e2fec5e561fa9bee24252ab2a04/research/games/crossmath/porting/guru-commerce-issuance-20261123/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/docs/PROJECT_DECISIONS.md"
+    },
+    {
+      "id": "guru-easy1-pool-substitution",
+      "sourceFeatureId": "guru-easy1-pool-substitution",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "currentImplementation": "Crossmath 0.5.23 / 28 выдаёт собственные 275 статически подготовленных content-v2 задач через кампанию и Free Relax/Challenge. Отдельных профилей default/easy1 и замены категорий 7 922 одинаковых рецептов нет.",
+      "codePath": "src/content/catalog.ts",
+      "stage": "CORE research → возможный эксперимент с темпом, после решения владельца",
+      "dependencies": "Оценка реального игрового темпа нашей content-v2, доказательства выбора оригинальных cohort, backward-compatible contentVersion, независимые записи решений; менять порядок задач только после решения владельца.",
+      "nextAction": "Сравнить completion time/errors для текущих корзин Crossmath и целевой мягкой стартовой выборки; отдельно воспроизвести на оригинале два профиля и их получение remote puzzle_version. Не заменять текущую кампанию 0.5.23 на SQL-bank без оснований.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7fef14def6bd31107becb7b83f0a947c412cda06/research/games/crossmath/porting/guru-profile-pool-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/content/catalog.ts"
+    },
+    {
+      "id": "guru-tag-4-2-lower-range",
+      "sourceFeatureId": "guru-tag-4-2-lower-range",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "currentImplementation": "content-v2 содержит собственные Easy Short/Long и отдельные числовые бюджеты, но не использует исходный tag=4_2, оригинальные лимиты 30→10 и 10→6 или профили Guru. Геометрия и текущие задачи остаются авторскими.",
+      "codePath": "docs/spec/product/content_v2/README.md",
+      "stage": "CORE research → optional content experiment; до выпуска нового контента не менять",
+      "dependencies": "Независимое измерение первых полей, собственный генератор, ротации и существующие сохранённые puzzleId/contentVersion, запрет на копирование исходного контента.",
+      "nextAction": "В отдельном документе эксперимента оценить ожидаемое влияние мягких значений операндов на длину решения на своих заданиях; проверить именно исходные nextInt bounds в E47 и сравнить 2 228 tag=4_2 рецептов по доступным метрикам. Обновлять контент только после выбора владельца.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7fef14def6bd31107becb7b83f0a947c412cda06/research/games/crossmath/porting/guru-profile-pool-20261123/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/docs/spec/product/content_v2/README.md"
     }
   ],
   "latestReview": {
@@ -2845,11 +2871,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "a02958791b6c5e2fec5e561fa9bee24252ab2a04",
+    "sourceInventoryCommit": "7fef14def6bd31107becb7b83f0a947c412cda06",
     "consumerGameVersion": "0.5.23",
     "consumerGameplayCommit": "9fa8ab94a7bfa21d343163d922f8395a720fb495",
-    "sourceCount": 193,
-    "report": "research/games/crossmath/porting/guru-commerce-issuance-20261123/README.md",
-    "summary": "15 новых исходных SKU/рекламных записей с раздельным STOREFRONT_LISTED и NATIVE_STATIC; 7 922 общих рецепта сменили diff, но не stuck, evidence for error-driven adaptation and live commercial callback UNKNOWN. Изменений в APK не было."
+    "sourceCount": 195,
+    "report": "research/games/crossmath/porting/guru-profile-pool-20261123/README.md",
+    "summary": "Сверены обе версии Guru cm4/cm5, выявлено замещение 2499↔2478 рецептов между default/easy1, 2228 soft tag=4_2, неизменность всех полей общих 7922 задач кроме diff; worst-case 300-hole history оставляет минимум 1344+ записей в каждой категории. Отсутствует Android/runtime подтверждение cohort/stuck. Ранее записанные 15 SKU/rewarded остаются в ledger."
   }
 }
