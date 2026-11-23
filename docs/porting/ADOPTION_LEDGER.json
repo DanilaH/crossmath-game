@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "5ad2985fe6b1da8d137530a2cd13d632b9f8f263",
+    "commit": "a79f02cb3dde2b60317e0332c020f2b30f126003",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -2562,6 +2562,19 @@
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "acceptanceEvidence": "docs/acceptance/PACKAGES_M0_M2_0519.md#m1 · Chromium и аудит APK · 254554683183561155d1874193f205a5501001ae"
+    },
+    {
+      "id": "guru-badge-ceremony",
+      "sourceFeatureId": "guru-badge-ceremony",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING",
+      "currentImplementation": "12 постоянных собственных достижений, значок ✓ и текст в профиле и квитанции. Не реализована 17-композиционная трёхгруппная церемония Guru 4.17.0. Её пользовательский вызов в оригинале UNKNOWN.",
+      "codePath": "src/ui/metaView.ts",
+      "stage": "META UX · после подтверждения runtime оригинала",
+      "dependencies": "Сначала найти достижимый экран и триггеры референса; затем решение владельца; свои звуки/анимации, квитанции достижений, reduced motion, lifecycle",
+      "nextAction": "На оригинале Guru 4.17.0 снять 1× со звуком до/во время/после первого значка, повышения и продвижения; определить, какое из 17 Lottie реально вызывается, когда звучит badge_up, состояние после skip/фон/повтор. При недоступности сохранить UNKNOWN и проверить статические вызовы. Только после этого обсудить адаптированный эффект для Crossmath.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/a79f02cb3dde2b60317e0332c020f2b30f126003/research/games/crossmath/porting/guru-badge-417/README.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/6817db87d3c2a4a9d155b89dfc85c084a9e5e5cd/src/ui/metaView.ts#L837"
     }
   ],
   "latestReview": {
