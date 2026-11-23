@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "814f036f6fc1f529e7704905d7b5e62098a7c3f3",
+    "commit": "a623ff06e5f85360e14770301caac7c46a0db6d2",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -208,9 +208,13 @@
       "codePath": "src/content/validator.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Сравнить пары сходных полей с разным stuck; отдельно измерить время и ошибки",
+      "nextAction": "Оригинальная формула stuck всё ещё UNKNOWN: исследовать CrossMathSolver.solve (E29/H08–H12) и сопоставить controlled same-seed/same-hole-count pairs, начиная с board=103824, puzzle=10456, size=9; проверить количественно, отличает ли число прямых выводов/глубина стратегии stuck0 vs stuck1. Влияние на реальную адаптацию игрока требует отдельного Android и серверного конфига.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L155",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/validator.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/validator.ts",
+      "originalBehavior": "В SQLite cm_all есть дискретная оценка stuck 0–8. Сравнение 7 922 общих рецептов профилей default/easy1 подтвердило совпадение stuck на каждой общей записи. НОВОЕ: при фиксированных board/puzzle/size/tag и полностью одинаковых вычисленных числах, но других holes, во всех 2 671 наблюдаемых парах значение stuck различается; 233 пары имеют равное число пустот. Это доказательство зависимости от маски, НЕ авторская формула.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/a623ff06e5f85360e14770301caac7c46a0db6d2/research/games/crossmath/porting/guru-mask-matched-20261123/README.md"
+      ]
     },
     {
       "id": "guru-dynamic-filter",
@@ -3595,6 +3599,34 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/814f036f6fc1f529e7704905d7b5e62098a7c3f3/research/games/crossmath/porting/guru-ux-telemetry-417/README.md",
       "originalBuild": "Guru 4.17.0 / 26101374 NATIVE_STATIC/ASSET_VERIFIED. Exact named tokens/assets not found in Guru 3.5.2; equivalent old behavior not excluded.",
       "acceptanceRequirement": "Before asserting MATCH: independently observe user input and visible state change in original, then same test in our 0.5.24+ Android APK; model/browser/rendered asset alone insufficient."
+    },
+    {
+      "id": "guru-seed-mask-variants",
+      "sourceFeatureId": "guru-seed-mask-variants",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "stage": "CORE / research only; optional future authored-content experiment after owner decision",
+      "originalBehavior": "Guru 3.5.2/4.17.0 bundled cm4/cm5: 1 967 generated numeric boards (same board/puzzle/size/tag) have 2–5 differently masked recipes. 2 671 pairs share all numeric/operation metadata; 12 899 unique recipes after removing duplicates across profiles. This is source-content structure, not a new runtime generator API.",
+      "currentImplementation": "Crossmath 0.5.24/29 ships its own immutable 275 content-v2 puzzles with fixed authored masks, campaign/Relax/Challenge/Daily selection from src/content/catalog.ts + rotation.ts. It does not make several differing masked variants of one numeric solved board as separate IDs; migration and live save IDs must stay stable.",
+      "codePath": "src/content/catalog.ts",
+      "dependencies": "Owner-approved v3 content version, independent solver/uniqueness test for every own mask variant, fixed token IDs and seed reproducibility, progress/saves migration, device gameplay testing; no third-party field data/assets.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/a623ff06e5f85360e14770301caac7c46a0db6d2/research/games/crossmath/porting/guru-mask-matched-20261123/README.md",
+      "nextAction": "On OUR own board generator, select one solved board, produce at least 2 distinct blank layouts with equal arithmetic answer and test independently: solution count 1, first deductive move, tray inventory, score/monetization ID and saved-board preservation. Then owner decision whether a separate content-v3 variant bank adds value; do not edit content-v2.",
+      "acceptanceRequirement": "Every new original authored mask has deterministic own ID, one solution, independent proof/hint coverage, old saves unchanged. Original GUI/display of mask choice UNKNOWN."
+    },
+    {
+      "id": "guru-stuck-mask-topology",
+      "sourceFeatureId": "guru-stuck-mask-topology",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "stage": "CORE / research only; score-formula UNKNOWN, no automatic difficulty director",
+      "originalBehavior": "STATIC BUNDLED_DB Guru 3.5.2/4.17.0: 233 distinct mask pairs from same fully generated numeric board contain equal count holes but unequal stuck; 18 non-nested pairs have more holes but smaller stuck. Just 19/2 671 pairs are nested. Same numerical equation statistics for each pair. This proves source label is mask-pattern-sensitive, not the author formula.",
+      "currentImplementation": "Crossmath 0.5.24/29 classifies fixed tasks by authored buckets and independently checked solvability; there is no equivalent stuck estimate from original per-cell topology and no original filter. Number of holes or bucket is not claimed to reproduce Guru stuck.",
+      "codePath": "docs/spec/product/content_v2/README.md",
+      "dependencies": "Independent constraint solver and authored puzzle data only; calibrated own difficulty measure, real human playtime/error evidence if considered for future content; owner policy review.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/a623ff06e5f85360e14770301caac7c46a0db6d2/research/games/crossmath/porting/guru-mask-matched-20261123/README.md",
+      "nextAction": "Compare one same-seed pair from source report (board=103824,puzzle=10456,size=9, 11 holes in both, stuck1 vs stuck0) with an independently validated original-equivalent solve path, including direct, monotonic, factor, intersection and limited backtracking; measure feature coverage without equating correlation to formula. Optionally replicate masked-pair experiment on our own boards and human time/errors.",
+      "acceptanceRequirement": "To call MATCH, define and independently validate the matching original stuck semantics; a structural proxy or browser success metric is insufficient. 4.18.0 binary unknown."
     }
   ],
   "latestReview": {
@@ -3664,11 +3696,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "814f036f6fc1f529e7704905d7b5e62098a7c3f3",
-    "sourceCount": 244,
+    "sourceInventoryCommit": "a623ff06e5f85360e14770301caac7c46a0db6d2",
+    "sourceCount": 246,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
-    "report": "research/games/crossmath/porting/guru-ux-telemetry-417/README.md",
-    "summary": "Compared owner SHA-pinned Guru ELF 3.5.2 vs 4.17.0; 22 separate NATIVE_STATIC/ASSET_VERIFIED systems: explanation clicks/impressions, conditional guides, PuzzleFilter debug, analytics calibration/transmission/buckets, 2 × 60fps 90-frame guide Lottie. Original runtime activation UNKNOWN. Crossmath 0.5.24/29 already implements root-navigation issue #6; physical Android acceptance pending."
+    "report": "research/games/crossmath/porting/guru-mask-matched-20261123/README.md",
+    "summary": "2 new BUNDLED_DB source IDs; Guru 3.5.2/4.17 cm4/cm5 share 12,899 distinct recipes and 10,598 full numeric board seeds. 2,671 same-board different-mask pairs, 233 same-number-of-holes different stuck, 18 more-holes-lower-stuck, only 19 nested masks; two independent Python/SQL calculations. Formula stuck / actual player adaptivity UNKNOWN. Game version 0.5.24/29 unchanged."
   }
 }
