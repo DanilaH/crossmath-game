@@ -3,7 +3,7 @@
 Guidance snapshot SHA: 469928d03f4bae5053e23db26e82187bedbc252e
 Runtime source: @danilah/mini-games-kit at 469928d03f4bae5053e23db26e82187bedbc252e
 
-- Owner authorized implementation on 18 November 2026. Authority: `docs/spec/Crossmath_TZ_v1.0_RU.md`. Energy, PvP/bots, seasons, purchases, cloud profiles and online rankings remain excluded.
+- Owner authorized implementation on 18 November 2026. Authority for the **initial release**: `docs/spec/Crossmath_TZ_v1.0_RU.md`. Energy, PvP/bots, seasons, purchases, cloud profiles and online rankings remain **outside the initial build**. Later research and owner-governed roadmap entries do not activate them automatically; a permanent `OWNER_EXCLUDED` requires an explicit separate owner decision. Do not silently change economy, SKUs, save or SDK.
 - Generated from verified kit source at **469928d03f4bae5053e23db26e82187bedbc252e**. Runtime and guidance pins are separately recorded at that SHA. Required source files matched provider Git blob hashes before generation.
 - Tested bootstrap stack preserved: Node 24+, TS 7.0.2, Phaser 4.2.1, Capacitor 8.6.0/App 8.1.2, Vite 8.2.2, Vitest 4.1.11, JDK 21, AGP 8.13.0, Gradle 8.14.3, compile/target 36, min 24.
 - Provisional base package `com.danilah.crossmath`; `.playtest` / `.releasecheck` isolate test data. Production identity/publication are not selected. Production certificate stays null and production build fails closed.
@@ -66,3 +66,7 @@ Runtime source: @danilah/mini-games-kit at 469928d03f4bae5053e23db26e82187bedbc2
 - Для главной, режимов, календаря, мастерской, профиля и служебных окон используем локальный Rubik с латиницей и кириллицей. Главная показывает фрагмент фактического поля, золотую монету, лист текущей даты и текущий прибор.
 - Победа сначала подтверждает существующее начисление. Прогресс детали считается между двумя соседними порогами. Посадка и оттиск воспроизводятся из уже записанной квитанции. Кнопка продолжения доступна во время полёта.
 - Принятые рисунки и хронометраж взяты из PR №3. Правила поля, банк задач, пороги, монеты и политика масштабирования сохраняются. [ТЗ задачи №5](https://github.com/DanilaH/crossmath-game/issues/5) · [Протокол](acceptance/issue-5/README.md)
+
+## Исследовательский реестр 23.11.2026 — вне объёма первой сборки
+
+В [SOURCE_FEATURES.json mini-games-kit](https://github.com/DanilaH/mini-games-kit/blob/a02958791b6c5e2fec5e561fa9bee24252ab2a04/research/games/crossmath/porting/SOURCE_FEATURES.json) 193 записи по Guru 3.5.2/4.17.0 и EasyFun 1.1.9. По новым 11 Guru IAP и 4 rewarded placement известны нативные идентификаторы; 10 семейств IAP перечислены в публичном App Store US. Android SKU, выдача, доступность live-рекламы/событий и влияние на удержание не подтверждены. Это **исследование**, а не разрешение добавить IAP/PvP/rewards в 0.5.23 или приравнивать Premium к Remove Ads. Владелец отдельно выбирает стадийность и приемку, после чего решения синхронизируются с [roadmap](ROADMAP.md) и [ledger](porting/ADOPTION_LEDGER.json). Runtime геймкита не обновлён: `469928d03f4bae5053e23db26e82187bedbc252e`.
