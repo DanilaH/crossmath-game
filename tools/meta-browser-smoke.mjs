@@ -21,21 +21,28 @@ try{
  const snapshot=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')));
  const tap=async(selector)=>{await page.locator(selector).tap();await page.locator('#home:enabled').waitFor();};
  const openModes = async () => {
-  await tap('#modes-open');
-  await page.locator('#mode-dialog[open]').waitFor();
+  await tap('#tab-modes');
+  await page.locator('#hub[data-screen=modes]').waitFor();
  };
  const solve=async()=>{const save=await snapshot(),p=boards.find(p=>p.puzzleId===save.attempt.puzzleId),answer=answers[p.puzzleId].answer;for(const cell of p.cells.filter(c=>c.given===undefined)){const s=await snapshot();if(p.tray[Number(s.attempt.placements[cell.id]?.slice(1))]===answer[cell.id])continue;const used=new Set(Object.values(s.attempt.placements)),token=p.tray.findIndex((v,i)=>v===answer[cell.id]&&!used.has('t'+i));assert.notEqual(token,-1);await tap(`[data-token="t${token}"]`);await tap(`[data-cell="${cell.id}"]`);}assert.equal((await snapshot()).attempt.status,'won');};
  await page.goto(url);await ready();
  await tap('#home');
  assert.equal(await page.locator('.resume-card h1').innerText(),'Поле 1');
  assert.equal(await page.locator('#hub .primary').count(),1);
- assert.equal(await page.locator('#daily-primary').isDisabled(),true);
+ assert.equal(await page.locator('#new-game').isEnabled(),true);
+ await tap('#tab-calendar');
+ assert.equal(await page.locator('#daily-play').isDisabled(),true);
  await openModes();
  assert.equal(await page.locator('#free-open').isDisabled(),true);
- assert.equal(await page.locator('#calendar-open').isDisabled(),true);
+ await tap('#tab-home');
+ const beforeSheet=await snapshot();
+ await tap('#new-game');
+ await page.locator('#game-choice[open]').waitFor();
+ assert.equal(await page.locator('#game-choice-options button').count(),1);
  await page.keyboard.press('Escape');
- await page.locator('#mode-dialog').waitFor({state:'hidden'});
- assert.equal(await page.evaluate(()=>document.activeElement?.id),'modes-open');
+ await page.locator('#game-choice').waitFor({state:'hidden'});
+ assert.deepEqual(await snapshot(),beforeSheet);
+ await page.waitForFunction(()=>document.activeElement?.id==='new-game');
  await tap('#continue-game');
  for(let win=1;win<=5;win++){
   if(win>1)await tap('#next');await solve();const s=await snapshot();
@@ -82,18 +89,18 @@ try{
    assert.match(await page.locator('#reward-breakdown').innerText(),/Новый режим · Спокойная игра/);
    await tap('#result-details summary');
    checks.push('frame in tray, direct abacus inspection, same result on close and cold reload; no duplicate grant');
-   await tap('#home');await openModes();assert.equal(await page.locator('#free-open').isEnabled(),true);await tap('#free-open');const free=await snapshot();assert.equal(free.attempt.mode,'free');assert.equal(free.meta.inactive.campaign.attempt.status,'won');await tap('#home');await page.reload();await ready();await tap('#continue-game');assert.equal((await snapshot()).attempt.id,free.attempt.id);await tap('#home');await openModes();await tap('#campaign-open');await tap('#campaign-continue');assert.equal((await snapshot()).attempt.mode,'campaign');await solve();win=4;assert.equal((await snapshot()).profile.fragments,2);}
+   await tap('#home');await openModes();assert.equal(await page.locator('#free-open').isEnabled(),true);await tap('#free-open');const free=await snapshot();assert.equal(free.attempt.mode,'free');assert.equal(free.meta.inactive.campaign.attempt.status,'won');await tap('#home');await page.reload();await ready();await tap('#continue-game');assert.equal((await snapshot()).attempt.id,free.attempt.id);await tap('#home');await openModes();await tap('#campaign-continue');assert.equal((await snapshot()).attempt.mode,'campaign');await solve();win=4;assert.equal((await snapshot()).profile.fragments,2);}
  }
  assert.equal(await page.locator('#result-unlock').innerText(),'Открыть задачу дня');
  const fifth=await snapshot();assert.equal(fifth.meta.quests.slots.every(s=>s.progress===0&&!s.paid),true);checks.push('fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore');
  await tap('#home');
  assert.equal(await page.locator('.resume-card h1').innerText(),'Поле 6');
- assert.equal(await page.locator('#mode-dialog').isHidden(),true);
+ assert.equal(await page.locator('#game-choice').isHidden(),true);
  for (const [width,height] of [[320,568],[390,844]]) {
   await page.setViewportSize({width,height});
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
   const data=await page.evaluate(()=>{
-   const rects=['#campaign-primary','#daily-primary','#album-open','#modes-open'].map(s=>document.querySelector(s).getBoundingClientRect());
+   const rects=['#campaign-primary','#new-game','#daily-primary','#album-open','#tab-modes'].map(s=>document.querySelector(s).getBoundingClientRect());
    return {positions:rects.map(r=>[r.top,r.bottom,r.left,r.right]),minTarget:Math.min(...rects.map(r=>Math.min(r.width,r.height))),
      firstViewport:rects.every(r=>r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth),
      documentHeight:document.documentElement.scrollHeight};
@@ -104,8 +111,9 @@ try{
  }
  await openModes();
  await page.screenshot({path:out+'/modes-five.png'});
- await tap('#close-modes');
+ await tap('#tab-home');
  await tap('#daily-primary');
+ await tap('#daily-play');
  assert.equal((await snapshot()).attempt.dayKey,day);
  assert.match(await page.locator('#lives').innerText(),/3\s*\/\s*3/);
  await solve();
@@ -114,11 +122,11 @@ try{
  await page.reload();await ready();assert.deepEqual((await snapshot()).result,daily.result);assert.equal((await snapshot()).profile.coins,daily.profile.coins);await tap('#next');assert.match(await page.locator(`.month-day[data-day="${day}"]`).getAttribute('aria-label'),/Решено/);assert.equal(await page.locator('#hub [data-quest]:visible').count(),0);await tap('#daily-goals summary');assert.equal(await page.locator('#hub [data-quest]:visible').count(),3);assert.equal(await page.locator('.month-day[data-state=future]:enabled').count(),0);
  await page.setViewportSize({width:320,height:568});
  await page.evaluate(()=>scrollTo(0,0));
- const ticket=await page.locator('.date-card.today').boundingBox();
+ const ticket=await page.locator('.daily-selection').boundingBox();
  const goals=await page.locator('.daily-month').boundingBox();
  assert.ok(ticket && goals && ticket.y+ticket.height<goals.y && ticket.y+ticket.height<=568);
  await page.setViewportSize({width:390,height:844});checks.push('actual UI Daily v2: +105 breakdown, three lives, dated completion, cold restore pays once');
- await tap('#calendar-back');await tap('#campaign-primary');await solve();await tap('#next');await solve();assert.equal((await snapshot()).profile.fragments,4);assert.equal((await snapshot()).result.cardCoins,20);assert.match(await page.locator('#instrument-reward').innerText(),/Счёты · собрано 4\/4/);
+ await tap('#tab-home');await tap('#campaign-primary');await solve();await tap('#next');await solve();assert.equal((await snapshot()).profile.fragments,4);assert.equal((await snapshot()).result.cardCoins,20);assert.match(await page.locator('#instrument-reward').innerText(),/Счёты · собрано 4\/4/);
  assert.equal(await page.locator('#instrument-reward[data-complete="true"] .fitted-now[data-part="4"]').count(),1);
  await tap('#instrument-reward');await page.locator('#card-dialog[open]').waitFor();
  assert.equal(await page.locator('#card-body .earned').count(),4);
@@ -134,7 +142,7 @@ try{
  for(const [width,height] of [[320,568],[360,640],[390,844],[800,1280]]){
   await page.setViewportSize({width,height});const data=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,minTarget:Math.min(...[...document.querySelectorAll('#hub button')].map(e=>e.getBoundingClientRect().height))}));assert.equal(data.overflow,false);assert.ok(data.minTarget>=48);geometry.push({screen:'album',viewport:[width,height],...data});await page.screenshot({path:out+`/album-${width}.png`,fullPage:true});
  }
- await tap('#album-back');await tap('#profile-open');await tap('#profile-rank');await page.locator('#card-dialog[open]').waitFor();assert.match(await page.locator('#card-body').innerText(),/XP/);await tap('#close-card');await tap('#profile-back');
+ await tap('#home');await tap('#tab-profile');await tap('#profile-rank');await page.locator('#card-dialog[open]').waitFor();assert.match(await page.locator('#card-body').innerText(),/XP/);await tap('#close-card');await tap('#tab-home');
  // At 200%, the workshop return and mode picker fit without a swipe.
  await page.setViewportSize({width:320,height:568});
  await page.addStyleTag({content:'html{font-size:200%!important}'});
@@ -152,62 +160,59 @@ try{
   await page.touchscreen.tap(point.x,point.y);
   await page.locator('#home:enabled').waitFor();
  };
+ await page.locator('#album-open').evaluate(node=>node.scrollIntoView({block:'center'}));
  await visibleTap('#album-open');
  assert.deepEqual(await expectWidth(),{layout:320,visual:320,scale:1});
- await visibleTap('#album-back');
+ await visibleTap('#home');
  await page.locator('#hub[data-screen=home]').waitFor();
  assert.deepEqual(await expectWidth(),{layout:320,visual:320,scale:1});
- assert.equal(await page.evaluate(() => scrollY),0);
- await page.locator('#modes-open').scrollIntoViewIfNeeded();
- const modesBox = await page.locator('#modes-open').boundingBox();
+ assert.equal(await page.locator('#tab-home[aria-current=page]').isVisible(),true);
+ await page.locator('#tab-modes').scrollIntoViewIfNeeded();
+ const modesBox = await page.locator('#tab-modes').boundingBox();
  assert.ok(modesBox && modesBox.y + modesBox.height <= 568 && modesBox.height >= 48);
- await visibleTap('#modes-open');
- const modeDialog = page.locator('#mode-dialog[open]');
- await modeDialog.waitFor();
- assert.equal(await modeDialog.isVisible(),true);
- assert.equal(await page.locator('#mode-choices details, #mode-choices #calendar-open, #mode-choices #last-result').count(),0);
- await page.locator('#free-open').scrollIntoViewIfNeeded();
+ await visibleTap('#tab-modes');
+ await page.locator('#hub[data-screen=modes]').waitFor();
+ assert.equal(await page.locator('#game-choice').isHidden(),true);
+ await page.locator('#free-open').evaluate(node=>node.scrollIntoView({block:'center'}));
  await visibleTap('#free-open');
  await page.waitForFunction(() => document.querySelector('#hub').hidden);
  assert.equal((await snapshot()).attempt.freeTrack,'relax');
  await tap('#home');
  await page.reload(); await ready(); // Drop the temporary 200% rule for the remaining fixtures.
  await page.setViewportSize({width:390,height:844});
- await openModes();await tap('#campaign-open');
+ await openModes();
  await tap('.campaign-history summary');
  assert.equal(await page.getByRole('button',{name:'Открыть поле 1',exact:true}).isVisible(),true);
  assert.equal(await page.locator('#last-result').isVisible(),true);
- await tap('#mode-back');
- assert.equal(await page.locator('#mode-title').innerText(),'Режимы');
- await tap('#close-modes');
+ await tap('#tab-home');
  checks.push('320×568 at 200% root font: workshop return and coordinate taps reach Relax after scrolling if needed; campaign owns its history and receipt');
 
  const durationFixture = await snapshot();
  for (const [seconds, expected] of [[0,'0 с'],[5.64890000000596,'5 с'],[59.99,'59 с'],[60.01,'1 мин 0 с'],[3600,'60 мин 0 с']]) {
   durationFixture.career.modes.campaign.seconds = seconds;
   await page.evaluate(save=>localStorage.setItem('crossmath.save.v1',JSON.stringify(save)),durationFixture);
-  await page.reload(); await ready(); await tap('#profile-open');await tap('#profile-statistics summary');
+  await page.reload(); await ready(); await tap('#tab-profile');await tap('#profile-statistics summary');
   const row = page.locator('[data-stats=campaign] .stat-rows > div').filter({hasText:'Активное время'});
   assert.equal(await row.locator('dd').innerText(),expected);
   assert.equal((await snapshot()).career.modes.campaign.seconds,seconds);
  }
- await tap('#profile-back');
+ await tap('#tab-home');
  checks.push('profile: active duration floors total seconds for display and leaves saved precision intact');
- const before=await snapshot();await page.clock.setSystemTime(new Date(new Date(day+'T12:00:00Z').getTime()+3*86400000));await page.reload();await ready();const after=await snapshot();assert.equal(after.meta.issuedDays,before.meta.issuedDays+1);assert.equal(after.meta.completedDates.includes(day),true);await tap('#calendar-open');assert.equal(await page.locator(`[data-day="${day}"]`).isEnabled(),true);assert.equal(await page.locator('.month-day[data-state=future]:enabled').count(),0);await page.screenshot({path:out+'/calendar.png',fullPage:true});checks.push('fixed profile zone, three missed days advance one issuance, past/completed/future dates remain distinct');
+ const before=await snapshot();await page.clock.setSystemTime(new Date(new Date(day+'T12:00:00Z').getTime()+3*86400000));await page.reload();await ready();const after=await snapshot();assert.equal(after.meta.issuedDays,before.meta.issuedDays+1);assert.equal(after.meta.completedDates.includes(day),true);await tap('#tab-calendar');assert.equal(await page.locator(`.month-day[data-day="${day}"]`).isEnabled(),true);assert.equal(await page.locator('.month-day[data-state=future]:enabled').count(),0);await page.screenshot({path:out+'/calendar.png',fullPage:true});checks.push('fixed profile zone, three missed days advance one issuance, past/completed/future dates remain distinct');
  // Explicit boundary fixture, not claimed as 228 UI-played wins. Reward arithmetic is covered by whole-bank tests.
  const fixture=await snapshot();fixture.profile.solvedIds=[...new Set([...fixture.profile.solvedIds,...boards.map(p=>p.puzzleId)])].slice(0,228);fixture.profile.fragments=48;fixture.profile.paidCardIds=JSON.parse(await readFile('docs/spec/product/meta_v08/config.json','utf8')).cards.map(c=>c.id);fixture.meta.screen='album';fixture.meta.quests=null;
- await page.evaluate(save=>localStorage.setItem('crossmath.save.v1',JSON.stringify(save)),fixture);await page.reload();await ready();assert.equal(await page.locator('.collection-card').count(),12);assert.equal(await page.locator('.collection-card svg g[display="none"]').count(),0);assert.match(await page.locator('.hub-heading').innerText(),/Мастерская собрана/);await page.screenshot({path:out+'/album-complete-fixture.png',fullPage:true});
+ await page.evaluate(save=>localStorage.setItem('crossmath.save.v1',JSON.stringify(save)),fixture);await page.reload();await ready();assert.equal(await page.locator('.collection-card').count(),12);assert.equal(await page.locator('.collection-card svg g[display="none"]').count(),0);assert.match(await page.locator('.collection-summary').innerText(),/Мастерская собрана/);await page.screenshot({path:out+'/album-complete-fixture.png',fullPage:true});
  fixture.profile.solvedIds.push(boards.find(board=>!fixture.profile.solvedIds.includes(board.puzzleId)).puzzleId);await page.evaluate(save=>localStorage.setItem('crossmath.save.v1',JSON.stringify(save)),fixture);await page.reload();await ready();assert.equal((await snapshot()).profile.fragments,48);assert.equal(await page.locator('.collection-card svg g[display="none"]').count(),0);checks.push('labelled 228/229 fixtures: complete 12-card album stays available, no 49th fragment');
  // The labelled 229-win fixture above gives access to both Free tracks.
  await page.setViewportSize({width:390,height:844});
- await tap('#album-back');await openModes();await tap('#free-open');
+ await tap('#home');await openModes();await tap('#free-open');
  const free = (await snapshot()).attempt;
  const editable = boards.find(board=>board.puzzleId===free.puzzleId).cells.find(cell=>cell.given===undefined);
  await tap('[data-token="t0"]');await tap(`[data-cell="${editable.id}"]`);await tap('#home');
  await page.reload();await ready();
  await openModes();await tap('#challenge-open');
  await page.locator('#replace-dialog[open]').waitFor();
- assert.equal(await page.locator('#mode-dialog').isHidden(),true);
+ assert.equal(await page.locator('#game-choice').isHidden(),true);
  await page.waitForFunction(()=>document.activeElement.id==='keep-board');
  const beforeReplace=await snapshot();
  assert.equal(beforeReplace.attempt.id,free.id);
