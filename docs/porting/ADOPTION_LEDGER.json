@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "7ec1aaeae2f6d561d062c86421be439f73ca4722",
+    "commit": "decf77cd397d99f5a1fe5fb171188456bbfec7b4",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -1290,7 +1290,10 @@
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
       "nextAction": "Сопоставить воронку и доставку событий, различать локальную запись и отправку",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L942",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/debug.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/debug.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md"
+      ]
     },
     {
       "id": "easy-debug-panel",
@@ -1459,7 +1462,10 @@
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "Пройти настройки и первый запуск в применимых регионах на тестовом SDK",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1070",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/androidAds.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/androidAds.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md"
+      ]
     },
     {
       "id": "easy-upgrade",
@@ -1498,7 +1504,10 @@
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "Проверить отдельно отсутствие сети, инвентаря рекламы и закрытие",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1103",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/ads.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/ads.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md"
+      ]
     },
     {
       "id": "easy-wallet-visual",
@@ -4147,6 +4156,38 @@
       "nextAction": "Вручную воспроизвести E43 synthetic в точном original 4.17 primitive и сравнить с 4.18 ELF при наличии. При одобренной длинной грамматике явно определить семантику `2+3×4` (standard=14 vs leftfold=20), не принимать смешанные группы в генераторе при несовместимом direct-helper. Не считать original runtime parity на несуществующем каталожном примере.",
       "sourceBuild": "Guru 4.17.0 / 26101374 original ARM64 code, exact APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597. GUI 4.18.0 binaries unavailable.",
       "reason": "Player-visible reachability of mixed-family synthetic expressions is unknown, and source catalog expressly excludes them."
+    },
+    {
+      "id": "easy-ad-client-interstitial-gates",
+      "sourceFeatureId": "easy-ad-client-interstitial-gates",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "EasyFun 1.1.9 `AdManager` compilation metadata has client admission paths CheckShowInterstitialAvailable, CouldShowInterstitial, AdShowLimitation, ADControlLimitation, ReportShowAdLimitedByClient, `_lastInterstitialCloseTime`, `_firstSkipInterstitial`. Exact cooldown values, gate order and actual show UNKNOWN, not executable code trace.",
+      "currentImplementation": "Crossmath 0.5.24/29 already has own `src/platform/adState.ts canShowInterstitial`, `lastInterstitial` and `postRewardedProtectSeconds`, plus AdsController provider availability/timeout. Scripted provider tests passed, real Android SDK gate and exact source equivalence not accepted.",
+      "codePath": "src/platform/adState.ts",
+      "stage": "PLATFORM/COMMERCIAL owner-gated live SDK, not activate on source strings",
+      "dependencies": "Optional approved native provider, app consent, lifecycle, active play timer, remote cooldown policies and durable receipt tests; no original code/assets to reuse.",
+      "nextAction": "At original EasyFun 1.1.9 test ad after fresh start, after first dismiss, background+offline, and failed provider; inspect actual _lastInterstitialCloseTime and ReportShowAdLimitedByClient. In our native APK 0.5.24 record request→gating denial/show/dismiss timestamps and compare only once original conditions proved. Do not copy template popupProb as actual display rate.",
+      "acceptanceRequirement": "Original active guard/sequence observed or instrumented; our Android provider demonstrates nonreentrant fullscreen, client-policy cooldown, offline/no-fill fallback, and no lost/stale continuation. Scripted JS path is not live SDK.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md",
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
+      "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN"
+    },
+    {
+      "id": "easy-ad-rewarded-callback-states",
+      "sourceFeatureId": "easy-ad-rewarded-callback-states",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "EasyFun 1.1.9 game-level AdManager metadata has distinct RewardedVideoLoadedSuccess/Failed, PlaySuccess/Failed, GetReward, Close callbacks and `_lastRVCloseTime`. Which callbacks fire, server grant and true receipt idempotency UNKNOWN. No parent game flow linked to eight rewardtemplate offer IDs.",
+      "currentImplementation": "Crossmath 0.5.24/29 AdsProvider showRewarded + provider.watchRewards/rewardSettled + pendingRewards/acknowledge + DurableReceiptQueue separate fullscreen presentation and resource credit. Scripted async success/failure/cancellation tests exist; physical native SDK callback order not accepted.",
+      "codePath": "src/platform/ads.ts",
+      "stage": "PLATFORM/COMMERCIAL owner-gated live SDK acceptance",
+      "dependencies": "Real approved Android provider, reward id/nonce, native activity lifecycle, persistent atomic save and acknowledgment; consent and test ads; permissioned tester.",
+      "nextAction": "On original 1.1.9 find real player-facing rewarded offer; record loaded success/failure, play success/failure, GetReward and close, abrupt exit/duplicate callback, restore. Then on our real Android SDK verify grant only for confirmed rewardSettled, exactly once after process kill and no grant on cancel/fail, using persisted receipt IDs.",
+      "acceptanceRequirement": "SDK-native Android test proves request/open/dismiss/reward/ack and replay-safe grant after crash, no duplicate, no lost resource. Original callback naming alone does not demonstrate reward or particular template availability.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md",
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
+      "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN"
     }
   ],
   "latestReview": {
@@ -4216,14 +4257,15 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "7ec1aaeae2f6d561d062c86421be439f73ca4722",
-    "sourceCount": 269,
+    "sourceInventoryCommit": "decf77cd397d99f5a1fe5fb171188456bbfec7b4",
+    "sourceCount": 271,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
     "reports": [
       "research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md",
-      "research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      "research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
+      "research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md"
     ],
-    "summary": "Four independent Guru 4.17 arithmetic source features added (generator intermediate division whole, runtime Fraction final whole, operation family lock for length-7, synthetic direct-helper leftfold); 15 existing EasyFun 1.1.9 ad placements enriched with verified bundled caps/probabilities/descriptions and no player route proof. No change to game 0.5.24/29 authored 275 field bank or live Ads SDK."
+    "summary": "269 prior IDs + 2 EasyFun own AdManager native metadata feature IDs = 271; four Guru long arithmetic source rules (Generator whole at each division vs runtime Fraction whole only final; operator-family restriction; direct-helper left fold synthetic); eight rewardtemplate typed isLimited fields with cap 4/10, other six false not disabled; seven interstitial template default probability 0.5/0.2, not actual SDK show. Game 0.5.24 own AdsController already partial analog with scripted test; live original/runtime SDK not accepted."
   }
 }
