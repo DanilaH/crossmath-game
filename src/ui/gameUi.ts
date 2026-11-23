@@ -13,7 +13,7 @@ import { hintPayment, storedSlot } from '../app/session';
 import { MetaView } from './metaView';
 import { menuIcon } from './icons';
 import { rootScreens } from '../meta/types';
-import type { MetaScreen, NewGameChoice, Offer } from '../meta/types';
+import type { MetaScreen, NewGameChoice, Offer, RootScreen } from '../meta/types';
 import { RecoveryRequired } from '../app/saveRepository';
 import type { FreeTrack } from '../content/rotation';
 import type { Mode } from '../core/types';
@@ -31,6 +31,7 @@ export class GameUi {
   private renderedLanguage?: Language;
   private moveFeedback: MoveFeedback | undefined;
   private freshRewardId: string | undefined;
+  private readonly tabScroll=new Map<RootScreen,number>();
   private get language(): Language { return this.session.state.settings.language; }
   private t(ru: string, en: string): string { return localize(this.language, ru, en); }
   readonly board:BoardView;
@@ -75,7 +76,8 @@ export class GameUi {
     const endDialog=$<HTMLDialogElement>('end-run-dialog');
     $('end-run-no').onclick=()=>this.keepPlayingEndless();
     endDialog.addEventListener('cancel',event=>{event.preventDefault();this.keepPlayingEndless();});
-    for(const id of ['home','home-from-pause'])$(id).onclick=()=>this.navigate('home');
+    $('home').onclick=()=>this.session.state.meta.screen==='album' ? this.leaveWorkshop() : this.navigate('home');
+    $('home-from-pause').onclick=()=>this.navigate('home');
     $('result-main').onclick=()=>this.navigate('home');
     $('result-home').onclick=()=>campaignResultStatus(session.state)==='finish' ? this.navigate('home') : this.navigate('modes',true);
     $('defeat-calendar').onclick = () => this.navigate('calendar');
@@ -143,19 +145,22 @@ export class GameUi {
   private finishEndless():void {
     this.run(async time=>({committed:await this.session.endRun(time)}),()=>this.leaveModal());
   }
+  private leaveWorkshop():void { this.navigate(this.session.state.meta.albumOrigin??'home'); }
   private navigate(screen: MetaScreen, campaignHistory = false): void {
-    const from = this.session.state.meta.screen;
-    if (from === screen) return;
-    this.run(async time => ({committed:await this.session.navigate(screen,time)}), () => {
+    const from=this.session.state.meta.screen;
+    if (from===screen||this.busy||this.session.writing||this.saveFailed) return;
+    if(from!=='play'&&from!=='album')this.tabScroll.set(from,window.scrollY);
+    this.run(async time=>({committed:await this.session.navigate(screen,time)}),()=>{
       this.leaveModal();
-      requestAnimationFrame(() => {
+      requestAnimationFrame(()=>{
         if (campaignHistory) this.meta.openCampaignHistory();
-        else if (screen==='home') $('tab-home').focus({preventScroll:true});
-        else if (screen === 'play') $('level').focus({preventScroll:true});
+        else if (screen==='play') $('level').focus({preventScroll:true});
+        else if (screen==='album') $('deep-title').focus({preventScroll:true});
         else {
-          const heading = $('hub').querySelector('h1');
-          heading?.setAttribute('tabindex', '-1');
-          heading?.focus({preventScroll:true});
+          window.scrollTo(0,this.tabScroll.get(screen)??0);
+          const back=from==='album'&&(screen==='home'||screen==='profile');
+          const focus=back ? $(screen==='home'?'album-open':'profile-workshop') : $(`tab-${screen}`);
+          focus?.focus({preventScroll:!back});
         }
       });
     });
@@ -454,6 +459,11 @@ export class GameUi {
     const balance = document.createElement('span');
     balance.textContent = String(s.profile.coins);
     wallet.replaceChildren(menuIcon('coin'),balance);
+    const insideAlbum=s.meta.screen==='album';
+    const deepTitle=$('deep-title');
+    deepTitle.hidden=!insideAlbum;
+    deepTitle.textContent=insideAlbum?this.t('Мастерская счёта','Counting Workshop'):'';
+    $('home').setAttribute('aria-label',insideAlbum?this.t('Назад','Back'):this.t('Crossmath — на главную','Crossmath — Home'));
     const tabBar=$('root-tabs');
     tabBar.hidden=playing||s.meta.screen==='album';
     for(const screen of rootScreens) {
@@ -568,6 +578,6 @@ export class GameUi {
     $('restart').textContent=a.mode==='endless'?this.t("Новый забег", "New run"):this.t("Начать заново", "Restart");$('restart-warning').textContent=a.mode==='endless'?this.t("Завершить текущий забег и начать новый? Текущий итог будет сохранён в соответствующих рекордах.", "End this run and start a new one? Your current result will count toward your record."):this.t("Начать это поле заново? Поставленные числа вернутся в лоток.", "Restart this board? The placed numbers will go back to the tray.");$('end-run').hidden=a.mode!=='endless'||run?.status==='ended'||s.meta.screen!=='play';$<HTMLButtonElement>('end-run').disabled=this.busy||this.saveFailed;
     $('mode-rules').textContent=a.mode==='endless'?this.t("Три жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.", "Three lives for the entire run. Select Check to submit a full board. A different incorrect layout costs a life. Using help counts toward the assisted record."):a.mode==='daily'?this.t("Три жизни на попытку. Новая ошибка снимает максимум одну жизнь за ход. Отмена, возврат и помощь жизнь не снимают. Повтор бесплатный.", "Three lives per attempt. A new error costs at most one life per move. Undo, returning numbers and help cost no lives. Retrying is free."):this.t("Числа сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.", "Your board is saved. There is no penalty for mistakes, and correct equations remain editable. Tap a number and a cell in either order, or drag a piece.");
   }
-  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
+  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen==='album')this.leaveWorkshop();else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
   dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
 }

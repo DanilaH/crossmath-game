@@ -21,5 +21,6 @@ export interface MetaState {
   monthlyTrophies?: Record<string,MonthlyTrophy>;
   calendarTrophyMonth?: string;
   calendarSelectedDay?: string;
+  albumOrigin?: 'home'|'profile';
   trackGoalWins?: Partial<Record<TrackWinGoalId,true>>;
 }

@@ -202,6 +202,7 @@ export class GameSession {
     if(this.busy)return false;this.busy=true;
     try{
       const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;
+      if(screen==='album')next.meta.albumOrigin=this.state.meta.screen==='profile'?'profile':'home';
       delete next.meta.calendarTrophyMonth;
       if(screen==='calendar' && calendarTrophyMonth)next.meta.calendarTrophyMonth=calendarTrophyMonth;
       await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;
