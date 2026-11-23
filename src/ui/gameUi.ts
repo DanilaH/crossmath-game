@@ -12,6 +12,7 @@ import type { GameSession, OpenOutcome } from '../app/session';
 import { hintPayment } from '../app/session';
 import { MetaView } from './metaView';
 import { menuIcon } from './icons';
+import { rootScreens } from '../meta/types';
 import type { MetaScreen, Offer } from '../meta/types';
 import { RecoveryRequired } from '../app/saveRepository';
 import type { FreeTrack } from '../content/rotation';
@@ -44,7 +45,7 @@ export class GameUi {
     this.feedback=new Feedback(()=>session.state.settings);
     this.board=new BoardView($('board'),$('tray'),$('note'),this.feedback,()=>this.busy||session.writing||this.blocked||this.saveFailed||!this.ready,()=>this.reduced(),(action,metadata)=>this.command(action,metadata),()=>this.language);
     this.meta=new MetaView($('hub'),{
-      navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),
+      navigate:(screen,history)=>this.navigate(screen,history),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),
       free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),
       endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:(offer,repeat)=>this.openOffer(offer,repeat),
       quest:index=>{
@@ -56,7 +57,12 @@ export class GameUi {
     const settingsIcon = menuIcon('settings');
     settingsIcon.classList.add('hub-settings');
     $('pause').querySelector('.hub-settings')?.replaceWith(settingsIcon);
-    $('profile-open').replaceChildren(menuIcon('profile'));
+    const tabIcons={home:'campaign',calendar:'calendar',modes:'modes',profile:'profile'};
+    for (const screen of rootScreens) {
+      const tab=$(`tab-${screen}`);
+      tab.prepend(menuIcon(tabIcons[screen]));
+      tab.onclick=()=>this.navigate(screen);
+    }
     for (const [id,name] of [['undo','undo'],['sort','sort'],['return','return-to-tray'],['help','hint']] as const) {
       $(id).querySelector('svg')?.replaceWith(menuIcon(name));
     }
@@ -69,8 +75,8 @@ export class GameUi {
     $('end-run-no').onclick=()=>this.keepPlayingEndless();
     endDialog.addEventListener('cancel',event=>{event.preventDefault();this.keepPlayingEndless();});
     for(const id of ['home','home-from-pause'])$(id).onclick=()=>this.navigate('home');
-    $('result-home').onclick=()=>this.navigate('home',campaignResultStatus(session.state)!=='finish');
-    $('profile-open').onclick = () => this.navigate('profile');
+    $('result-main').onclick=()=>this.navigate('home');
+    $('result-home').onclick=()=>campaignResultStatus(session.state)==='finish' ? this.navigate('home') : this.navigate('modes',true);
     $('defeat-calendar').onclick = () => this.navigate('calendar');
     $('instrument-reward').onclick = () => this.meta.openInstrumentReward(session.state);
     $('rank').onclick=()=>{if(!this.busy&&!this.saveFailed)this.meta.openRank(session.state);};
@@ -141,12 +147,11 @@ export class GameUi {
     if (from === screen) return;
     this.run(async time => ({committed:await this.session.navigate(screen,time)}), () => {
       this.leaveModal();
-      const returnTo = {album:'album-open', calendar:'calendar-open', profile:'profile-open'} as const;
       requestAnimationFrame(() => {
-        if (campaignHistory) this.meta.openCampaignHistory(this.session.state);
-        else if (screen === 'home' && from !== 'home' && from !== 'play') $(returnTo[from]).focus({preventScroll:true});
+        if (campaignHistory) this.meta.openCampaignHistory();
+        else if (screen==='home') $('tab-home').focus({preventScroll:true});
         else if (screen === 'play') $('level').focus({preventScroll:true});
-        else if (screen !== 'home') {
+        else {
           const heading = $('hub').querySelector('h1');
           heading?.setAttribute('tabindex', '-1');
           heading?.focus({preventScroll:true});
@@ -161,19 +166,19 @@ export class GameUi {
     this.open((replace,time) => this.session.openOffer(offer,replace,time,repeatCompleted), offer.mode);
   }
   private open(operation: OpenOperation, mode: Mode): void {
-    const triggerId = document.activeElement?.id || 'modes-open';
+    const triggerId = document.activeElement?.id || 'tab-modes';
     let result: OpenOutcome;
     this.run(async time => {
       result = await operation(false,time);
       return {committed: result === 'opened'};
     }, () => {
       if (result === 'confirm_replace') this.requestReplacement(operation, mode, triggerId);
-      else if (result === 'opened') { this.meta.closeModes();this.leaveModal(); }
+      else if (result === 'opened') { this.meta.closeChoice();this.leaveModal(); }
       else this.notice = 'unavailable';
     });
   }
   private requestReplacement(operation: OpenOperation, mode: Mode, triggerId: string): void {
-    this.replacement = {operation, triggerId, recovery:false, restoreModes:this.meta.suspendModes()};
+    this.replacement = {operation, triggerId, recovery:false, restoreModes:this.meta.suspendChoice()};
     const copy = mode === 'free'
       ? [this.t('Начать другую свободную игру?', 'Start another Free Play board?'), this.t('Текущая расстановка в свободной игре будет потеряна.', 'Your current Free Play board will be reset.')]
       : [this.t('Начать другое поле?', 'Start another board?'), this.t('Числа в незаконченной партии вернутся в лоток.', 'The numbers on your unfinished board will return to the tray.')];
@@ -198,7 +203,7 @@ export class GameUi {
     this.blocker('replace', false);
     if (restoreFocus) {
       replacement.restoreModes?.(this.session.state);
-      requestAnimationFrame(() => ($(replacement.triggerId) ?? $('modes-open'))?.focus({preventScroll:true}));
+      requestAnimationFrame(() => ($(replacement.triggerId) ?? $('tab-modes'))?.focus({preventScroll:true}));
     }
   }
   private confirmReplacement(): void {
@@ -411,16 +416,19 @@ export class GameUi {
     $('level').hidden = !playing;
     this.meta.render(s, this.busy || this.session.writing || this.saveFailed);
     const wallet = $('hub-wallet');
-    wallet.hidden = s.meta.screen !== 'home';
+    wallet.hidden = playing;
     wallet.setAttribute('aria-label',quantity(this.language,s.profile.coins,'coin'));
     const balance = document.createElement('span');
     balance.textContent = String(s.profile.coins);
     wallet.replaceChildren(menuIcon('coin'),balance);
-    const profile = $<HTMLButtonElement>('profile-open');
-    profile.hidden = playing;
-    profile.disabled = this.busy || this.session.writing || this.saveFailed;
-    if (s.meta.screen === 'profile') profile.setAttribute('aria-current', 'page');
-    else profile.removeAttribute('aria-current');
+    const tabBar=$('root-tabs');
+    tabBar.hidden=playing||s.meta.screen==='album';
+    for(const screen of rootScreens) {
+      const tab=$<HTMLButtonElement>(`tab-${screen}`);
+      tab.disabled=this.busy||this.session.writing||this.saveFailed;
+      if (s.meta.screen===screen) tab.setAttribute('aria-current','page');
+      else tab.removeAttribute('aria-current');
+    }
     const pauseLabel = playing ? this.t('Пауза', 'Pause') : this.t('Настройки', 'Settings');
     $('pause-title').textContent = pauseLabel;
     $('resume').textContent = playing ? this.t('Продолжить', 'Continue') : this.t('Готово', 'Done');
@@ -484,6 +492,7 @@ export class GameUi {
       const finished = campaignStatus === 'finish';
       const next = $<HTMLButtonElement>('next');
       const resultHome = $<HTMLButtonElement>('result-home');
+      const resultMain=$<HTMLButtonElement>('result-main');
       const replay = $<HTMLButtonElement>('result-replay');
       $('result-title').textContent = finished ? this.t('Маршрут пройден', 'Campaign complete')
         : campaignStatus === 'complete' ? this.t('Кампания завершена','Campaign completed')
@@ -504,6 +513,8 @@ export class GameUi {
       next.disabled = this.busy || (endless && run?.status !== 'active');
       resultHome.textContent = finished ? this.t('На главную', 'Home') : this.t('Пройденные поля', 'Completed boards');
       resultHome.hidden = !campaignClosed;
+      resultMain.hidden=finished;
+      resultMain.disabled=this.busy;
       resultHome.disabled = this.busy;
       replay.disabled = this.busy || !this.session.canRestart();
       replay.hidden = endless;
@@ -524,6 +535,6 @@ export class GameUi {
     $('restart').textContent=a.mode==='endless'?this.t("Новый забег", "New run"):this.t("Начать заново", "Restart");$('restart-warning').textContent=a.mode==='endless'?this.t("Завершить текущий забег и начать новый? Текущий итог будет сохранён в соответствующих рекордах.", "End this run and start a new one? Your current result will count toward your record."):this.t("Начать это поле заново? Поставленные числа вернутся в лоток.", "Restart this board? The placed numbers will go back to the tray.");$('end-run').hidden=a.mode!=='endless'||run?.status==='ended'||s.meta.screen!=='play';$<HTMLButtonElement>('end-run').disabled=this.busy||this.saveFailed;
     $('mode-rules').textContent=a.mode==='endless'?this.t("Три жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.", "Three lives for the entire run. Select Check to submit a full board. A different incorrect layout costs a life. Using help counts toward the assisted record."):a.mode==='daily'?this.t("Три жизни на попытку. Новая ошибка снимает максимум одну жизнь за ход. Отмена, возврат и помощь жизнь не снимают. Повтор бесплатный.", "Three lives per attempt. A new error costs at most one life per move. Undo, returning numbers and help cost no lives. Retrying is free."):this.t("Числа сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.", "Your board is saved. There is no penalty for mistakes, and correct equations remain editable. Tap a number and a cell in either order, or drag a piece.");
   }
-  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.backFromModes())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
+  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
   dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
 }

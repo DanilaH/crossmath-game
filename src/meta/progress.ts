@@ -1,3 +1,4 @@
+import { rootScreens } from './types';
 import { config, getPuzzle } from '../content/catalog';
 import { isCalendarDay, profileDay } from './calendar';
 import { restoreMonthlyTrophies, settleMonthlyTrophy, validateMonthlyTrophies } from './monthlyTrophy';
@@ -51,7 +52,7 @@ export function upgradeSave(input:unknown):unknown {
 }
 export function validateMeta(save:Save):void {
   const m=save.meta,nonnegative=(n:unknown)=>Number.isSafeInteger(n)&&Number(n)>=0;
-  if(!m||m.version!==1||!['play','home','calendar','album','profile'].includes(m.screen)||typeof m.activeSlot!=='string'||!isCalendarDay(m.effectiveDay)||!nonnegative(m.issuedDays)||!['easy','standard','hard','expert'].includes(m.freeDifficulty))throw Error('Corrupt meta header');
+  if(!m||m.version!==1||!['play','album',...rootScreens].includes(m.screen)||typeof m.activeSlot!=='string'||!isCalendarDay(m.effectiveDay)||!nonnegative(m.issuedDays)||!['easy','standard','hard','expert'].includes(m.freeDifficulty))throw Error('Corrupt meta header');
   for(const list of [m.completedDates,m.contributedIds,m.slotReceipts,m.setReceipts])if(!Array.isArray(list)||list.some(x=>typeof x!=='string')||new Set(list).size!==list.length)throw Error('Corrupt meta ledger');
   if(m.completedDates.some(d=>!isCalendarDay(d))||m.setReceipts.some(d=>!isCalendarDay(d)))throw Error('Corrupt meta dates');
   validateMonthlyTrophies(save);

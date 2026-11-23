@@ -3,7 +3,9 @@ import type { Attempt, Difficulty, Mode } from '../core/types';
 import type { Completion } from '../app/model';
 import type { MonthlyTrophy } from './monthlyTrophy';
 import type { TrackWinGoalId } from './trackGoals';
-export type MetaScreen='play'|'home'|'calendar'|'album'|'profile';
+export const rootScreens=['home','calendar','modes','profile'] as const;
+export type RootScreen=typeof rootScreens[number];
+export type MetaScreen=RootScreen|'play'|'album';
 export interface Offer { puzzleId:string; mode:Mode; dayKey?:string; campaignPosition?:number; endlessStage?:number; freeTrack?:FreeTrack; requiresSolved?:string[] }
 export interface QuestSlot { goalId:string; target:number; progress:number; paid:boolean }
 export interface QuestSet { dayKey:string; configVersion:string; issueIndex:number; slots:QuestSlot[]; witness:Offer[]; replacements:{slot:number;from:string;to:string;oldProgress:number}[] }

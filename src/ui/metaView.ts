@@ -22,7 +22,7 @@ const artwork=import.meta.glob('../../docs/spec/product/meta_v08/art/*.svg',{eag
 const el=<K extends keyof HTMLElementTagNameMap>(tag:K,className='',text=''):HTMLElementTagNameMap[K]=>{const n=document.createElement(tag);n.className=className;n.textContent=text;return n;};
 type ArtPreview = 'earned' | 'next' | 'outline';
 const partCount = 4;
-type ModePage = 'modes' | 'campaign' | 'unlocked';
+type GameChoice = 'new' | 'unlocked';
 type CardView = 'current' | 'future' | 'assembled' | 'receipt';
 
 function formatDuration(seconds: number, language: Language): string {
@@ -78,7 +78,7 @@ export function nextFragmentText(save:Save):string {
   const remaining=workshopTarget(save.profile.solvedIds.length,save.profile.fragments)?.remaining;
   return localize(save.settings.language,`Новых полей до детали: ${remaining??0}`,`New boards until next part: ${remaining??0}`);
 }
-interface Actions { navigate:(screen:MetaScreen)=>void; campaign:()=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
+interface Actions { navigate:(screen:MetaScreen,history?:boolean)=>void; campaign:()=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
 const partsEN = [
   ['Frame','Rods','Left beads','Right beads'],
   ['Tray','Units','Fives','Tens'],
@@ -106,11 +106,10 @@ export class MetaView {
   private readonly reward = document.getElementById('instrument-reward') as HTMLButtonElement;
   private returnTarget: string | undefined;
   private readonly workshopReveal: WorkshopReveal;
-  private readonly modeDialog = document.getElementById('mode-dialog') as HTMLDialogElement;
-  private readonly modeChoices = document.getElementById('mode-choices')!;
-  private readonly modeTitle = document.getElementById('mode-title')!;
-  private readonly modeBack = document.getElementById('mode-back') as HTMLButtonElement;
-  private modePage: ModePage = 'modes';
+  private readonly choiceDialog = document.getElementById('game-choice') as HTMLDialogElement;
+  private readonly choiceOptions = document.getElementById('game-choice-options')!;
+  private choice:GameChoice = 'new';
+  private choiceTriggerId: string | undefined;
   private disabled=false;
   constructor(private readonly root:HTMLElement,private readonly actions:Actions,workshopContact:()=>void) {
     this.workshopReveal = new WorkshopReveal(document.getElementById('workshop-award')!,workshopContact);
@@ -119,10 +118,13 @@ export class MetaView {
       if (this.returnTarget) document.getElementById(this.returnTarget)?.focus({preventScroll:true});
       this.returnTarget = undefined;
     });document.getElementById('close-card')!.onclick=()=>this.dialog.close();
-    document.getElementById('close-modes')!.onclick = () => this.modeDialog.close();
-    this.modeDialog.addEventListener('cancel', event => {
-      event.preventDefault();
-      this.backFromModes();
+    document.getElementById('game-choice-close')!.onclick = () => this.closeChoice();
+    this.choiceDialog.addEventListener('cancel',event=>{event.preventDefault();this.closeChoice();});
+    this.choiceDialog.addEventListener('close',()=>{
+      if (!this.choiceDialog.open && this.choiceTriggerId) {
+        const trigger=document.getElementById(this.choiceTriggerId);
+        if (trigger?.getClientRects().length) trigger.focus({preventScroll:true});
+      }
     });
     const finishReward = (event: AnimationEvent) => {
       if (event.animationName === 'award-drift') this.reward.classList.remove('arrived');
@@ -132,32 +134,38 @@ export class MetaView {
   }
   openRank(save:Save, trigger = 'rank'):void {if(this.disabled)return;this.language=save.settings.language;const body=document.getElementById('card-body')!,p=save.profile;document.getElementById('card-title')!.textContent=this.t(`Ранг ${p.rank}`, `Rank ${p.rank}`);body.replaceChildren(el('p','',`${p.xp} / ${rankThreshold(p.rank)} XP`),el('p','',this.t(`До следующего ранга: ${rankThreshold(p.rank)-p.xp} XP`, `${rankThreshold(p.rank)-p.xp} XP to next rank`)),el('p','',this.t(`За повышение: +${config.rank.rewardCoins} монет`, `Rank-up reward: +${config.rank.rewardCoins} coins`)),el('p','muted',this.t(`Разных решённых полей: ${p.solvedIds.length}`, `Unique boards solved: ${p.solvedIds.length}`)));document.getElementById('close-card')!.textContent=this.t('Продолжить','Continue');this.showCard(trigger);}
   closeCard():boolean{if(!this.dialog.open)return false;this.dialog.close();return true;}
-  closeModes(): boolean {
-    if (!this.modeDialog.open) return false;
-    this.modeDialog.close();
-    return true;
-  }
-  openCampaignHistory(save: Save): void {
-    this.showModePage(save, 'campaign', true);
-    if (!this.modeDialog.open) this.modeDialog.showModal();
-    this.modeChoices.querySelector('summary')?.focus({preventScroll:true});
-  }
-  backFromModes(): boolean {
-    if (!this.modeDialog.open) return false;
-    if (this.modePage === 'campaign') this.modeBack.click();
-    else this.closeModes();
+  closeChoice(): boolean {
+    if (!this.choiceDialog.open) return false;
+    this.choiceDialog.close();
     return true;
   }
 
-  suspendModes(): ((save: Save) => void) | undefined {
-    if (!this.modeDialog.open) return;
-    const scroll = this.modeDialog.scrollTop;
-    this.closeModes();
+  openCampaignHistory(): void {
+    const history = this.root.querySelector<HTMLDetailsElement>('#campaign-history');
+    if (!history) return;
+    history.open=true;
+    history.querySelector('summary')?.focus();
+  }
+
+  suspendChoice(): ((save: Save) => void) | undefined {
+    if (!this.choiceDialog.open) return;
+    const scroll = this.choiceDialog.scrollTop;
+    this.closeChoice();
     return save => {
-      this.renderModes(save);
-      this.modeDialog.showModal();
-      this.modeDialog.scrollTop = scroll;
+      this.renderChoice(save);
+      this.choiceDialog.showModal();
+      this.choiceDialog.scrollTop=scroll;
     };
+  }
+
+  private showChoice(save:Save, choice:GameChoice, trigger:HTMLElement|null): void {
+    if (this.disabled || this.choiceDialog.open) return;
+    this.choice=choice;
+    this.choiceTriggerId=trigger?.id;
+    this.renderChoice(save);
+    this.choiceDialog.showModal();
+    this.choiceDialog.scrollTop=0;
+    this.choiceOptions.querySelector<HTMLButtonElement>('button:enabled')?.focus({preventScroll:true});
   }
 
   private button(text:string,action:()=>void,id?:string,primary=false):HTMLButtonElement {const b=el('button',primary?'primary':'hub-button',text);b.type='button';b.disabled=this.disabled;b.onclick=action;if(id)b.id=id;return b;}
@@ -174,10 +182,11 @@ export class MetaView {
     this.disabled = disabled;
     this.root.hidden = screen === 'play';
     this.root.dataset.screen = screen;
-    const unlockPicker=screen==='play' && this.modePage==='unlocked' && Boolean(save.result);
-    if (screen !== 'home' && !unlockPicker) this.closeModes();
-    if (screen === 'play') {
-      if(unlockPicker && this.modeDialog.open) this.renderModes(save);
+    const showingChoice=this.choiceDialog.open && (screen==='home' && this.choice==='new' ||
+      screen==='play' && this.choice==='unlocked' && Boolean(save.result));
+    if (!showingChoice) this.closeChoice();
+    if (screen==='play') {
+      if (showingChoice) this.renderChoice(save);
       return;
     }
 
@@ -186,16 +195,17 @@ export class MetaView {
     this.root.replaceChildren();
     if (screen === 'home') {
       this.home(save);
-      if (this.modeDialog.open) this.renderModes(save);
+      if (showingChoice) this.renderChoice(save);
     } else if (screen === 'calendar') {
       this.calendar(save);
     }
+    else if (screen === 'modes') this.modes(save);
     else if (screen === 'profile') this.profile(save);
     else this.album(save);
 
     for (const panel of this.root.querySelectorAll<HTMLDetailsElement>('details[id]')) panel.open = openPanels.has(panel.id);
     const control = focused && document.getElementById(focused);
-    if (control && (this.root.contains(control) || this.modeChoices.contains(control))) {
+    if (control && (this.root.contains(control) || this.choiceOptions.contains(control))) {
       control.focus({preventScroll: true});
     }
   }
@@ -226,7 +236,7 @@ export class MetaView {
     const stage = el('section', 'resume-card');
     const completed = !resume && campaignFinished;
     const primary = this.button(completed ? this.t('Пройденные поля', 'Completed boards') : this.t('Продолжить', 'Continue'),
-      resume ? () => this.actions.navigate('play') : completed ? () => this.openCampaignHistory(save) : this.actions.campaign,
+      resume ? () => this.actions.navigate('play') : completed ? () => this.actions.navigate('modes',true) : this.actions.campaign,
       resume ? 'continue-game' : 'campaign-primary', true);
     const play = el('span','start-mark','▸');
     play.setAttribute('aria-hidden','true');
@@ -241,14 +251,18 @@ export class MetaView {
     } else stage.append(el('p', 'resume-context', contexts[mode]),
       el('h1', '', completed ? this.t('Маршрут завершён', 'Campaign complete') : title),
       primary);
+    const newGame=this.button(this.t('Новая игра','New game'),()=>this.showChoice(save,'new',newGame),'new-game');
+    newGame.prepend(menuIcon('modes'));
+    newGame.setAttribute('aria-haspopup','dialog');
+    newGame.setAttribute('aria-controls','game-choice');
+    stage.append(newGame);
     this.root.append(stage);
 
     const quick = el('div', 'home-quick');
     const day = save.meta.effectiveDay;
     const dailyWins = config.unlockProposal.dailyAfterNewWins;
-    const daily = this.button('', () => this.actions.daily(day), 'daily-primary');
+    const daily = this.button('', () => this.actions.navigate('calendar'), 'daily-primary');
     daily.classList.add('quick-daily');
-    daily.disabled = disabledOrLocked(this.disabled, wins < dailyWins);
     const status = this.dayStatus(save, day);
     const dayStatus = wins < dailyWins ? this.unlockText(dailyWins)
       : status === this.t('Сегодня', 'Today') ? this.t(`${config.dailyLives} жизни`, `${config.dailyLives} lives`) : status;
@@ -259,11 +273,6 @@ export class MetaView {
     dateStatus.append(dayStatus);
     dailyCopy.append(el('strong', '', contexts.daily), dateStatus);
     daily.append(date, dailyCopy);
-
-    const calendar = this.button(this.t('Календарь', 'Calendar'),
-      () => this.actions.navigate('calendar'), 'calendar-open');
-    calendar.prepend(menuIcon('calendar'));
-    calendar.disabled = daily.disabled;
 
     const album = this.button('', () => this.actions.navigate('album'), 'album-open');
     album.classList.add('quick-workshop');
@@ -286,17 +295,6 @@ export class MetaView {
     quick.append(daily,album);
     this.root.append(quick);
 
-    const menu = this.button(this.t('Все режимы', 'All modes'), () => {
-      if (this.modeDialog.open) return;
-      this.showModePage(save, 'modes');
-      this.modeDialog.showModal();
-    }, 'modes-open');
-    menu.prepend(menuIcon('modes'));
-    menu.setAttribute('aria-haspopup', 'dialog');
-    menu.setAttribute('aria-controls', 'mode-dialog');
-    const shortcuts=el('div','home-shortcuts');
-    shortcuts.append(menu,calendar);
-    this.root.append(shortcuts);
   }
 
   private dateTicket(day:string): HTMLTimeElement {
@@ -337,68 +335,50 @@ export class MetaView {
     return button;
   }
 
-  private showModePage(save: Save, page: ModePage, openHistory = false): void {
-    this.modePage = page;
-    this.modeChoices.replaceChildren();
-    this.renderModes(save);
-    const history = this.modeChoices.querySelector('details');
-    if (history && openHistory) history.open = true;
-    this.modeDialog.scrollTop = 0;
-  }
-
-  private renderModes(save: Save): void {
-    const campaign = this.modePage === 'campaign';
-    const unlocked = this.modePage === 'unlocked';
-    const scroll = this.modeDialog.scrollTop;
-    const historyOpen = this.modeChoices.querySelector('details')?.open ?? false;
-    this.modeTitle.textContent = campaign ? this.t('Кампания', 'Campaign')
-      : unlocked ? this.t('Новые режимы','New modes') : this.t('Режимы', 'Modes');
-    this.modeBack.hidden = !campaign;
-    this.modeBack.textContent = this.t('← Режимы', '← Modes');
-    this.modeBack.onclick = () => {
-      this.showModePage(save, 'modes');
-      document.getElementById('campaign-open')?.focus({preventScroll:true});
-    };
-    this.modeChoices.replaceChildren();
-    if (campaign) this.campaign(save, historyOpen);
-    else if(unlocked) {
-      const choices=el('div','mode-group');
-      choices.append(this.freeModeOption(save,'challenge'),this.endlessModeOption(save));
-      this.modeChoices.append(choices);
+  private renderChoice(save:Save): void {
+    const unlocked=this.choice==='unlocked';
+    const focused=document.activeElement?.id;
+    const scroll=this.choiceDialog.scrollTop;
+    document.getElementById('game-choice-title')!.textContent=unlocked
+      ? this.t('Новые режимы','New modes') : this.t('Новая игра','New game');
+    const games=el('div','mode-group');
+    if (unlocked) games.append(this.freeModeOption(save,'challenge','choice-'),this.endlessModeOption(save,'choice-'));
+    else {
+      const wins=save.profile.solvedIds.length;
+      if (save.profile.campaignCursor<campaignSequence(save.contentVersion).length) {
+        games.append(this.modeButton('campaign','choice-campaign',this.t('Кампания','Campaign'),this.campaignPosition(save),this.actions.campaign));
+      }
+      if (wins>=config.unlockProposal.freePlayAfterNewWins) games.append(this.freeModeOption(save,'relax','choice-'));
+      if (wins>=challengeUnlockWins) games.append(this.freeModeOption(save,'challenge','choice-'));
+      if (wins>=config.unlockProposal.endlessAfterNewWins) games.append(this.endlessModeOption(save,'choice-'));
     }
-    else this.modeOptions(save);
-    this.modeDialog.scrollTop = scroll;
+    this.choiceOptions.replaceChildren(games);
+    if (focused) this.choiceOptions.querySelector<HTMLButtonElement>(`#${CSS.escape(focused)}:enabled`)?.focus({preventScroll:true});
+    this.choiceDialog.scrollTop=scroll;
   }
 
-  private modeOptions(save: Save): void {
-    const games = el('div', 'mode-group');
-    const campaign = this.modeButton('campaign', 'campaign-open', this.t('Кампания', 'Campaign'),
-      this.campaignPosition(save), () => {
-        this.showModePage(save, 'campaign');
-        this.modeBack.focus({preventScroll:true});
-      });
-    campaign.querySelector('.quick-copy')!.append(this.campaignTrack(save));
-    games.append(campaign);
-
-    const savedFree = storedSlot(save, 'free')?.attempt;
-    if (savedFree?.status === 'playing' && !savedFree.freeTrack) {
-      games.append(this.modeButton('relax', 'free-resume', this.t('Свободная игра', 'Free Play'),
-        this.t('Есть сохранение', 'Saved board'),
-        () => this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId})));
+  private modes(save: Save): void {
+    this.heading(this.t('Режимы','Modes'));
+    this.campaign(save);
+    const games=el('div','mode-group mode-options');
+    const savedFree=storedSlot(save,'free')?.attempt;
+    if (savedFree?.status==='playing'&&!savedFree.freeTrack) {
+      games.append(this.modeButton('relax','free-resume',this.t('Свободная игра','Free Play'),
+        this.t('Есть сохранение','Saved board'),()=>this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId})));
     }
     for (const track of freeTracks) games.append(this.freeModeOption(save,track));
     games.append(this.endlessModeOption(save));
-    this.modeChoices.append(games);
+    this.root.append(games);
   }
 
-  private freeModeOption(save:Save,track:FreeTrack):HTMLButtonElement {
+  private freeModeOption(save:Save,track:FreeTrack,prefix=''):HTMLButtonElement {
     const saved=storedSlot(save,'free')?.attempt;
     const threshold=track==='challenge'?challengeUnlockWins:config.unlockProposal.freePlayAfterNewWins;
     const locked=save.profile.solvedIds.length<threshold;
     const goal=activeTrackGoal(save,track);
     const subtitle=locked?this.unlockText(threshold)
       : goal?this.trackGoalText(goal.id,goal.progress):this.t('Ступень пройдена ✓','Step complete ✓');
-    const open=this.modeButton(track,track==='relax'?'free-open':'challenge-open',trackName(this.language,track),subtitle,()=>this.actions.free(track));
+    const open=this.modeButton(track,prefix+(track==='relax'?'free-open':'challenge-open'),trackName(this.language,track),subtitle,()=>this.actions.free(track));
     if(saved?.freeTrack===track && saved.status==='playing') {
       open.querySelector('.quick-copy')!.append(el('span','quick-status',this.t('Есть сохранение','Saved board')));
     }
@@ -406,14 +386,14 @@ export class MetaView {
     return open;
   }
 
-  private endlessModeOption(save:Save):HTMLButtonElement {
+  private endlessModeOption(save:Save,prefix=''):HTMLButtonElement {
     const {endlessAfterNewWins}=config.unlockProposal;
     const locked=save.profile.solvedIds.length<endlessAfterNewWins;
     const run = save.career.run;
     const solo = save.career.records[recordVersion].solo;
     const status = run?.status === 'active' ? this.t('Продолжить забег','Resume run')
       : run?.status === 'failed' ? this.t('Итог забега','Run result') : this.t('Начать забег','Start run');
-    const endless = this.modeButton('endless', 'endless-open', 'Endless',
+    const endless = this.modeButton('endless', prefix+'endless-open', 'Endless',
       locked ? this.unlockText(endlessAfterNewWins) : status, this.actions.endless);
     if (!locked) {
       const record = el('span','mode-record',this.t(`Рекорд · ${solo?.score ?? '—'}`,`Solo best · ${solo?.score ?? '—'}`));
@@ -461,27 +441,29 @@ export class MetaView {
     return route;
   }
 
-  private campaign(save: Save, historyOpen: boolean): void {
+  private campaign(save: Save): void {
     const id = campaignContinuation(save);
     const position = id && getPuzzle(id).campaignPosition;
     const completed = campaignSequence(save.contentVersion).slice(0, save.profile.campaignCursor);
     const route = el('section','campaign-overview');
-    route.append(el('strong','',this.campaignPosition(save)),this.campaignTrack(save));
-    this.modeChoices.append(route);
+    const title=el('h2','campaign-name');
+    title.append(menuIcon('campaign'),document.createTextNode(this.t('Кампания','Campaign')));
+    route.append(title,el('p','quick-status',this.campaignPosition(save)),this.campaignTrack(save));
+    this.root.append(route);
     if (completed.length < campaignSequence(save.contentVersion).length || storedSlot(save,'campaign')?.attempt.status === 'playing') {
-      this.modeChoices.append(this.button(this.t(`Продолжить · Поле ${position}`, `Continue · Board ${position}`),
+      route.append(this.button(this.t(`Продолжить · Поле ${position}`, `Continue · Board ${position}`),
         this.actions.campaign, 'campaign-continue', true));
     }
 
     const result = storedSlot(save, 'campaign')?.result;
     if (result) {
       const board = getPuzzle(result.puzzleId).campaignPosition;
-      this.modeChoices.append(this.button(this.t(`Результат поля ${board}`, `Board ${board} result`),
+      route.append(this.button(this.t(`Результат поля ${board}`, `Board ${board} result`),
         () => this.actions.offer({puzzleId:result.puzzleId,mode:'campaign'}), 'last-result'));
     }
     if (!completed.length) return;
     const details = el('details', 'campaign-history');
-    details.open = historyOpen;
+    details.id='campaign-history';
     const summary = el('summary', '', this.t('Пройденные поля', 'Completed boards'));
     const list = el('div', 'replay-list');
     for (const puzzleId of completed) {
@@ -492,7 +474,7 @@ export class MetaView {
       list.append(item);
     }
     details.append(summary, list);
-    this.modeChoices.append(details);
+    route.append(details);
   }
   private quests(save:Save):void {
     const panel = el('details', 'hub-panel');
@@ -636,8 +618,7 @@ export class MetaView {
   }
 
   private calendar(save:Save):void {
-    this.heading(this.t('Календарь задач', 'Challenge calendar'), '', true);
-    this.root.append(this.button(this.t('← На главную', '← Home'),()=>this.actions.navigate('home'),'calendar-back'));
+    this.heading(this.t('День','Daily'));
     const today = calendarDayIndex(save.meta.effectiveDay);
     const created = calendarDayIndex(profileDay(save.profile.createdAt,save.profile.timeZone));
     this.root.append(this.dateButton(save,save.meta.effectiveDay));
@@ -738,7 +719,6 @@ export class MetaView {
     const p = save.profile;
     const c = save.career;
     this.heading(this.t('Профиль', 'Profile'));
-    this.root.append(this.button(this.t('← На главную','← Home'), () => this.actions.navigate('home'), 'profile-back'));
     const rank = this.button('', () => this.openRank(save, 'profile-rank'), 'profile-rank');
     rank.classList.add('mode-option');
     rank.setAttribute('aria-haspopup', 'dialog');
@@ -914,15 +894,13 @@ export class MetaView {
     action.disabled=disabled;
     action.onclick=()=>{
       if(double) {
-        this.showModePage(save,'unlocked');
-        if(!this.modeDialog.open)this.modeDialog.showModal();
-        this.modeChoices.querySelector('button')?.focus({preventScroll:true});
+        this.showChoice(save,'unlocked',action);
       } else if(daily) this.actions.daily(save.meta.effectiveDay);
       else if(modes.includes('challenge')) this.actions.free('challenge');
       else if(modes.includes('endless')) this.actions.endless();
       else this.actions.free('relax');
     };
-    if(double){action.setAttribute('aria-haspopup','dialog');action.setAttribute('aria-controls','mode-dialog');}
+    if(double){action.setAttribute('aria-haspopup','dialog');action.setAttribute('aria-controls','game-choice');}
     else {action.removeAttribute('aria-haspopup');action.removeAttribute('aria-controls');}
     if(!detail.contains(action))detail.replaceChildren(action);
   }
