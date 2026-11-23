@@ -167,3 +167,19 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 ## Последнее дополнение full audit: 23 remote-config getters
 
 [Полная проверка native remote-config 3.5.2↔4.17.0](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json): 23 отдельных метода Getter (`10` имён есть в старом AOT, `13` новых по точному написанию); [repro](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/verify_guru_remote_configs.py). В [consumer full gap](porting/FULL_REFERENCE_GAP_AUDIT_2026-11-23.md) добавлены отдельные source IDs `guru-banner-during-fullscreen-load`, `guru-free-reward-remote-config`, `guru-remote-vibration-audio-config` с AOT provenance, `MISSING/UNKNOWN/PARTIAL` и экспериментами. Это НЕ active server flags и НЕ разрешение автоматически включить новые рекламные placements/вознаграждения. Итог source ledger **265/265**.
+
+## Guru E30/E32 и EasyFun рекламные defaults · 23.11.2026
+
+**Источник:** [исходный kit-отчёт Guru](https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md) и [EasyFun UnityFS ad tables](https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md). [Полный consumer diff и критерии](porting/ARITHMETIC_AND_AD_TEMPLATE_DELTA_2026-11-23.md). Архивы Guru **4.17.0 / 26101374** и EasyFun **1.1.9 / 1193**, точные SHA в source README. **Не означает Android ORIGINAL_RUNTIME** и не приписывает результат 4.18 GUI.
+
+| Механизмы и стабильные ID | Подтверждено | Crossmath 0.5.24 / next action |
+| --- | --- | --- |
+| `guru-generator-division-step-whole` | E32 исходный генератор требует целого промежуточного частного | В нашем коротком `A op B=C` не используется; future content-v3 только по owner решению |
+| `guru-play-division-final-whole` | E30 runtime Fraction допускает дробный промежуточный шаг и целый финальный | Принять единый новый рациональный evaluator/hint/validator для длинной грамматики только в новой версии правил, иначе нечего менять |
+| `guru-generator-operation-family` | E31/E47 исходные длинные выражения не смешивают `+/-` и `×/÷` | Собственный генератор длинных выражений, если выбран: ввести тест ассортимента и отдельных семей; старые 275 полей сохранить |
+| `guru-direct-long-left-fold` | E43 синтетический direct-helper делает left fold; в банке нет смешанных семейств | Синтетика не равна реальному GUI; сначала установить валидный evaluator и случай, иначе SOURCE_EVIDENCE_GAP |
+| Существующие восемь `easy-offer-*` | Таблица содержит `isLimited` (не `enabled`); `free_wheel=4`, `free_20_diamond=10`, шесть `FALSE/-1`; reset window UNKNOWN | Общие wheel/ball/diamond entries вероятно включены библиотекой других проектов: не считать активными и не добавлять fake currency. Продолжать проверку trigger→SDK→reward |
+| Существующие семь `easy-inter-*` | Одинаковые bundled Android `0.5` / iOS `0.2` `popupProb` | Не копировать реальную частоту рекламы из таблицы, пока нет живого consent/remote override/no-fill/cooldown |
+
+**Текущий реестр: 269 исходных ID**, четыре новых, 15 уточнённых старых. Точная формула `stuck` и полный end-to-end native `solve()` всё ещё UNKNOWN. Следующий доступный научный опыт — полный оригинальный `CrossMathSolver.solve` со стендом AArch64 Dart AOT. **НЕ переписывать текущий банк и не активировать коммерческие SDK на основании этих открытий.** Игровой source 0.5.24/29 `0401140d5fc0c191e457289b6dc8e5752a9f85a8`; runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` без обновления.
+
