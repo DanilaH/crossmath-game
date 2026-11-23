@@ -100,3 +100,12 @@
 [Первичный static-отчёт и воспроизводимый ARM64 decoder](https://github.com/DanilaH/mini-games-kit/pull/139): в 4.17.0 `CrossMathSolver.solve()` коротко замыкает четыре стратегические стадии; внутри четвёртой существует условный fallback к рекурсивному search с глубиной 0/1/2 и прекращением при 3. Нулевой внутренний счётчик `0xb56e20` и возвращаемый объект пока не декодированы, **полный original `solve()` не исполнялся**. Новый source ID `guru-strategy-conditional-backtrack` ↔ `RESEARCHED/MISSING` в 0.5.24 `src/help/logic.ts`, соседние `guru-intersect-hint` и `guru-search-depth` дополнены. Future owner-gated Help only; `stuck` формула, реальная GUI достижимость и native 4.18.0 UNKNOWN.
 
 Из 273 source ID сопоставлены 273; актуальный pin sourceInventory `9632dae736e0893c7e06d16b9c2a12cef30088d3`. Game code, 275 authored boards, монета, runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` без изменений. Исторические 265/269 выше не пересчитывались задним числом.
+
+
+## EasyFun 1.1.9 · доказанное наличие двух рекламных API, без live placement · source 275/275
+
+[Первичная привязка методов к AdManager по IL2CPP v31, kit PR #139](https://github.com/DanilaH/mini-games-kit/pull/139): `AdManager` (TypeDefinition #2949, 51 метод) объявляет **отдельный MREC** `RequestMrec/ShowMrec/HideMrec` + LoadedSuccess/Failed и **Native ad** `RequestNative/ShowNative/HideNative` + LoadedSuccess/Failed. Методная принадлежность проверена по полю `declaringType` в owner-supplied EasyFun **1.1.9 / 1193** XAPK, exact SHA и отрицательный контроль; это не вызовы этих методов в реальной игре, не SDK impression и не доказанное UI размещение.
+
+Новые ID **`easy-ad-mrec-channel`**, **`easy-ad-native-channel`** → `RESEARCHED/MISSING` у Crossmath 0.5.24/29 (`src/platform/ads.ts` и `androidAds.ts` поддерживают rewarded/interstitial/banner, без MREC/Native). Принадлежность существующих interstitial/rewarded callbacks классу AdManager также уточнена. **COMMERCIAL research only:** потенциальный общий publisher code, server/consent/no-fill/экран UNKNOWN. Только при независимом Android показе и решении владельца обсуждать собственный SDK/UI, не включать чужие placements по именам.
+
+**Текущий source↔consumer реестр: 275/275**, pinned kit source commit `2adeddc1e06494c24d3799b5e18a3a80a70afde9`. Историческое 273 в предыдущем разделе сохраняется как промежуточный результат. Runtime/gameplay `0.5.24/29`, 275 authored полей и kit runtime pin `469928d03f4bae5053e23db26e82187bedbc252e` неизменны.
