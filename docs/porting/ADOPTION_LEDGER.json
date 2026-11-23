@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "bd80dc0542d91e7d47675dcd1d0971f295537077",
+    "commit": "9632dae736e0893c7e06d16b9c2a12cef30088d3",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -338,11 +338,12 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Зафиксировать объяснение с двумя уравнениями и множественным пересечением | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity.",
+      "nextAction": "Зафиксировать объяснение с двумя уравнениями и множественным пересечением | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity. | NEW 4.17 NATIVE_STATIC: fourth strategy guarded zero-count fallback, depth-0 nested recursive search with depth<3; see guru-strategy-conditional-backtrack. Need FULL native solve execution on real source mask and independent proof before any parity or UX acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L244",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md"
       ]
     },
     {
@@ -354,9 +355,12 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Отдельно проверить latency и понятность объяснения глубины 2–3",
+      "nextAction": "Отдельно проверить latency и понятность объяснения глубины 2–3 | NEW 4.17 NATIVE_STATIC: fourth strategy guarded zero-count fallback, depth-0 nested recursive search with depth<3; see guru-strategy-conditional-backtrack. Need FULL native solve execution on real source mask and independent proof before any parity or UX acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L255",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md"
+      ]
     },
     {
       "id": "guru-hint-candidate",
@@ -4205,6 +4209,22 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/bd80dc0542d91e7d47675dcd1d0971f295537077/research/games/crossmath/porting/guru-endless-video-contract-20261123/README.md",
       "nextAction": "На Android подтвердить игру с двумя ошибками отдельно от заявленного tutorial; снять точную видимую динамику Score при первом и повторном успешном Submit, отмене/фон/рестарте. Если владелец одобрит анимацию для Crossmath, делать только display count-up поверх уже атомарной квитанции; screenreader сразу видит final, reducedMotion мгновенно, нельзя менять собственную формулу и lives.",
       "sourceVersionStatus": "Это наблюдение из video_2026-11-23_13-49-07.mp4, BUILD UNKNOWN. Подпись Guru 4.18.0 в другом ролике не подтверждает версию этого."
+    },
+    {
+      "id": "guru-strategy-conditional-backtrack",
+      "sourceFeatureId": "guru-strategy-conditional-backtrack",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Original Guru 4.17.0 ARM64 NATIVE_STATIC: CrossMathSolver.solve short-circuits after positive fields of direct/monotonic/factor/intersection result. Inside the fourth branch cbz at 0xb56e20 redirects on an internal zero count to a fallback function b57010; that function invokes depth-0 _limitedBacktrackSearch b5ad7c, which recursively self-calls at b5b484 with increased depth and exits at depth >=3. Runtime reachability, meaning of counter, explain text and full solve output UNKNOWN.",
+      "currentImplementation": "Crossmath 0.5.24/29 src/help/logic.ts uses its own visible-inventory direct and intersection hints with countSolutions preliminary compatibility guard and independent verifyExplanation. It does NOT use the source-specific staged positive-result early exit plus fourth-stage bounded recursive inference fallback. Global countSolutions is not proof of matching source hint logic.",
+      "codePath": "src/help/logic.ts",
+      "stage": "UX/HELP optional future stage, not owner-approved implementation",
+      "sourceBuild": "Guru 4.17.0 / 26101374 owner APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; libapp.so SHA256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5; 4.18.0 binary UNKNOWN.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md",
+      "dependencies": "Original native AOT method invocation with controlled puzzle, source-runtime visibility trace; independent actual puzzle models; owner-selected Help scope; own proof-based generator/engine/validator/verifyExplanation and performance budget; Android 1x and save regression. No original binary/assets in repo.",
+      "nextAction": "Invoke FULL original Guru 4.17.0 solve() on a fixed mask where direct, monotonic and factor report no progress. Log 0xb56e20 branch and recursion depths 0→1→2→3, null/results and timeouts; compare 2 same-hole-count masks with independent solver and source stuck labels. If owner selects Help adaptation, implement independently and independently verify explanations; don't alter content, wallet or saves from static evidence alone.",
+      "acceptanceRequirement": "NATIVE_STATIC checked via SHA-pinned script and negative mutated-BL control, NOT ORIGINAL_RUNTIME. Product parity only after reproducible original full solve trace on an actual source board, self-authored proof-based UX, independent acceptance of returned candidate(s), Android touch/back/process kill and owner sign-off.",
+      "reason": "Not approved for implementation; source-specific player reachability and return semantics not proven."
     }
   ],
   "latestReview": {
@@ -4274,11 +4294,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "bd80dc0542d91e7d47675dcd1d0971f295537077",
-    "sourceCount": 272,
+    "sourceInventoryCommit": "9632dae736e0893c7e06d16b9c2a12cef30088d3",
+    "sourceCount": 273,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
-    "report": "research/games/crossmath/porting/guru-endless-video-contract-20261123/README.md",
-    "summary": "Reconciled 272/272 inventory mapping including VIDEO_OBSERVED Guru Endless successful Submit count-up Score0→140 and owner review of separate lives/score controls. Original video build unknown, Android and score formula unverified. Game 0.5.24 unchanged."
+    "report": "research/games/crossmath/porting/guru-solver-branch-20261123/README.md",
+    "summary": "Reconciled 273/273 including new SHA-pinned Guru 4.17.0 NATIVE_STATIC conditional bounded recursion after fourth strategy; 4-stage short-circuit and recursive depth 0,1,2 confirmed from ARM64 with independent opcode checker/negative test. No full source solve executed, original GUI/4.18 and stuck unknown. Game remains 0.5.24/29 without code change."
   }
 }
