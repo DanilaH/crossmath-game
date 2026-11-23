@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "9632dae736e0893c7e06d16b9c2a12cef30088d3",
+    "commit": "2adeddc1e06494c24d3799b5e18a3a80a70afde9",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -4174,11 +4174,14 @@
       "codePath": "src/platform/adState.ts",
       "stage": "PLATFORM/COMMERCIAL owner-gated live SDK, not activate on source strings",
       "dependencies": "Optional approved native provider, app consent, lifecycle, active play timer, remote cooldown policies and durable receipt tests; no original code/assets to reuse.",
-      "nextAction": "At original EasyFun 1.1.9 test ad after fresh start, after first dismiss, background+offline, and failed provider; inspect actual _lastInterstitialCloseTime and ReportShowAdLimitedByClient. In our native APK 0.5.24 record request→gating denial/show/dismiss timestamps and compare only once original conditions proved. Do not copy template popupProb as actual display rate.",
+      "nextAction": "At original EasyFun 1.1.9 test ad after fresh start, after first dismiss, background+offline, and failed provider; inspect actual _lastInterstitialCloseTime and ReportShowAdLimitedByClient. In our native APK 0.5.24 record request→gating denial/show/dismiss timestamps and compare only once original conditions proved. Do not copy template popupProb as actual display rate. | Independent 2026-11-23 class-method attribution (type 2949 AdManager) confirmed, BUT actual SDK execution still UNKNOWN.",
       "acceptanceRequirement": "Original active guard/sequence observed or instrumented; our Android provider demonstrates nonreentrant fullscreen, client-policy cooldown, offline/no-fill fallback, and no lost/stale continuation. Scripted JS path is not live SDK.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN"
+      "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/2adeddc1e06494c24d3799b5e18a3a80a70afde9/research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md"
+      ]
     },
     {
       "id": "easy-ad-rewarded-callback-states",
@@ -4190,11 +4193,14 @@
       "codePath": "src/platform/ads.ts",
       "stage": "PLATFORM/COMMERCIAL owner-gated live SDK acceptance",
       "dependencies": "Real approved Android provider, reward id/nonce, native activity lifecycle, persistent atomic save and acknowledgment; consent and test ads; permissioned tester.",
-      "nextAction": "On original 1.1.9 find real player-facing rewarded offer; record loaded success/failure, play success/failure, GetReward and close, abrupt exit/duplicate callback, restore. Then on our real Android SDK verify grant only for confirmed rewardSettled, exactly once after process kill and no grant on cancel/fail, using persisted receipt IDs.",
+      "nextAction": "On original 1.1.9 find real player-facing rewarded offer; record loaded success/failure, play success/failure, GetReward and close, abrupt exit/duplicate callback, restore. Then on our real Android SDK verify grant only for confirmed rewardSettled, exactly once after process kill and no grant on cancel/fail, using persisted receipt IDs. | Independent 2026-11-23 class-method attribution (type 2949 AdManager) confirmed, BUT actual SDK execution still UNKNOWN.",
       "acceptanceRequirement": "SDK-native Android test proves request/open/dismiss/reward/ack and replay-safe grant after crash, no duplicate, no lost resource. Original callback naming alone does not demonstrate reward or particular template availability.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN"
+      "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/2adeddc1e06494c24d3799b5e18a3a80a70afde9/research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md"
+      ]
     },
     {
       "id": "guru-endless-score-countup",
@@ -4225,6 +4231,38 @@
       "nextAction": "Invoke FULL original Guru 4.17.0 solve() on a fixed mask where direct, monotonic and factor report no progress. Log 0xb56e20 branch and recursion depths 0→1→2→3, null/results and timeouts; compare 2 same-hole-count masks with independent solver and source stuck labels. If owner selects Help adaptation, implement independently and independently verify explanations; don't alter content, wallet or saves from static evidence alone.",
       "acceptanceRequirement": "NATIVE_STATIC checked via SHA-pinned script and negative mutated-BL control, NOT ORIGINAL_RUNTIME. Product parity only after reproducible original full solve trace on an actual source board, self-authored proof-based UX, independent acceptance of returned candidate(s), Android touch/back/process kill and owner sign-off.",
       "reason": "Not approved for implementation; source-specific player reachability and return semantics not proven."
+    },
+    {
+      "id": "easy-ad-mrec-channel",
+      "sourceFeatureId": "easy-ad-mrec-channel",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "In original EasyFun 1.1.9 / 1193 bundled IL2CPP metadata v31, the application-level AdManager class TypeDefinition #2949 OWNS MREC API: RequestMrec/ShowMrec/HideMrec and MrecLoadedSuccessCallBack/MrecLoadedFailedCallBack; method indices 20558,20559,20560,20575,20576. This is METHOD_OWNERSHIP only; active UI placement, callers, consent, SDK/no-fill and actual impression UNKNOWN; shared publisher implementation possible.",
+      "currentImplementation": "Crossmath 0.5.24 / 29 src/platform/ads.ts AdAvailability supports rewarded/interstitial/banner. Android bridge in src/platform/androidAds.ts provides showRewarded/showInterstitial/setBanner, not dedicated MREC request/show/hide or loaded callbacks. No claim that MREC belongs in the current product.",
+      "codePath": "src/platform/ads.ts; src/platform/androidAds.ts",
+      "stage": "PLATFORM/COMMERCIAL research only, owner-gated rollout",
+      "dependencies": "First original player-facing placement and native call graph, consent and remote-policy evidence; explicit owner approval; own legally available SDK/provider/ad container; real Android performance, privacy, offline/no-fill and background recovery tests.",
+      "nextAction": "Original EasyFun 1.1.9 Android capture: fresh start vs online/offline & consent; navigate all relevant screens, record whether MREC request→load→show/hide callbacks ever occur, exact UI slot, SDK ad event and failure path. If confirmed and owner selects, build independent provider with Android device acceptance; until then keep as inventoried commercial capability only.",
+      "acceptanceRequirement": "Reproducible original SDK invocation and visible placement in the specified exact build, no shared-library assumption; own provider and UI tested on Android 1× for request/load/show/hide, consent, no-fill, keyboard/touch layout, background and accessibility. No original assets/code or secrets.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/2adeddc1e06494c24d3799b5e18a3a80a70afde9/research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md",
+      "sourceBuild": "EasyFun Offline Crossmath 1.1.9 /1193 XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; metadata sha256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6.",
+      "reason": "Only app-level method declarations evidenced; reachability, live server activation and useful player placement UNKNOWN; requires owner decision and SDK access."
+    },
+    {
+      "id": "easy-ad-native-channel",
+      "sourceFeatureId": "easy-ad-native-channel",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "In original EasyFun 1.1.9 / 1193 bundled IL2CPP metadata v31, the application-level AdManager class TypeDefinition #2949 OWNS Native ad API: RequestNative/ShowNative/HideNative and NativeLoadedSuccessCallBack/NativeLoadedFailedCallBack; method indices 20569,20570,20571,20577,20578. This is METHOD_OWNERSHIP only; active UI placement, callers, consent, SDK/no-fill and actual impression UNKNOWN; shared publisher implementation possible.",
+      "currentImplementation": "Crossmath 0.5.24 / 29 src/platform/ads.ts AdAvailability supports rewarded/interstitial/banner. Android bridge in src/platform/androidAds.ts provides showRewarded/showInterstitial/setBanner, not dedicated Native ad request/show/hide or loaded callbacks. No claim that Native ad belongs in the current product.",
+      "codePath": "src/platform/ads.ts; src/platform/androidAds.ts",
+      "stage": "PLATFORM/COMMERCIAL research only, owner-gated rollout",
+      "dependencies": "First original player-facing placement and native call graph, consent and remote-policy evidence; explicit owner approval; own legally available SDK/provider/ad container; real Android performance, privacy, offline/no-fill and background recovery tests.",
+      "nextAction": "Original EasyFun 1.1.9 Android capture: fresh start vs online/offline & consent; navigate all relevant screens, record whether Native ad request→load→show/hide callbacks ever occur, exact UI slot, SDK ad event and failure path. If confirmed and owner selects, build independent provider with Android device acceptance; until then keep as inventoried commercial capability only.",
+      "acceptanceRequirement": "Reproducible original SDK invocation and visible placement in the specified exact build, no shared-library assumption; own provider and UI tested on Android 1× for request/load/show/hide, consent, no-fill, keyboard/touch layout, background and accessibility. No original assets/code or secrets.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/2adeddc1e06494c24d3799b5e18a3a80a70afde9/research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md",
+      "sourceBuild": "EasyFun Offline Crossmath 1.1.9 /1193 XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; metadata sha256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6.",
+      "reason": "Only app-level method declarations evidenced; reachability, live server activation and useful player placement UNKNOWN; requires owner decision and SDK access."
     }
   ],
   "latestReview": {
@@ -4294,11 +4332,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "9632dae736e0893c7e06d16b9c2a12cef30088d3",
-    "sourceCount": 273,
+    "sourceInventoryCommit": "2adeddc1e06494c24d3799b5e18a3a80a70afde9",
+    "sourceCount": 275,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
-    "report": "research/games/crossmath/porting/guru-solver-branch-20261123/README.md",
-    "summary": "Reconciled 273/273 including new SHA-pinned Guru 4.17.0 NATIVE_STATIC conditional bounded recursion after fourth strategy; 4-stage short-circuit and recursive depth 0,1,2 confirmed from ARM64 with independent opcode checker/negative test. No full source solve executed, original GUI/4.18 and stuck unknown. Game remains 0.5.24/29 without code change."
+    "report": "research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md",
+    "summary": "275/275 source-to-consumer mapped: new NATIVE_STATIC Guru conditional bounded solver feature plus METHOD_DECLARING_TYPE EasyFun 1.1.9 MREC and Native ad channels. Complete original solve, 4.18.0 ELF, ad SDK callers/impressions/live activation UNKNOWN. No gameplay/runtime changes."
   }
 }
