@@ -18,13 +18,22 @@ import { finishRun, recordTime, recordVersion } from '../meta/career';
 import type { EndlessRun } from '../meta/career';
 import { calendarPuzzle, canResumeDaily, dateAvailable, profileDay } from '../meta/calendar';
 import type { Difficulty } from '../core/types';
-import type { MetaScreen, Offer, SavedSlot } from '../meta/types';
+import type { MetaScreen, NewGameChoice, Offer, SavedSlot } from '../meta/types';
 
 export function storedSlot(save:Save,key:string):SavedSlot|undefined{return save.meta.activeSlot===key?{attempt:save.attempt,result:save.result}:save.meta.inactive[key];}
 export function campaignContinuation(save: Save): string | undefined {
   const saved = storedSlot(save, 'campaign');
   return saved?.attempt.status === 'playing' ? saved.attempt.puzzleId
     : campaignSequence(save.contentVersion)[save.profile.campaignCursor] ?? saved?.attempt.puzzleId;
+}
+export function dailyDayAvailable(save: Save, day: string): boolean {
+  const {createdAt,timeZone}=save.profile;
+  return canResumeDaily(storedSlot(save,'daily:'+day)?.attempt) || dateAvailable(createdAt,timeZone,save.meta.effectiveDay,day);
+}
+
+export function selectedDailyDay(save:Save):string {
+  const day=save.meta.calendarSelectedDay ?? save.attempt.dayKey;
+  return day && dailyDayAvailable(save,day) ? day : save.meta.effectiveDay;
 }
 export type OpenOutcome='opened'|'confirm_replace'|'unavailable';
 
@@ -198,6 +207,25 @@ export class GameSession {
       await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;
     }finally{this.finishWrite();}
   }
+  async selectDailyDay(day:string):Promise<boolean> {
+    if(this.busy||this.state.meta.screen!=='calendar'||this.state.meta.calendarSelectedDay===day)return false;
+    const next=structuredClone(this.state);
+    refreshDay(next,this.now());
+    if(!dailyDayAvailable(next,day))return false;
+    this.busy=true;
+    try {
+      next.meta.calendarSelectedDay=day;
+      delete next.meta.calendarTrophyMonth;
+      await this.persist(next,0);
+      return true;
+    } finally { this.finishWrite(); }
+  }
+  newGame(choice:NewGameChoice,replace=false,elapsed=0):Promise<OpenOutcome> {
+    if(choice==='endless')return this.newRun(replace,elapsed);
+    if(choice!=='campaign')return this.openOffer(freeTrackOffer(this.state,choice),replace,elapsed,false,true);
+    const id=campaignSequence(this.state.contentVersion)[this.state.profile.campaignCursor];
+    return id?this.openOffer({puzzleId:id,mode:'campaign'},replace,elapsed,false,true):Promise.resolve('unavailable');
+  }
   openCampaign(elapsed=0):Promise<OpenOutcome>{
     const id = campaignContinuation(this.state);
     return id?this.openOffer({puzzleId:id,mode:'campaign'},false,elapsed):Promise.resolve('unavailable');
@@ -213,7 +241,7 @@ export class GameSession {
     return this.openOffer(freeTrackOffer(this.state, track), replace, elapsed);
   }
   openDaily(day:string,elapsed=0):Promise<OpenOutcome>{return this.openOffer({puzzleId:this.state.meta.assignments[day]?.puzzleId??calendarPuzzle(day),mode:'daily',dayKey:day},false,elapsed);}
-  async openOffer(offer:Offer,replace=false,elapsed=0,repeatCompleted=false):Promise<OpenOutcome>{
+  async openOffer(offer:Offer,replace=false,elapsed=0,repeatCompleted=false,restartPlaying=false):Promise<OpenOutcome>{
     if(offer.mode==='endless')return this.openEndless(elapsed,repeatCompleted);
     if(this.busy)return 'unavailable';this.busy=true;
     try{
@@ -232,18 +260,21 @@ export class GameSession {
       }
       if (offer.mode === 'daily' && (wins < config.unlockProposal.dailyAfterNewWins || !offer.dayKey ||
         (!canResumeDaily(saved?.attempt) && !dateAvailable(next.profile.createdAt, next.profile.timeZone, next.meta.effectiveDay, offer.dayKey)))) return 'unavailable';
-      if(saved&&!sameBoard&&saved.attempt.status==='playing'&&!replace)return 'confirm_replace';
-      const continuing=sameBoard&&!(saved.attempt.status==='won'&&(track||repeatCompleted));
+      const replacing=saved?.attempt.status==='playing'&&(!sameBoard||restartPlaying);
+      if(replacing&&!replace)return 'confirm_replace';
+      const continuing=Boolean(sameBoard&&!replacing&&!(saved.attempt.status==='won'&&(track||repeatCompleted)));
       if(offer.mode==='free'&&!track&&!continuing&&next.profile.solvedIds.includes(offer.puzzleId)&&routes.freePlayPools[puzzle.difficulty].some(id=>!next.profile.solvedIds.includes(id)))return 'unavailable';
       if(offer.mode==='daily'){
         const assignment=next.meta.assignments[offer.dayKey!];
         if(assignment&&assignment.puzzleId!==offer.puzzleId||!assignment&&calendarPuzzle(offer.dayKey!)!==offer.puzzleId)return 'unavailable';
         if (!assignment) next.meta.assignments[offer.dayKey!]={puzzleId:offer.puzzleId,calendarVersion:dailyVersion};
+        next.meta.calendarSelectedDay=offer.dayKey!;
       }
       if(next.attempt.status==='playing'){next.attempt.elapsedPlaying+=Math.max(0,elapsed);recordTime(next,next.attempt.mode,elapsed);}
       if(next.meta.activeSlot!==key)next.meta.inactive[next.meta.activeSlot]={attempt:structuredClone(next.attempt),result:next.result};
       const target=continuing?saved!:{attempt:createAttempt(puzzle,this.id(),offer.mode),result:null};
       if(!continuing)next.career.modes[offer.mode].starts++;
+      if(replacing&&restartPlaying)next.career.modes[offer.mode].restarts++;
       next.attempt=structuredClone(target.attempt);next.result=structuredClone(target.result);next.attempt.userPaused=false;
       if(offer.mode==='daily')next.attempt.dayKey=offer.dayKey!;
       if (track && !continuing) {

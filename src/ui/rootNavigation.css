@@ -58,3 +58,16 @@ body.in-hub:has(#root-tabs:not([hidden])) { scroll-padding-bottom:calc(var(--roo
   #hub[data-screen="home"] .resume-board-open { margin-bottom:5px; }
   #hub[data-screen="home"] .home-tear { margin-block:4px; }
 }
+.daily-selection {
+  display:grid; grid-template-columns:minmax(56px,77px) minmax(0,1fr); align-items:center;
+  gap:8px 12px; padding:12px; border:1px solid var(--home-date-edge); border-radius:16px;
+  background:var(--home-date); color:var(--home-date-ink);
+}
+.daily-selection .home-tear { margin:3px 0; }
+.daily-selection .tear-day { font-size:clamp(30px,8vw,41px); }
+.daily-selection-copy { display:grid; gap:2px; min-width:0; }
+.daily-selection-copy > strong { font-weight:780; }
+.daily-selection-copy > small { font-size:.8em; }
+#daily-play { grid-column:1/-1; width:100%; font-size:1em; }
+#daily-today { grid-column:1/-1; width:auto; justify-self:start; }
+#hub[data-screen="calendar"] .month-day.selected-date { outline:2px solid var(--action-ink); outline-offset:-3px; }

@@ -3,7 +3,7 @@ import type { FreeTrack } from '../content/rotation';
 import { dailyName, localize, trackName, unlockAnnouncement } from './locale';
 import type { Language } from './locale';
 import { campaignSequence, config, getPuzzle } from '../content/catalog';
-import { campaignContinuation, storedSlot } from '../app/session';
+import { campaignContinuation, dailyDayAvailable, selectedDailyDay, storedSlot } from '../app/session';
 import { goals } from '../meta/missions';
 import { activeTrackGoal, relaxGoalTarget, trackGoalDefinitions } from '../meta/trackGoals';
 import type { TrackGoalId } from '../meta/trackGoals';
@@ -16,7 +16,7 @@ import { resumePreview } from './resumePreview';
 import { menuIcon } from './icons';
 import { WorkshopReveal } from './workshopReveal';
 import { workshopTarget } from '../meta/workshopProgress';
-import type { MetaScreen, Offer } from '../meta/types';
+import type { MetaScreen, NewGameChoice, Offer } from '../meta/types';
 
 const artwork=import.meta.glob('../../docs/spec/product/meta_v08/art/*.svg',{eager:true,query:'?raw',import:'default'}) as Record<string,string>;
 const el=<K extends keyof HTMLElementTagNameMap>(tag:K,className='',text=''):HTMLElementTagNameMap[K]=>{const n=document.createElement(tag);n.className=className;n.textContent=text;return n;};
@@ -78,7 +78,7 @@ export function nextFragmentText(save:Save):string {
   const remaining=workshopTarget(save.profile.solvedIds.length,save.profile.fragments)?.remaining;
   return localize(save.settings.language,`Новых полей до детали: ${remaining??0}`,`New boards until next part: ${remaining??0}`);
 }
-interface Actions { navigate:(screen:MetaScreen,history?:boolean)=>void; campaign:()=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
+interface Actions { navigate:(screen:MetaScreen,history?:boolean)=>void; campaign:()=>void; newGame:(choice:NewGameChoice)=>void; selectDay:(day:string)=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
 const partsEN = [
   ['Frame','Rods','Left beads','Right beads'],
   ['Tray','Units','Fives','Tens'],
@@ -214,7 +214,7 @@ export class MetaView {
     const { attempt, profile } = save;
     const wins = profile.solvedIds.length;
     const resume = attempt.mode === 'daily' ? canResumeDaily(attempt)
-      : attempt.status !== 'won' && !(attempt.mode === 'endless' && save.career.run?.status === 'ended');
+      : attempt.mode === 'endless' ? save.career.run?.status === 'active' : attempt.status === 'playing';
     const campaignId = campaignContinuation(save);
     const campaignAttempt = storedSlot(save, 'campaign')?.attempt;
     const campaignFinished = profile.campaignCursor === campaignSequence(save.contentVersion).length
@@ -346,11 +346,20 @@ export class MetaView {
     else {
       const wins=save.profile.solvedIds.length;
       if (save.profile.campaignCursor<campaignSequence(save.contentVersion).length) {
-        games.append(this.modeButton('campaign','choice-campaign',this.t('Кампания','Campaign'),this.campaignPosition(save),this.actions.campaign));
+        const next=save.profile.campaignCursor+1;
+        games.append(this.modeButton('campaign','choice-campaign',this.t('Кампания','Campaign'),
+          this.t(`Поле ${next}`,`Board ${next}`),()=>this.actions.newGame('campaign')));
       }
-      if (wins>=config.unlockProposal.freePlayAfterNewWins) games.append(this.freeModeOption(save,'relax','choice-'));
-      if (wins>=challengeUnlockWins) games.append(this.freeModeOption(save,'challenge','choice-'));
-      if (wins>=config.unlockProposal.endlessAfterNewWins) games.append(this.endlessModeOption(save,'choice-'));
+      for (const track of freeTracks) {
+        const threshold=track==='relax'?config.unlockProposal.freePlayAfterNewWins:challengeUnlockWins;
+        if(wins>=threshold) {
+          const goal=activeTrackGoal(save,track);
+          games.append(this.modeButton(track,`choice-${track}`,trackName(this.language,track),
+            goal?this.trackGoalText(goal.id,goal.progress):'',()=>this.actions.newGame(track)));
+        }
+      }
+      if (wins>=config.unlockProposal.endlessAfterNewWins) games.append(this.modeButton('endless','choice-endless','Endless',
+        this.t('Новый забег','New run'),()=>this.actions.newGame('endless')));
     }
     this.choiceOptions.replaceChildren(games);
     if (focused) this.choiceOptions.querySelector<HTMLButtonElement>(`#${CSS.escape(focused)}:enabled`)?.focus({preventScroll:true});
@@ -508,35 +517,46 @@ export class MetaView {
     return day === save.meta.effectiveDay ? this.t('Сегодня','Today') : this.t('Доступно', 'Available');
   }
 
-  private dateButton(save: Save, day: string): HTMLButtonElement {
-    const today = day === save.meta.effectiveDay;
-    const status = this.dayStatus(save,day);
-    const button = this.button('',()=>this.actions.daily(day),`daily-${day}`);
-    button.dataset.day = day;
-    button.classList.add('date-card');
-    button.classList.toggle('today',today);
-    button.classList.toggle('completed',save.meta.completedDates.includes(day));
-    button.disabled = this.disabled || day > save.meta.effectiveDay;
-    if (today) {
-      const copy = el('span','today-copy');
-      const current = storedSlot(save,'daily:'+day)?.attempt;
-      const action = current?.status === 'playing' ? this.t(`Продолжить · ${current.lives}/3 жизни`,`Continue · ${current.lives}/3 lives`)
-        : current?.status === 'won' || save.meta.completedDates.includes(day) ? this.t('Открыть результат','View result')
-        : current?.status === 'out-of-lives' ? this.t('Открыть итог','View attempt')
-        : this.t(`Играть · ${config.dailyLives} жизни`,`Play · ${config.dailyLives} lives`);
-      copy.append(el('strong','',this.t('Сегодня','Today')),el('span','',action));
-      button.append(this.dateTicket(day),copy,this.arrow());
-      button.setAttribute('aria-label',this.t(`Сегодня, ${this.dateLabel(day)}. ${action}`, `Today, ${this.dateLabel(day)}. ${action}`));
-    } else {
-      button.append(el('strong','',day.slice(8,10)+'.'+day.slice(5,7)),el('span','',status));
-      button.setAttribute('aria-label', `${day}, ${status}`);
+  private dailyBoard(save:Save,day:string):HTMLElement {
+    const current=storedSlot(save,'daily:'+day)?.attempt;
+    const locked=save.profile.solvedIds.length<config.unlockProposal.dailyAfterNewWins;
+    const title=day===save.meta.effectiveDay ? this.t('Сегодня','Today') : this.t('Выбранная дата','Selected date');
+    const action=current?.status==='playing' ? this.t('Продолжить','Continue')
+      : current?.status==='won' ? this.t('Открыть результат','View result')
+      : current?.status==='out-of-lives' ? this.t('Открыть итог','View attempt') : this.t('Играть','Play');
+    const lifeCount=current?.lives ?? config.dailyLives;
+    const caption=locked ? this.unlockText(config.unlockProposal.dailyAfterNewWins)
+      : current ? this.dayStatus(save,day)
+      : this.t(`${lifeCount} жизни`,`${lifeCount} lives`);
+    const hero=el('section','daily-selection');
+    hero.dataset.day=day;
+    const copy=el('div','daily-selection-copy');
+    copy.append(el('strong','',title),el('span','',this.dateLabel(day)),el('small','',caption));
+    const play=this.button(action,()=>this.actions.daily(day),'daily-play',true);
+    play.disabled=this.disabled||locked;
+    hero.append(this.dateTicket(day),copy,play);
+    if(day!==save.meta.effectiveDay) {
+      const today=this.button(this.t('Сегодня','Today'),()=>this.actions.selectDay(save.meta.effectiveDay),'daily-today');
+      hero.append(today);
     }
+    return hero;
+  }
+
+  private dateButton(save:Save,day:string):HTMLButtonElement {
+    const button=this.button('',()=>this.actions.selectDay(day),`daily-${day}`);
+    button.dataset.day=day;
+    button.classList.add('date-card');
+    button.classList.toggle('completed',save.meta.completedDates.includes(day));
+    button.setAttribute('aria-pressed',String(day===selectedDailyDay(save)));
+    button.append(el('strong','',day.slice(8,10)+'.'+day.slice(5,7)),el('span','',this.dayStatus(save,day)));
+    button.setAttribute('aria-label',`${this.dateLabel(day)} · ${this.dayStatus(save,day)}`);
     return button;
   }
 
   private monthGrid(save:Save):HTMLElement {
     const day = save.meta.effectiveDay;
-    const month = day.slice(0,7);
+    const selected=selectedDailyDay(save);
+    const month=selected.slice(0,7);
     const first = calendarDayIndex(month+'-01');
     const [year, number] = month.split('-').map(Number);
     const end = calendarDayIndex(new Date(Date.UTC(year!,number!,1)).toISOString().slice(0,10));
@@ -553,17 +573,18 @@ export class MetaView {
     for(let index=first;index<end;index++) {
       const date = dayFromIndex(index);
       const attempt = storedSlot(save,'daily:'+date)?.attempt;
-      const available = dateAvailable(save.profile.createdAt,save.profile.timeZone,day,date) || canResumeDaily(attempt);
+      const available=dailyDayAvailable(save,date);
       const current = date === day;
       const status = solved.has(date) ? 'solved' : attempt?.status === 'playing' ? 'started'
         : attempt?.status === 'out-of-lives' ? 'defeat' : date > day ? 'future' : available ? 'available' : 'closed';
-      const button = this.button('',()=>this.actions.daily(date));
+      const button=this.button('',()=>this.actions.selectDay(date),`month-day-${date}`);
       button.className = 'month-day';
       button.dataset.day = date;
       button.dataset.state = status;
       button.disabled = this.disabled || !available;
       if (current) button.setAttribute('aria-current','date');
-      if (date === save.attempt.dayKey) button.classList.add('selected-date');
+      button.setAttribute('aria-pressed',String(date===selected));
+      if (date===selected) button.classList.add('selected-date');
       const spoken = status==='closed' ? this.t('Дата недоступна','Date unavailable') : this.dayStatus(save,date);
       button.setAttribute('aria-label',`${this.dateLabel(date)} · ${spoken}`);
       const numberLabel = el('span','',String(index-first+1));
@@ -598,8 +619,8 @@ export class MetaView {
     row.append(seal,copy);
     if (status.kind === 'available' && status.playableDay && status.playableDay !== save.meta.effectiveDay) {
       const day = status.playableDay;
-      const button = this.button(this.t(`Открыть задачу за ${this.dateLabel(day)}`,`Open the challenge for ${this.dateLabel(day)}`),
-        ()=>this.actions.daily(day));
+      const button = this.button(this.t(`Выбрать ${this.dateLabel(day)}`,`Select ${this.dateLabel(day)}`),
+        ()=>this.actions.selectDay(day));
       button.classList.add('trophy-play-day');
       button.dataset.day = day;
       row.append(button);
@@ -621,13 +642,14 @@ export class MetaView {
     this.heading(this.t('День','Daily'));
     const today = calendarDayIndex(save.meta.effectiveDay);
     const created = calendarDayIndex(profileDay(save.profile.createdAt,save.profile.timeZone));
-    this.root.append(this.dateButton(save,save.meta.effectiveDay));
+    const selected=selectedDailyDay(save);
+    this.root.append(this.dailyBoard(save,selected));
     const currentMonth = save.meta.effectiveDay.slice(0,7);
-    const month = this.trophyRow(save,save.meta.calendarTrophyMonth ?? currentMonth);
+    const month = this.trophyRow(save,save.meta.calendarTrophyMonth ?? selected.slice(0,7));
     month.id = 'month-trophy';
     month.tabIndex = -1;
     this.root.append(this.monthGrid(save),month);
-    for(const past of reachablePastTrophies(save)) this.root.append(this.trophyRow(save,past.month,past.status));
+    for(const past of reachablePastTrophies(save)) if(past.month!==month.dataset.month) this.root.append(this.trophyRow(save,past.month,past.status));
     this.quests(save);
     this.trophyArchive(save);
     const previousMonthEnd = calendarDayIndex(currentMonth+'-01')-1;
@@ -645,7 +667,7 @@ export class MetaView {
       old.append(el('h2', '', this.t('Начатые ранее', 'Earlier unfinished boards')));
       for (const {dayKey} of older) {
         const day = dayKey!;
-        old.append(this.button(day + this.t(' · продолжить', ' · resume'), () => this.actions.daily(day), `resume-${day}`));
+        old.append(this.button(`${this.dateLabel(day)} · ${this.t('Партия начата','In progress')}`, () => this.actions.selectDay(day), `resume-${day}`));
       }
       this.root.append(old);
     }

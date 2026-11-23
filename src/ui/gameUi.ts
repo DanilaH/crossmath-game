@@ -9,11 +9,11 @@ import type { MoveFeedback } from './board';
 import { Feedback } from './feedback';
 import type { AwardTone } from './feedback';
 import type { GameSession, OpenOutcome } from '../app/session';
-import { hintPayment } from '../app/session';
+import { hintPayment, storedSlot } from '../app/session';
 import { MetaView } from './metaView';
 import { menuIcon } from './icons';
 import { rootScreens } from '../meta/types';
-import type { MetaScreen, Offer } from '../meta/types';
+import type { MetaScreen, NewGameChoice, Offer } from '../meta/types';
 import { RecoveryRequired } from '../app/saveRepository';
 import type { FreeTrack } from '../content/rotation';
 import type { Mode } from '../core/types';
@@ -46,6 +46,7 @@ export class GameUi {
     this.board=new BoardView($('board'),$('tray'),$('note'),this.feedback,()=>this.busy||session.writing||this.blocked||this.saveFailed||!this.ready,()=>this.reduced(),(action,metadata)=>this.command(action,metadata),()=>this.language);
     this.meta=new MetaView($('hub'),{
       navigate:(screen,history)=>this.navigate(screen,history),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),
+      newGame:choice=>this.chooseNewGame(choice),selectDay:day=>this.selectDay(day),
       free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),
       endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:(offer,repeat)=>this.openOffer(offer,repeat),
       quest:index=>{
@@ -159,33 +160,65 @@ export class GameUi {
       });
     });
   }
+  private selectDay(day:string):void {
+    this.run(async()=>({committed:await this.session.selectDailyDay(day)}),()=>{
+      requestAnimationFrame(()=> {
+        const play=$<HTMLButtonElement>('daily-play');
+        (play?.disabled ? $('tab-calendar') : play)?.focus();
+      });
+    });
+  }
+  private chooseNewGame(choice:NewGameChoice):void {
+    if (this.busy||this.session.writing||this.saveFailed) return;
+    const mode:Mode=choice==='campaign'||choice==='endless'?choice:'free';
+    const save=this.session.state;
+    const operation:OpenOperation=(replace,elapsed)=>this.session.newGame(choice,replace,elapsed);
+    const replacing=mode==='endless'?save.career.run?.status==='active':storedSlot(save,mode)?.attempt.status==='playing';
+    if (!replacing&&save.attempt.status==='playing'&&save.meta.activeSlot!==mode) {
+      this.requestReplacement(operation,mode,document.activeElement?.id||'new-game','park');
+    } else this.open(operation,mode,true);
+  }
   private openFree(track: FreeTrack): void {
     this.open((replace,time) => this.session.openFreeTrack(track,replace,time), 'free');
   }
   private openOffer(offer: Offer, repeatCompleted = false): void {
     this.open((replace,time) => this.session.openOffer(offer,replace,time,repeatCompleted), offer.mode);
   }
-  private open(operation: OpenOperation, mode: Mode): void {
+  private open(operation: OpenOperation, mode: Mode, newGame=false): void {
     const triggerId = document.activeElement?.id || 'tab-modes';
     let result: OpenOutcome;
     this.run(async time => {
       result = await operation(false,time);
       return {committed: result === 'opened'};
     }, () => {
-      if (result === 'confirm_replace') this.requestReplacement(operation, mode, triggerId);
+      if (result === 'confirm_replace') this.requestReplacement(operation,mode,triggerId,newGame?'new':'replace');
       else if (result === 'opened') { this.meta.closeChoice();this.leaveModal(); }
       else this.notice = 'unavailable';
     });
   }
-  private requestReplacement(operation: OpenOperation, mode: Mode, triggerId: string): void {
+  private requestReplacement(operation: OpenOperation, mode: Mode, triggerId: string, kind:'replace'|'park'|'new'='replace'): void {
     this.replacement = {operation, triggerId, recovery:false, restoreModes:this.meta.suspendChoice()};
-    const copy = mode === 'free'
-      ? [this.t('Начать другую свободную игру?', 'Start another Free Play board?'), this.t('Текущая расстановка в свободной игре будет потеряна.', 'Your current Free Play board will be reset.')]
-      : [this.t('Начать другое поле?', 'Start another board?'), this.t('Числа в незаконченной партии вернутся в лоток.', 'The numbers on your unfinished board will return to the tray.')];
+    const score=this.session.state.career.run?.score ?? 0;
+    const copy = kind==='park' ? [
+      this.t('Открыть другую игру?','Open another game?'),
+      this.t('Текущая партия останется в сохранении.','Your current board will stay saved.'),
+    ] : mode==='endless' && kind==='new' ? [
+      this.t('Начать новый забег?','Start a new run?'),
+      this.t(`Текущий забег завершится. В рекорд пойдёт ${quantity(this.language,score,'point')}.`,
+        `Your current run will end. Its ${quantity(this.language,score,'point')} will count toward the record.`),
+    ] : mode==='free' ? [
+      this.t('Начать другую свободную игру?', 'Start another Free Play board?'),
+      this.t('Текущая расстановка в свободной игре будет потеряна.', 'Your current Free Play board will be reset.'),
+    ] : [
+      this.t('Начать другое поле?', 'Start another board?'),
+      this.t('Числа в незаконченной партии вернутся в лоток.', 'The numbers on your unfinished board will return to the tray.'),
+    ];
     $('replace-title').textContent = copy[0]!;
     $('replace-description').textContent = copy[1]!;
     $('replace-error').hidden = $('replace-reload').hidden = true;
-    $('replace-board').textContent = this.t('Заменить партию', 'Replace this board');
+    $('replace-board').textContent = kind==='park' ? this.t('Открыть','Open')
+      : mode==='endless' && kind==='new' ? this.t('Начать забег','Start run')
+      : this.t('Заменить партию', 'Replace this board');
     this.blocker('replace', true);
     $<HTMLDialogElement>('replace-dialog').showModal();
     requestAnimationFrame(() => $('keep-board').focus());
