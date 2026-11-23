@@ -95,3 +95,8 @@
 
 Новый реестр — **269/269** при финальном source PIN PR #83; 4 новых ID, 15 дополненных. Это не новый игровое исполнение или новая Android acceptance. Все ранее перечисленные live blockers (solver, Event, server, IAP/Ads SDK, physical Android, cloud) сохраняются. Не переписывать gameplay source 0.5.24/29 `0401140d5fc0c191e457289b6dc8e5752a9f85a8`, русские/английские тексты, экономику и native runtime pin из-за статических каталогов.
 
+## Дополнение по нативному решателю Guru · 273/273
+
+[Первичный static-отчёт и воспроизводимый ARM64 decoder](https://github.com/DanilaH/mini-games-kit/pull/139): в 4.17.0 `CrossMathSolver.solve()` коротко замыкает четыре стратегические стадии; внутри четвёртой существует условный fallback к рекурсивному search с глубиной 0/1/2 и прекращением при 3. Нулевой внутренний счётчик `0xb56e20` и возвращаемый объект пока не декодированы, **полный original `solve()` не исполнялся**. Новый source ID `guru-strategy-conditional-backtrack` ↔ `RESEARCHED/MISSING` в 0.5.24 `src/help/logic.ts`, соседние `guru-intersect-hint` и `guru-search-depth` дополнены. Future owner-gated Help only; `stuck` формула, реальная GUI достижимость и native 4.18.0 UNKNOWN.
+
+Из 273 source ID сопоставлены 273; актуальный pin sourceInventory `9632dae736e0893c7e06d16b9c2a12cef30088d3`. Game code, 275 authored boards, монета, runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` без изменений. Исторические 265/269 выше не пересчитывались задним числом.
