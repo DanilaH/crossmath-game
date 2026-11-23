@@ -3965,14 +3965,17 @@
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
       "stage": "ENDLESS/CORE · research",
-      "originalBehavior": "У Endless Guru есть отдельный лимит ошибок/жизней, проверяемый при Submit. STOREFRONT_CLAIM legacy Guru Google Play/APKMirror 2026 description 'in two mistakes' vs 2026 updated Google Play 'more levels ... with no mistakes'; VIDEO_OBSERVED 13-49-14.mp4 shows hearts/submit, no direct count of total possible mistakes. E15 code old. Exact current budget by version UNKNOWN. | research/games/crossmath/porting/full-system-audit-20261123/README.md. Evidence tier: STOREFRONT_CLAIM + VIDEO UI; precise version-dependent allowance UNKNOWN, do not infer rule solely from marketing.",
-      "currentImplementation": "В нашей игре Endless имеет собственные три жизни и проверку только при Submit; маркетинговое описание Guru противоречиво, точный исходный бюджет для 3.5/4.17/4.18 UNKNOWN.",
+      "originalBehavior": "VIDEO_OBSERVED owner recordings video_2026-11-23_13-49-14.mp4 t1–5: original Endless How to Play says complete more stages within two mistakes for higher score; stage1 HUD visibly has exactly 2 red hearts, and second clip 13-49-07 confirms two hearts. This confirms UI/text allowance of two, not the actual engine termination after exactly two incorrect Submit. Exact source version for these two clips UNKNOWN (other video 13-49-51 is independently version 4.18.0). Earlier storefront description is supplementary only.",
+      "currentImplementation": "Crossmath 0.5.24/29 source 0401140: initial Endless lives=3 in src/core/engine.ts; a new rejected Submit valueSignature removes one life; this is owner-chosen project balance, distinct from original's observed two hearts. No runtime source parity after 2 failures.",
       "codePath": "src/meta/career.ts",
-      "nextAction": "На точной оригинальной сборке последовательно сделать 1/2/3 неправильных Submit и правильный Submit, записать сердца, финал и возможность продолжения. Не копировать правило 2 ошибки по одному описанию стора.",
+      "nextAction": "На точно установленном оригинале отдельно сделать две полные неверные раскладки и два distinct Submit; записать жизнь→конец→revive/continue, затем cold restart, узнать точный source version. До этого не объявлять two-mistake game-over точно проверенным. Не менять наше 3-life правило без отдельного решения владельца и миграции уже активных забегов.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/fd2186ed6f0397dddb4488788b2324b63424ff26/research/games/crossmath/porting/full-system-audit-20261123/README.md",
       "sourceVersionStatus": "Only specified archive version evidence",
       "dependencies": "Original device/version and access to correct event/store/Android SDK where relevant; separate owner decision, original art/sound replaced with authored alternatives, save state and user consent as applicable.",
-      "acceptanceRequirement": "Original actual trigger and user-facing route observed and independently reproduced on specified version; optional paid provider: real SDK and durable receipt plus recovery; Crossmath behavior verified in exact APK on Android."
+      "acceptanceRequirement": "Original actual trigger and user-facing route observed and independently reproduced on specified version; optional paid provider: real SDK and durable receipt plus recovery; Crossmath behavior verified in exact APK on Android.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/bd80dc0542d91e7d47675dcd1d0971f295537077/research/games/crossmath/porting/guru-endless-video-contract-20261123/README.md"
+      ]
     },
     {
       "id": "guru-privacy-consent-config",
