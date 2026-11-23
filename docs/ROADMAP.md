@@ -139,3 +139,23 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 **Рекомендация/этап:** не менять 275 контентных полей, кор-механику и себестоимость контента в Crossmath **0.5.24/29** из-за этого опыта. Следующий CORE эксперимент — actual native `solve()` на контролируемых парах масок (прежде всего 233 равнопустотных), отдельная оценка прямой/факторной/пересекающей стратегий и доля `null`; затем на **собственных** полях эксперимент с человеческим временем и ошибками, только по решению владельца. Runtime kit pin `469928d03f4bae5053e23db26e82187bedbc252e` не повышать. [Ledger 246/246](porting/ADOPTION_LEDGER.json), research pin `b6e368664265a0300efae484168bf767fa6d04af`.
 
+## Сквозной аудит референсов 23 ноября 2026
+
+**Актуальная база игры: 0.5.24 / versionCode 29**, gameplay commit `0401140d5fc0c191e457289b6dc8e5752a9f85a8`, [NAV-01–08 acceptance](acceptance/issue-6/README.md). Полный [consumer gap audit 20 систем](porting/FULL_REFERENCE_GAP_AUDIT_2026-11-23.md) и [исходный мастер-отчёт mini-games-kit](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/README.md) теперь имеют приоритет перед историческими небольшими проходами и их числами 177/195/222/246. Новая исходная система из **260 sourceFeatureId** (включая дополнительные 14 коммерческих / lifecycle / UX механизмов) сопоставлена в [consumer ledger](porting/ADOPTION_LEDGER.json).
+
+**Две независимые оси приёмки:**
+1. **Source ID gate** — ни одного исходного правила, триггера, вида награды, SKU или рекламы нет без строки в consumer ledger и явной стадии/следующего действия.
+2. **Surface gate** — перечислены **64/64 EasyFun Unity prefabs**, **18/18 таблиц**, **17/17 групп Dart UI Guru** (265 названий AOT путей и 25 точных трасс), отдельно видео GUI Guru 4.18 и фактические открытые сцены. Наличие нативного пути/Unity prefab не доказывает доступность экрана пользователю и не заменяет локальную Android проверку.
+
+| Приоритет | Статус в оригинале / отличия от 0.5.24 | Следующий критерий |
+| --- | --- | --- |
+| **CORE — original solver, `stuck`** | Прямая генерация и две категории каталога разобраны, но полный `CrossMathSolver.solve` не исполнялся; `stuck` зависит от mask topology, авторская формула UNKNOWN; у нас свой банк 275 | Native execution всех стратегий Guru 4.17 на same-seed mask pairs с независимой проверкой; **не** переписывать наш банк без owner-решения и human play data |
+| **ORIGINAL UI / FTUE / feel** | 9 видео Guru, только 13-49-51 подтверждает 4.18.0; root-tabs #6 у нас уже реализованы | Версия+снимок конкретного оригинала, несколько последовательностей before→touch→after, затем Android нашей 0.5.24 c физическим sound/vibration/back/TalkBack |
+| **Базовый LiveOps** | Guru Daily, Postcard, Adventure, Brains и StarRace код/конфиги разобраны; EasyFun скрытые Owl требуют Event `hiddenNumber>0`; у нас только локальные Daily/мастерская | Реально полученный активный Event JSON, дата/конкретный экран, claim ledger + restarts; remote cohorts без API UNKNOWN |
+| **Бой, бот, соревновательные механики** | В референсе независимые bot/ticket/streak/keep-streak/add-heart, на видео Battle locked; M3 в игре отложена | Реальная запись матча и live источника, затем отдельное owner решение по M3, не добавлять фальшивую online дуэль |
+| **Коммерция/реклама** | Guru 11 семейств IAP + отдельный RemoveAds/developer response, MREC, ClaimCoins, RedeemCode, Rewarded IDs; EasyFun 7 interstitial/4 banner/8 rewardtemplate | Реальные Android SDK events, billing SKU/receipt/restore/refund, eligibility/caps/offline и consent; в первую сборку не включать автоматически |
+| **Удержание/аналитика/lifecycle** | Notification guide, feedback, update dialog, аналитические ключи Explanation, реклама и server calibration встречаются в исходных данных; save state/code и video разные evidence | Промпт permission, фактический push/deep link, retention data, cancel/back/process-kill и GDPR. Не заявлять D1/D7 из APK |
+
+**Что уже не надо делать повторно:** не переписывать полностью меню 0.5.24 — оно присутствует в PR #4, [точные видео/браузерные tests](acceptance/issue-6/README.md). Приёмка на физическом Android, Play Billing и event SDK — **не выполнена**. Runtime kit остаётся pinned `469928d03f4bae5053e23db26e82187bedbc252e` даже при более свежем source inventory.
+
+**Этапы реализации — не отказ:** дорогостоящие механики из исходника сохраняются как `DEFERRED` или `EVIDENCE_GAP` с причинами, не как `OWNER_EXCLUDED`. Только владелец решает исключение или принятие. Общий реестр **не** задаёт автоматическое внедрение всех 260 механизмов в одном PR.
