@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "d1402b29d7a8657c581c670972b3c698709e8a27",
+    "commit": "7b902a2a451cf7ceaa40b6b0baa2cf6cdb0390ae",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -4169,14 +4169,14 @@
       "sourceFeatureId": "easy-ad-client-interstitial-gates",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "originalBehavior": "EasyFun Offline Crossmath 1.1.9/1193 NATIVE_STATIC, original AdManager.CheckShowInterstitialAvailable ARM64 RVA 0x1434c38: LevelManager.GetTotalGameCompleteCount sums StatusUtil ClassicGameEasy/Normal/Hard/Expert/Hell counts; completionCount >= first FirebaseService.GetIntRemoteConfig key value (0x1434d34 cmp, 0x1434d38 b.lt false); StatusUtil.get_TotalPlaySecond > second FirebaseService.GetIntRemoteConfig key value (0x1434d78 cmp, 0x1434d7c b.le false). Then AdManager.CouldShowInterstitial and optionally InterstitialLoaded; an early nonzero instance flag +0x19 can bypass positive. 9 direct ShowInterstitial BL from eight UI handlers, 12 CheckShow BL. Real remote keys/values, this flag, exact live result/SDK ad impression UNKNOWN. Verifiable through original SHA pinned native script and negative mutations; no Android run.",
-      "currentImplementation": "Crossmath 0.5.24/29 src/platform/adState.ts:canShowInterstitial requires result/won state, our own profile.solvedIds.length above config.ads.interstitialProtectFirstNewWins, activeSeconds cooldown from lastInterstitial and postRewardedProtectSeconds. AdsController.beforeNext() gates actual provider.showInterstitial and records shown. It does not sum original 5 difficulty counts or read original Firebase remote values. Browser/JS tests are not real SDK parity.",
+      "originalBehavior": "Original EasyFun Offline Crossmath 1.1.9/1193 (original AOT NATIVE_STATIC, exact SHA pinned): AdManager.CheckShowInterstitialAvailable allows ordinary ad gate only after LevelManager.GetTotalGameCompleteCount sums five Classic counters Easy/Normal/Hard/Expert/Hell >= FirebaseService.GetIntRemoteConfig('interstitial_ad_scene') AND StatusUtil.get_TotalPlaySecond > FirebaseService.GetIntRemoteConfig('ad_first_interstitial_time'). Then AdManager.CouldShowInterstitial enforces elapsed UTC since RewardedVideoCloseCallBack at this+0x14 (shared remote cooldown key still UNKNOWN). Interstitial event type2 compares elapsed UTC since InterstitialClosedCallBack at this+0x10 to Firebase 'ad_enter_interval', type3 to 'ad_done_interval'; negative interval rejects, zero allows, positive requires elapsed>=interval. A separate bool optionally tests InterstitialLoaded; early AdManager+0x19 flag allows an unknown positive bypass. Original four key literals decoded directly from IL2CPP metadata usage to exact callsite; live numeric values/consent/no-fill/impression UNKNOWN.",
+      "currentImplementation": "Crossmath own 0.5.24/29 src/platform/adState.ts canShowInterstitial requires won result, minimum solvedIds.length, activeSeconds elapsed since lastInterstitial and lastReward; src/platform/ads.ts AdsController.beforeNext() performs provider.showInterstitial only at result→Next and records shown. No original five Classic counters, no Firebase remote gate and no separate enter/done UTC intervals; independent simpler policy. Original parity PARTIAL, exact UX/Android SDK needs device testing.",
       "codePath": "src/platform/adState.ts",
       "stage": "PLATFORM/COMMERCIAL owner-gated live SDK, not activate on source strings",
       "dependencies": "Optional approved native provider, app consent, lifecycle, active play timer, remote cooldown policies and durable receipt tests; no original code/assets to reuse.",
-      "nextAction": "In original EasyFun 1.1.9, native Android log each CheckShowInterstitialAvailable return, actual five Classic completion counters, cumulative TotalPlaySecond, both Firebase GetIntRemoteConfig keys/defaults/server values, early bypass flag, consent/no-fill and observed SDK impression after Home Relax/Challenge/Daily, Daily Level Play, result/Next. Compare player feel/cooldown with our native Android 0.5.24/29; only implement changes after explicit owner approval.",
-      "acceptanceRequirement": "Exact original APK build + values and branch/SDK telemetry establish count>=config1, seconds>config2, bypass meaning, show/ad missing and cooldown on device; source static callgraph alone not sufficient. Our approved separate policy must be tested offline, background, fresh/old save, no repeated fullscreen, privacy. No copied SDK or source assets.",
-      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/d1402b29d7a8657c581c670972b3c698709e8a27/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
+      "nextAction": "Original EasyFun 1.1.9 Android: log exact Firebase defaults and server values for interstitial_ad_scene, ad_first_interstitial_time, ad_enter_interval and ad_done_interval; additionally identify shared rewarded cooldown remote key, early +0x19 bypass owner and persistence, then real ad SDK callbacks/impressions vs no-fill on first play, five classic difficulties, enter/done types, rewarded→interstitial, offline and after restart. Compare with current own 0.5.24/29 browser/native guards; explicit owner decision before changing monetization.",
+      "acceptanceRequirement": "Exact owner XAPK 1.1.9/1193 sha pin and original static script verify four IL2CPP StringLiteral slots, branch conditions, two UTC CloseCallBack stores with negative mutation; separate live original Android trace verifies exact thresholds, time/consent/no-fill, actual displayed ad. Product cannot claim MATCH without original/our physical SDK behavior and owner's approved independent policy.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7b902a2a451cf7ceaa40b6b0baa2cf6cdb0390ae/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN",
       "additionalSourceEvidence": [
@@ -4540,11 +4540,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "d1402b29d7a8657c581c670972b3c698709e8a27",
+    "sourceInventoryCommit": "7b902a2a451cf7ceaa40b6b0baa2cf6cdb0390ae",
     "sourceCount": 288,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
     "report": "research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
-    "summary": "288/288 stable source IDs, no additions in last update. Exact original EasyFun 1.1.9 ARM64 AdManager interstitial eligibility: sum 5 Classic difficulty completion counters >= Firebase int gate 1, TotalPlaySecond > Firebase int gate 2, then CouldShowInterstitial and optional loaded check, unknown early positive bypass. Two branch-mutation negatives rejected. Prior original 9 direct Show BL/12 check BL, MREC/Native RET-only hold. Original remote keys/values/SDK impressions UNKNOWN. Consumer 0.5.24/29 own guards PARTIAL, no gameplay/runtime changes."
+    "summary": "288/288 unchanged. Original exact EasyFun 1.1.9/1193 IL2CPP native proves 4 active remote key literals: interstitial_ad_scene (5 difficulty completion sum >=), ad_first_interstitial_time (total played seconds >), ad_enter_interval (type2 since interstitial close), ad_done_interval (type3 since interstitial close). Shared cooldown since rewarded close uses separate UTC timestamp and currently unknown key. Client bypass flag unknown. Negative controls for key mutation, timestamp store and 2 conditional branches rejected. No live Firebase values, original Android SDK impressions or owner ad policy approval. Game code/runtime 0.5.24/29 and 275 authored boards unchanged."
   }
 }
