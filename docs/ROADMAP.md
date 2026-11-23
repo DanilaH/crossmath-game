@@ -183,3 +183,10 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 **Текущий реестр: 269 исходных ID**, четыре новых, 15 уточнённых старых. Точная формула `stuck` и полный end-to-end native `solve()` всё ещё UNKNOWN. Следующий доступный научный опыт — полный оригинальный `CrossMathSolver.solve` со стендом AArch64 Dart AOT. **НЕ переписывать текущий банк и не активировать коммерческие SDK на основании этих открытий.** Игровой source 0.5.24/29 `0401140d5fc0c191e457289b6dc8e5752a9f85a8`; runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` без обновления.
 
+
+## EasyFun AdManager — клиентские допуски и триггеры выдачи · 23.11.2026
+
+[BUNDLED_IL2CPP_METADATA, точный 1.1.9 XAPK](https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md): собственный `Assets/MainGame/Script/Manager/AdManager.cs`, клиентские guard методы interstitial, timestamp последнего закрытия, callback разных стадий rewarded, consent/Firebase и типы `RewardTemplate`/`InterstitialTemplate`. Два ID **`easy-ad-client-interstitial-gates`**, **`easy-ad-rewarded-callback-states`** зарегистрированы отдельно. Наш `src/platform/adState.ts` уже проверяет cooldown/защиту после rewarded, `ads.ts` разделяет fullscreen и rewardSettled через долговечную очередь. **Однако исходные значения guard/частота и реальная Android выдача не подтверждены**. Продуктовый этап — только после решения владельца о live SDK и consent. Выдача проверяется по receipt/restart, не по имени колбэка в чужом бинарнике.
+
+Инвентарь стал **271 sourceFeatureId**, в игре **271/271 mapped**. Данные оригинала — static-only, код игры/275 authored boards/монета/XP/сохранения не менялись. [Подробный пакет](porting/ARITHMETIC_AND_AD_TEMPLATE_DELTA_2026-11-23.md). Текущая проверенная сборка **0.5.24/29**, физическая Android acceptance для работы разработчика ещё открыта.
+
