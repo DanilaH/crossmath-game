@@ -8,7 +8,7 @@
 
 ## 1. Что означает результат этого аудита
 
-Мы инвентаризировали *все доступные локальные source surfaces/семейства по существующему материалу*, а не добились динамического покрытия каждого UI маршрута. В `SOURCE_FEATURES.json` теперь **262 источниковых ID**, включая 14 коммерческих и lifecycle-пробелов, которые были не выделены самостоятельными записями. В игре — **262 строк adoption ledger**, каждый со статусом и шагом. Число ID **не** доказывает полноту APK или реального продакшена. 5 базовых EasyFun prefab не являются самостоятельными страницами; из 64 одна `panelosa_prefab` всё ещё не привязана к подтверждённому маршруту. 265 путей в AOT Guru включают виджеты/design model и debug paths, не 265 живых экранов.
+Мы инвентаризировали *все доступные локальные source surfaces/семейства по существующему материалу*, а не добились динамического покрытия каждого UI маршрута. В `SOURCE_FEATURES.json` теперь **265 источниковых ID**, включая 14 коммерческих и lifecycle-пробелов, которые были не выделены самостоятельными записями. В игре — **265 строк adoption ledger**, каждый со статусом и шагом. Число ID **не** доказывает полноту APK или реального продакшена. 5 базовых EasyFun prefab не являются самостоятельными страницами; из 64 одна `panelosa_prefab` всё ещё не привязана к подтверждённому маршруту. 265 путей в AOT Guru включают виджеты/design model и debug paths, не 265 живых экранов.
 
 | Категория | Исследование исходных сборок | Что в нашей `0.5.24 / 29` | Недостающая проверка или стадия |
 | --- | --- | --- | --- |
@@ -29,7 +29,7 @@
 | **Сохранения, фон и облако** | В обеих играх видны локальные базы/flags; Guru отдельные reward histories; EasyFun SQLite Daily trophies | `src/app/saveRepository.ts`, `src/app/session.ts` durable root revision/saved slots; 0.5.23→0.5.24 восстановление показано в браузере | Original Android process kill/rotation/crash, restore, cloud multi-device конфликт UNKNOWN; наш physical Android тоже открыт |
 | **Локализация/согласия/платформа** | EasyFun 26 language settings, 176 lang-table rows, GDPR/personalize; Guru Language/large font/Theme/Division/GDPR remote config | RU/EN, две темы, 100–200% браузерные матрицы | Android TalkBack, OS insets/font, store compliance, network/consent and rejected privacy dialogs |
 
-## 2. Стабильные ID, ответственный код и критерии приёмки для 16 новых исследований
+## 2. Стабильные ID, ответственный код и критерии приёмки для 19 новых исследований
 
 | `sourceFeatureId` | Реальный исходный источник | Состояние / затронутый код игры | Следующий результат для подтверждения |
 | --- | --- | --- | --- |
@@ -52,7 +52,7 @@
 
 ### Дополнение: Feedback EasyFun 1.1.9 (BUNDLED_IL2CPP_METADATA)
 
-[Первичный уточняющий файл](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/EASYFUN_FEEDBACK_EXIT_RECHECK.md) подтвердил **два самостоятельных исходных триггера**: `easy-feedback-photo-attachment` — галерея, permission, add/delete/media size; `easy-feedback-validated-submit` — email/content validation и асинхронная отправка. Путь исходного UI существует как `panelpopfeedback_prefab`; реально принятый результат/лимиты всё ещё `UNKNOWN`. В Crossmath 0.5.24 нет ни media-feedback, ни почтового submission backend; **RESEARCHED/MISSING**, продуктовая стадия зависит от согласия на персональные данные и решения владельца. `easy-exit-reason-panel` по исходным `ExitHistory/UploadEX` вероятнее внутренняя диагностика исключений, а не доказанный опрос причин выхода; user route UNKNOWN. Обновлённая полная матрица: **262/262 исходных записей**.
+[Первичный уточняющий файл](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/EASYFUN_FEEDBACK_EXIT_RECHECK.md) подтвердил **два самостоятельных исходных триггера**: `easy-feedback-photo-attachment` — галерея, permission, add/delete/media size; `easy-feedback-validated-submit` — email/content validation и асинхронная отправка. Путь исходного UI существует как `panelpopfeedback_prefab`; реально принятый результат/лимиты всё ещё `UNKNOWN`. В Crossmath 0.5.24 нет ни media-feedback, ни почтового submission backend; **RESEARCHED/MISSING**, продуктовая стадия зависит от согласия на персональные данные и решения владельца. `easy-exit-reason-panel` по исходным `ExitHistory/UploadEX` вероятнее внутренняя диагностика исключений, а не доказанный опрос причин выхода; user route UNKNOWN. Обновлённая полная матрица: **265/262 исходных записей**.
 
 ## 3. Недоказанные live системы — конкретные внешние блокеры
 
@@ -72,3 +72,17 @@
 **Исследователь без ожидания очередных сообщений:** по имеющимся APK и наработкам E29/H08–H12 продолжать разбор полного native solver и `stuck`; при недоступности стенда не притворяться исполнением. Для каждого оригинального live-эксперимента нужен конкретный SDK/server/device artifact; невозможность получить его сейчас — внешний blocker, а не выполненный тест. Не ограничиваться числом ID, использовать полную системную матрицу в [mini-games-kit](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/README.md).
 
 **KIT IMPACT · RESEARCH/REUSE:** дополнена методология объективной проверки source surface coverage (64 Unity prefab / 18 tables; 17 Dart UI families, 25 exact paths) и отдельные 14 механизмов. Runtime pin `469928d03f4bae5053e23db26e82187bedbc252e` не изменён.
+
+## 5. RemoteConfig Guru: все 23 источника, три новых самостоятельных правила
+
+[Точный 23/23 AOT реестр](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json) и [SHA-verifier](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/verify_guru_remote_configs.py): **10 exact getter strings** найдены также в Guru 3.5.2, **13 появились по этим именам в 4.17.0**. Все 23 связаны со stable source IDs; только три самостоятельные ранее не учтённые возможности получили новый ID, а остальные добавлены как новые доказательства к существующим механизмам.
+
+| Новый `sourceFeatureId` | Прямой первоисточник | Состояние Crossmath 0.5.24 | Опыт для доказательства |
+|---|---|---|---|
+| `guru-banner-during-fullscreen-load` | `RemoteConfigExtension|getBannerDuringFullscreenAdsLoadingConfig` Guru 4.17 AOT | `EVIDENCE_GAP/MISSING` — опциональный native ads bridge без подменяющего баннера | Android original interstitial load, no-fill/cancel, загрузка от сети, формат, frequency и действующий server config |
+| `guru-free-reward-remote-config` | `RemoteConfigExtension|getFreeRewardConfig` Guru 4.17 AOT | `EVIDENCE_GAP/UNKNOWN` — нет указанного независимого оффера | Original caller→видимый экран→claim/denial, rewards ledger и remote eligibility; не смешивать с `guru-claim-coins-dialog` без проверки |
+| `guru-remote-vibration-audio-config` | `RemoteConfigExtension|getVibrationAudioConfig` Guru 4.17 AOT | `RESEARCHED/PARTIAL` — свои короткие audio/haptic, без remote tune | На физическом Android оригинала отдельно sound/vibration toggle, конкретный cue event, offline и config значения; наш own haptic остается своим |
+
+Остальные remote семейства: Banner/MREC/Interstitial, Battle Robot/Unlock/Enable, Brains Weekly, GDPR, new-user property, PuzzleFilter, StarRace/Validation, Strategy Hint, Daily Task, TrainBrain, Postcard Unlock/Rewards/Validation и XP System. **Активные значения, A/B группы и реальные server callbacks UNKNOWN**; сам AOT getter не доказывает персонализацию игроков.
+
+**Итог source inventory / adoption ledger: 265/265**. Одинаковое число **265** для source IDs и для UI-path strings Guru **случайно**, это два независимых измерения. Runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` и gameplay build `0.5.24/29` не менялись.
