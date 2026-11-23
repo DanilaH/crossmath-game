@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "2adeddc1e06494c24d3799b5e18a3a80a70afde9",
+    "commit": "a4ca64c19d44d6b0a2ca85eea66ec737122549a2",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -4332,11 +4332,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "2adeddc1e06494c24d3799b5e18a3a80a70afde9",
+    "sourceInventoryCommit": "a4ca64c19d44d6b0a2ca85eea66ec737122549a2",
     "sourceCount": 275,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
-    "report": "research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md",
-    "summary": "275/275 source-to-consumer mapped: new NATIVE_STATIC Guru conditional bounded solver feature plus METHOD_DECLARING_TYPE EasyFun 1.1.9 MREC and Native ad channels. Complete original solve, 4.18.0 ELF, ad SDK callers/impressions/live activation UNKNOWN. No gameplay/runtime changes."
+    "report": "research/games/crossmath/porting/video-evidence-integrity-20261123/README.md",
+    "summary": "275/275 IDs unchanged. Manifest-reference audit covered 36 video-linked features and all 9 source MP4; corrected 3 unrelated SHA locators (New Game, leaderboard, immersive play), attached exact per-clip manifest digests to all 36. This verifies internal SHA provenance joins, not rehash of original bytes, specific build of 8 other clips, physical Android, native full solve, live ads or gameplay parity. Crossmath 0.5.24/29 runtime/code unchanged."
   }
 }
