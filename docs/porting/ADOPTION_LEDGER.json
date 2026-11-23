@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "5a72a2a827cb089ff2ec8e8aecbfc334141001a8",
+    "commit": "d1402b29d7a8657c581c670972b3c698709e8a27",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -4169,14 +4169,14 @@
       "sourceFeatureId": "easy-ad-client-interstitial-gates",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "originalBehavior": "EasyFun 1.1.9 exact native AOT has implemented CheckShowInterstitialAvailable RVA 0x1434c38 (12 direct BL callers) and ShowInterstitial RVA 0x1434644 (9 direct BL callers), covering GameManager.OnGameComplete, PanelHome Relax/Challenge/Daily, level-play, restart and level-change handlers; ReportShowAdLimitedByClient also 3 callers. Precise gate formula, 0.5 resource template association, actual SDK request/impression UNKNOWN.",
-      "currentImplementation": "Crossmath 0.5.24/29 already has own `src/platform/adState.ts canShowInterstitial`, `lastInterstitial` and `postRewardedProtectSeconds`, plus AdsController provider availability/timeout. Scripted provider tests passed, real Android SDK gate and exact source equivalence not accepted.",
+      "originalBehavior": "EasyFun Offline Crossmath 1.1.9/1193 NATIVE_STATIC, original AdManager.CheckShowInterstitialAvailable ARM64 RVA 0x1434c38: LevelManager.GetTotalGameCompleteCount sums StatusUtil ClassicGameEasy/Normal/Hard/Expert/Hell counts; completionCount >= first FirebaseService.GetIntRemoteConfig key value (0x1434d34 cmp, 0x1434d38 b.lt false); StatusUtil.get_TotalPlaySecond > second FirebaseService.GetIntRemoteConfig key value (0x1434d78 cmp, 0x1434d7c b.le false). Then AdManager.CouldShowInterstitial and optionally InterstitialLoaded; an early nonzero instance flag +0x19 can bypass positive. 9 direct ShowInterstitial BL from eight UI handlers, 12 CheckShow BL. Real remote keys/values, this flag, exact live result/SDK ad impression UNKNOWN. Verifiable through original SHA pinned native script and negative mutations; no Android run.",
+      "currentImplementation": "Crossmath 0.5.24/29 src/platform/adState.ts:canShowInterstitial requires result/won state, our own profile.solvedIds.length above config.ads.interstitialProtectFirstNewWins, activeSeconds cooldown from lastInterstitial and postRewardedProtectSeconds. AdsController.beforeNext() gates actual provider.showInterstitial and records shown. It does not sum original 5 difficulty counts or read original Firebase remote values. Browser/JS tests are not real SDK parity.",
       "codePath": "src/platform/adState.ts",
       "stage": "PLATFORM/COMMERCIAL owner-gated live SDK, not activate on source strings",
       "dependencies": "Optional approved native provider, app consent, lifecycle, active play timer, remote cooldown policies and durable receipt tests; no original code/assets to reuse.",
-      "nextAction": "Original Android capture for Home Relax/Challenge/Daily, Daily Play/Restart, game complete and level change; compare client gate return with real SDK on-screen show/no-fill, privacy/consent and cooldown. Do not port 9 placements without owner approval.",
-      "acceptanceRequirement": "Original active guard/sequence observed or instrumented; our Android provider demonstrates nonreentrant fullscreen, client-policy cooldown, offline/no-fill fallback, and no lost/stale continuation. Scripted JS path is not live SDK.",
-      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
+      "nextAction": "In original EasyFun 1.1.9, native Android log each CheckShowInterstitialAvailable return, actual five Classic completion counters, cumulative TotalPlaySecond, both Firebase GetIntRemoteConfig keys/defaults/server values, early bypass flag, consent/no-fill and observed SDK impression after Home Relax/Challenge/Daily, Daily Level Play, result/Next. Compare player feel/cooldown with our native Android 0.5.24/29; only implement changes after explicit owner approval.",
+      "acceptanceRequirement": "Exact original APK build + values and branch/SDK telemetry establish count>=config1, seconds>config2, bypass meaning, show/ad missing and cooldown on device; source static callgraph alone not sufficient. Our approved separate policy must be tested offline, background, fresh/old save, no repeated fullscreen, privacy. No copied SDK or source assets.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/d1402b29d7a8657c581c670972b3c698709e8a27/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN",
       "additionalSourceEvidence": [
@@ -4540,11 +4540,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "5a72a2a827cb089ff2ec8e8aecbfc334141001a8",
+    "sourceInventoryCommit": "d1402b29d7a8657c581c670972b3c698709e8a27",
     "sourceCount": 288,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
     "report": "research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
-    "summary": "288/288 stable source IDs; exact owner EasyFun 1.1.9 native AOT: AdManager 51 methods, 18 one-ret-only (all five MREC and all five Native API methods, plus RewardedVideoGetRewardCallBack), nine direct ShowInterstitial BL from 8 game UI handlers; 12 CheckShowInterstitialAvailable and 3 check-only UI handlers. Added 13 independently identified static triggers, corrected source semantics of MREC/Native and rewarded callback. Native static only, no actual ad placement/SDK impression or owner approval. Game code remains 0.5.24/29, runtime kit pin unchanged."
+    "summary": "288/288 stable source IDs, no additions in last update. Exact original EasyFun 1.1.9 ARM64 AdManager interstitial eligibility: sum 5 Classic difficulty completion counters >= Firebase int gate 1, TotalPlaySecond > Firebase int gate 2, then CouldShowInterstitial and optional loaded check, unknown early positive bypass. Two branch-mutation negatives rejected. Prior original 9 direct Show BL/12 check BL, MREC/Native RET-only hold. Original remote keys/values/SDK impressions UNKNOWN. Consumer 0.5.24/29 own guards PARTIAL, no gameplay/runtime changes."
   }
 }
