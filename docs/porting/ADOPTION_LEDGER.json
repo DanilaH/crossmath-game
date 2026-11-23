@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "623fd9042f4f50295b24b2fe9ad58d0c31b5539f",
+    "commit": "00edfef583327899970ea1dc1273546b17a9ee5e",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -3895,6 +3895,48 @@
       "nextAction": "EasyFun 1.1.9 original Android: test empty content, invalid email, overlong content, offline submit, cancel/return and a permitted dummy message; record validation texts/limits and verified server acceptance before implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/623fd9042f4f50295b24b2fe9ad58d0c31b5539f/research/games/crossmath/porting/full-system-audit-20261123/EASYFUN_FEEDBACK_EXIT_RECHECK.md",
       "acceptanceRequirement": "Original Android before/tap/permission/error/success in version 1.1.9 and own Android 0.5.24+ equivalent, no unconsented private media/email transmission; never infer actual upload from IL2CPP method name"
+    },
+    {
+      "id": "guru-banner-during-fullscreen-load",
+      "sourceFeatureId": "guru-banner-during-fullscreen-load",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING",
+      "stage": "COMMERCIAL/ADS · investigate when provider approved",
+      "originalBehavior": "В новой Guru есть отдельная remote-настройка баннера на время загрузки полноэкранной рекламы. NATIVE_STATIC pinned Guru Crossmath 4.17.0 26101374 arm64 libapp.so SHA256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5 contains exact Dart AOT string RemoteConfigExtension|getBannerDuringFullscreenAdsLoadingConfig (1 occurrence); pinned Guru 3.5.2 24070452 libapp.so absent this exact name. Verified by distinct direct string scans. research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json.; presence of exact remote-config getter does not prove live eligibility, server value, user UI trigger or ad revenue.",
+      "currentImplementation": "В нашей 0.5.24/29 опциональный Ad bridge не показывает альтернативный баннер при ожидании открытия полноэкранной рекламы, нет живого ad provider и отдельного remote config.",
+      "codePath": "src/platform/ads.ts",
+      "nextAction": "В оригинале Guru 4.17.0 воспроизвести медленную загрузку interstitial/rewarded и проверить баннер на период запроса, dismiss/no-fill/timeouts; зафиксировать actual Android provider and server flag before any use in Crossmath.",
+      "dependencies": "Original Guru 4.17 AOT, original Android online/offline, active remote configuration when permissible; for user SDK/monetization require owner permission, consent, durable receipts, cancel/back/restore and all platform constraints",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/00edfef583327899970ea1dc1273546b17a9ee5e/research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json",
+      "acceptanceRequirement": "Original runtime path confirmed in exact version + verified active server/SDK callbacks; for own game separate approved design with native Android acceptance and no imported third-party assets."
+    },
+    {
+      "id": "guru-free-reward-remote-config",
+      "sourceFeatureId": "guru-free-reward-remote-config",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "stage": "COMMERCIAL/REWARDS · research until live offer shown",
+      "originalBehavior": "В Guru 4.17 есть отдельная удалённая конфигурация бесплатных наград; пользовательский оффер и начисление пока UNKNOWN. NATIVE_STATIC pinned Guru Crossmath 4.17.0 26101374 arm64 libapp.so SHA256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5 contains exact Dart AOT string RemoteConfigExtension|getFreeRewardConfig (1 occurrence); pinned Guru 3.5.2 24070452 libapp.so absent this exact name. Verified by distinct direct string scans. research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json.; presence of exact remote-config getter does not prove live eligibility, server value, user UI trigger or ad revenue.",
+      "currentImplementation": "В нашей игре есть атомарные квитанции выигрыша, но нет отдалённо управляемого отдельного Free Reward оффера с eligibility/claim/cooldown; что это за выдача у Guru по одной строке не установлено.",
+      "codePath": "src/platform/ads.ts",
+      "nextAction": "Проследить вызывающий путь RemoteConfigExtension|getFreeRewardConfig в native Guru 4.17 и оригинале: UI route/валюта, триггер, off/on, one-time claim, no-fill, repeat on cold start. Не отождествлять без вызова с Claim Coins или Rewarded Store.",
+      "dependencies": "Original Guru 4.17 AOT, original Android online/offline, active remote configuration when permissible; for user SDK/monetization require owner permission, consent, durable receipts, cancel/back/restore and all platform constraints",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/00edfef583327899970ea1dc1273546b17a9ee5e/research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json",
+      "acceptanceRequirement": "Original runtime path confirmed in exact version + verified active server/SDK callbacks; for own game separate approved design with native Android acceptance and no imported third-party assets."
+    },
+    {
+      "id": "guru-remote-vibration-audio-config",
+      "sourceFeatureId": "guru-remote-vibration-audio-config",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "stage": "UX/FEEL · evidence and owner review",
+      "originalBehavior": "В Guru 4.17 введена отдельная remote-настройка аудио и вибрации, действующие параметры UNKNOWN. NATIVE_STATIC pinned Guru Crossmath 4.17.0 26101374 arm64 libapp.so SHA256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5 contains exact Dart AOT string RemoteConfigExtension|getVibrationAudioConfig (1 occurrence); pinned Guru 3.5.2 24070452 libapp.so absent this exact name. Verified by distinct direct string scans. research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json.; presence of exact remote-config getter does not prove live eligibility, server value, user UI trigger or ad revenue.",
+      "currentImplementation": "Crossmath 0.5.24/29 имеет свои независимые sound/vibration flags и короткие WebAudio/navigator.vibrate cues; отдельная загрузка внешних аудио-вибро параметров отсутствует, физическое Android сравнение не принято.",
+      "codePath": "src/ui/feedback.ts",
+      "nextAction": "Guru 4.17.0 Android: одинаковые события pick/place/error/win при sound/vibration ON/OFF online/offline, записать реальные cue/haptic timing и выяснить конфигурационные значения. До этого авторская sound palette нашего проекта остается собственной.",
+      "dependencies": "Original Guru 4.17 AOT, original Android online/offline, active remote configuration when permissible; for user SDK/monetization require owner permission, consent, durable receipts, cancel/back/restore and all platform constraints",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/00edfef583327899970ea1dc1273546b17a9ee5e/research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json",
+      "acceptanceRequirement": "Original runtime path confirmed in exact version + verified active server/SDK callbacks; for own game separate approved design with native Android acceptance and no imported third-party assets."
     }
   ],
   "latestReview": {
@@ -3964,11 +4006,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "623fd9042f4f50295b24b2fe9ad58d0c31b5539f",
-    "sourceCount": 262,
+    "sourceInventoryCommit": "00edfef583327899970ea1dc1273546b17a9ee5e",
+    "sourceCount": 265,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
     "report": "research/games/crossmath/porting/full-system-audit-20261123/README.md",
-    "summary": "Immediate full-system source-surface audit across Guru 3.5.2/4.17.0 and EasyFun 1.1.9; Guru 4.18 original video version identified in one clip. Covers 64 Unity UI prefabs/18 tables, 265 Guru AOT UI pathnames/17 families, 20 game systems, seven classes of external live evidence blockers, 14 newly separately recorded source IDs. No claim all 260 are active production. Game code still 0.5.24/29. Additional original EasyFun IL2CPP metadata validated independent feedback-media and validated-submit handlers; 2 stable new IDs; exit-reason panel is probably internal diagnostics but runtime UNKNOWN."
+    "summary": "Immediate full-system source-surface audit across Guru 3.5.2/4.17.0 and EasyFun 1.1.9; Guru 4.18 original video version identified in one clip. Covers 64 Unity UI prefabs/18 tables, 265 Guru AOT UI pathnames/17 families, 20 game systems, seven classes of external live evidence blockers, 14 newly separately recorded source IDs. No claim all 260 are active production. Game code still 0.5.24/29. Additional original EasyFun IL2CPP metadata validated independent feedback-media and validated-submit handlers; 2 stable new IDs; exit-reason panel is probably internal diagnostics but runtime UNKNOWN. Guru 4.17 23/23 exact remote-config getters mapped to existing + 3 distinct new source IDs (banner during fullscreen load, separate free rewards, vibration/audio remote config); actual server values UNKNOWN."
   }
 }
