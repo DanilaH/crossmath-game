@@ -8,7 +8,7 @@
 
 ## 1. Что означает результат этого аудита
 
-Мы инвентаризировали *все доступные локальные source surfaces/семейства по существующему материалу*, а не добились динамического покрытия каждого UI маршрута. В `SOURCE_FEATURES.json` теперь **260 источниковых ID**, включая 14 коммерческих и lifecycle-пробелов, которые были не выделены самостоятельными записями. В игре — **260 строк adoption ledger**, каждый со статусом и шагом. Число ID **не** доказывает полноту APK или реального продакшена. 5 базовых EasyFun prefab не являются самостоятельными страницами; из 64 одна `panelosa_prefab` всё ещё не привязана к подтверждённому маршруту. 265 путей в AOT Guru включают виджеты/design model и debug paths, не 265 живых экранов.
+Мы инвентаризировали *все доступные локальные source surfaces/семейства по существующему материалу*, а не добились динамического покрытия каждого UI маршрута. В `SOURCE_FEATURES.json` теперь **262 источниковых ID**, включая 14 коммерческих и lifecycle-пробелов, которые были не выделены самостоятельными записями. В игре — **262 строк adoption ledger**, каждый со статусом и шагом. Число ID **не** доказывает полноту APK или реального продакшена. 5 базовых EasyFun prefab не являются самостоятельными страницами; из 64 одна `panelosa_prefab` всё ещё не привязана к подтверждённому маршруту. 265 путей в AOT Guru включают виджеты/design model и debug paths, не 265 живых экранов.
 
 | Категория | Исследование исходных сборок | Что в нашей `0.5.24 / 29` | Недостающая проверка или стадия |
 | --- | --- | --- | --- |
@@ -29,7 +29,7 @@
 | **Сохранения, фон и облако** | В обеих играх видны локальные базы/flags; Guru отдельные reward histories; EasyFun SQLite Daily trophies | `src/app/saveRepository.ts`, `src/app/session.ts` durable root revision/saved slots; 0.5.23→0.5.24 восстановление показано в браузере | Original Android process kill/rotation/crash, restore, cloud multi-device конфликт UNKNOWN; наш physical Android тоже открыт |
 | **Локализация/согласия/платформа** | EasyFun 26 language settings, 176 lang-table rows, GDPR/personalize; Guru Language/large font/Theme/Division/GDPR remote config | RU/EN, две темы, 100–200% браузерные матрицы | Android TalkBack, OS insets/font, store compliance, network/consent and rejected privacy dialogs |
 
-## 2. Стабильные ID, ответственный код и критерии приёмки для 14 новых исследований
+## 2. Стабильные ID, ответственный код и критерии приёмки для 16 новых исследований
 
 | `sourceFeatureId` | Реальный исходный источник | Состояние / затронутый код игры | Следующий результат для подтверждения |
 | --- | --- | --- | --- |
@@ -49,6 +49,10 @@
 | `easy-exit-reason-panel` | Unity `panelpopexitreason_prefab`, BtnClear/BtnClose | `src/app/nativeLifecycle.ts`: **EVIDENCE_GAP/UNKNOWN** | Найти загрузку по IL2CPP, проверить production entry; нельзя называть exit survey до этого |
 
 Каждый ID имеет в [consumer-ledger](ADOPTION_LEDGER.json) отдельное оригинальное поведение, текущую реализацию, статус/comparison, путь к коду, deps, evidenceRef и следующий опыт. Подробное исследовательское доказательство не означает разрешения разработчику добавить платную систему в активную игру.
+
+### Дополнение: Feedback EasyFun 1.1.9 (BUNDLED_IL2CPP_METADATA)
+
+[Первичный уточняющий файл](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/EASYFUN_FEEDBACK_EXIT_RECHECK.md) подтвердил **два самостоятельных исходных триггера**: `easy-feedback-photo-attachment` — галерея, permission, add/delete/media size; `easy-feedback-validated-submit` — email/content validation и асинхронная отправка. Путь исходного UI существует как `panelpopfeedback_prefab`; реально принятый результат/лимиты всё ещё `UNKNOWN`. В Crossmath 0.5.24 нет ни media-feedback, ни почтового submission backend; **RESEARCHED/MISSING**, продуктовая стадия зависит от согласия на персональные данные и решения владельца. `easy-exit-reason-panel` по исходным `ExitHistory/UploadEX` вероятнее внутренняя диагностика исключений, а не доказанный опрос причин выхода; user route UNKNOWN. Обновлённая полная матрица: **262/262 исходных записей**.
 
 ## 3. Недоказанные live системы — конкретные внешние блокеры
 
