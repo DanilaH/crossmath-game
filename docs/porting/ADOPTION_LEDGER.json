@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "00edfef583327899970ea1dc1273546b17a9ee5e",
+    "commit": "fea12cc714bb9736b7d8636893495e590a8b8316",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -4006,11 +4006,11 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "00edfef583327899970ea1dc1273546b17a9ee5e",
+    "sourceInventoryCommit": "fea12cc714bb9736b7d8636893495e590a8b8316",
     "sourceCount": 265,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
     "report": "research/games/crossmath/porting/full-system-audit-20261123/README.md",
-    "summary": "Immediate full-system source-surface audit across Guru 3.5.2/4.17.0 and EasyFun 1.1.9; Guru 4.18 original video version identified in one clip. Covers 64 Unity UI prefabs/18 tables, 265 Guru AOT UI pathnames/17 families, 20 game systems, seven classes of external live evidence blockers, 14 newly separately recorded source IDs. No claim all 260 are active production. Game code still 0.5.24/29. Additional original EasyFun IL2CPP metadata validated independent feedback-media and validated-submit handlers; 2 stable new IDs; exit-reason panel is probably internal diagnostics but runtime UNKNOWN. Guru 4.17 23/23 exact remote-config getters mapped to existing + 3 distinct new source IDs (banner during fullscreen load, separate free rewards, vibration/audio remote config); actual server values UNKNOWN."
+    "summary": "IMMEDIATE FULL source-system audit 2026-11-23: 3 SHA pinned original Android APKs; 64/64 EasyFun prefab and 18/18 tables (prior UnityPy content); 17 Guru UI AOT page families with 265 unique source path strings, 25 exact paths; 23 Guru RemoteConfigGetter identifiers (13 exact names new in 4.17); 9 original videos (one verifiable Guru GUI 4.18.0 version). 265 stable sourceFeatureIds incl feedback gallery/email, lifecycle/notifications, RemoveAds, MREC, ClaimCoins, Redeem, add-heart, keep-streak, banner on full-screen load, free-reward and audio-vibration remote config. No original runtime Android service/paid IAP/native full solve acceptance. Consumer gameplay remains 0.5.24/29 source 0401140d; no product code or SDK was changed."
   }
 }
