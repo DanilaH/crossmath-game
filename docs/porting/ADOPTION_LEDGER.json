@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "fea12cc714bb9736b7d8636893495e590a8b8316",
+    "commit": "7ec1aaeae2f6d561d062c86421be439f73ca4722",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -169,9 +169,12 @@
       "codePath": "src/core/types.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Проверить сквозной контракт a+b−c=d, приоритеты, единственность и размер клеток",
+      "nextAction": "Просмотреть четыре отдельно доказанных правила оригинала в guru-two-arithmetic-contracts-20261123: целое промежуточное деление генератора, дробный runtime Fraction с целым итогом, односемейные длинные выражения и синтетический левый fold direct helper. Crossmath 0.5.24 имеет только A op B=C; новый 7-клеточный формат и согласованная семантика/solver/versioned save требуют решения владельца и отдельной технической приёмки.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L122",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/core/types.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/core/types.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md"
+      ]
     },
     {
       "id": "guru-seeded-fill",
@@ -1719,9 +1722,18 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Воспроизвести «Далее после победы» с готовым, пустым и отключённым рекламным провайдером.",
+      "nextAction": "Воспроизвести «Далее после победы» с готовым, пустым и отключённым рекламным провайдером. | RECHECK: Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1277",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      }
     },
     {
       "id": "easy-inter-restart-when-fail",
@@ -1732,10 +1744,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Воспроизвести «Повтор после поражения» с готовым, пустым и отключённым рекламным провайдером.",
+      "nextAction": "Воспроизвести «Повтор после поражения» с готовым, пустым и отключённым рекламным провайдером. | RECHECK: Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1288",
       "reason": "Выбор монетизации относится к отдельному продуктовому решению. До него проверяем источник и стоимость.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      }
     },
     {
       "id": "easy-inter-restart-when-success",
@@ -1746,10 +1767,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Воспроизвести «Повтор после победы» с готовым, пустым и отключённым рекламным провайдером.",
+      "nextAction": "Воспроизвести «Повтор после победы» с готовым, пустым и отключённым рекламным провайдером. | RECHECK: Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1299",
       "reason": "Выбор монетизации относится к отдельному продуктовому решению. До него проверяем источник и стоимость.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      }
     },
     {
       "id": "easy-inter-restart-when-pause",
@@ -1760,10 +1790,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Воспроизвести «Повтор из паузы» с готовым, пустым и отключённым рекламным провайдером.",
+      "nextAction": "Воспроизвести «Повтор из паузы» с готовым, пустым и отключённым рекламным провайдером. | RECHECK: Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1310",
       "reason": "Выбор монетизации относится к отдельному продуктовому решению. До него проверяем источник и стоимость.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      }
     },
     {
       "id": "easy-inter-return-to-home-when-pause",
@@ -1774,10 +1813,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Воспроизвести «Домой из паузы» с готовым, пустым и отключённым рекламным провайдером.",
+      "nextAction": "Воспроизвести «Домой из паузы» с готовым, пустым и отключённым рекламным провайдером. | RECHECK: Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1321",
       "reason": "Выбор монетизации относится к отдельному продуктовому решению. До него проверяем источник и стоимость.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      }
     },
     {
       "id": "easy-inter-return-to-home-when-success",
@@ -1788,10 +1836,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Воспроизвести «Домой после победы» с готовым, пустым и отключённым рекламным провайдером.",
+      "nextAction": "Воспроизвести «Домой после победы» с готовым, пустым и отключённым рекламным провайдером. | RECHECK: Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1332",
       "reason": "Выбор монетизации относится к отдельному продуктовому решению. До него проверяем источник и стоимость.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      }
     },
     {
       "id": "easy-inter-return-to-home-when-fail",
@@ -1802,10 +1859,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Воспроизвести «Домой после поражения» с готовым, пустым и отключённым рекламным провайдером.",
+      "nextAction": "Воспроизвести «Домой после поражения» с готовым, пустым и отключённым рекламным провайдером. | RECHECK: Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1343",
       "reason": "Выбор монетизации относится к отдельному продуктовому решению. До него проверяем источник и стоимость.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static interstitialtemplate probability Android 0.5, iOS 0.2; this is a bundled default, NOT a measured live impression rate.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      }
     },
     {
       "id": "easy-banner-play",
@@ -1955,9 +2021,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для double_wheel_reward. При их отсутствии оставить как данные общей библиотеки.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для double_wheel_reward. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1464",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      },
+      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
     },
     {
       "id": "easy-offer-free-wheel",
@@ -1968,9 +2044,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для free_wheel. При их отсутствии оставить как данные общей библиотеки.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для free_wheel. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=TRUE, limitNum=4; reset period not supplied. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1475",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static rewardtemplate isLimited=TRUE, limitNum=4; reset period not supplied.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      },
+      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=TRUE, limitNum=4; reset period not supplied. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
     },
     {
       "id": "easy-offer-free-20-diamond",
@@ -1981,9 +2067,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для free_20_diamond. При их отсутствии оставить как данные общей библиотеки.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для free_20_diamond. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=TRUE, limitNum=10; reset period not supplied. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1486",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static rewardtemplate isLimited=TRUE, limitNum=10; reset period not supplied.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      },
+      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=TRUE, limitNum=10; reset period not supplied. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
     },
     {
       "id": "easy-offer-try-ball-skin",
@@ -1994,9 +2090,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для try_ball_skin. При их отсутствии оставить как данные общей библиотеки.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для try_ball_skin. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1497",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      },
+      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
     },
     {
       "id": "easy-offer-add-ball-when-preview",
@@ -2007,9 +2113,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для add_ball_when_preview. При их отсутствии оставить как данные общей библиотеки.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для add_ball_when_preview. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1508",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      },
+      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
     },
     {
       "id": "easy-offer-add-ball-when-restart",
@@ -2020,9 +2136,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для add_ball_when_restart. При их отсутствии оставить как данные общей библиотеки.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для add_ball_when_restart. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1519",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      },
+      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
     },
     {
       "id": "easy-offer-revive",
@@ -2033,9 +2159,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для revive. При их отсутствии оставить как данные общей библиотеки.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для revive. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1530",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      },
+      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
     },
     {
       "id": "easy-offer-double-star-reward",
@@ -2046,9 +2182,19 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для double_star_reward. При их отсутствии оставить как данные общей библиотеки.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для double_star_reward. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1541",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+      ],
+      "staticTemplateEvidence": {
+        "tier": "BUNDLED_UNITY_TEXTASSET",
+        "version": "EasyFun 1.1.9 / 1193",
+        "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
+        "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
+      },
+      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
     },
     {
       "id": "easy-achievement-complete",
@@ -3937,6 +4083,70 @@
       "dependencies": "Original Guru 4.17 AOT, original Android online/offline, active remote configuration when permissible; for user SDK/monetization require owner permission, consent, durable receipts, cancel/back/restore and all platform constraints",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/00edfef583327899970ea1dc1273546b17a9ee5e/research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json",
       "acceptanceRequirement": "Original runtime path confirmed in exact version + verified active server/SDK callbacks; for own game separate approved design with native Android acceptance and no imported third-party assets."
+    },
+    {
+      "id": "guru-generator-division-step-whole",
+      "sourceFeatureId": "guru-generator-division-step-whole",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Guru 4.17.0 генератор числовых полей через math_utils.calculate требует целого результата на каждом промежуточном делении. E32 изолированный ARM64 тест 5 576 выражений; источник 0xc11118, пример 3÷2×2 отвергнут, хотя итог 3.",
+      "currentImplementation": "В Crossmath 0.5.24 нет длинных уравнений. src/core/types.ts поддерживает три числовые клетки A op B=C, а authored content-v2/275 полей генерировались отдельным собственным пайплайном с проверкой целочисленного деления для одной операции.",
+      "codePath": "docs/spec/product/content_v2/build.py",
+      "stage": "CORE/content-v3 candidate; not approved",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md",
+      "dependencies": "Owner-approved ruleset/content-v3 if applicable; independent arithmetic/CSP verification; current engine/core/validator/help API and offline saves; video/Android experiment only if original custom expression is reachable; no competitor code/assets.",
+      "acceptanceRequirement": "Proof from exact native E30/E32/E43/E47 or a bounded isolated trace; own implementation must pass long-expression valid/invalid witnesses, one-solution content, Android layout, migration and owner approval before MATCH.",
+      "nextAction": "При отдельном решении владельца о длинной грамматике протестировать 3÷2×2=3, 6÷2×3=9 и тысячи собственных синтетических примеров; генератор отклоняет дробный промежуточный шаг, runtime может принять целый final. Каждый собственный уровень с проверкой единственности, никакого изменения content-v2 ID/сохранений.",
+      "sourceBuild": "Guru 4.17.0 / 26101374 original ARM64 code, exact APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597. GUI 4.18.0 binaries unavailable.",
+      "reason": "Unapproved optional future long-expression grammar; no change to existing 0.5.24 author bank."
+    },
+    {
+      "id": "guru-play-division-final-whole",
+      "sourceFeatureId": "guru-play-division-final-whole",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Guru 4.17.0 игровой MathPuzzleCalculate.calculateExpression использует Fraction с точными промежуточными дробями и проверяет Fraction.isWhole в финале; E30 NATIVE_STATIC + E33 математический аудит. 3÷2×2=3 проходит калькулятор, не генератор.",
+      "currentImplementation": "Наши 275 задач имеют одну арифметическую операцию. src/core/types.ts arithmetic('/') ограничено делением A/B=C (A=B*C), необходимость временного Fraction отсутствует. Для длинной грамматики общего evaluator сейчас нет.",
+      "codePath": "src/core/types.ts",
+      "stage": "CORE/content-v3 candidate; not approved",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md",
+      "dependencies": "Owner-approved ruleset/content-v3 if applicable; independent arithmetic/CSP verification; current engine/core/validator/help API and offline saves; video/Android experiment only if original custom expression is reachable; no competitor code/assets.",
+      "acceptanceRequirement": "Proof from exact native E30/E32/E43/E47 or a bounded isolated trace; own implementation must pass long-expression valid/invalid witnesses, one-solution content, Android layout, migration and owner approval before MATCH.",
+      "nextAction": "При одобренном owner расширении формата дать единый независимый тест рационального вычислителя, engine/evaluate/validator и подсказок: 3÷2×2=3 должно быть валидно в математическом evaluator, даже когда generator такой рецепт отвергает. Проверить деление на ноль, fractional negative, priority, reward/save compatibility, UI. Не переносить без нового rulesetVersion.",
+      "sourceBuild": "Guru 4.17.0 / 26101374 original ARM64 code, exact APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597. GUI 4.18.0 binaries unavailable.",
+      "reason": "Unapproved optional future long-expression grammar; no change to existing 0.5.24 author bank."
+    },
+    {
+      "id": "guru-generator-operation-family",
+      "sourceFeatureId": "guru-generator-operation-family",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Исходный 4.17.0 genRandomSymbol/fillEquations после выбора первого знака длинного уравнения ограничивает семейство операций +/− либо ×/÷. В Native E47 на всех 10 598 уникальных числовых рецептах каталога длинных смешанных семейств нет (1 702 основ с семиклеточными выражениями).",
+      "currentImplementation": "Crossmath 0.5.24 валидатор разрешает только одно действие в равенстве, `raw.cells.length===3`, поэтому ограничение семейств не применяется: собственный банк использует отдельные короткие задачи.",
+      "codePath": "src/content/validator.ts",
+      "stage": "CORE/content-v3 candidate; not approved",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md",
+      "dependencies": "Owner-approved ruleset/content-v3 if applicable; independent arithmetic/CSP verification; current engine/core/validator/help API and offline saves; video/Android experiment only if original custom expression is reachable; no competitor code/assets.",
+      "acceptanceRequirement": "Proof from exact native E30/E32/E43/E47 or a bounded isolated trace; own implementation must pass long-expression valid/invalid witnesses, one-solution content, Android layout, migration and owner approval before MATCH.",
+      "nextAction": "Если владелец выберет длинные уравнения: отдельно зафиксировать исходную grammar family, собственную независимую проверку всех generated 2-op expressions, отсутствие смешанных групп, целые готовые solutions, 7-клеточные строки; затем проверить solver, accessibility и миграцию. Сначала воспроизводимый demo 2+3−4 и 6÷2×3, не менять нынешние поля.",
+      "sourceBuild": "Guru 4.17.0 / 26101374 original ARM64 code, exact APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597. GUI 4.18.0 binaries unavailable.",
+      "reason": "Unapproved optional future long-expression grammar; no change to existing 0.5.24 author bank."
+    },
+    {
+      "id": "guru-direct-long-left-fold",
+      "sourceFeatureId": "guru-direct-long-left-fold",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "Guru 4.17.0 _calculateFourElementDirect 0xb636a4 в изолированном native E43 на синтетическом `2+3×4` даёт левый fold=20 вместо стандартного приоритета 14; `3÷2×2` даёт отказ. В отобранном банке таких смешанных семейств нет — UI outcome НЕ доказан.",
+      "currentImplementation": "Наш proof-based Help/Explain рассчитан на уравнение из трёх чисел и одной операции, поэтому длинное синтетическое смешанное уравнение отсутствует. В текущей игре нет нарушенного player-visible поведения.",
+      "codePath": "src/help/logic.ts",
+      "stage": "CORE/HELP research, cross-version GUI UNKNOWN",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md",
+      "dependencies": "Owner-approved ruleset/content-v3 if applicable; independent arithmetic/CSP verification; current engine/core/validator/help API and offline saves; video/Android experiment only if original custom expression is reachable; no competitor code/assets.",
+      "acceptanceRequirement": "Proof from exact native E30/E32/E43/E47 or a bounded isolated trace; own implementation must pass long-expression valid/invalid witnesses, one-solution content, Android layout, migration and owner approval before MATCH.",
+      "nextAction": "Вручную воспроизвести E43 synthetic в точном original 4.17 primitive и сравнить с 4.18 ELF при наличии. При одобренной длинной грамматике явно определить семантику `2+3×4` (standard=14 vs leftfold=20), не принимать смешанные группы в генераторе при несовместимом direct-helper. Не считать original runtime parity на несуществующем каталожном примере.",
+      "sourceBuild": "Guru 4.17.0 / 26101374 original ARM64 code, exact APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597. GUI 4.18.0 binaries unavailable.",
+      "reason": "Player-visible reachability of mixed-family synthetic expressions is unknown, and source catalog expressly excludes them."
     }
   ],
   "latestReview": {
@@ -4006,11 +4216,14 @@
   ],
   "latestResearch": {
     "date": "2026-11-23",
-    "sourceInventoryCommit": "fea12cc714bb9736b7d8636893495e590a8b8316",
-    "sourceCount": 265,
+    "sourceInventoryCommit": "7ec1aaeae2f6d561d062c86421be439f73ca4722",
+    "sourceCount": 269,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
-    "report": "research/games/crossmath/porting/full-system-audit-20261123/README.md",
-    "summary": "IMMEDIATE FULL source-system audit 2026-11-23: 3 SHA pinned original Android APKs; 64/64 EasyFun prefab and 18/18 tables (prior UnityPy content); 17 Guru UI AOT page families with 265 unique source path strings, 25 exact paths; 23 Guru RemoteConfigGetter identifiers (13 exact names new in 4.17); 9 original videos (one verifiable Guru GUI 4.18.0 version). 265 stable sourceFeatureIds incl feedback gallery/email, lifecycle/notifications, RemoveAds, MREC, ClaimCoins, Redeem, add-heart, keep-streak, banner on full-screen load, free-reward and audio-vibration remote config. No original runtime Android service/paid IAP/native full solve acceptance. Consumer gameplay remains 0.5.24/29 source 0401140d; no product code or SDK was changed."
+    "reports": [
+      "research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md",
+      "research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+    ],
+    "summary": "Four independent Guru 4.17 arithmetic source features added (generator intermediate division whole, runtime Fraction final whole, operation family lock for length-7, synthetic direct-helper leftfold); 15 existing EasyFun 1.1.9 ad placements enriched with verified bundled caps/probabilities/descriptions and no player route proof. No change to game 0.5.24/29 authored 275 field bank or live Ads SDK."
   }
 }
