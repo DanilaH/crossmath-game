@@ -27,3 +27,11 @@
 ### 0.5.4 content and competition evidence
 
 Use [R1 content and measurement](spec/product/content_v2/README.md) for current issuance and compat behavior. Keep both banks immutable once shipped. Read [R2](spec/R2_APK_BALANCE_RU.md) before C0–C3. The old proposal's fixed 75/105-second opponent steps and 70-coin cycle are project proposals.
+
+### Исследовательская передача 23.11.2026
+
+**Исходный реестр Crossmath:** [mini-games-kit PR #83](https://github.com/DanilaH/mini-games-kit/pull/83), pin `a02958791b6c5e2fec5e561fa9bee24252ab2a04`, **193 sourceFeatureId**. [Consumer ledger](porting/ADOPTION_LEDGER.json) имеет 193/193 ID на этой же ветке, gameplay snapshot остаётся **0.5.23 / 28**, commit `9fa8ab9`. Исследование не является новым APK и **не меняет runtime pin `469928d03f4bae5053e23db26e82187bedbc252e`**.
+
+[Новая проверка Guru 3.5.2/4.17.0](https://github.com/DanilaH/mini-games-kit/blob/a02958791b6c5e2fec5e561fa9bee24252ab2a04/research/games/crossmath/porting/guru-commerce-issuance-20261123/README.md): общие рецепты `default/easy1` имеют новую маркировку diff без смены stuck; 11 различных семейств IAP, 4 rewarded placement; 10 IAP перечислены в официальном Apple US. **Серверная активация/персонализация, Android SKU, реальные paid/reward callback, Event пакеты UNKNOWN.** Ни один SKU не должен попасть в нашу сборку без отдельного решения владельца. Запись исследований/коммерческих функций в ledger и roadmap не означает разрешения активировать SDK.
+
+**Не терять при слиянии:** исследовательский PR #3 на отдельной старой ветке всё ещё содержит исторические 177 ID; нельзя накатывать его старый `ADOPTION_LEDGER.json` поверх 193 ID этой игровой ветки. В [PR #3 оставлено предупреждение](https://github.com/DanilaH/crossmath-game/pull/3). Редизайн issue #5 — независимая очередная задача с четырьмя оставшимися замечаниями на уровне 0.5.23.
