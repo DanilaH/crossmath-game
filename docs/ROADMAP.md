@@ -1,17 +1,20 @@
 # Crossmath roadmap
 
-## Следующие developer-пакеты · 24.11.2026
+## Актуальное исследование Guru и следующий продуктовый этап · 24.11.2026
 
-Открыты [задача #8 · HELP-01](https://github.com/DanilaH/crossmath-game/issues/8) и [задача #9 · ADS-01](https://github.com/DanilaH/crossmath-game/issues/9).
+**Актуальная база сверки:** Crossmath **0.5.24 / versionCode 29**, product implementation `2a7d231098d34de29d8607cc4131fec3dcead899`, active/CI HEAD `73fbc059149aba440297cf4cdc074b98433ad7e5`. Runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` сохранён; новый research source pin `e48d0108e7bb6c26a758235ea6441a57dbadd4c3` от него независим.
 
-По поручению владельца составлены [два конкретных ТЗ](porting/help-and-ads-20261124/README.md) на код **0.5.24 / 29**, active HEAD bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67. Четыре вкладки, компактная главная и фиксированный текст **100%** уже находятся в PR #4; их повторная реализация в эти пакеты не входит.
+[Consumer report](porting/GURU_SOLVER_RESEARCH_2026-11-24.md) · [первичный закрытый пакет и воспроизведение](https://github.com/DanilaH/mini-games-kit/blob/e48d0108e7bb6c26a758235ea6441a57dbadd4c3/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md). Уточняются **13 существующих ID**, общий реестр **296/296**; это не новые функции и не автоматическое повышение приёмки источника.
 
-| Приоритет | Пакет и результат | Реестр / готовность |
+| Направление | Подтверждённый результат | Следующий шаг |
 | --- | --- | --- |
-| 1 | [HELP-01](porting/help-and-ads-20261124/help/DELIVERY_SPEC.md): различить причины отсутствия Explain, сохранить независимую проверку и нейтральный preview Endless | guru-solver-single-pass-result; пакет **SPECIFIED**, source **RESEARCHED / PARTIAL** |
-| 2 | [ADS-01](porting/help-and-ads-20261124/ads/DELIVERY_SPEC.md): после reject show/hide повторять актуальный intent через существующий recovery, без лишнего RPC или retry storm | easy-banner-lifecycle-hide, easy-ad-close-delayed-banner-request; пакет **SPECIFIED**, source **RESEARCHED / PARTIAL** |
+| Исходные стратегии | Monotonic, Factor, Intersection и ограниченный backtracking исполнены в Guru **4.17.0 / 26101374**; порядок Direct → Monotonic → Factor → Intersection и ранний выход проверены | Использовать source-assisted архитектуру для отдельного собственного пакета правил/proof, если этот объём выбран для реализации |
+| Реальные связанные маски | **12 исходных рецептов / 18 DB rows** завершены в двух режимах: **persistent** и **fresh/first-step** | Не смешивать сохранённые кандидаты с новым solver и применением только первого шага; проверять каждый протокол отдельно |
+| Весь каталог | **12 899** рецептов проверены собственным CSP: у каждого единственное числовое назначение | **Полная native-сходимость: UNKNOWN**; нужен длительный запуск оригинального solver на полном каталоге, сначала завершённый профиль большой маски |
+| Авторская сложность | **Точная формула `stuck`: UNKNOWN**; две исполненные complexity-формулы ранжируют объяснения | Найти производитель каталожной метки или авторитетный authoring oracle; не подменять формулу счётчиками/корреляцией |
+| HELP-01 / ADS-01 | **IMPLEMENTED**, unit/Chromium [приёмка сохранена](acceptance/issues-8-9/README.md); реализация `2a7d231098d34de29d8607cc4131fec3dcead899` | Android touch/Back/feedback и выбранный banner provider остаются самостоятельной приёмкой, повторное выполнение ТЗ не требуется |
 
-Приложенные Node/Python-проверки воспроизводят пробелы **неизменённого текущего кода**. Они не являются приёмкой исправления. Последующая реализация фиксируется отдельным commit/PR и evidence; Android/live остаются самостоятельными уровнями. Старые source nextAction и все остальные 296 записей реестра сохраняются. Параметры экономики, рекламной частоты, сохранений и runtime kit 469928d… этим планом не меняются.
+Возможные следующие собственные пакеты: именованные Monotonic/Factor rules и ранжирование proof; bounded proof search с отдельным verifier; аудит своего банка по проверяемым метрикам. Они не внесены в продукт этим исследованием. Сохраняются **fixed 100% typography**, нейтральный Endless preview, независимый `verifyExplanation`, изолированный Reveal, атомарный Apply, банк, баланс и сохранения. Canonical-ответ оригинала не добавляется в публичный Puzzle/Explain.
 
 Source: [owner specification 1.0](spec/Crossmath_TZ_v1.0_RU.md), sections 12–13. Scope is not replaced by an approximate plan.
 
@@ -22,9 +25,18 @@ Source: [owner specification 1.0](spec/Crossmath_TZ_v1.0_RU.md), sections 12–1
 | C — vertical slice | Fresh logical help + independent proof checking, isolated reveal, durable single charge, 15 lessons and continuation | HC checks in scope, cold restore/single reward, P01–P07 slice protocol and phone review |
 | D — meta/calendar | Free selector, fixed-zone Daily/archive and lives, reachable daily goals, rank/album screens, migration | Openings 3/5, first card at 8, +100 receipt, midnight, 228/229, M01–M12 |
 | E — full version | Endless UI/runs/records, profile/statistics/achievements, RU/EN, platform services | Four modes; scripted then real ads; cancellation/late callbacks; separate records |
-| F — release | Physical devices, TalkBack, 200% OS font, offline/process death, real SDK, signed store artifact and metadata | Exact artifact, P01–P10/HC01–HC12/M01–M12, owner publication decision |
+| F — release | Physical devices, TalkBack, fixed game typography after an OS font change, offline/process death, real SDK, signed store artifact and metadata | Exact artifact, P01–P10/HC01–HC12/M01–M12, owner publication decision |
 
 A–D are implemented in retained previews, with phone acceptance still pending. E1 adds the offline Endless/profile/achievement portion in 0.3.0. E2 adds RU/EN, the optional Android ads bridge and scripted callback coverage in 0.4.0. Real provider, device and store acceptance remain open.
+
+## Помощь и команды баннера · 24 ноября 2026
+
+| Пакет | Состояние |
+| --- | --- |
+| HELP-01 · задача №8 | В PR №4 подготовка Explain различает несовместимость, отсутствие доступного шага и незавершённую проверку. Endless сохраняет одинаковое нейтральное сообщение до Submit. Прошли unit и Chromium. На Android предстоит проверить касания, Back и обратную связь. |
+| ADS-01 · задача №9 | В PR №4 отклонённая команда show/hide восстанавливается по штатному refresh. Подтверждены порядок команд, один незавершённый вызов и доступ к игре с тестовым адаптером. Android-сценарий баннера ожидает выбранного провайдера и устройство. |
+
+[Приёмка двух пакетов](acceptance/issues-8-9/README.md) · [Реестр переноса](porting/ADOPTION_LEDGER.json).
 
 ## 0.5.10 · открытие режимов
 
@@ -59,13 +71,17 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 Пакеты 1–5 реализованы в 0.5.22–0.5.23. Приёмка Chromium и подписанного APK завершена. Физическое устройство требуется для проверки системного масштаба, слышимого звука и вибрации. [Протокол](acceptance/issue-5/README.md).
 
-## Исследование Guru 4.17.0 · 23 ноября 2026
+## История исследований 23–24 ноября 2026
+
+**Исторический слой.** Ниже сохранены датированные исследования и их прежние состояния. Числа 265/269/273/275/288/293 и source/gameplay `0401140d` относятся к соответствующим прежним срезам; текущая карта — 296/296. Старые формулировки «следующий опыт», «полный solve не исполнен» и прежние APK/CI не переопределяют актуальную сводку выше. Исследовательский PR #7 не должен откатывать принятую реализацию Help/Ads на статус готового ТЗ.
+
+### Исследование Guru 4.17.0 · 23 ноября 2026
 
 Новая исходная запись `guru-badge-ceremony` добавлена в [реестр](porting/ADOPTION_LEDGER.json) в статусе **EVIDENCE_GAP / MISSING**. Бинарное сравнение Guru 3.5.2 → 4.17.0 подтвердило 17 Lottie-композиций для значков (показ, повышение, продвижение), 43 изображения и `badge_up.mp3`; **вызов анимаций в реальном оригинале не проверен**. [Первичный отчёт и repro](https://github.com/DanilaH/mini-games-kit/blob/c3519c7fa9a384493fde567a39915179c58bf71b/research/games/crossmath/porting/guru-badge-417/README.md). Следующий этап — видео 1× на Guru 4.17.0 со звуком и проверка условий выдачи/повторного входа; затем отдельное решение владельца о собственной адаптации. 12 существующих достижений и баланс не изменять из-за одного статического обнаружения.
 
 Задача №5 по ранее утверждённому редизайну остаётся самостоятельной: [независимый аудит 0.5.23](https://github.com/DanilaH/crossmath-game/blob/2bbd6f9804efb2291d7b2e42de091adee9954db4/docs/porting/audit-0523/README.md) зафиксировал четыре косметико-функциональных замечания и отдельную приёмку на Android; новый ID не является блокером задачи №5.
 
-## Исследование выдачи и монетизации · 23 ноября 2026
+### Исследование выдачи и монетизации · 23 ноября 2026
 
 **Источник:** [Guru 3.5.2 и 4.17.0 — воспроизводимое сравнение APK, 10 публичных iOS предложений, native SDK-строки](https://github.com/DanilaH/mini-games-kit/blob/a02958791b6c5e2fec5e561fa9bee24252ab2a04/research/games/crossmath/porting/guru-commerce-issuance-20261123/README.md). В [реестре](porting/ADOPTION_LEDGER.json) учтены **195/195 sourceFeatureId**, добавлены 11 ID семейств SKU Guru и 4 rewarded placement ID с точной границей доказательств. Расширение реестра **не** меняет принятую экономику, runtime геймкита, APK или ограничения первой версии.
 
@@ -80,7 +96,7 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 **Решения и границы:** данные IAP/ads/event остаются в полной дорожной карте как исследованные и неподтверждённые возможности. Первая версия не включает платные функции без отдельного продуктового, технического и платформенного решения; это не `OWNER_EXCLUDED`. Редизайн задачи №5 и четыре прежних замечания продолжают проверяться отдельно. KIT runtime pinned `469928d03f4bae5053e23db26e82187bedbc252e`; source inventory pin для этой ревизии `7fef14def6bd31107becb7b83f0a947c412cda06`.
 
 
-## CORE research · Guru default/easy1 · 23 ноября 2026
+### CORE research · Guru default/easy1 · 23 ноября 2026
 
 [Нативный состав профилей, E24/E25/E27/E47](https://github.com/DanilaH/mini-games-kit/blob/7fef14def6bd31107becb7b83f0a947c412cda06/research/games/crossmath/porting/guru-profile-pool-20261123/README.md) — два новых ID: `guru-easy1-pool-substitution`, `guru-tag-4-2-lower-range`. Полные cm4/cm5 различаются не только названием категории: из default исключено 2499 `stuck>=5` рецептов, введено 2478 других, в том числе 2228 `tag=4_2`, где установлен более низкий предел числа генератора. Действующий серверный выбор `default/easy1` не доказан.
 
@@ -88,7 +104,7 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 **Этап для нашей игры:** данные переданы в исходный inventory + consumer ledger; новая `content-v2` экспериментальная ветка возможна только после замера реального темпа собственных полей и решения владельца. Не переписывать существующие кампанию, bank, экономики и сохранённые ID только ради механического совпадения с двумя профилями Guru.
 
-## Навигация по видео оригинала · 23 ноября 2026
+### Навигация по видео оригинала · 23 ноября 2026
 
 Владелец утвердил **перенос иерархии из записей оригинала**, [техническое ТЗ с девятью sourceFeatureId](porting/navigation-guru-20261123/DELIVERY_SPEC_RU.md), [задача #6](https://github.com/DanilaH/crossmath-game/issues/6). Источник в [mini-games-kit](https://github.com/DanilaH/mini-games-kit/blob/46e16cdb3645956b6b3f32b42481e3cb9cdabddb/research/games/crossmath/porting/guru-navigation-20261123/README.md), в одном ролике подтверждена GUI-версия 4.18.0-26111743, точные версии остальных восьми неизвестны. **Новая структура — 4 root-tabs: Главная / День / Режимы / Профиль**, без табов в поле/результате. Отдельный нижний лист New Game и вложенные фильтры Profile. Мастерская остаётся deep link с главной и из профиля. Третий таб сознательно адаптирован под существующие режимы вместо неготовой Battle M3.
 
@@ -97,11 +113,11 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 | NAV-A · shell+главная | Реализован в 0.5.24 | Первый runnable маршрут и кадры 320×568 / 390×844, Continue/New Game отдельно |
 | NAV-B · день+режимы | Реализован в 0.5.24 | Пин даты/старые попытки, 3/5/15 unlock, Endless preserve, no fake Battle |
 | NAV-C · профиль+мастерская | Реализован в 0.5.24 | Фильтры режимов/сложности, 12 приборов, прогресс 1/4→2/4 и отсутствие ложной статистики |
-| NAV-D · приёмка | Пройдены Chromium и проверка APK. Приёмка на устройстве открыта. | RU/EN, обе темы, 100–200%, reduced motion, Android Back/insets/TalkBack, реальное 1× видео со звуком |
+| NAV-D · приёмка | Пройдены Chromium и проверка APK. Приёмка на устройстве открыта. | RU/EN, обе темы, reduced motion, Android Back/insets/TalkBack, реальное 1× видео со звуком. Исторический критерий 100–200% заменён 24.11 на fixed 100% typography |
 
 **Не откатывать готовое из issue #5:** победа, звук/вибрация, выдача монет, детали, текущий банк и сохранение остаются действующими. Старое меню «Все режимы» и широкие internal Back заменяются новым указанием; оставшиеся замечания #5 переоцениваются в новом shell, чтобы не реализовывать одновременно две противоречащие IA. Runtime `469928d03f4bae5053e23db26e82187bedbc252e` не меняется. [Протокол 0.5.24](acceptance/issue-6/README.md) · [Реестр](porting/ADOPTION_LEDGER.json).
 
-## Видео Guru 4.18.0 · расширенная приёмка помощи/меты · 23.11.2026
+### Видео Guru 4.18.0 · расширенная приёмка помощи/меты · 23.11.2026
 
 [Видеоаудит Guru 4.18](https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md): на видео 13-49-51 в 81.0 s прямо указано **`Version 4.18.0-26111743`**; остальные клипы того же набора лишь предположительно соответствуют версии. У ранее изученного APKM 4.17.0 другая исходная версия; не смешивать runtime со статикой. В реестре игры **222/222 ID**, 18 новых независимых правил/триггеров зарегистрированы как RESEARCHED / IMPLEMENTED_UNVERIFIED / DEFERRED, а не в качестве уже реализованных.
 
@@ -115,7 +131,7 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 **Приоритет для разработчика:** выполнить утверждённый навигационный issue #6 и критичные дефекты issue #5; новый UX Explain/queue/ads **не** входит в это задание автоматически. Оценить предложенную дополнительную задачу после согласованного меню и сценария на телефоне.
 
-## Guru 3.5.2 → 4.17.0 · аналитика Explanation и контекстные уроки
+### Guru 3.5.2 → 4.17.0 · аналитика Explanation и контекстные уроки
 
 **23.11.2026, NATIVE_STATIC / ASSET_VERIFIED (не Android runtime):** [воспроизводимый сравнительный отчёт, 2 ELF, 2 Lottie](https://github.com/DanilaH/mini-games-kit/blob/814f036f6fc1f529e7704905d7b5e62098a7c3f3/research/games/crossmath/porting/guru-ux-telemetry-417/README.md). В 4.17.0 появились точные AOT-имена трех событий Explanation (`imp`, `clk`, `banner clk`) со счётчиком, двух событий Expert hint, индивидуальных guide-проверок (Sort/Revert/Strategy/FirstError, состояния Hint/Division/Theme), фильтра и internal `PuzzleFilterDebugPage`, систем AnalyticsRecorder/Transmitter/Calibration/ActivityLedger/remote bucket и рекламы readiness, а также двух Lottie для игрового обучения **60 fps × 90 кадров / 1,5 s**. Эти точные имена/пути **не найдены** в AOT/ресурсах 3.5.2; эквивалентные старые механизмы этим не опровергнуты. Live impressions/база событий/сервер и фактический показ Lottie **не проверены**.
 
@@ -130,7 +146,7 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 **Стадия:** исследование и очередь будущих owner-решений. Issue #6 на 0.5.24/29 имеет браузерную приёмку, 121 тест и собранный APK согласно [acceptance](acceptance/issue-6/README.md); **физический Android не принят**. Не начинать автоматическую переработку обучения/аналитики поверх готовой 4-tab IA. Исходный реестр и ledger синхронизированы **244/244**, source pin `814f036f6fc1f529e7704905d7b5e62098a7c3f3`, игровой runtime kit по-прежнему `469928d03f4bae5053e23db26e82187bedbc252e`.
 
-## Guru · одинаковая числовая основа, разные маски и stuck
+### Guru · одинаковая числовая основа, разные маски и stuck
 
 [Новый измеренный original-data аудит](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/guru-mask-matched-20261123/README.md) — **23.11.2026**, exact owner-supplied Guru APK 3.5.2/4.17.0, SHA-проверка cm4/cm5 и два независимых подсчёта Python/SQL. В 12 899 уникальных рецептах каталога 1 967 числовых основ используются с 2–5 разными масками `holes`. Из 2 671 сравнений при одинаковых `board/puzzle/size/tag` и одинаковых числовых/операторных статистиках: 233 пары имеют **одинаковое количество пустот, но разный `stuck`**; 18 пар имеют **больше пустот, но меньший `stuck`**. Только 19 пар имеют одну маску как подмножество другой. **Формула исходного `stuck` и server-driven адаптация всё ещё UNKNOWN.**
 
@@ -142,7 +158,7 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 **Не делать прямо сейчас:** не переписывать банк, генератор, 0.5.24 сохранения, экономику, контекстные подсказки или приоритеты #6 по этому DATA-only исследованию. Новые находки зарегистрированы и картированы в source inventory / consumer ledger; этап отдельной проверки после owner-решения. Версия runtime mini-games-kit в игре не изменялась.
 
-## Новая оценка stuck · независимая ML-диагностика и ARM64 solve dispatch
+### Новая оценка stuck · независимая ML-диагностика и ARM64 solve dispatch
 
 **23.11.2026.** [Прямой отчёт, исходные 4.17.0 cm4/cm5, Python repro и ARM64 статическая перепроверка](https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md). **Доказательство BUNDLED_DB + самостоятельный MODEL_TEST / NATIVE_STATIC**, это не работа original full solve, не подтверждение Android 4.18 или пользовательского retention.
 
@@ -152,9 +168,9 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 **Рекомендация/этап:** не менять 275 контентных полей, кор-механику и себестоимость контента в Crossmath **0.5.24/29** из-за этого опыта. Следующий CORE эксперимент — actual native `solve()` на контролируемых парах масок (прежде всего 233 равнопустотных), отдельная оценка прямой/факторной/пересекающей стратегий и доля `null`; затем на **собственных** полях эксперимент с человеческим временем и ошибками, только по решению владельца. Runtime kit pin `469928d03f4bae5053e23db26e82187bedbc252e` не повышать. [Ledger 246/246](porting/ADOPTION_LEDGER.json), research pin `b6e368664265a0300efae484168bf767fa6d04af`.
 
-## Сквозной аудит референсов 23 ноября 2026
+### Сквозной аудит референсов 23 ноября 2026
 
-**Актуальная база игры: 0.5.24 / versionCode 29**, gameplay commit `0401140d5fc0c191e457289b6dc8e5752a9f85a8`, [NAV-01–08 acceptance](acceptance/issue-6/README.md). Полный [consumer gap audit 20 систем](porting/FULL_REFERENCE_GAP_AUDIT_2026-11-23.md) и [исходный мастер-отчёт mini-games-kit](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/README.md) теперь имеют приоритет перед историческими небольшими проходами и их числами 177/195/222/246. На момент первичного полного аудита исходная система из **265 sourceFeatureId** (включая дополнительные 16 коммерческих / lifecycle / UX механизмов) была сопоставлена в [consumer ledger](porting/ADOPTION_LEDGER.json).
+**Историческая база игры на дату аудита: 0.5.24 / versionCode 29**, gameplay commit `0401140d5fc0c191e457289b6dc8e5752a9f85a8`, [NAV-01–08 acceptance](acceptance/issue-6/README.md). Полный [consumer gap audit 20 систем](porting/FULL_REFERENCE_GAP_AUDIT_2026-11-23.md) и [исходный мастер-отчёт mini-games-kit](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/README.md) теперь имеют приоритет перед историческими небольшими проходами и их числами 177/195/222/246. Исходная система на момент того аудита из **265 sourceFeatureId** (включая дополнительные 16 коммерческих / lifecycle / UX механизмов) сопоставлена в [consumer ledger](porting/ADOPTION_LEDGER.json).
 
 **Две независимые оси приёмки:**
 1. **Source ID gate** — ни одного исходного правила, триггера, вида награды, SKU или рекламы нет без строки в consumer ledger и явной стадии/следующего действия.
@@ -173,15 +189,15 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 **Этапы реализации — не отказ:** дорогостоящие механики из исходника сохраняются как `DEFERRED` или `EVIDENCE_GAP` с причинами, не как `OWNER_EXCLUDED`. Только владелец решает исключение или принятие. Общий реестр **не** задаёт автоматическое внедрение всех 260 механизмов в одном PR.
 
-## EasyFun 1.1.9 feedback + exit metadata — корректировка
+### EasyFun 1.1.9 feedback + exit metadata — корректировка
 
 Дополнительный [точный XAPK/IL2CPP metadata-аудит](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/EASYFUN_FEEDBACK_EXIT_RECHECK.md) зарегистрировал `easy-feedback-photo-attachment` (галерея, permission, изображения, удаление, ограничение размера) и `easy-feedback-validated-submit` (проверка email/длины, запрос, сброс состояния). В оригинальном GUI они не запускались, допустимость и доставка UNKNOWN. В **Crossmath 0.5.24** отсутствуют пользовательские media-feedback и backend; **RESEARCHED/MISSING**, owner gated и privacy-sensitive. `easy-exit-reason-panel` по методам `ExitHistory/UploadEX` относится к диагностической истории/выгрузке и **не доказан как пользовательский exit survey**. Состав source now **265 ID**. Полную матрицу смотреть в [consumer gap audit](porting/FULL_REFERENCE_GAP_AUDIT_2026-11-23.md), не считать метод как live SDK или успешную отправку файла.
 
-## Последнее дополнение full audit: 23 remote-config getters
+### Последнее дополнение full audit: 23 remote-config getters
 
 [Полная проверка native remote-config 3.5.2↔4.17.0](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json): 23 отдельных метода Getter (`10` имён есть в старом AOT, `13` новых по точному написанию); [repro](https://github.com/DanilaH/mini-games-kit/blob/research/crossmath-reference-audit-20261120/research/games/crossmath/porting/full-system-audit-20261123/verify_guru_remote_configs.py). В [consumer full gap](porting/FULL_REFERENCE_GAP_AUDIT_2026-11-23.md) добавлены отдельные source IDs `guru-banner-during-fullscreen-load`, `guru-free-reward-remote-config`, `guru-remote-vibration-audio-config` с AOT provenance, `MISSING/UNKNOWN/PARTIAL` и экспериментами. Это НЕ active server flags и НЕ разрешение автоматически включить новые рекламные placements/вознаграждения. Итог source ledger **265/265**.
 
-## Guru E30/E32 и EasyFun рекламные defaults · 23.11.2026
+### Guru E30/E32 и EasyFun рекламные defaults · 23.11.2026
 
 **Источник:** [исходный kit-отчёт Guru](https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/guru-two-arithmetic-contracts-20261123/README.md) и [EasyFun UnityFS ad tables](https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md). [Полный consumer diff и критерии](porting/ARITHMETIC_AND_AD_TEMPLATE_DELTA_2026-11-23.md). Архивы Guru **4.17.0 / 26101374** и EasyFun **1.1.9 / 1193**, точные SHA в source README. **Не означает Android ORIGINAL_RUNTIME** и не приписывает результат 4.18 GUI.
 
@@ -197,13 +213,13 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 **Текущий реестр: 269 исходных ID**, четыре новых, 15 уточнённых старых. Точная формула `stuck` и полный end-to-end native `solve()` всё ещё UNKNOWN. Следующий доступный научный опыт — полный оригинальный `CrossMathSolver.solve` со стендом AArch64 Dart AOT. **НЕ переписывать текущий банк и не активировать коммерческие SDK на основании этих открытий.** Игровой source 0.5.24/29 `0401140d5fc0c191e457289b6dc8e5752a9f85a8`; runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` без обновления.
 
 
-## EasyFun AdManager — клиентские допуски и триггеры выдачи · 23.11.2026
+### EasyFun AdManager — клиентские допуски и триггеры выдачи · 23.11.2026
 
 [BUNDLED_IL2CPP_METADATA, точный 1.1.9 XAPK](https://github.com/DanilaH/mini-games-kit/blob/decf77cd397d99f5a1fe5fb171188456bbfec7b4/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/ADMANAGER_METADATA.md): собственный `Assets/MainGame/Script/Manager/AdManager.cs`, клиентские guard методы interstitial, timestamp последнего закрытия, callback разных стадий rewarded, consent/Firebase и типы `RewardTemplate`/`InterstitialTemplate`. Два ID **`easy-ad-client-interstitial-gates`**, **`easy-ad-rewarded-callback-states`** зарегистрированы отдельно. Наш `src/platform/adState.ts` уже проверяет cooldown/защиту после rewarded, `ads.ts` разделяет fullscreen и rewardSettled через долговечную очередь. **Однако исходные значения guard/частота и реальная Android выдача не подтверждены**. Продуктовый этап — только после решения владельца о live SDK и consent. Выдача проверяется по receipt/restart, не по имени колбэка в чужом бинарнике.
 
 Инвентарь стал **271 sourceFeatureId**, в игре **271/271 mapped**. Данные оригинала — static-only, код игры/275 authored boards/монета/XP/сохранения не менялись. [Подробный пакет](porting/ARITHMETIC_AND_AD_TEMPLATE_DELTA_2026-11-23.md). Текущая проверенная сборка **0.5.24/29**, физическая Android acceptance для работы разработчика ещё открыта.
 
-## Guru Endless · две допустимые ошибки и анимация Score · 23.11.2026
+### Guru Endless · две допустимые ошибки и анимация Score · 23.11.2026
 
 [Новый видеопротокол исходного Guru (сборка в этих роликах UNKNOWN)](https://github.com/DanilaH/mini-games-kit/blob/bd80dc0542d91e7d47675dcd1d0971f295537077/research/games/crossmath/porting/guru-endless-video-contract-20261123/README.md): `13-49-14.mp4` в окне обучения говорит о двух допустимых ошибках за забег, на HUD два сердца; это **показанное правило**, но две разные фактические ошибки подряд не воспроизведены. `13-49-07.mp4` t8.7–11.5: после успешного подтверждения Submit счёт **анимированно увеличивается 0→140 с визуальными шагами по 10**, затем Stage2/конфетти/результат. **Формула 140 баллов не раскрыта; это не XP и не подтверждённая стоимость уравнения.**
 
@@ -211,14 +227,14 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 
 Следующий эксперимент: Guru original Android 1× — две намеренно разные неверные раскладки/Submit, повтор последнего signature, правильный Submit на двух этапах, проверка перехода и награды при фоновой остановке. Если владелец одобрит нашу анимацию, это должен быть исключительно **presentation count-up из уже атомарно сохранённой квитанции**, мгновенный final для screenreader/reducedMotion, без дублирования начисления и без задержки следующего хода. Не менять 275 authored полей, сохранённые ID или kit runtime pin.
 
-## Guru 4.17.0 · native solver conditional fallback · source 273/273 (23.11.2026)
+### Guru 4.17.0 · native solver conditional fallback · source 273/273 (23.11.2026)
 
 [Источник mini-games-kit PR #139](https://github.com/DanilaH/mini-games-kit/pull/139): direct→monotonic→factor→intersection, каждая стадия имеет два `b.gt` early-exit. Внутри intersection в оригинальном `libapp.so` есть guard `0xb56e20` и conditional fallback через `0xb56f14` → `0xb57010` → `_limitedBacktrackSearch` (`0xb5ad7c`), где recursion `0xb5b484` увеличивает depth, а depth>=3 немедленно возвращает. Это **NATIVE_STATIC** по Guru 4.17.0, а не выполненный `solve()` или оригинальный UI; семантика счётчика и формула `stuck` UNKNOWN.
 
 ID `guru-strategy-conditional-backtrack`: `RESEARCHED/MISSING` в игровом ledger, собственный `src/help/logic.ts` сохраняет proof-based подход без оригинального ограниченного search-as-explanation. **Оставить как owner-gated future Help**. Следующий тест — native full `solve()` на реальной маске, trace fallback/recursion и независимая проверка. Не изменять 275 authored полей, баланс, `verifyExplanation`, сохранения или ads. Исходный реестр **273/273**, pin `9632dae736e0893c7e06d16b9c2a12cef30088d3`; проверенный game runtime **0.5.24/29** с прежним kit pin `469928d03f4bae5053e23db26e82187bedbc252e`. Предыдущие цифры в этом файле исторические.
 
 
-## EasyFun 1.1.9 · доказанное наличие двух рекламных API, без live placement · source 275/275
+### EasyFun 1.1.9 · доказанное наличие двух рекламных API, без live placement · source 275/275
 
 [Первичная привязка методов к AdManager по IL2CPP v31, kit PR #139](https://github.com/DanilaH/mini-games-kit/pull/139): `AdManager` (TypeDefinition #2949, 51 метод) объявляет **отдельный MREC** `RequestMrec/ShowMrec/HideMrec` + LoadedSuccess/Failed и **Native ad** `RequestNative/ShowNative/HideNative` + LoadedSuccess/Failed. Методная принадлежность проверена по полю `declaringType` в owner-supplied EasyFun **1.1.9 / 1193** XAPK, exact SHA и отрицательный контроль; это не вызовы этих методов в реальной игре, не SDK impression и не доказанное UI размещение.
 
@@ -226,13 +242,13 @@ ID `guru-strategy-conditional-backtrack`: `RESEARCHED/MISSING` в игровом
 
 **На момент исследования MREC/Native: source↔consumer реестр 275/275**, тогдашний kit source commit `2adeddc1e06494c24d3799b5e18a3a80a70afde9`. Историческое 273 в предыдущем разделе сохраняется как промежуточный результат. Runtime/gameplay `0.5.24/29`, 275 authored полей и kit runtime pin `469928d03f4bae5053e23db26e82187bedbc252e` неизменны.
 
-## 23.11 · проверка SHA-исходников девяти видео Guru, реестр 275/275
+### 23.11 · проверка SHA-исходников девяти видео Guru, реестр 275/275
 
 [Первичный audit](https://github.com/DanilaH/mini-games-kit/blob/a4ca64c19d44d6b0a2ca85eea66ec737122549a2/research/games/crossmath/porting/video-evidence-integrity-20261123/README.md): у **36** sourceFeatureId с видеоссылками проверены filename→SHA по манифесту девяти владельческих MP4. Три UI-ID (New Game, Leaderboard, immersive game) ранее ошибочно ссылались на SHA *другой записи* `13-49-45`; привязки исправлены, все 36 содержат точные per-clip SHA. Автоматическая [fail-closed проверка](https://github.com/DanilaH/mini-games-kit/blob/a4ca64c19d44d6b0a2ca85eea66ec737122549a2/research/games/crossmath/porting/video-evidence-integrity-20261123/verify_crossmath_video_refs.py) проверяет соответствие с сохранённым манифестом, **не** заново вычисляет хеши с MP4, не доказывает билд восьми роликов и не считается Android запуском.
 
 **Актуальный на этом проходе source→consumer pin:** `a4ca64c19d44d6b0a2ca85eea66ec737122549a2`, **275/275** ID, без новых механик, owner approval и code/runtime изменений. Игровой baseline **0.5.24/29** / `0401140d`; runtime kit `469928d03f4bae5053e23db26e82187bedbc252e`. Открытые гейты — original 4.18 APK/native solve/stuck, original Android ads/receipts/events, физическая проверка нашей игры.
 
-## 23.11 · новый original native AOT аудит EasyFun 1.1.9: no-op MREC/Native, реальные show-callers · source 288/288
+### 23.11 · новый original native AOT аудит EasyFun 1.1.9: no-op MREC/Native, реальные show-callers · source 288/288
 
 [Полный SHA-подтверждённый NATIVE_STATIC отчёт](https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md), [repro verifiers](https://github.com/DanilaH/mini-games-kit/tree/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123), original **EasyFun 1.1.9 / 1193**, XAPK `e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d`, native libil2cpp.so `1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720`. Первичный source↔consumer pin: **`5a72a2a827cb089ff2ec8e8aecbfc334141001a8`**; **288/288** отдельных sourceFeatureId (275 ранее + 13 отдельный original UI/ad triggers). Восемь исходных Show-callers в отдельных UI handlers дают девять BL, ещё три оригинальных UI-обработчика содержат **только eligibility check**, подсказка — rewarded precheck, lifecycle — hide banner. **Это не наблюдение показов.**
 
@@ -242,7 +258,7 @@ ID `guru-strategy-conditional-backtrack`: `RESEARCHED/MISSING` в игровом
 
 **Геймплейные поля 275 штук** — отдельное число, не путать с **288 source ID**. Подписанный APK runtime **Crossmath 0.5.24/versionCode29**, gameplay commit `0401140d5fc0c191e457289b6dc8e5752a9f85a8`, kit runtime `469928d03f4bae5053e23db26e82187bedbc252e` **без изменений**.
 
-## 23.11 · EasyFun 1.1.9 native interstitial admission: порог завершений + порог времени (288 ID)
+### 23.11 · EasyFun 1.1.9 native interstitial admission: порог завершений + порог времени (288 ID)
 
 Доказан новый более точный контракт **внутри уже существующего** sourceFeatureId **easy-ad-client-interstitial-gates**, без добавления/удаления ID. [Exact original native report, раздел F](https://github.com/DanilaH/mini-games-kit/blob/d1402b29d7a8657c581c670972b3c698709e8a27/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md). В EasyFun Offline Crossmath **1.1.9/1193** оригинальный ARM64 AdManager.CheckShowInterstitialAvailable вызывает LevelManager.GetTotalGameCompleteCount, суммирующий счётчики **пяти** классических сложностей Easy/Normal/Hard/Expert/Hell, затем FirebaseService.GetIntRemoteConfig. По инструкции **B.LT** отказ при **completedCount < remoteInt_1**. Второй GetIntRemoteConfig сравнивается с StatusUtil.get_TotalPlaySecond; по **B.LE** отказ при **totalPlaySecond ≤ remoteInt_2**. После этих условий есть CouldShowInterstitial и optional InterstitialLoaded. **Исключение: исходный byte flag AdManager+0x19 допускает ранний true**, его идентичность UNKNOWN. Точные remote keys/defaults/live values, фактический SDK impression/no-fill UNKNOWN. Два изменённых условных перехода отвергнуты контролем по original SHA-подтверждённому бинарнику.
 
@@ -250,7 +266,7 @@ ID `guru-strategy-conditional-backtrack`: `RESEARCHED/MISSING` в игровом
 
 Текущий **source↔consumer 288/288**, pin kit source **d1402b29d7a8657c581c670972b3c698709e8a27**, игровой код 0.5.24/29 SHA **0401140d5fc0c191e457289b6dc8e5752a9f85a8** и runtime kit **469928d03f4bae5053e23db26e82187bedbc252e** не изменены.
 
-## 23.11 · exact EasyFun interstitial Firebase keys, UTC-close callbacks (288/288)
+### 23.11 · exact EasyFun interstitial Firebase keys, UTC-close callbacks (288/288)
 
 **Дополнение с приоритетом над неопределёнными именами Firebase из предыдущего раздела.** [Exact original IL2CPP StringLiteral и ARM64 доказательства, README раздел G](https://github.com/DanilaH/mini-games-kit/blob/7b902a2a451cf7ceaa40b6b0baa2cf6cdb0390ae/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md): в исходном **EasyFun 1.1.9/1193** порог суммарных завершений **пяти Classic** подключён к **interstitial_ad_scene** (count ≥ Firebase int), порог общего времени — **ad_first_interstitial_time** (play seconds > Firebase int). В CouldShowInterstitial есть отдельные типы: **2** → remote **ad_enter_interval**, **3** → **ad_done_interval**; отрицательный interval запрещает, нулевой снимает дополнительный per-event фильтр, положительный требует UTC-now минус время последнего закрытия interstitial ≥ interval. Original InterstitialClosedCallBack записывает UTC epoch во внутреннее поле +0x10, а RewardedVideoCloseCallBack — в +0x14; последнее используется для отдельной post-rewarded защиты по ещё не расшифрованному remote ключу. Отдельный ранний bypass +0x19 пока UNKNOWN. Exact four string literals и callback-branches прошли оригинальный офлайн-тест и негативные мутации, не Android runtime/серверный анализ.
 
@@ -258,7 +274,7 @@ ID `guru-strategy-conditional-backtrack`: `RESEARCHED/MISSING` в игровом
 
 На этом источниковом проходе: **288/288 source→consumer IDs**, source kit SHA **7b902a2a451cf7ceaa40b6b0baa2cf6cdb0390ae**, исходный игровой код **0401140d5fc0c191e457289b6dc8e5752a9f85a8**, kit runtime **469928d03f4bae5053e23db26e82187bedbc252e**.
 
-## 24.11.2026 · оригинальные EasyFun ad gates и rewarded settlement (293/293)
+### 24.11.2026 · оригинальные EasyFun ad gates и rewarded settlement (293/293)
 
 Новый source pin: `c427b43c298479b97738edef080470ed83f2f47f`; Crossmath **0.5.24 / 29**, gameplay `0401140d5fc0c191e457289b6dc8e5752a9f85a8`, active branch HEAD `5153efdac26ca7ab99ed55d2bfc76287b63e1d32`, runtime kit `469928d03f4bae5053e23db26e82187bedbc252e`.
 
@@ -274,7 +290,7 @@ ID `guru-strategy-conditional-backtrack`: `RESEARCHED/MISSING` в игровом
 
 **KIT IMPACT: RESEARCH / IMPROVE evidence; runtime NONE.**
 
-## 24.11.2026 · Guru solver: текущий итог исследования 296/296
+### 24.11.2026 · Guru solver: текущий итог исследования 296/296
 
 Текущий source inventory pin: `1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba`. Crossmath остаётся **0.5.24 / 29**, gameplay `0401140d5fc0c191e457289b6dc8e5752a9f85a8`, runtime kit `469928d03f4bae5053e23db26e82187bedbc252e`. Проверен actual Help-код на active HEAD `5153efdac26ca7ab99ed55d2bfc76287b63e1d32`.
 
@@ -290,7 +306,7 @@ ID `guru-strategy-conditional-backtrack`: `RESEARCHED/MISSING` в игровом
 
 **KIT IMPACT: IMPROVE — доказательства и воспроизводимость исследования; runtime NONE.**
 
-## 24.11.2026 · код и архитектура оригиналов как основа собственной реализации
+### 24.11.2026 · код и архитектура оригиналов как основа собственной реализации
 
 По [прямому решению владельца](PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation) разработчик использует декомпилированный/native код и архитектурные приёмы оригинала для собственной реализации. Релевантный код скопирован в [закрытые отчёты кита](https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/README.md): Guru — 9 точных срезов с 36 полными методами; EasyFun — 21 адресный диапазон с исходными байтами и typed bindings. Архитектурные схемы и авторский псевдокод отделены от первичного кода.
 

@@ -176,7 +176,7 @@ try{
  await visibleTap('#tab-modes');
  await page.locator('#hub[data-screen=modes]').waitFor();
  assert.equal(await page.locator('#game-choice').isHidden(),true);
- await page.locator('#free-open').evaluate(node=>node.scrollIntoView({block:'center'}));
+ await page.locator('#free-open').scrollIntoViewIfNeeded();
  await visibleTap('#free-open');
  await page.waitForFunction(() => document.querySelector('#hub').hidden);
  assert.equal((await snapshot()).attempt.freeTrack,'relax');

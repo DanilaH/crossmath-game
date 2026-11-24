@@ -4,7 +4,8 @@ import { activeSeconds, canRequestReward, createRewardRequest, settleReward } fr
 import type { RewardEvent, RewardKind, RewardRequest } from '../platform/adState';
 import { campaignPuzzle, campaignSequence, config, dailyVersion, freeAssignmentVersion, getPuzzle, routes } from '../content/catalog';
 import { applyCommand, applyHelpLayout, createAttempt } from '../core/engine';
-import { explain, verifyExplanation } from '../help/logic';
+import { prepareExplanation, verifyExplanation } from '../help/logic';
+import type { ExplainPreparation } from '../help/logic';
 import { materializeHelp, reveal } from '../help/reveal';
 import { settleCompletion } from './model';
 import type { HelpOutcome, HelpReceipt, Save, Settings } from './model';
@@ -123,8 +124,16 @@ export class GameSession {
     } finally { this.finishWrite(); }
   }
   prepareHelp(kind:'explain'|'reveal', selectedCell?:number): HintPlan | null {
-    const p=getPuzzle(this.state.attempt.puzzleId),a=this.state.attempt;
-    return kind==='explain' ? explain(p,a) : reveal(p,a,selectedCell);
+    if (kind === 'explain') {
+      const result = this.prepareExplanation();
+      return result.outcome === 'ready' ? result.plan : null;
+    }
+    const a = this.state.attempt;
+    return reveal(getPuzzle(a.puzzleId),a,selectedCell);
+  }
+  prepareExplanation(): ExplainPreparation {
+    const attempt = this.state.attempt;
+    return prepareExplanation(getPuzzle(attempt.puzzleId),attempt);
   }
   async help(kind:'explain'|'reveal', operationId:string, expectedRevision:number, plan:HintPlan|null, elapsed=0): Promise<HelpReceipt> {
     const previous=this.state.helpReceipts[operationId]; if (previous) return previous;

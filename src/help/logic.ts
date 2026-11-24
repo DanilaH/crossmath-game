@@ -9,6 +9,15 @@ export interface HintPlan {
   rule: 'direct_result' | 'direct_inverse' | 'tray' | 'intersection' | 'reveal';
   assignments: Assignment[]; returns: number[];
 }
+export type ExplainPreparation = {
+  snapshot: { attemptId: string; puzzleId: string; boardRevision: number };
+} & (
+  | { outcome: 'ready'; plan: HintPlan }
+  | { outcome: 'incompatible_position' }
+  | { outcome: 'no_supported_step' }
+  | { outcome: 'budget_exhausted'; phase: 'compatibility' | 'proof_search' }
+  | { outcome: 'unavailable'; reason: 'not_playing' }
+);
 export class HintBudgetExceeded extends Error {}
 type Bag = Map<number,number>;
 export const visiblePlacements = (p: Puzzle, a: Attempt): Record<string,number> => Object.fromEntries(Object.keys(a.placements).map(id => [id,cellValue(p,a,Number(id))!]));
@@ -31,11 +40,13 @@ function possibilities(p: Puzzle, a: Attempt, eq: Equation, bag: Bag, spend: () 
 const intersection=(sets:number[][]):number[] => (sets[0] ?? []).filter(v => sets.every(s => s.includes(v)));
 
 /** No answer data or authored trace can enter this API. All domains come from visible tokens. */
-export function explain(p: Puzzle, a: Attempt, budget = p.contentVersion === 2 ? 160_000 : 40_000): HintPlan | null {
-  if (a.status !== 'playing') return null;
+export function prepareExplanation(p: Puzzle, a: Attempt, budget = p.contentVersion === 2 ? 160_000 : 40_000): ExplainPreparation {
+  const snapshot = {attemptId:a.id, puzzleId:p.puzzleId, boardRevision:a.boardRevision};
+  if (a.status !== 'playing') return {snapshot, outcome:'unavailable', reason:'not_playing'};
   // Reject an inconsistent player hypothesis instead of teaching a conclusion from a false premise.
   const compatible=countSolutions(p,budget,visiblePlacements(p,a));
-  if (compatible.exhausted || !compatible.count) return null;
+  if (compatible.exhausted) return {snapshot, outcome:'budget_exhausted', phase:'compatibility'};
+  if (!compatible.count) return {snapshot, outcome:'incompatible_position'};
   let remaining=budget;
   const spend=():void => { if (--remaining < 0) throw new HintBudgetExceeded(); };
   const bag=inventory(p,a), proposals: {priority:number; eq:number; assignment:Assignment; rule:HintPlan['rule']}[]=[];
@@ -47,10 +58,10 @@ export function explain(p: Puzzle, a: Attempt, budget = p.contentVersion === 2 ?
     const cellId = free[0]!;
     const position = eq.cells.indexOf(cellId);
     const candidates = possibilities(p,a,eq,bag,() => {}).map(row => row[position]!);
-    if (candidates.length === 1) return {
+    if (candidates.length === 1) return {snapshot, outcome:'ready', plan:{
       puzzleId:p.puzzleId,boardRevision:a.boardRevision,kind:'explain',rule:position === 2 ? 'direct_result' : 'direct_inverse',
       assignments:[{cellId,value:candidates[0]!,evidence:[{equationIndex:index,candidates}]}],returns:[],
-    };
+    }};
   }
   try {
     p.equations.forEach((eq,index) => {
@@ -67,10 +78,20 @@ export function explain(p: Puzzle, a: Attempt, budget = p.contentVersion === 2 ?
       const common=intersection(evidence.map(e => e.candidates));
       if (common.length === 1) proposals.push({priority:1,eq:evidence[0]!.equationIndex,rule:'intersection',assignment:{cellId,value:common[0]!,evidence}});
     }
-  } catch (error) { if (error instanceof HintBudgetExceeded) return null; throw error; }
+  } catch (error) {
+    if (error instanceof HintBudgetExceeded) return {snapshot, outcome:'budget_exhausted', phase:'proof_search'};
+    throw error;
+  }
   proposals.sort((x,y) => x.priority-y.priority || x.eq-y.eq || x.assignment.cellId-y.assignment.cellId);
   const first=proposals[0];
-  return first ? {puzzleId:p.puzzleId,boardRevision:a.boardRevision,kind:'explain',rule:first.rule,assignments:[first.assignment],returns:[]} : null;
+  return first
+    ? {snapshot, outcome:'ready', plan:{puzzleId:p.puzzleId,boardRevision:a.boardRevision,kind:'explain',rule:first.rule,assignments:[first.assignment],returns:[]}}
+    : {snapshot, outcome:'no_supported_step'};
+}
+
+export function explain(p: Puzzle, a: Attempt, budget?: number): HintPlan | null {
+  const result = prepareExplanation(p,a,budget);
+  return result.outcome === 'ready' ? result.plan : null;
 }
 
 /** Separate enumeration and arithmetic from the proposer; never trusts candidate lists or prose. */

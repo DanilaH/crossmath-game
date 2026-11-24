@@ -21,7 +21,8 @@ export interface AdsProvider {
   // Resolves on dismissal or pre-show refusal. Earned receipts travel independently.
   showRewarded(request:RewardRequest,context:FullscreenContext): Promise<FullscreenResult>;
   showInterstitial(context:FullscreenContext): Promise<FullscreenResult>;
-  // Native host owns the reservation and actual visibility.
+  // Resolves when the provider handles this idempotent intent. It owns native visibility and reservation.
+  // Acknowledging the command does not establish a rendered creative or an impression.
   setBanner(visible:boolean): Promise<void>;
 }
 
@@ -36,9 +37,11 @@ export class AdsController {
   private statusRefresh:Promise<void>|undefined;
   private pendingRefresh:Promise<void>|undefined;
   private statusVersion = 0;
-  private banner = false;
-  private bannerSent = false;
-  private bannerWork:Promise<void>|undefined;
+  private bannerDesired = false;
+  // A new provider starts hidden. A failed command leaves its state unconfirmed.
+  private bannerConfirmed: boolean|undefined = false;
+  private bannerInFlight = false;
+  private finalBannerHidePending = false;
   private readonly removers:Unsubscribe[] = [];
   private readonly delivery:DurableReceiptQueue<RewardEvent>;
   private readonly acknowledgements=new Map<string,Promise<void>>();
@@ -97,6 +100,7 @@ export class AdsController {
   // A hung bridge query stays single-flight. Receipts arriving later still count.
   refresh():void {
     if(this.disposed)return;
+    void this.flushBanner();
     if(!this.statusRefresh){
       const version=this.statusVersion;
       this.statusRefresh=this.provider.availability().then(status=>{
@@ -177,23 +181,36 @@ export class AdsController {
   }
 
   updateBanner(visible:boolean):void {
-    this.banner=visible&&!this.disposed&&!this.fullscreenWork&&this.availability.banner;
-    this.flushBanner();
+    const desired=visible&&!this.disposed&&!this.fullscreenWork&&this.availability.banner;
+    if(this.bannerDesired===desired)return;
+    this.bannerDesired=desired;
+    void this.flushBanner();
   }
 
-  private flushBanner():void {
-    if(this.bannerWork||this.bannerSent===this.banner)return;
-    const value=this.banner;
-    this.bannerSent=value;
-    this.bannerWork=this.provider.setBanner(value).catch(()=>undefined).finally(()=>{
-      this.bannerWork=undefined;
-      this.flushBanner();
-    });
+  private async flushBanner():Promise<void> {
+    if(this.bannerInFlight)return;
+    this.finalBannerHidePending=false;
+    const desired=this.bannerDesired;
+    if(this.bannerConfirmed===desired)return;
+    this.bannerInFlight=true;
+    try{
+      await this.provider.setBanner(desired);
+      this.bannerConfirmed=desired;
+    } catch {
+      this.bannerConfirmed=undefined;
+    } finally {
+      this.bannerInFlight=false;
+    }
+    // A rejected intent is retried by refresh, unless this flight was superseded or dispose needs a hide.
+    if(this.bannerDesired!==desired||this.finalBannerHidePending)void this.flushBanner();
   }
 
   dispose():void {
+    if(this.disposed)return;
     this.disposed=true;
-    this.updateBanner(false);
+    this.bannerDesired=false;
+    this.finalBannerHidePending=true;
+    void this.flushBanner();
     if(this.fullscreen)this.block(false);
     for(const remove of this.removers)void Promise.resolve(remove()).catch(()=>undefined);
   }

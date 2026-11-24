@@ -14,6 +14,11 @@ const ready = {rewarded:true,interstitial:true,banner:true};
 const date = '2026-11-19';
 const now = date+'T12:00:00Z';
 const flush = () => new Promise<void>(resolve=>setTimeout(resolve,0));
+function deferred<T>(){
+ let resolve!:(value:T)=>void,reject!:(reason:Error)=>void;
+ const promise=new Promise<T>((yes,no)=>{resolve=yes;reject=no;});
+ return {promise,resolve,reject};
+}
 
 class Memory {
   data=new Map<string,string>();
@@ -30,6 +35,8 @@ class ScriptedProvider implements AdsProvider {
   requests:RewardRequest[]=[];
   acks:string[]=[];
   banners:boolean[]=[];
+  bannerInFlight=0;
+  peakBannerInFlight=0;
   interstitials=0;
   failAck=false;
   hangQueries=false;
@@ -37,6 +44,7 @@ class ScriptedProvider implements AdsProvider {
   status=ready;
   onRewarded:(request:RewardRequest)=>Promise<FullscreenResult>=async()=> 'shown';
   onInterstitial:()=>Promise<FullscreenResult>=async()=> 'shown';
+  onBanner:(visible:boolean)=>Promise<void>=async()=>{};
   async availability(){this.statusCalls++;if(this.hangQueries)return new Promise<AdAvailability>(()=>{});return this.status;}
   async pendingRewards(){if(this.hangQueries)return new Promise<RewardEvent[]>(()=>{});return [...this.pending.values()];}
   async acknowledge(id:string){if(this.failAck)throw Error('Ack failed');this.acks.push(id);this.pending.delete(id);}
@@ -44,7 +52,12 @@ class ScriptedProvider implements AdsProvider {
   async watchRewards(listener:Listener<RewardEvent>){this.rewards.add(listener);return ()=>{this.rewards.delete(listener);};}
   async showRewarded(request:RewardRequest){this.requests.push(request);return this.onRewarded(request);}
   async showInterstitial(){this.interstitials++;return this.onInterstitial();}
-  async setBanner(visible:boolean){this.banners.push(visible);}
+  async setBanner(visible:boolean){
+    this.banners.push(visible);
+    this.peakBannerInFlight=Math.max(this.peakBannerInFlight,++this.bannerInFlight);
+    try{await this.onBanner(visible);}
+    finally{this.bannerInFlight--;}
+  }
   emit(request:RewardRequest,outcome:RewardEvent['outcome']='earned'){
     const event={id:request.id,profileId:request.profileId,outcome};
     this.pending.set(request.id,event);
@@ -52,7 +65,7 @@ class ScriptedProvider implements AdsProvider {
   }
 }
 
-async function setup(provider=new ScriptedProvider()){
+async function setup(provider=new ScriptedProvider(),render?: (controller:AdsController,blocks:Set<string>)=>void){
   const storage=new Memory();
   const fresh=()=>createSave('p',now,'UTC','initial');
   const repo=new SaveRepository(storage,fresh);
@@ -60,11 +73,139 @@ async function setup(provider=new ScriptedProvider()){
   const clock={now};
   const session=new GameSession(await repo.load(),repo,()=> 'ad-test-'+(++serial),()=>clock.now);
   const blocks=new Set<string>();
-  const controller=new AdsController(session,provider,blocked=>{if(blocked)blocks.add('ad');else blocks.delete('ad');},()=>{});
+  const controller:AdsController=new AdsController(session,provider,blocked=>{if(blocked)blocks.add('ad');else blocks.delete('ad');},()=>render?.(controller,blocks));
   controller.start();
   await flush();
   return {provider,storage,repo,clock,session,controller,blocks};
 }
+
+describe('ADS-01: recover the latest banner intent',()=>{
+  it.each([false,true])('retries rejected setBanner(%s) once on refresh and coalesces after success',async desired=>{
+    const {controller,provider}=await setup();
+    if(!desired){controller.updateBanner(true);await flush();}
+    provider.onBanner=vi.fn<ScriptedProvider['onBanner']>().mockRejectedValueOnce(Error('Bridge reply lost')).mockResolvedValue(undefined);
+    controller.updateBanner(desired);await flush();
+    const before=desired?[true]:[true,false];
+    for(let i=0;i<5;i++)controller.updateBanner(desired);
+    await flush();
+    expect(provider.banners).toEqual(before);
+    controller.refresh();controller.refresh();
+    await flush();
+    expect(provider.banners).toEqual([...before,desired]);
+    controller.updateBanner(desired);controller.refresh();
+    await flush();
+    expect(provider.banners).toEqual([...before,desired]);
+    expect(provider.peakBannerInFlight).toBe(1);
+    controller.dispose();
+  });
+
+  it.each([[true,false],[true,true],[false,false],[false,true]] as const)(
+    'reconciles the latest intent after pending setBanner(%s), rejected = %s',async (first,rejected)=>{
+      const {controller,provider}=await setup();
+      if(!first){controller.updateBanner(true);await flush();}
+      const inFlight=deferred<void>();
+      provider.onBanner=vi.fn<ScriptedProvider['onBanner']>().mockReturnValueOnce(inFlight.promise).mockResolvedValue(undefined);
+      controller.updateBanner(first);
+      controller.updateBanner(!first);controller.updateBanner(first);controller.updateBanner(!first);
+      controller.refresh();await flush();
+      expect(provider.banners).toEqual(first?[true]:[true,false]);
+      if(rejected)inFlight.reject(Error('Bridge reply lost'));else inFlight.resolve();
+      await flush();
+      expect(provider.banners).toEqual(first?[true,false]:[true,false,true]);
+      expect(provider.peakBannerInFlight).toBe(1);
+      controller.dispose();
+    },
+  );
+
+  it('limits repeated rejection to one attempt per refresh and leaves a hung RPC single-flight',async()=>{
+    const {controller,provider,session}=await setup();
+    provider.onBanner=async()=>{throw Error('Bridge offline');};
+    controller.updateBanner(true);await flush();
+    for(let i=0;i<10;i++)controller.updateBanner(true);
+    await flush();expect(provider.banners).toEqual([true]);
+    controller.refresh();await flush();await flush();
+    expect(provider.banners).toEqual([true,true]);
+    const pending=deferred<void>();
+    provider.onBanner=()=>pending.promise;
+    controller.refresh();
+    for(let i=0;i<10;i++){controller.updateBanner(false);controller.updateBanner(true);controller.refresh();}
+    await flush();expect(provider.banners).toEqual([true,true,true]);
+    const move=await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});
+    expect(move.outcome).toBe('applied');
+    expect(session.state.result?.coins).toBe(10);
+    controller.dispose();controller.refresh();
+    expect(provider.banners).toEqual([true,true,true]);
+    expect(provider.peakBannerInFlight).toBe(1);
+    provider.onBanner=async()=>{};
+    pending.resolve();await flush();
+    expect(provider.banners).toEqual([true,true,true,false]);
+  });
+
+  it('recovers a banner independently of hung availability and pending receipt queries',async()=>{
+    const provider=new ScriptedProvider();
+    provider.hangQueries=true;
+    const {controller}=await setup(provider);
+    for(const listener of provider.states)listener(ready);
+    provider.onBanner=vi.fn<ScriptedProvider['onBanner']>().mockRejectedValueOnce(Error('Offline')).mockResolvedValue(undefined);
+    controller.updateBanner(true);await flush();
+    controller.refresh();await flush();
+    expect(provider.banners).toEqual([true,true]);
+    expect(provider.statusCalls).toBe(1);
+    controller.dispose();
+  });
+
+  it('keeps independent background and modal blockers when fullscreen closes',async()=>{
+    const provider=new ScriptedProvider();
+    const {controller,blocks}=await setup(provider,(ads,blockers)=>ads.updateBanner(blockers.size===0));
+    const fullscreen=deferred<FullscreenResult>();
+    provider.onRewarded=()=>fullscreen.promise;
+    const showing=controller.reward('hint',0);
+    await vi.waitFor(()=>expect(provider.requests).toHaveLength(1));
+    blocks.add('background');blocks.add('modal');
+    controller.updateBanner(false);
+    fullscreen.resolve('shown');await showing;await flush();
+    expect(blocks).toEqual(new Set(['background','modal']));
+    expect(provider.banners).toEqual([true,false]);
+    blocks.delete('modal');controller.updateBanner(blocks.size===0);await flush();
+    expect(provider.banners).toEqual([true,false]);
+    blocks.delete('background');controller.updateBanner(blocks.size===0);await flush();
+    expect(provider.banners).toEqual([true,false,true]);
+    controller.dispose();
+  });
+
+  it('drains a late show and tries one terminal hide without late renders or retries',async()=>{
+    const provider=new ScriptedProvider(),render=vi.fn();
+    const {controller}=await setup(provider,render);
+    const showing=deferred<void>();
+    provider.onBanner=vi.fn<ScriptedProvider['onBanner']>().mockReturnValueOnce(showing.promise).mockRejectedValue(Error('Offline'));
+    controller.updateBanner(true);
+    const listeners=[...provider.states];
+    const renders=render.mock.calls.length;
+    controller.dispose();controller.dispose();controller.refresh();controller.updateBanner(true);
+    expect(provider.banners).toEqual([true]);
+    for(const listener of listeners)listener(ready);
+    showing.resolve();await flush();await flush();
+    expect(provider.banners).toEqual([true,false]);
+    expect(provider.states.size).toBe(0);expect(provider.rewards.size).toBe(0);
+    expect(render.mock.calls.length).toBe(renders);
+    expect(provider.peakBannerInFlight).toBe(1);
+  });
+
+  it.each([false,true])('tries a terminal hide after a rejected hide, pending at dispose = %s',async pending=>{
+    const {controller,provider}=await setup();
+    controller.updateBanner(true);await flush();
+    const hiding=deferred<void>();
+    provider.onBanner=vi.fn<ScriptedProvider['onBanner']>().mockReturnValueOnce(hiding.promise).mockRejectedValue(Error('Offline'));
+    controller.updateBanner(false);
+    if(pending)controller.dispose();
+    hiding.reject(Error('Bridge reply lost'));await flush();
+    if(!pending){expect(provider.banners).toEqual([true,false]);controller.dispose();}
+    await flush();
+    controller.refresh();controller.updateBanner(true);
+    await flush();
+    expect(provider.banners).toEqual([true,false,false]);
+  });
+});
 
 describe('Rewarded and interstitial provider contract',()=>{
   it('persists the request before opening and acknowledges an earned callback only after committing the credit',async()=>{
