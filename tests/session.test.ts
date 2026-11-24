@@ -29,8 +29,13 @@ describe('P04/P05/P06: durable game operations',()=>{
   const loaded=await repo.load();expect(loaded.attempt.placements).toEqual({'0':'t0','1':'t2'});expect(loaded.attempt.userPaused).toBe(true);expect(loaded.attempt.elapsedPlaying).toBe(12);
  });
  it('charges exactly once for a verified hint, including a repeated call after restart; undo preserves the charge',async()=>{
-  const s=fresh();s.attempt=createAttempt(getPuzzle('cm-own-01-010'),'ten');const{session,repo}=await setup(s);
-  const plan=session.prepareHelp('explain')!;const result=await session.help('explain','stable-help',0,plan);expect(result.costCoins).toBe(60);expect(session.state.profile.coins).toBe(60);
+  const s=fresh();s.attempt=createAttempt(getPuzzle('cm-own-01-010'),'ten');const{session,repo,storage}=await setup(s);
+  const before=structuredClone(session.state),stored=storage.data.get(SAVE_KEY);
+  const prepared=session.prepareExplanation();
+  expect(prepared.outcome).toBe('ready');if(prepared.outcome!=='ready')throw Error('Expected a prepared hint');
+  const {plan}=prepared;
+  expect(session.state).toEqual(before);expect(storage.data.get(SAVE_KEY)).toBe(stored);
+  const result=await session.help('explain','stable-help',0,plan);expect(result.costCoins).toBe(60);expect(session.state.profile.coins).toBe(60);
   const restored=new GameSession(await repo.load(),repo,()=> 'id');expect(await restored.help('explain','stable-help',0,plan)).toEqual(result);expect(restored.state.profile.coins).toBe(60);
   await restored.command({type:'Undo'});expect(restored.state.profile.coins).toBe(60);expect(restored.state.attempt.assisted).toBe(true);expect(restored.state.attempt.hintsUsed).toBe(1);
  });

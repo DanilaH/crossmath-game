@@ -18,7 +18,7 @@ import { RecoveryRequired } from '../app/saveRepository';
 import type { FreeTrack } from '../content/rotation';
 import type { Mode } from '../core/types';
 import type { BoardAction } from '../core/types';
-import type { HintPlan } from '../help/logic';
+import type { ExplainPreparation, HintPlan } from '../help/logic';
 import type { Save, Settings } from '../app/model';
 const $=<T extends HTMLElement=HTMLElement>(id:string):T=>document.getElementById(id) as T;
 type OpenOperation = (replace: boolean, elapsed: number) => Promise<OpenOutcome>;
@@ -39,7 +39,11 @@ export class GameUi {
   private readonly meta:MetaView;private navigationBlocked=false;
   private busy=false;private ready=false;private blocked=false;private saveFailed=false;
   private wasActive=false;private lastTime=performance.now();private elapsed=0;
-  private plan:HintPlan|null=null;private helpKind:'explain'|'reveal'='explain';private helpOperation='';private helpRevision=0;
+  private explanation:ExplainPreparation|null=null;
+  private revealPlan:HintPlan|null=null;
+  private helpKind:'explain'|'reveal'='explain';
+  private helpSnapshot:ExplainPreparation['snapshot']|undefined;
+  private helpOperation='';
   private timer:ReturnType<typeof setInterval>;private retryAction:(()=>void)|null=null;
   constructor(readonly session:GameSession,private readonly blocker:(reason:string,blocked:boolean)=>void,private readonly repaint:()=>void,adsProvider?:AdsProvider){
     this.ads=adsProvider?new AdsController(session,adsProvider,value=>this.blocker('ad',value),()=>this.render()):undefined;
@@ -106,7 +110,15 @@ export class GameUi {
     };
     $('restart').onclick=()=>{$('restart-confirm').hidden=false;};$('restart-no').onclick=()=>{$('restart-confirm').hidden=true;};
     $('restart-yes').onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{$<HTMLDialogElement>('pause-dialog').close();this.blocker('user',false);$('restart-confirm').hidden=true;window.scrollTo(0,0);});
-    $<HTMLDialogElement>('pause-dialog').addEventListener('cancel',e=>{e.preventDefault();this.resume();});$<HTMLDialogElement>('help-dialog').addEventListener('cancel',e=>{e.preventDefault();this.closeHelp();});
+    $<HTMLDialogElement>('pause-dialog').addEventListener('cancel',e=>{e.preventDefault();this.resume();});
+    const helpDialog=$<HTMLDialogElement>('help-dialog');
+    helpDialog.addEventListener('cancel',e=>{e.preventDefault();this.closeHelp();});
+    helpDialog.addEventListener('close',()=>{
+      if (!helpDialog.open) {
+        this.helpSnapshot=undefined;
+        this.clearHelpSelection();
+      }
+    });
     for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){$<HTMLInputElement>(id).onchange=()=>{const input=$<HTMLInputElement>(id);const value=key==='theme'?(input.checked?'dark':'light'):input.checked;this.run(async time=>{await session.update({[key]:value} as Partial<Settings>,session.state.attempt.userPaused,time);return {committed:true};});};}
     $<HTMLSelectElement>('language').onchange=()=>{
       const language:Language=$<HTMLSelectElement>('language').value==='en'?'en':'ru';
@@ -349,22 +361,42 @@ export class GameUi {
     if (this.busy || this.session.writing || this.saveFailed || this.session.state.attempt.status !== 'playing') return;
     this.board.cancel();
     this.tick();
-    this.plan = null;
-    $('help-description').hidden = true;
-    $<HTMLButtonElement>('apply-help').disabled = true;
-    this.helpOperation = crypto.randomUUID();
-    this.helpRevision = this.session.state.attempt.boardRevision;
-    for (const id of ['explain','reveal']) {
-      $(id).classList.remove('chosen');
-      $(id).setAttribute('aria-pressed','false');
-    }
+    this.helpSnapshot = undefined;
     this.updateHelpPrice();
     this.blocker('modal',true);
     $<HTMLDialogElement>('help-dialog').showModal();
     $('help-content').scrollTop = 0;
   }
 
+  private clearHelpSelection(): void {
+    this.explanation = null;
+    this.revealPlan = null;
+    const description = $('help-description');
+    description.hidden = true;
+    description.textContent = '';
+    for (const id of ['explain','reveal']) {
+      $(id).classList.remove('chosen');
+      $(id).setAttribute('aria-pressed','false');
+    }
+  }
+
+  private get helpPlan(): HintPlan|null {
+    if (this.helpKind === 'reveal') return this.revealPlan;
+    return this.explanation?.outcome === 'ready' ? this.explanation.plan : null;
+  }
+
+  private syncHelpSnapshot(): void {
+    const {attempt} = this.session.state;
+    if (this.helpSnapshot?.attemptId !== attempt.id || this.helpSnapshot.puzzleId !== attempt.puzzleId
+      || this.helpSnapshot.boardRevision !== attempt.boardRevision) {
+      this.clearHelpSelection();
+      this.helpSnapshot = {attemptId:attempt.id, puzzleId:attempt.puzzleId, boardRevision:attempt.boardRevision};
+      this.helpOperation = crypto.randomUUID();
+    }
+  }
+
   private updateHelpPrice(): void {
+    this.syncHelpSnapshot();
     const {profile, attempt, career} = this.session.state;
     const { coins, hintCredits } = profile;
     const {costCredits, costCoins, missingCoins} = hintPayment(profile);
@@ -379,24 +411,55 @@ export class GameUi {
     impact.hidden = attempt.mode !== 'endless' || career.run?.assisted === true;
     impact.textContent = impact.hidden ? '' : this.t('Этот забег попадёт в рекорды с помощью', 'This run will count toward assisted records');
     const apply = $<HTMLButtonElement>('apply-help');
-    apply.disabled = this.busy || !this.plan || missingCoins > 0;
-    apply.textContent = this.plan && !missingCoins ? this.t(`Применить · ${price}`, `Apply · ${price}`) : this.t('Применить', 'Apply');
+    const plan = this.helpPlan;
+    apply.disabled = this.busy || !plan || missingCoins > 0;
+    apply.textContent = plan && !missingCoins ? this.t(`Применить · ${price}`, `Apply · ${price}`) : this.t('Применить', 'Apply');
   }
 
   private chooseHelp(kind:'explain'|'reveal'):void{
+    this.syncHelpSnapshot();
     this.helpKind=kind;
-    this.plan=this.session.prepareHelp(kind,this.board.selectedCell());
+    this.explanation=kind==='explain' ? this.session.prepareExplanation() : null;
+    this.revealPlan=kind==='reveal' ? this.session.prepareHelp('reveal',this.board.selectedCell()) : null;
     for (const choice of ['explain','reveal']) {
       $(choice).classList.toggle('chosen',choice===kind);
       $(choice).setAttribute('aria-pressed',String(choice===kind));
     }
-    $('help-description').hidden = false;
-    $('help-description').textContent=this.plan?kind==='explain'?this.t("Применим доказуемый ход и покажем, как его получить из равенств и лотка.", "Place a number and see why it follows from the equations and the tray."):this.t("Покажем правильное число. Мешающие неверные фишки вернутся в лоток.", "Reveal the correct number. Any pieces in the way go back to the tray."):this.t("Сейчас нет доказуемого хода из этой расстановки. Можно исправить гипотезу или отдельно показать число.", "No step can be proved from this layout. Change a placement or reveal a number.");
+    const description = $('help-description');
+    description.hidden = false;
+    description.textContent = this.explanation ? this.explanationDescription(this.explanation) : this.revealPlan
+      ? this.t('Покажем правильное число. Мешающие неверные фишки вернутся в лоток.', 'Reveal the correct number. Any pieces in the way go back to the tray.')
+      : this.t('Сейчас нет доказуемого хода из этой расстановки. Можно исправить гипотезу или отдельно показать число.', 'No step can be proved from this layout. Change a placement or reveal a number.');
     this.updateHelpPrice();
+    description.scrollIntoView({block:'nearest'});
   }
+
+  private explanationDescription(result: ExplainPreparation): string {
+    switch (result.outcome) {
+      case 'ready':
+        return this.t('Применим доказуемый ход и покажем, как его получить из равенств и лотка.', 'Place a number and see why it follows from the equations and the tray.');
+      case 'incompatible_position':
+      case 'no_supported_step':
+        if (this.session.state.attempt.mode === 'endless') {
+          return this.t('Сейчас не удалось подготовить объяснение. Можно продолжить решать или отдельно выбрать «Показать число».', 'An explanation is not available right now. Keep playing, or choose “Reveal a number” separately.');
+        }
+        return result.outcome === 'incompatible_position'
+          ? this.t('С текущей расстановкой поле нельзя завершить. Вернитесь к полю и проверьте поставленные числа.', 'The board cannot be completed with these placements. Go back to the board and review the numbers you placed.')
+          : this.t('Для этой расстановки пока нет готового объяснения. Можно продолжить решать или отдельно выбрать «Показать число».', 'There is no explanation available for this layout yet. Keep playing, or choose “Reveal a number” separately.');
+      case 'budget_exhausted':
+        return this.t('Проверка хода не завершилась. Можно продолжить решать или отдельно выбрать «Показать число».', 'The move check did not finish. Keep playing, or choose “Reveal a number” separately.');
+      case 'unavailable':
+        return this.t('Объяснение сейчас недоступно.', 'An explanation is currently unavailable.');
+    }
+  }
+
   private closeHelp():void{if(this.busy)return;$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);}
-  private applyHelp():void{const plan=this.plan;if(this.busy||!plan||hintPayment(this.session.state.profile).missingCoins>0)return;let applied=false;
-    this.run(async time=>{const revision=this.session.state.revision,result=await this.session.help(this.helpKind,this.helpOperation,this.helpRevision,plan,time);applied=result.outcome==='applied';
+  private applyHelp():void{
+    if(this.busy)return;
+    this.updateHelpPrice();
+    const plan=this.helpPlan,snapshot=this.helpSnapshot;
+    if(!plan||!snapshot||hintPayment(this.session.state.profile).missingCoins>0)return;let applied=false;
+    this.run(async time=>{const revision=this.session.state.revision,result=await this.session.help(this.helpKind,this.helpOperation,snapshot.boardRevision,plan,time);applied=result.outcome==='applied';
       if(!applied)$('help-description').textContent=result.outcome==='insufficient_resource'?this.t("Не хватает монет. Продолжать решать и начинать поле заново можно бесплатно.", "You need more coins for help. Keep playing or restart for free."):this.t("Поле изменилось или этот ход больше недоступен. Закройте помощь и попробуйте снова.", "The board changed or this move is no longer available. Close Help and try again.");return {committed:this.session.state.revision!==revision};
     },()=>{if(!applied)return;
       const won = this.session.state.attempt.status === 'won';
