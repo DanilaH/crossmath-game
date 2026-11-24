@@ -4505,7 +4505,32 @@
       "acceptanceRequirement": "For this sourceFeatureId: matched original handler and reproducible video/SDK trace show or no-fill, user action, timing and any cap; our independently built implementation only after explicit owner decision, no duplicated fullscreen/persisted lost state and no copied vendor code/assets.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / versionCode 1193, original XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720.",
-      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN."
+      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN.",
+      "implementationPackages": [
+        {
+          "id": "ADS-01",
+          "status": "SPECIFIED",
+          "statusMeaning": "Готово ТЗ; реализация и её приёмка ещё не выполнены. Это статус пакета, не статус полного переноса sourceFeatureId.",
+          "priority": 2,
+          "specRef": "docs/porting/help-and-ads-20261124/ads/DELIVERY_SPEC.md",
+          "baselineCommit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+          "scope": "Собственное исправление presentation/lifecycle: отдельно учитывать последнее desired, pending и подтверждённую команду; повторять актуальный intent после reject на существующем recovery-trigger.",
+          "baselineEvidenceRef": "docs/porting/help-and-ads-20261124/ads/REPRODUCTION_RESULT.json",
+          "implementationCommit": null,
+          "acceptanceEvidence": []
+        }
+      ],
+      "latestImplementationReview": {
+        "date": "2026-11-24",
+        "commit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+        "kind": "UNCHANGED_CONSUMER_CODE_REPRODUCTION",
+        "finding": "On bbae4ac, unchanged AdsController marks bannerSent before setBanner resolves; rejected show/hide is not retried for the same desired state. Two defects and two successful control sequences were reproduced with a scripted provider. Native visibility and SDK impressions were not measured.",
+        "evidenceRef": "docs/porting/help-and-ads-20261124/ads/REPRODUCTION_RESULT.json",
+        "fixApplied": false,
+        "androidExecuted": false,
+        "liveSdkExecuted": false
+      },
+      "productNextAction": "Выполнить ADS-01 по docs/porting/help-and-ads-20261124/ads/DELIVERY_SPEC.md; записать implementation HEAD и отдельную приёмку. Исходный source nextAction и comparison PARTIAL сохраняются."
     },
     {
       "id": "easy-ad-cheat-skip-toggle",
@@ -4615,7 +4640,32 @@
         "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
       ],
       "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
-      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation",
+      "implementationPackages": [
+        {
+          "id": "ADS-01",
+          "status": "SPECIFIED",
+          "statusMeaning": "Готово ТЗ; реализация и её приёмка ещё не выполнены. Это статус пакета, не статус полного переноса sourceFeatureId.",
+          "priority": 2,
+          "specRef": "docs/porting/help-and-ads-20261124/ads/DELIVERY_SPEC.md",
+          "baselineCommit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+          "scope": "Собственное исправление presentation/lifecycle: отдельно учитывать последнее desired, pending и подтверждённую команду; повторять актуальный intent после reject на существующем recovery-trigger.",
+          "baselineEvidenceRef": "docs/porting/help-and-ads-20261124/ads/REPRODUCTION_RESULT.json",
+          "implementationCommit": null,
+          "acceptanceEvidence": []
+        }
+      ],
+      "latestImplementationReview": {
+        "date": "2026-11-24",
+        "commit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+        "kind": "UNCHANGED_CONSUMER_CODE_REPRODUCTION",
+        "finding": "On bbae4ac, unchanged AdsController marks bannerSent before setBanner resolves; rejected show/hide is not retried for the same desired state. Two defects and two successful control sequences were reproduced with a scripted provider. Native visibility and SDK impressions were not measured.",
+        "evidenceRef": "docs/porting/help-and-ads-20261124/ads/REPRODUCTION_RESULT.json",
+        "fixApplied": false,
+        "androidExecuted": false,
+        "liveSdkExecuted": false
+      },
+      "productNextAction": "Выполнить ADS-01 по docs/porting/help-and-ads-20261124/ads/DELIVERY_SPEC.md; записать implementation HEAD и отдельную приёмку. Исходный source nextAction и comparison PARTIAL сохраняются."
     },
     {
       "id": "guru-solver-step-canonical-guard",
@@ -4667,7 +4717,32 @@
         "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/01_simple_solve_result.asm.txt"
       ],
       "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/README.md",
-      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation",
+      "implementationPackages": [
+        {
+          "id": "HELP-01",
+          "status": "SPECIFIED",
+          "statusMeaning": "Готово ТЗ; реализация и её приёмка ещё не выполнены. Это статус пакета, не статус полного переноса sourceFeatureId.",
+          "priority": 1,
+          "specRef": "docs/porting/help-and-ads-20261124/help/DELIVERY_SPEC.md",
+          "baselineCommit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+          "scope": "Собственная адаптация архитектуры результата: различить ready, несовместимость, незавершённый поиск и отсутствие поддерживаемого шага; сохранить нейтральный Endless preview.",
+          "baselineEvidenceRef": "docs/porting/help-and-ads-20261124/help/REPRODUCTION.json",
+          "implementationCommit": null,
+          "acceptanceEvidence": []
+        }
+      ],
+      "latestImplementationReview": {
+        "date": "2026-11-24",
+        "commit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+        "kind": "UNCHANGED_CONSUMER_CODE_REPRODUCTION",
+        "finding": "On bbae4ac, unchanged explain returns null for incompatible_position, compatibility/proof budget exhaustion and a valid unique-solution position without a supported deduction. Eleven own fixtures reproduce these distinctions; no product fix or source parity is claimed.",
+        "evidenceRef": "docs/porting/help-and-ads-20261124/help/REPRODUCTION.json",
+        "fixApplied": false,
+        "androidExecuted": false,
+        "liveSdkExecuted": false
+      },
+      "productNextAction": "Выполнить HELP-01 по docs/porting/help-and-ads-20261124/help/DELIVERY_SPEC.md; записать implementation HEAD и отдельную приёмку. Исходный source nextAction и comparison PARTIAL сохраняются."
     },
     {
       "id": "guru-solver-constraint-counters",
@@ -4785,5 +4860,38 @@
     "sourceAnnex": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/README.md",
     "consumerDestination": "Public DanilaH/crossmath-game: own implementation, decisions, ledger and references.",
     "evidenceRule": "Exact tool output, reconstructed pseudocode, static analysis, isolated original execution and full Android execution remain separately labelled."
+  },
+  "latestDeveloperHandoff": {
+    "date": "2026-11-24",
+    "requestedWork": "По поручению владельца составлены конкретные ТЗ по помощи и рекламе; продуктовый код не изменён.",
+    "activeCodeCommit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+    "researchParentCommit": "e2af74021f16d1437e90638f10adac0b6333d427",
+    "sourceInventoryCommit": "06a01d5c1f7af3cdf8013c9ce0f6a691d086af78",
+    "index": "docs/porting/help-and-ads-20261124/README.md",
+    "packages": [
+      {
+        "id": "HELP-01",
+        "status": "SPECIFIED",
+        "priority": 1,
+        "sourceFeatureIds": [
+          "guru-solver-single-pass-result"
+        ],
+        "specRef": "docs/porting/help-and-ads-20261124/help/DELIVERY_SPEC.md"
+      },
+      {
+        "id": "ADS-01",
+        "status": "SPECIFIED",
+        "priority": 2,
+        "sourceFeatureIds": [
+          "easy-banner-lifecycle-hide",
+          "easy-ad-close-delayed-banner-request"
+        ],
+        "specRef": "docs/porting/help-and-ads-20261124/ads/DELIVERY_SPEC.md"
+      }
+    ],
+    "meaning": "SPECIFIED — документ и воспроизводимый baseline готовы; не implementation, source parity, Android или live acceptance.",
+    "originalSourceStatusesPreserved": true,
+    "currentOwnerTypography": "fixed 100%",
+    "runtimeKitUnchanged": "469928d03f4bae5053e23db26e82187bedbc252e"
   }
 }

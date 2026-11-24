@@ -1,0 +1,433 @@
+{
+  "schema": "crossmath-explain-preparation-delivery-cases-v1",
+  "origin": "Self-authored research fixtures. These are not Guru boards and do not alter the production content bank.",
+  "baselineCommit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+  "futureContractImplemented": false,
+  "puzzles": {
+    "direct": {
+      "puzzleId": "cm-own-01-901",
+      "contentVersion": 1,
+      "rulesetVersion": "cm-integer-1",
+      "width": 5,
+      "height": 1,
+      "difficulty": "easy",
+      "campaignPosition": 901,
+      "decisionTags": [],
+      "cells": [
+        {
+          "id": 0,
+          "x": 0,
+          "y": 0,
+          "given": 2
+        },
+        {
+          "id": 1,
+          "x": 2,
+          "y": 0,
+          "given": 3
+        },
+        {
+          "id": 2,
+          "x": 4,
+          "y": 0
+        }
+      ],
+      "equations": [
+        {
+          "cells": [
+            0,
+            1,
+            2
+          ],
+          "op": "+"
+        }
+      ],
+      "tray": [
+        5
+      ]
+    },
+    "unique_without_supported_step": {
+      "puzzleId": "cm-own-01-902",
+      "contentVersion": 1,
+      "rulesetVersion": "cm-integer-1",
+      "width": 5,
+      "height": 5,
+      "difficulty": "hard",
+      "campaignPosition": 902,
+      "decisionTags": [],
+      "cells": [
+        {
+          "id": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": 1,
+          "x": 2,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 4,
+          "y": 0
+        },
+        {
+          "id": 3,
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": 4,
+          "x": 2,
+          "y": 4
+        }
+      ],
+      "equations": [
+        {
+          "cells": [
+            0,
+            1,
+            2
+          ],
+          "op": "-"
+        },
+        {
+          "cells": [
+            1,
+            3,
+            4
+          ],
+          "op": "/"
+        }
+      ],
+      "tray": [
+        5,
+        4,
+        1,
+        2,
+        2
+      ]
+    },
+    "proof_budget": {
+      "puzzleId": "cm-own-01-903",
+      "contentVersion": 1,
+      "rulesetVersion": "cm-integer-1",
+      "width": 5,
+      "height": 5,
+      "difficulty": "hard",
+      "campaignPosition": 903,
+      "decisionTags": [],
+      "cells": [
+        {
+          "id": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": 1,
+          "x": 2,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 4,
+          "y": 0
+        },
+        {
+          "id": 3,
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": 4,
+          "x": 2,
+          "y": 4
+        }
+      ],
+      "equations": [
+        {
+          "cells": [
+            0,
+            1,
+            2
+          ],
+          "op": "-"
+        },
+        {
+          "cells": [
+            1,
+            3,
+            4
+          ],
+          "op": "/"
+        }
+      ],
+      "tray": [
+        3,
+        1,
+        2,
+        1,
+        1
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "ready_direct",
+      "puzzle": "direct",
+      "mode": "campaign",
+      "placements": [],
+      "budget": 40000,
+      "expectedCompatibility": {
+        "count": 1,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 1,
+      "expectedBaselinePlan": {
+        "rule": "direct_result",
+        "assignments": [
+          {
+            "cellId": 2,
+            "value": 5,
+            "evidence": [
+              {
+                "equationIndex": 0,
+                "candidates": [
+                  5
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "expectedFutureOutcome": "ready",
+      "expectedUiProjection": "ready"
+    },
+    {
+      "id": "incompatible_partial",
+      "puzzle": "unique_without_supported_step",
+      "mode": "campaign",
+      "placements": [
+        {
+          "cellId": 1,
+          "tokenId": "t0"
+        }
+      ],
+      "budget": 40000,
+      "expectedCompatibility": {
+        "count": 0,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 0,
+      "expectedBaselinePlan": null,
+      "expectedFutureOutcome": "incompatible_position",
+      "expectedUiProjection": "incompatible_position"
+    },
+    {
+      "id": "unique_no_supported_step",
+      "puzzle": "unique_without_supported_step",
+      "mode": "campaign",
+      "placements": [],
+      "budget": 40000,
+      "expectedCompatibility": {
+        "count": 1,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 1,
+      "expectedBaselinePlan": null,
+      "expectedFutureOutcome": "no_supported_step",
+      "expectedUiProjection": "no_supported_step"
+    },
+    {
+      "id": "compatibility_budget_zero",
+      "puzzle": "unique_without_supported_step",
+      "mode": "campaign",
+      "placements": [],
+      "budget": 0,
+      "expectedCompatibility": {
+        "count": 0,
+        "exhausted": true
+      },
+      "expectedIndependentSolutions": 1,
+      "expectedBaselinePlan": null,
+      "expectedFutureOutcome": "budget_exhausted",
+      "expectedPhase": "compatibility",
+      "expectedUiProjection": "check_incomplete"
+    },
+    {
+      "id": "proof_budget_42",
+      "puzzle": "proof_budget",
+      "mode": "campaign",
+      "placements": [],
+      "budget": 42,
+      "expectedCompatibility": {
+        "count": 1,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 1,
+      "expectedBaselinePlan": null,
+      "expectedFutureOutcome": "budget_exhausted",
+      "expectedPhase": "proof_search",
+      "expectedUiProjection": "check_incomplete"
+    },
+    {
+      "id": "proof_budget_normal_control",
+      "puzzle": "proof_budget",
+      "mode": "campaign",
+      "placements": [],
+      "budget": 40000,
+      "expectedCompatibility": {
+        "count": 1,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 1,
+      "expectedBaselinePlan": {
+        "rule": "tray",
+        "assignments": [
+          {
+            "cellId": 1,
+            "value": 1,
+            "evidence": [
+              {
+                "equationIndex": 1,
+                "candidates": [
+                  1
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "expectedFutureOutcome": "ready",
+      "expectedUiProjection": "ready"
+    },
+    {
+      "id": "not_playing_won",
+      "puzzle": "direct",
+      "mode": "campaign",
+      "placements": [
+        {
+          "cellId": 2,
+          "tokenId": "t0"
+        }
+      ],
+      "budget": 40000,
+      "expectedCompatibility": {
+        "count": 1,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 1,
+      "expectedBaselinePlan": null,
+      "expectedFutureOutcome": "unavailable",
+      "expectedUnavailableReason": "not_playing",
+      "expectedUiProjection": "unavailable"
+    },
+    {
+      "id": "endless_incompatible_preview",
+      "puzzle": "unique_without_supported_step",
+      "mode": "endless",
+      "placements": [
+        {
+          "cellId": 1,
+          "tokenId": "t0"
+        }
+      ],
+      "budget": 40000,
+      "expectedCompatibility": {
+        "count": 0,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 0,
+      "expectedBaselinePlan": null,
+      "expectedFutureOutcome": "incompatible_position",
+      "expectedUiProjection": "neutral_no_plan"
+    },
+    {
+      "id": "endless_no_supported_preview",
+      "puzzle": "unique_without_supported_step",
+      "mode": "endless",
+      "placements": [],
+      "budget": 40000,
+      "expectedCompatibility": {
+        "count": 1,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 1,
+      "expectedBaselinePlan": null,
+      "expectedFutureOutcome": "no_supported_step",
+      "expectedUiProjection": "neutral_no_plan"
+    },
+    {
+      "id": "endless_full_correct_before_submit",
+      "puzzle": "unique_without_supported_step",
+      "mode": "endless",
+      "placements": [
+        {
+          "cellId": 0,
+          "tokenId": "t0"
+        },
+        {
+          "cellId": 1,
+          "tokenId": "t1"
+        },
+        {
+          "cellId": 2,
+          "tokenId": "t2"
+        },
+        {
+          "cellId": 3,
+          "tokenId": "t3"
+        },
+        {
+          "cellId": 4,
+          "tokenId": "t4"
+        }
+      ],
+      "budget": 40000,
+      "expectedCompatibility": {
+        "count": 1,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 1,
+      "expectedBaselinePlan": null,
+      "expectedFutureOutcome": "no_supported_step",
+      "expectedUiProjection": "neutral_no_plan"
+    },
+    {
+      "id": "endless_full_wrong_before_submit",
+      "puzzle": "unique_without_supported_step",
+      "mode": "endless",
+      "placements": [
+        {
+          "cellId": 0,
+          "tokenId": "t2"
+        },
+        {
+          "cellId": 1,
+          "tokenId": "t1"
+        },
+        {
+          "cellId": 2,
+          "tokenId": "t0"
+        },
+        {
+          "cellId": 3,
+          "tokenId": "t3"
+        },
+        {
+          "cellId": 4,
+          "tokenId": "t4"
+        }
+      ],
+      "budget": 40000,
+      "expectedCompatibility": {
+        "count": 0,
+        "exhausted": false
+      },
+      "expectedIndependentSolutions": 0,
+      "expectedBaselinePlan": null,
+      "expectedFutureOutcome": "incompatible_position",
+      "expectedUiProjection": "neutral_no_plan"
+    }
+  ]
+}

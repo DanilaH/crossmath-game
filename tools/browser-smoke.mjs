@@ -154,11 +154,16 @@ try{
  await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#settings-options summary');await page.locator('#theme').check();await page.locator('#resume:enabled').waitFor();await page.locator('#reduced').check();await page.locator('#resume:enabled').waitFor();await tap('#resume');await idle();assert.equal((await snapshot()).settings.theme,'dark');assert.equal((await snapshot()).settings.reducedMotion,true);checks.push('dark theme and reduced motion settings persist');
  assert.equal(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(38, 49, 67)');
  assert.equal(await page.locator('#board .given').first().evaluate(el=>getComputedStyle(el).color),'rgb(37, 49, 69)');
- await page.evaluate(()=>document.documentElement.style.fontSize='200%');await page.setViewportSize({width:390,height:844});await page.screenshot({path:out+'/large-text.png',fullPage:true});
  await page.setViewportSize({width:320,height:568});
- const largeTools=await page.locator('.tools').boundingBox();
+ const textStyle=await page.locator('html').evaluate(el=>{
+  const style=getComputedStyle(el);
+  return {size:style.fontSize,adjust:style.getPropertyValue('text-size-adjust')||style.getPropertyValue('-webkit-text-size-adjust')};
+ });
+ assert.equal(textStyle.size,'16px');
+ assert.ok(['none','100%'].includes(textStyle.adjust),textStyle.adjust);
+ const toolsBox=await page.locator('.tools').boundingBox();
  const helpButton=await page.locator('#help').boundingBox();
- assert.ok(largeTools&&helpButton&&Math.abs(568-largeTools.y-largeTools.height-8)<=1);
+ assert.ok(toolsBox&&helpButton&&Math.abs(568-toolsBox.y-toolsBox.height-8)<=1);
  assert.ok(helpButton.width>=48&&helpButton.height>=48);
  assert.equal(await page.locator('#sort span').evaluate(label=>{
   const range=document.createRange();
@@ -176,7 +181,7 @@ try{
  const closeHelp=await center('#close-help');
  await page.touchscreen.tap(closeHelp.x,closeHelp.y);
  await idle();
- checks.push('bottom tools stay reachable at 320×568 at 200% while a dense board scrolls independently');
+ checks.push('fixed 16px root font without text autosizing; bottom tools stay reachable at 320×568 while a dense board scrolls independently');
  const tutorialContext=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});const tutorialPage=await tutorialContext.newPage();
  await tutorialPage.goto(`http://127.0.0.1:${server.address().port}/`);await tutorialPage.locator('html[data-state=ready]').waitFor();await tutorialPage.locator('.tutorial-ghost').waitFor({state:'attached',timeout:9000});
  assert.deepEqual(await tutorialPage.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')).attempt.placements),{});

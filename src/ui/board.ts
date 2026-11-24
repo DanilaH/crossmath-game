@@ -410,14 +410,14 @@ export class BoardView {
     this.dismissTutorial();
     this.tap(source, {commandId: crypto.randomUUID(), expectedRevision: this.attempt.boardRevision});
   };
-  resize=():void=>{this.cancel();this.motion.cancelAll();this.pendingWinContact?.();if(!this.puzzle)return;const p=this.puzzle,pad=this.board.closest<HTMLElement>('.boardpad')!,scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
+  resize=():void=>{this.cancel();this.motion.cancelAll();this.pendingWinContact?.();if(!this.puzzle)return;const p=this.puzzle,pad=this.board.closest<HTMLElement>('.boardpad')!;
     this.boardWidth = this.boardScroll.offsetWidth;
     if (!this.boardWidth) return;
     const roomy = p.width <= 5 && p.height <= 5 && innerHeight >= 650;
-    const hit = (roomy ? 56 : 48) * Math.max(1, scale);
+    const hit = roomy ? 56 : 48;
     const widthStep = (pad.clientWidth - 4 - hit) / Math.max(1, p.width - 1);
     const heightStep = p.height > 5 ? 30 : innerHeight < 650 ? 36 : roomy ? 56 : 46;
-    const step = Math.max(hit / 2, Math.min(widthStep, heightStep * scale));
+    const step = Math.max(hit / 2, Math.min(widthStep, heightStep));
     this.ghost.style.setProperty('--landing-size', `${Math.min(40, Math.round(step * .82))}px`);
     this.ghost.style.setProperty('--landing-clearance', `${step / 2 + 3}px`);
     for(const [key,value] of Object.entries({step,hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));

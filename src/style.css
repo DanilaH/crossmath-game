@@ -1,6 +1,6 @@
 /* Own approved interaction sample v0.10; production host/layout additions below. */
 
-:root{--step:45px;--hit:48px}
+:root{--step:45px;--hit:48px;font-size:16px;-webkit-text-size-adjust:none;text-size-adjust:none}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.35 system-ui,sans-serif;font-variant-numeric:tabular-nums}
 button,select{font:inherit;color:inherit}button{-webkit-tap-highlight-color:transparent;cursor:pointer;border:0;background:none;touch-action:manipulation}button:focus-visible,select:focus-visible{outline:3px solid var(--action-ink);outline-offset:2px}button:disabled{opacity:.45;cursor:default}
 main{max-width:520px;min-height:100svh;margin:auto;padding:clamp(12px,3vw,23px) clamp(12px,4vw,25px);display:flex;flex-direction:column;gap:clamp(9px,1.6vh,16px)}
@@ -20,7 +20,7 @@ dialog{color:var(--ink);background:var(--card);border:1px solid var(--edge);bord
 .ghost{position:fixed;z-index:10;pointer-events:none;display:grid;place-items:center}[hidden]{display:none!important}
 @media(prefers-reduced-motion:reduce){*,*:before{animation:none!important;transition:none!important}}body.calm *,body.calm *:before{animation:none!important;transition:none!important}
 
-html{font-size:16px}button{min-height:48px}#shell{padding:10px;gap:10px}html[data-host=browser] #shell{padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
+button{min-height:48px}#shell{padding:10px;gap:10px}html[data-host=browser] #shell{padding-top:calc(10px + env(safe-area-inset-top,0px));padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
 .progress{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--soft);font-size:.8rem}#wallet{min-width:8ch}#rank{min-width:7ch}.xp-track{height:5px;background:var(--edge);border-radius:10px;flex:1;min-width:40px;overflow:hidden}.xp-track i{display:block;height:100%;width:var(--xp,0%);background:var(--teal)}.storage-note{margin:0;color:var(--soft);font-size:.8rem;min-height:1em}.error{background:var(--bad-bg);color:var(--bad);padding:12px;border:1px solid var(--bad);border-radius:12px}.error button{margin:3px;max-width:100%}
 dialog{width:min(390px,94vw);max-width:94vw;max-height:90svh;overflow:auto}dialog label{min-height:48px}.buttons{flex-wrap:wrap}.buttons button{flex:1}.help-choices{display:flex;flex-direction:column;gap:8px}.help-choices .chosen{outline:2px solid var(--action-ink);outline-offset:2px}#startup{position:fixed;inset:0;z-index:30;display:grid;place-content:center;gap:20px;padding:28px;text-align:center;background:var(--paper);color:var(--ink)}
 

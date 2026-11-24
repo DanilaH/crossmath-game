@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "evidence": "UNCHANGED_CONSUMER_CLASS_WITH_SCRIPTED_PROVIDER",
+  "repository": "DanilaH/crossmath-game",
+  "commit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+  "originalPath": "src/platform/ads.ts",
+  "packagedPath": "baseline/src/platform/ads.ts",
+  "gitBlobSha1": "53fed5cc17d2afbd37526dc6845c805ec32cd219",
+  "sourceUrl": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/platform/ads.ts",
+  "representation": "Exact UTF-8 consumer source, original bytes. No reference game code included.",
+  "execution": {
+    "node": "v24.22.3",
+    "npmInstallRequired": false,
+    "classBodyChanged": false,
+    "transform": "node:module stripTypeScriptTypes(mode=transform)",
+    "substitutions": [
+      "Only imported DurableReceiptQueue constructor/deliver and canRequestReward/canShowInterstitial, unused by tested banner paths; stubs throw if a reward or fullscreen policy path executes."
+    ],
+    "android": false,
+    "browser": false,
+    "nativeSdk": false
+  },
+  "inputs": {
+    "consumerLedgerCommit": "e2af74021f16d1437e90638f10adac0b6333d427",
+    "sourceInventoryCommit": "06a01d5c1f7af3cdf8013c9ce0f6a691d086af78",
+    "runtimeKitCommit": "469928d03f4bae5053e23db26e82187bedbc252e"
+  },
+  "scope": {
+    "primarySourceFeatureIds": [
+      "easy-banner-lifecycle-hide",
+      "easy-ad-close-delayed-banner-request"
+    ],
+    "implementedProductChanges": false,
+    "remoteMutations": false
+  }
+}

@@ -257,15 +257,16 @@ export class MetaView {
       previewButton.className = 'resume-board-open';
       previewButton.append(preview);
       previewButton.setAttribute('aria-label',`${primary.textContent?.slice(1)} · ${preview.getAttribute('aria-label')}`);
-      stage.append(el('p', 'resume-context', contexts[mode]), el('h1','',title), previewButton, primary);
+      stage.append(el('p', 'resume-context', contexts[mode]), el('h1','',title), previewButton);
     } else stage.append(el('p', 'resume-context', contexts[mode]),
-      el('h1', '', completed ? this.t('Маршрут завершён', 'Campaign complete') : title),
-      primary);
+      el('h1', '', this.t('Маршрут завершён', 'Campaign complete')));
     const newGame=this.button(this.t('Новая игра','New game'),()=>this.showChoice(save,'new',newGame),'new-game');
     newGame.prepend(menuIcon('modes'));
     newGame.setAttribute('aria-haspopup','dialog');
     newGame.setAttribute('aria-controls','game-choice');
-    stage.append(newGame);
+    const actions = el('div', 'resume-actions');
+    actions.append(primary, newGame);
+    stage.append(actions);
     this.root.append(stage);
 
     const quick = el('div', 'home-quick');

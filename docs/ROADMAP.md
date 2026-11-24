@@ -1,5 +1,16 @@
 # Crossmath roadmap
 
+## Следующие developer-пакеты · 24.11.2026
+
+По поручению владельца составлены [два конкретных ТЗ](porting/help-and-ads-20261124/README.md) на код **0.5.24 / 29**, active HEAD bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67. Четыре вкладки, компактная главная и фиксированный текст **100%** уже находятся в PR #4; их повторная реализация в эти пакеты не входит.
+
+| Приоритет | Пакет и результат | Реестр / готовность |
+| --- | --- | --- |
+| 1 | [HELP-01](porting/help-and-ads-20261124/help/DELIVERY_SPEC.md): различить причины отсутствия Explain, сохранить независимую проверку и нейтральный preview Endless | guru-solver-single-pass-result; пакет **SPECIFIED**, source **RESEARCHED / PARTIAL** |
+| 2 | [ADS-01](porting/help-and-ads-20261124/ads/DELIVERY_SPEC.md): после reject show/hide повторять актуальный intent через существующий recovery, без лишнего RPC или retry storm | easy-banner-lifecycle-hide, easy-ad-close-delayed-banner-request; пакет **SPECIFIED**, source **RESEARCHED / PARTIAL** |
+
+Приложенные Node/Python-проверки воспроизводят пробелы **неизменённого текущего кода**. Они не являются приёмкой исправления. Последующая реализация фиксируется отдельным commit/PR и evidence; Android/live остаются самостоятельными уровнями. Старые source nextAction и все остальные 296 записей реестра сохраняются. Параметры экономики, рекламной частоты, сохранений и runtime kit 469928d… этим планом не меняются.
+
 Source: [owner specification 1.0](spec/Crossmath_TZ_v1.0_RU.md), sections 12–13. Scope is not replaced by an approximate plan.
 
 | Stage | Implementation | Acceptance gate |

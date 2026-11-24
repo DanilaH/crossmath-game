@@ -181,3 +181,11 @@
 Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceFeatureId**, без новых игровых правил или ACCEPTED. Для 11 существующих ID ledger содержит прямые code/architecture evidence links. Сняты blanket-запрет декомпиляции и clean-room изоляция; product code пишется для нашей игры на основании источника. Текущие 0.5.24/29, gameplay `0401140d`, баланс, save schema и runtime `469928d03f4bae5053e23db26e82187bedbc252e` сохранены. Следующие исходные и Android опыты остаются в прежней очереди; наличие текста метода не повышает static evidence до исполнения.
 
 **KIT IMPACT: IMPROVE — источник, архитектура и адаптация связаны с конкретными ID; runtime NONE.**
+
+## 24.11.2026 · два конкретных developer-пакета
+
+На актуальном игровом HEAD bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67 подтверждены два собственных пробела и оформлены [HELP-01 / ADS-01](help-and-ads-20261124/README.md). Первый сохраняет смысл результата подготовки Explain; второй восстанавливает актуальную команду баннеру после отказа bridge. Оба используют существующие компоненты и исследованную архитектуру оригиналов.
+
+Пакеты связаны с guru-solver-single-pass-result, easy-banner-lifecycle-hide и easy-ad-close-delayed-banner-request через implementationPackages в ledger. **SPECIFIED** означает готовое ТЗ с воспроизводимым baseline. Реализация ещё не выполнена; исходные **RESEARCHED / PARTIAL** и дальнейшие source эксперименты сохранены. 296 ID остаются учтены. Проверки собственного кода не повышают доказательства исходного Android, живого SDK или полного solver.
+
+Текущий 100% шрифт и compact home учтены; runtime и продуктовые параметры сохраняются. После developer PR проверить diff, его собственные acceptance evidence и обновить именно реализацию пакета, не объявляя всю исходную систему перенесённой.

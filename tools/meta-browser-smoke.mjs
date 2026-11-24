@@ -59,7 +59,6 @@ try{
     assert.ok(box && box.height>=48 && box.y>=0 && box.y+box.height<=height);
    }
    await page.setViewportSize({width:320,height:568});
-   await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
    const milestone = await page.evaluate(() => {
     const bounds = id => document.getElementById(id).getBoundingClientRect();
     const next = document.getElementById('next'), button = next.getBoundingClientRect();
@@ -69,7 +68,6 @@ try{
    });
    assert.ok(milestone.hit && milestone.buttonBottom <= 568 && milestone.labelWidth > 200
     && milestone.partBottom <= 568 && milestone.partBottom > milestone.progressBottom, JSON.stringify(milestone));
-   await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
    await page.setViewportSize({width:390,height:844});
    await frame.tap();
    await page.locator('#card-dialog[open]').waitFor();
@@ -96,18 +94,27 @@ try{
  await tap('#home');
  assert.equal(await page.locator('.resume-card h1').innerText(),'Поле 6');
  assert.equal(await page.locator('#game-choice').isHidden(),true);
- for (const [width,height] of [[320,568],[390,844]]) {
+ for (const [width,height] of [[320,480],[320,568],[360,640],[390,844]]) {
   await page.setViewportSize({width,height});
-  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
-  const data=await page.evaluate(()=>{
-   const rects=['#campaign-primary','#new-game','#daily-primary','#album-open','#tab-modes'].map(s=>document.querySelector(s).getBoundingClientRect());
-   return {positions:rects.map(r=>[r.top,r.bottom,r.left,r.right]),minTarget:Math.min(...rects.map(r=>Math.min(r.width,r.height))),
-     firstViewport:rects.every(r=>r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth),
-     documentHeight:document.documentElement.scrollHeight};
+  await page.evaluate(async () => {
+   await document.fonts.ready;
+   window.scrollTo(0,0);
   });
-  assert.ok(data.firstViewport, JSON.stringify(data));assert.ok(data.minTarget>=48);
+  const data=await page.evaluate(()=>{
+   const rect=s=>document.querySelector(s).getBoundingClientRect();
+   const tabTop=rect('#root-tabs').top;
+   const panels=['.resume-card','#daily-primary','#album-open'].map(rect);
+   const controls=['#campaign-primary','#new-game','#daily-primary','#album-open','#tab-modes'].map(rect);
+   return {panelBottoms:panels.map(r=>r.bottom),tabTop,minTarget:Math.min(...controls.map(r=>Math.min(r.width,r.height))),
+     firstViewport:panels.every(r=>r.top>=0&&r.bottom<=tabTop&&r.left>=0&&r.right<=innerWidth),
+     documentHeight:document.documentElement.scrollHeight,scrollY};
+  });
+  assert.ok(data.firstViewport, JSON.stringify(data));
+  assert.equal(data.documentHeight,height);
+  assert.equal(data.scrollY,0);
+  assert.ok(data.minTarget>=48);
   geometry.push({screen:'home',viewport:[width,height],...data});
-  await page.screenshot({path:out+`/home-five-${width}.png`});
+  await page.screenshot({path:out+`/home-five-${width}x${height}.png`});
  }
  await openModes();
  await page.screenshot({path:out+'/modes-five.png'});
@@ -143,9 +150,7 @@ try{
   await page.setViewportSize({width,height});const data=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,minTarget:Math.min(...[...document.querySelectorAll('#hub button')].map(e=>e.getBoundingClientRect().height))}));assert.equal(data.overflow,false);assert.ok(data.minTarget>=48);geometry.push({screen:'album',viewport:[width,height],...data});await page.screenshot({path:out+`/album-${width}.png`,fullPage:true});
  }
  await tap('#home');await tap('#tab-profile');await tap('#profile-rank');await page.locator('#card-dialog[open]').waitFor();assert.match(await page.locator('#card-body').innerText(),/XP/);await tap('#close-card');await tap('#tab-home');
- // At 200%, the workshop return and mode picker fit without a swipe.
  await page.setViewportSize({width:320,height:568});
- await page.addStyleTag({content:'html{font-size:200%!important}'});
  const expectWidth = () => page.evaluate(() => ({
   layout:document.documentElement.scrollWidth, visual:Math.round(visualViewport.width), scale:visualViewport.scale,
  }));
@@ -160,14 +165,12 @@ try{
   await page.touchscreen.tap(point.x,point.y);
   await page.locator('#home:enabled').waitFor();
  };
- await page.locator('#album-open').evaluate(node=>node.scrollIntoView({block:'center'}));
  await visibleTap('#album-open');
  assert.deepEqual(await expectWidth(),{layout:320,visual:320,scale:1});
  await visibleTap('#home');
  await page.locator('#hub[data-screen=home]').waitFor();
  assert.deepEqual(await expectWidth(),{layout:320,visual:320,scale:1});
  assert.equal(await page.locator('#tab-home[aria-current=page]').isVisible(),true);
- await page.locator('#tab-modes').scrollIntoViewIfNeeded();
  const modesBox = await page.locator('#tab-modes').boundingBox();
  assert.ok(modesBox && modesBox.y + modesBox.height <= 568 && modesBox.height >= 48);
  await visibleTap('#tab-modes');
@@ -178,14 +181,14 @@ try{
  await page.waitForFunction(() => document.querySelector('#hub').hidden);
  assert.equal((await snapshot()).attempt.freeTrack,'relax');
  await tap('#home');
- await page.reload(); await ready(); // Drop the temporary 200% rule for the remaining fixtures.
+ await page.reload(); await ready();
  await page.setViewportSize({width:390,height:844});
  await openModes();
  await tap('.campaign-history summary');
  assert.equal(await page.getByRole('button',{name:'Открыть поле 1',exact:true}).isVisible(),true);
  assert.equal(await page.locator('#last-result').isVisible(),true);
  await tap('#tab-home');
- checks.push('320×568 at 200% root font: workshop return and coordinate taps reach Relax after scrolling if needed; campaign owns its history and receipt');
+ checks.push('320×568: direct touches open Workshop, return to Home and open Relax from Modes; campaign owns its history and receipt');
 
  const durationFixture = await snapshot();
  for (const [seconds, expected] of [[0,'0 с'],[5.64890000000596,'5 с'],[59.99,'59 с'],[60.01,'1 мин 0 с'],[3600,'60 мин 0 с']]) {

@@ -1,5 +1,13 @@
 # Crossmath handoff
 
+## Текущая передача HELP-01 / ADS-01 · 24.11.2026
+
+[Два готовых ТЗ](porting/help-and-ads-20261124/README.md) составлены по текущему PR #4 HEAD bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67 (0.5.24/29) и source kit 06a01d5c1f7af3cdf8013c9ce0f6a691d086af78 (296 IDs). Это следующая работа разработчика: **HELP-01** — явный результат подготовки Explain и подходящий текст; **ADS-01** — восстановление команд баннера после ошибки bridge.
+
+В Help воспроизведены 11 собственных cases на пяти точных модулях; в Ads — потерянные show/hide и два положительных контроля. Независимый повтор дал совпадающие результаты. Это диагностика baseline, без нового продуктового кода, Android запуска или live SDK. В ledger добавлен отдельный статус пакетов **SPECIFIED**; source статусы и сравнения не повышены.
+
+Сохранять новое решение владельца о 100% шрифте и уже готовую компактную главную. Для Help важна нейтральность Endless до Apply/Submit; для Ads — существующие receipts, частота и один unresolved RPC. Собственный код и архитектурная адаптация опираются на private source annex. Перед внедрением проверить новый active HEAD и открытые PR; не возвращать исторический source inventory из PR #3. Runtime kit остаётся 469928d03f4bae5053e23db26e82187bedbc252e.
+
 **Current preview, 23 November 2026.** Use the live head of `feat/mode-unlocks-0.5.10` / PR #4 at 0.5.24. [Issue #6 acceptance](acceptance/issue-6/README.md) records NAV-01–08, the APK and the remaining Android checks. Schema 4 now stores an optional selected Daily date and Workshop origin. Existing attempts, prize receipts and save keys carry forward. The runtime pin is still 469928d. [Issue #5 acceptance](acceptance/issue-5/README.md) retains the preceding build and ownership record.
 
 1. Read AGENTS, STATUS, PROJECT_DECISIONS, ROADMAP and latest acceptance. Owner TZ 1.0 and delivered product JSON govern rules. Current baseline `main`; PR #1 tracks the original implementation history. Inspect actual remote HEAD and preserve existing work.

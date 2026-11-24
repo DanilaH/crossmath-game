@@ -1,0 +1,50 @@
+{
+  "schema": "crossmath-developer-package-baseline-v1",
+  "date": "2026-11-24",
+  "consumer": {
+    "repository": "DanilaH/crossmath-game",
+    "branch": "feat/mode-unlocks-0.5.10",
+    "commit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+    "version": "0.5.24",
+    "versionCode": 29,
+    "packageJsonBlob": "d2660f76b921835cad2c83082366fd5bd536e8b3",
+    "androidProjectBlob": "5d2f88cc093626c3a6e4b4852ac13561c8832727"
+  },
+  "researchParent": "e2af74021f16d1437e90638f10adac0b6333d427",
+  "sourceInventory": {
+    "repository": "DanilaH/mini-games-kit",
+    "commit": "06a01d5c1f7af3cdf8013c9ce0f6a691d086af78",
+    "count": 296
+  },
+  "methodology": {
+    "kitMain": "5cac32b0851c80bdff1d61069b8524b9e42170e1",
+    "sourceImplementationDecision": "06a01d5c1f7af3cdf8013c9ce0f6a691d086af78",
+    "runtimeAndBaseGuidance": "469928d03f4bae5053e23db26e82187bedbc252e"
+  },
+  "sourceFeatureIds": [
+    "guru-solver-single-pass-result",
+    "easy-banner-lifecycle-hide",
+    "easy-ad-close-delayed-banner-request"
+  ],
+  "implementationPerformed": false,
+  "androidExecuted": false,
+  "liveSdkExecuted": false,
+  "consumerModules": {
+    "help": "c6358a1f5e061d1f012202374f9393cfaa9e1dc0",
+    "ads": "53fed5cc17d2afbd37526dc6845c805ec32cd219"
+  },
+  "ownerPolicy": {
+    "typography": "fixed 100%",
+    "ownImplementationFromDecompiledSourceAndArchitecture": true
+  },
+  "existingIssuesChecked": [
+    5,
+    6
+  ],
+  "openPullRequestsChecked": [
+    2,
+    3,
+    4,
+    7
+  ]
+}

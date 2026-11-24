@@ -301,8 +301,7 @@ body.in-hub, #game-choice, #replace-dialog {
 
 @media (max-width: 480px) {
   body.in-hub, #game-choice, #replace-dialog {
-    /* The narrow navigation grows from 16px to 24px when the root goes from 100% to 200%. */
-    --hub-font-size: calc(8px + .5rem);
+    --hub-font-size: 1rem;
   }
 
   #hub .hub-heading h1 { font-size: min(1.85em, 40px); }
