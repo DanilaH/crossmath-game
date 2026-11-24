@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "7b902a2a451cf7ceaa40b6b0baa2cf6cdb0390ae",
+    "commit": "1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -211,13 +211,15 @@
       "codePath": "src/content/validator.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Авторский stuck UNKNOWN. На 12 899 исходных задачах 5-fold MODEL_TEST без group leakage показал baseline MAE 0.4037 и topology MAE 0.4185; 148/233 равнопустотных масочных пар упорядочены с учётом геометрии. Это НЕ авторский solver или трудность игрока. Следующий опыт: запуск полного native CrossMathSolver.solve 4.17 (H08–H12) на контрольных масках/ID, стратификация direct/monotonic/factor/intersection/limited backtracking и сравнение со stuck; после owner-гейта — human time/errors.",
+      "nextAction": "Авторский stuck UNKNOWN. На 12 899 исходных задачах 5-fold MODEL_TEST без group leakage показал baseline MAE 0.4037 и topology MAE 0.4185; 148/233 равнопустотных масочных пар упорядочены с учётом геометрии. Это НЕ авторский solver или трудность игрока. Следующий опыт: запуск полного native CrossMathSolver.solve 4.17 (H08–H12) на контрольных масках/ID, стратификация direct/monotonic/factor/intersection/limited backtracking и сравнение со stuck; после owner-гейта — human time/errors. | 24.11: isolated original constructor/solve/direct execution is available, but no catalog mask or stuck formula was accepted. Next use connected original masks and record repeated caller-visible steps/counters; the synthetic direct control is not a stuck measurement.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L155",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/validator.ts",
       "originalBehavior": "В SQLite cm_all есть дискретная оценка stuck 0–8. Сравнение 7 922 общих рецептов профилей default/easy1 подтвердило совпадение stuck на каждой общей записи. НОВОЕ: при фиксированных board/puzzle/size/tag и полностью одинаковых вычисленных числах, но других holes, во всех 2 671 наблюдаемых парах значение stuck различается; 233 пары имеют равное число пустот. Это доказательство зависимости от маски, НЕ авторская формула.",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/a623ff06e5f85360e14770301caac7c46a0db6d2/research/games/crossmath/porting/guru-mask-matched-20261123/README.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
       ]
     },
     {
@@ -289,11 +291,13 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Сопоставить объяснение для неизвестного делителя и отрицательного промежуточного шага | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity.",
+      "nextAction": "24.11: original constructor→solve→Direct→commit→result now executed on synthetic controls. Next compare actual source masks, unknown divisor and negative intermediate cases with an independent model, then observe real Hint UI before parity/ACCEPTED.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L211",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
       ]
     },
     {
@@ -305,12 +309,14 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Теперь видео 13-49-19 1.5–10с показывает UI-объяснение 35>25 (после OK ручная постановка). Полный solve() и его покрытие банком остаются UNKNOWN; проверить точный нативный механизм, не объявлять parity. | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity.",
+      "nextAction": "Теперь видео 13-49-19 1.5–10с показывает UI-объяснение 35>25 (после OK ручная постановка). Полный solve() и его покрытие банком остаются UNKNOWN; проверить точный нативный механизм, не объявлять parity. | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. 24.11: полный вход solve() завершён только на изолированных direct-контролях; текущая стратегия этим не исполнена; провести native execution + independent model comparison before ACCEPTED parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L222",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
       ]
     },
     {
@@ -322,11 +328,13 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Проверить повторный делитель с одной и двумя физическими фишками | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity.",
+      "nextAction": "Проверить повторный делитель с одной и двумя физическими фишками | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. 24.11: полный вход solve() завершён только на изолированных direct-контролях; текущая стратегия этим не исполнена; провести native execution + independent model comparison before ACCEPTED parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L233",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
       ]
     },
     {
@@ -338,12 +346,14 @@
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Зафиксировать объяснение с двумя уравнениями и множественным пересечением | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. Полный solve() не исполнялся, как и раньше; провести native execution + independent model comparison before ACCEPTED parity. | NEW 4.17 NATIVE_STATIC: fourth strategy guarded zero-count fallback, depth-0 nested recursive search with depth<3; see guru-strategy-conditional-backtrack. Need FULL native solve execution on real source mask and independent proof before any parity or UX acceptance.",
+      "nextAction": "Зафиксировать объяснение с двумя уравнениями и множественным пересечением | NEW NATIVE_STATIC 4.17 ARM64: exact direct→monotonic→factor→intersection BL targets rechecked, and _limitedBacktrackSearch depth>=3 guard. 24.11: полный вход solve() завершён только на изолированных direct-контролях; текущая стратегия этим не исполнена; провести native execution + independent model comparison before ACCEPTED parity. | NEW 4.17 NATIVE_STATIC: fourth strategy guarded zero-count fallback, depth-0 nested recursive search with depth<3; see guru-strategy-conditional-backtrack. Need FULL native solve execution on real source mask and independent proof before any parity or UX acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L244",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
       ]
     },
     {
@@ -359,7 +369,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L255",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/logic.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
       ]
     },
     {
@@ -4169,16 +4181,16 @@
       "sourceFeatureId": "easy-ad-client-interstitial-gates",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "originalBehavior": "Original EasyFun Offline Crossmath 1.1.9/1193 (original AOT NATIVE_STATIC, exact SHA pinned): AdManager.CheckShowInterstitialAvailable allows ordinary ad gate only after LevelManager.GetTotalGameCompleteCount sums five Classic counters Easy/Normal/Hard/Expert/Hell >= FirebaseService.GetIntRemoteConfig('interstitial_ad_scene') AND StatusUtil.get_TotalPlaySecond > FirebaseService.GetIntRemoteConfig('ad_first_interstitial_time'). Then AdManager.CouldShowInterstitial enforces elapsed UTC since RewardedVideoCloseCallBack at this+0x14 (shared remote cooldown key still UNKNOWN). Interstitial event type2 compares elapsed UTC since InterstitialClosedCallBack at this+0x10 to Firebase 'ad_enter_interval', type3 to 'ad_done_interval'; negative interval rejects, zero allows, positive requires elapsed>=interval. A separate bool optionally tests InterstitialLoaded; early AdManager+0x19 flag allows an unknown positive bypass. Original four key literals decoded directly from IL2CPP metadata usage to exact callsite; live numeric values/consent/no-fill/impression UNKNOWN.",
-      "currentImplementation": "Crossmath own 0.5.24/29 src/platform/adState.ts canShowInterstitial requires won result, minimum solvedIds.length, activeSeconds elapsed since lastInterstitial and lastReward; src/platform/ads.ts AdsController.beforeNext() performs provider.showInterstitial only at result→Next and records shown. No original five Classic counters, no Firebase remote gate and no separate enter/done UTC intervals; independent simpler policy. Original parity PARTIAL, exact UX/Android SDK needs device testing.",
+      "originalBehavior": "EasyFun 1.1.9/1193: ordinary admission requires five Classic completion counters sum >= interstitial_ad_scene and total played seconds > ad_first_interstitial_time. Shared UTC elapsed since rewarded CLOSE >= ad_game_RV_interval; event type2 uses ad_enter_interval, type3 ad_done_interval since interstitial CLOSE. Enter/done negative disables that branch, zero passes, positive uses elapsed>=interval. Provider readiness check is optional. CheatSkipAd+0x19 makes Check true but Show no-op; first non-cheat Show is separately consumed by _firstSkipInterstitial+0x1a. Exact five keys, typed flags and 42 native boundary/state cases proven with synthetic dependencies. Live values, UI reachability, instance lifetime and SDK impressions UNKNOWN.",
+      "currentImplementation": "Crossmath 0.5.24/29 src/platform/adState.ts requires won result and solvedIds.length > 5 unique wins; no separate first-total-time threshold. Cooldowns: 180 ACTIVE gameplay seconds since recorded shown interstitial and 120 ACTIVE seconds since earned settlement. Cancelled/failed reward does not start lastReward. src/platform/ads.ts beforeNext() runs only result→Next, checks provider and deduplicates result ID. No five-difficulty counters, five Firebase keys, separate enter/done UTC policy or first-call flag. PARTIAL; numeric fixture values from the source harness are not original defaults.",
       "codePath": "src/platform/adState.ts",
       "stage": "PLATFORM/COMMERCIAL owner-gated live SDK, not activate on source strings",
       "dependencies": "Optional approved native provider, app consent, lifecycle, active play timer, remote cooldown policies and durable receipt tests; no original code/assets to reuse.",
-      "nextAction": "Original EasyFun 1.1.9 Android: log exact Firebase defaults and server values for interstitial_ad_scene, ad_first_interstitial_time, ad_enter_interval and ad_done_interval; additionally identify shared rewarded cooldown remote key, early +0x19 bypass owner and persistence, then real ad SDK callbacks/impressions vs no-fill on first play, five classic difficulties, enter/done types, rewarded→interstitial, offline and after restart. Compare with current own 0.5.24/29 browser/native guards; explicit owner decision before changing monetization.",
-      "acceptanceRequirement": "Exact owner XAPK 1.1.9/1193 sha pin and original static script verify four IL2CPP StringLiteral slots, branch conditions, two UTC CloseCallBack stores with negative mutation; separate live original Android trace verifies exact thresholds, time/consent/no-fill, actual displayed ad. Product cannot claim MATCH without original/our physical SDK behavior and owner's approved independent policy.",
-      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7b902a2a451cf7ceaa40b6b0baa2cf6cdb0390ae/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
+      "nextAction": "Capture original Android real defaults/server values for all five proven keys, clock/background behavior, lifetime of AdManager and SDK impression/no-fill. Compare current own active-time/earned policy. Owner decision required before changing clock, cadence or reward stage; do not copy CheatSkipAd or unsigned clock-wrap behavior into release.",
+      "acceptanceRequirement": "SHA-pinned static+42-case native gate reproduction with eight negative controls; separate original/own Android validation of actual thresholds, clock, first-call lifetime, provider callbacks, no-fill and displayed ads. Registry coverage is not live parity.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-native-ad-gates-20261124/README.md",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN",
+      "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193; XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; ARM64 libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720; IL2CPP v31 metadata SHA256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6. Original AOT functions executed with synthetic dependencies, Android/live SDK not run.",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/2adeddc1e06494c24d3799b5e18a3a80a70afde9/research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md"
       ]
@@ -4188,16 +4200,16 @@
       "sourceFeatureId": "easy-ad-rewarded-callback-states",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "originalBehavior": "EasyFun 1.1.9 AdManager has separately declared loaded/play/GetReward/Close callback names, but native original AOT shows GetRewardCallBack #20586 is exactly one RET at RVA 0x1435840; CloseCallBack #20587 at 0x1435844 contains real code. Four other rewarded callbacks are no-op; actual reward delivery may run by other paths, original SDK/receipt idempotency UNKNOWN.",
+      "originalBehavior": "AdManager.GetRewardCallBack remains RET-only, but a separate proven OxAdHandler pending-delegate route accumulates receivedReward flag and forwards it on Hidden through AdManager success-only closure. Pending/earned fields clear after normal callbacks; new request resets prior earned. Ten original-AOT synthetic-input states pass; global listener behavior, live provider events and durable receipts remain UNKNOWN.",
       "currentImplementation": "Crossmath 0.5.24/29 AdsProvider showRewarded + provider.watchRewards/rewardSettled + pendingRewards/acknowledge + DurableReceiptQueue separate fullscreen presentation and resource credit. Scripted async success/failure/cancellation tests exist; physical native SDK callback order not accepted.",
       "codePath": "src/platform/ads.ts",
       "stage": "PLATFORM/COMMERCIAL owner-gated live SDK acceptance",
       "dependencies": "Real approved Android provider, reward id/nonce, native activity lifecycle, persistent atomic save and acknowledgment; consent and test ads; permissioned tester.",
-      "nextAction": "Original Android rewarded offer: trace event and actual reward in save after close, failure and repeated callback; DO NOT equate GetRewardCallBack name with implemented grant. On our native 0.5.24 verify exactly-once durable receipt grant with real provider.",
-      "acceptanceRequirement": "SDK-native Android test proves request/open/dismiss/reward/ack and replay-safe grant after crash, no duplicate, no lost resource. Original callback naming alone does not demonstrate reward or particular template availability.",
-      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
+      "nextAction": "On original Android trace concrete Hint/Continue offer from SDK earned and Hidden through game callback and save; inspect connected static subscribers, errors, reentry and process kill. Preserve our durable earned receipts and presentation separation; accept own native provider against duplicate/replayed/late receipt cases.",
+      "acceptanceRequirement": "Source native handler sequence and return assumptions reproduced; real original/own provider verifies actual grant/ack and process-death replay. Sequential RAM clear does not replace persistent request-ID idempotency.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-rewarded-settlement-20261124/README.md",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "sourceBuild": "EasyFun 1.1.9 / 1193 native IL2CPP metadata, original runtime UNKNOWN",
+      "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193; XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; ARM64 libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720; IL2CPP v31 metadata SHA256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6. Isolated original AOT execution, not Android/SDK.",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/2adeddc1e06494c24d3799b5e18a3a80a70afde9/research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md"
       ]
@@ -4221,7 +4233,7 @@
       "sourceFeatureId": "guru-strategy-conditional-backtrack",
       "status": "RESEARCHED",
       "comparison": "MISSING",
-      "originalBehavior": "Original Guru 4.17.0 ARM64 NATIVE_STATIC: CrossMathSolver.solve short-circuits after positive fields of direct/monotonic/factor/intersection result. Inside the fourth branch cbz at 0xb56e20 redirects on an internal zero count to a fallback function b57010; that function invokes depth-0 _limitedBacktrackSearch b5ad7c, which recursively self-calls at b5b484 with increased depth and exits at depth >=3. Runtime reachability, meaning of counter, explain text and full solve output UNKNOWN.",
+      "originalBehavior": "Original Guru 4.17.0 ARM64 NATIVE_STATIC: CrossMathSolver.solve short-circuits after positive fields of direct/monotonic/factor/intersection result. Inside the fourth branch cbz at 0xb56e20 redirects on an internal zero count to a fallback function b57010; that function invokes depth-0 _limitedBacktrackSearch b5ad7c, which recursively self-calls at b5b484 with increased depth and exits at depth >=3. Runtime reachability, meaning of counter, explain text and full solve output UNKNOWN. Dated correction 24.11: returned positive-exit fields are int64 solved/constrained. The separate internal zero-count and actual fallback behavior remain unexecuted; direct-only full-entry execution does not establish this path.",
       "currentImplementation": "Crossmath 0.5.24/29 src/help/logic.ts uses its own visible-inventory direct and intersection hints with countSolutions preliminary compatibility guard and independent verifyExplanation. It does NOT use the source-specific staged positive-result early exit plus fourth-stage bounded recursive inference fallback. Global countSolutions is not proof of matching source hint logic.",
       "codePath": "src/help/logic.ts",
       "stage": "UX/HELP optional future stage, not owner-approved implementation",
@@ -4230,7 +4242,11 @@
       "dependencies": "Original native AOT method invocation with controlled puzzle, source-runtime visibility trace; independent actual puzzle models; owner-selected Help scope; own proof-based generator/engine/validator/verifyExplanation and performance budget; Android 1x and save regression. No original binary/assets in repo.",
       "nextAction": "Invoke FULL original Guru 4.17.0 solve() on a fixed mask where direct, monotonic and factor report no progress. Log 0xb56e20 branch and recursion depths 0→1→2→3, null/results and timeouts; compare 2 same-hole-count masks with independent solver and source stuck labels. If owner selects Help adaptation, implement independently and independently verify explanations; don't alter content, wallet or saves from static evidence alone.",
       "acceptanceRequirement": "NATIVE_STATIC checked via SHA-pinned script and negative mutated-BL control, NOT ORIGINAL_RUNTIME. Product parity only after reproducible original full solve trace on an actual source board, self-authored proof-based UX, independent acceptance of returned candidate(s), Android touch/back/process kill and owner sign-off.",
-      "reason": "Not approved for implementation; source-specific player reachability and return semantics not proven."
+      "reason": "Source fallback execution and player reachability remain open; the result field names are known. No owner approval to change Help is inferred.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
+      ]
     },
     {
       "id": "easy-ad-mrec-channel",
@@ -4471,6 +4487,146 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / versionCode 1193, original XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720.",
       "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN."
+    },
+    {
+      "id": "easy-ad-cheat-skip-toggle",
+      "sourceFeatureId": "easy-ad-cheat-skip-toggle",
+      "status": "RESEARCHED",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "AdManager.CheatSkipAd is a Boolean instance field at+0x19. Both PanelPopSetting.OnBtnCheatRVClick and PanelPopSettingNew.OnBtnCheatRVClick toggle it XOR1 and select enabled/disabled toast. CheckShowInterstitialAvailable returns true while ShowInterstitial immediately returns before SDK and first-skip consumption. Ordinary player UI reachability, persistence and availability UNKNOWN.",
+      "currentImplementation": "No corresponding skip-ad switch in reviewed production AdsController/adState. Source compiled cheat controls do not establish a consumer-facing no-ads product. Existing own QA providers do not prove parity.",
+      "codePath": "src/platform/ads.ts; src/platform/adState.ts",
+      "stage": "PLATFORM/COMMERCIAL research; future product policy and physical provider acceptance",
+      "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193; XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; ARM64 libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720; IL2CPP v31 metadata SHA256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-native-ad-gates-20261124/README.md",
+      "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
+      "nextAction": "On original capture visibility/unlock and restart behavior of both cheat controls. Keep any own debug adapter out of production reward authority; no user-facing adoption requested.",
+      "acceptanceRequirement": "Typed setter/field/return paths plus original UI access proof; own release excludes debug bypass, real provider grant cannot be forced by a production UI control.",
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+    },
+    {
+      "id": "easy-interstitial-first-call-skip",
+      "sourceFeatureId": "easy-interstitial-first-call-skip",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Constructor initializes _firstSkipInterstitial+0x1a=true. First non-cheat invocation reaching ShowInterstitial clears it and returns before normal checks/provider, silently or with First Interstitial Skip diagnostic. Second call on same object reaches ordinary gate; CheatSkipAd returns before consuming the flag. Reset lifetime across app restarts/instances UNKNOWN.",
+      "currentImplementation": "Crossmath 0.5.24 beforeNext() protects first five unique wins, active-time gaps and duplicate result IDs; no per-AdManager first-call consumption flag. These are distinct policies.",
+      "codePath": "src/platform/ads.ts; src/platform/adState.ts",
+      "stage": "PLATFORM/COMMERCIAL research; future product policy and physical provider acceptance",
+      "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193; XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; ARM64 libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720; IL2CPP v31 metadata SHA256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-native-ad-gates-20261124/README.md",
+      "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
+      "nextAction": "Verify actual source AdManager instance lifetime/caller prechecks, then owner chooses whether any analogous first eligible opportunity protection is needed. Do not equate this flag with first install or first win.",
+      "acceptanceRequirement": "Exact same-instance first/second invocation and cheat interaction; own implementation, if selected, has explicit lifetime and deterministic tests plus physical no-fill/restart acceptance.",
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+    },
+    {
+      "id": "easy-rewarded-success-on-close",
+      "sourceFeatureId": "easy-rewarded-success-on-close",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "In proven OxAdHandler pending route, ReceivedReward sets _tempRvRewardedGotten. Hidden invokes _rvRewardedCallBack with that flag; captured AdManager closure only forwards true. With global subscribers null in fixture, no consumer-success call occurs before Hidden or on close without earned. Actual global subscribers/live SDK and concrete game resource grant UNKNOWN.",
+      "currentImplementation": "Earned-only authority exists: settleReward credits only earned and provider.watchRewards delivers an independent durable receipt. Source close-bound timing is not adopted; provider.showRewarded dismissal and grant channel are separate, adapter-specific timing not physically accepted.",
+      "codePath": "src/platform/ads.ts; src/platform/adState.ts; src/app/session.ts",
+      "stage": "PLATFORM/COMMERCIAL research; future product policy and physical provider acceptance",
+      "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193; XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; ARM64 libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720; IL2CPP v31 metadata SHA256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-rewarded-settlement-20261124/README.md",
+      "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
+      "nextAction": "Capture original concrete offer with real callbacks/saved reward; verify own earned-before-dismiss, cancellation and late/resumed durable receipt. Preserve authority independent of closing animation.",
+      "acceptanceRequirement": "Source event timing + actual own Android earn/grant/dismiss ordering; no payment from mere close, no loss if earned receipt arrives before/after dismissal.",
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+    },
+    {
+      "id": "easy-rewarded-pending-reset",
+      "sourceFeatureId": "easy-rewarded-pending-reset",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "After normal return of pending callback, status update and global Hidden subscriber, OxAdHandler clears callback+0x20 and flag+0x28. New rewarded ShowAdByData branch resets old earned. Sequential duplicate Hidden and duplicate ReceivedReward do not duplicate consumer-success in fixture. Reentry/concurrency/throw and process-death idempotency UNKNOWN.",
+      "currentImplementation": "GameSession.acceptReward uses persisted request ID/profile matching and settlement; repeated settled receipt ignored, DurableReceiptQueue replays/acks. This durable contract is present; source RAM callback clearing is a different implementation and is not a substitute for persistent receipts.",
+      "codePath": "src/app/session.ts; src/platform/adState.ts; src/platform/ads.ts",
+      "stage": "PLATFORM/COMMERCIAL research; future product policy and physical provider acceptance",
+      "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193; XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; ARM64 libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720; IL2CPP v31 metadata SHA256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-rewarded-settlement-20261124/README.md",
+      "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
+      "nextAction": "Retain own durable idempotency. Accept native provider duplicate earned/dismiss, close→process kill→late receipt and new request without stale reward; original subscriber/reentry behavior needs separate evidence.",
+      "acceptanceRequirement": "No duplicate or lost grant across repeated receipt and restart; source sequential cleanup claims limited to normal-return handler paths.",
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+    },
+    {
+      "id": "easy-ad-close-delayed-banner-request",
+      "sourceFeatureId": "easy-ad-close-delayed-banner-request",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "AdManager interstitial/rewarded close handlers schedule different continuations via Util.Delay with float bits0x3e99999a (0.30000001192092896). Each clears typed AdShow+0x18 then tail-calls ShowBanner. Actual scheduler duration/background behavior and visible banner UNKNOWN; no measured 300ms guarantee.",
+      "currentImplementation": "AdsController tracks fullscreen work/availability and own native host owns banner geometry/visibility. Source delay float is not implemented or accepted as phone timing; lifecycle visibility already has separate source ID easy-banner-lifecycle-hide.",
+      "codePath": "src/platform/ads.ts; src/platform/androidAds.ts",
+      "stage": "PLATFORM/COMMERCIAL research; future product policy and physical provider acceptance",
+      "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193; XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; ARM64 libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720; IL2CPP v31 metadata SHA256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-rewarded-settlement-20261124/README.md",
+      "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
+      "nextAction": "Original/own phone close→unblock→banner capture with background/resume/dispose and insets; select own provider lifecycle synchronization after test rather than copying the float.",
+      "acceptanceRequirement": "Source scheduler units/actual timing independently measured; own banner cannot overlap fullscreen, resume behind stale callbacks or reserve duplicate insets.",
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+    },
+    {
+      "id": "guru-solver-step-canonical-guard",
+      "sourceFeatureId": "guru-solver-step-canonical-guard",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "The shared _setCellAsSolved method compares the computed value as a string with stored CellData+0x17 and throws on mismatch before appending that step/removing its candidate entry. Isolated control changes only the stored answer after initialization while keeping the visible expression and prepared candidates; original direct deduction still computes 2 for ?+3=5, then reaches the mismatch/throw path when the stored answer is 9. This establishes a commit guard, not absence of hidden-answer use in every strategy.",
+      "currentImplementation": "Crossmath 0.5.24/29 public Puzzle rejects hidden answer/solution/steps, and explain derives candidates from visible placements and the physical token bag. verifyExplanation independently re-enumerates arithmetic/evidence before accepting a plan. There is no source-style stored canonical-answer equality guard; existing independent proof validation must be preserved.",
+      "codePath": "src/help/logic.ts; src/content/validator.ts; src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/5153efdac26ca7ab99ed55d2bfc76287b63e1d32/src/help/logic.ts",
+      "stage": "CORE/HELP research; product decision and independent proof before adoption",
+      "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. Guru 4.18.0 binary remains UNKNOWN.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
+      ],
+      "dependencies": "Own public puzzle/physical-token model, independent verifyExplanation and accepted Help scope; native source fixtures and physical Android acceptance. Preserve answer-free public data, game content, balances and save schema.",
+      "nextAction": "Use the source guard as a research diagnostic and independently verify returned native assignments. Retain our answer-free public API and proof verifier. Further investigate hidden-answer reads per strategy before making any claim about answer independence.",
+      "acceptanceRequirement": "Pinned original positive and mismatched-answer executions; own plan rejection for invalid, stale, unsupported or duplicate-token assignments. A stored-answer lookup is not accepted as an explanation proof.",
+      "reason": "New source contract retained for traceability. Research does not authorize copying a hidden answer into our public puzzle API or altering the accepted Help behavior."
+    },
+    {
+      "id": "guru-solver-single-pass-result",
+      "sourceFeatureId": "guru-solver-single-pass-result",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Top-level solve0xb568dc tries Direct→Monotonic→Factor→Intersection and forms the result after the first positive solved or constrained count. Its normal body has no loop back across all stages. Initially empty candidate map returns null; result.isSolved reflects final empty map, needsAssumption reflects accumulated AssumptionRequired>0, steps is the solver step list and expressions retains the original expressions. A call can return without solving the whole board; caller scheduling and source catalog convergence require separate evidence.",
+      "currentImplementation": "Our explain(puzzle,attempt) returns one HintPlan or null, prioritizes a direct single-gap deduction, then tray/intersection proposals, and rejects an inconsistent position using countSolutions. It has no Guru four-stage SimpleSolveResult, accumulated AssumptionRequired counter or equivalent result flags. A single proposed assignment is not a full-board solver result.",
+      "codePath": "src/help/logic.ts; src/content/validator.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/5153efdac26ca7ab99ed55d2bfc76287b63e1d32/src/help/logic.ts",
+      "stage": "CORE/HELP research; product decision and independent proof before adoption",
+      "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. Guru 4.18.0 binary remains UNKNOWN.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
+      ],
+      "dependencies": "Own public puzzle/physical-token model, independent verifyExplanation and accepted Help scope; native source fixtures and physical Android acceptance. Preserve answer-free public data, game content, balances and save schema.",
+      "nextAction": "On original connected source masks, log each call, candidates, steps and strategy counts until an explicit caller stopping condition. Compare equal-hole masks against stored stuck without treating needsAssumption as its formula. Adapt only owner-selected explanation behavior with our own independent proof.",
+      "acceptanceRequirement": "Original solved and partial connected controls; exact per-call result and state snapshots; separate caller/corpus evidence for convergence. Own Help keeps one coherent, independently checkable plan and does not misreport whole-board completion.",
+      "reason": "New source contract retained for traceability. Research does not authorize copying a hidden answer into our public puzzle API or altering the accepted Help behavior."
+    },
+    {
+      "id": "guru-solver-constraint-counters",
+      "sourceFeatureId": "guru-solver-constraint-counters",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "ConstraintResult stores native int64 solved at tagged+7 and constrained at+0xf, with strategy enum at+0x17. A verified factor branch calls _setCellAsSolved, returns 1 and adds it to constrained while solved stays zero. Therefore constrained cannot uniformly mean removed candidate values; interpreting progress also requires the step list and candidate-map delta. This factor path is static evidence, not executed by the direct fixture.",
+      "currentImplementation": "Our HintPlan reports assignments and evidence, while countSolutions reports count/exhausted. Neither uses the original solved/constrained aggregate counters. No existing product telemetry or difficulty coefficient may be reinterpreted as the source constrained field.",
+      "codePath": "src/help/logic.ts; src/content/validator.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/5153efdac26ca7ab99ed55d2bfc76287b63e1d32/src/help/logic.ts",
+      "stage": "CORE/HELP research; product decision and independent proof before adoption",
+      "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. Guru 4.18.0 binary remains UNKNOWN.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
+      ],
+      "dependencies": "Own public puzzle/physical-token model, independent verifyExplanation and accepted Help scope; native source fixtures and physical Android acceptance. Preserve answer-free public data, game content, balances and save schema.",
+      "nextAction": "Execute a connected original factor case and record both counters, emitted assignments and candidate removals. Keep these separate in research metrics; derive no difficulty score or stuck estimate from the field name alone.",
+      "acceptanceRequirement": "Static layout and call-chain reproduction plus a future original factor execution. Any own diagnostic must distinguish solved cells, pruned values and number of emitted explanation steps.",
+      "reason": "New source contract retained for traceability. Research does not authorize copying a hidden answer into our public puzzle API or altering the accepted Help behavior."
     }
   ],
   "latestReview": {
@@ -4539,12 +4695,17 @@
     }
   ],
   "latestResearch": {
-    "date": "2026-11-23",
-    "sourceInventoryCommit": "7b902a2a451cf7ceaa40b6b0baa2cf6cdb0390ae",
-    "sourceCount": 288,
+    "date": "2026-11-24",
+    "sourceInventoryCommit": "1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba",
+    "sourceCount": 296,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
-    "report": "research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
-    "summary": "288/288 unchanged. Original exact EasyFun 1.1.9/1193 IL2CPP native proves 4 active remote key literals: interstitial_ad_scene (5 difficulty completion sum >=), ad_first_interstitial_time (total played seconds >), ad_enter_interval (type2 since interstitial close), ad_done_interval (type3 since interstitial close). Shared cooldown since rewarded close uses separate UTC timestamp and currently unknown key. Client bypass flag unknown. Negative controls for key mutation, timestamp store and 2 conditional branches rejected. No live Firebase values, original Android SDK impressions or owner ad policy approval. Game code/runtime 0.5.24/29 and 275 authored boards unchanged."
+    "report": "research/games/crossmath/porting/guru-native-solve-20261124/README.md",
+    "additionalReports": [
+      "research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
+      "research/games/crossmath/porting/easyfun-native-ad-gates-20261124/README.md",
+      "research/games/crossmath/porting/easyfun-rewarded-settlement-20261124/README.md"
+    ],
+    "summary": "296/296 source IDs: five new EasyFun rules and three Guru solver contracts. Original EasyFun gate and pending-reward functions executed with synthetic dependencies; original Guru constructor/solve/direct/commit completed on controlled fixtures. Guru result/counter static contract checked at 192 instruction checkpoints with semantic controls. Exact per-package counts and limits in reports. No source catalog convergence/stuck formula, original Android or live SDK acceptance; no consumer runtime/content/balance/save changes."
   }
 }

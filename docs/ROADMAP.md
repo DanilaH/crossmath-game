@@ -244,3 +244,35 @@ ID `guru-strategy-conditional-backtrack`: `RESEARCHED/MISSING` в игровом
 **Нельзя смешивать** static GetIntRemoteConfig и фактические значения из live Firebase, успешный SDK impression, собственную рекламную политику и показ пользователю. Наша **Crossmath 0.5.24 /29** уже имеет **свои** progress/time/postrewarded защитные guards в src/platform/adState.ts и AdsController.beforeNext(), но не копирует чужие remote keys/типы событий. Сохраняем **PARTIAL** у easy-ad-client-interstitial-gates, не меняем частоту, runtime kit и работающую экономику без владельца. Для проверки нужно записать оригинальный Android 1.1.9 путь с remote config / consent/no-fill / фактическим показом и сравнительный own Android.
 
 На этом источниковом проходе: **288/288 source→consumer IDs**, source kit SHA **7b902a2a451cf7ceaa40b6b0baa2cf6cdb0390ae**, исходный игровой код **0401140d5fc0c191e457289b6dc8e5752a9f85a8**, kit runtime **469928d03f4bae5053e23db26e82187bedbc252e**.
+
+## 24.11.2026 · оригинальные EasyFun ad gates и rewarded settlement (293/293)
+
+Новый source pin: `c427b43c298479b97738edef080470ed83f2f47f`; Crossmath **0.5.24 / 29**, gameplay `0401140d5fc0c191e457289b6dc8e5752a9f85a8`, active branch HEAD `5153efdac26ca7ab99ed55d2bfc76287b63e1d32`, runtime kit `469928d03f4bae5053e23db26e82187bedbc252e`.
+
+Источник **EasyFun Offline Crossmath 1.1.9 /1193** сверён по исходным XAPK/ARM64/metadata SHA. [Ad gates](https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-native-ad-gates-20261124/README.md): точный пятый ключ `ad_game_RV_interval`, typed `CheatSkipAd` (Check=true, Show пропускается), отдельный первый не-cheat Show на экземпляре. 42 original-AOT сценария с заданными внешними входами и 8 отрицательных проверок. Предыдущие UNKNOWN именно для имени shared key/владельца bypass закрыты; числовые defaults/live values и видимость cheat UI остаются UNKNOWN.
+
+[Rewarded route](https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-rewarded-settlement-20261124/README.md): исходные OxAdHandler register/received/hidden и AdManager forwarder исполнены в 10 контрольных состояниях. Pending route передаёт earned при Hidden, фильтрует false, очищает callback/flag после нормальных возвратов и сбрасывает old earned при новом запросе. Это последовательный RAM-контракт при явно указанных stubs, не доказательство всей SDK-цепочки, начисленной валюты или crash-safe receipt. Дополнительно STATIC: обе close continuation через Util.Delay(0.3f) очищают AdShow и запрашивают ShowBanner; фактические 300 мс/видимость не измерены.
+
+Пять новых ID: `easy-ad-cheat-skip-toggle` (UNKNOWN), `easy-interstitial-first-call-skip` (MISSING), `easy-rewarded-success-on-close` (PARTIAL), `easy-rewarded-pending-reset` (PARTIAL), `easy-ad-close-delayed-banner-request` (PARTIAL). Все имеют workflow **RESEARCHED**; существующие gate/callback-state записи уточнены. Новых ACCEPTED нет.
+
+Наша политика подтверждена по коду: unique wins > 5; 180 активных секунд после показанного interstitial; 120 активных секунд после earned; отдельного first-total-time порога нет. `watchRewards`/durable receipts независимы от dismissal. Исходные UTC close cadence, first-call skip и cheat не внедрялись. Сохранить собственную durable idempotency и подтверждённый стиль/банки/баланс.
+
+Следующая приёмка: реальные исходные server values и AdManager lifetime; original SDK earned/hidden/subscribers/сохранение; собственный Android provider с повтором/отменой/restart и баннером после fullscreen. Синтетические числа 120/30/60/6/50 в стенде — **не извлечённые defaults оригинала**. Полный Guru solve, авторский stuck и physical Android остаются отдельными незакрытыми гейтами.
+
+**KIT IMPACT: RESEARCH / IMPROVE evidence; runtime NONE.**
+
+## 24.11.2026 · Guru solver: текущий итог исследования 296/296
+
+Текущий source inventory pin: `1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba`. Crossmath остаётся **0.5.24 / 29**, gameplay `0401140d5fc0c191e457289b6dc8e5752a9f85a8`, runtime kit `469928d03f4bae5053e23db26e82187bedbc252e`. Проверен actual Help-код на active HEAD `5153efdac26ca7ab99ed55d2bfc76287b63e1d32`.
+
+[Исходный native solve](https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md): оригинальные constructor, top-level `solve()`, Direct, commit и result исполняются на синтетических контрольных задачах с явно перечисленными generic-runtime shims. Контроль `? + 3 = 5` возвращает шаг со значением `2`; замена только сохранённого ответа после инициализации на `9` вызывает исходное исключение до фиксации шага. Это не запуск Android-приложения и не доказательство решения каталога или формулы `stuck`.
+
+[Статический контракт](https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md): 41 группа / 192 адресных проверки и два смысловых отрицательных контроля. Top-level `solve()` — один проход этапов с ранним выходом по положительному `solved`/`constrained`; `isSolved` и накопленный `needsAssumption` различаются. В factor-ветке `constrained` может учитывать решённую клетку, поэтому не означает универсальное число удалённых кандидатов.
+
+Три новых ID: `guru-solver-step-canonical-guard` (MISSING), `guru-solver-single-pass-result` (PARTIAL), `guru-solver-constraint-counters` (MISSING), все **RESEARCHED**. Ранее созданные пять EasyFun ID сохранены. Всего **296 sourceFeatureId**, новых ACCEPTED нет. Direct evidence усилено, условный backtracking и `stuck` не объявлены выполненными/восстановленными.
+
+У нас `explain()` строит один HintPlan из видимых данных и лотка; `verifyExplanation()` независимо проверяет арифметику и доказательство, public Puzzle запрещает скрытые answer/solution/steps. Копирование source canonical-answer guard не требуется для этой исследовательской фиксации и не должно подменять собственную проверку объяснения. Отличия, затронутые файлы, зависимости и критерии приёмки записаны в ledger.
+
+Следующий опыт: реальные связанные исходные маски; последовательные вызовы оригинального solver с записью кандидатов, шагов и счётчиков; отдельные monotonic/factor/intersection/backtracking случаи и сравнение с каталожным `stuck`. Для EasyFun открыты live Firebase, SDK/Android, callback reentry/process kill и фактическое время появления баннера. Полнота 296/296 означает отсутствие потерянных зарегистрированных ID, а не полный разбор всех экранов и систем.
+
+**KIT IMPACT: IMPROVE — доказательства и воспроизводимость исследования; runtime NONE.**
