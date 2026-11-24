@@ -19,6 +19,12 @@ Runtime source: @danilah/mini-games-kit at 469928d03f4bae5053e23db26e82187bedbc2
 - First launch is canonical field 1. All 240 fields use route IDs, no runtime generator or adaptive director. Source definitions stay immutable.
 - Native content root is the sole system-inset owner. Browser preview applies its own safe area. User/modal/background/SDK blockers must not resume one another.
 
+## DEC-2026-11-24-SOURCE-BASED-IMPLEMENTATION
+
+Собственная реализация Crossmath опирается на проверенный декомпилированный код и архитектуру референсов. Точные фрагменты оригиналов, версии, SHA и методы хранятся в закрытом геймките. В публичном Crossmath остаются собственный код, решения и ссылки на доказательства. [Исходные материалы](https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/README.md).
+
+Задачи №8 и №9 утверждают только результат подготовки Explain и восстановление команд баннера. В Endless до Submit несовместимая расстановка и отсутствие поддерживаемого объяснения дают одинаковое сообщение. Оплата происходит в существующей транзакции Apply. Повтор команды баннера относится к текущему запросу видимости существующего адаптера. [Критерии и приёмка](acceptance/issues-8-9/README.md).
+
 ## D — 0.2.0
 
 - Campaign, Free and each dated Daily have separate durable slots. Root attempt/result is the sole active authority; inactive slots exclude it. Replacing an unfinished slot requires the player's confirmation. Won mission replays create a new attempt rather than trapping the player on an old result.

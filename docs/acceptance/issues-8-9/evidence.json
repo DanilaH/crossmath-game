@@ -1,0 +1,314 @@
+{
+  "baseline": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+  "implementation": {
+    "HELP-01": "82904d491f32aebdcb6a0d6a2b0dbf13b95113dd",
+    "ADS-01": "2a7d231098d34de29d8607cc4131fec3dcead899"
+  },
+  "checks": {
+    "unit": 145,
+    "content": "PASS",
+    "existingChromiumScripts": 3,
+    "gradleDebug": "PASS",
+    "gradleReleaseCheck": "PASS",
+    "exactApk": "PASS",
+    "physicalAndroid": "NOT RUN",
+    "liveSdk": "NOT RUN"
+  },
+  "help": {
+    "browser": "141.0.7390.37",
+    "fixtures": 11,
+    "startedCases": 60,
+    "baselineCases": [
+      {
+        "id": "incompatible_partial",
+        "message": "Сейчас нет доказуемого хода из этой расстановки. Можно исправить гипотезу или отдельно показать число."
+      },
+      {
+        "id": "unique_no_supported_step",
+        "message": "Сейчас нет доказуемого хода из этой расстановки. Можно исправить гипотезу или отдельно показать число."
+      },
+      {
+        "id": "compatibility_budget_zero",
+        "message": "Сейчас нет доказуемого хода из этой расстановки. Можно исправить гипотезу или отдельно показать число."
+      }
+    ],
+    "geometry": [
+      {
+        "viewport": [
+          320,
+          480
+        ],
+        "cases": 20,
+        "dialogWidthCssPx": 304,
+        "minActionHeightCssPx": 48,
+        "typography": [
+          "16px",
+          "13.76px"
+        ],
+        "maxSeparateScrollCssPx": 99
+      },
+      {
+        "viewport": [
+          320,
+          568
+        ],
+        "cases": 20,
+        "dialogWidthCssPx": 304,
+        "minActionHeightCssPx": 48,
+        "typography": [
+          "16px",
+          "13.76px"
+        ],
+        "maxSeparateScrollCssPx": 50
+      },
+      {
+        "viewport": [
+          390,
+          844
+        ],
+        "cases": 20,
+        "dialogWidthCssPx": 374,
+        "minActionHeightCssPx": 48,
+        "typography": [
+          "16px",
+          "13.76px"
+        ],
+        "maxSeparateScrollCssPx": 0
+      }
+    ],
+    "applied": {
+      "firstBoardCoinsBefore": 120,
+      "helpCostCoins": 60,
+      "baseRewardCoins": 10,
+      "coinsAfter": 70,
+      "receiptCount": 1
+    },
+    "media": {
+      "fixture": "unique_no_supported_step",
+      "viewport": [
+        320,
+        568
+      ],
+      "language": "ru",
+      "mode": "campaign",
+      "durationSeconds": 2.58,
+      "sha256": {
+        "Crossmath_HELP-01_before_after_320x568.png": "c7a011ee8e0a154bce2dc322e664bbcf3b5f464937ed47774fce2ec5be6f41ae",
+        "Crossmath_HELP-01_explain_320x568.gif": "4d1ae657adaf6c8fce294221ccbe2adcc032eee8c198192ff2325cf05b023eca"
+      }
+    }
+  },
+  "ads": {
+    "browser": "141.0.7390.37",
+    "provider": "scripted",
+    "result": [
+      {
+        "viewport": [
+          320,
+          480
+        ],
+        "provider": {
+          "calls": [
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521603591
+            },
+            {
+              "visible": false,
+              "result": "rejected",
+              "at": 1795521603659
+            },
+            {
+              "visible": false,
+              "result": "fulfilled",
+              "at": 1795521605526
+            },
+            {
+              "visible": true,
+              "result": "rejected",
+              "at": 1795521605659
+            },
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521607526
+            },
+            {
+              "visible": false,
+              "result": "fulfilled",
+              "at": 1795521607659
+            },
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521611659
+            },
+            {
+              "visible": false,
+              "result": "fulfilled",
+              "at": 1795521611659
+            },
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521615659
+            }
+          ],
+          "peak": 1,
+          "width": 320
+        },
+        "coins": 130
+      },
+      {
+        "viewport": [
+          320,
+          568
+        ],
+        "provider": {
+          "calls": [
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521601167
+            },
+            {
+              "visible": false,
+              "result": "rejected",
+              "at": 1795521601255
+            },
+            {
+              "visible": false,
+              "result": "fulfilled",
+              "at": 1795521603126
+            },
+            {
+              "visible": true,
+              "result": "rejected",
+              "at": 1795521603255
+            },
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521605126
+            },
+            {
+              "visible": false,
+              "result": "fulfilled",
+              "at": 1795521605255
+            },
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521609255
+            },
+            {
+              "visible": false,
+              "result": "fulfilled",
+              "at": 1795521609255
+            },
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521613255
+            }
+          ],
+          "peak": 1,
+          "width": 320
+        },
+        "coins": 130
+      },
+      {
+        "viewport": [
+          390,
+          844
+        ],
+        "provider": {
+          "calls": [
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521601094
+            },
+            {
+              "visible": false,
+              "result": "rejected",
+              "at": 1795521601143
+            },
+            {
+              "visible": false,
+              "result": "fulfilled",
+              "at": 1795521603032
+            },
+            {
+              "visible": true,
+              "result": "rejected",
+              "at": 1795521603143
+            },
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521605032
+            },
+            {
+              "visible": false,
+              "result": "fulfilled",
+              "at": 1795521605143
+            },
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521609143
+            },
+            {
+              "visible": false,
+              "result": "fulfilled",
+              "at": 1795521609143
+            },
+            {
+              "visible": true,
+              "result": "fulfilled",
+              "at": 1795521613143
+            }
+          ],
+          "peak": 1,
+          "width": 390
+        },
+        "coins": 130
+      }
+    ],
+    "source": "2a7d231098d34de29d8607cc4131fec3dcead899"
+  },
+  "apk": {
+    "kind": "releasecheck",
+    "package": "com.danilah.crossmath.releasecheck",
+    "versionName": "0.5.24",
+    "versionCode": 29,
+    "kitRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+    "source": "2a7d231098d34de29d8607cc4131fec3dcead899",
+    "apkSha256": "3329ce326c2a574d84997c338665d6f66be89b46fe1b8887efc10e9e9306defa",
+    "bytes": 1398793,
+    "certificateSha256": "0e888f74e09b13e65f9536aab0f26e617d2f7ed82f5531ab87a7ab652f1e0c15",
+    "productionSigner": false,
+    "v2": true,
+    "zipalign16k": true,
+    "debuggable": false,
+    "webViewDebuggingConfigured": false,
+    "nativeInsetOwner": "content-root",
+    "webPayload": {
+      "index.html": "eddbd5f1b7af400b29ffa31ef4c5379558ee3150774293eca7f7c287601c8e36",
+      "native-build.json": "d6776c22b4d785acafac6f324de6e51d9700f8d00340e5638b59090fc0a0fc70",
+      "licenses/Rubik-OFL.txt": "46a250495a963b0b84f2736c0185d0e3af8df9d23427bd425b92a8ece020283c",
+      "assets/index-CNMOUuNh.js": "eaa0cc8f3435efa532f0808d4bb5537370433eff55446cd5aaeb3e4f2f011256",
+      "assets/web-BM7xF5pS.js": "874bbd026b2a3757b6c7bedc1bd163f0c735a3e0a943605c9853f660d828d658",
+      "assets/index-Dbcvmu16.css": "47d11d9c3a33fdd7d8c012e4e82d6f7f0a5bfc22ae00f0d70b238e3d6d5b200e",
+      "assets/coin-Nc673Wm5.webp": "43d4015719e303ce25192964784be7bacb70aa63e4717a339162aaf829ea20bf",
+      "assets/rubik-latin-wght-normal-CnQIisVs.woff2": "691cd1d9b4c0cdf31a1dcf04259c86f92c85e69f6622abab7964d81e36890691",
+      "assets/dist-CMedSjkm.js": "067d9ca66629f984cf538346471032b4b24f9acd1cb914834126e2b88d3250fe",
+      "assets/rubik-cyrillic-wght-normal-DveCct9I.woff2": "bdb2b33ab916e9e7b42edb61f8aea5f5dd83ad773d6ee4e9b55665daf8954ce8"
+    },
+    "nativeRuntime": "NOT RUN",
+    "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE",
+    "verifiedTextZoom": 100
+  }
+}

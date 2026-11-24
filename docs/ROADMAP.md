@@ -9,9 +9,18 @@ Source: [owner specification 1.0](spec/Crossmath_TZ_v1.0_RU.md), sections 12–1
 | C — vertical slice | Fresh logical help + independent proof checking, isolated reveal, durable single charge, 15 lessons and continuation | HC checks in scope, cold restore/single reward, P01–P07 slice protocol and phone review |
 | D — meta/calendar | Free selector, fixed-zone Daily/archive and lives, reachable daily goals, rank/album screens, migration | Openings 3/5, first card at 8, +100 receipt, midnight, 228/229, M01–M12 |
 | E — full version | Endless UI/runs/records, profile/statistics/achievements, RU/EN, platform services | Four modes; scripted then real ads; cancellation/late callbacks; separate records |
-| F — release | Physical devices, TalkBack, 200% OS font, offline/process death, real SDK, signed store artifact and metadata | Exact artifact, P01–P10/HC01–HC12/M01–M12, owner publication decision |
+| F — release | Physical devices, TalkBack, fixed game typography after an OS font change, offline/process death, real SDK, signed store artifact and metadata | Exact artifact, P01–P10/HC01–HC12/M01–M12, owner publication decision |
 
 A–D are implemented in retained previews, with phone acceptance still pending. E1 adds the offline Endless/profile/achievement portion in 0.3.0. E2 adds RU/EN, the optional Android ads bridge and scripted callback coverage in 0.4.0. Real provider, device and store acceptance remain open.
+
+## Помощь и команды баннера · 24 ноября 2026
+
+| Пакет | Состояние |
+| --- | --- |
+| HELP-01 · задача №8 | В PR №4 подготовка Explain различает несовместимость, отсутствие доступного шага и незавершённую проверку. Endless сохраняет одинаковое нейтральное сообщение до Submit. Прошли unit и Chromium. На Android предстоит проверить касания, Back и обратную связь. |
+| ADS-01 · задача №9 | В PR №4 отклонённая команда show/hide восстанавливается по штатному refresh. Подтверждены порядок команд, один незавершённый вызов и доступ к игре с тестовым адаптером. Android-сценарий баннера ожидает выбранного провайдера и устройство. |
+
+[Приёмка двух пакетов](acceptance/issues-8-9/README.md) · [Реестр переноса](porting/ADOPTION_LEDGER.json).
 
 ## 0.5.10 · открытие режимов
 
