@@ -96,19 +96,30 @@ try{
  await tap('#home');
  assert.equal(await page.locator('.resume-card h1').innerText(),'Поле 6');
  assert.equal(await page.locator('#game-choice').isHidden(),true);
- for (const [width,height] of [[320,568],[390,844]]) {
+ for (const [width,height,scale] of [[320,480,100],[320,568,100],[320,568,150],[360,640,150],[390,844,100]]) {
   await page.setViewportSize({width,height});
-  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
+  await page.evaluate(async scale => {
+   document.documentElement.style.fontSize=scale+'%';
+   await document.fonts.ready;
+   window.scrollTo(0,0);
+  },scale);
   const data=await page.evaluate(()=>{
-   const rects=['#campaign-primary','#new-game','#daily-primary','#album-open','#tab-modes'].map(s=>document.querySelector(s).getBoundingClientRect());
-   return {positions:rects.map(r=>[r.top,r.bottom,r.left,r.right]),minTarget:Math.min(...rects.map(r=>Math.min(r.width,r.height))),
-     firstViewport:rects.every(r=>r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth),
-     documentHeight:document.documentElement.scrollHeight};
+   const rect=s=>document.querySelector(s).getBoundingClientRect();
+   const tabTop=rect('#root-tabs').top;
+   const panels=['.resume-card','#daily-primary','#album-open'].map(rect);
+   const controls=['#campaign-primary','#new-game','#daily-primary','#album-open','#tab-modes'].map(rect);
+   return {panelBottoms:panels.map(r=>r.bottom),tabTop,minTarget:Math.min(...controls.map(r=>Math.min(r.width,r.height))),
+     firstViewport:panels.every(r=>r.top>=0&&r.bottom<=tabTop&&r.left>=0&&r.right<=innerWidth),
+     documentHeight:document.documentElement.scrollHeight,scrollY};
   });
-  assert.ok(data.firstViewport, JSON.stringify(data));assert.ok(data.minTarget>=48);
-  geometry.push({screen:'home',viewport:[width,height],...data});
-  await page.screenshot({path:out+`/home-five-${width}.png`});
+  assert.ok(data.firstViewport, JSON.stringify(data));
+  assert.equal(data.documentHeight,height);
+  assert.equal(data.scrollY,0);
+  assert.ok(data.minTarget>=48);
+  geometry.push({screen:'home',viewport:[width,height],textScale:scale,...data});
+  await page.screenshot({path:out+`/home-five-${width}x${height}-${scale}.png`});
  }
+ await page.evaluate(()=>{document.documentElement.style.fontSize='';});
  await openModes();
  await page.screenshot({path:out+'/modes-five.png'});
  await tap('#tab-home');

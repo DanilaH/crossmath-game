@@ -25,6 +25,7 @@ html:has(#root-tabs:not([hidden])) { scroll-padding-bottom:calc(var(--root-tab-b
 #root-tabs button[aria-current="page"] { color:var(--home-ink); background:var(--home-green); font-weight:800; }
 #root-tabs button:enabled:active { background:var(--action-wash); }
 #root-tabs button:focus-visible { outline-offset:-3px; }
+.resume-actions { display:contents; }
 #hub[data-screen="home"] #new-game {
   display:flex; align-items:center; justify-content:center; gap:7px; margin-top:5px;
   padding:6px 9px; border:1px solid var(--home-green-edge); border-radius:12px;
@@ -47,16 +48,37 @@ html:has(#root-tabs:not([hidden])) { scroll-padding-bottom:calc(var(--root-tab-b
   background:var(--desk); border:1px solid var(--play-line);
   padding:6px 8px; font-size:.82rem; font-weight:720; text-align:center;
 }
-@media(max-height:610px) and (max-width:420px) {
-  #hub[data-screen="home"] .resume-preview { height:clamp(76px,18svh,112px); }
-  #hub[data-screen="home"] .instrument-felt { height:clamp(44px,9svh,58px); }
-  #hub[data-screen="home"] .home-quick .hub-button { padding-block:7px; }
-}
-@media(max-height:610px) and (max-width:420px) {
+@media(max-height:680px) and (max-width:480px) {
   body.in-hub:has(#hub[data-screen="home"]) #shell, #hub[data-screen="home"] { gap:8px; }
-  #hub[data-screen="home"] .resume-card { padding-block:10px; }
+  body.in-hub:has(#hub[data-screen="home"]):has(#root-tabs:not([hidden])) #shell {
+    padding-bottom:calc(var(--root-tab-bar) + var(--root-bottom) + 6px);
+  }
+  #hub[data-screen="home"] .resume-card { padding-block:8px; }
+  #hub[data-screen="home"] .resume-card h1 { font-size:clamp(28px, 19px + .7rem, 38px); }
   #hub[data-screen="home"] .resume-board-open { margin-bottom:5px; }
-  #hub[data-screen="home"] .home-tear { margin-block:4px; }
+  #hub[data-screen="home"] .resume-preview { height:clamp(68px,16svh,106px); }
+  .resume-actions {
+    display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+    gap:6px; margin-top:3px;
+  }
+  #hub[data-screen="home"] .resume-actions :is(.primary, #new-game) {
+    min-height:48px; margin:0; padding:6px; text-align:center;
+    font-size:clamp(14px, 9px + .38rem, 21px);
+  }
+  #hub[data-screen="home"] .resume-actions :is(.start-mark, .menu-icon) { display:none; }
+  #hub[data-screen="home"] .home-quick {
+    grid-template-columns:minmax(0,.47fr) minmax(0,.53fr); gap:8px;
+  }
+  #hub[data-screen="home"] .instrument-felt { height:clamp(44px,9svh,58px); }
+  #hub[data-screen="home"] .home-quick .hub-button { gap:4px; padding-block:6px; line-height:1.18; }
+  #hub[data-screen="home"] .home-quick .quick-copy strong { font-size:clamp(15px, 9px + .4rem, 21px); }
+  #hub[data-screen="home"] .home-quick .quick-status { font-size:.79em; }
+  #hub[data-screen="home"] .home-tear { width:min(95%,90px); margin-block:3px; }
+}
+@media(max-height:500px) and (max-width:480px) {
+  #hub[data-screen="home"] .resume-preview { height:clamp(60px,14svh,76px); }
+  #hub[data-screen="home"] .tear-day { font-size:27px; }
+  #hub[data-screen="home"] .instrument-felt { height:42px; }
 }
 .daily-selection {
   display:grid; grid-template-columns:minmax(56px,77px) minmax(0,1fr); align-items:center;
