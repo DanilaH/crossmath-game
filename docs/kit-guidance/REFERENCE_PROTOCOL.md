@@ -28,7 +28,7 @@
 
 ## A.2. Актуальная граница Guru solver evidence · 24.11.2026
 
-**Актуальная база сверки:** Crossmath **0.5.24 / versionCode 29**, product implementation `2a7d231098d34de29d8607cc4131fec3dcead899`, active/CI HEAD `73fbc059149aba440297cf4cdc074b98433ad7e5`. Runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` сохранён; новый research source pin `e48d0108e7bb6c26a758235ea6441a57dbadd4c3` от него независим.
+**Актуальная база сверки:** Crossmath **0.5.24 / versionCode 29**, product implementation `2a7d231098d34de29d8607cc4131fec3dcead899`, active/CI HEAD `73fbc059149aba440297cf4cdc074b98433ad7e5`. Runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` сохранён; новый research source pin `4287cc0b6480202bb69f0fdb5c426224df779fff` от него независим.
 
 [Consumer report с точным source pin и ссылками на закрытый исходный пакет](../porting/GURU_SOLVER_RESEARCH_2026-11-24.md). Ревизия уточняет **13 существующих ID**, весь registered mapping — **296/296**. Считать отдельно: **12 native masks / 18 DB rows** сходимости в режимах **persistent** и **fresh/first-step**; **12 899** уникальных числовых решений по независимому own CSP. **Полная native-сходимость UNKNOWN; точная формула `stuck` UNKNOWN.** Изолированные solver traces не являются запуском Android UI. Счётчики ранжирования объяснений и TIME_BUDGET не подменяют формулу сложности/доказательство неразрешимости.
 

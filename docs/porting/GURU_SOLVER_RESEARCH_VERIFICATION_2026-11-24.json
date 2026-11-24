@@ -1,18 +1,28 @@
 {
   "date": "2026-11-24",
   "status": "PASS",
-  "scope": "Final assembled research documentation and ledger; no new product/native/Android acceptance.",
+  "scope": "Final assembled research documentation and ledger. Product code is unchanged; historical hosted CI is recorded by its exact source separately from physical Android acceptance.",
   "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
   "previousResearchHead": "df454c80004e765693f894752b9e638784568659",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "e48d0108e7bb6c26a758235ea6441a57dbadd4c3",
+    "commit": "4287cc0b6480202bb69f0fdb5c426224df779fff",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json",
-    "sha256": "a160e1ada054572d0ad40cbb2069376a8c2fa9fee9be135031dcbe5d1fbe68a6"
+    "sha256": "a78b4dac0ad0aec3b9542778b4d4da91e5a92f0b4017a00dc3daad9926996305"
   },
-  "ledgerSha256": "5fa7a694d0865f2ad16722e5703cb1f819ca64d24935f8d446a3332c8a80c605",
+  "ledgerSha256": "ddbd7c298bf23aedefc1863020a31172033fc76f1a2a170e9720391645c1eb03",
   "inventoried": 296,
   "mapped": 296,
+  "nativeCatalogCoverage": {
+    "file": "research/games/crossmath/porting/guru-solver-strategies-20261124/TOTAL_NATIVE_COVERAGE.json",
+    "sha256": "46e9cd3bacecc0c019dbd2b95600e68ff58ab451cc54a91e08b538528a601490",
+    "sourceCommit": "4287cc0b6480202bb69f0fdb5c426224df779fff",
+    "completedBothProtocolsRecipes": 13,
+    "representedOriginalDbRows": 19,
+    "frozenBaseRecipes": 12,
+    "additionalHeavyRecipes": 1,
+    "wholeCatalogNativeConvergence": "UNKNOWN"
+  },
   "updatedExistingIds": [
     "guru-stuck",
     "guru-direct-hint",
@@ -79,7 +89,24 @@
     "exactUnchanged": 23,
     "intentionalNoticeOnly": "docs/porting/help-and-ads-20261124/README.md"
   },
-  "newProductBuildOrAndroidRun": false,
+  "productRuntimeCodeChanged": false,
+  "researcherLocalProductBuildPerformed": false,
+  "physicalAndroidExecuted": false,
+  "priorReconciliationCI": {
+    "evidence": "docs/porting/GURU_SOLVER_RESEARCH_CI_2026-11-24.json",
+    "branchCommit": "bc8d50d3f886a4461f2507547ab7ca11c9182c49",
+    "testedSyntheticMerge": "d83cae7320eb2020e3c8cdb6c94a2f6f57120f90",
+    "pushRun": 45427771678,
+    "pullRequestRun": 45427792826,
+    "conclusion": "success",
+    "testsPassed": 384,
+    "hostedGuidanceWarnings": [
+      "RUNTIME_PIN_UNVERIFIED: temporary file: tarball; exact kit checkout independently recorded"
+    ],
+    "automatedReleasecheckBuild": true,
+    "nativeRuntime": "NOT RUN",
+    "scope": "Earlier reconciliation checkpoint only; not relabelled as CI of this later supplement commit."
+  },
   "limits": [
     "Whole-catalog original native convergence remains UNKNOWN.",
     "Exact original stuck authoring formula remains UNKNOWN.",

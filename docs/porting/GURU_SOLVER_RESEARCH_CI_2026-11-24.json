@@ -1,0 +1,550 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-11-24",
+  "repository": "DanilaH/crossmath-game",
+  "pullRequest": 7,
+  "examinedHead": "bc8d50d3f886a4461f2507547ab7ca11c9182c49",
+  "productBase": "73fbc059149aba440297cf4cdc074b98433ad7e5",
+  "workflow": {
+    "path": ".github/workflows/ci.yml",
+    "blob": "ed9f55f5d03f2bd5c607fa6ecd5cdd16ffcf6e9b",
+    "url": "https://github.com/DanilaH/crossmath-game/blob/bc8d50d3f886a4461f2507547ab7ca11c9182c49/.github/workflows/ci.yml"
+  },
+  "readback": [
+    {
+      "event": "push",
+      "run": {
+        "id": 45427771678,
+        "headSha": "bc8d50d3f886a4461f2507547ab7ca11c9182c49",
+        "url": "https://github.com/DanilaH/crossmath-game/actions/runs/45427771678",
+        "status": "completed",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T15:38:00Z",
+        "updatedAt": "2026-11-24T15:42:17Z"
+      },
+      "job": {
+        "id": 138564359306,
+        "name": "host",
+        "url": "https://github.com/DanilaH/crossmath-game/actions/runs/45427771678/job/138564359306",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-11-24T15:38:05Z",
+        "completedAt": "2026-11-24T15:42:16Z"
+      },
+      "checkedOutSourceSha": "bc8d50d3f886a4461f2507547ab7ca11c9182c49",
+      "checkedOutKitSha": "469928d03f4bae5053e23db26e82187bedbc252e",
+      "sourceSemantics": "Exact published branch head",
+      "stages": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Require read-only access to the private pinned kit",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Pack exact private kit checkout",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install without persisting a repository credential",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run check",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run content:verify",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node .test-output/kit/tools/bootstrap/doctor-game-guidance.mjs . --strict",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run test:browser",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run android:sync:release",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run android-actions/setup-android@v3",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run sdkmanager \"platforms;android-36\" \"build-tools;35.0.0\" \"build-tools;36.0.0\"",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run ./gradlew --no-daemon assembleDebug assembleReleaseCheck",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --out .test-output/apk-verification",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "tests": {
+        "testFiles": 54,
+        "passed": 384,
+        "game": {
+          "files": 10,
+          "tests": 145
+        },
+        "kit": {
+          "files": 44,
+          "tests": 239
+        }
+      },
+      "content": {
+        "boards": 240,
+        "positions": 240,
+        "unique_solutions": 240,
+        "full_proofs": 240,
+        "checked_assignments": 1422,
+        "distinct_structural_signatures": 239,
+        "difficulty": {
+          "easy": 70,
+          "standard": 80,
+          "hard": 60,
+          "expert": 30
+        },
+        "intersection_boards": 70,
+        "bank_sha256": "3c44daba366bea0d1d708b1ce3759079722e4fea6a9440d488eb82c39150c8c2",
+        "status": "PASS"
+      },
+      "guidance": {
+        "status": "READY_FOR_AGENT_DISCOVERY",
+        "strictStepConclusion": "success",
+        "researchGuidance": "469928d03f4bae5053e23db26e82187bedbc252e",
+        "warnings": [
+          {
+            "code": "RUNTIME_PIN_UNVERIFIED",
+            "reason": "CI changes the runtime dependency specifier to file:<packed exact-kit tarball>; the doctor cannot infer a Git commit from that specifier. Separate checkout log records the exact kit ref."
+          }
+        ],
+        "warningCount": 1
+      },
+      "browserSmoke": [
+        {
+          "script": "tools/browser-smoke.mjs",
+          "status": "PASS",
+          "checks": [
+            "first field: cell-first keyboard interaction and durable result",
+            "cold reload preserves result and pays once",
+            "field 7: distinct fives, atomic swap, exact undo and cold restore",
+            "field 10: intersection explanation, one charge, undo preserves payment",
+            "U2: second conflict is announced with axis and actual values; selecting the earlier line reads that conflict",
+            "field 12: editable valid row, tap/drag swap, repeat pays zero",
+            "first 25 campaign fields completed using real UI interactions",
+            "fields 1/12/25 have connected grids and their Next actions fit 320×568 and 390×844; the final touch does not click through",
+            "dense touch drag shows an unobscured target; cancellation clears the preview and preserves inventory",
+            "dark theme and reduced motion settings persist",
+            "fixed 16px root font without text autosizing; bottom tools stay reachable at 320×568 while a dense board scrolls independently",
+            "idle first-move demonstration is presentation-only and cancels on user input",
+            "no uncaught page errors"
+          ]
+        },
+        {
+          "script": "tools/meta-browser-smoke.mjs",
+          "status": "PASS",
+          "checks": [
+            "frame in tray, direct abacus inspection, same result on close and cold reload; no duplicate grant",
+            "fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore",
+            "one campaign CTA after five wins; direct Daily opens today; home actions fit on 320×568 and 390×844",
+            "actual UI Daily v2: +105 breakdown, three lives, dated completion, cold restore pays once",
+            "eighth distinct win: +20 card receipt, four visible abacus layers and accessible part list",
+            "320×568: direct touches open Workshop, return to Home and open Relax from Modes; campaign owns its history and receipt",
+            "profile: active duration floors total seconds for display and leaves saved precision intact",
+            "fixed profile zone, three missed days advance one issuance, past/completed/future dates remain distinct",
+            "labelled 228/229 fixtures: complete 12-card album stays available, no 49th fragment",
+            "U1: Russian and English cold starts, safe default focus, Escape and Keep restore trigger and tokens, confirmed replacement, failed write and explicit retry",
+            "field 147: board scroll stays inside the play area, all 28 numbers on tall screen, tray paging + pan preserves token selection and order"
+          ]
+        },
+        {
+          "script": "tools/endless-browser-smoke.mjs",
+          "status": "PASS",
+          "checks": [
+            "actual fresh-profile campaign 1–15, Endless locked at 14 and unlocked at 15",
+            "pre-submit neutral board, explicit scoring, one rejected-layout penalty, free repeat/undo, cold result and carried lives",
+            "parked mode exact restore, explicit paid reveal taints whole run, three distinct stages earn permanent badge and assisted record",
+            "new solo run has separate record; repeated canonical ID still earns stage score, no base reward or repeated badge",
+            "three distinct rejected layouts stop run at zero; free new run resets run identity/lives without wallet debit",
+            "RU/EN switch and cold persistence, localized board/help/mission/calendar/album/profile/accessibility copy, timer hidden in Endless, optional ads absent without provider"
+          ]
+        }
+      ],
+      "apkVerification": {
+        "kind": "releasecheck",
+        "package": "com.danilah.crossmath.releasecheck",
+        "versionName": "0.5.24",
+        "versionCode": 29,
+        "kitRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+        "source": "bc8d50d3f886a4461f2507547ab7ca11c9182c49",
+        "apkSha256": "7c4b4f9f91ee1f50d0912b6b67b9ba2e40d9efc66d868921b7cde0847e03deee",
+        "bytes": 1398793,
+        "certificateSha256": "06fa6910df73a84be768a5f81e2c2cdd07489718a02158fc19c552d8d4ab7108",
+        "productionSigner": false,
+        "v2": true,
+        "zipalign16k": true,
+        "debuggable": false,
+        "webViewDebuggingConfigured": false,
+        "nativeInsetOwner": "content-root",
+        "nativeRuntime": "NOT RUN",
+        "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE"
+      },
+      "artifactsDownloaded": false,
+      "localOrPhysicalAndroidRuntimeAcceptance": false
+    },
+    {
+      "event": "pull_request",
+      "run": {
+        "id": 45427792826,
+        "headSha": "bc8d50d3f886a4461f2507547ab7ca11c9182c49",
+        "url": "https://github.com/DanilaH/crossmath-game/actions/runs/45427792826",
+        "status": "completed",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T15:38:07Z",
+        "updatedAt": "2026-11-24T15:43:47Z"
+      },
+      "job": {
+        "id": 138564428900,
+        "name": "host",
+        "url": "https://github.com/DanilaH/crossmath-game/actions/runs/45427792826/job/138564428900",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-11-24T15:38:10Z",
+        "completedAt": "2026-11-24T15:43:47Z"
+      },
+      "checkedOutSourceSha": "d83cae7320eb2020e3c8cdb6c94a2f6f57120f90",
+      "checkedOutKitSha": "469928d03f4bae5053e23db26e82187bedbc252e",
+      "sourceSemantics": "GitHub synthetic PR merge source, distinct from branch head",
+      "stages": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Require read-only access to the private pinned kit",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Pack exact private kit checkout",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install without persisting a repository credential",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run check",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run content:verify",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node .test-output/kit/tools/bootstrap/doctor-game-guidance.mjs . --strict",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run test:browser",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run android:sync:release",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run android-actions/setup-android@v3",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run sdkmanager \"platforms;android-36\" \"build-tools;35.0.0\" \"build-tools;36.0.0\"",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run ./gradlew --no-daemon assembleDebug assembleReleaseCheck",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --out .test-output/apk-verification",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "tests": {
+        "testFiles": 54,
+        "passed": 384,
+        "game": {
+          "files": 10,
+          "tests": 145
+        },
+        "kit": {
+          "files": 44,
+          "tests": 239
+        }
+      },
+      "content": {
+        "boards": 240,
+        "positions": 240,
+        "unique_solutions": 240,
+        "full_proofs": 240,
+        "checked_assignments": 1422,
+        "distinct_structural_signatures": 239,
+        "difficulty": {
+          "easy": 70,
+          "standard": 80,
+          "hard": 60,
+          "expert": 30
+        },
+        "intersection_boards": 70,
+        "bank_sha256": "3c44daba366bea0d1d708b1ce3759079722e4fea6a9440d488eb82c39150c8c2",
+        "status": "PASS"
+      },
+      "guidance": {
+        "status": "READY_FOR_AGENT_DISCOVERY",
+        "strictStepConclusion": "success",
+        "researchGuidance": "469928d03f4bae5053e23db26e82187bedbc252e",
+        "warnings": [
+          {
+            "code": "RUNTIME_PIN_UNVERIFIED",
+            "reason": "CI changes the runtime dependency specifier to file:<packed exact-kit tarball>; the doctor cannot infer a Git commit from that specifier. Separate checkout log records the exact kit ref."
+          }
+        ],
+        "warningCount": 1
+      },
+      "browserSmoke": [
+        {
+          "script": "tools/browser-smoke.mjs",
+          "status": "PASS",
+          "checks": [
+            "first field: cell-first keyboard interaction and durable result",
+            "cold reload preserves result and pays once",
+            "field 7: distinct fives, atomic swap, exact undo and cold restore",
+            "field 10: intersection explanation, one charge, undo preserves payment",
+            "U2: second conflict is announced with axis and actual values; selecting the earlier line reads that conflict",
+            "field 12: editable valid row, tap/drag swap, repeat pays zero",
+            "first 25 campaign fields completed using real UI interactions",
+            "fields 1/12/25 have connected grids and their Next actions fit 320×568 and 390×844; the final touch does not click through",
+            "dense touch drag shows an unobscured target; cancellation clears the preview and preserves inventory",
+            "dark theme and reduced motion settings persist",
+            "fixed 16px root font without text autosizing; bottom tools stay reachable at 320×568 while a dense board scrolls independently",
+            "idle first-move demonstration is presentation-only and cancels on user input",
+            "no uncaught page errors"
+          ]
+        },
+        {
+          "script": "tools/meta-browser-smoke.mjs",
+          "status": "PASS",
+          "checks": [
+            "frame in tray, direct abacus inspection, same result on close and cold reload; no duplicate grant",
+            "fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore",
+            "one campaign CTA after five wins; direct Daily opens today; home actions fit on 320×568 and 390×844",
+            "actual UI Daily v2: +105 breakdown, three lives, dated completion, cold restore pays once",
+            "eighth distinct win: +20 card receipt, four visible abacus layers and accessible part list",
+            "320×568: direct touches open Workshop, return to Home and open Relax from Modes; campaign owns its history and receipt",
+            "profile: active duration floors total seconds for display and leaves saved precision intact",
+            "fixed profile zone, three missed days advance one issuance, past/completed/future dates remain distinct",
+            "labelled 228/229 fixtures: complete 12-card album stays available, no 49th fragment",
+            "U1: Russian and English cold starts, safe default focus, Escape and Keep restore trigger and tokens, confirmed replacement, failed write and explicit retry",
+            "field 147: board scroll stays inside the play area, all 28 numbers on tall screen, tray paging + pan preserves token selection and order"
+          ]
+        },
+        {
+          "script": "tools/endless-browser-smoke.mjs",
+          "status": "PASS",
+          "checks": [
+            "actual fresh-profile campaign 1–15, Endless locked at 14 and unlocked at 15",
+            "pre-submit neutral board, explicit scoring, one rejected-layout penalty, free repeat/undo, cold result and carried lives",
+            "parked mode exact restore, explicit paid reveal taints whole run, three distinct stages earn permanent badge and assisted record",
+            "new solo run has separate record; repeated canonical ID still earns stage score, no base reward or repeated badge",
+            "three distinct rejected layouts stop run at zero; free new run resets run identity/lives without wallet debit",
+            "RU/EN switch and cold persistence, localized board/help/mission/calendar/album/profile/accessibility copy, timer hidden in Endless, optional ads absent without provider"
+          ]
+        }
+      ],
+      "apkVerification": {
+        "kind": "releasecheck",
+        "package": "com.danilah.crossmath.releasecheck",
+        "versionName": "0.5.24",
+        "versionCode": 29,
+        "kitRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+        "source": "d83cae7320eb2020e3c8cdb6c94a2f6f57120f90",
+        "apkSha256": "089e6517ce7d7627412c58f60b58bed19856b9def1e6b52cf320b2e663ccab7e",
+        "bytes": 1398793,
+        "certificateSha256": "93079eab7a3e719d4c4e2ef009f349c3e2e9d5a68020aedc650a27db03a3ee8e",
+        "productionSigner": false,
+        "v2": true,
+        "zipalign16k": true,
+        "debuggable": false,
+        "webViewDebuggingConfigured": false,
+        "nativeInsetOwner": "content-root",
+        "nativeRuntime": "NOT RUN",
+        "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE"
+      },
+      "artifactsDownloaded": false,
+      "localOrPhysicalAndroidRuntimeAcceptance": false
+    }
+  ],
+  "limits": [
+    "Successful runs are automatic hosted CI builds of the stated sources, not a local rebuild by the researcher.",
+    "Neither native APK runtime nor physical Android acceptance ran: APK verification reports nativeRuntime='NOT RUN'.",
+    "Artifacts use releasecheck package/signing and are NOT PRODUCTION.",
+    "No APK was downloaded; APK hashes and flags are read from the exact verifier's job output.",
+    "These results apply to bc8d50d3 and its tested synthetic merge d83cae7; do not relabel them as CI results for a later supplement commit.",
+    "Hosted guidance doctor emitted one warning due to the temporary tarball dependency; local exact-snapshot 0/0 doctor is a separate validation."
+  ],
+  "suggestedScopeWording": "Docs and ledger publication; no product runtime implementation change. Subsequent GitHub Actions push and PR workflows built and verified releasecheck APKs from the recorded branch/merge sources. Native/device runtime acceptance was not performed."
+}
