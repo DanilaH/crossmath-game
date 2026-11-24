@@ -173,3 +173,11 @@
 Следующий опыт: реальные связанные исходные маски; последовательные вызовы оригинального solver с записью кандидатов, шагов и счётчиков; отдельные monotonic/factor/intersection/backtracking случаи и сравнение с каталожным `stuck`. Для EasyFun открыты live Firebase, SDK/Android, callback reentry/process kill и фактическое время появления баннера. Полнота 296/296 означает отсутствие потерянных зарегистрированных ID, а не полный разбор всех экранов и систем.
 
 **KIT IMPACT: IMPROVE — доказательства и воспроизводимость исследования; runtime NONE.**
+
+## 24.11.2026 · код и архитектура оригиналов как основа собственной реализации
+
+По [прямому решению владельца](../PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation) разработчик использует декомпилированный/native код и архитектурные приёмы оригинала для собственной реализации. Релевантный код скопирован в [закрытые отчёты кита](https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/README.md): Guru — 9 точных срезов с 36 полными методами; EasyFun — 21 адресный диапазон с исходными байтами и typed bindings. Архитектурные схемы и авторский псевдокод отделены от первичного кода.
+
+Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceFeatureId**, без новых игровых правил или ACCEPTED. Для 11 существующих ID ledger содержит прямые code/architecture evidence links. Сняты blanket-запрет декомпиляции и clean-room изоляция; product code пишется для нашей игры на основании источника. Текущие 0.5.24/29, gameplay `0401140d`, баланс, save schema и runtime `469928d03f4bae5053e23db26e82187bedbc252e` сохранены. Следующие исходные и Android опыты остаются в прежней очереди; наличие текста метода не повышает static evidence до исполнения.
+
+**KIT IMPACT: IMPROVE — источник, архитектура и адаптация связаны с конкретными ID; runtime NONE.**

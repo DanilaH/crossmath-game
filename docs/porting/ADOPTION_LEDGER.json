@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba",
+    "commit": "06a01d5c1f7af3cdf8013c9ce0f6a691d086af78",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -298,7 +298,14 @@
         "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md"
-      ]
+      ],
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/30_direct_strategy_and_helpers.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/20_commit_and_updates.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/40_constructor_and_discovery.asm.txt"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "guru-monotonic-hint",
@@ -4185,7 +4192,7 @@
       "currentImplementation": "Crossmath 0.5.24/29 src/platform/adState.ts requires won result and solvedIds.length > 5 unique wins; no separate first-total-time threshold. Cooldowns: 180 ACTIVE gameplay seconds since recorded shown interstitial and 120 ACTIVE seconds since earned settlement. Cancelled/failed reward does not start lastReward. src/platform/ads.ts beforeNext() runs only result→Next, checks provider and deduplicates result ID. No five-difficulty counters, five Firebase keys, separate enter/done UTC policy or first-call flag. PARTIAL; numeric fixture values from the source harness are not original defaults.",
       "codePath": "src/platform/adState.ts",
       "stage": "PLATFORM/COMMERCIAL owner-gated live SDK, not activate on source strings",
-      "dependencies": "Optional approved native provider, app consent, lifecycle, active play timer, remote cooldown policies and durable receipt tests; no original code/assets to reuse.",
+      "dependencies": "Optional approved native provider, app consent, lifecycle, active play timer, remote cooldown policies and durable receipt tests; own product implementation based on the inspected code and architecture in private source evidence; own product assets.",
       "nextAction": "Capture original Android real defaults/server values for all five proven keys, clock/background behavior, lifetime of AdManager and SDK impression/no-fill. Compare current own active-time/earned policy. Owner decision required before changing clock, cadence or reward stage; do not copy CheatSkipAd or unsigned clock-wrap behavior into release.",
       "acceptanceRequirement": "SHA-pinned static+42-case native gate reproduction with eight negative controls; separate original/own Android validation of actual thresholds, clock, first-call lifetime, provider callbacks, no-fill and displayed ads. Registry coverage is not live parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c427b43c298479b97738edef080470ed83f2f47f/research/games/crossmath/porting/easyfun-native-ad-gates-20261124/README.md",
@@ -4193,7 +4200,13 @@
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193; XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; ARM64 libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720; IL2CPP v31 metadata SHA256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6. Original AOT functions executed with synthetic dependencies, Android/live SDK not run.",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/2adeddc1e06494c24d3799b5e18a3a80a70afde9/research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md"
-      ]
+      ],
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/EASYFUN_AD_METHODS.arm64.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "easy-ad-rewarded-callback-states",
@@ -4212,7 +4225,13 @@
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193; XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; ARM64 libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720; IL2CPP v31 metadata SHA256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6. Isolated original AOT execution, not Android/SDK.",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/2adeddc1e06494c24d3799b5e18a3a80a70afde9/research/games/crossmath/porting/easyfun-admanager-method-owner-20261123/README.md"
-      ]
+      ],
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/EASYFUN_AD_METHODS.arm64.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "guru-endless-score-countup",
@@ -4239,7 +4258,7 @@
       "stage": "UX/HELP optional future stage, not owner-approved implementation",
       "sourceBuild": "Guru 4.17.0 / 26101374 owner APKM SHA256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; libapp.so SHA256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5; 4.18.0 binary UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md",
-      "dependencies": "Original native AOT method invocation with controlled puzzle, source-runtime visibility trace; independent actual puzzle models; owner-selected Help scope; own proof-based generator/engine/validator/verifyExplanation and performance budget; Android 1x and save regression. No original binary/assets in repo.",
+      "dependencies": "Original native AOT method invocation with controlled puzzle, source-runtime visibility trace; independent actual puzzle models; owner-selected Help scope; own proof-based generator/engine/validator/verifyExplanation and performance budget; Android 1x and save regression. No original binary/assets in the public consumer repository; decompiled source excerpts and architectural analysis are retained in private kit reports for our own implementation.",
       "nextAction": "Invoke FULL original Guru 4.17.0 solve() on a fixed mask where direct, monotonic and factor report no progress. Log 0xb56e20 branch and recursion depths 0→1→2→3, null/results and timeouts; compare 2 same-hole-count masks with independent solver and source stuck labels. If owner selects Help adaptation, implement independently and independently verify explanations; don't alter content, wallet or saves from static evidence alone.",
       "acceptanceRequirement": "NATIVE_STATIC checked via SHA-pinned script and negative mutated-BL control, NOT ORIGINAL_RUNTIME. Product parity only after reproducible original full solve trace on an actual source board, self-authored proof-based UX, independent acceptance of returned candidate(s), Android touch/back/process kill and owner sign-off.",
       "reason": "Source fallback execution and player reachability remain open; the result field names are known. No owner approval to change Help is inferred.",
@@ -4259,7 +4278,7 @@
       "stage": "COMMERCIAL/EVIDENCE GAP: declared but no-op in exact original AOT; NOT a proven usable placement",
       "dependencies": "Original Android evidence of another actual provider/display path plus owner decision and legally supported SDK, consent, no-fill, clear app value; current AOT callbacks are no-op.",
       "nextAction": "Do not add MREC ad container based on these method names. If commercially relevant, on original EasyFun 1.1.9 inspect exact Android screen and SDK network/impression for alternative MREC pipeline; only then owner decision and native port.",
-      "acceptanceRequirement": "Reproducible original SDK invocation and visible placement in the specified exact build, no shared-library assumption; own provider and UI tested on Android 1× for request/load/show/hide, consent, no-fill, keyboard/touch layout, background and accessibility. No original assets/code or secrets.",
+      "acceptanceRequirement": "Reproducible original SDK invocation and visible placement in the specified exact build, no shared-library assumption; own provider and UI tested on Android 1× for request/load/show/hide, consent, no-fill, keyboard/touch layout, background and accessibility. No ready-made original assets/code or secrets in the product release; source excerpts remain available in private research reports.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 /1193 XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; metadata sha256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6.",
       "reason": "Exact source API no-op; cannot call this a missing live consumer feature. Other SDK paths/versions and visible actual placements UNKNOWN, so no final owner exclusion."
@@ -4275,7 +4294,7 @@
       "stage": "COMMERCIAL/EVIDENCE GAP: declared but no-op in exact original AOT; NOT a proven usable placement",
       "dependencies": "Original Android evidence of another actual provider/display path plus owner decision and legally supported SDK, consent, no-fill, clear app value; current AOT callbacks are no-op.",
       "nextAction": "Do not add Native ad container based on these method names. If commercially relevant, on original EasyFun 1.1.9 inspect exact Android screen and SDK network/impression for alternative Native pipeline; only then owner decision and native port.",
-      "acceptanceRequirement": "Reproducible original SDK invocation and visible placement in the specified exact build, no shared-library assumption; own provider and UI tested on Android 1× for request/load/show/hide, consent, no-fill, keyboard/touch layout, background and accessibility. No original assets/code or secrets.",
+      "acceptanceRequirement": "Reproducible original SDK invocation and visible placement in the specified exact build, no shared-library assumption; own provider and UI tested on Android 1× for request/load/show/hide, consent, no-fill, keyboard/touch layout, background and accessibility. No ready-made original assets/code or secrets in the product release; source excerpts remain available in private research reports.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 /1193 XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; metadata sha256 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6.",
       "reason": "Exact source API no-op; cannot call this a missing live consumer feature. Other SDK paths/versions and visible actual placements UNKNOWN, so no final owner exclusion."
@@ -4502,7 +4521,13 @@
       "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
       "nextAction": "On original capture visibility/unlock and restart behavior of both cheat controls. Keep any own debug adapter out of production reward authority; no user-facing adoption requested.",
       "acceptanceRequirement": "Typed setter/field/return paths plus original UI access proof; own release excludes debug bypass, real provider grant cannot be forced by a production UI control.",
-      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance.",
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/EASYFUN_AD_METHODS.arm64.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "easy-interstitial-first-call-skip",
@@ -4518,7 +4543,13 @@
       "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
       "nextAction": "Verify actual source AdManager instance lifetime/caller prechecks, then owner chooses whether any analogous first eligible opportunity protection is needed. Do not equate this flag with first install or first win.",
       "acceptanceRequirement": "Exact same-instance first/second invocation and cheat interaction; own implementation, if selected, has explicit lifetime and deterministic tests plus physical no-fill/restart acceptance.",
-      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance.",
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/EASYFUN_AD_METHODS.arm64.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "easy-rewarded-success-on-close",
@@ -4534,7 +4565,13 @@
       "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
       "nextAction": "Capture original concrete offer with real callbacks/saved reward; verify own earned-before-dismiss, cancellation and late/resumed durable receipt. Preserve authority independent of closing animation.",
       "acceptanceRequirement": "Source event timing + actual own Android earn/grant/dismiss ordering; no payment from mere close, no loss if earned receipt arrives before/after dismissal.",
-      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance.",
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/EASYFUN_AD_METHODS.arm64.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "easy-rewarded-pending-reset",
@@ -4550,7 +4587,13 @@
       "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
       "nextAction": "Retain own durable idempotency. Accept native provider duplicate earned/dismiss, close→process kill→late receipt and new request without stale reward; original subscriber/reentry behavior needs separate evidence.",
       "acceptanceRequirement": "No duplicate or lost grant across repeated receipt and restart; source sequential cleanup claims limited to normal-return handler paths.",
-      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance.",
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/EASYFUN_AD_METHODS.arm64.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "easy-ad-close-delayed-banner-request",
@@ -4566,7 +4609,13 @@
       "dependencies": "Own approved Android provider, explicit product decision for cadence/debug/timing, lifecycle and durable receipts. Keep original vendor code/assets outside product.",
       "nextAction": "Original/own phone close→unblock→banner capture with background/resume/dispose and insets; select own provider lifecycle synchronization after test rather than copying the float.",
       "acceptanceRequirement": "Source scheduler units/actual timing independently measured; own banner cannot overlap fullscreen, resume behind stale callbacks or reserve duplicate insets.",
-      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance."
+      "reason": "Newly distinguished source behavior; research is not approval to alter game policy or a live SDK acceptance.",
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/EASYFUN_AD_METHODS.arm64.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "guru-solver-step-canonical-guard",
@@ -4586,7 +4635,13 @@
       "dependencies": "Own public puzzle/physical-token model, independent verifyExplanation and accepted Help scope; native source fixtures and physical Android acceptance. Preserve answer-free public data, game content, balances and save schema.",
       "nextAction": "Use the source guard as a research diagnostic and independently verify returned native assignments. Retain our answer-free public API and proof verifier. Further investigate hidden-answer reads per strategy before making any claim about answer independence.",
       "acceptanceRequirement": "Pinned original positive and mismatched-answer executions; own plan rejection for invalid, stale, unsupported or duplicate-token assignments. A stored-answer lookup is not accepted as an explanation proof.",
-      "reason": "New source contract retained for traceability. Research does not authorize copying a hidden answer into our public puzzle API or altering the accepted Help behavior."
+      "reason": "New source contract retained for traceability. Research does not authorize copying a hidden answer into our public puzzle API or altering the accepted Help behavior.",
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/20_commit_and_updates.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/21_candidate_snapshot.asm.txt"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "guru-solver-single-pass-result",
@@ -4606,7 +4661,13 @@
       "dependencies": "Own public puzzle/physical-token model, independent verifyExplanation and accepted Help scope; native source fixtures and physical Android acceptance. Preserve answer-free public data, game content, balances and save schema.",
       "nextAction": "On original connected source masks, log each call, candidates, steps and strategy counts until an explicit caller stopping condition. Compare equal-hole masks against stored stuck without treating needsAssumption as its formula. Adapt only owner-selected explanation behavior with our own independent proof.",
       "acceptanceRequirement": "Original solved and partial connected controls; exact per-call result and state snapshots; separate caller/corpus evidence for convergence. Own Help keeps one coherent, independently checkable plan and does not misreport whole-board completion.",
-      "reason": "New source contract retained for traceability. Research does not authorize copying a hidden answer into our public puzzle API or altering the accepted Help behavior."
+      "reason": "New source contract retained for traceability. Research does not authorize copying a hidden answer into our public puzzle API or altering the accepted Help behavior.",
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/10_solve.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/01_simple_solve_result.asm.txt"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     },
     {
       "id": "guru-solver-constraint-counters",
@@ -4626,7 +4687,13 @@
       "dependencies": "Own public puzzle/physical-token model, independent verifyExplanation and accepted Help scope; native source fixtures and physical Android acceptance. Preserve answer-free public data, game content, balances and save schema.",
       "nextAction": "Execute a connected original factor case and record both counters, emitted assignments and candidate removals. Keep these separate in research metrics; derive no difficulty score or stuck estimate from the field name alone.",
       "acceptanceRequirement": "Static layout and call-chain reproduction plus a future original factor execution. Any own diagnostic must distinguish solved cells, pruned values and number of emitted explanation steps.",
-      "reason": "New source contract retained for traceability. Research does not authorize copying a hidden answer into our public puzzle API or altering the accepted Help behavior."
+      "reason": "New source contract retained for traceability. Research does not authorize copying a hidden answer into our public puzzle API or altering the accepted Help behavior.",
+      "sourceCodeEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/50_factor_counter_path.asm.txt",
+        "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/02_result_step_reason_models.asm.txt"
+      ],
+      "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/README.md",
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     }
   ],
   "latestReview": {
@@ -4696,7 +4763,7 @@
   ],
   "latestResearch": {
     "date": "2026-11-24",
-    "sourceInventoryCommit": "1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba",
+    "sourceInventoryCommit": "06a01d5c1f7af3cdf8013c9ce0f6a691d086af78",
     "sourceCount": 296,
     "consumerGameVersion": "0.5.24",
     "consumerGameplayCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
@@ -4706,6 +4773,17 @@
       "research/games/crossmath/porting/easyfun-native-ad-gates-20261124/README.md",
       "research/games/crossmath/porting/easyfun-rewarded-settlement-20261124/README.md"
     ],
-    "summary": "296/296 source IDs: five new EasyFun rules and three Guru solver contracts. Original EasyFun gate and pending-reward functions executed with synthetic dependencies; original Guru constructor/solve/direct/commit completed on controlled fixtures. Guru result/counter static contract checked at 192 instruction checkpoints with semantic controls. Exact per-package counts and limits in reports. No source catalog convergence/stuck formula, original Android or live SDK acceptance; no consumer runtime/content/balance/save changes."
+    "summary": "296/296 source IDs: five new EasyFun rules and three Guru solver contracts. Original EasyFun gate and pending-reward functions executed with synthetic dependencies; original Guru constructor/solve/direct/commit completed on controlled fixtures. Guru result/counter static contract checked at 192 instruction checkpoints with semantic controls. Exact per-package counts and limits in reports. No source catalog convergence/stuck formula, original Android or live SDK acceptance; no consumer runtime/content/balance/save changes. Same-day owner clarification: own implementation is based directly on decompiled code and architectural techniques, and relevant exact original code is now copied into the private research annex for 11 existing IDs. Source count and acceptance statuses unchanged.",
+    "sourceEvidenceAnnex": "research/games/crossmath/porting/decompiled-source-evidence-20261124/README.md",
+    "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
+  },
+  "sourceEvidencePolicy": {
+    "ownerDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation",
+    "date": "2026-11-24",
+    "implementationBasis": "Own implementation based directly on inspected decompiled/native code and confirmed architectural techniques; no clean-room isolation.",
+    "copiedSourceDestination": "Private DanilaH/mini-games-kit research reports and source-evidence annexes.",
+    "sourceAnnex": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/README.md",
+    "consumerDestination": "Public DanilaH/crossmath-game: own implementation, decisions, ledger and references.",
+    "evidenceRule": "Exact tool output, reconstructed pseudocode, static analysis, isolated original execution and full Android execution remain separately labelled."
   }
 }
