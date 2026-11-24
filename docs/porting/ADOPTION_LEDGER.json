@@ -4517,7 +4517,8 @@
           "scope": "Собственное исправление presentation/lifecycle: отдельно учитывать последнее desired, pending и подтверждённую команду; повторять актуальный intent после reject на существующем recovery-trigger.",
           "baselineEvidenceRef": "docs/porting/help-and-ads-20261124/ads/REPRODUCTION_RESULT.json",
           "implementationCommit": null,
-          "acceptanceEvidence": []
+          "acceptanceEvidence": [],
+          "issueRef": "https://github.com/DanilaH/crossmath-game/issues/9"
         }
       ],
       "latestImplementationReview": {
@@ -4652,7 +4653,8 @@
           "scope": "Собственное исправление presentation/lifecycle: отдельно учитывать последнее desired, pending и подтверждённую команду; повторять актуальный intent после reject на существующем recovery-trigger.",
           "baselineEvidenceRef": "docs/porting/help-and-ads-20261124/ads/REPRODUCTION_RESULT.json",
           "implementationCommit": null,
-          "acceptanceEvidence": []
+          "acceptanceEvidence": [],
+          "issueRef": "https://github.com/DanilaH/crossmath-game/issues/9"
         }
       ],
       "latestImplementationReview": {
@@ -4729,7 +4731,8 @@
           "scope": "Собственная адаптация архитектуры результата: различить ready, несовместимость, незавершённый поиск и отсутствие поддерживаемого шага; сохранить нейтральный Endless preview.",
           "baselineEvidenceRef": "docs/porting/help-and-ads-20261124/help/REPRODUCTION.json",
           "implementationCommit": null,
-          "acceptanceEvidence": []
+          "acceptanceEvidence": [],
+          "issueRef": "https://github.com/DanilaH/crossmath-game/issues/8"
         }
       ],
       "latestImplementationReview": {
@@ -4876,7 +4879,8 @@
         "sourceFeatureIds": [
           "guru-solver-single-pass-result"
         ],
-        "specRef": "docs/porting/help-and-ads-20261124/help/DELIVERY_SPEC.md"
+        "specRef": "docs/porting/help-and-ads-20261124/help/DELIVERY_SPEC.md",
+        "issueRef": "https://github.com/DanilaH/crossmath-game/issues/8"
       },
       {
         "id": "ADS-01",
@@ -4886,7 +4890,8 @@
           "easy-banner-lifecycle-hide",
           "easy-ad-close-delayed-banner-request"
         ],
-        "specRef": "docs/porting/help-and-ads-20261124/ads/DELIVERY_SPEC.md"
+        "specRef": "docs/porting/help-and-ads-20261124/ads/DELIVERY_SPEC.md",
+        "issueRef": "https://github.com/DanilaH/crossmath-game/issues/9"
       }
     ],
     "meaning": "SPECIFIED — документ и воспроизводимый baseline готовы; не implementation, source parity, Android или live acceptance.",
