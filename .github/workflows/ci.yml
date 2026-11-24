@@ -13,11 +13,13 @@ jobs:
       - name: Require read-only access to the private pinned kit
         env:
           KIT_READ_TOKEN: ${{ secrets.KIT_READ_TOKEN }}
+          GH_TOKEN: ${{ secrets.KIT_READ_TOKEN }}
         run: |
           if [ -z "$KIT_READ_TOKEN" ]; then
             echo '::error::Configure KIT_READ_TOKEN with read-only Contents access to DanilaH/mini-games-kit. No production signing or ad credentials are required for this check.'
             exit 1
           fi
+          gh api --silent repos/DanilaH/mini-games-kit/git/commits/469928d03f4bae5053e23db26e82187bedbc252e
       - uses: actions/checkout@v6
         with:
           repository: DanilaH/mini-games-kit
