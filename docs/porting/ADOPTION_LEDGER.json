@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "4287cc0b6480202bb69f0fdb5c426224df779fff",
+    "commit": "747889ad1c31650c392225881049d41822f799f4",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -130,7 +130,11 @@
       "nextAction": "Проверить судейским просмотром пять соседних повторов рисунка числовых позиций и повторные циклы Free; решать о фильтре после этого.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L89",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts",
-      "consumerEvidence": "docs/porting/CAMPAIGN_MASKS_057.json"
+      "consumerEvidence": "docs/porting/CAMPAIGN_MASKS_057.json",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md"
+      ],
+      "researchSupplement20261125": "Независимо подтверждены tight lower bounds для исключения 300 масок; base pool без дополнительных условий не пуст."
     },
     {
       "id": "guru-profile",
@@ -223,7 +227,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/README.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/native-counterexamples-20261124/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/native-counterexamples-20261124/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md"
       ],
       "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA-256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA-256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. New evidence is not extrapolated to 4.18.",
       "latestResearch": {
@@ -246,7 +251,8 @@
         },
         "refutedProxy": "stuck equals the number of non-Direct applied steps of this current solver: refuted by three source recipes in both protocols; authoring formula remains UNKNOWN."
       },
-      "reason": "Original authoring producer/oracle is missing; inspected client projection does not read stuck. Exact formula UNKNOWN; no4.18APK requirement."
+      "reason": "Original authoring producer/oracle is missing; inspected client projection does not read stuck. Exact formula UNKNOWN; no4.18APK requirement.",
+      "researchSupplement20261125": "144 контрольных SQL projection сравнения после DROP COLUMN stuck не изменили выдачу в проверенных условиях. Формула производителя UNKNOWN."
     },
     {
       "id": "guru-dynamic-filter",
@@ -259,7 +265,11 @@
       "dependencies": "банк + валидатор + контракт сохранения",
       "nextAction": "Проверить решение о выборе следующего поля в двух сопоставимых профилях",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L167",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md"
+      ],
+      "researchSupplement20261125": "Подтверждена ветка filtered-empty retry и исследованы SQL ratio literals; exact PP mapping/live config UNKNOWN."
     },
     {
       "id": "easy-tap",
@@ -5078,6 +5088,66 @@
           "heavySupplement": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/diagnostics/heap-capacity-20261124/README.md"
         }
       }
+    },
+    {
+      "id": "guru-issuance-random-first",
+      "sourceFeatureId": "guru-issuance-random-first",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Основной SQL-запрос выбирает первый результат случайно упорядоченной ограниченной выборки. queryPuzzle 0xc15844: 0xc159b8 random(), 0xc159d0 limit/orderBy descriptor, 0xc159f8 firstOrNull. Exact limit decoding and distribution not newly established. | research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+      "currentImplementation": "Собственная выдача из 275 immutable content-v2 + legacy, deterministic bucketTurn и bankIndex; не SQL random().",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "stage": "CORE research / deferred product change pending owner decision",
+      "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
+      "nextAction": "При owner-approved эксперименте отделить eligibility от sampling, сохранять puzzleId/contentVersion и проверять воспроизводимость; точный limit/распределение Guru исследовать отдельно.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption."
+    },
+    {
+      "id": "guru-issuance-filter-empty-retry",
+      "sourceFeatureId": "guru-issuance-filter-empty-retry",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "При пустой выдаче с дополнительным условием повторяется базовый queryPuzzle. 0x130184c queryPuzzle, 0x1301860 null branch to 0x13018a4, 0x13018c4 ordinary descriptor queryPuzzle. Exact exception catch scope UNKNOWN. | research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+      "currentImplementation": "Нет удалённого SQL-фильтра. Выбирается unsolved в bucket, затем deterministic fallback.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "stage": "CORE research / deferred product change pending owner decision",
+      "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
+      "nextAction": "На оригинале подтвердить фактический SQL при empty/exception. При отдельном ТЗ проверить отсутствие кандидатов после фильтра и возврат к базовому пулу без смены difficulty/сохранённого ID.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption."
+    },
+    {
+      "id": "guru-issuance-history-mask-rescue",
+      "sourceFeatureId": "guru-issuance-history-mask-rescue",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "После пустой базовой выдачи возможен резервный поиск по прошлой маске без ограничения сложности. 0x1301944 nextInt, 0x1301990 queryByHoles; exact six-column SQL projection, two cross-diff cm5 collisions. Population and empty behavior UNKNOWN. | research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+      "currentImplementation": "Нет queryByHoles и удалённого SQL. Свой детерминированный fallback по индексу не является оригинальным повтором по holes.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "stage": "CORE research / deferred product change pending owner decision",
+      "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
+      "nextAction": "Установить origin candidate population, empty/error handling и Android occurrence. Не копировать неоднозначность: для собственной будущей схемы тестировать duplicate masks across buckets, исчерпание, stable IDs.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption."
+    },
+    {
+      "id": "guru-issuance-operation-ratio-denominator",
+      "sourceFeatureId": "guru-issuance-operation-ratio-denominator",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING",
+      "originalBehavior": "SQL-литералы долей операций используют сумму plus/minus/multi/div, не equal. ELF literals offsets 0x23fffc, 0xc34f6, 0x147aef; 3512 rows ops != equal; 215 denominator disagreements. Exact PP attachment and full range bindings UNKNOWN. | research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+      "currentImplementation": "Нет оригинального удалённого фильтра по долям операций; статический авторский content-v2.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "stage": "CORE research / deferred product change pending owner decision",
+      "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
+      "nextAction": "Подтвердить PP bindings всех range, затем проверить формулу на синтетических long equations. Не подменять знаменатель equal и не использовать целочисленное деление. Live config UNKNOWN.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption."
     }
   ],
   "latestReview": {
@@ -5265,5 +5335,22 @@
       "sourceEvidenceAnnex": "research/games/crossmath/porting/decompiled-source-evidence-20261124/README.md",
       "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
     }
-  ]
+  ],
+  "issuanceAudit20261125": {
+    "sourceCommit": "747889ad1c31650c392225881049d41822f799f4",
+    "report": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+    "sourceCount": 300,
+    "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
+    "version": "0.5.24 / 29",
+    "runtimeKit": "469928d03f4bae5053e23db26e82187bedbc252e",
+    "evidenceClass": "NATIVE_STATIC + BUNDLED_DB + MODEL_SQL; no native solver or Android execution",
+    "priorInterruptedHandoff": "86 recipes/147 rows, 195 measurements, 306 IDs reported in prior chat; raw archive/IDs not recovered; do not sum, reconcile by behavior",
+    "newIDs": [
+      "guru-issuance-random-first",
+      "guru-issuance-filter-empty-retry",
+      "guru-issuance-history-mask-rescue",
+      "guru-issuance-operation-ratio-denominator"
+    ],
+    "unchangedStatus": "All pre-existing workflow and comparison statuses unchanged; no ACCEPTED promotion"
+  }
 }
