@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "747889ad1c31650c392225881049d41822f799f4",
+    "commit": "3517662878dd1982294ec206cfc165b4daa9ccf5",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -132,9 +132,14 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts",
       "consumerEvidence": "docs/porting/CAMPAIGN_MASKS_057.json",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
       ],
-      "researchSupplement20261125": "Независимо подтверждены tight lower bounds для исключения 300 масок; base pool без дополнительных условий не пуст."
+      "researchSupplement20261125": "Независимо подтверждены tight lower bounds для исключения 300 масок; base pool без дополнительных условий не пуст.",
+      "issuanceDataflow20261125": {
+        "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+        "note": "Tail of 300 only for ordinary exclusions; final rescue uses full history-provider collection."
+      }
     },
     {
       "id": "guru-profile",
@@ -267,9 +272,14 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L167",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
       ],
-      "researchSupplement20261125": "Подтверждена ветка filtered-empty retry и исследованы SQL ratio literals; exact PP mapping/live config UNKNOWN."
+      "researchSupplement20261125": "Подтверждена ветка filtered-empty retry и исследованы SQL ratio literals; exact PP mapping/live config UNKNOWN.",
+      "issuanceDataflow20261125": {
+        "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+        "note": "Seven named fields tracked separately, enable/null/has-bound gate confirmed; exact PP binding UNKNOWN."
+      }
     },
     {
       "id": "easy-tap",
@@ -5151,7 +5161,14 @@
       "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
       "nextAction": "При owner-approved эксперименте отделить eligibility от sampling, сохранять puzzleId/contentVersion и проверять воспроизводимость; точный limit/распределение Guru исследовать отдельно.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
-      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption."
+      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption.",
+      "issuanceDataflow20261125": {
+        "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+        "note": "Smi limit decoded 100, not raw 200."
+      },
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
+      ]
     },
     {
       "id": "guru-issuance-filter-empty-retry",
@@ -5166,7 +5183,14 @@
       "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
       "nextAction": "На оригинале подтвердить фактический SQL при empty/exception. При отдельном ТЗ проверить отсутствие кандидатов после фильтра и возврат к базовому пулу без смены difficulty/сохранённого ID.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
-      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption."
+      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption.",
+      "issuanceDataflow20261125": {
+        "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+        "note": "Same derived exclusions reused; debug-model witness 201/191 masks empty filtered but not base pool."
+      },
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
+      ]
     },
     {
       "id": "guru-issuance-history-mask-rescue",
@@ -5181,7 +5205,14 @@
       "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
       "nextAction": "Установить origin candidate population, empty/error handling и Android occurrence. Не копировать неоднозначность: для собственной будущей схемы тестировать duplicate masks across buckets, исчерпание, stable IDs.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
-      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption."
+      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption.",
+      "issuanceDataflow20261125": {
+        "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+        "note": "Full getter history, no tail subtraction. Cross-profile 2499/2478 missing masks, null lookup returns null. Upstream retention/reachability UNKNOWN."
+      },
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
+      ]
     },
     {
       "id": "guru-issuance-operation-ratio-denominator",
@@ -5196,7 +5227,134 @@
       "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
       "nextAction": "Подтвердить PP bindings всех range, затем проверить формулу на синтетических long equations. Не подменять знаменатель equal и не использовать целочисленное деление. Live config UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
-      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption."
+      "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption.",
+      "issuanceDataflow20261125": {
+        "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+        "note": "Additional partial range structure and MODEL_SQL, not full original toSql execution."
+      },
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
+      ]
+    },
+    {
+      "id": "guru-issuance-filter-equation-count",
+      "sourceFeatureId": "guru-issuance-filter-equation-count",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "0xe5c34 — debug 12..16; modeled equal, exact binding UNKNOWN | research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "currentImplementation": "Crossmath uses an authored immutable content-v2 bank and deterministic rotation; no original SQL filter/profile history rescue.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "stage": "CORE research / future owner decision",
+      "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
+      "nextAction": "Recover original object pool and verify key→slot→SQL expression and bounds; live config UNKNOWN; no production change.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+    },
+    {
+      "id": "guru-issuance-filter-large-number-count",
+      "sourceFeatureId": "guru-issuance-filter-large-number-count",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "0x21b8fa — debug 3..6; modeled num120 vs alternatives, exact binding UNKNOWN | research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "currentImplementation": "Crossmath uses an authored immutable content-v2 bank and deterministic rotation; no original SQL filter/profile history rescue.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "stage": "CORE research / future owner decision",
+      "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
+      "nextAction": "Recover original object pool and verify key→slot→SQL expression and bounds; live config UNKNOWN; no production change.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+    },
+    {
+      "id": "guru-issuance-filter-multiply-divide-ratio",
+      "sourceFeatureId": "guru-issuance-filter-multiply-divide-ratio",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "0x7524b — debug 0.2..0.4; modeled (multi+div)/sum of operators; exact binding UNKNOWN | research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "currentImplementation": "Crossmath uses an authored immutable content-v2 bank and deterministic rotation; no original SQL filter/profile history rescue.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "stage": "CORE research / future owner decision",
+      "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
+      "nextAction": "Recover original object pool and verify key→slot→SQL expression and bounds; live config UNKNOWN; no production change.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+    },
+    {
+      "id": "guru-issuance-filter-plus-ratio",
+      "sourceFeatureId": "guru-issuance-filter-plus-ratio",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "0x26b4b5 — raw key; exact binding and values UNKNOWN | research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "currentImplementation": "Crossmath uses an authored immutable content-v2 bank and deterministic rotation; no original SQL filter/profile history rescue.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "stage": "CORE research / future owner decision",
+      "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
+      "nextAction": "Recover original object pool and verify key→slot→SQL expression and bounds; live config UNKNOWN; no production change.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+    },
+    {
+      "id": "guru-issuance-filter-minus-ratio",
+      "sourceFeatureId": "guru-issuance-filter-minus-ratio",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "0x80343 — raw key; exact binding and values UNKNOWN | research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "currentImplementation": "Crossmath uses an authored immutable content-v2 bank and deterministic rotation; no original SQL filter/profile history rescue.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "stage": "CORE research / future owner decision",
+      "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
+      "nextAction": "Recover original object pool and verify key→slot→SQL expression and bounds; live config UNKNOWN; no production change.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+    },
+    {
+      "id": "guru-issuance-filter-multi-ratio",
+      "sourceFeatureId": "guru-issuance-filter-multi-ratio",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "0x284b46 — raw key; exact binding and values UNKNOWN | research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "currentImplementation": "Crossmath uses an authored immutable content-v2 bank and deterministic rotation; no original SQL filter/profile history rescue.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "stage": "CORE research / future owner decision",
+      "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
+      "nextAction": "Recover original object pool and verify key→slot→SQL expression and bounds; live config UNKNOWN; no production change.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+    },
+    {
+      "id": "guru-issuance-filter-div-ratio",
+      "sourceFeatureId": "guru-issuance-filter-div-ratio",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "0xe82d2 — raw key; exact binding and values UNKNOWN | research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "currentImplementation": "Crossmath uses an authored immutable content-v2 bank and deterministic rotation; no original SQL filter/profile history rescue.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "stage": "CORE research / future owner decision",
+      "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
+      "nextAction": "Recover original object pool and verify key→slot→SQL expression and bounds; live config UNKNOWN; no production change.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+    },
+    {
+      "id": "guru-issuance-rescue-empty-history",
+      "sourceFeatureId": "guru-issuance-rescue-empty-history",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "0x1301944 / 0x816128 — conditional original nextInt(0) invalid-range throw; reachability and outer handler UNKNOWN | research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "currentImplementation": "Crossmath uses an authored immutable content-v2 bank and deterministic rotation; no original SQL filter/profile history rescue.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+      "stage": "CORE research / future owner decision",
+      "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
+      "nextAction": "Check original outer recovery and actual reachability; future consumer must safely handle empty history, not copy source throw.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
     }
   ],
   "latestReview": {
@@ -5425,6 +5583,27 @@
     },
     "originalNativeCoverageChanged": false,
     "productChanged": false,
-    "status": "research model only; no status/comparison promotion"
+    "status": "research model only; no status/comparison promotion",
+    "developerIssue": "https://github.com/DanilaH/crossmath-game/issues/11"
+  },
+  "issuanceDataflow20261125": {
+    "sourceCommit": "3517662878dd1982294ec206cfc165b4daa9ccf5",
+    "report": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+    "sourceCount": 308,
+    "evidence": "NATIVE_STATIC + BUNDLED_DB + MODEL_SQL",
+    "nativeCoverageChanged": false,
+    "productChanged": false,
+    "keys": [
+      "guru-issuance-filter-equation-count",
+      "guru-issuance-filter-large-number-count",
+      "guru-issuance-filter-multiply-divide-ratio",
+      "guru-issuance-filter-plus-ratio",
+      "guru-issuance-filter-minus-ratio",
+      "guru-issuance-filter-multi-ratio",
+      "guru-issuance-filter-div-ratio",
+      "guru-issuance-rescue-empty-history"
+    ],
+    "exactBindings": "UNKNOWN",
+    "helpTask": "https://github.com/DanilaH/crossmath-game/issues/11"
   }
 }
