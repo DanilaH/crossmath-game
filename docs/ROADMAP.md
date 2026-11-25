@@ -355,3 +355,6 @@ Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceF
 
 ### 2026-11-25 — progression research (not owner commitment)
 [Consumer comparison](porting/GURU_LONG_TERM_PROGRESSION_2026-11-25.md): 367/367 source IDs recorded. P1 candidates: eligible recurring XP independent of first-board coin grant (budget rank payout; current cap rank 32), own badge families/ceremonies after actual original capture. Later C0–C4: shared lifetime and weekly hat grant paths. No runtime, balance, content or initial release scope change.
+
+### 2026-11-25 — competition native research (later scope)
+[Consumer comparison](porting/GURU_STAR_BRAINS_NATIVE_2026-11-25.md): 380/380 source IDs; 13 additional rules. Star Race saved local opponent schedules, entry gates, atomic claim candidate; Brains main/temp storage and active self-only score update. Exact weekly reset and live config remain UNKNOWN. Competition/PvP/bots/seasons remain deferred by owner. No gameplay changes.
