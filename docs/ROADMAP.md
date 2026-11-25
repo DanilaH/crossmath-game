@@ -2,7 +2,7 @@
 
 ## Актуальное исследование Guru и следующий продуктовый этап · 24.11.2026
 
-**Актуальная база сверки:** Crossmath **0.5.24 / versionCode 29**, product implementation `2a7d231098d34de29d8607cc4131fec3dcead899`, product baseline HEAD `73fbc059149aba440297cf4cdc074b98433ad7e5`. Runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` сохранён; новый research source pin `4287cc0b6480202bb69f0fdb5c426224df779fff` от него независим.
+**Актуальная база сверки (25.11.2026):** Crossmath **0.5.24 / versionCode 29**, product implementation `d37cd305f597d38074929af1fbe3080aeac13549`, actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`. Runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`; актуальный независимый research pin `a135147f059c6f6c201c653dc6967c686486579f`, 449 ID. Ниже датированные разделы сохраняют исторические снимки.
 
 [Consumer report](porting/GURU_SOLVER_RESEARCH_2026-11-24.md) · [первичный закрытый пакет и воспроизведение](https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md). Уточняются **13 существующих ID**, общий реестр **296/296**; это не новые функции и не автоматическое повышение приёмки источника.
 
@@ -367,3 +367,6 @@ Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceF
 
 ### 2026-11-25 — store and No Ads lifecycle (research)
 [Consumer comparison](porting/GURU_STORE_NOADS_2026-11-25.md): 433/433; 16 granular rules. Original No Ads gates (interstitial/MREC/banner and late disposal), separate store resource requests 10 coins/1 hint, purchase/restore result gates and Claim Coins result routes. Actual SKU-entitlement, current prices, settlement and return offers UNKNOWN. No new scope, economics or runtime. Future owner-gated commercial system reuses durable receipt and atomic settlement, independent presentation and voluntary ad policy.
+
+### 2026-11-25 — A/B refresh and analytics rule structure (research)
+[Consumer comparison](porting/GURU_ANALYTICS_AB_DATAFLOW_2026-11-25.md): 449/449; 16 granular rules. Progress-triggered refresh, bucket step fallback, distinct kick and force-fetch gates, pending/success state, analytics calibration cache/schema. Live adaptation to failures, actual settings changed and rule evaluator UNKNOWN. Production analytics and new policy remain owner-gated; no runtime or economy change.
