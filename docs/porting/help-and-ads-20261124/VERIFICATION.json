@@ -1,0 +1,82 @@
+{
+  "schema": "crossmath-help-ads-spec-verification-v1",
+  "date": "2026-11-24",
+  "result": "SPECIFICATIONS_VERIFIED",
+  "implementationPerformed": false,
+  "newApkBuilt": false,
+  "originalNativeExecuted": false,
+  "androidExecuted": false,
+  "liveSdkExecuted": false,
+  "baselineCommit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+  "sourceInventoryCommit": "06a01d5c1f7af3cdf8013c9ce0f6a691d086af78",
+  "independentReview": {
+    "result": "PASS",
+    "blockingFindings": [],
+    "checks": {
+      "realProductGapsRatherThanExistingSystems": "PASS",
+      "helpBudgetPrecedenceAndUnknownMeaning": "PASS",
+      "helpSnapshotAtomicApplyAndNoPreviewWrites": "PASS",
+      "endlessPartialAndFullPreviewConfidentiality": "PASS",
+      "bannerBoundedPerTriggerRetryAndOneUnresolvedRpc": "PASS",
+      "bannerRejectedRpcDoesNotConfirmNativePixels": "PASS",
+      "bannerTerminalDisposeAndIndependentBlockers": "PASS",
+      "sourceArchitectureVersusOwnAdaptation": "PASS",
+      "sourceNativeConsumerAndPhoneEvidenceSeparated": "PASS",
+      "existingProductDecisionsAndFixed100Typography": "PASS",
+      "noNewApprovalFlowOrRuntimePinChange": "PASS",
+      "specifiedPackageDoesNotUpgradeSourceStatus": "PASS"
+    },
+    "specs": [
+      {
+        "path": "help/DELIVERY_SPEC.md",
+        "sha256": "338d923c563fd683ba10c505813e440597fef411a7685986e9bd79d596601862"
+      },
+      {
+        "path": "ads/DELIVERY_SPEC.md",
+        "sha256": "cc20b4a13094ea2db7acfb67996abe2b2f005e43e09214142b0b5298114c280c"
+      }
+    ],
+    "indexScopeReviewSha256": "bb9003b5275d009ae2cb9954773baf7723c8dada73b32c4cee46f2823c76efdb",
+    "indexPublicationLinksMayBeAddedAfterReview": true
+  },
+  "baselineReproduction": {
+    "help": {
+      "resultRef": "help/REPRODUCTION.json",
+      "cases": 11,
+      "exactGitBlobs": 5,
+      "rootIndependentReplay": "IDENTICAL",
+      "relocatedBundleReplay": "IDENTICAL",
+      "futureContractImplemented": false
+    },
+    "ads": {
+      "resultRef": "ads/REPRODUCTION_RESULT.json",
+      "defectsReproduced": 2,
+      "successfulControls": 2,
+      "rootIndependentReplay": "IDENTICAL",
+      "relocatedBundleReplay": "IDENTICAL",
+      "unmodifiedClass": true
+    }
+  },
+  "ledger": {
+    "inventory": 296,
+    "mapped": 296,
+    "errors": 0,
+    "sourceStatusesUnchanged": true,
+    "sourceComparisonsUnchanged": true,
+    "counts": {
+      "ACCEPTED": 17,
+      "DEFERRED": 65,
+      "EVIDENCE_GAP": 40,
+      "IMPLEMENTED_UNVERIFIED": 32,
+      "RESEARCHED": 137,
+      "ROADMAPPED": 5
+    },
+    "specifiedPackages": 2,
+    "linkedExistingIds": 3
+  },
+  "buildScope": {
+    "docsSnapshotsExcludedByTsconfig": true,
+    "newProductSourceFiles": 0,
+    "runtimePinUnchanged": "469928d03f4bae5053e23db26e82187bedbc252e"
+  }
+}

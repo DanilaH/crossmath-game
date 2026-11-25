@@ -1,0 +1,115 @@
+{
+  "date": "2026-11-24",
+  "status": "PASS",
+  "scope": "Final assembled research documentation and ledger. Product code is unchanged; historical hosted CI is recorded by its exact source separately from physical Android acceptance.",
+  "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
+  "previousResearchHead": "df454c80004e765693f894752b9e638784568659",
+  "sourceInventory": {
+    "repository": "DanilaH/mini-games-kit",
+    "commit": "4287cc0b6480202bb69f0fdb5c426224df779fff",
+    "path": "research/games/crossmath/porting/SOURCE_FEATURES.json",
+    "sha256": "a78b4dac0ad0aec3b9542778b4d4da91e5a92f0b4017a00dc3daad9926996305"
+  },
+  "ledgerSha256": "ddbd7c298bf23aedefc1863020a31172033fc76f1a2a170e9720391645c1eb03",
+  "inventoried": 296,
+  "mapped": 296,
+  "nativeCatalogCoverage": {
+    "file": "research/games/crossmath/porting/guru-solver-strategies-20261124/TOTAL_NATIVE_COVERAGE.json",
+    "sha256": "46e9cd3bacecc0c019dbd2b95600e68ff58ab451cc54a91e08b538528a601490",
+    "sourceCommit": "4287cc0b6480202bb69f0fdb5c426224df779fff",
+    "completedBothProtocolsRecipes": 13,
+    "representedOriginalDbRows": 19,
+    "frozenBaseRecipes": 12,
+    "additionalHeavyRecipes": 1,
+    "wholeCatalogNativeConvergence": "UNKNOWN"
+  },
+  "updatedExistingIds": [
+    "guru-stuck",
+    "guru-direct-hint",
+    "guru-monotonic-hint",
+    "guru-factor-hint",
+    "guru-intersect-hint",
+    "guru-search-depth",
+    "guru-hint-candidate",
+    "guru-hint-answer",
+    "guru-stuck-mask-topology",
+    "guru-strategy-conditional-backtrack",
+    "guru-solver-step-canonical-guard",
+    "guru-solver-single-pass-result",
+    "guru-solver-constraint-counters"
+  ],
+  "allProtectedFieldsPreserved": [
+    "status",
+    "comparison",
+    "implementationPackages",
+    "acceptanceEvidence",
+    "implementationPR",
+    "stage",
+    "reviewedVersion",
+    "consumerEvidence0513",
+    "deliverySpec0513"
+  ],
+  "statusCounts": {
+    "IMPLEMENTED_UNVERIFIED": 32,
+    "ACCEPTED": 17,
+    "ROADMAPPED": 5,
+    "RESEARCHED": 137,
+    "EVIDENCE_GAP": 40,
+    "DEFERRED": 65
+  },
+  "consumer": {
+    "repository": "DanilaH/crossmath-game",
+    "codeCommit": "2a7d231098d34de29d8607cc4131fec3dcead899",
+    "artifactSource": "2a7d231098d34de29d8607cc4131fec3dcead899",
+    "version": "0.5.24",
+    "versionCode": 29,
+    "runtimeKit": "469928d03f4bae5053e23db26e82187bedbc252e",
+    "reviewedHead": "73fbc059149aba440297cf4cdc074b98433ad7e5"
+  },
+  "coverage": {
+    "sourceBlob": "8789f8a2c0bee9034597cf9af95368a42bb1f87f",
+    "checkerSha256": "22da17f24f623b4b44500c7eb5d8830fdd90e3aff76a53492e58523e41fd440e",
+    "exitCode": 0,
+    "stdout": "REFERENCE COVERAGE: 296 inventoried; 296 mapped; 0 errors\nSTATUSES: ACCEPTED=17, DEFERRED=65, EVIDENCE_GAP=40, IMPLEMENTED_UNVERIFIED=32, RESEARCHED=137, ROADMAPPED=5\nPASS: no silently dropped inventoried features; this is not source-exhaustiveness proof"
+  },
+  "guidanceDoctor": {
+    "sourceRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+    "sourceBlob": "c3eed6554c00c388c6e1478efb246eb7f85c5307",
+    "checkerSha256": "ff5676631295f43acdd9095bbd5569a82cb4c4e8e5fd910c5c3f0bdaf94d542e",
+    "discoveryFileCount": 8,
+    "status": "READY_FOR_AGENT_DISCOVERY",
+    "errors": [],
+    "warnings": [],
+    "runtimeRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+    "guidanceRef": "469928d03f4bae5053e23db26e82187bedbc252e"
+  },
+  "runtimePathsInOverlay": [],
+  "historicalResearchPreservation": {
+    "uniquePaths": 24,
+    "exactUnchanged": 23,
+    "intentionalNoticeOnly": "docs/porting/help-and-ads-20261124/README.md"
+  },
+  "productRuntimeCodeChanged": false,
+  "researcherLocalProductBuildPerformed": false,
+  "physicalAndroidExecuted": false,
+  "priorReconciliationCI": {
+    "evidence": "docs/porting/GURU_SOLVER_RESEARCH_CI_2026-11-24.json",
+    "branchCommit": "bc8d50d3f886a4461f2507547ab7ca11c9182c49",
+    "testedSyntheticMerge": "d83cae7320eb2020e3c8cdb6c94a2f6f57120f90",
+    "pushRun": 45427771678,
+    "pullRequestRun": 45427792826,
+    "conclusion": "success",
+    "testsPassed": 384,
+    "hostedGuidanceWarnings": [
+      "RUNTIME_PIN_UNVERIFIED: temporary file: tarball; exact kit checkout independently recorded"
+    ],
+    "automatedReleasecheckBuild": true,
+    "nativeRuntime": "NOT RUN",
+    "scope": "Earlier reconciliation checkpoint only; not relabelled as CI of this later supplement commit."
+  },
+  "limits": [
+    "Whole-catalog original native convergence remains UNKNOWN.",
+    "Exact original stuck authoring formula remains UNKNOWN.",
+    "Existing HELP-01/ADS-01 acceptance is retained; device/live gates are separate."
+  ]
+}

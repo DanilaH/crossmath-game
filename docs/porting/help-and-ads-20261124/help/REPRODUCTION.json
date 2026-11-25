@@ -1,0 +1,346 @@
+{
+  "schema": "crossmath-help-delivery-reproduction-v1",
+  "status": "PASS",
+  "scope": "Current-code reproduction plus independent small-fixture arithmetic oracle; not acceptance of the future contract or native Guru execution.",
+  "baseline": {
+    "schema": "crossmath-help-baseline-reproduction-v1",
+    "status": "PASS",
+    "node": "v24.22.3",
+    "baselineCommit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+    "verifiedGitBlobs": 5,
+    "cases": 11,
+    "futureContractImplemented": false,
+    "results": [
+      {
+        "id": "ready_direct",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 1,
+          "exhausted": false
+        },
+        "currentPlan": {
+          "rule": "direct_result",
+          "assignments": [
+            {
+              "cellId": 2,
+              "value": 5,
+              "evidence": [
+                {
+                  "equationIndex": 0,
+                  "candidates": [
+                    5
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "verified": true,
+        "attemptUnchanged": true,
+        "futureOutcome": "ready",
+        "futurePhase": null,
+        "futureUiProjection": "ready"
+      },
+      {
+        "id": "incompatible_partial",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 0,
+          "exhausted": false
+        },
+        "currentPlan": null,
+        "verified": null,
+        "attemptUnchanged": true,
+        "futureOutcome": "incompatible_position",
+        "futurePhase": null,
+        "futureUiProjection": "incompatible_position"
+      },
+      {
+        "id": "unique_no_supported_step",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 1,
+          "exhausted": false
+        },
+        "currentPlan": null,
+        "verified": null,
+        "attemptUnchanged": true,
+        "futureOutcome": "no_supported_step",
+        "futurePhase": null,
+        "futureUiProjection": "no_supported_step"
+      },
+      {
+        "id": "compatibility_budget_zero",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 0,
+          "exhausted": true
+        },
+        "currentPlan": null,
+        "verified": null,
+        "attemptUnchanged": true,
+        "futureOutcome": "budget_exhausted",
+        "futurePhase": "compatibility",
+        "futureUiProjection": "check_incomplete"
+      },
+      {
+        "id": "proof_budget_42",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 1,
+          "exhausted": false
+        },
+        "currentPlan": null,
+        "verified": null,
+        "attemptUnchanged": true,
+        "futureOutcome": "budget_exhausted",
+        "futurePhase": "proof_search",
+        "futureUiProjection": "check_incomplete"
+      },
+      {
+        "id": "proof_budget_normal_control",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 1,
+          "exhausted": false
+        },
+        "currentPlan": {
+          "rule": "tray",
+          "assignments": [
+            {
+              "cellId": 1,
+              "value": 1,
+              "evidence": [
+                {
+                  "equationIndex": 1,
+                  "candidates": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "verified": true,
+        "attemptUnchanged": true,
+        "futureOutcome": "ready",
+        "futurePhase": null,
+        "futureUiProjection": "ready"
+      },
+      {
+        "id": "not_playing_won",
+        "attemptStatus": "won",
+        "compatibility": {
+          "count": 1,
+          "exhausted": false
+        },
+        "currentPlan": null,
+        "verified": null,
+        "attemptUnchanged": true,
+        "futureOutcome": "unavailable",
+        "futurePhase": null,
+        "futureUiProjection": "unavailable"
+      },
+      {
+        "id": "endless_incompatible_preview",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 0,
+          "exhausted": false
+        },
+        "currentPlan": null,
+        "verified": null,
+        "attemptUnchanged": true,
+        "futureOutcome": "incompatible_position",
+        "futurePhase": null,
+        "futureUiProjection": "neutral_no_plan"
+      },
+      {
+        "id": "endless_no_supported_preview",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 1,
+          "exhausted": false
+        },
+        "currentPlan": null,
+        "verified": null,
+        "attemptUnchanged": true,
+        "futureOutcome": "no_supported_step",
+        "futurePhase": null,
+        "futureUiProjection": "neutral_no_plan"
+      },
+      {
+        "id": "endless_full_correct_before_submit",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 1,
+          "exhausted": false
+        },
+        "currentPlan": null,
+        "verified": null,
+        "attemptUnchanged": true,
+        "futureOutcome": "no_supported_step",
+        "futurePhase": null,
+        "futureUiProjection": "neutral_no_plan"
+      },
+      {
+        "id": "endless_full_wrong_before_submit",
+        "attemptStatus": "playing",
+        "compatibility": {
+          "count": 0,
+          "exhausted": false
+        },
+        "currentPlan": null,
+        "verified": null,
+        "attemptUnchanged": true,
+        "futureOutcome": "incompatible_position",
+        "futurePhase": null,
+        "futureUiProjection": "neutral_no_plan"
+      }
+    ]
+  },
+  "independentOracle": [
+    {
+      "id": "ready_direct",
+      "independentSolutionCount": 1,
+      "solutionsByCellId": [
+        [
+          2,
+          3,
+          5
+        ]
+      ]
+    },
+    {
+      "id": "incompatible_partial",
+      "independentSolutionCount": 0,
+      "solutionsByCellId": []
+    },
+    {
+      "id": "unique_no_supported_step",
+      "independentSolutionCount": 1,
+      "solutionsByCellId": [
+        [
+          5,
+          4,
+          1,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "compatibility_budget_zero",
+      "independentSolutionCount": 1,
+      "solutionsByCellId": [
+        [
+          5,
+          4,
+          1,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "proof_budget_42",
+      "independentSolutionCount": 1,
+      "solutionsByCellId": [
+        [
+          3,
+          1,
+          2,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "proof_budget_normal_control",
+      "independentSolutionCount": 1,
+      "solutionsByCellId": [
+        [
+          3,
+          1,
+          2,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "not_playing_won",
+      "independentSolutionCount": 1,
+      "solutionsByCellId": [
+        [
+          2,
+          3,
+          5
+        ]
+      ]
+    },
+    {
+      "id": "endless_incompatible_preview",
+      "independentSolutionCount": 0,
+      "solutionsByCellId": []
+    },
+    {
+      "id": "endless_no_supported_preview",
+      "independentSolutionCount": 1,
+      "solutionsByCellId": [
+        [
+          5,
+          4,
+          1,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "endless_full_correct_before_submit",
+      "independentSolutionCount": 1,
+      "solutionsByCellId": [
+        [
+          5,
+          4,
+          1,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "endless_full_wrong_before_submit",
+      "independentSolutionCount": 0,
+      "solutionsByCellId": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "CASES.json",
+      "sha256": "5608edb341705e699ba5ae160bda40ee821518360c1f40f1d432cd6156ddc181",
+      "bytes": 9489
+    },
+    {
+      "path": "reproduce.mjs",
+      "sha256": "06b7dca4fa3c256fc49d40a0e71d666545d9cd5131f13a8df648d2875109ada1",
+      "bytes": 2863
+    },
+    {
+      "path": "loader.mjs",
+      "sha256": "95dd261a0e6b7fa716033fb5f4d1759e46aef62ee8648192068dc9781145d99e",
+      "bytes": 418
+    },
+    {
+      "path": "verify_cases.py",
+      "sha256": "321285f016dba61ff41c550a2eae2ac082be1ab297692f7801dc8eb908068b8a",
+      "bytes": 3776
+    },
+    {
+      "path": "baseline/MANIFEST.json",
+      "sha256": "893e0ab438dcec5158e4d93ecbb867b47c7aede392ffd0ed88cd549c1e32e7d9",
+      "bytes": 817
+    }
+  ]
+}

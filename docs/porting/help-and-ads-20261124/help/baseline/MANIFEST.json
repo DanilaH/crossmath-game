@@ -1,0 +1,27 @@
+[
+  {
+    "path": "src/help/logic.ts",
+    "git_blob_sha": "c6358a1f5e061d1f012202374f9393cfaa9e1dc0",
+    "ref": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67"
+  },
+  {
+    "path": "src/content/validator.ts",
+    "git_blob_sha": "7bd54f134b65bf884dab937843d1ee19e2df4322",
+    "ref": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67"
+  },
+  {
+    "path": "src/core/types.ts",
+    "git_blob_sha": "e3c596add17c39be0fae9ae75e1c286d55a2b70a",
+    "ref": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67"
+  },
+  {
+    "path": "src/core/engine.ts",
+    "git_blob_sha": "48c2854de7bedb1303115cdd23bd3197faa0778b",
+    "ref": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67"
+  },
+  {
+    "path": "src/content/rotation.ts",
+    "git_blob_sha": "dd87b7fa7f84c5be34d93282a9d8c08cfec425b5",
+    "ref": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67"
+  }
+]

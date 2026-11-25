@@ -1,0 +1,79 @@
+{
+  "evidence": "UNCHANGED_CONSUMER_CLASS_WITH_SCRIPTED_PROVIDER",
+  "commit": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+  "sourceGitBlob": "53fed5cc17d2afbd37526dc6845c805ec32cd219",
+  "node": "v24.22.3",
+  "nativeSdkExecuted": false,
+  "androidExecuted": false,
+  "browserExecuted": false,
+  "classBodyChanged": false,
+  "results": [
+    {
+      "id": "CONTROL_SUCCESS_COALESCES",
+      "status": "PASS",
+      "events": [
+        {
+          "ordinal": 1,
+          "requested": true,
+          "result": "fulfilled"
+        },
+        {
+          "ordinal": 2,
+          "requested": false,
+          "result": "fulfilled"
+        }
+      ]
+    },
+    {
+      "id": "FAILED_HIDE_NOT_RETRIED",
+      "status": "BASELINE_DEFECT_REPRODUCED",
+      "events": [
+        {
+          "ordinal": 1,
+          "requested": true,
+          "result": "fulfilled"
+        },
+        {
+          "ordinal": 2,
+          "requested": false,
+          "result": "rejected"
+        }
+      ],
+      "latestDesired": false,
+      "scriptedNativeVisible": true,
+      "repeatedDesiredUpdates": 3,
+      "refreshCalls": 3
+    },
+    {
+      "id": "FAILED_SHOW_NOT_RETRIED",
+      "status": "BASELINE_DEFECT_REPRODUCED",
+      "events": [
+        {
+          "ordinal": 1,
+          "requested": true,
+          "result": "rejected"
+        }
+      ],
+      "latestDesired": true,
+      "scriptedNativeVisible": false,
+      "repeatedDesiredUpdates": 3,
+      "refreshCalls": 3
+    },
+    {
+      "id": "CONTROL_DISPOSE_DRAINS_TO_HIDE",
+      "status": "PASS",
+      "events": [
+        {
+          "ordinal": 1,
+          "requested": true,
+          "result": "fulfilled"
+        },
+        {
+          "ordinal": 2,
+          "requested": false,
+          "result": "fulfilled"
+        }
+      ]
+    }
+  ]
+}
