@@ -146,6 +146,7 @@ export class GameSession {
       if (a.status!=='playing') return await reject('already_solved');
       if (a.boardRevision!==expectedRevision) return await reject('stale_snapshot');
       if (!plan) return await reject('no_step');
+      if (plan.attemptId!==a.id) return await reject('stale_snapshot');
       if (plan.kind!==kind || plan.boardRevision!==a.boardRevision || plan.puzzleId!==p.puzzleId || kind==='explain' && !verifyExplanation(p,a,plan)) return await reject('invalid_proof');
       const layout=materializeHelp(p,a,plan); if (!layout) return await reject('invalid_proof');
       const {costCredits,costCoins,missingCoins}=hintPayment(this.state.profile);

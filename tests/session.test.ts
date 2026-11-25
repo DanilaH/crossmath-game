@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { config, getPuzzle } from '../src/content/catalog';
 import { createAttempt } from '../src/core/engine';
+import { tokenValue } from '../src/core/types';
 import { createSave, decodeSave, settleCompletion } from '../src/app/model';
 import { RecoveryRequired, SAVE_KEY, SaveRepository, UnrecoverableSave } from '../src/app/saveRepository';
 import { GameSession } from '../src/app/session';
 import type { StorageAdapter } from '@danilah/mini-games-kit/platform';
 import type { Save } from '../src/app/model';
+import helpStops from './fixtures/help11-stops.json';
 
 class Memory implements StorageAdapter{
  data=new Map<string,string>();failure:'none'|'before'|'after'|'ambiguous'='none';unreadable=false;
@@ -16,6 +18,46 @@ class Memory implements StorageAdapter{
 const fresh=()=>createSave('profile','2026-11-18T10:00:00.000Z','Asia/Yekaterinburg','first');
 async function setup(state?:Save){const storage=new Memory();if(state)storage.data.set(SAVE_KEY,JSON.stringify(state));const repo=new SaveRepository(storage,fresh);let id=0;const session=new GameSession(await repo.load(),repo,()=>`op${++id}`);return{storage,repo,session};}
 describe('P04/P05/P06: durable game operations',()=>{
+ it('applies a certificate atomically, with no charge for stale, failed, or repeated operations',async()=>{
+  const stop=helpStops.find(f=>f.id==='cm-own-02-182')!,puzzle=getPuzzle(stop.id),state=fresh();
+  state.attempt={...createAttempt(puzzle,'certificate-attempt'),placements:stop.placements,
+    trayOrder:[...stop.trayOrder].reverse(),boardRevision:stop.boardRevision};
+  const {session,repo,storage}=await setup(state);
+  const original=storage.data.get(SAVE_KEY);
+  const initial=session.prepareHelp('explain')!;
+  expect(initial.rule).toBe('contradiction');
+  expect(storage.data.get(SAVE_KEY)).toBe(original);
+  const incomplete={...initial,proof:{steps:[]}};
+  expect((await session.help('explain','bad-certificate',initial.boardRevision,incomplete)).outcome).toBe('invalid_proof');
+  expect(session.state.profile.coins).toBe(120);
+
+  expect((await session.command({type:'SortTray'})).outcome).toBe('applied');
+  expect((await session.help('explain','stale-sort',initial.boardRevision,initial)).outcome).toBe('stale_snapshot');
+  const beforeMove=session.prepareHelp('explain')!,assignment=beforeMove.assignments[0]!;
+  const token=session.state.attempt.trayOrder.find(t=>tokenValue(puzzle,t)===assignment.value&&!Object.values(session.state.attempt.placements).includes(t))!;
+  expect((await session.command({type:'PlaceFromTray',tokenId:token,cellId:assignment.cellId})).outcome).toBe('applied');
+  expect((await session.help('explain','stale-place',beforeMove.boardRevision,beforeMove)).outcome).toBe('stale_snapshot');
+  const beforeUndo=session.prepareHelp('explain')!;
+  expect((await session.command({type:'Undo'})).outcome).toBe('applied');
+  expect((await session.help('explain','stale-undo',beforeUndo.boardRevision,beforeUndo)).outcome).toBe('stale_snapshot');
+  const plan=session.prepareHelp('explain')!,beforeWrite=storage.data.get(SAVE_KEY);
+  storage.failure='before';
+  await expect(session.help('explain','certificate-paid',plan.boardRevision,plan)).rejects.toThrow();
+  expect(storage.data.get(SAVE_KEY)).toBe(beforeWrite);
+  expect(session.state.profile.coins).toBe(120);
+  storage.failure='none';
+  const restored=new GameSession(await repo.load(),repo,()=> 'restored');
+  const pending=restored.help('explain','certificate-paid',plan.boardRevision,plan);
+  const duplicate=await restored.help('explain','certificate-paid',plan.boardRevision,plan);
+  expect(duplicate.outcome).toBe('busy');
+  const receipt=await pending;
+  expect(receipt).toMatchObject({outcome:'applied',costCoins:60});
+  const cold=new GameSession(await repo.load(),repo,()=> 'cold');
+  expect(await cold.help('explain','certificate-paid',plan.boardRevision,plan)).toEqual(receipt);
+  expect(cold.state.profile.coins).toBe(60);
+  expect(cold.state.attempt.hintsUsed).toBe(1);
+  expect(Object.keys(cold.state.attempt.placements)).toHaveLength(3);
+ });
  it('saves the first move, result, cursor, wallet and reward receipt together; cold reentry never pays twice',async()=>{
   const{storage,repo,session}=await setup();await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2},3,{commandId:'one',expectedRevision:0});
   expect(session.state.profile.coins).toBe(130);expect(session.state.profile.xp).toBe(10);expect(session.state.profile.campaignCursor).toBe(1);expect(session.state.result?.coins).toBe(10);

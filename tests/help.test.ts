@@ -19,10 +19,12 @@ describe('HELP-01: classify preparation without changing the attempt',()=>{
   const original=structuredClone(attempt);
   expect(validator.countSolutions(puzzle,example.budget,visiblePlacements(puzzle,attempt))).toEqual(example.expectedCompatibility);
   const result=prepareExplanation(puzzle,attempt,example.budget);
-  expect(result).toMatchObject({outcome:example.expectedFutureOutcome,
+  const extended=example.id==='unique_no_supported_step'||example.id==='endless_no_supported_preview';
+  expect(result).toMatchObject({outcome:extended?'ready':example.expectedFutureOutcome,
    snapshot:{attemptId:attempt.id,puzzleId:puzzle.puzzleId,boardRevision:attempt.boardRevision}});
   if(result.outcome==='ready'){
-   expect(result.plan).toMatchObject(example.expectedBaselinePlan!);
+   if(extended)expect(result.plan.rule).toBe('propagation');
+   else expect(result.plan).toMatchObject(example.expectedBaselinePlan!);
    expect(verifyExplanation(puzzle,attempt,result.plan)).toBe(true);
   }else expect(result).not.toHaveProperty('plan');
   if(example.expectedPhase)expect(result).toHaveProperty('phase',example.expectedPhase);

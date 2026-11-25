@@ -9,7 +9,7 @@ export function reveal(p: Puzzle, a: Attempt, selectedCell?: number): HintPlan |
   const answer=solutions[p.puzzleId]?.answer; if (!answer || a.status !== 'playing') return null;
   const wrong=p.cells.filter(c => c.given === undefined && cellValue(p,a,c.id) !== answer[c.id]);
   const target=wrong.find(c => c.id === selectedCell) ?? wrong[0]; if (!target) return null;
-  return {puzzleId:p.puzzleId,boardRevision:a.boardRevision,kind:'reveal',rule:'reveal',assignments:[{cellId:target.id,value:answer[target.id]!,evidence:[]}],returns:wrong.filter(c => a.placements[c.id] !== undefined).map(c=>c.id)};
+  return {attemptId:a.id,puzzleId:p.puzzleId,boardRevision:a.boardRevision,kind:'reveal',rule:'reveal',assignments:[{cellId:target.id,value:answer[target.id]!,evidence:[]}],returns:wrong.filter(c => a.placements[c.id] !== undefined).map(c=>c.id)};
 }
 export function materializeHelp(p: Puzzle, a: Attempt, plan: HintPlan): Layout | null {
   const placements={...a.placements};

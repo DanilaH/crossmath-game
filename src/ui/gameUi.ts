@@ -16,7 +16,7 @@ import { rootScreens } from '../meta/types';
 import type { MetaScreen, NewGameChoice, Offer, RootScreen } from '../meta/types';
 import { RecoveryRequired } from '../app/saveRepository';
 import type { FreeTrack } from '../content/rotation';
-import type { Mode } from '../core/types';
+import type { Mode, Puzzle } from '../core/types';
 import type { BoardAction } from '../core/types';
 import type { ExplainPreparation, HintPlan } from '../help/logic';
 import type { Save, Settings } from '../app/model';
@@ -454,6 +454,49 @@ export class GameUi {
   }
 
   private closeHelp():void{if(this.busy)return;$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);}
+  private showAppliedExplanation(puzzle: Puzzle, plan: HintPlan): void {
+    const assignment = plan.assignments[0]!, {value} = assignment;
+    if (plan.kind === 'explain' && plan.proof) {
+      const equations = plan.proof.steps.flatMap(step => step.type === 'equation' ? [step.equationIndex] : []);
+      const reversed = [...plan.proof.steps].reverse();
+      const rejection = reversed.find(step => step.type === 'exclude');
+      if (rejection) {
+        const cell = puzzle.cells.find(cell => cell.id === rejection.cellId)!;
+        const {contradiction} = rejection;
+        const reason = contradiction.type === 'equation'
+          ? this.t('выделенное равенство не сойдётся', 'the highlighted equation cannot work')
+          : this.t(`число фишек «${contradiction.value}» не совпадёт с числом клеток для них`, `the number of ${contradiction.value} tiles will not match the cells for them`);
+        const support = contradiction.type === 'equation' ? [contradiction.equationIndex]
+          : rejection.reductions.flatMap(step => step.type === 'equation' ? [step.equationIndex] : []).slice(-2);
+        this.board.explain(this.t(
+          `Если поставить ${rejection.value} в строку ${cell.y+1}, столбец ${cell.x+1}, ${reason}. Здесь остаётся ${value}.`,
+          `Trying ${rejection.value} at row ${cell.y+1}, column ${cell.x+1} means ${reason}. This cell must be ${value}.`,
+        ),support);
+      } else {
+        const inventory = reversed.find(step => step.type === 'inventory');
+        const text = inventory ? this.t(
+          `Равенства и количество фишек с числом ${inventory.value} исключают другие варианты. Здесь остаётся ${value}.`,
+          `The equations and the number of ${inventory.value} tiles rule out the other choices. This cell must be ${value}.`,
+        ) : this.t(
+          `По выделенным равенствам в этой клетке остаётся только ${value}.`,
+          `Checking the highlighted equations leaves only ${value} for this cell.`,
+        );
+        const direct = equations.filter(index => puzzle.equations[index]!.cells.includes(assignment.cellId));
+        this.board.explain(text,[...new Set([...direct,...equations.slice(-2)])].slice(0,3));
+      }
+      return;
+    }
+    const evidence = assignment.evidence.map(e => e.equationIndex);
+    const candidateSets=assignment.evidence.map(e=>'{'+e.candidates.join(', ')+'}').join(this.t(' и ', ' and '));
+    const expression=equationText(puzzle,this.session.state.attempt,evidence[0] ?? 0);
+    const text=plan.kind==='reveal'
+      ?this.t(`Показано число ${value}.`,`Revealed ${value}.`)+(plan.returns.length?this.t(' Мешающие фишки возвращены в лоток.', ' Conflicting pieces returned to the tray.'):'')
+      :plan.rule==='intersection'
+        ?this.t(`Общая клетка: ${candidateSets}. В обоих наборах есть только ${value}.`,`Shared cell: ${candidateSets}. Only ${value} appears in both sets.`)
+        :this.t(`${expression}. Подходящее число — ${value}.`,`${expression}. The missing number is ${value}.`);
+    this.board.explain(text,evidence);
+  }
+
   private applyHelp():void{
     if(this.busy)return;
     this.updateHelpPrice();
@@ -464,17 +507,9 @@ export class GameUi {
     },()=>{if(!applied)return;
       const won = this.session.state.attempt.status === 'won';
       const award = won ? this.markReward() : undefined;
-      $<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(getPuzzle(this.session.state.attempt.puzzleId),this.session.state.attempt);
-      const assignment=plan.assignments[0]!,p=getPuzzle(this.session.state.attempt.puzzleId);
-      const candidateSets=assignment.evidence.map(e=>'{'+e.candidates.join(', ')+'}').join(this.t(" и ", " and "));
-      const expression=equationText(p,this.session.state.attempt,assignment.evidence[0]?.equationIndex ?? 0);
-      const value=assignment.value;
-      const text=plan.kind==='reveal'
-        ?this.t(`Показано число ${value}.`,`Revealed ${value}.`)+(plan.returns.length?this.t(" Мешающие фишки возвращены в лоток.", " Conflicting pieces returned to the tray."):"")
-        :plan.rule==='intersection'
-          ?this.t(`Общая клетка: ${candidateSets}. В обоих наборах есть только ${value}.`,`Shared cell: ${candidateSets}. Only ${value} appears in both sets.`)
-          :this.t(`${expression}. Подходящее число — ${value}.`,`${expression}. The missing number is ${value}.`);
-      this.board.explain(text,assignment.evidence.map(e=>e.equationIndex));this.feedback.cue(won?'win':this.session.state.attempt.mode==='endless'?'place':'right',false,false,award);
+      const puzzle=getPuzzle(this.session.state.attempt.puzzleId);
+      $<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(puzzle,this.session.state.attempt);
+      this.showAppliedExplanation(puzzle,plan);this.feedback.cue(won?'win':this.session.state.attempt.mode==='endless'?'place':'right',false,false,award);
     });
   }
   showRecoveryNotice():void {this.notice='recovered';this.render();}

@@ -117,7 +117,8 @@ try{
    await page.locator('#close-help:enabled').waitFor();
    const before=await snapshot(page);
    await visibleTap(page,'#explain');
-   const projection=example.expectedUiProjection,message=await description.innerText();
+   const extended=!baseline&&['unique_no_supported_step','endless_no_supported_preview'].includes(id);
+   const projection=extended?'ready':example.expectedUiProjection,message=await description.innerText();
    assert.ok(message.startsWith(baseline?'Сейчас нет доказуемого хода':expected[projection][Number(language==='en')]),message);
    assert.equal(await page.locator('#apply-help').isEnabled(),projection==='ready');
    assert.equal(await page.locator('#reveal').getAttribute('aria-pressed'),'false');
@@ -147,7 +148,7 @@ try{
     assert.equal(await page.locator('#apply-help').isEnabled(),true);
     await visibleTap(page,'#explain');
     assert.equal(await description.innerText(),message);
-    assert.equal(await page.locator('#apply-help').isDisabled(),true);
+    assert.equal(await page.locator('#apply-help').isEnabled(),true);
    }
    assert.deepEqual(await snapshot(page),before,'Help preview is read-only');
    if(id==='incompatible_partial')await page.keyboard.press('Escape');
