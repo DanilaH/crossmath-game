@@ -2,17 +2,17 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "f4cca83706abc576c21d2b6eeb488562042126b9",
+    "commit": "ff625788b01ef597c88126b2a120f915fcca6d24",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
     "repository": "DanilaH/crossmath-game",
-    "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
-    "artifactSource": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+    "codeCommit": "d37cd305f597d38074929af1fbe3080aeac13549",
+    "artifactSource": "d37cd305f597d38074929af1fbe3080aeac13549",
     "version": "0.5.24",
     "versionCode": 29,
-    "runtimeKit": "469928d03f4bae5053e23db26e82187bedbc252e",
-    "reviewedHead": "32980ba34dd27930ef4816e8739f024df04349d0"
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "reviewedHead": "04576ec2239e840176a1a412c06e82aa7b9253cb"
   },
   "interpretation": "comparison answers functional parity for the named behavior at this snapshot. status answers workflow. ROADMAPPED = proposed research or acceptance stage, not owner commitment. Evidence locators use sourceInventory.commit + path and lookup by sourceFeatureId.",
   "features": [
@@ -1197,7 +1197,10 @@
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
       "nextAction": "Проверить прерывание и повторное нажатие после выполнения последней цели",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L592",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard",
@@ -1275,7 +1278,10 @@
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
       "nextAction": "Смоделировать пакет в нашем кошельке перед выбором сумм",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L658",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-endless",
@@ -1422,7 +1428,10 @@
       "nextAction": "Проверить переключение даты между финишем и получением",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L761",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-battle-time",
@@ -1476,7 +1485,10 @@
       "deliverySpec0513": {
         "package": "E",
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
-      }
+      },
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-battle-streak",
@@ -1608,16 +1620,17 @@
       "sourceFeatureId": "guru-ad-protect",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Своя защита первых побед и отдельные active-time intervals 180/120; не единый deadline с additive extension. Live SDK не принят.",
+      "currentImplementation": "Shared ActionInterstitialGate: first five unique wins protected, one active-time deadline 180s, earned +120 capped at 420s without shortening prior deadline, 30s no-fill retry, persisted reservation and result guard. Actual provider/phone open.",
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Проверить точную исходную clock/scene конфигурацию и hidden→deadline; затем отдельно решить, нужен ли переход к одной deadline модели.",
+      "nextAction": "Inspect original active config and validate new pilot on physical Android with provider; no renewed implementation request.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L896",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/adState.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/f4cca83706abc576c21d2b6eeb488562042126b9/research/games/crossmath/porting/guru-commerce-callbacks-20261125/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/f4cca83706abc576c21d2b6eeb488562042126b9/research/games/crossmath/porting/guru-commerce-callbacks-20261125/README.md",
+        "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/acceptance/interstitial-cooldown.md"
       ],
       "reviewedVersion": "0.5.24 / 29"
     },
@@ -2692,7 +2705,10 @@
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
       "nextAction": "Проверить доступность цели «использовать помощь», точную единицу и однократный зачёт события.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1629",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-task-difficulty-medium",
@@ -2842,7 +2858,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1750",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-1",
@@ -2856,7 +2875,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1761",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-2",
@@ -2870,7 +2892,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1772",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-100",
@@ -2884,7 +2909,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1783",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-101",
@@ -2898,7 +2926,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1794",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-102",
@@ -2912,7 +2943,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1805",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-103",
@@ -2926,7 +2960,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1816",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-104",
@@ -2940,7 +2977,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1827",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-105",
@@ -2954,7 +2994,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1838",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-106",
@@ -2968,7 +3011,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1849",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-107",
@@ -2982,7 +3028,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1860",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-108",
@@ -2996,7 +3045,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1871",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-postcard-pack-109",
@@ -3010,7 +3062,10 @@
       "nextAction": "Проверить привязку этапа к пакету и условные ресурсы при флагах off/on.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1882",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "easy-owl-frequency",
@@ -3342,9 +3397,12 @@
       "codePath": "src/ui/gameUi.ts",
       "stage": "COMMERCIAL · отдельно после исследования и решения владельца, не в первой версии",
       "dependencies": "Реальный UI-триггер оригинала, eligibility, Native Ads SDK, квитанция и подтверждённая выдача, отмена/фон/повтор, legal/consent.",
-      "nextAction": "guru-rv-ticket: На оригинале guru417 найти вход/показ, снять 1× до→тап→показ/отмена→подтверждённая выдача и перезапуск; отдельно no-fill, офлайн и cooldown. До ORIGINAL_RUNTIME метка UNKNOWN.",
+      "nextAction": "Verify live +3 grant, eligibility, alternative and durable receipt; no SDK evidence.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/a02958791b6c5e2fec5e561fa9bee24252ab2a04/research/games/crossmath/porting/guru-commerce-issuance-20261123/README.md",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/docs/PROJECT_DECISIONS.md"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/docs/PROJECT_DECISIONS.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-rv-store",
@@ -4326,12 +4384,15 @@
       "originalBehavior": "Отдельный экран Claim Coins и удалённая конфигурация получения бесплатной награды. NATIVE_STATIC both libs package:math_collections/ui/dialogs/claim_coin/claim_coins_dialog.dart; Guru 4.17 getClaimRewardsConfig string; 4.17 assets/images/store/pic_claim_reward_radial_light.webp. Calling trigger, amount, ad requirement and settlement UNKNOWN. | research/games/crossmath/porting/full-system-audit-20261123/README.md. Evidence tier: NATIVE_STATIC + ASSET_VERIFIED, no original runtime activation or verified coins grant.",
       "currentImplementation": "В собственной 0.5.24 нет отдельного Claim Coins modal и удалённого бесплатного рекламного оффера; wallet/timed rewards существуют только по утверждённым квитанциям.",
       "codePath": "src/ui/gameUi.ts",
-      "nextAction": "Оригинал Guru 4.17: найти trigger Claim Coins, eligibility, размер, cooldown, зависимость от рекламного SDK, no-fill, повторное claim после process kill и receipt, запросить active remote config.",
+      "nextAction": "Original +10/+30 routes, actual repeat/assisted/total-vs-extra eligibility; no price change.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/fd2186ed6f0397dddb4488788b2324b63424ff26/research/games/crossmath/porting/full-system-audit-20261123/README.md",
       "sourceVersionStatus": "Only specified archive version evidence",
       "dependencies": "Original device/version and access to correct event/store/Android SDK where relevant; separate owner decision, original art/sound replaced with authored alternatives, save state and user consent as applicable.",
       "acceptanceRequirement": "Original actual trigger and user-facing route observed and independently reproduced on specified version; optional paid provider: real SDK and durable receipt plus recovery; Crossmath behavior verified in exact APK on Android.",
-      "reason": "Исследование сохранило материал, но live activation/owner selection/SDK или оригинальные условия не доказаны; дорогая/коммерческая/социальная система вне текущего утверждённого выпуска. Не окончательное исключение."
+      "reason": "Исследование сохранило материал, но live activation/owner selection/SDK или оригинальные условия не доказаны; дорогая/коммерческая/социальная система вне текущего утверждённого выпуска. Не окончательное исключение.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-stage-add-heart-offer",
@@ -5687,18 +5748,19 @@
     {
       "id": "guru-rv-hint-interstitial-fallback",
       "sourceFeatureId": "guru-rv-hint-interstitial-fallback",
-      "status": "RESEARCHED",
+      "status": "DEFERRED",
       "comparison": "MISSING",
       "originalBehavior": "Отдельный fallback interstitial после некоторых неуспешных результатов get_hint. 0x129c8c4, 0x129cf20–0x129cfc4: проверка gate, get_hint_fallback PP0x47420, BL 0x129d0cc и async return. 0x129d354–0x129d3c0: interstitial call, проверка status и тип результата. Фактическое получение награды UNKNOWN. research/games/crossmath/porting/guru-commerce-callbacks-20261125/README.md",
       "currentImplementation": "Rewarded доступен только при availability; неуспешное завершение не запускает interstitial. Выдача только по earned событию, через durable request и receipt.",
       "codePath": "src/platform/ads.ts; src/platform/adState.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/6f8a259dca7e87e1033c3f1cb4256a935885bf97/src/platform/ads.ts",
-      "stage": "COMMERCIAL — отдельно после решения владельца",
+      "stage": "Отдельное решение владельца",
       "dependencies": "Live original/device acceptance, active remote config when applicable, owner approval, provider constraints/consent, stable saves and durable receipts.",
-      "nextAction": "Разрешить indirect dispatch и снять оригинальную цепочку tap→load/cancel/failure→fallback→settled grant→restart. Не выдавать награду по одному Hidden; при одобрении согласовать UX, допустимость у провайдера, explicit receipt и idempotency.",
+      "nextAction": "Вернуться к вопросу по отдельному поручению владельца.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/f4cca83706abc576c21d2b6eeb488562042126b9/research/games/crossmath/porting/guru-commerce-callbacks-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC only. Не утверждается действующий серверный оффер, оригинальный runtime settlement или принятая коммерческая реализация."
+      "reason": "Владелец отложил резервную замену rewarded на interstitial при согласовании пилота 25.11.2026.",
+      "additionalSourceEvidence": []
     },
     {
       "id": "guru-rv-hint-cancel-no-fallback",
@@ -5767,18 +5829,21 @@
     {
       "id": "guru-ad-cd-reward-additive",
       "sourceFeatureId": "guru-ad-cd-reward-additive",
-      "status": "RESEARCHED",
-      "comparison": "MISSING",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
       "originalBehavior": "Положительное дополнительное время прибавляется к оставшемуся interstitial cooldown. 0x13d35ec–0x13d35f8: extra>0; 0x13d3690–0x13d3720: now+max(oldDeadline-now,0)+extra*1000; сохраняется deadline. onAdHidden routing, не доказательство earned receipt. research/games/crossmath/porting/guru-commerce-callbacks-20261125/README.md",
-      "currentImplementation": "Два независимых интервала активного времени: 180s после interstitial и 120s после reward; защита первых пяти побед. Нет восстановленной source deadline формулы, remote clamp или suffix-routing.",
+      "currentImplementation": "Один дедлайн interstitial на часах активной игры. Подтверждённый earned добавляет 120 секунд к оставшейся защите, предел накопления 420 секунд. Снимок дедлайна и награда сохраняются с одной квитанцией.",
       "codePath": "src/platform/adState.ts",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/6f8a259dca7e87e1033c3f1cb4256a935885bf97/src/platform/adState.ts",
-      "stage": "COMMERCIAL — отдельно после решения владельца",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/d37cd305f597d38074929af1fbe3080aeac13549/src/platform/adState.ts",
+      "stage": "Пилот Crossmath",
       "dependencies": "Live original/device acceptance, active remote config when applicable, owner approval, provider constraints/consent, stable saves and durable receipts.",
-      "nextAction": "Подтвердить source clock, CID и активную конфигурацию; при одобрении проверить time/expiry, positive/zero/negative extra, fallback/no-fill и отсутствие двойных списаний.",
+      "nextAction": "Проверить на Android с выбранным провайдером закрытие, no-fill, earned, уход в фон и перезапуск без повторной выплаты.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/f4cca83706abc576c21d2b6eeb488562042126b9/research/games/crossmath/porting/guru-commerce-callbacks-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC only. Не утверждается действующий серверный оффер, оригинальный runtime settlement или принятая коммерческая реализация."
+      "reason": "Подтверждены формула и транзакция Crossmath с тестовым адаптером. Оригинальный SDK-контекст и реальные рекламные события Crossmath остаются открытыми.",
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
+      "acceptanceEvidence": "docs/acceptance/interstitial-cooldown.md",
+      "additionalSourceEvidence": []
     },
     {
       "id": "guru-ad-cd-zero-reset",
@@ -5855,10 +5920,13 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/6f8a259dca7e87e1033c3f1cb4256a935885bf97/src/app/session.ts",
       "stage": "COMMERCIAL — отдельно после решения владельца",
       "dependencies": "Live original/device acceptance, active remote config when applicable, owner approval, provider constraints/consent, stable saves and durable receipts.",
-      "nextAction": "Проследить lifecycle/потребителя поля и фактическое значение; при одобрении определить выдачу, expiry и повторные вызовы. Не утверждать активный оффер по parser.",
+      "nextAction": "Separate empty-config fallback true/0 and embedded literal false/1; verify fresh tutorial live config/settlement.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/f4cca83706abc576c21d2b6eeb488562042126b9/research/games/crossmath/porting/guru-commerce-callbacks-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC only. Не утверждается действующий серверный оффер, оригинальный runtime settlement или принятая коммерческая реализация."
+      "reason": "NATIVE_STATIC only. Не утверждается действующий серверный оффер, оригинальный runtime settlement или принятая коммерческая реализация.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
+      ]
     },
     {
       "id": "guru-free-reward-celebrate-coin-flag",
@@ -5891,16 +5959,304 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/f4cca83706abc576c21d2b6eeb488562042126b9/research/games/crossmath/porting/guru-commerce-callbacks-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "NATIVE_STATIC only. Не утверждается действующий серверный оффер, оригинальный runtime settlement или принятая коммерческая реализация."
+    },
+    {
+      "id": "guru-hint-target-before-payment",
+      "sourceFeatureId": "guru-hint-target-before-payment",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Проверка подходящей цели до расхода помощи. onClickHint b557b4: BL b6877c at b558a4; null exits b558d0 before BL b667b8 at b55968; fill b559cc. E36. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "Own proof/target/revision/resource validation before atomic Apply; Prepare separate.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/app/session.ts",
+      "stage": "ECONOMY — compare before owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Preserve current atomic Apply, verify source eligibility/receipt before owner-approved changes; no automatic price increase.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-hint-guided-payment-bypass",
+      "sourceFeatureId": "guru-hint-guided-payment-bypass",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "Направляющая бесплатная подсказка снимает флаг и обходит обычную оплату. b558f0 branch, b558f8 clears field+0xf3, hint_expert_btn b55924, b55948 jumps b5599c past willUseProp. Not a global free hint promise. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "No verified identical guided one-shot bypass.",
+      "codePath": "src/ui/gameUi.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/gameUi.ts",
+      "stage": "ECONOMY — compare before owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Preserve current atomic Apply, verify source eligibility/receipt before owner-approved changes; no automatic price increase.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-hint-inventory-first",
+      "sourceFeatureId": "guru-hint-inventory-first",
+      "status": "RESEARCHED",
+      "comparison": "MATCH",
+      "originalBehavior": "При обычной помощи сначала расходуется имеющаяся подсказка. b6693c -> b685ec; b66940 success returns; positive balance b68650/b68654, hint PP15fe0 b68668, consume b68678 and task update b686ac. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "hintPayment consumes one hintCredit first; coin cost only when no credits.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/app/session.ts",
+      "stage": "ECONOMY — compare before owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Preserve existing policy and validate phone receipt; no duplicate development.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-hint-coin-price-120",
+      "sourceFeatureId": "guru-hint-coin-price-120",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "При отсутствии подсказок обычная помощь стоит 120 монет. hint enum price raw Smi 0xf0 at b66900, decoded b6691c =>120; b66958/5c funds check, b669c8 buy, b669dc success, b66a14 consume. E36. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "Own price60 not120; atomic Apply.",
+      "codePath": "docs/spec/product/meta_v08/config.json",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/spec/product/meta_v08/config.json",
+      "stage": "ECONOMY — compare before owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Preserve current atomic Apply, verify source eligibility/receipt before owner-approved changes; no automatic price increase.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-hint-battle-shortage-refusal",
+      "sourceFeatureId": "guru-hint-battle-shortage-refusal",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "В Battle недостаток монет не ведёт к рекламному получению помощи. cm_battle PP1c670 b66a64; b66a7c separates branch, b66ac0 -> b66ba0 false. No claim of global ban on Battle ads. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "No Battle in approved initial build.",
+      "codePath": "docs/PROJECT_DECISIONS.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/PROJECT_DECISIONS.md",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-hint-shortage-grant-and-consume",
+      "sourceFeatureId": "guru-hint-shortage-grant-and-consume",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Вне Battle при разрешённом рекламном пути результат success запускает выдачу одной подсказки и попытку расхода. b66ad4 requires non-null field+0xcf; b66af4 -> b66bc4, b66b0c tests true; b66b64 mov x3,#1; b66b70 grant a28de4; await b66b7c; b66b88 reject nontrue; b66b94 _useProp; b66b98 returns true. Full durable and fallback linkage UNKNOWN. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "Own earned receipt grants one credit followed by separate explicit Apply; no auto fill or fallback.",
+      "codePath": "src/platform/adState.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/adState.ts",
+      "stage": "ECONOMY — compare before owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Preserve current atomic Apply, verify source eligibility/receipt before owner-approved changes; no automatic price increase.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-hint-use-counter-after-permission",
+      "sourceFeatureId": "guru-hint-use-counter-after-permission",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Счётчик использованной помощи увеличивается после разрешения и до заполнения. b55980 and guided branch b55948 converge b5599c; add one b559b0; fill b559cc. Does not prove full atomicity. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "Own help kind, payment and layout committed together after validation.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/app/session.ts",
+      "stage": "ECONOMY — compare before owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Preserve current atomic Apply, verify source eligibility/receipt before owner-approved changes; no automatic price increase.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-coin-purchase-debit-guard",
+      "sourceFeatureId": "guru-coin-purchase-debit-guard",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Локальная покупка за монеты проверяет сумму и результат списания. a8caa8 compares balance with price, a8caac b.lt and a8cab0 checks sign, a8cae4 debit a902c0; await a8caf0 and a8cafc success. IAP receipt and transaction atomicity separate. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "hintPayment missingCoins check, cloned state, persist; no generic store/IAP.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/app/session.ts",
+      "stage": "ECONOMY — compare before owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Preserve current atomic Apply, verify source eligibility/receipt before owner-approved changes; no automatic price increase.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-win-coins-ten",
+      "sourceFeatureId": "guru-win-coins-ten",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "В ветке получения награды за поле запрошено 10 монет. ae6104 guard, ae6174 mov x2,#10, ae617c game_over, ae6180 BL ae61ac; second caller ef2318/ef2324. Universal per-win eligibility UNKNOWN. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "Own unique first-win base10/15/20/25; repeats base0; source eligibility unknown.",
+      "codePath": "src/app/model.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/app/model.ts",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Observe normal/assisted/repeat and total vs extra; if selected opt-in reward, configure explicit amount and idempotent completion receipt; preserve current price.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-win-coins-multi-thirty",
+      "sourceFeatureId": "guru-win-coins-multi-thirty",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Рекламная ветка game_over_multi после успеха запрашивает выплату 30 монет. deeecc PP41c60, deeed4 wrapper b66c38, deeeec success, deef8c mov #30, deef98 BL ae61ac; ef2bd0/ef2bdc second caller. Not evidence 10+30 total, always shown, or settled reward. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "No game_over_multi victory reward.",
+      "codePath": "src/platform/ads.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Observe normal/assisted/repeat and total vs extra; if selected opt-in reward, configure explicit amount and idempotent completion receipt; preserve current price.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-win-coins-multi-config",
+      "sourceFeatureId": "guru-win-coins-multi-config",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Умноженная награда имеет отдельный remote параметр multi_rewards_enable. c472a8 PP3dff8 multi_rewards_config, c47440 PP3e018 multi_rewards_enable, c47490 field store; exact isolate string ref58822 offset0x1f8559 {multi_rewards_enable:true}. Live value/eligibility UNKNOWN. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "No corresponding remote multiplier config.",
+      "codePath": "docs/spec/product/meta_v08/config.json",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/spec/product/meta_v08/config.json",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Observe normal/assisted/repeat and total vs extra; if selected opt-in reward, configure explicit amount and idempotent completion receipt; preserve current price.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-battle-ticket-auto-cap-ten",
+      "sourceFeatureId": "guru-battle-ticket-auto-cap-ten",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Автоматическое восстановление билетов прекращается при балансе 10 и выше. ac6334/38 and ac8530/34 compare #10; ac63d4/dc cap restoration. Not a total wallet cap. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "No ticket wallet or automatic restoration.",
+      "codePath": "docs/PROJECT_DECISIONS.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/PROJECT_DECISIONS.md",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-battle-ticket-catchup-five-minutes",
+      "sourceFeatureId": "guru-battle-ticket-catchup-five-minutes",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "При инициализации просроченный ненулевой deadline компенсирует пяти­минутные интервалы до автоматического потолка. ac6318 zero skip, ac63a0 date diff, ac63b0 sdiv microseconds by 1e6, ac63b8 positive skip, ac63c0 #300, ac63c8 division, ac63cc +1, cap10, ac63f8 clears, ac6424 grants. MODEL boundary may trigger <1s early from truncation. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "No ticket deadline or offline catchup.",
+      "codePath": "docs/PROJECT_DECISIONS.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/PROJECT_DECISIONS.md",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-battle-ticket-timer-clear",
+      "sourceFeatureId": "guru-battle-ticket-timer-clear",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Отдельная ветка завершения таймера обнуляет deadline и запрашивает один ticket. ac88c4 remaining<=0 -> ac88d8 call ac8994; ac89bc/c0 clear deadline; ac89f8 ticket, auto, battle_countdown ac8a08, ac8a0c #1, ac8a10 call ac8a30. At full balance ac8658 clears deadline. Exact scheduler object and durable atomicity UNKNOWN. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "No Battle timer.",
+      "codePath": "docs/PROJECT_DECISIONS.md",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/PROJECT_DECISIONS.md",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-battle-ticket-reward-three",
+      "sourceFeatureId": "guru-battle-ticket-reward-three",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Получение билетов по рекламе при успехе запрашивает три билета. bcdb0c cm_get_ticket_free, bcdb14 wrapper, bcdb2c failure bypass, bcdb78 -> bcdb8c, bcdc04 #3, bcdc10 watch_ad, bcdc14 ac6448. No live settlement or max paid-wallet evidence. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "No rewarded ticket credit.",
+      "codePath": "src/platform/adState.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/adState.ts",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-rv-ticket-interstitial-fallback",
+      "sourceFeatureId": "guru-rv-ticket-interstitial-fallback",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "У получения билетов есть отдельный interstitial fallback. 129bc18 alternative gate, 129bc1c false bypass, 129bcb4 PP55580 cm_get_ticket_free_fallback, 129bcb8 BL129bdc4, 129c094 showInterstitial ads success. Indirect dispatch/complete earned settlement UNKNOWN. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "No ticket ad or interstitial substitute; hint fallback explicitly deferred, ticket not automatically approved.",
+      "codePath": "src/platform/ads.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-rv-ticket-cancel-no-fallback",
+      "sourceFeatureId": "guru-rv-ticket-cancel-no-fallback",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Отмена загрузки rewarded при получении билетов обходит резервный сценарий. 129bba8 rads_load_cancel, 129bc08 status ref229232, 129bc10 b.eq 129bcc0 bypass. Static. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "Own cancelled/failed reward does not trigger substitute; no ticket route.",
+      "codePath": "src/platform/ads.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
+      "stage": "COMMERCIAL — owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+    },
+    {
+      "id": "guru-economy-init-igc-config",
+      "sourceFeatureId": "guru-economy-init-igc-config",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "originalBehavior": "В конфигурационной сериализации есть отдельный числовой параметр init_igc. f68b80 PP22008 init_igc, f68b88 reads field+0x1f. Initial wallet value, exact initializer and live assignment UNKNOWN. research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "currentImplementation": "Own fixed initial120 coins,0 hints; exact source value/use unknown.",
+      "codePath": "docs/spec/product/meta_v08/config.json",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/spec/product/meta_v08/config.json",
+      "stage": "ECONOMY — compare before owner choice",
+      "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
+      "nextAction": "Trace first-run initializer, original online/offline wallet before/after tutorial; no value inferred.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
     }
   ],
   "latestReview": {
-    "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
-    "artifactSource": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+    "codeCommit": "d37cd305f597d38074929af1fbe3080aeac13549",
+    "artifactSource": "d37cd305f597d38074929af1fbe3080aeac13549",
     "version": "0.5.24",
     "versionCode": 29,
-    "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
-    "report": "docs/acceptance/issue-11/README.md",
-    "scope": "HELP-02. Explain 515/515 с пустого поля без Reveal, старые ready-решения сохранены, 8 проверок на ресурсах APK. Приёмка на Android-устройстве открыта."
+    "apkSha256": "3f3d530aefdd8063e5b20161727ef66c0f139b054b0432582d4917c670740cf6",
+    "report": "docs/acceptance/interstitial-cooldown.md",
+    "scope": "Пилот рекламного cooldown. Unit, Chromium с тестовым адаптером и точный APK проверены. Реальный SDK и Android-устройство остаются открыты."
   },
   "reviewHistory": [
     {
@@ -5974,6 +6330,15 @@
       "apkSha256": "fe31812947c181b0345c9af5a9b958d841cd1d727479e42aa825ccf9f043d607",
       "report": "https://github.com/DanilaH/crossmath-game/blob/4c357aba52179e8b4feb9801a17fd59aa082631d/docs/porting/play-audit-0513/README.md",
       "scope": "Delta over consumer baseline. Per-ID check types and file comparison are in play-audit-0513/coverage.csv. Original runtime conditions stay UNKNOWN unless supported by original evidence."
+    },
+    {
+      "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+      "artifactSource": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+      "version": "0.5.24",
+      "versionCode": 29,
+      "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+      "report": "docs/acceptance/issue-11/README.md",
+      "scope": "HELP-02. Explain 515/515 с пустого поля без Reveal, старые ready-решения сохранены, 8 проверок на ресурсах APK. Приёмка на Android-устройстве открыта."
     }
   ],
   "latestResearch": {
@@ -6294,6 +6659,74 @@
     "directBranchTargetChecks": 10,
     "liveAdSettlement": "UNKNOWN",
     "liveConfig": "UNKNOWN",
-    "implementationChanged": false
+    "implementationChanged": false,
+    "pilot": {
+      "sourceFeatureId": "guru-ad-cd-reward-additive",
+      "productCommit": "d37cd305f597d38074929af1fbe3080aeac13549",
+      "version": "0.5.24 / 29",
+      "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+      "kitPullRequest": "https://github.com/DanilaH/mini-games-kit/pull/152",
+      "report": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/acceptance/interstitial-cooldown.md",
+      "evidenceClass": "UNIT + SCRIPTED_PROVIDER_CHROMIUM",
+      "liveSdk": "NOT RUN",
+      "deferred": [
+        "guru-rv-hint-interstitial-fallback"
+      ],
+      "reviewedCurrentHead": "04576ec2239e840176a1a412c06e82aa7b9253cb",
+      "codeInspected": true,
+      "independentTestRerun": false
+    }
+  },
+  "economyAudit20261125": {
+    "report": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
+    "priorCount": 333,
+    "sourceCount": 351,
+    "addedGranularIds": [
+      "guru-hint-target-before-payment",
+      "guru-hint-guided-payment-bypass",
+      "guru-hint-inventory-first",
+      "guru-hint-coin-price-120",
+      "guru-hint-battle-shortage-refusal",
+      "guru-hint-shortage-grant-and-consume",
+      "guru-hint-use-counter-after-permission",
+      "guru-coin-purchase-debit-guard",
+      "guru-win-coins-ten",
+      "guru-win-coins-multi-thirty",
+      "guru-win-coins-multi-config",
+      "guru-battle-ticket-auto-cap-ten",
+      "guru-battle-ticket-catchup-five-minutes",
+      "guru-battle-ticket-timer-clear",
+      "guru-battle-ticket-reward-three",
+      "guru-rv-ticket-interstitial-fallback",
+      "guru-rv-ticket-cancel-no-fallback",
+      "guru-economy-init-igc-config"
+    ],
+    "refinedExisting": 21,
+    "reviewedHead": "04576ec2239e840176a1a412c06e82aa7b9253cb",
+    "version": "0.5.24 / 29",
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "archiveSha256": "7b36ea7fce3988cbcbe82ac5de4d448c4a053c730a2e7a352939113aa21d1129",
+    "counts": {
+      "words": 214,
+      "BL": 54,
+      "conditional": 16,
+      "poolLoads": 24,
+      "collectionPacks": 13,
+      "ticketModel": 10,
+      "budgetModel": 21
+    },
+    "originalRuntime": false,
+    "liveConfig": "UNKNOWN",
+    "initialGuruCoins": "UNKNOWN",
+    "storeReceipts": "UNKNOWN",
+    "researchChangedRuntime": false,
+    "pilot": {
+      "report": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/acceptance/interstitial-cooldown.md",
+      "developerAcceptance": true,
+      "sourceReviewed": true,
+      "testsIndependentlyRerun": false,
+      "deviceAccepted": false
+    },
+    "reconciliation": "Retained research rows incl. corrected ratio denominator and Help02 independent evidence; imported actual developer pilot and latest artifact metadata."
   }
 }
