@@ -19,8 +19,9 @@ A–D are implemented in retained previews, with phone acceptance still pending.
 | --- | --- |
 | HELP-01 · задача №8 | В PR №4 подготовка Explain различает несовместимость, отсутствие доступного шага и незавершённую проверку. Endless сохраняет одинаковое нейтральное сообщение до Submit. Прошли unit и Chromium. На Android предстоит проверить касания, Back и обратную связь. |
 | ADS-01 · задача №9 | В PR №4 отклонённая команда show/hide восстанавливается по штатному refresh. Подтверждены порядок команд, один незавершённый вызов и доступ к игре с тестовым адаптером. Android-сценарий баннера ожидает выбранного провайдера и устройство. |
+| HELP-02 · задача №11 | Explain проходит все 515 полей с пустого старта без Reveal. Новые доказательства сверяются независимо. Проверены Chromium и точный APK, приёмка на Android-устройстве открыта. |
 
-[Приёмка двух пакетов](acceptance/issues-8-9/README.md) · [Реестр переноса](porting/ADOPTION_LEDGER.json).
+[Приёмка HELP-01 и ADS-01](acceptance/issues-8-9/README.md) · [Приёмка HELP-02](acceptance/issue-11/README.md) · [Реестр переноса](porting/ADOPTION_LEDGER.json).
 
 ## 0.5.10 · открытие режимов
 
