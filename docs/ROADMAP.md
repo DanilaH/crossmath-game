@@ -361,3 +361,6 @@ Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceF
 
 ### 2026-11-25 — Battle admission, protected streak and Train Brain (research)
 [Consumer comparison](porting/GURU_BATTLE_TRAIN_RECOVERY_2026-11-25.md): 396/396 source IDs, 16 additional rules. Battle type-dependent ticket debit, gate and ad ordering, conditional opponent interruptions, protected streak and EXP carry. Train Brain recovery past-day eligibility, independent day state and streak predicate. Exact price/offer consideration, live configuration and original-device recovery remain UNKNOWN. Competition/PvP/bots/seasons stay deferred; recovery proposed, not approved. Preserve current economy and atomic receipts.
+
+### 2026-11-25 — event lifecycle and notifications (research)
+[Consumer comparison](porting/GURU_EVENT_NOTIFICATION_LIFECYCLE_2026-11-25.md): 417/417, 21 granular rules. Permission checker guards, owned worker cancellation/reconciliation, scoped event links, reward/ack separation; potential original broad-update risk modeled, not device-proven. Preserve atomic own root, later owner-gated event scope, candidate earned prize survives expiry, reuse existing LOCAL_REMINDERS recipe; no balance/runtime changes.
