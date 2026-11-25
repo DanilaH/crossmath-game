@@ -364,3 +364,6 @@ Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceF
 
 ### 2026-11-25 — event lifecycle and notifications (research)
 [Consumer comparison](porting/GURU_EVENT_NOTIFICATION_LIFECYCLE_2026-11-25.md): 417/417, 21 granular rules. Permission checker guards, owned worker cancellation/reconciliation, scoped event links, reward/ack separation; potential original broad-update risk modeled, not device-proven. Preserve atomic own root, later owner-gated event scope, candidate earned prize survives expiry, reuse existing LOCAL_REMINDERS recipe; no balance/runtime changes.
+
+### 2026-11-25 — store and No Ads lifecycle (research)
+[Consumer comparison](porting/GURU_STORE_NOADS_2026-11-25.md): 433/433; 16 granular rules. Original No Ads gates (interstitial/MREC/banner and late disposal), separate store resource requests 10 coins/1 hint, purchase/restore result gates and Claim Coins result routes. Actual SKU-entitlement, current prices, settlement and return offers UNKNOWN. No new scope, economics or runtime. Future owner-gated commercial system reuses durable receipt and atomic settlement, independent presentation and voluntary ad policy.
