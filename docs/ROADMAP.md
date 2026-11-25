@@ -358,3 +358,6 @@ Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceF
 
 ### 2026-11-25 — competition native research (later scope)
 [Consumer comparison](porting/GURU_STAR_BRAINS_NATIVE_2026-11-25.md): 380/380 source IDs; 13 additional rules. Star Race saved local opponent schedules, entry gates, atomic claim candidate; Brains main/temp storage and active self-only score update. Exact weekly reset and live config remain UNKNOWN. Competition/PvP/bots/seasons remain deferred by owner. No gameplay changes.
+
+### 2026-11-25 — Battle admission, protected streak and Train Brain (research)
+[Consumer comparison](porting/GURU_BATTLE_TRAIN_RECOVERY_2026-11-25.md): 396/396 source IDs, 16 additional rules. Battle type-dependent ticket debit, gate and ad ordering, conditional opponent interruptions, protected streak and EXP carry. Train Brain recovery past-day eligibility, independent day state and streak predicate. Exact price/offer consideration, live configuration and original-device recovery remain UNKNOWN. Competition/PvP/bots/seasons stay deferred; recovery proposed, not approved. Preserve current economy and atomic receipts.
