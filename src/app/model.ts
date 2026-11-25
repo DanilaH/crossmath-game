@@ -27,6 +27,7 @@ export interface Completion {
   dailyTrophyMonth?: string;
   trackGoal?: TrackGoalReceipt;
   workshop?: WorkshopReceipt;
+  interstitialRequested?: true;
 }
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
@@ -132,6 +133,7 @@ export function decodeSave(input: unknown): Save {
   validateAdState(s);
   const validateReceipt=(result:Completion):void=>{
     if (![result.coins,result.xp,result.rankUps,result.fragments,result.cardCoins].every(nonnegative) || typeof result.first!=='boolean' || !Number.isFinite(result.elapsedPlaying) || result.elapsedPlaying<0) fail();
+    if (result.interstitialRequested !== undefined && result.interstitialRequested !== true) fail();
     if (result.workshop !== undefined) {
       const {workshop, collectionFragments: total, fragments} = result;
       if (!workshop || !nonnegative(workshop.from) || !nonnegative(workshop.to) ||

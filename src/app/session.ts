@@ -1,7 +1,8 @@
 import { challengeUnlockWins } from '../content/rotation';
 import type { FreeTrack } from '../content/rotation';
-import { activeSeconds, canRequestReward, createRewardRequest, settleReward } from '../platform/adState';
+import { beginInterstitial, canRequestReward, createRewardRequest, settleInterstitial, settleReward } from '../platform/adState';
 import type { RewardEvent, RewardKind, RewardRequest } from '../platform/adState';
+import type { InterstitialRequestOutcome } from '@danilah/mini-games-kit/platform';
 import { campaignPuzzle, campaignSequence, config, dailyVersion, freeAssignmentVersion, getPuzzle, routes } from '../content/catalog';
 import { applyCommand, applyHelpLayout, createAttempt } from '../core/engine';
 import { prepareExplanation, verifyExplanation } from '../help/logic';
@@ -97,11 +98,21 @@ export class GameSession {
     return outcome;
   }
 
-  recordInterstitial(stillActive:()=>boolean):Promise<void> {
+  async beginInterstitial(resultId:string, stillActive:()=>boolean):Promise<boolean> {
+    let reserved=false;
+    await this.receiveAdWrite(stillActive,async()=>{
+      const next=structuredClone(this.state);
+      if(!beginInterstitial(next,resultId))return;
+      await this.persist(next,0);
+      reserved=true;
+    });
+    return reserved;
+  }
+
+  recordInterstitial(resultId:string,outcome:InterstitialRequestOutcome,stillActive:()=>boolean):Promise<void> {
     return this.receiveAdWrite(stillActive,async()=>{
       const next=structuredClone(this.state);
-      next.ads.lastInterstitial=activeSeconds(next);
-      await this.persist(next,0);
+      if(settleInterstitial(next,resultId,outcome))await this.persist(next,0);
     });
   }
   constructor(public state: Save, private readonly repository: SaveRepository, private readonly id:()=>string,private readonly now:()=>string=()=>new Date().toISOString()) {}

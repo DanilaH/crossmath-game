@@ -5,7 +5,7 @@ import { SAVE_KEY, SaveRepository } from '../src/app/saveRepository';
 import { canShowInterstitial } from '../src/platform/adState';
 import type { RewardEvent, RewardRequest } from '../src/platform/adState';
 import { AdsController } from '../src/platform/ads';
-import type { AdAvailability, AdsProvider, FullscreenResult } from '../src/platform/ads';
+import type { AdAvailability, AdsProvider, FullscreenContext, FullscreenResult } from '../src/platform/ads';
 import { boards } from '../src/content/catalog';
 import { quantity } from '../src/ui/locale';
 
@@ -43,7 +43,7 @@ class ScriptedProvider implements AdsProvider {
   statusCalls=0;
   status=ready;
   onRewarded:(request:RewardRequest)=>Promise<FullscreenResult>=async()=> 'shown';
-  onInterstitial:()=>Promise<FullscreenResult>=async()=> 'shown';
+  onInterstitial:(context:FullscreenContext)=>Promise<FullscreenResult>=async()=> 'shown';
   onBanner:(visible:boolean)=>Promise<void>=async()=>{};
   async availability(){this.statusCalls++;if(this.hangQueries)return new Promise<AdAvailability>(()=>{});return this.status;}
   async pendingRewards(){if(this.hangQueries)return new Promise<RewardEvent[]>(()=>{});return [...this.pending.values()];}
@@ -51,7 +51,7 @@ class ScriptedProvider implements AdsProvider {
   async watchAvailability(listener:Listener<AdAvailability>){this.states.add(listener);return ()=>{this.states.delete(listener);};}
   async watchRewards(listener:Listener<RewardEvent>){this.rewards.add(listener);return ()=>{this.rewards.delete(listener);};}
   async showRewarded(request:RewardRequest){this.requests.push(request);return this.onRewarded(request);}
-  async showInterstitial(){this.interstitials++;return this.onInterstitial();}
+  async showInterstitial(context:FullscreenContext){this.interstitials++;return this.onInterstitial(context);}
   async setBanner(visible:boolean){
     this.banners.push(visible);
     this.peakBannerInFlight=Math.max(this.peakBannerInFlight,++this.bannerInFlight);
@@ -224,6 +224,7 @@ describe('Rewarded and interstitial provider contract',()=>{
     await vi.waitFor(()=>expect(provider.acks.length).toBe(2));
     expect(blocks).toEqual(new Set(['modal']));
     expect(session.state.profile.hintCredits).toBe(1);
+    expect(session.state.ads.interstitialGate?.nextEligibleAtMs).toBe(122_000);
     expect(session.state.attempt.placements).toEqual({});
     expect(session.state.profile.coins).toBe(120);
     const hint=session.prepareHelp('explain');
@@ -245,6 +246,7 @@ describe('Rewarded and interstitial provider contract',()=>{
     const late=provider.requests.at(-1)!;
     expect(session.state.profile.hintCredits).toBe(0);
     expect(session.state.ads.requests[late.id]?.settlement).toBeUndefined();
+    expect(session.state.ads.interstitialGate).toBeUndefined();
     controller.dispose();
     provider.emit(late);
     const reopened=new GameSession(await repo.load(),repo,()=> 'loaded',()=>now);
@@ -252,6 +254,7 @@ describe('Rewarded and interstitial provider contract',()=>{
     resumed.start();
     await vi.waitFor(()=>expect(provider.acks).toContain(late.id));
     expect(reopened.state.profile.hintCredits).toBe(1);
+    expect(reopened.state.ads.interstitialGate?.nextEligibleAtMs).toBe(120_000);
     resumed.dispose();
   });
 
@@ -264,6 +267,7 @@ describe('Rewarded and interstitial provider contract',()=>{
     await flush();
     expect(provider.acks).toHaveLength(0);
     expect(session.state.profile.hintCredits).toBe(0);
+    expect(session.state.ads.interstitialGate).toBeUndefined();
     storage.fail=false;
     provider.failAck=true;
     controller.refresh();
@@ -276,6 +280,7 @@ describe('Rewarded and interstitial provider contract',()=>{
     resumed.start();
     await vi.waitFor(()=>expect(provider.acks).toContain(request.id));
     expect(resumedSession.state.profile.hintCredits).toBe(1);
+    expect(resumedSession.state.ads.interstitialGate?.nextEligibleAtMs).toBe(120_000);
     resumed.dispose();
   });
 
@@ -339,8 +344,8 @@ describe('Rewarded and interstitial provider contract',()=>{
     controller.dispose();
   });
 
-  it('uses confirmed impressions and active-time spacing only on explicit continuation',async()=>{
-    const {session,provider,controller}=await setup();
+  it('protects the first five wins and waits 180 active seconds after a confirmed display',async()=>{
+    const {session,provider,controller,storage}=await setup();
     await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});
     session.state.profile.solvedIds=boards.slice(0,5).map(p=>p.puzzleId);
     expect(canShowInterstitial(session.state)).toBe(false);
@@ -348,21 +353,29 @@ describe('Rewarded and interstitial provider contract',()=>{
     expect(provider.interstitials).toBe(0);
     session.state.profile.solvedIds.push(boards[5]!.puzzleId);
     expect(canShowInterstitial(session.state)).toBe(true);
-    provider.onInterstitial=async()=> 'unavailable';
+    provider.onInterstitial=async context=>{
+      const saved=JSON.parse(storage.data.get(SAVE_KEY)!);
+      expect(saved.ads.interstitialGate.pendingUntilMs).toBe(180_000);
+      expect(saved.result.interstitialRequested).toBe(true);
+      context.opened();
+      context.opened();
+      return 'shown';
+    };
+    await Promise.all([controller.beforeNext(),controller.beforeNext()]);
+    expect(provider.interstitials).toBe(1);
+    expect(session.state.ads.lastInterstitial).toBe(0);
+    expect(session.state.ads.interstitialGate?.nextEligibleAtMs).toBe(180_000);
+    const settledRevision=session.state.revision;
+    await session.recordInterstitial(session.state.result!.id,'shown',()=>true);
+    expect(session.state.revision).toBe(settledRevision);
+    await session.restart();
+    await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2},179.99);
+    expect(canShowInterstitial(session.state)).toBe(false);
     await controller.beforeNext();
     expect(provider.interstitials).toBe(1);
-    expect(session.state.ads.lastInterstitial).toBeNull();
-    provider.onInterstitial=async()=> 'shown';
-    await controller.beforeNext();
-    expect(provider.interstitials).toBe(2);
-    expect(session.state.ads.lastInterstitial).toBe(0);
-    session.state.career.modes.campaign.seconds=179.99;
-    expect(canShowInterstitial(session.state)).toBe(false);
     session.state.career.modes.campaign.seconds=180;
-    session.state.ads.lastReward=61;
-    expect(canShowInterstitial(session.state)).toBe(false);
-    session.state.career.modes.campaign.seconds=181;
     expect(canShowInterstitial(session.state)).toBe(true);
+    provider.onInterstitial=async()=> 'shown';
     await controller.beforeNext();
     expect(provider.interstitials).toBe(2);
     expect(await session.next()).toBe(true);
@@ -370,20 +383,137 @@ describe('Rewarded and interstitial provider contract',()=>{
     controller.dispose();
   });
 
-  it('releases an unopened fullscreen request on deadline and keeps a hung show single-flight',async()=>{
-    const {session,provider,controller,blocks}=await setup();
+  it.each(['unavailable','failed','cancelled'] as const)('backs off after %s across reload and never retries the same result',async outcome=>{
+    const {session,provider,controller,repo}=await setup();
     await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});
     session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);
-    provider.onInterstitial=()=>new Promise<FullscreenResult>(()=>{});
+    provider.onInterstitial=async()=>outcome;
+    await controller.beforeNext();
+    expect(session.state.ads.lastInterstitial).toBeNull();
+    expect(session.state.ads.interstitialGate?.nextEligibleAtMs).toBe(30_000);
+    controller.dispose();
+
+    let count=0;
+    const reopened=new GameSession(await repo.load(),repo,()=>`reload-${++count}`,()=>now);
+    const resumed=new AdsController(reopened,provider,()=>{},()=>{});
+    resumed.start();
+    await flush();
+    await resumed.beforeNext();
+    expect(provider.interstitials).toBe(1);
+    await reopened.restart();
+    await reopened.command({type:'PlaceFromTray',tokenId:'t0',cellId:2},29.99);
+    await resumed.beforeNext();
+    expect(provider.interstitials).toBe(1);
+    reopened.state.career.modes.campaign.seconds=30;
+    await resumed.beforeNext();
+    expect(provider.interstitials).toBe(2);
+    expect(reopened.state.profile.hintCredits).toBe(0);
+    resumed.dispose();
+  });
+
+  it('stacks earned receipts against the legacy maximum, caps them and restores the deadline and credits',async()=>{
+    const {session,provider,controller,repo}=await setup();
+    session.state.career.modes.campaign.seconds=100;
+    session.state.ads.lastInterstitial=90; // legacy deadline 270
+    session.state.ads.lastReward=0;         // legacy deadline 120
+    await session.update({},false);
+    expect((await repo.load()).ads.interstitialGate).toBeUndefined();
+    for(const [index,deadline] of [390_000,510_000,540_000,540_000].entries()){
+      const elapsed=index===0?0:index<=2?10:0;
+      await controller.reward('hint',elapsed);
+      const request=provider.requests.at(-1)!;
+      provider.emit(request);
+      await vi.waitFor(()=>expect(provider.acks).toContain(request.id));
+      const saved=await repo.load();
+      expect(saved.profile.hintCredits).toBe(index+1);
+      expect(saved.ads.interstitialGate?.nextEligibleAtMs).toBe(deadline);
+    }
+    await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});
+    session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);
+    expect(canShowInterstitial(session.state)).toBe(false);
+    session.state.career.modes.campaign.seconds=539.99;
+    expect(canShowInterstitial(session.state)).toBe(false);
+    session.state.career.modes.campaign.seconds=540;
+    expect(canShowInterstitial(session.state)).toBe(true);
+    expect(provider.interstitials).toBe(0);
+    controller.dispose();
+  });
+
+  it('does not call the interstitial provider when the reservation cannot be saved',async()=>{
+    const {session,provider,controller,storage}=await setup();
+    await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});
+    session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);
+    storage.fail=true;
+    await controller.beforeNext();
+    expect(provider.interstitials).toBe(0);
+    expect(session.state.result?.interstitialRequested).toBeUndefined();
+    expect(session.state.ads.interstitialGate).toBeUndefined();
+    storage.fail=false;
+    expect(await session.next()).toBe(true);
+    controller.dispose();
+  });
+
+  it('restores an in-flight reservation on cold start and waits for its full 180 active seconds',async()=>{
+    const {session,provider,controller,repo}=await setup();
+    await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});
+    session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);
+    const resultId=session.state.result!.id;
+    expect(await session.beginInterstitial(resultId,()=>true)).toBe(true);
+    controller.dispose();
+
+    let count=0;
+    const reopened=new GameSession(await repo.load(),repo,()=>`restart-${++count}`,()=>now);
+    const resumed=new AdsController(reopened,provider,()=>{},()=>{});
+    resumed.start();
+    await flush();
+    await resumed.beforeNext();
+    expect(provider.interstitials).toBe(0);
+    await reopened.restart();
+    await reopened.command({type:'PlaceFromTray',tokenId:'t0',cellId:2},179.99);
+    await resumed.beforeNext();
+    expect(provider.interstitials).toBe(0);
+    reopened.state.career.modes.campaign.seconds=180;
+    await resumed.beforeNext();
+    expect(provider.interstitials).toBe(1);
+    const deadline=reopened.state.ads.interstitialGate?.nextEligibleAtMs;
+    expect(deadline).toBe(360_000);
+    await reopened.recordInterstitial(resultId,'shown',()=>true);
+    expect(reopened.state.ads.interstitialGate?.nextEligibleAtMs).toBe(deadline);
+    resumed.dispose();
+  });
+
+  it('leaves a refused rewarded request unrewarded without substituting an interstitial',async()=>{
+    const {session,provider,controller}=await setup();
+    provider.onRewarded=async()=> 'unavailable';
+    await controller.reward('hint',0);
+    const request=provider.requests[0]!;
+    expect(session.state.ads.requests[request.id]?.settlement).toBeUndefined();
+    expect(session.state.ads.interstitialGate).toBeUndefined();
+    expect(session.state.profile.hintCredits).toBe(0);
+    expect(provider.interstitials).toBe(0);
+    controller.dispose();
+  });
+
+  it('releases an unopened fullscreen request on deadline and keeps a hung show single-flight',async()=>{
+    const {session,provider,controller,blocks,repo}=await setup();
+    await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});
+    session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);
+    const pending=deferred<FullscreenResult>();
+    provider.onInterstitial=()=>pending.promise;
     vi.useFakeTimers();
     try {
       const continuation=controller.beforeNext();
       await vi.advanceTimersByTimeAsync(1501);
       await continuation;
       expect(blocks.has('ad')).toBe(false);
+      expect((await repo.load()).ads.interstitialGate?.pendingUntilMs).toBe(180_000);
+      expect((await repo.load()).result?.interstitialRequested).toBe(true);
       await controller.beforeNext();
       expect(provider.interstitials).toBe(1);
       expect(session.state.ads.lastInterstitial).toBeNull();
+      pending.resolve('shown');
+      await vi.waitFor(()=>expect(session.state.ads.lastInterstitial).toBe(0));
+      expect((await repo.load()).ads.interstitialGate?.pendingUntilMs).toBeNull();
     } finally {
       vi.useRealTimers();
       controller.dispose();

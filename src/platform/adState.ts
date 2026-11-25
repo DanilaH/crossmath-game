@@ -1,3 +1,5 @@
+import { ActionInterstitialGate, isActionInterstitialGateState } from '@danilah/mini-games-kit/platform';
+import type { ActionInterstitialGateState, InterstitialRequestOutcome } from '@danilah/mini-games-kit/platform';
 import { config } from '../content/catalog';
 import { dateAvailable } from '../meta/calendar';
 import type { Save } from '../app/model';
@@ -17,6 +19,7 @@ export interface AdState {
   continued: Record<string, string>;
   lastReward: number | null;
   lastInterstitial: number | null;
+  interstitialGate?: ActionInterstitialGateState;
 }
 
 export function createAdState(): AdState {
@@ -27,12 +30,56 @@ export function activeSeconds(save: Save): number {
   return Object.values(save.career.modes).reduce((total, mode) => total + mode.seconds, 0);
 }
 
-export function canShowInterstitial(save: Save): boolean {
+const gateConfig = {
+  initialGraceMs: 0,
+  minIntervalMs: config.ads.interstitialMinActiveSeconds * 1000,
+  minActionsBetweenRequests: 1,
+  protectedWins: config.ads.interstitialProtectFirstNewWins,
+  retryIntervalMs: config.ads.interstitialNoFillRetryActiveSeconds * 1000,
+  rewardedExtensionMs: config.ads.postRewardedProtectSeconds * 1000,
+  maxRewardedProtectionMs: config.ads.maxRewardedProtectActiveSeconds * 1000,
+};
+
+function interstitialGate(save: Save): ActionInterstitialGate {
+  const {lastInterstitial, lastReward, interstitialGate: previous} = save.ads;
+  // Legacy deadlines overlapped. Import their maximum once; do not retroactively stack rewards.
+  const state = previous ?? {
+    nextEligibleAtMs: lastInterstitial === null && lastReward === null ? null : Math.max(
+      lastInterstitial === null ? 0 : lastInterstitial * 1000 + gateConfig.minIntervalMs,
+      lastReward === null ? 0 : lastReward * 1000 + gateConfig.rewardedExtensionMs,
+    ),
+    actionsSinceRequest: 0,
+    lastRequestId: null,
+    pendingUntilMs: null,
+  };
+  return new ActionInterstitialGate(() => activeSeconds(save) * 1000, gateConfig, state);
+}
+
+function reserveResult(save: Save, resultId: string | undefined): ActionInterstitialGate | null {
   if (save.meta.screen !== 'play' || save.attempt.status !== 'won' || !save.result ||
-      save.profile.solvedIds.length <= config.ads.interstitialProtectFirstNewWins) return false;
-  const now = activeSeconds(save), ads = save.ads;
-  return (ads.lastInterstitial === null || now - ads.lastInterstitial >= config.ads.interstitialMinActiveSeconds)
-    && (ads.lastReward === null || now - ads.lastReward >= config.ads.postRewardedProtectSeconds);
+      save.result.id !== resultId || save.result.interstitialRequested) return null;
+  const gate = interstitialGate(save);
+  return gate.beginRequest(save.result.id, save.profile.solvedIds.length) ? gate : null;
+}
+
+export function canShowInterstitial(save: Save): boolean {
+  return reserveResult(save, save.result?.id) !== null;
+}
+
+export function beginInterstitial(save: Save, resultId: string): boolean {
+  const gate = reserveResult(save, resultId);
+  if (!gate) return false;
+  save.ads.interstitialGate = gate.snapshot();
+  save.result!.interstitialRequested = true;
+  return true;
+}
+
+export function settleInterstitial(save: Save, resultId: string, outcome: InterstitialRequestOutcome): boolean {
+  const gate = interstitialGate(save);
+  if (!gate.settleRequest(resultId, outcome)) return false;
+  save.ads.interstitialGate = gate.snapshot();
+  if (outcome === 'shown') save.ads.lastInterstitial = activeSeconds(save);
+  return true;
 }
 
 function eligibleTarget(save: Save, attempt: Attempt): boolean {
@@ -64,6 +111,9 @@ export function settleReward(save: Save, event: RewardEvent): void {
   entry.settlement = event.outcome;
   if (event.outcome !== 'earned') return;
 
+  const gate = interstitialGate(save);
+  gate.recordEarnedReward();
+  save.ads.interstitialGate = gate.snapshot();
   save.ads.lastReward = activeSeconds(save);
   if (entry.request.kind === 'hint') {
     save.profile.hintCredits += config.rewardedHintCredits;
@@ -92,7 +142,8 @@ export function validateAdState(save: Save): void {
   const ads = save.ads;
   const record = (value:unknown) => !!value && typeof value === 'object' && !Array.isArray(value);
   const time = (value:unknown) => value === null || (typeof value === 'number' && Number.isFinite(value) && value >= 0);
-  if (!ads || !record(ads.requests) || !record(ads.continued) || !time(ads.lastReward) || !time(ads.lastInterstitial)) {
+  if (!ads || !record(ads.requests) || !record(ads.continued) || !time(ads.lastReward) || !time(ads.lastInterstitial)
+    || ads.interstitialGate !== undefined && !isActionInterstitialGateState(ads.interstitialGate)) {
     throw Error('Invalid ad state');
   }
   for (const [id, entry] of Object.entries(ads.requests)) {

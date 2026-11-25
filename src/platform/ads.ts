@@ -1,10 +1,11 @@
 import { DurableReceiptQueue } from '@danilah/mini-games-kit/platform';
+import type { InterstitialRequestOutcome } from '@danilah/mini-games-kit/platform';
 import type { GameSession } from '../app/session';
 import { canRequestReward, canShowInterstitial } from './adState';
 import type { RewardEvent, RewardKind, RewardRequest } from './adState';
 
 export interface AdAvailability { rewarded: boolean; interstitial: boolean; banner: boolean }
-export type FullscreenResult = 'shown' | 'unavailable' | 'failed';
+export type FullscreenResult = InterstitialRequestOutcome;
 type Unsubscribe = () => void | Promise<void>;
 export interface FullscreenContext {
   presentationId:string;
@@ -45,7 +46,6 @@ export class AdsController {
   private readonly removers:Unsubscribe[] = [];
   private readonly delivery:DurableReceiptQueue<RewardEvent>;
   private readonly acknowledgements=new Map<string,Promise<void>>();
-  private lastShownResult:string|undefined;
   private readonly receiving = new Map<string,Promise<unknown>>();
 
   constructor(
@@ -142,29 +142,46 @@ export class AdsController {
 
   async beforeNext():Promise<void> {
     const resultId=this.session.state.result?.id;
-    if(this.disposed||this.fullscreenWork||!resultId||resultId===this.lastShownResult||!this.availability.interstitial||!canShowInterstitial(this.session.state))return;
-    const result=await this.show(context=>this.provider.showInterstitial(context));
-    if(result==='shown'&&!this.disposed){
-      this.lastShownResult=resultId;
-      await this.session.recordInterstitial(()=>!this.disposed);
+    if(this.disposed||this.fullscreenWork||!resultId||!this.availability.interstitial||!canShowInterstitial(this.session.state))return;
+    try{
+      if(!await this.session.beginInterstitial(resultId,()=>!this.disposed)||this.disposed)return;
+    }catch{
+      // Optional advertising cannot prevent continuation. Show only after saving the reservation.
+      return;
     }
+    const settle=async (outcome:FullscreenResult)=>{
+      // A late provider response can still settle the persisted request after the UI timeout.
+      await this.session.recordInterstitial(resultId,outcome,()=>!this.disposed).catch(()=>undefined);
+    };
+    if(this.session.state.result?.id!==resultId||this.session.state.meta.screen!=='play'){
+      await settle('cancelled');
+      return;
+    }
+    await this.show(context=>this.provider.showInterstitial(context),settle);
   }
 
-  private async show(operation:(context:FullscreenContext)=>Promise<FullscreenResult>):Promise<FullscreenResult> {
+  private async show(
+    operation:(context:FullscreenContext)=>Promise<FullscreenResult>,
+    onResult?:(result:FullscreenResult)=>Promise<void>,
+  ):Promise<FullscreenResult> {
     const startWindow=1500;
     let timer:ReturnType<typeof setTimeout>|undefined;
     let waiting=true;
+    let opened=false;
     const context:FullscreenContext={
       presentationId:`crossmath-ad-${Date.now()}-${++this.presentationCount}`,
       startBefore:Date.now()+startWindow,
-      opened:()=>{if(waiting)clearTimeout(timer);},
+      opened:()=>{if(waiting){opened=true;clearTimeout(timer);}},
     };
     this.fullscreen=true;
     this.block(true);
     const deadline=new Promise<FullscreenResult>(resolve=>{
       timer=setTimeout(()=>resolve('unavailable'),startWindow);
     });
-    const work=Promise.resolve().then(()=>operation(context)).catch(()=>'failed' as const);
+    const work=Promise.resolve().then(()=>operation(context)).catch(()=>'failed' as const).then(async result=>{
+      await onResult?.(opened?'shown':result);
+      return result;
+    });
     this.fullscreenWork=work;
     this.changed();
     void work.finally(()=>{

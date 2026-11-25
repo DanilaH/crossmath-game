@@ -113,6 +113,8 @@
     "interstitialProtectFirstNewWins": 5,
     "interstitialMinActiveSeconds": 180,
     "postRewardedProtectSeconds": 120,
+    "maxRewardedProtectActiveSeconds": 420,
+    "interstitialNoFillRetryActiveSeconds": 30,
     "showOnForeground": false
   },
   "unlockProposal": {

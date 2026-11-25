@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { chromium } from '@playwright/test';
 import { createServer } from 'vite';
@@ -7,7 +7,7 @@ import { createServer } from 'vite';
 // This module replaces the native adapter only in the Playwright server.
 const scriptedAdapter=`
 export function androidAdsProvider() {
- const control={queue:[],calls:[],unresolved:0,peak:0,rewardOpen:false};
+ const control={queue:[],calls:[],unresolved:0,peak:0,rewardOpen:false,interstitials:0};
  window.bannerTest=control;
  let dismiss;
  control.dismiss=()=>dismiss();
@@ -17,12 +17,12 @@ export function androidAdsProvider() {
   document.dispatchEvent(new Event('visibilitychange'));
  };
  return {
-  availability:async()=>({banner:true,rewarded:true,interstitial:false}),
+  availability:async()=>({banner:true,rewarded:true,interstitial:true}),
   watchAvailability:async()=>()=>{},
   watchRewards:async()=>()=>{},
   pendingRewards:async()=>[],
   acknowledge:async()=>{},
-  showInterstitial:async()=> 'unavailable',
+  showInterstitial:async()=>{control.interstitials++;return 'unavailable';},
   showRewarded:(_,presentation)=>{
    control.rewardOpen=true;
    presentation.opened();
@@ -129,17 +129,52 @@ try{
   await expectCalls(page,events=[...events,hidden]);
   await tap(page,'#continue-game');
   await expectCalls(page,[...events,shown]);
-  const provider=await page.evaluate(()=>({calls:window.bannerTest.calls,peak:window.bannerTest.peak,width:document.documentElement.scrollWidth}));
+  const provider=await page.evaluate(()=>({calls:window.bannerTest.calls,peak:window.bannerTest.peak,width:document.documentElement.scrollWidth,interstitials:window.bannerTest.interstitials}));
   assert.equal(provider.peak,1);
   assert.equal(provider.width,width);
+  assert.equal(provider.interstitials,0);
   assert.deepEqual(errors,[]);
   result.push({viewport:[width,height],provider,coins:(await save(page)).profile.coins});
   await context.close();
  }
+ const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,timezoneId:'UTC'});
+ const page=await context.newPage();
+ const errors=[];
+ page.on('pageerror',error=>errors.push(error.message));
+ await page.goto(server.resolvedUrls.local[0]);
+ await page.locator('html[data-state=ready]').waitFor();
+ const boards=JSON.parse(await readFile('docs/spec/product/content_v09/boards.json','utf8'));
+ const previous=boards.slice(1,6).map(board=>board.puzzleId);
+ await page.evaluate(previous=>{
+  const key='crossmath.save.v1',state=JSON.parse(localStorage.getItem(key));
+  state.profile.solvedIds=previous;
+  localStorage.setItem(key,JSON.stringify(state));
+ },previous);
+ await page.reload();
+ await page.locator('html[data-state=ready]').waitFor();
+ await expectCalls(page,[shown]);
+ await tap(page,'[data-token="t0"]');await tap(page,'[data-cell="2"]');
+ await page.locator('#result:visible').waitFor();
+ assert.equal((await save(page)).profile.solvedIds.length,6);
+ await tap(page,'#next');
+ await page.waitForFunction(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')).attempt.puzzleId==='cm-own-01-002');
+ assert.equal(await page.evaluate(()=>window.bannerTest.interstitials),1);
+ const after=await save(page);
+ assert.equal(after.ads.lastInterstitial,null);
+ assert.ok(after.ads.interstitialGate.nextEligibleAtMs>=30_000);
+ assert.equal(after.profile.hintCredits,0);
+ await page.reload();
+ await page.locator('html[data-state=ready]').waitFor();
+ const restored=await save(page);
+ assert.deepEqual(restored.ads.interstitialGate,after.ads.interstitialGate);
+ assert.equal(restored.attempt.puzzleId,'cm-own-01-002');
+ assert.deepEqual(errors,[]);
+ const noFill={calls:1,resumedPuzzle:restored.attempt.puzzleId,gate:restored.ads.interstitialGate};
+ await context.close();
  const out=resolve('.test-output/ads-banner');
  await mkdir(out,{recursive:true});
- await writeFile(resolve(out,'report.json'),JSON.stringify({source:process.env.GITHUB_SHA,browser:browser.version(),provider:'scripted',result},null,2)+'\n');
- console.log('ADS-01 · 3 Chromium touch routes PASS');
+ await writeFile(resolve(out,'report.json'),JSON.stringify({source:process.env.GITHUB_SHA,browser:browser.version(),provider:'scripted',result,noFill},null,2)+'\n');
+ console.log('Ads · 3 banner routes and 1 interstitial no-fill route PASS');
 }finally{
  await browser?.close();
  await server.close();
