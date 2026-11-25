@@ -337,3 +337,8 @@ Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceF
 - Original live A/B cohort assignment, performance-reactive difficulty and repeated remote emission remain UNKNOWN; verify on original device with matched actions and captured issuance IDs. No director or bank change approved.
 - Candidate balance experiment: matched size/holes, vary arithmetic mix and opening reasoning; human testing required. v2 deliberately preserves initial single-gap move. No category relabeling or save changes.
 - HELP-02 logical gate independently verified 515/515 in both compiled protocols. Android acceptance/signing compatibility still open; do not reopen solver implementation solely to copy original strategy names.
+
+
+### 25.11.2026 · Guru commercial callbacks (333/333)
+
+[Исходное исследование](https://github.com/DanilaH/mini-games-kit/blob/f4cca83706abc576c21d2b6eeb488562042126b9/research/games/crossmath/porting/guru-commerce-callbacks-20261125/README.md) · [сопоставление](porting/GURU_COMMERCE_CALLBACKS_2026-11-25.md). 13 новых granular ID: get_hint interstitial fallback/cancel/status grant, deadline clamp/extra/hidden routing, tutorial remote grants/defaults/game binding. 99 native words, 32 pool loads, 10 BL targets; live SDK, indirect grant linkage and active values UNKNOWN. Own adState/earned receipt and fixed economy unchanged; developer board-fit update noted separately. Implementation only after owner choice, no auto reward from Hidden. Next store prices/currency and unlock rewards. Source pin f4cca83706abc576c21d2b6eeb488562042126b9. KIT IMPACT REUSE; runtime NONE.
