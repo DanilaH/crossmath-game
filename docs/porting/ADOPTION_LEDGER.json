@@ -2,17 +2,17 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "1f834eb4ab42bdafa93c54c116dcc67179c6d9c3",
+    "commit": "353328644b5eb172ba938578dcd62ce5230802df",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
     "repository": "DanilaH/crossmath-game",
-    "codeCommit": "2a7d231098d34de29d8607cc4131fec3dcead899",
-    "artifactSource": "2a7d231098d34de29d8607cc4131fec3dcead899",
+    "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+    "artifactSource": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
     "version": "0.5.24",
     "versionCode": 29,
     "runtimeKit": "469928d03f4bae5053e23db26e82187bedbc252e",
-    "reviewedHead": "73fbc059149aba440297cf4cdc074b98433ad7e5"
+    "reviewedHead": "32980ba34dd27930ef4816e8739f024df04349d0"
   },
   "interpretation": "comparison answers functional parity for the named behavior at this snapshot. status answers workflow. ROADMAPPED = proposed research or acceptance stage, not owner commitment. Evidence locators use sourceInventory.commit + path and lookup by sourceFeatureId.",
   "features": [
@@ -155,7 +155,17 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/metaView.ts",
       "reviewedVersion": "0.5.23",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 4 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495"
+      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 4 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md"
+      ],
+      "profileBalanceAudit20261125": {
+        "report": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+        "reviewedHead": "32980ba34dd27930ef4816e8739f024df04349d0",
+        "evidenceClass": "NATIVE_STATIC + BUNDLED_DB + MODEL + CONSUMER_SOURCE",
+        "liveAdaptivity": "UNKNOWN",
+        "note": "Существующий экран метапрофиля не означает когортную выдачу. Когортный выбор default/easy1 отсутствует; восемь дочерних ID фиксируют точную гранулярность E25."
+      }
     },
     {
       "id": "guru-authored-open",
@@ -168,7 +178,17 @@
       "dependencies": "банк + валидатор + контракт сохранения",
       "nextAction": "Сверить первые 15 учебных целей на чистом профиле",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L111",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/catalog.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/catalog.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md"
+      ],
+      "profileBalanceAudit20261125": {
+        "report": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+        "reviewedHead": "32980ba34dd27930ef4816e8739f024df04349d0",
+        "evidenceClass": "NATIVE_STATIC + BUNDLED_DB + MODEL + CONSUMER_SOURCE",
+        "liveAdaptivity": "UNKNOWN",
+        "note": "Авторский стартовый список проверяется до каталога; сравнивать первые 15 отдельно."
+      }
     },
     {
       "id": "guru-long-expression",
@@ -239,7 +259,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED factory6 controls + BUNDLED_DB + NATIVE_STATIC bounded absence search",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -273,14 +293,22 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md"
       ],
       "researchSupplement20261125": "Подтверждена ветка filtered-empty retry и исследованы SQL ratio literals; exact PP mapping/live config UNKNOWN.",
       "issuanceDataflow20261125": {
         "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
         "note": "Seven named fields tracked separately, enable/null/has-bound gate confirmed; exact PP binding UNKNOWN."
       },
-      "originalBehavior": "G4:E27, PuzzleFilter, встроенный enable=false | Смена diff 1→2 (1650), 2→3 (2765), 3→4 (3006), 4→4 (501) при общих 7 922 рецептах; выбор cohort/remote flag НЕ доказан как реакция на ошибки, см. исследование 2026-11-23. | По обеим SQLite 300 исторических масок сами по себе не могут опустошить категорию; только дополнительные фильтры/другая ошибка могли бы дать ноль, реальный remote enable UNKNOWN. research/games/crossmath/porting/guru-profile-pool-20261123/README.md | NEW VERSION_DELTA: Guru 4.17 AOT includes cm_puzzle_filter_config, PuzzleCountRange, PuzzleRatioRange, PuzzleFilterDebugPage; these exact strings do not appear in Guru 3.5.2 AOT. This is a static version delta, live enabled UNKNOWN. See guru-ux-telemetry-417/README.md. | NATIVE_STATIC Guru 4.17 AOT remote-config getters RemoteConfigExtension|getPuzzleFilterConfig; live remote values UNKNOWN. 23-family enumeration in full-system-audit-20261123/REMOTE_CONFIGS.json. | 2026-11-25 Exact static filtered-empty retry and ratio literal/model evidence; live flags and full field bindings UNKNOWN. research/games/crossmath/porting/guru-issuance-audit-20261125/README.md | 2026-11-25 filterFor enable/null/has-bound gate verified at ab02c0/ab02c8/ab02d0/ab02d4; seven raw names and slots, exact PP bindings open. research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md | SUPERSEDING 2026-11-25: Seven exact key→field→SQL bindings now confirmed; optional inclusive bounds, enable/null/has-bound gate. Actual live configuration and adaptive behavior remain UNKNOWN. research/games/crossmath/porting/guru-filter-bindings-20261125/README.md"
+      "originalBehavior": "G4:E27, PuzzleFilter, встроенный enable=false | Смена diff 1→2 (1650), 2→3 (2765), 3→4 (3006), 4→4 (501) при общих 7 922 рецептах; выбор cohort/remote flag НЕ доказан как реакция на ошибки, см. исследование 2026-11-23. | По обеим SQLite 300 исторических масок сами по себе не могут опустошить категорию; только дополнительные фильтры/другая ошибка могли бы дать ноль, реальный remote enable UNKNOWN. research/games/crossmath/porting/guru-profile-pool-20261123/README.md | NEW VERSION_DELTA: Guru 4.17 AOT includes cm_puzzle_filter_config, PuzzleCountRange, PuzzleRatioRange, PuzzleFilterDebugPage; these exact strings do not appear in Guru 3.5.2 AOT. This is a static version delta, live enabled UNKNOWN. See guru-ux-telemetry-417/README.md. | NATIVE_STATIC Guru 4.17 AOT remote-config getters RemoteConfigExtension|getPuzzleFilterConfig; live remote values UNKNOWN. 23-family enumeration in full-system-audit-20261123/REMOTE_CONFIGS.json. | 2026-11-25 Exact static filtered-empty retry and ratio literal/model evidence; live flags and full field bindings UNKNOWN. research/games/crossmath/porting/guru-issuance-audit-20261125/README.md | 2026-11-25 filterFor enable/null/has-bound gate verified at ab02c0/ab02c8/ab02d0/ab02d4; seven raw names and slots, exact PP bindings open. research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md | SUPERSEDING 2026-11-25: Seven exact key→field→SQL bindings now confirmed; optional inclusive bounds, enable/null/has-bound gate. Actual live configuration and adaptive behavior remain UNKNOWN. research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
+      "profileBalanceAudit20261125": {
+        "report": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+        "reviewedHead": "32980ba34dd27930ef4816e8739f024df04349d0",
+        "evidenceClass": "NATIVE_STATIC + BUNDLED_DB + MODEL + CONSUMER_SOURCE",
+        "liveAdaptivity": "UNKNOWN",
+        "note": "Прямой путь requested difficulty → filterFor/toSql; причинная реакция на ошибки не установлена."
+      }
     },
     {
       "id": "easy-tap",
@@ -334,13 +362,13 @@
       "sourceFeatureId": "guru-direct-hint",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Своя объяснимая прямая стратегия и проверка доказательства",
+      "currentImplementation": "Своя объяснимая прямая стратегия и проверка доказательства. Приоритет сохранён, 4 310 прямых шагов совпали с исследовательским прогоном.",
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "Сохранять собственный direct proof и независимый verifier. При сравнении UX учитывать first-step policy, но подтверждать показ и touch flow на нашей сборке отдельно от native источника.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/STRATEGIES.json",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/c1e770f9cc6e77ab7038285f14f390560f78d2c4/src/help/logic.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
@@ -361,7 +389,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED + NATIVE_STATIC",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -382,6 +410,19 @@
         "report": "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "note": "Compiled consumer sweep: 2630 direct_inverse + 1680 direct_result steps in empty-layout protocol, no verification rejection; preserve existing fast path."
+      },
+      "consumerHelp02": {
+        "package": "HELP-02",
+        "status": "IMPLEMENTED",
+        "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+        "report": "docs/acceptance/issue-11/README.md",
+        "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+        "evidenceClass": "CONSUMER_RUNTIME + APK_WEB_PAYLOAD_CHROMIUM",
+        "nativeAndroid": "NOT RUN",
+        "observedBehavior": "Своя объяснимая прямая стратегия и проверка доказательства. Приоритет сохранён, 4 310 прямых шагов совпали с исследовательским прогоном.",
+        "nextStep": "Проверить касания, Android Back и восстановление на Android-устройстве.",
+        "independentAuditRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
+        "independentAuditKind": "CONSUMER_COMPILED_JS_ISOLATED"
       }
     },
     {
@@ -389,13 +430,13 @@
       "sourceFeatureId": "guru-monotonic-hint",
       "status": "RESEARCHED",
       "comparison": "MISSING",
-      "currentImplementation": "В src/help/logic.ts нет самостоятельного Monotonic proof. Свой tray search может получить совпадающее число, что не доказывает одинаковую стратегию.",
-      "codePath": "src/help/logic.ts",
+      "currentImplementation": "Собственная доменная пропагация с арифметическими supports и кратностью. Отдельная именованная Monotonic-стратегия остаётся предметом исследования.",
+      "codePath": "src/help/propagate.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "По предложению в PRODUCT_IMPACT.md спроектировать собственный Monotonic proof и независимую проверку конечного лотка; воспроизвести положительные addition/subtraction и no-progress/guard случаи. Не объявлять именованную parity по совпавшему числу от tray.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/STRATEGIES.json",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/c1e770f9cc6e77ab7038285f14f390560f78d2c4/src/help/propagate.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
@@ -410,7 +451,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED + exact NATIVE_STATIC excerpts",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -431,6 +472,19 @@
         "report": "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "note": "Source-inspired iterative domain model is a proposal, not exact Monotonic parity. First test the source-backed rule independently; do not infer named parity from candidate coverage."
+      },
+      "consumerHelp02": {
+        "package": "HELP-02",
+        "status": "IMPLEMENTED",
+        "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+        "report": "docs/acceptance/issue-11/README.md",
+        "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+        "evidenceClass": "CONSUMER_RUNTIME + APK_WEB_PAYLOAD_CHROMIUM",
+        "nativeAndroid": "NOT RUN",
+        "observedBehavior": "Собственная доменная пропагация с арифметическими supports и кратностью. Отдельная именованная Monotonic-стратегия остаётся предметом исследования.",
+        "nextStep": "Проверить касания, Android Back и восстановление на Android-устройстве.",
+        "independentAuditRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
+        "independentAuditKind": "CONSUMER_COMPILED_JS_ISOLATED"
       }
     },
     {
@@ -438,13 +492,13 @@
       "sourceFeatureId": "guru-factor-hint",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Собственный finite-tray support и независимая проверка есть; отдельного широкого Factor/Multiplier proof контракта нет.",
-      "codePath": "src/help/logic.ts",
+      "currentImplementation": "Сохранился finite-tray support. Общая арифметическая пропагация дополнила его конечными доменами и кратностью номиналов. Сравнение именованной стратегии Factor ведётся отдельно.",
+      "codePath": "src/help/propagate.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "Добавить собственные Factor/Multiplier proof только как отдельную продуктовую задачу: один и два одинаковых физических токена, связанные ×/÷, verifier без author answers. В метриках считать реальные assignments/candidate removals, не копировать асимметричные counters.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/FACTOR_FINAL.json",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/c1e770f9cc6e77ab7038285f14f390560f78d2c4/src/help/propagate.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
@@ -458,7 +512,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED + exact NATIVE_STATIC excerpts",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -479,6 +533,19 @@
         "report": "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "note": "Local equation support without global tray cardinality leaves five of 30 baseline misses. Own model with global multiplicity and propagation leaves two; do not rename the model Factor."
+      },
+      "consumerHelp02": {
+        "package": "HELP-02",
+        "status": "IMPLEMENTED",
+        "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+        "report": "docs/acceptance/issue-11/README.md",
+        "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+        "evidenceClass": "CONSUMER_RUNTIME + APK_WEB_PAYLOAD_CHROMIUM",
+        "nativeAndroid": "NOT RUN",
+        "observedBehavior": "Сохранился finite-tray support. Общая арифметическая пропагация дополнила его конечными доменами и кратностью номиналов. Сравнение именованной стратегии Factor ведётся отдельно.",
+        "nextStep": "Проверить касания, Android Back и восстановление на Android-устройстве.",
+        "independentAuditRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
+        "independentAuditKind": "CONSUMER_COMPILED_JS_ISOLATED"
       }
     },
     {
@@ -486,13 +553,13 @@
       "sourceFeatureId": "guru-intersect-hint",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Собственная intersection требует минимум два supporting equations; одновыраженный вывод относится к tray. Имена исходного enum и наших правил не тождественны.",
+      "currentImplementation": "Собственная intersection требует минимум два supporting equations. Все 314 шагов пересечения совпали с исследовательским прогоном.",
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "Сравнивать proof semantics, а не enum names: наша intersection требует два supporting equations, одновыраженный вывод относится к tray. Зафиксировать собственную выбранную стратегию и независимые положительные/отрицательные проверки; source native execution уже выполнено.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/strategy-source/README.md",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/c1e770f9cc6e77ab7038285f14f390560f78d2c4/src/help/logic.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md",
@@ -507,7 +574,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED + exact NATIVE_STATIC excerpts",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -528,6 +595,19 @@
         "report": "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "note": "Current compiled Explain applies 314 intersection steps in baseline. Repeated cross-equation narrowing with global multiplicity gives 28/30 targeted completions without assumptions, not original enum parity."
+      },
+      "consumerHelp02": {
+        "package": "HELP-02",
+        "status": "IMPLEMENTED",
+        "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+        "report": "docs/acceptance/issue-11/README.md",
+        "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+        "evidenceClass": "CONSUMER_RUNTIME + APK_WEB_PAYLOAD_CHROMIUM",
+        "nativeAndroid": "NOT RUN",
+        "observedBehavior": "Собственная intersection требует минимум два supporting equations. Все 314 шагов пересечения совпали с исследовательским прогоном.",
+        "nextStep": "Проверить касания, Android Back и восстановление на Android-устройстве.",
+        "independentAuditRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
+        "independentAuditKind": "CONSUMER_COMPILED_JS_ISOLATED"
       }
     },
     {
@@ -535,13 +615,13 @@
       "sourceFeatureId": "guru-search-depth",
       "status": "RESEARCHED",
       "comparison": "MISSING",
-      "currentImplementation": "countSolutions используется как отдельная проверка совместимости с бюджетом; ограниченная assumption chain как объяснение и её verifier не реализованы.",
-      "codePath": "src/help/logic.ts",
+      "currentImplementation": "Одноуровневая гипотеза после пропагации. Отдельный верификатор воспроизводит снятие альтернатив и противоречие. Source parity глубины остаётся неподтверждённой.",
+      "codePath": "src/help/verifyDomainProof.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "Если принимаем bounded proof, явно задать лимит узлов/времени и длину цепочки, независимо проверить каждый assumption/вывод. Не путать глубину входа0–2 с тремя сохранёнными узлами; не копировать отсутствие общего бюджета.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/factor/catalog_search/accepted/README.md",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/c1e770f9cc6e77ab7038285f14f390560f78d2c4/src/help/verifyDomainProof.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/9632dae736e0893c7e06d16b9c2a12cef30088d3/research/games/crossmath/porting/guru-solver-branch-20261123/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solver-contract-20261124/README.md",
@@ -555,7 +635,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED + exact NATIVE_STATIC excerpts",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -576,6 +656,19 @@
         "report": "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "note": "Current product has no assumption-chain proof. Own one-level contradiction prototype resolves cm-own-02-182 after 2 filled cells and cm-own-02-217 after 12 filled cells. New verifier and production budget required."
+      },
+      "consumerHelp02": {
+        "package": "HELP-02",
+        "status": "IMPLEMENTED",
+        "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+        "report": "docs/acceptance/issue-11/README.md",
+        "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+        "evidenceClass": "CONSUMER_RUNTIME + APK_WEB_PAYLOAD_CHROMIUM",
+        "nativeAndroid": "NOT RUN",
+        "observedBehavior": "Одноуровневая гипотеза после пропагации. Отдельный верификатор воспроизводит снятие альтернатив и противоречие. Source parity глубины остаётся неподтверждённой.",
+        "nextStep": "Проверить касания, Android Back и восстановление на Android-устройстве.",
+        "independentAuditRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
+        "independentAuditKind": "CONSUMER_COMPILED_JS_ISOLATED"
       }
     },
     {
@@ -583,13 +676,13 @@
       "sourceFeatureId": "guru-hint-candidate",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "prepareExplanation использует собственный приоритет direct/intersection/tray; исходные candidate/backtrack complexity formulas не перенесены.",
+      "currentImplementation": "Старый порядок выбора сохранён. Все 5 161 ранее доступные позиции дали прежний шаг. Бюджетный fallback расширяет покрытие при отсутствии шага. Исходные формулы ranking ведутся отдельно.",
       "codePath": "src/help/logic.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "Оставить текущий deterministic selection до отдельной задачи. Для изменения ranking сначала сравнить собственные доказательства и критерий понятности. Формулы 10*N+3*R+flag и100*D+10*N исходные, но не stuck и не измерение человеческой сложности.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/NATIVE_METADATA.json",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/c1e770f9cc6e77ab7038285f14f390560f78d2c4/src/help/logic.ts",
       "originalBehavior": "Let N=count(expression indexes != -1), R=related unknown count, D=chain nodes. Candidate score=10*N+3*R+int(flag), constructed flag=(-1 in support set); backtrack score=100*D+10*N. First-found fallback stopping prevents a global optimality claim. These formulas are not stuck or human difficulty.",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
@@ -600,7 +693,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED getters + NATIVE_STATIC construction/sort",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -621,6 +714,19 @@
         "report": "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "note": "Current ranking is not altered; 485/515 exact compiled empty-layout paths Explain-only, 515/515 alternate correct-prefix paths; no evidence of Guru ranking parity. Any new rule must preserve answer-free reasoning and explicit outcome semantics."
+      },
+      "consumerHelp02": {
+        "package": "HELP-02",
+        "status": "IMPLEMENTED",
+        "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+        "report": "docs/acceptance/issue-11/README.md",
+        "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+        "evidenceClass": "CONSUMER_RUNTIME + APK_WEB_PAYLOAD_CHROMIUM",
+        "nativeAndroid": "NOT RUN",
+        "observedBehavior": "Старый порядок выбора сохранён. Все 5 161 ранее доступные позиции дали прежний шаг. Бюджетный fallback расширяет покрытие при отсутствии шага. Исходные формулы ranking ведутся отдельно.",
+        "nextStep": "Проверить касания, Android Back и восстановление на Android-устройстве.",
+        "independentAuditRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
+        "independentAuditKind": "CONSUMER_COMPILED_JS_ISOLATED"
       }
     },
     {
@@ -657,7 +763,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_STATIC caller; NATIVE_ISOLATED solver with own caller orchestration",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -3259,7 +3365,17 @@
       "dependencies": "Оценка реального игрового темпа нашей content-v2, доказательства выбора оригинальных cohort, backward-compatible contentVersion, независимые записи решений; менять порядок задач только после решения владельца.",
       "nextAction": "Сравнить completion time/errors для текущих корзин Crossmath и целевой мягкой стартовой выборки; отдельно воспроизвести на оригинале два профиля и их получение remote puzzle_version. Не заменять текущую кампанию 0.5.23 на SQL-bank без оснований.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7fef14def6bd31107becb7b83f0a947c412cda06/research/games/crossmath/porting/guru-profile-pool-20261123/README.md",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/content/catalog.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/content/catalog.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md"
+      ],
+      "profileBalanceAudit20261125": {
+        "report": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+        "reviewedHead": "32980ba34dd27930ef4816e8739f024df04349d0",
+        "evidenceClass": "NATIVE_STATIC + BUNDLED_DB + MODEL + CONSUMER_SOURCE",
+        "liveAdaptivity": "UNKNOWN",
+        "note": "20 821 строки оригинала, 515 своих задач; отличие структуры не равно измеренной человеческой сложности."
+      }
     },
     {
       "id": "guru-tag-4-2-lower-range",
@@ -4082,7 +4198,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "BUNDLED_DB + INDEPENDENT_MODEL_CSP + bounded NATIVE_ISOLATED",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -4529,8 +4645,8 @@
       "status": "RESEARCHED",
       "comparison": "MISSING",
       "originalBehavior": "The zero-count is accumulated SolutionCandidate list length. Two real catalog recipes naturally enter backtracking and complete in 5 persistent or 13 fresh/first-step calls each. Search can miss forced moves: a connected synthetic five-equation control has four forced values but 44 limited-search entries and no step. This is not a catalog failure.",
-      "currentImplementation": "Собственные direct/intersection/tray и independent verifyExplanation; bounded-search compatibility guard не является исходным рекурсивным proof fallback. HELP-01 typed outcomes уже реализован.",
-      "codePath": "src/help/logic.ts",
+      "currentImplementation": "Продуктовый fallback: ограниченное опровержение гипотезы глубины один. Старые ready и typed outcomes сохранены. Сравнение с исходным рекурсивным fallback ведётся отдельно.",
+      "codePath": "src/help/propagate.ts",
       "stage": "UX/HELP optional future stage, not owner-approved implementation",
       "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA-256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA-256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. New evidence is not extrapolated to 4.18.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/BACKTRACK_FINAL.json",
@@ -4548,7 +4664,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED full solve on real catalog + exact NATIVE_STATIC",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -4564,12 +4680,25 @@
           "heavySupplement": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/diagnostics/heap-capacity-20261124/README.md"
         }
       },
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/c1e770f9cc6e77ab7038285f14f390560f78d2c4/src/help/propagate.ts",
       "consumerHelpCoverage20261125": {
         "kind": "CONSUMER_COMPILED_JS_ISOLATED + MODEL",
         "report": "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "productHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "note": "Targeted MODEL replay gives 30/30 without Reveal (38 propagation and 2 assumption steps); exact compiled product verifier deliberately rejects research_model plans. Implement separate proof representation and independently validate it before acceptance; do not copy research materialization path."
+      },
+      "consumerHelp02": {
+        "package": "HELP-02",
+        "status": "IMPLEMENTED",
+        "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+        "report": "docs/acceptance/issue-11/README.md",
+        "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+        "evidenceClass": "CONSUMER_RUNTIME + APK_WEB_PAYLOAD_CHROMIUM",
+        "nativeAndroid": "NOT RUN",
+        "observedBehavior": "Продуктовый fallback: ограниченное опровержение гипотезы глубины один. Старые ready и typed outcomes сохранены. Сравнение с исходным рекурсивным fallback ведётся отдельно.",
+        "nextStep": "Проверить касания, Android Back и восстановление на Android-устройстве.",
+        "independentAuditRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
+        "independentAuditKind": "CONSUMER_COMPILED_JS_ISOLATED"
       }
     },
     {
@@ -5010,7 +5139,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED controlled negative cases + exact NATIVE_STATIC",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -5085,7 +5214,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED repeated source masks + NATIVE_STATIC caller",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -5132,7 +5261,7 @@
       "latestResearch": {
         "date": "2026-11-24",
         "evidenceClass": "NATIVE_ISOLATED Factor and repeat controls + exact NATIVE_STATIC",
-        "report": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+        "report": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
         "privateSourceReport": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "reviewedConsumerHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
         "productImplementationChanged": false,
@@ -5416,18 +5545,155 @@
       "dependencies": "Explicit owner scope decision; native malformed-input/exception semantics and live config separate.",
       "nextAction": "If selected for product, independently validate range constraints and reject malformed input; do not silently change issuance or saves.",
       "acceptanceRequirement": "Exact source evidence distinguished from own implementation; test boundary/invalid values and unchanged save IDs."
+    },
+    {
+      "id": "guru-profile-saved-priority",
+      "sourceFeatureId": "guru-profile-saved-priority",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Сохранённое значение профиля имеет приоритет при инициализации. G4:E25; 0x1324254, 0x1324268–0x132426c: non-null saved value returns before isNewUser; caller 0x1323fb4. No remote subscription on this route. research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "currentImplementation": "Когортный выбор Guru default/easy1 и подписка puzzle_version отсутствуют. Собственный банк с явными корзинами и детерминированной выдачей.",
+      "codePath": "src/content/catalog.ts; src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/32980ba34dd27930ef4816e8739f024df04349d0/src/content/catalog.ts",
+      "stage": "CORE",
+      "dependencies": "Согласованное решение владельца о когортах и балансировке; стабильный контракт сохранений; оригинальный live config UNKNOWN.",
+      "nextAction": "Сначала подтвердить оригинальное устройство/remote snapshot и правила назначения; при выборе реализации проектировать собственную стабильную политику без воспроизведения возможного рассогласования active/stored.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "reviewedVersion": "0.5.24",
+      "reason": "Исследовано статически; повторные remote emission только модель. Реализация и изменение банка не заказаны."
+    },
+    {
+      "id": "guru-profile-unknown-saved-fallback",
+      "sourceFeatureId": "guru-profile-unknown-saved-fallback",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Неизвестное сохранённое значение выбирает default-конфигурацию без новой подписки. G4:E25; 0x1323fb4–0x1323fcc and profile lookup continuation; saved non-null unknown value is not rewritten by getter; model active=default, stored=unknown. Source E25 initialization walkthrough. research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "currentImplementation": "Когортный выбор Guru default/easy1 и подписка puzzle_version отсутствуют. Собственный банк с явными корзинами и детерминированной выдачей.",
+      "codePath": "src/content/catalog.ts; src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/32980ba34dd27930ef4816e8739f024df04349d0/src/content/catalog.ts",
+      "stage": "CORE",
+      "dependencies": "Согласованное решение владельца о когортах и балансировке; стабильный контракт сохранений; оригинальный live config UNKNOWN.",
+      "nextAction": "Сначала подтвердить оригинальное устройство/remote snapshot и правила назначения; при выборе реализации проектировать собственную стабильную политику без воспроизведения возможного рассогласования active/stored.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "reviewedVersion": "0.5.24",
+      "reason": "Исследовано статически; повторные remote emission только модель. Реализация и изменение банка не заказаны."
+    },
+    {
+      "id": "guru-profile-new-user-window",
+      "sourceFeatureId": "guru-profile-new-user-window",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Отсутствующий профиль у нового пользователя разрешает наблюдение puzzle_version. G4:E25; 0xaed55c–0xaed588: absolute install-time difference strictly below 300000 ms; 0x1324270, 0x1324288, 0x13240c0, 0x13240fc: absent saved value/new user route subscribes. Not a five-minute subscription timeout. research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "currentImplementation": "Когортный выбор Guru default/easy1 и подписка puzzle_version отсутствуют. Собственный банк с явными корзинами и детерминированной выдачей.",
+      "codePath": "src/content/catalog.ts; src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/32980ba34dd27930ef4816e8739f024df04349d0/src/content/catalog.ts",
+      "stage": "CORE",
+      "dependencies": "Согласованное решение владельца о когортах и балансировке; стабильный контракт сохранений; оригинальный live config UNKNOWN.",
+      "nextAction": "Сначала подтвердить оригинальное устройство/remote snapshot и правила назначения; при выборе реализации проектировать собственную стабильную политику без воспроизведения возможного рассогласования active/stored.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "reviewedVersion": "0.5.24",
+      "reason": "Исследовано статически; повторные remote emission только модель. Реализация и изменение банка не заказаны."
+    },
+    {
+      "id": "guru-profile-aged-default",
+      "sourceFeatureId": "guru-profile-aged-default",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Отсутствующий профиль вне окна нового пользователя сохраняется как default. G4:E25; 0x1324270–0x13242a8; direct setter call at 0x1324298 after isNewUser false. research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "currentImplementation": "Когортный выбор Guru default/easy1 и подписка puzzle_version отсутствуют. Собственный банк с явными корзинами и детерминированной выдачей.",
+      "codePath": "src/content/catalog.ts; src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/32980ba34dd27930ef4816e8739f024df04349d0/src/content/catalog.ts",
+      "stage": "CORE",
+      "dependencies": "Согласованное решение владельца о когортах и балансировке; стабильный контракт сохранений; оригинальный live config UNKNOWN.",
+      "nextAction": "Сначала подтвердить оригинальное устройство/remote snapshot и правила назначения; при выборе реализации проектировать собственную стабильную политику без воспроизведения возможного рассогласования active/stored.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "reviewedVersion": "0.5.24",
+      "reason": "Исследовано статически; повторные remote emission только модель. Реализация и изменение банка не заказаны."
+    },
+    {
+      "id": "guru-profile-empty-remote-ignored",
+      "sourceFeatureId": "guru-profile-empty-remote-ignored",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Пустое или null значение puzzle_version игнорируется. G4:E25; Callback 0x1324358; branches 0x13243a8, 0x13243b0, 0x13243b8. research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "currentImplementation": "Когортный выбор Guru default/easy1 и подписка puzzle_version отсутствуют. Собственный банк с явными корзинами и детерминированной выдачей.",
+      "codePath": "src/content/catalog.ts; src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/32980ba34dd27930ef4816e8739f024df04349d0/src/content/catalog.ts",
+      "stage": "CORE",
+      "dependencies": "Согласованное решение владельца о когортах и балансировке; стабильный контракт сохранений; оригинальный live config UNKNOWN.",
+      "nextAction": "Сначала подтвердить оригинальное устройство/remote snapshot и правила назначения; при выборе реализации проектировать собственную стабильную политику без воспроизведения возможного рассогласования active/stored.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "reviewedVersion": "0.5.24",
+      "reason": "Исследовано статически; повторные remote emission только модель. Реализация и изменение банка не заказаны."
+    },
+    {
+      "id": "guru-profile-remote-nondefault-swap",
+      "sourceFeatureId": "guru-profile-remote-nondefault-swap",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Известный не-default профиль заменяет активную конфигурацию и банк. G4:E25; Callback known-key/default tests 0x13243e8–0x1324448; active field store 0x13244a0; database wrapper replacement/close path; setter 0x13245e0. easy1 → cm5. research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "currentImplementation": "Когортный выбор Guru default/easy1 и подписка puzzle_version отсутствуют. Собственный банк с явными корзинами и детерминированной выдачей.",
+      "codePath": "src/content/catalog.ts; src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/32980ba34dd27930ef4816e8739f024df04349d0/src/content/catalog.ts",
+      "stage": "CORE",
+      "dependencies": "Согласованное решение владельца о когортах и балансировке; стабильный контракт сохранений; оригинальный live config UNKNOWN.",
+      "nextAction": "Сначала подтвердить оригинальное устройство/remote snapshot и правила назначения; при выборе реализации проектировать собственную стабильную политику без воспроизведения возможного рассогласования active/stored.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "reviewedVersion": "0.5.24",
+      "reason": "Исследовано статически; повторные remote emission только модель. Реализация и изменение банка не заказаны."
+    },
+    {
+      "id": "guru-profile-remote-default-persist",
+      "sourceFeatureId": "guru-profile-remote-default-persist",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Известный remote default сохраняется без ветки замены активного банка. G4:E25; Callback branch 0x1324448 skips nondefault replacement; setter 0x13245e0. Repeated easy1→default is a static/model scenario, not observed remote delivery. research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "currentImplementation": "Когортный выбор Guru default/easy1 и подписка puzzle_version отсутствуют. Собственный банк с явными корзинами и детерминированной выдачей.",
+      "codePath": "src/content/catalog.ts; src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/32980ba34dd27930ef4816e8739f024df04349d0/src/content/catalog.ts",
+      "stage": "CORE",
+      "dependencies": "Согласованное решение владельца о когортах и балансировке; стабильный контракт сохранений; оригинальный live config UNKNOWN.",
+      "nextAction": "Сначала подтвердить оригинальное устройство/remote snapshot и правила назначения; при выборе реализации проектировать собственную стабильную политику без воспроизведения возможного рассогласования active/stored.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "reviewedVersion": "0.5.24",
+      "reason": "Исследовано статически; повторные remote emission только модель. Реализация и изменение банка не заказаны."
+    },
+    {
+      "id": "guru-profile-remote-unknown-fallback",
+      "sourceFeatureId": "guru-profile-remote-unknown-fallback",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Неизвестный непустой remote профиль сохраняет default без замены активного банка. G4:E25; Callback key check 0x13243e8–0x13243ec; setter default at 0x13245ec. Repeated easy1→unknown is a static/model scenario, not observed remote delivery. research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "currentImplementation": "Когортный выбор Guru default/easy1 и подписка puzzle_version отсутствуют. Собственный банк с явными корзинами и детерминированной выдачей.",
+      "codePath": "src/content/catalog.ts; src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/32980ba34dd27930ef4816e8739f024df04349d0/src/content/catalog.ts",
+      "stage": "CORE",
+      "dependencies": "Согласованное решение владельца о когортах и балансировке; стабильный контракт сохранений; оригинальный live config UNKNOWN.",
+      "nextAction": "Сначала подтвердить оригинальное устройство/remote snapshot и правила назначения; при выборе реализации проектировать собственную стабильную политику без воспроизведения возможного рассогласования active/stored.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+      "reviewedVersion": "0.5.24",
+      "reason": "Исследовано статически; повторные remote emission только модель. Реализация и изменение банка не заказаны."
     }
   ],
   "latestReview": {
-    "codeCommit": "2a7d231098d34de29d8607cc4131fec3dcead899",
-    "artifactSource": "2a7d231098d34de29d8607cc4131fec3dcead899",
+    "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+    "artifactSource": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
     "version": "0.5.24",
     "versionCode": 29,
-    "apkSha256": "3329ce326c2a574d84997c338665d6f66be89b46fe1b8887efc10e9e9306defa",
-    "report": "docs/acceptance/issues-8-9/README.md",
-    "scope": "HELP-01 и ADS-01. Unit, Chromium и точный APK проверены. Android runtime и live SDK остаются открыты."
+    "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+    "report": "docs/acceptance/issue-11/README.md",
+    "scope": "HELP-02. Explain 515/515 с пустого поля без Reveal, старые ready-решения сохранены, 8 проверок на ресурсах APK. Приёмка на Android-устройстве открыта."
   },
   "reviewHistory": [
+    {
+      "codeCommit": "2a7d231098d34de29d8607cc4131fec3dcead899",
+      "artifactSource": "2a7d231098d34de29d8607cc4131fec3dcead899",
+      "version": "0.5.24",
+      "versionCode": 29,
+      "apkSha256": "3329ce326c2a574d84997c338665d6f66be89b46fe1b8887efc10e9e9306defa",
+      "report": "docs/acceptance/issues-8-9/README.md",
+      "scope": "HELP-01 и ADS-01. Unit, Chromium и точный APK проверены. Android runtime и live SDK остаются открыты."
+    },
     {
       "codeCommit": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
       "artifactSource": "0401140d5fc0c191e457289b6dc8e5752a9f85a8",
@@ -5517,7 +5783,7 @@
     "consumerReviewedHead": "73fbc059149aba440297cf4cdc074b98433ad7e5",
     "runtimeKit": "469928d03f4bae5053e23db26e82187bedbc252e",
     "report": "research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
-    "consumerReport": "docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
+    "consumerReport": "https://github.com/DanilaH/crossmath-game/blob/7f1e164862571e4d84ed47a88f41ccffd775bdf9/docs/porting/GURU_SOLVER_RESEARCH_2026-11-24.md",
     "summary": "Original remaining strategies executed. The frozen base of 12 recipes / 18 DB rows plus one completed recipe with 26 holes gives 13 original recipes / 19 DB rows completed under both persistent and fresh/first-step loops. Heavy persistent: 11 calls / 26 steps; fresh: 26 calls / 26 applied / 62 internal steps. The independent CSP result for all 12,899 recipes is not native convergence. Whole-catalog original native convergence and the exact authoring stuck formula remain UNKNOWN. Three native recipes refute equality with applied non-Direct step count. Original Android caller not executed. 13 existing IDs refined, with no status/comparison promotion; HELP-01 and ADS-01 remain IMPLEMENTED.",
     "nativeCatalogCoverage": {
       "completedBothProtocolsRecipes": 13,
@@ -5578,6 +5844,26 @@
           "docs/acceptance/issues-8-9/evidence.json"
         ],
         "statusMeaning": "Собственная реализация проверена в unit и Chromium. Статус исходного поведения и приёмка Android ведутся отдельно."
+      },
+      {
+        "id": "HELP-02",
+        "status": "IMPLEMENTED",
+        "sourceFeatureIds": [
+          "guru-direct-hint",
+          "guru-intersect-hint",
+          "guru-factor-hint",
+          "guru-monotonic-hint",
+          "guru-search-depth",
+          "guru-strategy-conditional-backtrack",
+          "guru-hint-candidate"
+        ],
+        "issueRef": "https://github.com/DanilaH/crossmath-game/issues/11",
+        "implementationCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+        "acceptanceEvidence": [
+          "docs/acceptance/issue-11/README.md",
+          "docs/acceptance/issue-11/summary.json"
+        ],
+        "statusMeaning": "Собственная реализация проверена на каталоге и ресурсах APK. Исходные оценки соответствия и приёмка Android ведутся отдельно."
       }
     ],
     "meaning": "IMPLEMENTED — свой код и приёмка unit/Chromium. Исходное поведение и подтверждение на Android ведутся отдельно.",
@@ -5645,7 +5931,42 @@
     "originalNativeCoverageChanged": false,
     "productChanged": false,
     "status": "research model only; no status/comparison promotion",
-    "developerIssue": "https://github.com/DanilaH/crossmath-game/issues/11"
+    "developerIssue": "https://github.com/DanilaH/crossmath-game/issues/11",
+    "implementation": {
+      "package": "HELP-02",
+      "status": "IMPLEMENTED",
+      "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+      "report": "docs/acceptance/issue-11/README.md",
+      "apkSha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+      "evidenceClass": "CONSUMER_RUNTIME + APK_WEB_PAYLOAD_CHROMIUM",
+      "nativeAndroid": "NOT RUN",
+      "empty": "515/515",
+      "alternatePrefix": "515/515",
+      "previousReadyChoicesRetained": 5161,
+      "propagationSteps": 38,
+      "contradictionSteps": 2
+    },
+    "independentAudit": {
+      "reviewedHead": "32980ba34dd27930ef4816e8739f024df04349d0",
+      "codeCommit": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+      "ciMerge": "a26c4df55f805d0f9677caed8171447ff40f05ff",
+      "ciRun": 45580783281,
+      "artifactId": 15005629858,
+      "apkSha256": "33423067457c1d71890d538e9a86050ffc8881c9fa62bd20c7ac75f126cb1e2b",
+      "report": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
+      "evidenceClass": "CONSUMER_COMPILED_JS_ISOLATED",
+      "empty": "515/515",
+      "prefix": "515/515",
+      "emptySteps": 5201,
+      "prefixSteps": 3459,
+      "propagation": 38,
+      "contradiction": 2,
+      "positive": 40,
+      "negative": 456,
+      "android": "NOT RUN",
+      "namedSourceParityPromoted": false,
+      "scope": "Counts/rule distribution and two contradiction examples, not independent full trace parity. Physical signing/upgrade acceptance open."
+    }
   },
   "issuanceDataflow20261125": {
     "sourceCommit": "3517662878dd1982294ec206cfc165b4daa9ccf5",
@@ -5693,5 +6014,31 @@
     "liveConfig": "UNKNOWN",
     "originalNativeCoverageChanged": false,
     "productChanged": false
+  },
+  "profileBalance20261125": {
+    "report": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+    "reviewedHead": "32980ba34dd27930ef4816e8739f024df04349d0",
+    "sourceCount": 320,
+    "priorResearchCount": 312,
+    "developerLedgerCount": 300,
+    "addedGranularIds": [
+      "guru-profile-saved-priority",
+      "guru-profile-unknown-saved-fallback",
+      "guru-profile-new-user-window",
+      "guru-profile-aged-default",
+      "guru-profile-empty-remote-ignored",
+      "guru-profile-remote-nondefault-swap",
+      "guru-profile-remote-default-persist",
+      "guru-profile-remote-unknown-fallback"
+    ],
+    "originalStaticWords": 3439684,
+    "criticalChecks": 47,
+    "modelCases": 280,
+    "modelActiveColdMismatch": 6,
+    "originalDbRows": 20821,
+    "ownRows": 515,
+    "liveAdaptivity": "UNKNOWN",
+    "bankChanged": false,
+    "archive": "https://chatgpt.com/library?file_id=libfile_fde3_f-f1c9209c7a788191a811ee9ecf42fd38_2841ca9da26c8191b7a266fa9b41a810&account_id=personal"
   }
 }

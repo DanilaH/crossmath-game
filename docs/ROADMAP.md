@@ -329,3 +329,11 @@ Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceF
 ### 25.11.2026 · Guru exact SQL filter binding (312/312)
 
 [Original evidence](https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md) · [Consumer reconciliation](porting/GURU_FILTER_BINDINGS_2026-11-25.md). 7 exact keys bound; 4 validation IDs. 133 static ARM64 + 1064 SQL model checks, 20821 rows. Live remote enable/values, adaptive causality and original full solver convergence remain UNKNOWN. Source pin 1f834eb4ab42bdafa93c54c116dcc67179c6d9c3. No product changes, no new assignment beyond HELP-02 #11. KIT IMPACT: RESEARCH.
+
+
+### 2026-11-25 — Profile/balance and HELP-02 review
+
+- [Source study](https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md) / [consumer report](porting/PROFILE_BALANCE_HELP02_REVIEW_2026-11-25.md). 320 registered/mapped IDs; 8 granular E25 profile rules. Developer HELP-02 findings retained; no gameplay changes.
+- Original live A/B cohort assignment, performance-reactive difficulty and repeated remote emission remain UNKNOWN; verify on original device with matched actions and captured issuance IDs. No director or bank change approved.
+- Candidate balance experiment: matched size/holes, vary arithmetic mix and opening reasoning; human testing required. v2 deliberately preserves initial single-gap move. No category relabeling or save changes.
+- HELP-02 logical gate independently verified 515/515 in both compiled protocols. Android acceptance/signing compatibility still open; do not reopen solver implementation solely to copy original strategy names.
