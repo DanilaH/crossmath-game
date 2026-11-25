@@ -109,6 +109,10 @@ html[data-host="browser"] body.in-play #shell {
   min-height: 0;
 }
 
+#play-screen.is-solving .note {
+  flex: none;
+}
+
 body.in-play:has(#help-dialog[open]) #play-screen.is-solving .boardpad {
   margin-block-start: 0;
 }
@@ -176,6 +180,10 @@ body.in-play:has(#help-dialog[open]) .play-area {
   color: var(--play-board-ink);
 }
 
+.board.is-packed {
+  --board-face: calc(var(--step) - 2px);
+}
+
 .board-surface {
   position: absolute;
   inset: var(--board-inset);
@@ -235,6 +243,10 @@ body.in-play:has(#help-dialog[open]) .play-area {
   font-size: clamp(15px, calc(var(--step) * .52), 30px);
   font-weight: 820;
   font-feature-settings: "tnum";
+}
+
+.board.is-packed :is(.tile, .given, .op) {
+  font-size: clamp(12px, calc(var(--step) * .62), 18px);
 }
 
 .tile {
@@ -839,3 +851,11 @@ html[data-host="browser"] #help-dialog { margin-bottom: calc(8px + env(safe-area
 #help-dialog .primary { padding-inline: 10px; }
 
 @media (min-height: 780px) { .traybox { --tray-rows: 4; } }
+
+@media (max-height: 510px) {
+  #play-screen.is-solving .has-tall-board .traybox { --tray-rows: 1; }
+  #play-screen.is-solving .has-tall-board .traybox:has(#tray-nav:not([hidden])) .tray {
+    margin-inline-end: 101px;
+  }
+  #play-screen.is-solving .has-tall-board #tray-nav { grid-auto-flow: column; }
+}

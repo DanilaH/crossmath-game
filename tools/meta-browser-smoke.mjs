@@ -265,17 +265,26 @@ try{
  delete dense.attempt.freeTrack;delete dense.attempt.freeIndex;delete dense.attempt.freeAssignmentVersion;
  await page.evaluate(save=>localStorage.setItem('crossmath.save.v1',JSON.stringify(save)),dense);await page.reload();await ready();
  assert.equal((await snapshot()).attempt.id,dense.attempt.id);
- for(const [width,height] of [[320,568],[390,844]]){
+ for(const [width,height] of [[320,480],[320,568],[390,844]]){
    await page.setViewportSize({width,height});
    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-   const measures=await page.evaluate(()=>({pageWidth:document.documentElement.scrollWidth,boardWidth:document.querySelector('.board-scroll').scrollWidth,minTarget:Math.min(...[...document.querySelectorAll('button[data-cell]')].map(el=>el.getBoundingClientRect().width))}));
-   assert.ok(measures.pageWidth<=width);assert.ok(measures.minTarget>=48);
+   const measures=await page.evaluate(()=>{
+    const viewport=document.querySelector('.board-scroll');
+    const cells=[...document.querySelectorAll('button[data-cell]')];
+    const dimensions=cells.map(cell=>cell.getBoundingClientRect());
+    return {pageWidth:document.documentElement.scrollWidth,boardWidth:viewport.scrollWidth,
+     fits:viewport.scrollWidth<=viewport.clientWidth+1&&viewport.scrollHeight<=viewport.clientHeight+1,
+     minTarget:Math.min(...dimensions.map(rect=>rect.width)),allTargetable:dimensions.every((rect,index)=>
+      cells[index].contains(document.elementFromPoint(rect.left+rect.width/2,rect.top+rect.height/2)))};
+   });
+   assert.ok(measures.pageWidth<=width&&measures.fits&&measures.allTargetable,JSON.stringify(measures));
+   assert.ok(measures.minTarget>=(width===320?18:48),JSON.stringify(measures));
    const tray=await page.locator('#tray').boundingBox();
    assert.ok(tray && tray.y+tray.height<=height);
    assert.equal(await page.evaluate(()=>document.documentElement.scrollHeight),height);
    assert.equal(await page.locator('#tray-nav').isVisible(),width===320);
    geometry.push({screen:'v2 Hell fixture',viewport:[width,height],...measures});
-   await page.screenshot({path:out+`/hell-${width}.png`,fullPage:true});
+   await page.screenshot({path:out+`/hell-${width}x${height}.png`,fullPage:true});
  }
  await page.setViewportSize({width:320,height:568});
  await tap('#tray-next');

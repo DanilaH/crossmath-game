@@ -27,10 +27,10 @@ let browser,base,url;
 const save=page=>page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
 const idle=page=>page.locator('#help:enabled').waitFor();
 
-async function load(context,fixture,language='ru',coins=120){
- if(fixture)await context.addInitScript(({fixture,base,language,coins,key})=>{
+async function load(context,fixture,language='ru',coins=120,theme='light'){
+ if(fixture)await context.addInitScript(({fixture,base,language,coins,theme,key})=>{
   if (location.protocol!=='http:'||localStorage.getItem(key)) return;
-  base.settings={...base.settings,language,reducedMotion:true};
+  base.settings={...base.settings,language,theme,reducedMotion:true};
   base.profile.coins=coins;
   const {id,placements,trayOrder,contentVersion,rulesetVersion,boardRevision,mode='campaign'}=fixture;
   base.attempt={...base.attempt,id:'tested-'+id,puzzleId:id,placements,trayOrder,contentVersion,rulesetVersion,boardRevision,mode};
@@ -41,7 +41,7 @@ async function load(context,fixture,language='ru',coins=120){
     lives:3,assisted:false,solvedStages:0,score:0};
   }
   localStorage.setItem(key,JSON.stringify(base));
- },{fixture,base,language,coins,key});
+ },{fixture,base,language,coins,theme,key});
  const page=await context.newPage();
  page.setDefaultTimeout(15_000);
  page.on('pageerror',error=>errors.push(error.message));
@@ -61,6 +61,35 @@ async function tap(page,selector){
  await page.touchscreen.tap(point.x,point.y);
 }
 
+async function boardLayout(page){
+ // Wait for the game and its fonts to finish layout without scrolling a locator into view.
+ await page.evaluate(async()=>{
+  await document.fonts.ready;
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ });
+ const layout=await page.evaluate(()=>{
+  const bounds=selector=>{const {left,top,right,bottom,width,height}=document.querySelector(selector).getBoundingClientRect();
+   return {left,top,right,bottom,width,height};};
+  const scroll=document.querySelector('.board-scroll');
+  const board=bounds('#board'),view=bounds('.board-scroll');
+  const digitsFit=[...document.querySelectorAll('#board .given, #board .placed .tile')].every(el=>{
+   const range=document.createRange();
+   range.selectNodeContents(el);
+   return range.getBoundingClientRect().width<=el.clientWidth+1;
+  });
+  return {board,view,digitsFit,scroll:[scroll.scrollLeft,scroll.scrollTop],viewport:[innerWidth,innerHeight],
+   note:bounds('#note'),tray:bounds('#traybox'),tools:bounds('.tools')};
+ });
+ const {board,view,note,tray,tools,digitsFit,scroll:[x,y],viewport:[width,height]}=layout;
+ assert.ok(board.width>0&&board.height>0&&board.left>=view.left-1&&board.right<=view.right+1
+  &&board.top>=view.top-1&&board.bottom<=view.bottom+1&&view.bottom<=note.top+1
+  &&note.bottom<=tray.top+1&&tray.bottom<=tools.top+1&&tools.bottom<=height&&view.left>=0&&view.right<=width,
+ JSON.stringify(layout));
+ assert.deepEqual([x,y],[0,0]);
+ assert.ok(digitsFit,'Two-digit numbers fit their tiles');
+ return layout;
+}
+
 const mobile=(width,height)=>({viewport:{width,height},hasTouch:true,isMobile:true,
  timezoneId:'UTC',reducedMotion:'reduce'});
 const proofWords = {
@@ -75,9 +104,10 @@ try{
  base=await save(starter);
  await fresh.close();
 
- for(const [width,height] of [[320,480],[390,844]])for(const language of ['ru','en'])for(const fixture of fixtures.slice(0,2)){
+ for(const [width,height] of [[320,480],[320,568],[390,844]])for(const language of ['ru','en'])for(const fixture of fixtures)for(const theme of ['light','dark']){
   const context=await browser.newContext(mobile(width,height));
-  const page=await load(context,fixture,language);
+  const page=await load(context,fixture,language,120,theme);
+  const boardBefore=await boardLayout(page);
   await tap(page,'#help');
   await page.locator('#explain:enabled').waitFor();
   const before=await save(page);
@@ -107,14 +137,27 @@ try{
   assert.equal(geometry.font,'16px');assert.equal(geometry.width,width);
   assert.ok(geometry.note[0]>=0&&geometry.note[1]<=height&&geometry.help[1]<=height);
   assert.ok(geometry.highlighted>0,JSON.stringify(geometry));
-  await page.screenshot({path:resolve(out,`${fixture.rule}-${language}-${width}x${height}.png`)});
+  const boardAfter=await boardLayout(page);
+  await page.screenshot({path:resolve(out,`${fixture.id}-${language}-${width}x${height}-${theme}.png`)});
   await page.reload();await idle(page);
   const restored=await save(page);
   assert.equal(restored.profile.coins,after.profile.coins);
   assert.deepEqual(restored.attempt.placements,after.attempt.placements);
   assert.deepEqual(restored.helpReceipts,after.helpReceipts);
-  details.push({viewport:[width,height],language,fixture:fixture.id,rule:fixture.rule,message,geometry});
-  console.log(`${width}×${height} ${language} ${fixture.id} ${fixture.rule} PASS`);
+  if(width===320&&height===480&&fixture.id==='cm-own-02-217'){
+   const lowestFilled=await page.locator('#board .placed').evaluateAll(cells=>
+    cells.sort((a,b)=>b.getBoundingClientRect().bottom-a.getBoundingClientRect().bottom)[0].dataset.cell);
+   await tap(page,`#board [data-cell="${lowestFilled}"]`);
+   await tap(page,'#return');
+   await page.waitForFunction(({key,lowestFilled})=>!(lowestFilled in JSON.parse(localStorage.getItem(key)).attempt.placements),
+    {key,lowestFilled});
+   await tap(page,'#undo');await idle(page);
+   assert.deepEqual((await save(page)).attempt.placements,restored.attempt.placements);
+   await tap(page,'#tray-next');
+   assert.ok(await page.locator('#tray').evaluate(tray=>tray.scrollTop>0));
+  }
+  details.push({viewport:[width,height],language,theme,fixture:fixture.id,rule:fixture.rule,message,geometry,boardBefore,boardAfter});
+  console.log(`${width}×${height} ${language} ${theme} ${fixture.id} ${fixture.rule} PASS`);
   await context.close();
  }
 
@@ -155,15 +198,17 @@ try{
  if(process.env.HELP_BROWSER_RECORD==='1'){
   const size={width:320,height:480};
   const context=await browser.newContext({...mobile(size.width,size.height),recordVideo:{dir:out,size}});
-  const page=await load(context,fixtures[1]);await tap(page,'#help');await page.locator('#explain:enabled').waitFor();
+  const page=await load(context,fixtures[1]);await boardLayout(page);await page.waitForTimeout(600);
+  await tap(page,'#help');await page.locator('#explain:enabled').waitFor();
   await page.waitForTimeout(400);await tap(page,'#explain');await page.waitForTimeout(750);
   await tap(page,'#apply-help');await page.locator('#help-dialog').waitFor({state:'hidden'});
+  await boardLayout(page);
   await page.waitForTimeout(1875);
   const video=page.video();await context.close();await video.saveAs(resolve(out,'contradiction-ru-320x480.webm'));
  }
  assert.deepEqual(errors,[]);
  await writeFile(resolve(out,'report.json'),JSON.stringify({browser:browser.version(),details,endlessMessages},null,2)+'\n');
- console.log('HELP-02 browser PASS · 8 proof views, insufficient funds, neutral full Endless');
+ console.log(`HELP-02 browser PASS · ${details.length} proof views, full board bounds, insufficient funds, neutral full Endless`);
 }finally{
  await browser?.close();
  server.close();

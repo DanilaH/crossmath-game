@@ -24,8 +24,9 @@ export class BoardView {
   private explanation='';private supportIndices:number[]=[];
   private tutorialTimer:ReturnType<typeof setTimeout>|null=null;private tutorialShown=false;
   private readonly boardScroll: HTMLElement;
+  private readonly playArea: HTMLElement;
+  private readonly tools: HTMLElement;
   private readonly boardSize: ResizeObserver;
-  private boardWidth = 0;
   private readonly trayViewport = document.querySelector<HTMLElement>('#traybox')!;
   private readonly trayNavigation = document.querySelector<HTMLElement>('#tray-nav')!;
   private readonly trayPrev = document.querySelector<HTMLButtonElement>('#tray-prev')!;
@@ -35,11 +36,12 @@ export class BoardView {
     private readonly disabled:()=>boolean,private readonly reduced:()=>boolean,
     private readonly action:(command:BoardAction,metadata:{commandId:string;expectedRevision:number})=>void,private readonly language:()=>Language){
     this.boardScroll = board.closest<HTMLElement>('.board-scroll')!;
-    this.boardSize = new ResizeObserver(() => {
-      const width = this.boardScroll.offsetWidth;
-      if (width && width !== this.boardWidth) this.resize();
-    });
-    this.boardSize.observe(this.boardScroll);
+    this.playArea = board.closest<HTMLElement>('.play-area')!;
+    this.tools = this.playArea.querySelector<HTMLElement>('.tools')!;
+    this.boardSize = new ResizeObserver(this.resize);
+    for (const element of [this.playArea, this.note, this.trayViewport, this.tools]) {
+      this.boardSize.observe(element);
+    }
     this.tray.addEventListener('scroll', this.updateTrayButtons);
     this.trayPrev.onclick = () => this.pageTray(-1);
     this.trayNext.onclick = () => this.pageTray(1);
@@ -146,6 +148,7 @@ export class BoardView {
   private part(tag:string,className:string,x:number,y:number):HTMLElement{const e=document.createElement(tag);e.className='part '+className;e.style.setProperty('--x',String(x));e.style.setProperty('--y',String(y));return e;}
   private build(): void {
     this.motion.cancelAll();
+    this.playArea.classList.toggle('has-tall-board', this.puzzle.height >= 11);
     this.board.replaceChildren();
     this.tray.replaceChildren();
     this.boardScroll.scrollTo(0, 0);
@@ -311,7 +314,10 @@ export class BoardView {
     if (conceal && !this.explanation && !this.selected && a.lastRejectedSignature && a.status === 'playing') {
       note = this.t('Измените числа и проверьте снова', 'Change the numbers and check again');
     }
-    if (this.note.textContent !== note) this.note.textContent = note;
+    if (this.note.textContent !== note) {
+      this.note.textContent = note;
+      this.resize();
+    }
     (document.querySelector('#return') as HTMLButtonElement).disabled =
       this.disabled() || a.status !== 'playing' || this.selected?.kind !== 'cell' || a.placements[this.selected.id] === undefined;
     if (showGuide && !this.tutorialTimer && !this.disabled() && !this.reduced()) this.tutorialTimer = setTimeout(() => this.demonstrateFirstMove(), 6000);
@@ -410,18 +416,36 @@ export class BoardView {
     this.dismissTutorial();
     this.tap(source, {commandId: crypto.randomUUID(), expectedRevision: this.attempt.boardRevision});
   };
-  resize=():void=>{this.cancel();this.motion.cancelAll();this.pendingWinContact?.();if(!this.puzzle)return;const p=this.puzzle,pad=this.board.closest<HTMLElement>('.boardpad')!;
-    this.boardWidth = this.boardScroll.offsetWidth;
-    if (!this.boardWidth) return;
+  resize=():void=>{
+    const p = this.puzzle;
+    const width = this.playArea.clientWidth - 4;
+    if (!p || width <= 0) return;
+    this.sizeTray();
     const roomy = p.width <= 5 && p.height <= 5 && innerHeight >= 650;
-    const hit = roomy ? 56 : 48;
-    const widthStep = (pad.clientWidth - 4 - hit) / Math.max(1, p.width - 1);
+    const preferredHit = roomy ? 56 : 48;
+    const widthStep = (width - preferredHit) / Math.max(1, p.width - 1);
     const heightStep = p.height > 5 ? 30 : innerHeight < 650 ? 36 : roomy ? 56 : 46;
-    const step = Math.max(hit / 2, Math.min(widthStep, heightStep));
+    const preferredStep = Math.max(preferredHit / 2, Math.min(widthStep, heightStep));
+    let step = preferredStep, hit = preferredHit;
+    if (this.playArea.parentElement!.classList.contains('is-solving')) {
+      const gap = parseFloat(getComputedStyle(this.playArea).rowGap);
+      const toolsMargin = parseFloat(getComputedStyle(this.tools).marginTop);
+      const height = this.playArea.clientHeight - this.note.offsetHeight - this.trayViewport.offsetHeight
+        - this.tools.offsetHeight - toolsMargin - 3 * gap;
+      if ((p.width - 1) * step + hit > width || (p.height - 1) * step + hit > height) {
+        // Packed cells use non-overlapping targets and the same pitch on both axes.
+        // Keep a readable minimum when an unusually small viewport still needs panning.
+        step = Math.max(18, Math.min(preferredStep, width / p.width, (height - 2) / p.height));
+        hit = step;
+      }
+    }
+    const geometry = {'--step': `${step}px`, '--hit': `${hit}px`, '--w': String(p.width), '--h': String(p.height)};
+    if (Object.entries(geometry).every(([key, value]) => this.board.style.getPropertyValue(key) === value)) return;
+    this.cancel();
     this.ghost.style.setProperty('--landing-size', `${Math.min(40, Math.round(step * .82))}px`);
     this.ghost.style.setProperty('--landing-clearance', `${step / 2 + 3}px`);
-    for(const [key,value] of Object.entries({step,hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));
-    this.sizeTray();
+    this.board.classList.toggle('is-packed', hit === step && hit !== preferredHit);
+    for (const [key, value] of Object.entries(geometry)) this.board.style.setProperty(key, value);
   };
   dispose():void{this.suspend();this.boardSize.disconnect();this.tray.removeEventListener('scroll',this.updateTrayButtons);this.trayPrev.onclick=this.trayNext.onclick=null;document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
 }
