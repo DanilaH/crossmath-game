@@ -22,7 +22,7 @@ Run npm run check, npm run android:sync:release, real Gradle debug/releaseCheck 
 
 ## Current reference and product baseline · 2026-11-25
 
-Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `a135147f059c6f6c201c653dc6967c686486579f`: 449 IDs. [Consolidation](docs/porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](docs/porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
+Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460 IDs. [Consolidation](docs/porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](docs/porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
 
 - HELP-02 and ad cooldown pilot implemented; [acceptance](docs/acceptance/issue-11/README.md), [cooldown](docs/acceptance/interstitial-cooldown.md). Do not reissue those tasks; original/physical/live provider parity remains separate. Next source priority: AnalyticsCalibration evaluator, event queue, ad readiness and actual configuration consumers.
 

@@ -2,7 +2,7 @@
 
 ## Current consolidated checkpoint · 25 November 2026
 
-Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `a135147f059c6f6c201c653dc6967c686486579f`: 449 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
+Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
 
 [HELP-02](acceptance/issue-11/README.md) and [interstitial cooldown pilot](acceptance/interstitial-cooldown.md) are implemented in PR #4. Developer reports 158 tests, browser scenarios and signed releaseCheck verification; physical device/live SDK open. Latest research is a separate docs-only consolidation. Do not infer complete source parity.
 

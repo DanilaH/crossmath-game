@@ -2,7 +2,7 @@
 
 ## Сводная база 25.11.2026
 
-Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `a135147f059c6f6c201c653dc6967c686486579f`: 449 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
+Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
 
 | Реализованный пакет | Фактический статус |
 | --- | --- |
@@ -11,11 +11,11 @@ Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b
 
 [Приёмка HELP-01 и ADS-01](acceptance/issues-8-9/README.md) · [Приёмка HELP-02](acceptance/issue-11/README.md) · [Реестр переноса](porting/ADOPTION_LEDGER.json).
 
-Следующий исследовательский пакет: исполнение AnalyticsCalibration, очередь событий и готовность рекламы, затем точная связь remote config с выдачей/рекламой/офферами. Исследование не является разрешением изменить продукт.
+Исполнение части AnalyticsCalibration подтверждено. Следующий пакет: потребитель диагностик, очередь событий и готовность рекламы, затем точная связь remote config с выдачей/рекламой/офферами. Исследование не является разрешением изменить продукт.
 
 ## Актуальное исследование Guru и следующий продуктовый этап · 24.11.2026
 
-**Актуальная база сверки (25.11.2026):** Crossmath **0.5.24 / versionCode 29**, product implementation `d37cd305f597d38074929af1fbe3080aeac13549`, actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`. Runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`; актуальный независимый research pin `a135147f059c6f6c201c653dc6967c686486579f`, 449 ID. Ниже датированные разделы сохраняют исторические снимки.
+**Актуальная база сверки (25.11.2026):** Crossmath **0.5.24 / versionCode 29**, product implementation `d37cd305f597d38074929af1fbe3080aeac13549`, actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`. Runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`; актуальный независимый research pin `bbaf857965f1440c48dca61c6f7375010165f4d8`, 460 ID. Ниже датированные разделы сохраняют исторические снимки.
 
 [Consumer report](porting/GURU_SOLVER_RESEARCH_2026-11-24.md) · [первичный закрытый пакет и воспроизведение](https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md). Уточняются **13 существующих ID**, общий реестр **296/296**; это не новые функции и не автоматическое повышение приёмки источника.
 
@@ -383,3 +383,7 @@ Current source pin `06a01d5c1f7af3cdf8013c9ce0f6a691d086af78`; **296/296 sourceF
 
 ### 2026-11-25 — A/B refresh and analytics rule structure (research)
 [Consumer comparison](porting/GURU_ANALYTICS_AB_DATAFLOW_2026-11-25.md): 449/449; 16 granular rules. Progress-triggered refresh, bucket step fallback, distinct kick and force-fetch gates, pending/success state, analytics calibration cache/schema. Live adaptation to failures, actual settings changed and rule evaluator UNKNOWN. Production analytics and new policy remain owner-gated; no runtime or economy change.
+
+
+## 25.11.2026 — AnalyticsCalibration evaluator (research follow-up)
+Source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460/460 mapped (11 new granular IDs); [source evidence](https://github.com/DanilaH/mini-games-kit/blob/bbaf857965f1440c48dca61c6f7375010165f4d8/research/games/crossmath/porting/guru-analytics-evaluator-20261125/README.md), 109 ARM64 word assertions and 24 decoded object-pool load sites. The evaluator builds named regex capture groups and anchors, checks missing/conditional/type/allowed-value/comparison/cross-parameter/property constraints, collects diagnostics per field. Exact live rules, sender consequences and gameplay adaptation remain UNKNOWN. DEFERRED/MISSING: no production analytics implementation selected; proposal is minimal typed schema + synthetic local checks after owner approval. Next: diagnostic result consumer, persistence, upload/ack, ad readiness. No runtime changes. Equivalent full-field connector validation 0 errors; exact Python CLI attempt on previous pair failed in CI and no readable steps/logs were returned.
