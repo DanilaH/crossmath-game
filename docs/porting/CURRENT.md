@@ -31,6 +31,8 @@
 3. G3/G4/G5 original Android/device/provider; G8 own device and same certificate separate; G9 exact 4.18 archive delta. G2/G6/G7 only actual oracle/live evidence.
 4. Coverage gate: run exact kit `tools/verify-reference-porting.py` with private pinned inventory and this ledger. Prior exact Python CLI passed 605/605 (game CI 45813626752). Exact 610/610 Python CLI PASS in game CI 45818944115 at preceding evidence pins; final evidence-only refresh connector PASS; no source exhaustiveness or device claim. Exact 621/621 canonical coverage PASS on game CI [45827594563](https://github.com/DanilaH/crossmath-game/actions/runs/45827594563); pins checked; Exact 625/625 canonical coverage PASS on game CI [45850130370](https://github.com/DanilaH/crossmath-game/actions/runs/45850130370); pinned inventory, ledger and verifier blobs checked. No implementation/acceptance promotion.
 
+Exact 630/630 canonical coverage PASS on game CI [45882098149](https://github.com/DanilaH/crossmath-game/actions/runs/45882098149); pinned inventory, ledger and verifier blobs checked. No implementation/acceptance promotion.
+
 ## Исторический архив
 
 [Manifest](HISTORICAL_ARCHIVE_MANIFEST_2026-11-26.json) — 162 original own files from [PR #3 exact commit](https://github.com/DanilaH/crossmath-game/tree/2bbd6f9804efb2291d7b2e42de091adee9954db4/docs/porting) restored at their existing historical paths (no old ledger restored). Earlier source #7/#10 documents already present; original PRs retained in history, not merge paths.
