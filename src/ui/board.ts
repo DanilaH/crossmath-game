@@ -4,20 +4,21 @@ import type { Language } from './locale';
 import { OwnedDomMotion } from '@danilah/mini-games-kit/feel';
 import { cellValue, evaluate, tokenValue } from '../core/types';
 import type { Attempt, BoardAction, Puzzle } from '../core/types';
-import type { Cue, Feedback, AwardTone } from './feedback';
+import type { Feedback } from './feedback';
+import { moveIsCurrent } from './playFeedback';
+import type { MoveFeedback } from './playFeedback';
 
 type Source={kind:'token'|'cell';id:string};
 type Target=Source|{kind:'return';id:string};
 interface Gesture{pointer:number;source:Source;piece:HTMLElement;x:number;y:number;drag:boolean;revision:number;commandId:string}
 interface Landing { cell: number; revision: number; from: DOMRect }
-export interface MoveFeedback { cue: Exclude<Cue, 'pick'>; cell: number | undefined; award?: AwardTone }
 export const equationText=(p:Puzzle,a:Attempt,index:number):string=>{const eq=p.equations[index]!;const [left,right,result]=eq.cells.map(id=>cellValue(p,a,id)??'□');return `${left} ${operatorGlyph[eq.op]} ${right} = ${result}`;};
 export class BoardView {
   private puzzle!:Puzzle;private attempt!:Attempt;private selected:Source|null=null;private gesture:Gesture|null=null;
   private readonly motion=new OwnedDomMotion();private readonly cells=new Map<number,HTMLElement>();private signs:HTMLElement[][]=[];
   private equationLines: HTMLElement[] = [];
   private landing: Landing | undefined;
-  private pendingWinContact: (() => void) | undefined;
+  private lastFeedbackCommand: string | undefined;
   private consumedPointerClick = false;
   private freshErrors: number[] = [];
   private preferredAxis: 'row' | 'column' | undefined;
@@ -57,7 +58,7 @@ export class BoardView {
     this.attempt = attempt;
     if (changed) {
       this.landing = undefined;
-      this.pendingWinContact = undefined;
+      this.lastFeedbackCommand = undefined;
       this.cancel();
       this.selected = null;
       this.explanation = '';
@@ -68,42 +69,39 @@ export class BoardView {
       this.build();
     }
     const moved = !changed && before.boardRevision !== attempt.boardRevision;
-    const won = !changed && before.status !== 'won' && attempt.status === 'won';
-    const canScore = attempt.mode !== 'endless' || won;
-    const previous = (moved || won) && canScore ? evaluate(puzzle, before) : [];
-    const current = previous.length ? evaluate(puzzle, attempt) : [];
     if (moved && attempt.mode !== 'endless') {
-      this.freshErrors = current.flatMap((state, index) =>
-        state === 'invalid' && (previous[index] !== 'invalid' || expressionSignature(puzzle,before,index) !== expressionSignature(puzzle,attempt,index)) ? [index] : []);
+      this.freshErrors = evaluate(puzzle, attempt).flatMap((state, index) =>
+        state === 'invalid' && expressionSignature(puzzle,before,index) !== expressionSignature(puzzle,attempt,index) ? [index] : []);
     }
     this.render();
     const landing = this.landing;
     if (this.disabled()) return;
     this.landing = undefined;
-    if (changed || (!moved && !won && !move)) return;
+    if (changed || !move || !moveIsCurrent(move, attempt) || this.lastFeedbackCommand === move.commandId) return;
+    this.lastFeedbackCommand = move.commandId;
+    this.motion.cancelAll();
 
-    const placements = puzzle.cells.filter(cell => {
+    const scored = move.cue === 'win' || attempt.mode !== 'endless' && (move.cue === 'right' || move.cue === 'wrong');
+    const previous = scored ? evaluate(puzzle, move.before) : [];
+    const current = scored ? evaluate(puzzle, attempt) : [];
+
+    const placements = move.cell === undefined ? [] : puzzle.cells.filter(cell => {
       const token = attempt.placements[cell.id];
-      return token !== undefined && token !== before.placements[cell.id];
+      return token !== undefined && token !== move.before.placements[cell.id];
     });
     const axes = current.flatMap((state, index) => {
       if (state !== 'valid' || (previous[index] === 'valid' && attempt.mode !== 'endless')) return [];
       const eq = puzzle.equations[index]!;
-      const origin = placements.find(cell => cell.id === move?.cell && eq.cells.includes(cell.id))
+      const origin = placements.find(cell => cell.id === move.cell && eq.cells.includes(cell.id))
         ?? placements.find(cell => eq.cells.includes(cell.id));
       return [{index, origin}];
     });
     let contacted = false;
-    const atContact = (animate = true) => {
-      if (contacted) return;
+    const atContact = () => {
+      if (contacted || !moveIsCurrent(move,this.attempt)) return;
       contacted = true;
-      if (this.pendingWinContact === finishWin) this.pendingWinContact = undefined;
-      if (this.disabled() || this.attempt.id !== attempt.id || this.attempt.boardRevision !== attempt.boardRevision) return;
-      if (move) {
-        const double = move.cell !== undefined && axes.filter(axis => axis.origin?.id === move.cell).length > 1;
-        this.feedback.cue(move.cue, move.cell !== undefined, double, move.award);
-      }
-      if (!animate || this.reduced()) return;
+      this.feedback.cue(move.cue, axes.length > 1 ? {...move.detail,double:true} : move.detail);
+      if (this.reduced()) return;
       for (const {index, origin} of axes) {
         const line = this.equationLines[index]!;
         const row = line.dataset.axis === 'row';
@@ -117,22 +115,21 @@ export class BoardView {
         ], {duration: 230, easing: 'ease-out'});
       }
     };
-    const finishWin = () => atContact(false);
-
     let animatingContact = false;
     if (!this.reduced()) for (const cell of placements) {
       const face = this.cells.get(cell.id)!.firstElementChild as HTMLElement;
       this.motion.cancel(face);
-      const released = landing?.cell === cell.id && landing.revision === before.boardRevision ? landing.from : undefined;
+      const released = landing?.cell === cell.id && landing.revision === move.before.boardRevision ? landing.from : undefined;
       const target = face.getBoundingClientRect();
       const start: Keyframe = released ? {
         translate: `${released.left + (released.width - target.width) / 2 - target.left}px ${released.top + (released.height - target.height) / 2 - target.top}px`,
         scale: String(released.width / target.width),
       } : {translate: '0 -5px', scale: '1.045'};
-      const main = cell.id === move?.cell;
+      const main = cell.id === move.cell;
       const arrival = this.motion.animate(face, [start, {translate: '0 0', scale: '1'}],
         {duration: released ? 82 : 42, easing: released ? 'cubic-bezier(.24,.35,.68,1)' : 'linear', fill: 'backwards'}, {
           onFinish: () => {
+            if (!moveIsCurrent(move,this.attempt)) return;
             if (main) atContact();
             this.motion.animate(face, [
               {translate: '0 0', scale: '1'}, {translate: '0 1px', scale: '.975', offset: .34},
@@ -143,7 +140,6 @@ export class BoardView {
       if (main && arrival) animatingContact = true;
     }
     if (!animatingContact) atContact();
-    else if (move?.cue === 'win') this.pendingWinContact = finishWin;
   }
   private part(tag:string,className:string,x:number,y:number):HTMLElement{const e=document.createElement(tag);e.className='part '+className;e.style.setProperty('--x',String(x));e.style.setProperty('--y',String(y));return e;}
   private build(): void {
@@ -368,17 +364,21 @@ export class BoardView {
       const links = this.puzzle.equations.flatMap((eq,index) => eq.cells.includes(Number(source.id)) ? [this.equationLines[index]!.dataset.axis] : []);
       if (links.length === 1) this.preferredAxis = links[0] as 'row' | 'column';
     }
-    this.selected=source;this.explanation='';this.supportIndices=[];this.feedback.cue('pick');this.render();
+    this.selected=source;this.explanation='';this.supportIndices=[];
+    this.feedback.cue('pick',this.movable(source) ? {grasp:true} : undefined);
+    this.render();
   }
+  private movable(source:Source):boolean{return source.kind==='token'||this.attempt.placements[source.id]!==undefined;}
   private down=(e:PointerEvent):void=>{if(e.isPrimary)this.consumedPointerClick=false;const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;
     this.dismissTutorial();
     const piece=(e.target as Element).closest<HTMLElement>('[data-cell],[data-token]')!;
+    if(this.movable(source))piece.classList.add('grasping');
     this.gesture={pointer:e.pointerId,source,piece,x:e.clientX,y:e.clientY,drag:false,revision:this.attempt.boardRevision,commandId:crypto.randomUUID()};document.body.setPointerCapture(e.pointerId);
   };
   private move=(e:PointerEvent):void=>{const g=this.gesture;if(!g||g.pointer!==e.pointerId||this.disabled())return;
     if(!g.drag&&Math.hypot(e.clientX-g.x,e.clientY-g.y)<8)return;
-    if(g.source.kind==='cell'&&this.attempt.placements[g.source.id]===undefined)return;
-    if(!g.drag){g.drag=true;g.piece.classList.add('lifted');this.ghost.textContent=String(g.source.kind==='token'?tokenValue(this.puzzle,g.source.id):cellValue(this.puzzle,this.attempt,Number(g.source.id)));this.ghost.hidden=false;this.feedback.cue('pick');}
+    if(!this.movable(g.source))return;
+    if(!g.drag){g.drag=true;g.piece.classList.remove('grasping');g.piece.classList.add('lifted');this.ghost.textContent=String(g.source.kind==='token'?tokenValue(this.puzzle,g.source.id):cellValue(this.puzzle,this.attempt,Number(g.source.id)));this.ghost.hidden=false;this.feedback.cue('pick',{grasp:true});}
     this.ghost.style.left=e.clientX+'px';this.ghost.style.top=e.clientY+'px';this.clearHover();const target=this.drop(e.clientX,e.clientY);
     this.ghost.classList.toggle('over-cell', target?.kind === 'cell');
     if(target?.kind==='cell')this.cells.get(Number(target.id))?.classList.add('hover');else if(target?.kind==='return'&&g.source.kind==='cell')this.tray.parentElement!.classList.add('hover');
@@ -396,8 +396,8 @@ export class BoardView {
     animation?.addEventListener('cancel',()=>copy.remove(),{once:true});
   }
   private clearHover():void{for(const el of document.querySelectorAll('.hover'))el.classList.remove('hover');}
-  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};
-  suspend():void {this.landing=undefined;this.pendingWinContact=undefined;this.cancel();this.motion.cancelAll();}
+  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted','grasping');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};
+  suspend():void {this.landing=undefined;this.cancel();this.motion.cancelAll();}
   private pointerCancel=(e:PointerEvent):void=>{if(this.gesture?.pointer===e.pointerId)this.cancel();};
   private scroll=():void=>{if(this.gesture)this.cancel();};
   private click = (e: MouseEvent): void => {

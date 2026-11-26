@@ -49,6 +49,7 @@ jobs:
             .test-output/meta-ui/
             .test-output/endless-ui/
             .test-output/ads-banner/
+            .test-output/feel/
       - run: npm run android:sync:release
       - uses: actions/setup-java@v4
         with:
