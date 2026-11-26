@@ -880,9 +880,10 @@
       "codePath": "src/ui/feedback.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Записать исходный эпизод со звуком и поведением при пропуске",
+      "nextAction": "Записать исходный эпизод со звуком и поведением при пропуске | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L352",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-task-count",
@@ -1404,11 +1405,12 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Parsed daily_round_limit and two threshold checks; active cap and unlock values UNKNOWN; verify original.",
+      "nextAction": "Parsed daily_round_limit and two threshold checks; active cap and unlock values UNKNOWN; verify original. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-weight",
@@ -1419,10 +1421,11 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "На четырёх полях подтвердить вес и запрет двойного вклада",
+      "nextAction": "На четырёх полях подтвердить вес и запрет двойного вклада | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L703",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-tie",
@@ -1433,11 +1436,12 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Native exact target equality + rank 1 + ended; test near tie and finish order on original.",
+      "nextAction": "Native exact target equality + rank 1 + ended; test near tie and finish order on original. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-a",
@@ -1448,11 +1452,12 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Exact endpoint selection and stored-list catchup now supported by native anchors and models; validate original actual RNG and restart.",
+      "nextAction": "Exact endpoint selection and stored-list catchup now supported by native anchors and models; validate original actual RNG and restart. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-b",
@@ -1463,11 +1468,12 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Exact bundled intervals and sequential normalization now supported; trace full B award/due path and original restart.",
+      "nextAction": "Exact bundled intervals and sequential normalization now supported; trace full B award/due path and original restart. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-retry",
@@ -1478,10 +1484,11 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Сравнить обе команды по обе стороны срока",
+      "nextAction": "Сравнить обе команды по обе стороны срока | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L750",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-award",
@@ -1492,14 +1499,15 @@
       "codePath": "src/meta/progress.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Claim date+round check and non-unique schema verified; preserve atomic own wallet/receipt; do not infer live duplicate payout.",
+      "nextAction": "Claim date+round check and non-unique schema verified; preserve atomic own wallet/receipt; do not infer live duplicate payout. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
       ],
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-battle-time",
@@ -1510,7 +1518,7 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Retain historical R2 formula and separate interruption candidate gate; capture original actual timing and active config.",
+      "nextAction": "Retain historical R2 formula and separate interruption candidate gate; capture original actual timing and active config. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
@@ -1518,7 +1526,8 @@
         "package": "E",
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-react",
@@ -1529,7 +1538,7 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Reactive delays and total−3 internal unit cap remain historical R2 evidence; verify actual cell unit and interrupt behavior.",
+      "nextAction": "Reactive delays and total−3 internal unit cap remain historical R2 evidence; verify actual cell unit and interrupt behavior. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
@@ -1537,7 +1546,8 @@
         "package": "E",
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-ticket",
@@ -1548,7 +1558,7 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Entry qty1/2, separate availability guard, busy, store fallback and ad placement after successful debit now traced; actual refund/retry/price still UNKNOWN.",
+      "nextAction": "Entry qty1/2, separate availability guard, busy, store fallback and ad placement after successful debit now traced; actual refund/retry/price still UNKNOWN. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
@@ -1559,7 +1569,8 @@
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
       ],
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-streak",
@@ -1570,7 +1581,7 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Separate keepWins, multiplier, battleType XP doubling and carry verified statically; decode exact thresholds/values and receipt.",
+      "nextAction": "Separate keepWins, multiplier, battleType XP doubling and carry verified statically; decode exact thresholds/values and receipt. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
@@ -1578,7 +1589,8 @@
         "package": "E",
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-brains-week",
@@ -1589,11 +1601,12 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Main/temp schemas and fallback now traced; exact rollover, transfer and calendar/timezone UNKNOWN.",
+      "nextAction": "Main/temp schemas and fallback now traced; exact rollover, transfer and calendar/timezone UNKNOWN. | BRAINS-01 #22: later after race acceptance; local week candidate normalized to existing sources, no real online claims or economy approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "id": "guru-brains-plan",
@@ -1604,11 +1617,12 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Nine daily target ranges traced to exact asset loader; actual sampling and live week UNKNOWN.",
+      "nextAction": "Nine daily target ranges traced to exact asset loader; actual sampling and live week UNKNOWN. | BRAINS-01 #22: later after race acceptance; local week candidate normalized to existing sources, no real online claims or economy approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "id": "guru-brains-hat",
@@ -1619,11 +1633,12 @@
       "codePath": "src/meta/progress.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Own ongoing predicate and temp fallback proven statically; validate settlement and no duplicate counters.",
+      "nextAction": "Own ongoing predicate and temp fallback proven statically; validate settlement and no duplicate counters. | BRAINS-01 #22: later after race acceptance; local week candidate normalized to existing sources, no real online claims or economy approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "id": "ref-live-opponents",
@@ -1634,13 +1649,16 @@
       "codePath": "src/meta/career.ts",
       "stage": "C0–C4",
       "dependencies": "модель времени, версия правил, журнал выдач, собственный контент и решение о режиме",
-      "nextAction": "Для источника нужны наблюдаемые парные матчи с двумя устройствами и трассировка участия",
+      "nextAction": "Для источника нужны наблюдаемые парные матчи с двумя устройствами и трассировка участия | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain. | BRAINS-01 #22: later after race acceptance; local week candidate normalized to existing sources, no real online claims or economy approval. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L854",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
       "deliverySpec0513": {
         "package": "E",
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
-      }
+      },
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "easy-base-coins",
@@ -2908,9 +2926,10 @@
       "codePath": "src/meta/missions.ts",
       "stage": "P1",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Проверить доступность цели «войти в Star Race», точную единицу и однократный зачёт события.",
+      "nextAction": "Проверить доступность цели «войти в Star Race», точную единицу и однократный зачёт события. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1717",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-task-win-star-race",
@@ -2921,9 +2940,10 @@
       "codePath": "src/meta/missions.ts",
       "stage": "P1",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Проверить доступность цели «победить в Star Race», точную единицу и однократный зачёт события.",
+      "nextAction": "Проверить доступность цели «победить в Star Race», точную единицу и однократный зачёт события. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1728",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-task-endless",
@@ -3498,12 +3518,13 @@
       "codePath": "src/ui/gameUi.ts",
       "stage": "COMMERCIAL · отдельно после исследования и решения владельца, не в первой версии",
       "dependencies": "Реальный UI-триггер оригинала, eligibility, Native Ads SDK, квитанция и подтверждённая выдача, отмена/фон/повтор, legal/consent.",
-      "nextAction": "Verify live +3 grant, eligibility, alternative and durable receipt; no SDK evidence.",
+      "nextAction": "Verify live +3 grant, eligibility, alternative and durable receipt; no SDK evidence. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/a02958791b6c5e2fec5e561fa9bee24252ab2a04/research/games/crossmath/porting/guru-commerce-issuance-20261123/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/docs/PROJECT_DECISIONS.md",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
-      ]
+      ],
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-rv-store",
@@ -4532,13 +4553,14 @@
       "originalBehavior": "У Guru есть отдельный диалог сохранения победной серии. NATIVE_STATIC both libs package:math_collections/ui/pages/game/game_over/dialog/keep_wining%20_streak_dialog.dart; users' route, trigger, cost, and streak update UNKNOWN. | research/games/crossmath/porting/full-system-audit-20261123/README.md. Evidence tier: NATIVE_STATIC component path; user-visible route and offer terms UNKNOWN.",
       "currentImplementation": "Наша 0.5.24 не имеет исходной соревновательной streak-системы и предложения сохранить серию, Battle M3 отложена.",
       "codePath": "src/meta/career.ts",
-      "nextAction": "Loss branch with prior keepWins>0 and controller now traced; exact true preserves protected streak/multiplier, otherwise reset. Verify offer consideration and actual presentation.",
+      "nextAction": "Loss branch with prior keepWins>0 and controller now traced; exact true preserves protected streak/multiplier, otherwise reset. Verify offer consideration and actual presentation. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "sourceVersionStatus": "Only specified archive version evidence",
       "dependencies": "Original device/version and access to correct event/store/Android SDK where relevant; separate owner decision, original art/sound replaced with authored alternatives, save state and user consent as applicable.",
       "acceptanceRequirement": "Original actual trigger and user-facing route observed and independently reproduced on specified version; optional paid provider: real SDK and durable receipt plus recovery; Crossmath behavior verified in exact APK on Android.",
       "reason": "Исследование сохранило материал, но live activation/owner selection/SDK или оригинальные условия не доказаны; дорогая/коммерческая/социальная система вне текущего утверждённого выпуска. Не окончательное исключение.",
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "easy-update-dialog",
@@ -6322,10 +6344,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/PROJECT_DECISIONS.md",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
-      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-ticket-catchup-five-minutes",
@@ -6338,10 +6361,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/PROJECT_DECISIONS.md",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
-      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-ticket-timer-clear",
@@ -6354,10 +6378,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/PROJECT_DECISIONS.md",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
-      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-ticket-reward-three",
@@ -6370,10 +6395,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/adState.ts",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
-      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-rv-ticket-interstitial-fallback",
@@ -6386,10 +6412,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
-      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-rv-ticket-cancel-no-fallback",
@@ -6402,10 +6429,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
-      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval.",
+      "nextAction": "Original device/receipt, offline clock/cap, exact entry spend and offers; separate Battle owner approval. Atomic wallet+deadline, no core energy or fallback without approval. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-economy-init-igc-config",
@@ -6687,10 +6715,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/progress.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision before policy or visuals change; source runtime proof where unknown; preserve saved progression and idempotent receipts.",
-      "nextAction": "После решения о недельной системе определить независимые счётчики, 4 источника и receipts; не создавать зависимость самонаграждения.",
+      "nextAction": "После решения о недельной системе определить независимые счётчики, 4 источника и receipts; не создавать зависимость самонаграждения. | BRAINS-01 #22: later after race acceptance; local week candidate normalized to existing sources, no real online claims or economy approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Недельная система и соревнования остаются после базового релиза по решению владельца."
+      "reason": "Недельная система и соревнования остаются после базового релиза по решению владельца.",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "id": "guru-star-a-endpoint-draw",
@@ -6703,10 +6732,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Validate seeded two-point choice, equal bounds, final partial increment; design own transparent opponent model.",
+      "nextAction": "Validate seeded two-point choice, equal bounds, final partial increment; design own transparent opponent model. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-a-interval-catchup",
@@ -6719,10 +6749,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Test pause/resume, restored list, repeated refresh, clock rollback and expiry against exact original; no resampling.",
+      "nextAction": "Test pause/resume, restored list, repeated refresh, clock rollback and expiry against exact original; no resampling. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-a-terminal-clamp",
@@ -6735,10 +6766,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Test positive bounds, exact target, overshoot, finish timestamp and duplicate refresh.",
+      "nextAction": "Test positive bounds, exact target, overshoot, finish timestamp and duplicate refresh. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-b-round-diff-interval",
@@ -6751,10 +6783,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Correction: difficulty column belongs to bot B plan step per R2, not proven player board difficulty. Confirm relation before designing player coupling.",
+      "nextAction": "Correction: difficulty column belongs to bot B plan step per R2, not proven player board difficulty. Confirm relation before designing player coupling. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-b-schedule-normalization",
@@ -6767,10 +6800,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Test too-close and already valid timestamps, sequential gaps, restart and changed difficulty.",
+      "nextAction": "Test too-close and already valid timestamps, sequential gaps, restart and changed difficulty. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-b-due-gate",
@@ -6783,10 +6817,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Trace full original B scoring and due boundaries before porting; tests before/at/after deadline.",
+      "nextAction": "Trace full original B scoring and due boundaries before porting; tests before/at/after deadline. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-b-saved-lists",
@@ -6799,10 +6834,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Test serialized schedules vs relaunch and crash; retain seed, counters and completion receipts in one save transaction.",
+      "nextAction": "Test serialized schedules vs relaunch and crash; retain seed, counters and completion receipts in one save transaction. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-entry-min-levels",
@@ -6815,10 +6851,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Capture original unlock threshold and exact progression metric; own gate after owner decision.",
+      "nextAction": "Capture original unlock threshold and exact progression metric; own gate after owner decision. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-entry-min-days",
@@ -6831,10 +6868,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Determine calendar vs active days and live threshold; test date jump and timezone.",
+      "nextAction": "Determine calendar vs active days and live threshold; test date jump and timezone. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-star-claim-date-round-key",
@@ -6847,10 +6885,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Test duplicate tap, same date/round, retry, late claim and kill between grant/mark; use atomic unique event+round receipt rather than copying weak schema.",
+      "nextAction": "Test duplicate tap, same date/round, retry, late claim and kill between grant/mark; use atomic unique event+round receipt rather than copying weak schema. | RACE-01 #21: proposed after initial release; fixed explicit computer plans, three-board target, active clock; original live/eligibility/actual payout gates remain.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "id": "guru-brains-main-temp",
@@ -6863,10 +6902,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/progress.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Recover transfer and settlement order; test interrupted rollover, unavailable main and temp restore.",
+      "nextAction": "Recover transfer and settlement order; test interrupted rollover, unavailable main and temp restore. | BRAINS-01 #22: later after race acceptance; local week candidate normalized to existing sources, no real online claims or economy approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "id": "guru-brains-hat-own-ongoing",
@@ -6879,10 +6919,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/progress.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Test self/robot × active/settled state; no historical rank mutation or duplicate weekly award.",
+      "nextAction": "Test self/robot × active/settled state; no historical rank mutation or duplicate weekly award. | BRAINS-01 #22: later after race acceptance; local week candidate normalized to existing sources, no real online claims or economy approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "id": "guru-brains-temp-period-gate",
@@ -6895,10 +6936,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/progress.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on competition after initial release; source runtime proof where unknown; preserve atomic settlement and existing progression.",
-      "nextAction": "Establish actual weekly date/zone and time window; test before/at/after endpoints, offline, late claim, timezone/clock shifts.",
+      "nextAction": "Establish actual weekly date/zone and time window; test before/at/after endpoints, offline, late claim, timezone/clock shifts. | BRAINS-01 #22: later after race acceptance; local week candidate normalized to existing sources, no real online claims or economy approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "id": "guru-battle-entry-ticket-type",
@@ -6911,10 +6953,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Decode exact type labels and entry/retry paths in original; if later approved, configure type-specific quantity with atomic admission receipt.",
+      "nextAction": "Decode exact type labels and entry/retry paths in original; if later approved, configure type-specific quantity with atomic admission receipt. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-entry-check-gate",
@@ -6927,10 +6970,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Trace exact dependency, offline and false-return cause; define explicit local availability and distinguish failure reasons in own design.",
+      "nextAction": "Trace exact dependency, offline and false-return cause; define explicit local availability and distinguish failure reasons in own design. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-entry-single-flight",
@@ -6943,10 +6987,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Test rapid double tap, failures, cancel, reentry and process death; prevent double debit across restarts.",
+      "nextAction": "Test rapid double tap, failures, cancel, reentry and process death; prevent double debit across restarts. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-entry-store-fallback",
@@ -6959,10 +7004,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Observe insufficient funds and other failed debit cases; show honest failure route, not automatic purchase; no IAP without decision.",
+      "nextAction": "Observe insufficient funds and other failed debit cases; show honest failure route, not automatic purchase; no IAP without decision. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-entry-ad-after-debit",
@@ -6975,10 +7021,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Verify original ad result/refund, pause and restart; own transactional admission or compensating recovery with existing cooldown and no duplicate cost.",
+      "nextAction": "Verify original ad result/refund, pause and restart; own transactional admission or compensating recovery with existing cooldown and no duplicate cost. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-bot-interrupt-gates",
@@ -6991,10 +7038,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Decode active config, record source bot plan and actual interrupted events; seed deterministic local model with explicit inclusive gate and no hidden live opponent claim.",
+      "nextAction": "Decode active config, record source bot plan and actual interrupted events; seed deterministic local model with explicit inclusive gate and no hidden live opponent claim. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-win-exp-type",
@@ -7007,10 +7055,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Map battleType to UI and confirm delta; choose independent competitive economy only with approval.",
+      "nextAction": "Map battleType to UI and confirm delta; choose independent competitive economy only with approval. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-win-exp-carry",
@@ -7023,10 +7072,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Recover exact thresholds/rewards; validate multi-level carry, repeated settlement and result receipts atomically.",
+      "nextAction": "Recover exact thresholds/rewards; validate multi-level carry, repeated settlement and result receipts atomically. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-streak-protection-result",
@@ -7039,10 +7089,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Observe offer CTA and consideration, cancel/fail/success/relaunch; preserve loss and other counters separately from protected streak.",
+      "nextAction": "Observe offer CTA and consideration, cancel/fail/success/relaunch; preserve loss and other counters separately from protected streak. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-battle-streak-multiplier-lookup",
@@ -7055,10 +7106,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "C0–C4 — later owner decision",
       "dependencies": "Owner decision on new recovery or competition policy; exact source/runtime proof where unknown; preserve existing game, atomic save and reward receipts.",
-      "nextAction": "Decode actual map and fallback, verify prior vs post-win multiplier; no guessed table values in production.",
+      "nextAction": "Decode actual map and fallback, verify prior vs post-win multiplier; no guessed table values in production. | BATTLE-01 #23: refinement of existing M3; free fixed-plan lab, reactive path and tickets/streak/commerce separately gated. No owner scope approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно."
+      "reason": "Соревнования, боты и сезоны отложены после первого релиза по решению владельца; не исключены окончательно.",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "id": "guru-train-day-separated-state",
@@ -11773,5 +11825,90 @@
       "MISSING": 436,
       "UNKNOWN": 37
     }
+  },
+  "competitionProposal20261126": {
+    "reviewedHead": "57820c8c6491c8b6240aeed5cb0dfde61c858927",
+    "version": "0.5.24 / 29",
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "sourceInventory": "944f4bb370edf46fb10c6f3b4d5ab0d505d85f23",
+    "issues": {
+      "race": "https://github.com/DanilaH/crossmath-game/issues/21",
+      "brains": "https://github.com/DanilaH/crossmath-game/issues/22",
+      "battle": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    "sourceFeatureIds": [
+      "guru-star-fly",
+      "guru-star-round",
+      "guru-star-weight",
+      "guru-star-tie",
+      "guru-star-a",
+      "guru-star-b",
+      "guru-star-retry",
+      "guru-star-award",
+      "guru-task-join-star-race",
+      "guru-task-win-star-race",
+      "guru-star-a-endpoint-draw",
+      "guru-star-a-interval-catchup",
+      "guru-star-a-terminal-clamp",
+      "guru-star-b-round-diff-interval",
+      "guru-star-b-schedule-normalization",
+      "guru-star-b-due-gate",
+      "guru-star-b-saved-lists",
+      "guru-star-entry-min-levels",
+      "guru-star-entry-min-days",
+      "guru-star-claim-date-round-key",
+      "ref-live-opponents",
+      "guru-brains-week",
+      "guru-brains-plan",
+      "guru-brains-hat",
+      "guru-brains-lifetime-counter",
+      "guru-brains-main-temp",
+      "guru-brains-hat-own-ongoing",
+      "guru-brains-temp-period-gate",
+      "guru-battle-time",
+      "guru-battle-react",
+      "guru-battle-ticket",
+      "guru-battle-streak",
+      "guru-rv-ticket",
+      "guru-keep-streak-offer",
+      "guru-battle-ticket-auto-cap-ten",
+      "guru-battle-ticket-catchup-five-minutes",
+      "guru-battle-ticket-timer-clear",
+      "guru-battle-ticket-reward-three",
+      "guru-rv-ticket-interstitial-fallback",
+      "guru-rv-ticket-cancel-no-fallback",
+      "guru-battle-entry-ticket-type",
+      "guru-battle-entry-check-gate",
+      "guru-battle-entry-single-flight",
+      "guru-battle-entry-store-fallback",
+      "guru-battle-entry-ad-after-debit",
+      "guru-battle-bot-interrupt-gates",
+      "guru-battle-win-exp-type",
+      "guru-battle-win-exp-carry",
+      "guru-battle-streak-protection-result",
+      "guru-battle-streak-multiplier-lookup"
+    ],
+    "model": "docs/porting/competition-pilot-20261126/MEASUREMENTS.json",
+    "clockModel": "docs/porting/competition-pilot-20261126/CLOCK_POLICY.json",
+    "controls": {
+      "raceScenarios": 84,
+      "tieControls": 36,
+      "stateControls": 768,
+      "replayControls": 240,
+      "payoutChecks": 64,
+      "weeklyControls": 64,
+      "absoluteClockCases": 384,
+      "absoluteClockExtraControls": 5
+    },
+    "proposed": {
+      "raceTargets": {
+        "relax": 4,
+        "challenge": 12
+      },
+      "nominalDistinctWins": 3,
+      "weeklyPointsCap": 35,
+      "battle": "existing M3 free fixed-plan lab first"
+    },
+    "scope": "Owner initial release exclusions remain. Model and proposal only; no new accepted original runtime, live opponents, economy, saves, code or runtime changes."
   }
 }

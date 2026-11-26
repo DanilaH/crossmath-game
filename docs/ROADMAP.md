@@ -434,3 +434,12 @@ Source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460/460 mapped (11 
 - [EVENT-01 #20](https://github.com/DanilaH/crossmath-game/issues/20): optional 7 profile-day postcard, 3/6/9/12 distinct wins milestones, cosmetic only; 2560 synthetic expiry/receipt controls. 15-win variant rejected as unreachable at two/day. Preserve earned parts after expiry. Outside initial scope pending owner approval.
 
 [Daily model](porting/daily-return-pilot-20261126/MEASUREMENTS.json) · [event model](porting/daily-return-pilot-20261126/EVENT_POLICY.json). 30 IDs linked without promotion or source coverage change. Runtime NONE. KIT IMPACT REUSE/CANDIDATE.
+
+
+## 26.11.2026 · Соревнования — поэтапные предложения после initial release
+
+- [RACE-01 #21](https://github.com/DanilaH/crossmath-game/issues/21): donor weights 1/2/4/6, target10 даёт 7–8 Relax vs2–3 Challenge; candidate targets4/12 =3 consecutive distinct fields across six phases. Source B interval sums320/660 s, not measured human duration. Explicitly labelled offline computer plans, absolute active clock+sequence (not wall time), one race receipt. Cosmetic first, separate optional +20 coins/day-start key only upon approval. Donor five-win pack 440 coins+7 hints ≈14.33 own hint equivalents, not default. Existing ad placement/cooldown unchanged; no new race-specific ad.
+- [BRAINS-01 #22](https://github.com/DanilaH/crossmath-game/issues/22): later weekly candidate 3/full-set date +2/first-race-win date, max35; explicit computer profiles with saved schedule, no hat wallet or fake online rankings. Source ordinary max-exclusive ranges and actual source prize/period gaps preserved.
+- [BATTLE-01 #23](https://github.com/DanilaH/crossmath-game/issues/23): refines existing M3 (not new competing specification). Formula applied to own bank: bot6 Easy Short28–32s, Hard36–40s, Expert64.5–75.5s, Hell103–114s; no human timing claim. Free fixed-plan lab → separately approved reactive behavior → ticket/streak/progression/commerce. Source time/interrupt/internal unit/live SDK gates remain.
+
+[Model](porting/competition-pilot-20261126/MEASUREMENTS.json) · [absolute clock controls](porting/competition-pilot-20261126/CLOCK_POLICY.json). 50 unique source IDs linked, all 605 retained, statuses/comparisons unchanged. No new product runtime, balance, art or owner scope approval. Physical G8/signature and source G1 etc remain open. KIT IMPACT REUSE/CANDIDATE.

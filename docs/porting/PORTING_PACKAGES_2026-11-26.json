@@ -229,7 +229,8 @@
       "sourceFeatureId": "guru-star-fly",
       "package": "P5",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-task-count",
@@ -424,91 +425,108 @@
       "sourceFeatureId": "guru-star-round",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-weight",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-tie",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-a",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-b",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-retry",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-award",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-battle-time",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-react",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-ticket",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-streak",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-brains-week",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "sourceFeatureId": "guru-brains-plan",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "sourceFeatureId": "guru-brains-hat",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "sourceFeatureId": "ref-live-opponents",
       "package": "P5",
       "status": "EVIDENCE_GAP",
-      "comparison": "UNKNOWN"
+      "comparison": "UNKNOWN",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "easy-base-coins",
@@ -988,13 +1006,15 @@
       "sourceFeatureId": "guru-task-join-star-race",
       "package": "P3",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-task-win-star-race",
       "package": "P3",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-task-endless",
@@ -1212,7 +1232,8 @@
       "sourceFeatureId": "guru-rv-ticket",
       "package": "P4",
       "status": "EVIDENCE_GAP",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-rv-store",
@@ -1595,7 +1616,8 @@
       "sourceFeatureId": "guru-keep-streak-offer",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "easy-update-dialog",
@@ -2154,37 +2176,43 @@
       "sourceFeatureId": "guru-battle-ticket-auto-cap-ten",
       "package": "P5",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-ticket-catchup-five-minutes",
       "package": "P5",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-ticket-timer-clear",
       "package": "P5",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-ticket-reward-three",
       "package": "P5",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-rv-ticket-interstitial-fallback",
       "package": "P4",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-rv-ticket-cancel-no-fallback",
       "package": "P4",
       "status": "RESEARCHED",
-      "comparison": "PARTIAL"
+      "comparison": "PARTIAL",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-economy-init-igc-config",
@@ -2299,145 +2327,169 @@
       "sourceFeatureId": "guru-brains-lifetime-counter",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "sourceFeatureId": "guru-star-a-endpoint-draw",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-a-interval-catchup",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-a-terminal-clamp",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-b-round-diff-interval",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-b-schedule-normalization",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-b-due-gate",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-b-saved-lists",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-entry-min-levels",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-entry-min-days",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-star-claim-date-round-key",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
     },
     {
       "sourceFeatureId": "guru-brains-main-temp",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "sourceFeatureId": "guru-brains-hat-own-ongoing",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "sourceFeatureId": "guru-brains-temp-period-gate",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
     },
     {
       "sourceFeatureId": "guru-battle-entry-ticket-type",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-entry-check-gate",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-entry-single-flight",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-entry-store-fallback",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-entry-ad-after-debit",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-bot-interrupt-gates",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-win-exp-type",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-win-exp-carry",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-streak-protection-result",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-battle-streak-multiplier-lookup",
       "package": "P5",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
     },
     {
       "sourceFeatureId": "guru-train-day-separated-state",
