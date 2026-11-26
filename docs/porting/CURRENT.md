@@ -33,6 +33,8 @@
 
 Exact 630/630 canonical coverage PASS on game CI [45882098149](https://github.com/DanilaH/crossmath-game/actions/runs/45882098149); pinned inventory, ledger and verifier blobs checked. No implementation/acceptance promotion.
 
+Exact 638/638 canonical coverage PASS on game CI [45885667709](https://github.com/DanilaH/crossmath-game/actions/runs/45885667709); pinned inventory, ledger and verifier blobs checked. No implementation/acceptance promotion.
+
 ## Исторический архив
 
 [Manifest](HISTORICAL_ARCHIVE_MANIFEST_2026-11-26.json) — 162 original own files from [PR #3 exact commit](https://github.com/DanilaH/crossmath-game/tree/2bbd6f9804efb2291d7b2e42de091adee9954db4/docs/porting) restored at their existing historical paths (no old ledger restored). Earlier source #7/#10 documents already present; original PRs retained in history, not merge paths.
