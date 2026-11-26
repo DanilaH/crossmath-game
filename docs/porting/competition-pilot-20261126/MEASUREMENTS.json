@@ -1,0 +1,1481 @@
+{
+  "reviewedHead": "57820c8c6491c8b6240aeed5cb0dfde61c858927",
+  "inputs": [
+    {
+      "path": "docs/spec/product/content_v09/boards.json",
+      "gitBlob": "b6476924ddf5805ab007976c689faf23459df2a4"
+    },
+    {
+      "path": "docs/spec/product/content_v2/boards.json",
+      "gitBlob": "f8fd69fb1e93f5b54207b0c66623023d5dc9d087"
+    },
+    {
+      "path": "docs/spec/product/content_v09/routes.json",
+      "gitBlob": "6e42a2548f63336fed07295e826deff3f7fc73a4"
+    },
+    {
+      "path": "docs/spec/product/meta_v08/config.json",
+      "gitBlob": "baf68899c51ad3810a7cdbc363e02174014c70e4"
+    }
+  ],
+  "execution": "model function executed on connector-fetched pinned inputs; standalone wrapper not independently run",
+  "scope": "MODEL on pinned own content + previously recovered reference constants; no game runtime, human solve-time distribution, source device or revenue",
+  "burden": [
+    {
+      "track": "relax",
+      "target": 4,
+      "boards": [
+        3,
+        3
+      ],
+      "referenceIntervalSeconds": [
+        320,
+        320
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "relax",
+      "target": 6,
+      "boards": [
+        4,
+        5
+      ],
+      "referenceIntervalSeconds": [
+        440,
+        540
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "relax",
+      "target": 10,
+      "boards": [
+        7,
+        8
+      ],
+      "referenceIntervalSeconds": [
+        760,
+        860
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "relax",
+      "target": 12,
+      "boards": [
+        9,
+        9
+      ],
+      "referenceIntervalSeconds": [
+        960,
+        960
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "relax",
+      "target": 15,
+      "boards": [
+        11,
+        12
+      ],
+      "referenceIntervalSeconds": [
+        1180,
+        1280
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "relax",
+      "target": 20,
+      "boards": [
+        15,
+        15
+      ],
+      "referenceIntervalSeconds": [
+        1600,
+        1600
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "relax",
+      "target": 25,
+      "boards": [
+        19,
+        19
+      ],
+      "referenceIntervalSeconds": [
+        2020,
+        2040
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "relax",
+      "target": 30,
+      "boards": [
+        22,
+        23
+      ],
+      "referenceIntervalSeconds": [
+        2360,
+        2460
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "challenge",
+      "target": 4,
+      "boards": [
+        1,
+        1
+      ],
+      "referenceIntervalSeconds": [
+        180,
+        300
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "challenge",
+      "target": 6,
+      "boards": [
+        1,
+        2
+      ],
+      "referenceIntervalSeconds": [
+        300,
+        480
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "challenge",
+      "target": 10,
+      "boards": [
+        2,
+        3
+      ],
+      "referenceIntervalSeconds": [
+        480,
+        660
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "challenge",
+      "target": 12,
+      "boards": [
+        3,
+        3
+      ],
+      "referenceIntervalSeconds": [
+        660,
+        660
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "challenge",
+      "target": 15,
+      "boards": [
+        4,
+        4
+      ],
+      "referenceIntervalSeconds": [
+        840,
+        960
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "challenge",
+      "target": 20,
+      "boards": [
+        4,
+        5
+      ],
+      "referenceIntervalSeconds": [
+        960,
+        1140
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "challenge",
+      "target": 25,
+      "boards": [
+        6,
+        6
+      ],
+      "referenceIntervalSeconds": [
+        1320,
+        1320
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    },
+    {
+      "track": "challenge",
+      "target": 30,
+      "boards": [
+        7,
+        7
+      ],
+      "referenceIntervalSeconds": [
+        1500,
+        1620
+      ],
+      "scope": "sum of donor round1 B interval entries for own rotation, not actual player duration or source bot plan"
+    }
+  ],
+  "candidate": {
+    "targets": {
+      "relax": 4,
+      "challenge": 12
+    },
+    "paceAnchors": [
+      0.9,
+      1.2
+    ],
+    "raceScenarios": [
+      {
+        "track": "relax",
+        "phase": 0,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 192000,
+        "wonAt": 192000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 0,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 256000,
+        "wonAt": 256000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 0,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 288000,
+        "wonAt": 288000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 0,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 2,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 0,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 2,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 0,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 1,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 0,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 1,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 1,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 192000,
+        "wonAt": 192000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 1,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 256000,
+        "wonAt": 256000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 1,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 288000,
+        "wonAt": 288000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 1,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 3,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 1,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 3,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 1,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 1,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 1,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 1,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 2,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 192000,
+        "wonAt": 192000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 2,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 256000,
+        "wonAt": 256000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 2,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 288000,
+        "wonAt": 288000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 2,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 3,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 2,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 3,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 2,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 2,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 2,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 2,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 3,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 192000,
+        "wonAt": 192000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 3,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 256000,
+        "wonAt": 256000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 3,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 288000,
+        "wonAt": 288000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 3,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 2,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 3,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 2,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 3,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 1,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 3,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 1,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 4,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 192000,
+        "wonAt": 192000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 4,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 256000,
+        "wonAt": 256000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 4,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 288000,
+        "wonAt": 288000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 4,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 3,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 4,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 3,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 4,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 1,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 4,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 1,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 5,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 192000,
+        "wonAt": 192000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 5,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 256000,
+        "wonAt": 256000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 5,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 4,
+        "activeMs": 288000,
+        "wonAt": 288000,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 5,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 3,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 5,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 3,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 5,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 2,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "relax",
+        "phase": 5,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 2,
+        "activeMs": 288000,
+        "wonAt": null,
+        "opponentFinishMs": 288000
+      },
+      {
+        "track": "challenge",
+        "phase": 0,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 396000,
+        "wonAt": 396000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 0,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 528000,
+        "wonAt": 528000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 0,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 594000,
+        "wonAt": 594000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 0,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 8,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 0,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 8,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 0,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 8,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 0,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 4,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 1,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 396000,
+        "wonAt": 396000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 1,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 528000,
+        "wonAt": 528000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 1,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 594000,
+        "wonAt": 594000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 1,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 10,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 1,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 10,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 1,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 4,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 1,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 4,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 2,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 396000,
+        "wonAt": 396000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 2,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 528000,
+        "wonAt": 528000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 2,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 594000,
+        "wonAt": 594000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 2,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 10,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 2,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 10,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 2,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 6,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 2,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 0,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 3,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 396000,
+        "wonAt": 396000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 3,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 528000,
+        "wonAt": 528000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 3,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 594000,
+        "wonAt": 594000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 3,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 8,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 3,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 8,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 3,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 8,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 3,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 4,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 4,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 396000,
+        "wonAt": 396000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 4,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 528000,
+        "wonAt": 528000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 4,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 594000,
+        "wonAt": 594000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 4,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 10,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 4,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 10,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 4,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 4,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 4,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 4,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 5,
+        "playerPaceMultiplier": 0.6,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 396000,
+        "wonAt": 396000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 5,
+        "playerPaceMultiplier": 0.8,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 528000,
+        "wonAt": 528000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 5,
+        "playerPaceMultiplier": 0.9,
+        "outcome": "won",
+        "playerPoints": 12,
+        "activeMs": 594000,
+        "wonAt": 594000,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 5,
+        "playerPaceMultiplier": 1,
+        "outcome": "lost",
+        "playerPoints": 10,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 5,
+        "playerPaceMultiplier": 1.2,
+        "outcome": "lost",
+        "playerPoints": 10,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 5,
+        "playerPaceMultiplier": 1.5,
+        "outcome": "lost",
+        "playerPoints": 6,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      },
+      {
+        "track": "challenge",
+        "phase": 5,
+        "playerPaceMultiplier": 2,
+        "outcome": "lost",
+        "playerPoints": 0,
+        "activeMs": 594000,
+        "wonAt": null,
+        "opponentFinishMs": 594000
+      }
+    ],
+    "paceMatrix": [
+      {
+        "pace": 0.6,
+        "scenarios": 12,
+        "wins": 12
+      },
+      {
+        "pace": 0.8,
+        "scenarios": 12,
+        "wins": 12
+      },
+      {
+        "pace": 0.9,
+        "scenarios": 12,
+        "wins": 12
+      },
+      {
+        "pace": 1,
+        "scenarios": 12,
+        "wins": 0
+      },
+      {
+        "pace": 1.2,
+        "scenarios": 12,
+        "wins": 0
+      },
+      {
+        "pace": 1.5,
+        "scenarios": 12,
+        "wins": 0
+      },
+      {
+        "pace": 2,
+        "scenarios": 12,
+        "wins": 0
+      }
+    ]
+  },
+  "budget": {
+    "sourceTableCoins": 440,
+    "sourceTableHints": 7,
+    "consumerHintCost": 60,
+    "sourceTableConsumerHintEquivalents": 14.333333333333332,
+    "consumerFullDailySetCoins": 60,
+    "consumerDateAndSetCoins": 90,
+    "candidateCosmeticPilotCoins": 0,
+    "alternativeUnapprovedFirstDailyWinCoins": 20,
+    "sevenDayAlternativeMaxCoins": 140
+  },
+  "sourceBrains": {
+    "ordinaryDailyRangeAssumingExclusiveMax": [
+      {
+        "label": "A",
+        "min": 35,
+        "max": 46,
+        "sevenDays": [
+          245,
+          322
+        ]
+      },
+      {
+        "label": "B",
+        "min": 31,
+        "max": 39,
+        "sevenDays": [
+          217,
+          273
+        ]
+      },
+      {
+        "label": "C",
+        "min": 26,
+        "max": 29,
+        "sevenDays": [
+          182,
+          203
+        ]
+      },
+      {
+        "label": "D",
+        "min": 5,
+        "max": 19,
+        "sevenDays": [
+          35,
+          133
+        ]
+      }
+    ],
+    "sevenFullDailySetClaimsHat": 70,
+    "sevenSetClaimsPlusOneRaceWinEachDayHat": 77,
+    "scope": "conditional arithmetic; special catchup may use configured max, other hat sources and actual ranking unknown"
+  },
+  "weeklyCandidate": {
+    "formula": "3 per unique full-set date, 2 per unique first-race-win date",
+    "cap": 35,
+    "examples": [
+      {
+        "sets": 0,
+        "raceDays": 0,
+        "points": 0
+      },
+      {
+        "sets": 0,
+        "raceDays": 3,
+        "points": 6
+      },
+      {
+        "sets": 0,
+        "raceDays": 5,
+        "points": 10
+      },
+      {
+        "sets": 0,
+        "raceDays": 7,
+        "points": 14
+      },
+      {
+        "sets": 3,
+        "raceDays": 0,
+        "points": 9
+      },
+      {
+        "sets": 3,
+        "raceDays": 3,
+        "points": 15
+      },
+      {
+        "sets": 3,
+        "raceDays": 5,
+        "points": 19
+      },
+      {
+        "sets": 3,
+        "raceDays": 7,
+        "points": 23
+      },
+      {
+        "sets": 5,
+        "raceDays": 0,
+        "points": 15
+      },
+      {
+        "sets": 5,
+        "raceDays": 3,
+        "points": 21
+      },
+      {
+        "sets": 5,
+        "raceDays": 5,
+        "points": 25
+      },
+      {
+        "sets": 5,
+        "raceDays": 7,
+        "points": 29
+      },
+      {
+        "sets": 7,
+        "raceDays": 0,
+        "points": 21
+      },
+      {
+        "sets": 7,
+        "raceDays": 3,
+        "points": 27
+      },
+      {
+        "sets": 7,
+        "raceDays": 5,
+        "points": 31
+      },
+      {
+        "sets": 7,
+        "raceDays": 7,
+        "points": 35
+      }
+    ]
+  },
+  "battle": [
+    {
+      "bucket": "easy-short",
+      "n": 40,
+      "equations": [
+        7,
+        8
+      ],
+      "holes": [
+        7,
+        8
+      ],
+      "referencePlanSeconds": {
+        "3": [
+          35,
+          40
+        ],
+        "6": [
+          28,
+          32
+        ],
+        "12": [
+          17.5,
+          20
+        ]
+      }
+    },
+    {
+      "bucket": "easy-long",
+      "n": 40,
+      "equations": [
+        9,
+        10
+      ],
+      "holes": [
+        9,
+        10
+      ],
+      "referencePlanSeconds": {
+        "3": [
+          45,
+          50
+        ],
+        "6": [
+          36,
+          40
+        ],
+        "12": [
+          22.5,
+          25
+        ]
+      }
+    },
+    {
+      "bucket": "normal-short",
+      "n": 20,
+      "equations": [
+        9,
+        10
+      ],
+      "holes": [
+        10,
+        11
+      ],
+      "referencePlanSeconds": {
+        "3": [
+          45,
+          50
+        ],
+        "6": [
+          36,
+          40
+        ],
+        "12": [
+          22.5,
+          25
+        ]
+      }
+    },
+    {
+      "bucket": "normal-long",
+      "n": 20,
+      "equations": [
+        15,
+        17
+      ],
+      "holes": [
+        17,
+        19
+      ],
+      "referencePlanSeconds": {
+        "3": [
+          79.5,
+          92.5
+        ],
+        "6": [
+          64.5,
+          75.5
+        ],
+        "12": [
+          42,
+          50
+        ]
+      }
+    },
+    {
+      "bucket": "hard-short",
+      "n": 70,
+      "equations": [
+        9,
+        10
+      ],
+      "holes": [
+        11,
+        12
+      ],
+      "referencePlanSeconds": {
+        "3": [
+          45,
+          50
+        ],
+        "6": [
+          36,
+          40
+        ],
+        "12": [
+          22.5,
+          25
+        ]
+      }
+    },
+    {
+      "bucket": "expert-short",
+      "n": 18,
+      "equations": [
+        15,
+        17
+      ],
+      "holes": [
+        19,
+        21
+      ],
+      "referencePlanSeconds": {
+        "3": [
+          79.5,
+          92.5
+        ],
+        "6": [
+          64.5,
+          75.5
+        ],
+        "12": [
+          42,
+          50
+        ]
+      }
+    },
+    {
+      "bucket": "hell-short",
+      "n": 17,
+      "equations": [
+        22,
+        24
+      ],
+      "holes": [
+        27,
+        29
+      ],
+      "referencePlanSeconds": {
+        "3": [
+          125,
+          138
+        ],
+        "6": [
+          103,
+          114
+        ],
+        "12": [
+          70,
+          78
+        ]
+      }
+    },
+    {
+      "bucket": "daily",
+      "n": 50,
+      "equations": [
+        15,
+        17
+      ],
+      "holes": [
+        15,
+        18
+      ],
+      "referencePlanSeconds": {
+        "3": [
+          79.5,
+          92.5
+        ],
+        "6": [
+          64.5,
+          75.5
+        ],
+        "12": [
+          42,
+          50
+        ]
+      }
+    }
+  ],
+  "controls": {
+    "raceScenarios": 84,
+    "tieControls": 36,
+    "stateControls": 768,
+    "replayControls": 240,
+    "payoutChecks": 64,
+    "weeklyControls": 64
+  },
+  "limits": "Race model does not implement actual writer, checkpoint persistence, user actions or arbitrary mix. Pace sweep illustrates sensitivity to fixed bot pace, not win-rate forecast. Weekly candidate is score arithmetic only. Monetary scenario unapproved."
+}

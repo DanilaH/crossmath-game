@@ -1,6 +1,44 @@
 # Crossmath status
 
-## Current development preview · 23 November 2026
+## Current consolidated checkpoint · 26 November 2026
+
+Crossmath 0.5.24 / 29; reviewed developer snapshot `57820c8c6491c8b6240aeed5cb0dfde61c858927`, gameplay/artifact `a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance `469928d03f4bae5053e23db26e82187bedbc252e`, source inventory `944f4bb370edf46fb10c6f3b4d5ab0d505d85f23` (605 IDs). [Current map](porting/CURRENT.md) · [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
+
+[HELP-02](acceptance/issue-11/README.md), [interstitial cooldown](acceptance/interstitial-cooldown.md), [FEEL-01](acceptance/feel-01.md) implemented in PR #4; developer reports 169 tests, Chromium, signed APK. Physical device/live SDK and signer compatibility open. No new economy or runtime change.
+
+See [remaining investigations](porting/RESEARCH_CLOSURE_GATES_2026-11-26.md) and [proposals](porting/REFERENCE_PORTING_PLAN_2026-11-26.md). All older dated checkpoints are historical.
+
+## Current baseline · 24 November 2026
+
+**Актуальная база сверки:** Crossmath **0.5.24 / versionCode 29**, product implementation `2a7d231098d34de29d8607cc4131fec3dcead899`, product baseline HEAD `73fbc059149aba440297cf4cdc074b98433ad7e5`. Runtime kit `469928d03f4bae5053e23db26e82187bedbc252e` сохранён; новый research source pin `4287cc0b6480202bb69f0fdb5c426224df779fff` от него независим.
+
+**HELP-01 / ADS-01: IMPLEMENTED.** Existing [unit/Chromium acceptance](acceptance/issues-8-9/README.md) is retained. The older [delivery package](porting/help-and-ads-20261124/README.md) documents the rationale; its former SPECIFIED state is historical. Help distinguishes incompatible input, no supported explanation and unfinished verification, while Endless preserves the same neutral preview until Submit. Banner command rejection recovers through the current intent/refresh path. Keep fixed **100% typography**, independent answer-free proof verification, isolated Reveal, atomic Apply and durable rewards.
+
+### Recorded CI and artifact evidence
+
+Fresh readback of the existing GitHub job logs confirmed **SUCCESS** on the [push run 45373312669](https://github.com/DanilaH/crossmath-game/actions/runs/45373312669), source `73fbc059149aba440297cf4cdc074b98433ad7e5`, and the [PR run 45373329996](https://github.com/DanilaH/crossmath-game/actions/runs/45373329996), merge source `ffc358d4050a18c874ebbcb49565455313f9704d`. Each run passed **145 game + 239 kit = 384 tests**, three browser scenarios, content verification, strict doctor, Gradle and exact-APK inspection. These are retained product-baseline results. The old missing-`KIT_READ_TOKEN` failure is historical and is not a current blocker.
+
+After the first research reconciliation, [push run 45427771678](https://github.com/DanilaH/crossmath-game/actions/runs/45427771678) at `bc8d50d3f886a4461f2507547ab7ca11c9182c49` and [PR run 45427792826](https://github.com/DanilaH/crossmath-game/actions/runs/45427792826) at synthetic merge `d83cae7320eb2020e3c8cdb6c94a2f6f57120f90` also completed **SUCCESS**: 384 tests, content/browser, Gradle and exact releasecheck-APK verification. [Exact CI readback](porting/GURU_SOLVER_RESEARCH_CI_2026-11-24.json) records source/APK hashes and the hosted doctor’s one `RUNTIME_PIN_UNVERIFIED` warning for the temporary `file:` tarball; kit checkout is independently pinned to `469928d…`. These are automatic CI builds of those exact sources, not CI acceptance of later supplements. Native runtime/device testing was **NOT RUN**.
+
+| Artifact provenance | SHA-256 |
+| --- | --- |
+| Prior product acceptance, source `2a7d231098d34de29d8607cc4131fec3dcead899` | `3329ce326c2a574d84997c338665d6f66be89b46fe1b8887efc10e9e9306defa` |
+| Push CI artifact, source `73fbc059149aba440297cf4cdc074b98433ad7e5` | `9c54853dfe8a22014207b0539dae3d474a28404724f2322b7108c0567be709e4` |
+| PR CI artifact, merge source `ffc358d4050a18c874ebbcb49565455313f9704d` | `9e03375ab0807e76b1face4128ca481518b6a56ea6e2c72cece0dd043863022d` |
+
+Do not substitute either artifact for a new physical-device acceptance. Android touch/Back, audible sound/haptics, system-font changes with game text staying at 100%, provider callbacks and live SDK/store acceptance remain separate open gates.
+
+### Guru solver research, evidence boundary
+
+[Current consumer report](porting/GURU_SOLVER_RESEARCH_2026-11-24.md) · [private source package](https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md). Guru **4.17.0 / 26101374** Monotonic, Factor, Intersection and bounded backtracking have now executed under a generic isolated native adapter. **13 real recipes / 19 DB rows** converge in both **persistent** and **fresh/first-step** modes. The frozen core **12/18** is unchanged; a [26-hole recipe is now SOLVED in both protocols](https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/diagnostics/heap-capacity-20261124/README.md), bringing the [deduplicated total](https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/TOTAL_NATIVE_COVERAGE.json) to **13/19**. Its timings measure the isolated adapter, not Android performance. All **12 899** catalog recipes have unique numeric assignments in the independent own CSP model. **Full native corpus convergence: UNKNOWN. Exact author `stuck` formula: UNKNOWN.** Original UI/Android execution and source-system completeness are not inferred from these results.
+
+This revision refines **13 existing sourceFeatureId**; mapping remains **296/296**, with no new product implementation or automatic source ACCEPTED status. Historical **265** and gameplay `0401140d` snapshots below are not the current inventory/implementation. The next native work is sampling across mask-size ranges and setting a full-catalog budget on the validated no-count adapter, with explicit SOLVED/FIXED_POINT/FALLBACK_REQUIRED/TIME_BUDGET/HARNESS_ERROR outcomes. The heavy profile is complete. Own Monotonic/Factor/bounded proof work is a separate proposed product scope.
+
+## Historical status and delivery records
+
+**Исторический слой.** Ниже сохранены датированные исследования и их прежние состояния. Числа 265/269/273/275/288/293 и source/gameplay `0401140d` относятся к соответствующим прежним срезам; текущая карта — 296/296. Старые формулировки «следующий опыт», «полный solve не исполнен» и прежние APK/CI не переопределяют актуальную сводку выше. Исследовательский PR #7 не должен откатывать принятую реализацию Help/Ads на статус готового ТЗ.
+
+### Historical development preview · 23 November 2026
 
 `feat/mode-unlocks-0.5.10` / PR #4 carries 0.5.24 (versionCode 29). Issue #6 adds four root tabs, a New Game sheet, a persistent Daily selection and profile filters. Workshop returns to its original root tab. [0.5.24 acceptance](acceptance/issue-6/README.md) · [0.5.23 acceptance](acceptance/issue-5/README.md) · [Reference adoption ledger](porting/ADOPTION_LEDGER.json).
 
@@ -10,7 +48,7 @@ Earlier baseline, 19 November 2026: `main`, `feat/vertical-slice-20261118` and P
 
 0.5.3 preview adds a home screen with one continuation action, direct Daily and workshop entry, and a separate modes dialog. See [preview acceptance](ACCEPTANCE_PLAY_SCREEN_2026-11-19.md) for the exact APK and verification on `feat/play-screen-0.5`.
 
-## Implemented
+### Implemented
 
 - A–C: immutable 240-board bank, independent solver, physical-token commands, semantic board and drag/tap/keyboard, explain/proof verification and isolated reveal, atomic saves, rank/base/card rewards, 15 lessons and full campaign continuation.
 - D: home with saved-game priority, unlocked Free difficulty selector, unsolved-first pools, independent campaign/Free/dated slots and explicit replacement confirmation.
@@ -25,7 +63,7 @@ Earlier baseline, 19 November 2026: `main`, `feat/vertical-slice-20261118` and P
 - E2: persistent RU/EN and optional timer in Campaign/Free Play. Localized gameplay, help, result, calendar, album, profile, settings and accessibility labels.
 - E2: durable rewarded credit and exact-attempt/run continuation, impression-based interstitial cadence, optional native banner visibility and offline fallback.
 
-## Verified locally
+### Verified locally
 
 - 68 Vitest tests / 9 files; independent full-bank solving and 240-win reward integration, including 228/229; durable writes/recovery and help proofs; D includes 84 actual-bank mission/profile fixtures, +100, old dated completion, fixed zones/leap days/missed days/rollback, mode slots and migration.
 - Real Chromium 141 UI: first 25 campaign fields plus fresh-profile D scenario through unlocks 3/5, +100 Daily, cold result restore, first complete abacus and part inspection at eight distinct wins. Complete album 228/229 is an explicitly seeded display fixture, not 228 UI-played wins.
@@ -36,17 +74,17 @@ Earlier baseline, 19 November 2026: `main`, `feat/vertical-slice-20261118` and P
 
 - E2: scripted ad cancellations, delayed/duplicate callbacks, failed writes and acknowledgement recovery, scoped continuation, cadence and stalled pre-show. Chromium switches RU→EN→RU and checks cold settings persistence.
 
-## Acceptance and remaining work
+### Acceptance and remaining work
 
 0.4.0 debug and R8 releaseCheck built successfully. Exact APK passed official signature/alignment/package/version/portrait/debugging/web-payload/bridge inspection. The exact artifact hash and source are in `ACCEPTANCE_E2_2026-11-19.md`. Same retained private preview signer, package and increased versionCode support an in-place preview update; actual device installation/migration is pending.
 
-Native runtime, process kill, physical responsiveness/haptics, TalkBack, 200% OS font and live platform callbacks remain unaccepted. Browser checks and APK inspection do not establish those results.
+Historical device checklist: native runtime, process kill, physical responsiveness/haptics, TalkBack and live platform callbacks were unaccepted. Its 200% OS-font layout criterion was superseded on 24 November by fixed 100% game typography; current device verification must preserve that decision. Browser checks and APK inspection do not establish physical-device results.
 
-GitHub CI remains blocked by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`); observed gameplay-source run 44476862913 stopped at the private-kit access requirement before tests/build. Local success is independent of CI.
+Historical CI failure, superseded by the successful 73fbc059 runs above: GitHub CI was blocked by missing `KIT_READ_TOKEN` (read-only Contents access to `DanilaH/mini-games-kit`); observed gameplay-source run 44476862913 stopped at the private-kit access requirement before tests/build. Local success is independent of CI.
 
 Latest scope and acceptance: `ACCEPTANCE_E2_2026-11-19.md`. Remaining release work is the chosen live SDK and its placements, device/accessibility/offline checks, production signing and store acceptance. Production signer remains unset; no live SDK, reminders or store submission is claimed.
 
-## 0.5.4 — R1, U1 and U2
+### 0.5.4 — R1, U1 and U2
 
 [Measured level bank and issuance](spec/product/content_v2/README.md). Fresh Campaign, Relax, Challenge and unassigned Daily use the new original fields. Existing saved boards keep their IDs and geometry. U1 localizes Free replacement and restores focus to the originating button. U2 reports the affected equation with its axis, including when two equations have errors. [R2 APK evidence](spec/R2_APK_BALANCE_RU.md) records the competition numbers and trace, prior to implementing event modes.
 

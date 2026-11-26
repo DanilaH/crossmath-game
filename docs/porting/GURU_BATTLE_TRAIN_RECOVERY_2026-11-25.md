@@ -1,0 +1,17 @@
+# Guru Battle admission, protected streak and Train Brain — consumer reconciliation 2026-11-25
+
+Source: [exact-build native report](https://github.com/DanilaH/mini-games-kit/blob/3c806b76398e1c714237c3bb4bf71a40c72cfee1/research/games/crossmath/porting/guru-battle-train-recovery-20261125/README.md). Product actual 0.5.24 / 29, HEAD 04576ec2239e840176a1a412c06e82aa7b9253cb, runtime b1bf2026eda7dd68a5ccbc883946191e03d235af. Product unchanged since previous pass.
+
+## Battle
+- One concrete start path requests one ticket; alternate enum condition requests two. Exact UI enum labels UNKNOWN. Separate availability check has network/checkNetwork error path. Busy gate, negative debit store route, successful debit before cm_battle_new call. Actual ad impression/refund and backend dependence UNKNOWN.
+- Bot interruption has level minimum, bounded random gate and candidate flag; raw malformed text is not active config. Exact interruption and timing require original device. Prior R2 formula and delays retained.
+- BattleType nonzero doubles the competitive EXP delta from previous multiplier. Level-up carry loop. Protected keepWins differs from ordinary win/loss counters; loss dialog can preserve old keepWins/multiplier only on true result. Offer consideration and actual thresholds UNKNOWN.
+- Current game src/meta/career.ts and src/app/model.ts have no Battle. Keep DEFERRED after approved initial release. If selected later, atomic match admission plus ticket receipt, deterministic transparent local opponents, distinct protected-streak and ordinary counters; no duplicate debit on retries or reentry, explicit recovery on abort, no fake live players. Existing cooldown stays. No new energy restriction on existing modes.
+
+## Train Brain
+- Separate day row: target, collected amount, sign and finish-dialog flag. One recovery card request only for prior incomplete unsigned day; update path only after true. Exact named copy field/atomicity UNKNOWN. Source list streak accepts target completed OR sign. First row treated separately; rest prefix stops on incomplete. Exact list filtering across gaps and timezone UNKNOWN. Remote enable and two cohort keys do not prove activation.
+- Own src/meta/progress.ts already handles date-specific Daily receipts and historical play; no makeUpCard/sign. Do not conflate historical puzzle solving with restoring a streak. If approved, independent earned/restored status, atomic card/date receipt and non-duplicated reward; preserve access to past Daily and do not automatically change XP or coin balance.
+- Proposed acceptance: original screenshots and actual device before/after state, cancellation, repeat, midnight/clock shift, old dates, already signed/completed, finish-dialog, process kill. Do not infer source SDK or commercial values.
+
+## Correction and evidence
+B Star Race interval columns reflect planned bot difficulty, not proven player difficulty coupling. 145 AOT words, 26 pool bindings, 2 cost arithmetic cases, 12600 threshold sample evaluations, 360 recovery eligibility models, 1093 list models, 287 synthetic carry models, 3 original SQL schemas/2 model controls. Models not native execution. Local equivalent ran, published manifest verifier not rerun; no original Android. 396/396 source IDs; 16 new, 7 refined. Connector ID-set/required-field check; canonical Python validator not yet run. No code/status acceptance promotion. KIT IMPACT RESEARCH / REUSE.

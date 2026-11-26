@@ -1,0 +1,38 @@
+{
+  "art": {
+    "coin": "Монета",
+    "settings": "Настройки",
+    "profile": "Профиль",
+    "rank": "Ранг",
+    "undo": "Отмена",
+    "sort": "Сортировка",
+    "return-to-tray": "В лоток",
+    "hint": "Подсказка",
+    "campaign": "Кампания",
+    "relax": "Спокойная игра",
+    "challenge": "Испытание",
+    "endless": "Endless",
+    "calendar": "Календарь",
+    "workshop": "Мастерская",
+    "life-full": "Жизнь",
+    "modes": "Все режимы"
+  },
+  "controls": [
+    "back",
+    "forward",
+    "up",
+    "down",
+    "pause",
+    "play",
+    "more",
+    "check",
+    "life-empty"
+  ],
+  "hudCssPx": 24,
+  "hudRasterPx": 96,
+  "masterRasterPx": 256,
+  "compactOverrides": {
+    "sort": "controls/sort-small.svg",
+    "return-to-tray": "controls/return-to-tray-small.svg"
+  }
+}

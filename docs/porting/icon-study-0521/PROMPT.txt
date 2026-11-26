@@ -1,0 +1,27 @@
+Produce ONE production concept sprite atlas, a perfectly regular 4 column by 4 row square grid, of 16 individually cut out, ORIGINAL mobile game UI icons for Crossmath, a grown-up but playful tactile arithmetic workshop. Transparent background across the ENTIRE atlas. This is an asset sheet, not a mockup, no backdrop, no labels, no lettering, no boxes around icons, no gridlines. Place each subject at the exact center of its equal square cell with generous transparent breathing room on all four sides, none overlapping. Every subject fills roughly 67% of its cell width OR height with comparable optical size. All 16 cells filled, each with exactly one iconic silhouette. Each must remain clear and simple at 24 CSS pixels. Art direction: lovingly hand-drawn premium casual board-game tokens, printed mid-century technical illustration meets crisp modern hand-painted game art, confident bevel shapes, very subtle dappled material, ONE shape of light and one pocket of occlusion, a slightly irregular dark colored rim. No brutal chunky cartoon black outline. Matte bottle-green and pale enamel, honey brass, warm ivory, restrained coral/oxblood for heart and challenge, slate blue for calendar; same upper-left key light. Front readable view with a hint of thickness down-right. Avoid excessive tiny fasteners, gears-within-gears, ornate fantasy, glitter, drop shadow beyond the silhouette or emoji gloss.
+
+ROW ONE, left to right:
+1. Currency: handsome warm honey-gold minted counting token with a clean bold embossed multiplication X centered on its satin face. Raised double-rim edge; just three machined notches on visible bottom-right thickness. No dollar signs, no tiny patterns, no crown, coin is not a button.
+2. Settings: a stout deep petrol-green enamel eight-tooth mechanical cog; tooth silhouette UNMISTAKABLE, warm brass circular slotted screw at the hub, one single diagonal slot. No rectangular backing, do not make it look like a gold coin.
+3. Player profile: ivory human bust silhouette on a muted jade-green shield-shaped maker's badge with a dark cut edge. No face details.
+4. Player rank: one solid warm brass five-point star pinned over two short deep-green ribbon tails; large clear star.
+
+ROW TWO, left to right:
+1. Undo: SINGLE solid broad curved return arrow bending left and pointing left, petrol green enamel with a light upper lip, ONLY ONE arrow, no backplate.
+2. Sort: three horizontal bars stacked neatly shortest to longest with a SINGLE downward arrow on the RIGHT, contrasting green and muted brass. Clear pictogram.
+3. Return number to tray: one upright ivory tile above a shallow wooden U-shaped receiving tray, small dark down-pointing arrow between. No numbers.
+4. Hint: one unlit warm ivory lightbulb with honey glow only inside its body, brass and green collar, no external rays, clear silhouette.
+
+ROW THREE, left to right:
+1. Campaign: three cut ivory arithmetic square tiles in a cross junction with a large green plus on the front tile.
+2. Relax: a single soft sage leaf with one carved midrib resting on one pale smooth flattened counting pebble.
+3. Challenge: a single upright vermilion triangular pennant on a short dark pole standing in a small triangular brass foot, assertive silhouette.
+4. Endless: a single thick continuous teal infinity figure laid flat, visible central crossing, slight thickness, NO circular background.
+
+ROW FOUR, left to right:
+1. Daily calendar: ONE ivory tear-off calendar page, two dark binding rings and slate-blue header strip. One dark dot at center only, absolutely no date or letters; actual date will be drawn by the app.
+2. Workshop: tiny open honey-walnut wooden tray with three parallel ivory counting rods arranged side by side, distinct silhouette, no metal toolbox.
+3. Life: single deep coral enamel heart, recognizable hand-shaped token with a broad bevel.
+4. All modes: three little ivory, teal and honey puzzle tiles arranged in an L shape, with the upper right quadrant purposefully empty, no internal symbols.
+
+Prioritize handcrafted silhouettes with character and big legible internal forms. Perfectly aligned transparent 4 by 4 asset atlas.

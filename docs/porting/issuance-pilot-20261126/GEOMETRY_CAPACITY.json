@@ -1,0 +1,66 @@
+{
+  "reviewedHead": "04576ec2239e840176a1a412c06e82aa7b9253cb",
+  "sourcePath": "docs/spec/product/content_v2/build.py",
+  "sourceGitBlob": "d1ea58c567fad7c111e76239fd4f4ff9a7ba5167",
+  "execution": "function executed twice in connector JS; standalone Node wrapper not independently run",
+  "scope": "geometric feasibility only; no values, masks, unique solutions or human difficulty verified",
+  "exact7": [
+    {
+      "equations": 1,
+      "anchoredLineSets": 42,
+      "d4Shapes": 1
+    },
+    {
+      "equations": 2,
+      "anchoredLineSets": 81,
+      "d4Shapes": 3
+    },
+    {
+      "equations": 3,
+      "anchoredLineSets": 234,
+      "d4Shapes": 7
+    },
+    {
+      "equations": 4,
+      "anchoredLineSets": 439,
+      "d4Shapes": 23
+    },
+    {
+      "equations": 5,
+      "anchoredLineSets": 618,
+      "d4Shapes": 30
+    },
+    {
+      "equations": 6,
+      "anchoredLineSets": 633,
+      "d4Shapes": 35
+    },
+    {
+      "equations": 7,
+      "anchoredLineSets": 428,
+      "d4Shapes": 14
+    },
+    {
+      "equations": 8,
+      "anchoredLineSets": 132,
+      "d4Shapes": 3
+    }
+  ],
+  "sample9": [
+    {
+      "bound": 9,
+      "equations": 7,
+      "attempts": 10000,
+      "connectedCompatibleSuccess": 9491,
+      "d4ShapesLowerBound": 513
+    },
+    {
+      "bound": 9,
+      "equations": 8,
+      "attempts": 10000,
+      "connectedCompatibleSuccess": 7853,
+      "d4ShapesLowerBound": 417
+    }
+  ],
+  "seed": 20261126
+}

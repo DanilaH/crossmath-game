@@ -1,0 +1,3838 @@
+{
+  "schema": "crossmath-proposed-porting-packages-v1",
+  "sourceInventory": "944f4bb370edf46fb10c6f3b4d5ab0d505d85f23",
+  "ownerApproved": false,
+  "packages": [
+    {
+      "id": "P0",
+      "name": "Регрессия и физическая приёмка реализованного",
+      "acceptance": "Developer #4; src/app/session.ts, src/platform/ads.ts, src/ui/board.ts, src/ui/gameUi.ts, src/ui/feedback.ts. HELP-02 515/515 and cooldown pilot already implemented; do not redo. Verify same certificate update, saved state, true phone touch, font/Back and real ad adapter when approved. Acceptance G8."
+    },
+    {
+      "id": "P1",
+      "name": "Игровое взаимодействие, обучающие сценарии и feel",
+      "acceptance": "src/core/engine.ts, src/help/logic.ts, src/ui/board.ts, src/ui/gameUi.ts, src/ui/feedback.ts. Start with approved visual direction, capture actual source and own before/action/after, use own semantic feedback cues; tests for wrong drop, undo, toggle, no repeated payout, phone timing. Preserve 515/515."
+    },
+    {
+      "id": "P2",
+      "name": "Выдача, баланс и контент",
+      "acceptance": "src/content/catalog.ts, src/content/rotation.ts, src/content/validator.ts, src/meta/dailyArchive.ts. First finish remaining solver/issuer proof and new policy spec; immutable/versioned bank, explicit difficulty, empty query safe fallback, no silently remapped saved assignments. Test all boards, first 15 and full route/cursor distribution."
+    },
+    {
+      "id": "P3",
+      "name": "Мета, экономика, календарь и долгосрочные цели",
+      "acceptance": "src/meta/progress.ts, src/meta/career.ts, src/meta/missions.ts, src/meta/workshopProgress.ts, src/meta/monthlyTrophy.ts, src/app/model.ts. Separate persistent local achievements and wallet; owner selects targets and new rewards; test leap dates/old dates, unique events, concurrent claims/restarts, no duplicated resource; no copied thresholds by default."
+    },
+    {
+      "id": "P4",
+      "name": "Реклама, магазин и покупки",
+      "acceptance": "src/platform/adState.ts, src/platform/ads.ts, src/platform/androidAds.ts, src/app/session.ts. Keep 180/120/420/30 and first five wins, earned atomic settlement. Current fallback owner-deferred. New placements/IAP/offers require separate approved policy, provider tests, restore/refund/noads late callback. Don't treat named template as active."
+    },
+    {
+      "id": "P5",
+      "name": "Endless, соревнования, события, коллекционные режимы",
+      "acceptance": "src/meta/career.ts, src/meta/missions.ts, src/app/model.ts. Separate local and actual network competition, versioned rules, bot/clock tests, offline/expiry/claim idempotency; owner chooses sequence; no pretending real PvP."
+    },
+    {
+      "id": "P6",
+      "name": "Аналитика, платформенные службы и live config",
+      "acceptance": "src/meta/career.ts, src/app/nativeLifecycle.ts, src/platform/ads.ts. Owner-approved typed event schema, consent/data policy and provider selection; exact ID queue acknowledgment, clock bounds, explicit config exposure and safe defaults; cloud/notifications/SDK integration and user metrics separate."
+    }
+  ],
+  "features": [
+    {
+      "sourceFeatureId": "easy-number-cross",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-six-relax",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "MATCH",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+    },
+    {
+      "sourceFeatureId": "easy-six-challenge",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "MATCH",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+    },
+    {
+      "sourceFeatureId": "easy-bank-reindex",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+    },
+    {
+      "sourceFeatureId": "easy-owl-equality",
+      "package": "P5",
+      "status": "ROADMAPPED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-owl-entry",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-mask-history",
+      "package": "P2",
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+    },
+    {
+      "sourceFeatureId": "guru-profile",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-authored-open",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-long-expression",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-seeded-fill",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-unique",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-stuck",
+      "package": "P2",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-dynamic-filter",
+      "package": "P2",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-tap",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-drag",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-switch",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-direct-hint",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-monotonic-hint",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-factor-hint",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-intersect-hint",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-search-depth",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-hint-candidate",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-hint-return",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-hint-answer",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-division-mark",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-result-next",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-box-popup",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-box-open",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-item-collision",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-star-fly",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-task-count",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "guru-task-complete",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "ref-haptics",
+      "package": "P1",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-last-ten",
+      "package": "P3",
+      "status": "ROADMAPPED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-beat-table",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-choice-percent",
+      "package": "P3",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-career-top",
+      "package": "P3",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-rank-relax",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-rank-challenge",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-rank-coins",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-xp-equations",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-rank-curves",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-daily-gate",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-daily-life",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-restart-coins",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-month-trophy",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-event-badge",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "eventProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/20"
+    },
+    {
+      "sourceFeatureId": "easy-event-gift",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "eventProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/20"
+    },
+    {
+      "sourceFeatureId": "easy-event-entry",
+      "package": "P5",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "guru-daily-active",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-daily-fallback",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-daily-set",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-postcard",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "eventProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/20"
+    },
+    {
+      "sourceFeatureId": "guru-pending-stage",
+      "package": "P3",
+      "status": "ROADMAPPED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-history",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "eventProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/20"
+    },
+    {
+      "sourceFeatureId": "guru-makeup",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-adventure",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-adventure-award",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-endless",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-achievements",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-star-round",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-weight",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-tie",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-a",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-b",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-retry",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-award",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-battle-time",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-react",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-ticket",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-streak",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-brains-week",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
+    },
+    {
+      "sourceFeatureId": "guru-brains-plan",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
+    },
+    {
+      "sourceFeatureId": "guru-brains-hat",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
+    },
+    {
+      "sourceFeatureId": "ref-live-opponents",
+      "package": "P5",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "easy-base-coins",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-video-multiplier",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-hint-price",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ad-protect",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ad-retry",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-push-reward",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-feedback",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-observability",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-debug-panel",
+      "package": "P6",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "ref-cloud-sync",
+      "package": "P6",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "ref-background",
+      "package": "P6",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-result-tabs",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-tray-sign",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-theme",
+      "package": "P1",
+      "status": "EVIDENCE_GAP",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-level-change",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-daily-next",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-restart-video",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-restart-confirm",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-rating",
+      "package": "P6",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-consent",
+      "package": "P6",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-upgrade",
+      "package": "P6",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-language",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-no-fill",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-wallet-visual",
+      "package": "P1",
+      "status": "ROADMAPPED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-pause",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-daily-archive",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "plan-editor",
+      "package": "P1",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-value-win",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-complete-error",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-classic-life",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-tutorial-two",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-effort-buckets",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-sort-tray",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-return-tray",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-sound-setting",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-vibration-setting",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-ad-daily-restart",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ad-adventure-restart",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-inter-proceed-when-success",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-inter-restart-when-fail",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-inter-restart-when-success",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-inter-restart-when-pause",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-inter-return-to-home-when-pause",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-inter-return-to-home-when-success",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-inter-return-to-home-when-fail",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-banner-play",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-banner-pause",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-banner-win",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-banner-lose",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-iap-one-dollar-bag",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-iap-ten-dollar-bag",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-iap-eighty-dollar-gem",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-iap-remove-ad-old",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-iap-hundred-dollar-gem",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-iap-remove-ad-new",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-offer-double-wheel-reward",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-offer-free-wheel",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-offer-free-20-diamond",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-offer-try-ball-skin",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-offer-add-ball-when-preview",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-offer-add-ball-when-restart",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-offer-revive",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-offer-double-star-reward",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-achievement-complete",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-achievement-vip",
+      "package": "P3",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "guru-task-any-level",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-task-collect-hat",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-task-equation",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-task-challenge",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-task-use-sort",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-task-use-hint",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-task-difficulty-medium",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-task-difficulty-hard",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-task-difficulty-expert",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-task-postcard-levels",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-task-adventure",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-task-collect-postcard",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-task-win-battle",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-task-join-star-race",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-task-win-star-race",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-task-endless",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-0",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-1",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-2",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-100",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-101",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-102",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-103",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-104",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-105",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-106",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-107",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-108",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pack-109",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-owl-frequency",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-owl-tiebreak",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-owl-event-content",
+      "package": "P5",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-average-finish",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-month-replay",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-month-archive-key",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "easy-month-award-flag",
+      "package": "P0",
+      "status": "ACCEPTED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-badge-ceremony",
+      "package": "P3",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-iap-premium",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-coin-1000",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-coin-4000",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-coin-8000",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-hint-10",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-hint-20",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-hint-30",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-hint-100",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-tickets-30",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-tickets-100",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-tickets-200",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-rv-extra-chance",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-rv-hint",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-rv-ticket",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-rv-store",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-easy1-pool-substitution",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-tag-4-2-lower-range",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-ui-four-tab-shell",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-home-continue-new",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-ui-new-game-sheet",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-home-context-shortcuts",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-daily-full-tab",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-ui-battle-locked-tab",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ui-profile-nested-filters",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-leaderboard-nested-filters",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ui-play-immersive",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-ui-explain-coach",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-explain-lesson",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-expert-hint-coach",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ui-gesture-ftue",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-setting-explain",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ui-setting-autosubmit",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ui-setting-large-font",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-setting-division",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ui-setting-theme",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-setting-sound",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-ui-setting-vibration",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-ui-setting-timer",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-setting-store",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ui-win-popup-queue",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-cap-first-guide",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ui-endless-submit-confirm",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ui-endless-next-ad",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ui-gameplay-banner",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-explain-btn-impression",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-explain-btn-click",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-explain-banner-click",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-explain-banner-click-count",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-expert-hint-impression",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-expert-hint-click",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-guide-sort-trigger",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-guide-revert-trigger",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-guide-strategy-trigger",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-guide-hint-state",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-guide-first-error-trigger",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-guide-division-state",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-guide-theme-state",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-puzzle-filter-debug-preview",
+      "package": "P2",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-calibration",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-rules",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-cycle-ledger",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-transmission",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-bucket-group",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ads-readiness-telemetry",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-guide-equation-fx-lottie",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-guide-hand-click-lottie",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-seed-mask-variants",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-stuck-mask-topology",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-undo-unlimited-claim",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-remove-ads-purchase",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-mrec-fullscreen",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-redeem-code-route",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-nickname-country",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-notification-onboarding",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-claim-coins-dialog",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-stage-add-heart-offer",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-keep-streak-offer",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "easy-update-dialog",
+      "package": "P6",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-endless-error-budget",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-privacy-consent-config",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-route",
+      "package": "P6",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-exit-reason-panel",
+      "package": "P6",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-feedback-photo-attachment",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-feedback-validated-submit",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-banner-during-fullscreen-load",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-free-reward-remote-config",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "guru-remote-vibration-audio-config",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-generator-division-step-whole",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-play-division-final-whole",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-generator-operation-family",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-direct-long-left-fold",
+      "package": "P1",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-ad-client-interstitial-gates",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-ad-rewarded-callback-states",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-endless-score-countup",
+      "package": "P5",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "guru-strategy-conditional-backtrack",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-ad-mrec-channel",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-ad-native-channel",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-complete-candidate",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-daily-level-play",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-event-level-play",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-entry-relax",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-entry-challenge",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-entry-daily",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-daily-restart",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-level-change",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-coin-close-precheck",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-event-next-precheck",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-result-next-precheck",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-rewarded-hint-precheck",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-banner-lifecycle-hide",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-ad-cheat-skip-toggle",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "easy-interstitial-first-call-skip",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-rewarded-success-on-close",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-rewarded-pending-reset",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-ad-close-delayed-banner-request",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-solver-step-canonical-guard",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-solver-single-pass-result",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-solver-constraint-counters",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-random-first",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-empty-retry",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-history-mask-rescue",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-operation-ratio-denominator",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-equation-count",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-large-number-count",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-multiply-divide-ratio",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-plus-ratio",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-minus-ratio",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-multi-ratio",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-div-ratio",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-rescue-empty-history",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-ratio-domain",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-ratio-order",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-count-domain",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-issuance-filter-count-order",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+    },
+    {
+      "sourceFeatureId": "guru-profile-saved-priority",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-unknown-saved-fallback",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-new-user-window",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-aged-default",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-empty-remote-ignored",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-remote-nondefault-swap",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-remote-default-persist",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-remote-unknown-fallback",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-rv-hint-interstitial-fallback",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-rv-hint-cancel-no-fallback",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-rv-hint-success-gated-grant",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ad-cd-base-clamp",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ad-cd-extra-nonnegative",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ad-cd-reward-additive",
+      "package": "P0",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-ad-cd-zero-reset",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ad-cd-fallback-hidden",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-tutorial-free-property-hint",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-tutorial-free-reward-hint",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-free-reward-default-config",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-free-reward-celebrate-coin-flag",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "guru-free-hint-game-binding",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "guru-hint-target-before-payment",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-hint-guided-payment-bypass",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "guru-hint-inventory-first",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MATCH"
+    },
+    {
+      "sourceFeatureId": "guru-hint-coin-price-120",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-hint-battle-shortage-refusal",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-hint-shortage-grant-and-consume",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-hint-use-counter-after-permission",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-coin-purchase-debit-guard",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-win-coins-ten",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+    },
+    {
+      "sourceFeatureId": "guru-win-coins-multi-thirty",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+    },
+    {
+      "sourceFeatureId": "guru-win-coins-multi-config",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+    },
+    {
+      "sourceFeatureId": "guru-battle-ticket-auto-cap-ten",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-ticket-catchup-five-minutes",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-ticket-timer-clear",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-ticket-reward-three",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-rv-ticket-interstitial-fallback",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-rv-ticket-cancel-no-fallback",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-economy-init-igc-config",
+      "package": "P4",
+      "status": "EVIDENCE_GAP",
+      "comparison": "UNKNOWN"
+    },
+    {
+      "sourceFeatureId": "guru-win-multi-mode-exclusion",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+    },
+    {
+      "sourceFeatureId": "guru-win-multi-ad-icon",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+    },
+    {
+      "sourceFeatureId": "guru-win-multi-first-claim-marker",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+    },
+    {
+      "sourceFeatureId": "guru-win-multi-initial-telemetry-gate",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+    },
+    {
+      "sourceFeatureId": "guru-daily-tail-parity",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-task-count-overshoot",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+    },
+    {
+      "sourceFeatureId": "guru-badge-family-mapping",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-badge-show-selection",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-badge-upgrade-selection",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-badge-advance-selection",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-xp-eligible-completion",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-xp-equation-count-priority",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-xp-carry-over",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MATCH",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-rank-tail-repeat",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-xp-state-before-save",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-brains-lifetime-counter",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
+    },
+    {
+      "sourceFeatureId": "guru-star-a-endpoint-draw",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-a-interval-catchup",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-a-terminal-clamp",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-b-round-diff-interval",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-b-schedule-normalization",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-b-due-gate",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-b-saved-lists",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-entry-min-levels",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-entry-min-days",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-star-claim-date-round-key",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "raceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/21"
+    },
+    {
+      "sourceFeatureId": "guru-brains-main-temp",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
+    },
+    {
+      "sourceFeatureId": "guru-brains-hat-own-ongoing",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
+    },
+    {
+      "sourceFeatureId": "guru-brains-temp-period-gate",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
+    },
+    {
+      "sourceFeatureId": "guru-battle-entry-ticket-type",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-entry-check-gate",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-entry-single-flight",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-entry-store-fallback",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-entry-ad-after-debit",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-bot-interrupt-gates",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-win-exp-type",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-win-exp-carry",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-streak-protection-result",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-battle-streak-multiplier-lookup",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "battleProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/23"
+    },
+    {
+      "sourceFeatureId": "guru-train-day-separated-state",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-makeup-past-day-only",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-makeup-incomplete-unsigned",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-makeup-one-card-success",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-train-streak-completion-or-sign",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-train-remote-cohorts",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-notification-granted-skip",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-notification-denials-cap",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-notification-same-day-guard",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-notification-count-interval",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-notification-guide-result",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-notification-impression-event",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-notification-allowed-event",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "returnProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/19"
+    },
+    {
+      "sourceFeatureId": "guru-event-notification-cancel-rebuild",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-notification-empty-list",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-notification-config-gate",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-notification-file-gate",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-notification-start-data",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-notification-start-title",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-notification-end-title",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-notification-start-route",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-notification-end-route",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-stage-receipt-dedup",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "eventProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/20"
+    },
+    {
+      "sourceFeatureId": "guru-event-award-before-resource-handler",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "eventProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/20"
+    },
+    {
+      "sourceFeatureId": "guru-postcard-pending-after-presentation",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "eventProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/20"
+    },
+    {
+      "sourceFeatureId": "guru-adventure-pending-after-presentation",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-event-end-update-scope-risk",
+      "package": "P5",
+      "status": "RESEARCHED",
+      "comparison": "UNKNOWN",
+      "eventProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/20"
+    },
+    {
+      "sourceFeatureId": "guru-noads-interstitial-gate",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-noads-mrec-gate",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-noads-banner-load-gate",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-noads-banner-late-dispose",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-coin-reward-ten",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-hint-reward-one",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-hint-pending-gate",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-noads-purchase-missing-product",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-noads-purchase-success-callback",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-noads-purchase-suspended",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-noads-purchase-network-error",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-prop-purchase-result",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-restore-service-gate",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-iap-restore-repeat-gate",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-claim-coins-level-route",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-claim-coins-result-selector",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-b-level-standard-max",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-b-level-signal",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-config-defaults",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-bucket-step-fallback",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-kick-debounce",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-dispatch-enable-gate",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-dispatch-activation-gate",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-dispatch-single-flight",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-dispatch-new-bucket",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-dispatch-throttle",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-force-fetch-cooldown",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-fetch-pending-bucket",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-fetch-success-bucket",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-config-change-event",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-calibration-cache-fallback",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-rule-schema",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-pattern-named-capture",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-pattern-anchors",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-required-missing",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-conditional-missing",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-conditional-invalid",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-field-type-check",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-valid-values-check",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-comparison-check",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-parameter-match-check",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-property-match-check",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-field-diagnostic-short-circuit",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-room-storage",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-replace-id",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-pending-status-filter",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-priority-time-order",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-bounded-batch",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-batch-atomic-lease",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-stale-session-requeue",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-strict-expiry",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-queue-overflow-cleanup",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-exact-id-delete",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-serial-cursor-query",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-serial-batch-reserve-send",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-serial-checkpoint",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-serial-cutoff-delete",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-upload-failure-release",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-serial-http-immediate-retry",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-name-nonblank",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-name-length",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-name-first-letter",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-name-alphabet",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-reserved-name",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-event-executor-handoff",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-worker-unmetered",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-worker-period-flex",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-worker-linear-backoff",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-worker-keep",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-worker-force-upload-gate",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-config-default-capabilities",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-config-default-init-delay",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-config-default-expiry-days",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-bridge-batch-limit",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-bridge-upload-period",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-config-serial-binding",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-activity-backlog-warning",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-analytics-activity-backlog-recovery",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ads-readiness-duration-accumulate",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ads-readiness-duration-threshold",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ads-readiness-duration-clear",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ads-readiness-isloaded-audit",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ads-loaded-format-events",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-daily-diff-config-fallback",
+      "package": "P2",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-daily-diff-config-observer",
+      "package": "P2",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-daily-diff-shift-gates",
+      "package": "P2",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-daily-diff-top-exemption",
+      "package": "P2",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-daily-diff-shift-index-range",
+      "package": "P2",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-daily-diff-min-equation",
+      "package": "P2",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-daily-diff-empty-query-rescue",
+      "package": "P2",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-diagnostics-config-check-blocks-initial",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-diagnostics-candidate-initial-key-mismatch",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-diagnostics-flags-observe",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-diagnostics-board-inconsistent-report",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-diagnostics-candidate-record-gate",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-diagnostics-candidate-record-cap",
+      "package": "P6",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-strategy-hint-config-fallback",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-strategy-hint-config-local-eligibility",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-banner-loading-config-default",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-banner-loading-config-observe",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-banner-loading-interstitial-rewarded-sync",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-banner-loading-allow-policy",
+      "package": "P4",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-coin-id-6",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-coin-id-5",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-coin-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-coin-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-coin-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-coin-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-endless-score-id-8",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-endless-score-id-7",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-endless-score-id-6",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-endless-score-id-5",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-endless-score-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-endless-score-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-endless-score-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-endless-score-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-doctor-hat-id-6",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-doctor-hat-id-5",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-doctor-hat-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-doctor-hat-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-doctor-hat-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-collect-doctor-hat-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-adventure-explorer-id-5",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-adventure-explorer-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-adventure-explorer-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-adventure-explorer-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-adventure-explorer-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-daily-challenger-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-daily-challenger-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-earn-daily-challenger-trophy-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-earn-daily-challenger-trophy-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-earn-daily-challenger-trophy-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-earn-daily-challenger-trophy-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-postcard-collector-id-5",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-postcard-collector-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-postcard-collector-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-postcard-collector-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-postcard-collector-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-expert-id-5",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-expert-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-expert-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-expert-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-expert-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-hard-id-5",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-hard-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-hard-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-hard-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-hard-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-medium-id-5",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-medium-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-medium-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-medium-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-medium-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-easy-id-5",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-easy-id-4",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-easy-id-3",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-easy-id-2",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-standard-easy-id-1",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-general",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-correct",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-drag",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-error",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-exchange",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-progress-completed",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-collision",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-path",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-heavy",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-warning",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-vibration-success",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-config-fallback",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-audio-volume-config",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-scene-fallback",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-audio-capability-gate",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-second-capability-gate",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-pending-unlock",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-pending-increment",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-achievement-ready-drain",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-feedback-fill-in-audio",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "easy-feedback-correct-audio",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "easy-feedback-game-start-audio",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "easy-feedback-game-complete-audio",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "easy-feedback-rank-up-audio",
+      "package": "P1",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
+    },
+    {
+      "sourceFeatureId": "easy-feedback-random-gold-audio",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-next-dispatch",
+      "package": "P2",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-capability-has-vibration-effect",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-capability-has-amplitude-control",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-capability-has-custom-vibrations-support",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-feedback-capability-has-vibrator",
+      "package": "P1",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    }
+  ]
+}

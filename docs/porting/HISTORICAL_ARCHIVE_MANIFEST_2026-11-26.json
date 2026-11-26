@@ -1,0 +1,989 @@
+{
+  "schema": "crossmath-historical-archive-v1",
+  "sourceRepo": "DanilaH/crossmath-game",
+  "sourceCommit": "2bbd6f9804efb2291d7b2e42de091adee9954db4",
+  "sourcePR": 3,
+  "originalCount": 163,
+  "restoredCount": 162,
+  "scope": "Own historical docs, visual concepts, QA and evidence previously in public consumer PR #3, restored exactly to original paths. No product source changes. Not current requirements.",
+  "files": [
+    {
+      "path": "docs/porting/CAMPAIGN_MASKS_057.json",
+      "sha": "da3948ecb29f058aa9fd3a344f90718ccfe887ee",
+      "mode": "100644",
+      "size": 1455
+    },
+    {
+      "path": "docs/porting/CONSUMER_CHECK_057.json",
+      "sha": "516211eb2c3c09d69119507e70523007c75f6348",
+      "mode": "100644",
+      "size": 5591
+    },
+    {
+      "path": "docs/porting/EASYFUN_NATIVE_FOLLOWUP_RU.md",
+      "sha": "f8664be1514c1948e32df6dfd2ecc21f9c27ce84",
+      "mode": "100644",
+      "size": 12676
+    },
+    {
+      "path": "docs/porting/FEATURE_INDEX_RU.md",
+      "sha": "cbb5abc2af00e80e5a38bad28d2f6ab9ed01fa64",
+      "mode": "100644",
+      "size": 57094
+    },
+    {
+      "path": "docs/porting/REFERENCE_REAUDIT_2026-11-20_RU.md",
+      "sha": "a5b1058ba2e54c32a9b935b7bc2e4d5fe60fcb3b",
+      "mode": "100644",
+      "size": 36993
+    },
+    {
+      "path": "docs/porting/audit-0523/README.md",
+      "sha": "211aa0688c213b0073f593ad175529e0ee311f48",
+      "mode": "100644",
+      "size": 10832
+    },
+    {
+      "path": "docs/porting/audit-0523/calendar.webp",
+      "sha": "e51e509d65877549f071157b67f7be76cee1fbbf",
+      "mode": "100644",
+      "size": 39592
+    },
+    {
+      "path": "docs/porting/audit-0523/collection-complete.webp",
+      "sha": "019fee6dafa4cf8bed4863b4351544fa17827cbb",
+      "mode": "100644",
+      "size": 18684
+    },
+    {
+      "path": "docs/porting/audit-0523/home-320.webp",
+      "sha": "bfad832f7982fe85820478f12a6ceb9f07ac1e07",
+      "mode": "100644",
+      "size": 18614
+    },
+    {
+      "path": "docs/porting/audit-0523/home.webp",
+      "sha": "7944b17c8e2f17ba7e434d1de65622a70740e8ff",
+      "mode": "100644",
+      "size": 49556
+    },
+    {
+      "path": "docs/porting/audit-0523/modes.webp",
+      "sha": "879f6565fb413a50b652611326bc26a5718a54c7",
+      "mode": "100644",
+      "size": 32884
+    },
+    {
+      "path": "docs/porting/audit-0523/reward.webp",
+      "sha": "7e51d4cff9c7244df682ff98b128a3650fbb4b24",
+      "mode": "100644",
+      "size": 15918
+    },
+    {
+      "path": "docs/porting/audit-0523/workshop.webp",
+      "sha": "7edc854c56e92a49bf8ccbf3c06064f5aded16f9",
+      "mode": "100644",
+      "size": 49382
+    },
+    {
+      "path": "docs/porting/icon-study-0521/PROMPT.txt",
+      "sha": "8fff6a643732ad3ade4c385f1914087109710f46",
+      "mode": "100644",
+      "size": 4140
+    },
+    {
+      "path": "docs/porting/icon-study-0521/README.md",
+      "sha": "1b753849de83f82664eb7b37d1675b934fe8e7f3",
+      "mode": "100644",
+      "size": 4586
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/back.svg",
+      "sha": "8036b7ec5e00dd2dc6ec7a5990ef790360ae60a0",
+      "mode": "100644",
+      "size": 200
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/check.svg",
+      "sha": "4e72bbdfb91dbd9f0da21330e7d04000fbe5819c",
+      "mode": "100644",
+      "size": 197
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/down.svg",
+      "sha": "280bc933776414181a38ed5a9cc6c13bc8e873d4",
+      "mode": "100644",
+      "size": 192
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/forward.svg",
+      "sha": "e27954c62200b9c3d2cc81c948489c69405ab188",
+      "mode": "100644",
+      "size": 192
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/life-empty.svg",
+      "sha": "af4f2656a03f28286309decdd022d5e074a66e63",
+      "mode": "100644",
+      "size": 264
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/more.svg",
+      "sha": "03502a3ff3a0d7a59c4ab13e29c0ca429a26b86d",
+      "mode": "100644",
+      "size": 210
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/pause.svg",
+      "sha": "f86c52c042bd59d71317178eff444934925a1166",
+      "mode": "100644",
+      "size": 194
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/play.svg",
+      "sha": "619b2552d4386541e3abd3605f2ebce593f5407c",
+      "mode": "100644",
+      "size": 208
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/return-to-tray-small.svg",
+      "sha": "2a04d3a9282e758905efcdf8c70fa1a223fe64a6",
+      "mode": "100644",
+      "size": 448
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/sort-small.svg",
+      "sha": "2a87cb7e46ea487eaa6466e88610a1e7cef60c46",
+      "mode": "100644",
+      "size": 421
+    },
+    {
+      "path": "docs/porting/icon-study-0521/controls/up.svg",
+      "sha": "eb7ae614582a72d26abdf78f74fb9e8b470e62f0",
+      "mode": "100644",
+      "size": 193
+    },
+    {
+      "path": "docs/porting/icon-study-0521/header-study.webp",
+      "sha": "87f7d997e1d7fe5b18726d4ba68b1b1abfdc3113",
+      "mode": "100644",
+      "size": 24486
+    },
+    {
+      "path": "docs/porting/icon-study-0521/home-study.webp",
+      "sha": "174c6527cfa2d071bd75953c2b0bbcea0dc42287",
+      "mode": "100644",
+      "size": 34368
+    },
+    {
+      "path": "docs/porting/icon-study-0521/icons.json",
+      "sha": "73fc897c0b77a72d806a100f7ebde47c5fed6a9a",
+      "mode": "100644",
+      "size": 895
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/calendar.png",
+      "sha": "ab24597e98d694fa9469f6d9ec211918bf54a0b6",
+      "mode": "100644",
+      "size": 101988
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/campaign.png",
+      "sha": "81bb7b5e60b2154b3ceecf35e028b9d05d3b3374",
+      "mode": "100644",
+      "size": 89940
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/challenge.png",
+      "sha": "ff25aada65c1dd2ce12f2894ba134566cd6475d3",
+      "mode": "100644",
+      "size": 60412
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/coin.png",
+      "sha": "1c05a07480cb1d27e86ac0bf0ec74e4a57fd5b3d",
+      "mode": "100644",
+      "size": 115265
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/endless.png",
+      "sha": "0f44e95fda5d970c4ee82a6323c7e53fe887c435",
+      "mode": "100644",
+      "size": 63453
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/hint.png",
+      "sha": "8fae86cdb373bfa5cee5e8007327cf9edf30e488",
+      "mode": "100644",
+      "size": 64158
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/life-full.png",
+      "sha": "3f965f3c12aab85da89f8e1a9761bfe7c08af399",
+      "mode": "100644",
+      "size": 86920
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/modes.png",
+      "sha": "ef71d907e9f8c2987acac911723c0415b163f06b",
+      "mode": "100644",
+      "size": 86817
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/profile.png",
+      "sha": "8d16c12a46545fa20f906451a1d0993124d885a6",
+      "mode": "100644",
+      "size": 89742
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/rank.png",
+      "sha": "24d568bab4c0ab2f47796a62341de75b923a7e7c",
+      "mode": "100644",
+      "size": 79952
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/relax.png",
+      "sha": "c29a1cd5df925632fe3dd0f00b0953fc3c91fde1",
+      "mode": "100644",
+      "size": 90418
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/return-to-tray.png",
+      "sha": "630f694da7038e6db522cf71ba6139011464041b",
+      "mode": "100644",
+      "size": 81998
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/settings.png",
+      "sha": "0d91fcbdef37106c324a8bfebfd7f9e22a413de1",
+      "mode": "100644",
+      "size": 96941
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/sort.png",
+      "sha": "28b5c5e267829deb6d80dd608f828020cfe97539",
+      "mode": "100644",
+      "size": 70249
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/undo.png",
+      "sha": "2063e1e98c30f9cdfcd9e248c6a625cb7fd1881e",
+      "mode": "100644",
+      "size": 61170
+    },
+    {
+      "path": "docs/porting/icon-study-0521/png/workshop.png",
+      "sha": "37204ae38a1d1abf5de94c64f2ef5ef6f3e6fd44",
+      "mode": "100644",
+      "size": 89816
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/calendar.webp",
+      "sha": "1f1aff267a66c73132304fba0174bee285da7f35",
+      "mode": "100644",
+      "size": 4516
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/campaign.webp",
+      "sha": "89a50d78fb9a86ffc04a49683af617034bb0baa5",
+      "mode": "100644",
+      "size": 4166
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/challenge.webp",
+      "sha": "2753204d8ef2f207b05c21d7971273712be764a7",
+      "mode": "100644",
+      "size": 3716
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/coin.webp",
+      "sha": "7c1cf8d635de0f7d9817438bdeed786257ce985a",
+      "mode": "100644",
+      "size": 5380
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/endless.webp",
+      "sha": "c04dbf69ba0356bbc23f2e0a3cb34a60c42d6693",
+      "mode": "100644",
+      "size": 3844
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/hint.webp",
+      "sha": "034e0032eaa74ac7136f0ae4b6299af5fa8a3057",
+      "mode": "100644",
+      "size": 3452
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/life-full.webp",
+      "sha": "aa73de946c47f459aa6af069059c5509082376e0",
+      "mode": "100644",
+      "size": 3848
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/modes.webp",
+      "sha": "4c25b43e4efb85cc120a31b5ee0948724818f820",
+      "mode": "100644",
+      "size": 3664
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/profile.webp",
+      "sha": "9b945e43431c93f5e9fcef71504eaaff75346880",
+      "mode": "100644",
+      "size": 3954
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/rank.webp",
+      "sha": "b82b12cad115dfc71eecc5faf61e5d3fa22c2b7e",
+      "mode": "100644",
+      "size": 4412
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/relax.webp",
+      "sha": "ed9f0b9203d5305ab76c4734f00859e38eae8216",
+      "mode": "100644",
+      "size": 4404
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/return-to-tray.webp",
+      "sha": "f2dff4a501977743556c1bdb5fd187b212ab2944",
+      "mode": "100644",
+      "size": 4302
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/settings.webp",
+      "sha": "e9decc1ebf0b746e05835abbd97f4a137bd26800",
+      "mode": "100644",
+      "size": 4774
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/sort.webp",
+      "sha": "cd5338fe8f22515496e2aaf3dd02fe47493494a4",
+      "mode": "100644",
+      "size": 3980
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/undo.webp",
+      "sha": "c34e7948023b4125167e7042108758c799a2873c",
+      "mode": "100644",
+      "size": 3376
+    },
+    {
+      "path": "docs/porting/icon-study-0521/web/workshop.webp",
+      "sha": "7937c57ef2805badb44659bd79d3268edcdd2959",
+      "mode": "100644",
+      "size": 4498
+    },
+    {
+      "path": "docs/porting/measure_campaign_masks.py",
+      "sha": "bbdd63f53edbe00587587acb4b3800af93cd268c",
+      "mode": "100644",
+      "size": 1772
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/IMPLEMENTATION_TZ_RU.md",
+      "sha": "6c480d962fbe294ab0e74281277001f35d44c912",
+      "mode": "100644",
+      "size": 42347
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/README.md",
+      "sha": "19caafcd748d737922bbdbc588e8b64a4033c4ea",
+      "mode": "100644",
+      "size": 15609
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/current.jpg",
+      "sha": "b9191e69197a716aab40c475ce3dc65591ae72f7",
+      "mode": "100644",
+      "size": 131085
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/home-final-320.webp",
+      "sha": "24c8e4e606f32c39bb589beab5d387660a937d8b",
+      "mode": "100644",
+      "size": 56488
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/home-final-390.webp",
+      "sha": "6e7617779be1e394b74fddddb1ebdf1c1aa2cdf2",
+      "mode": "100644",
+      "size": 69484
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/home-press.gif",
+      "sha": "1d9e9ca9c0ad408ff3d14dc288ee2e4eaee9a3d5",
+      "mode": "100644",
+      "size": 25946
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/calendar.webp",
+      "sha": "e43cda151e3ce77a8dd03dc473ec49d3ed432a06",
+      "mode": "100644",
+      "size": 2784
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/campaign.webp",
+      "sha": "2966cd0980f8eb16a5ab90aa7ab8a1efa7adfe24",
+      "mode": "100644",
+      "size": 2422
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/challenge.webp",
+      "sha": "b082c2fc29c09646629641074beba9a98880d345",
+      "mode": "100644",
+      "size": 2740
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/coin.webp",
+      "sha": "8996f17d65b65d2fd23fb5f4a495a19c1324460b",
+      "mode": "100644",
+      "size": 7122
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/endless.webp",
+      "sha": "aee1e3ec6340604d305f78c6dbda5f148fa202f3",
+      "mode": "100644",
+      "size": 2870
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/hint.webp",
+      "sha": "48cdcd7ac00114538e3eb700c8539826832a8f48",
+      "mode": "100644",
+      "size": 2820
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/life-full.webp",
+      "sha": "cd9b46abca0784ef6a3eca06fed922e0dba8f24f",
+      "mode": "100644",
+      "size": 2666
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/modes.webp",
+      "sha": "940ed647ee37992e6f15b75a862a87aaa28a918c",
+      "mode": "100644",
+      "size": 3110
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/profile.webp",
+      "sha": "ba53db77b79241d51dbc88be1c46ef86d038e3fb",
+      "mode": "100644",
+      "size": 2678
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/rank.webp",
+      "sha": "5f5ac4fbc20c01fc81540da31079722eb072d6d7",
+      "mode": "100644",
+      "size": 3840
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/relax.webp",
+      "sha": "f05bb59e82adf7b1f4f49f3a29aa7b958472c666",
+      "mode": "100644",
+      "size": 2562
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/return-to-tray.webp",
+      "sha": "3699fe5b84293815c3259eacbe6c5553943a0e0a",
+      "mode": "100644",
+      "size": 2950
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/settings.webp",
+      "sha": "864c35211541cbf639c820fdfe7bbc14eeee6886",
+      "mode": "100644",
+      "size": 3092
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/sort.webp",
+      "sha": "55d3110b84f9d735fae2dc3e3a09007ac90ad931",
+      "mode": "100644",
+      "size": 2312
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/undo.webp",
+      "sha": "336272841dbac4d10eb9f6c9333eeaaf5ca85c06",
+      "mode": "100644",
+      "size": 2650
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/icons/workshop.webp",
+      "sha": "30c582d4e40acfca45fa82978cf10a84eddefc5a",
+      "mode": "100644",
+      "size": 2686
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/delivery/workshop-final.mp4",
+      "sha": "0b86cc7446637d78cac816e498c51a672463d46d",
+      "mode": "100644",
+      "size": 359028
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/home-compare.gif",
+      "sha": "a1608f356f669107d040e18d1b342c47abebb33a",
+      "mode": "100644",
+      "size": 70173
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/home-compare.webp",
+      "sha": "1a6550baae88f891cd48962cc121c33f7af79dc4",
+      "mode": "100644",
+      "size": 46260
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/home-v1-v2.webp",
+      "sha": "b12c1f07b9d9b4624f966b14577b34bd6a3d1ae1",
+      "mode": "100644",
+      "size": 64844
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/README.md",
+      "sha": "41a9d75d9f3024b9793b820636b25fa20c92a389",
+      "mode": "100644",
+      "size": 11412
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/approved-icons.zip",
+      "sha": "7843d65e351b68e9b5c05bffe79393427796a20c",
+      "mode": "100644",
+      "size": 50998
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/calendar.webp",
+      "sha": "0f0e6a0ba6fd5f81555ffb3afe6c4503f56273e2",
+      "mode": "100644",
+      "size": 43350
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/coin-96.png",
+      "sha": "b9719d7c46dd312531ea10354b8230722b5980ed",
+      "mode": "100644",
+      "size": 11403
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/mode-switch.gif",
+      "sha": "508a4c0b25c91812f0739b3c807b86aa8182ce13",
+      "mode": "100644",
+      "size": 61587
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/modes.webp",
+      "sha": "4d541e658b5b11786d2c968ceb06969b1c58617e",
+      "mode": "100644",
+      "size": 29520
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/overview.webp",
+      "sha": "38050a6424471744e23e8db5da28705d8435cb7e",
+      "mode": "100644",
+      "size": 43722
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/workshop-feel.md",
+      "sha": "c279e6278110f27b394952199532fb309654d62f",
+      "mode": "100644",
+      "size": 5442
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/workshop-lettering.gif",
+      "sha": "61f941cb363e1becb487523260b989901a4af5d3",
+      "mode": "100644",
+      "size": 435605
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/workshop-lettering.md",
+      "sha": "861701bda7b076884636e57b1bdbf44043e721bf",
+      "mode": "100644",
+      "size": 5240
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/workshop-progress.gif",
+      "sha": "fef125a294968f5788d2be9e3884f7f3617b0e91",
+      "mode": "100644",
+      "size": 226949
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/workshop-progress.md",
+      "sha": "464fe2abfe7d74a05a71d1339d207231ce430927",
+      "mode": "100644",
+      "size": 7972
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/workshop-snap.gif",
+      "sha": "89bb3ad963d02bf898b603d42c33ae3bd7a44eed",
+      "mode": "100644",
+      "size": 196998
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/secondary/workshop.webp",
+      "sha": "1e7b90fd559d16a77f1d3f11a6d1c8796748e0f5",
+      "mode": "100644",
+      "size": 51034
+    },
+    {
+      "path": "docs/porting/menu-direction-0521/units-study.webp",
+      "sha": "e2bde1262e4157730cbcf25d70995c5b685fa949",
+      "mode": "100644",
+      "size": 326514
+    },
+    {
+      "path": "docs/porting/meta-0516/README.md",
+      "sha": "98383a83fc180b1284297256240ddd459556f0ca",
+      "mode": "100644",
+      "size": 26565
+    },
+    {
+      "path": "docs/porting/meta-0516/endless-quest.gif",
+      "sha": "ec9874cf5a92bc4a19ef4cdeedddf54baea73d88",
+      "mode": "100644",
+      "size": 50169
+    },
+    {
+      "path": "docs/porting/meta-0516/final-replay.gif",
+      "sha": "8bb9ce6512f16320176aeebb7e665f70d4b6ec59",
+      "mode": "100644",
+      "size": 30681
+    },
+    {
+      "path": "docs/porting/meta-0516/layout.json",
+      "sha": "4c1fb5a04b272977b488b1815559214454825cdf",
+      "mode": "100644",
+      "size": 1433
+    },
+    {
+      "path": "docs/porting/meta-0516/make-controls.ts",
+      "sha": "a2839653af0ff9d70e14ed313fc86cc58b628187",
+      "mode": "100644",
+      "size": 3093
+    },
+    {
+      "path": "docs/porting/meta-0516/month-320.png",
+      "sha": "0bb72f6cb20f477a6bc336147f6878c182643e80",
+      "mode": "100644",
+      "size": 28523
+    },
+    {
+      "path": "docs/porting/meta-0516/month-study.gif",
+      "sha": "0ea23af9feea52f1044e025176131a0168156f03",
+      "mode": "100644",
+      "size": 65391
+    },
+    {
+      "path": "docs/porting/meta-0516/observations.json",
+      "sha": "043122c0f39bc682cdd224be7288f22d3ebb8465",
+      "mode": "100644",
+      "size": 2095
+    },
+    {
+      "path": "docs/porting/meta-0516/rank-rows.json",
+      "sha": "208e1013ebe8f0c5a581d35d8e0ce024dd68f994",
+      "mode": "100644",
+      "size": 1808
+    },
+    {
+      "path": "docs/porting/meta-0516/replay.py",
+      "sha": "03acdb2911d2c5b7b82541ce49ca2384ef7cbb21",
+      "mode": "100644",
+      "size": 9152
+    },
+    {
+      "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md",
+      "sha": "ed1dcdce6ec0fee3f8b466c9d2769dab1d8c7c02",
+      "mode": "100644",
+      "size": 32669
+    },
+    {
+      "path": "docs/porting/play-audit-0513/README.md",
+      "sha": "9469fa683bedc16d0165d4d8ed2e2ec9d5fede22",
+      "mode": "100644",
+      "size": 25522
+    },
+    {
+      "path": "docs/porting/play-audit-0513/archive.gif",
+      "sha": "5bd5b9a287476cb5f159af913e9717719e99fffa",
+      "mode": "100644",
+      "size": 45555
+    },
+    {
+      "path": "docs/porting/play-audit-0513/coverage.csv",
+      "sha": "2cb86815fe56606c4179a573c0103771b6d29094",
+      "mode": "100644",
+      "size": 74917
+    },
+    {
+      "path": "docs/porting/play-audit-0513/endless.gif",
+      "sha": "515a47be6d1d0043532390aa677f9e25c968e5e7",
+      "mode": "100644",
+      "size": 33063
+    },
+    {
+      "path": "docs/porting/play-audit-0513/observations.json",
+      "sha": "bcd772e202b18b85a40ede07ef44d25d40185f3a",
+      "mode": "100644",
+      "size": 2999
+    },
+    {
+      "path": "docs/porting/play-audit-0513/overlap.gif",
+      "sha": "ff60cd97d810cc8bfb171bcdab5682d8f6a22b77",
+      "mode": "100644",
+      "size": 59502
+    },
+    {
+      "path": "docs/porting/play-audit-0513/replay.py",
+      "sha": "902c527ee7c258dacf1a69c144eb8e20344336c5",
+      "mode": "100644",
+      "size": 9847
+    },
+    {
+      "path": "docs/porting/play-audit-0513/result.gif",
+      "sha": "9a76d12bfbb4f9a20377c8f28648eb65c9624cd5",
+      "mode": "100644",
+      "size": 36265
+    },
+    {
+      "path": "docs/porting/qa-0519/README.md",
+      "sha": "dedd25963e73ed18aa3f0d6e768a10dab72d9aa4",
+      "mode": "100644",
+      "size": 18451
+    },
+    {
+      "path": "docs/porting/qa-0519/controls.ts",
+      "sha": "444246c2447a1a210b07df6b12235e526d1fc1bd",
+      "mode": "100644",
+      "size": 4836
+    },
+    {
+      "path": "docs/porting/qa-0519/jan-window.gif",
+      "sha": "1272415b447fae0402407989a86ff800dd40ecf5",
+      "mode": "100644",
+      "size": 119059
+    },
+    {
+      "path": "docs/porting/qa-0519/observations.json",
+      "sha": "ba4f6725e5aa1561b03d36778cedf8f50a61ab1a",
+      "mode": "100644",
+      "size": 12349
+    },
+    {
+      "path": "docs/porting/qa-0519/recheck.py",
+      "sha": "b2e64ebd30ee42f8cd9adb4a0465d89b21c9de96",
+      "mode": "100644",
+      "size": 4682
+    },
+    {
+      "path": "docs/porting/qa-0519/timing.py",
+      "sha": "9b5da6ba40134ea9e5e7973170b4ec37d27051c9",
+      "mode": "100644",
+      "size": 3030
+    },
+    {
+      "path": "docs/porting/qa-0519/upgrade.gif",
+      "sha": "4b2d692606d2dcb3e0d70ea47ff28e6cf350057d",
+      "mode": "100644",
+      "size": 37954
+    },
+    {
+      "path": "docs/porting/result-calendar-057.webp",
+      "sha": "9926ec3628240289b2ba6f000d242bab44f27de8",
+      "mode": "100644",
+      "size": 34850
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/README.md",
+      "sha": "00f3834a52129be4feaa0061dcb5b741b8de9110",
+      "mode": "100644",
+      "size": 23305
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/SCREENS_RU.md",
+      "sha": "6d4bbaa94f7da5e3f6fe90d9dc03aa2d0d5b3626",
+      "mode": "100644",
+      "size": 22419
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/calendar-states.webp",
+      "sha": "c50c537771d75e5d88c9166f4b95667a31ca8bba",
+      "mode": "100644",
+      "size": 58858
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/collection.webp",
+      "sha": "2ccc0f133965d1fa24261af6b88f07ee59da4a54",
+      "mode": "100644",
+      "size": 54528
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/daily.webp",
+      "sha": "5005c864ebe43c85ba974192e5056e61d5c2e0ea",
+      "mode": "100644",
+      "size": 61830
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/navigation.webp",
+      "sha": "312f81e256f9eeb0eea4703a592a56b633410e03",
+      "mode": "100644",
+      "size": 50076
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/observations.json",
+      "sha": "2eeddb6a373952ab072cebdce372ea06c2ab085b",
+      "mode": "100644",
+      "size": 102028
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/overlays.webp",
+      "sha": "abc0d596d160266f216234ee2f7af9c26e331109",
+      "mode": "100644",
+      "size": 63656
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/paths.webp",
+      "sha": "e607430abf229ea82a17ad8cc85ba4f5f567e878",
+      "mode": "100644",
+      "size": 46338
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/playing.webp",
+      "sha": "a86d79abc163d00f823dd34552c74d7769f87db9",
+      "mode": "100644",
+      "size": 38088
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/receipt.gif",
+      "sha": "a07f9403fd8623705a270ef150d985b09cbfab5f",
+      "mode": "100644",
+      "size": 45939
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/screens.py",
+      "sha": "c87c65c46cff69ef69fb031fae735cfad9cd827d",
+      "mode": "100644",
+      "size": 28111
+    },
+    {
+      "path": "docs/porting/screen-audit-0520/states.webp",
+      "sha": "2b3e4ceb5d331e2a5c11c70dc7009ba0752d1d6d",
+      "mode": "100644",
+      "size": 34162
+    },
+    {
+      "path": "docs/porting/ui-audit-057/README.md",
+      "sha": "3349b9b1086fd3913500ce0179feeccefe7b96fa",
+      "mode": "100644",
+      "size": 34846
+    },
+    {
+      "path": "docs/porting/ui-audit-057/calendar.webp",
+      "sha": "c01c711fa2d774ec26af7840b7f1db9eadae0d7a",
+      "mode": "100644",
+      "size": 38902
+    },
+    {
+      "path": "docs/porting/ui-audit-057/home.webp",
+      "sha": "5ed8744451581844cf4abcc44dab5954cbdf137b",
+      "mode": "100644",
+      "size": 32988
+    },
+    {
+      "path": "docs/porting/ui-audit-057/light-theme/DELIVERY_PLAN_RU.md",
+      "sha": "edc9bf2bbebcd80f4854d1288a577b0e16e84c42",
+      "mode": "100644",
+      "size": 8001
+    },
+    {
+      "path": "docs/porting/ui-audit-057/light-theme/README.md",
+      "sha": "566eb92d9993e62ac97922a1a4e6d019bc5b6b05",
+      "mode": "100644",
+      "size": 5030
+    },
+    {
+      "path": "docs/porting/ui-audit-057/light-theme/board-study.css",
+      "sha": "0b5c24c17f3eacb448fffea04cef4fe6311afa5a",
+      "mode": "100644",
+      "size": 1051
+    },
+    {
+      "path": "docs/porting/ui-audit-057/light-theme/board-study.gif",
+      "sha": "10ec831b4da3a61f8603fbae6c7d73975cf397c6",
+      "mode": "100644",
+      "size": 23637
+    },
+    {
+      "path": "docs/porting/ui-audit-057/measurements.json",
+      "sha": "29ba46d4eed846294fcc471f15b31a6711247546",
+      "mode": "100644",
+      "size": 42355
+    },
+    {
+      "path": "docs/porting/ui-audit-057/profile-route.gif",
+      "sha": "ec590b89bfffbb0c2e77461a5f552c528175971f",
+      "mode": "100644",
+      "size": 311251
+    },
+    {
+      "path": "docs/porting/ui-audit-057/references.md",
+      "sha": "1e73122e98041bbca6c30b488f2b73bc8ab9ea72",
+      "mode": "100644",
+      "size": 12228
+    },
+    {
+      "path": "docs/porting/ui-audit-057/review.gif",
+      "sha": "e7a9fdbc4d4af95396c09afe72be82a0132bdcee",
+      "mode": "100644",
+      "size": 257941
+    },
+    {
+      "path": "docs/porting/ui-audit-057/screens-1.webp",
+      "sha": "d54e873b24661b0d6bf0e4eedcf673c1e5450ffa",
+      "mode": "100644",
+      "size": 42306
+    },
+    {
+      "path": "docs/porting/ui-audit-057/screens-2.webp",
+      "sha": "e5cb0f0d5d2a8a14ee679a1f9e36b71813221ca5",
+      "mode": "100644",
+      "size": 48104
+    },
+    {
+      "path": "docs/porting/ui-audit-057/screens-3.webp",
+      "sha": "f322fcb58ce7d50db5afc9b82491974b0f5a8ed3",
+      "mode": "100644",
+      "size": 50216
+    },
+    {
+      "path": "docs/porting/ui-audit-057/screens-4.webp",
+      "sha": "7ed3ef61bcf5ab76ca948b671112bfa8a84514d3",
+      "mode": "100644",
+      "size": 52912
+    },
+    {
+      "path": "docs/porting/ui-audit-057/unlocks-058.gif",
+      "sha": "9f423627c1bad8099d732bbfdb880fe7ad7baa26",
+      "mode": "100644",
+      "size": 31855
+    },
+    {
+      "path": "docs/porting/ui-audit-057/unlocks-058.json",
+      "sha": "e13832d2316af8251cd69e3e25677c20909e2c10",
+      "mode": "100644",
+      "size": 3553
+    },
+    {
+      "path": "docs/porting/ui-audit-057/unlocks-058.md",
+      "sha": "bbcb0d2b262099be10bf2cf506413e6d46a22f63",
+      "mode": "100644",
+      "size": 8092
+    },
+    {
+      "path": "docs/porting/ui-audit-057/workshop.webp",
+      "sha": "4024220445db9ae2e7e601310ed2d7b9351aa5e6",
+      "mode": "100644",
+      "size": 54704
+    }
+  ],
+  "superseded": [
+    "PR #3 old 177-ID ledger NOT restored",
+    "PR #7 old 296-ID ledger NOT restored",
+    "PR #10 old 396-ID ledger NOT restored"
+  ],
+  "authority": "Current owner decisions, actual game code, ADOPTION_LEDGER and CURRENT.md; do not apply historic layout or economics over later explicit decisions."
+}

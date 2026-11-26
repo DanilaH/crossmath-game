@@ -1,0 +1,37 @@
+/* Visual study on the 0.5.11 play screen. */
+body.in-play {
+  color-scheme: light;
+  --play-bg: #fff;
+  --play-ink: #232b32;
+  --play-muted: #51606a;
+  --play-board: #fff5de;
+  --play-board-ink: #222b30;
+  --play-board-muted: #414f54;
+  --play-grid: #aaab9c;
+  --play-board-edge: #8d9285;
+  --play-socket: #fffefa;
+  --play-socket-line: #899387;
+  --play-target: #e3f4f0;
+  --play-outline: #14645c;
+  --play-blue: #14645c;
+  --play-blue-ink: white;
+  --play-blue-wash: #e4f2ee;
+  --play-chip-ink: #22594b;
+  --play-chip-edge: #8cae9f;
+  --play-chip-rim: #709282;
+  --play-good: #256249;
+  --play-board-good: #255c41;
+  --play-good-wash: #dceee1;
+  --play-bad: #a03933;
+  --play-board-bad: #a03933;
+  --play-bad-wash: #f9e4de;
+  --play-panel: #fff;
+  --play-line: #c7cec9;
+  --table-glow: transparent;
+  --paper-fiber: transparent;
+}
+body.in-play :is(.placed .tile, .token) {
+  background: linear-gradient(#eff8f1, #dceee2);
+  box-shadow: 0 2px var(--play-chip-rim), inset 0 1px #fff;
+}
+body.in-play .slot:has(.token[hidden]) { background: #f2f5f3; }

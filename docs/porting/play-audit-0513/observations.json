@@ -1,0 +1,109 @@
+{
+  "freshCampaign": {
+    "1": {
+      "puzzleId": "cm-own-01-001",
+      "baseCoins": 10,
+      "xp": 10
+    },
+    "5": {
+      "puzzleId": "cm-own-01-005",
+      "baseCoins": 10,
+      "xp": 10
+    },
+    "15": {
+      "puzzleId": "cm-own-01-015",
+      "baseCoins": 15,
+      "xp": 15
+    },
+    "16": {
+      "puzzleId": "cm-own-02-001",
+      "baseCoins": 10,
+      "xp": 10
+    }
+  },
+  "relaxAfterCampaign16": {
+    "rotations": {
+      "relax": 1,
+      "challenge": 0
+    },
+    "result": {
+      "id": "win:77201190-e515-45fb-b93a-361c58709c79",
+      "attemptId": "77201190-e515-45fb-b93a-361c58709c79",
+      "puzzleId": "cm-own-02-001",
+      "first": false,
+      "coins": 0,
+      "xp": 0,
+      "rankUps": 0,
+      "fragments": 0,
+      "cardCoins": 0,
+      "elapsedPlaying": 0.925,
+      "baseCoins": 0,
+      "rankCoins": 0,
+      "collectionFragments": 5,
+      "rankLevel": 2,
+      "unlockedModes": [],
+      "dailyCoins": 0,
+      "taskCoins": 0,
+      "setCoins": 0,
+      "badges": []
+    },
+    "ui": "Решено повторно"
+  },
+  "fonts": {
+    "campaignMenu": "Rubik, system-ui, sans-serif",
+    "earlierDates": "Georgia, serif",
+    "dailyDefeat": "Georgia, serif"
+  },
+  "campaignLastResult": {
+    "campaign": "cm-own-02-001",
+    "free": "cm-own-02-041",
+    "target": "cm-own-02-041",
+    "targetMode": "free"
+  },
+  "endlessHelp": {
+    "beforeConfirmation": "Помощь\nОбъяснить ход\nПоказать число\n\nПокажем правильное число. Мешающие неверные фишки вернутся в лоток.\n\nСтоимость 60 монет · У вас 395 монет и 0 кредитов\n\nК полю\nПрименить · 60 монет",
+    "afterLabel": "С помощью",
+    "coinsBefore": 395,
+    "coinsAfter": 335,
+    "creditBefore": 0,
+    "creditAfter": 0,
+    "assistedAfter": true,
+    "undoAvailable": true,
+    "assistedAfterUndo": true
+  },
+  "insufficientHelp": {
+    "coins": 10,
+    "credits": 0,
+    "button": "Применить · 60 монет",
+    "enabled": true,
+    "postMessage": "Не хватает монет. Продолжать решать и начинать поле заново можно бесплатно.",
+    "balanceAfter": 10,
+    "unchangedPlacements": true
+  },
+  "expiredPlayableControl": {
+    "sameAttempt": true,
+    "lives": 3
+  },
+  "expiredLoss": {
+    "day": "2026-11-21",
+    "today": "2026-12-22",
+    "calendarCTA": "2026-11-21 · продолжить",
+    "status": "out-of-lives",
+    "message": "Эта дата вышла из архива. Выберите другую дату в календаре.",
+    "retryEnabled": false,
+    "homeCTA": "Продолжить\n›",
+    "homeAlsoReturnsToDefeat": true
+  },
+  "themeAndColdLoad": {
+    "before": "light",
+    "after": "dark",
+    "sameAttempt": true,
+    "tokensBefore": {
+      "2": "t1"
+    },
+    "tokensAfter": {
+      "2": "t1"
+    },
+    "sameWallet": true
+  }
+}
