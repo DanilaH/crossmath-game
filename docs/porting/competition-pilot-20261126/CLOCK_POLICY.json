@@ -1,0 +1,6 @@
+{
+  "scope": "synthetic absolute-active-clock input and receipt model, not implementation or OS clock",
+  "cases": 384,
+  "extraControls": 5,
+  "decision": "supersedes delta-input settlement pseudocode in earlier pace model for integration; absolute monotonic activeMs and increasing committed event sequence, no replay of delta; terminal tie in same serialized adjudication only"
+}
