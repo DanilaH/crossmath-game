@@ -38,7 +38,7 @@
       "codePath": "src/ui/metaView.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Правило предпочтения позднего поля в кампании принадлежит Crossmath.",
+      "nextAction": "Правило предпочтения позднего поля в кампании принадлежит Crossmath. | ISSUE-01 #16: measured own repeat/geometry scheduler candidate; preserve six-step route and old receipts; not original history parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L34",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/metaView.ts",
       "reviewedVersion": "0.5.23",
@@ -48,7 +48,8 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 2 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495"
+      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 2 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "id": "easy-six-challenge",
@@ -59,7 +60,7 @@
       "codePath": "src/ui/metaView.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Правило предпочтения позднего поля в кампании принадлежит Crossmath.",
+      "nextAction": "Правило предпочтения позднего поля в кампании принадлежит Crossmath. | ISSUE-01 #16: measured own repeat/geometry scheduler candidate; preserve six-step route and old receipts; not original history parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L45",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/metaView.ts",
       "reviewedVersion": "0.5.23",
@@ -69,7 +70,8 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 2 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495"
+      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 2 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "id": "easy-bank-reindex",
@@ -80,7 +82,7 @@
       "codePath": "src/content/catalog.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Размеры банков и порядок выдачи отличаются от оригинала.",
+      "nextAction": "Размеры банков и порядок выдачи отличаются от оригинала. | ISSUE-01 #16: measured own repeat/geometry scheduler candidate; preserve six-step route and old receipts; not original history parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L56",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/5042b034e2af03e0c42f25affb13199aa2fe03ba/src/content/catalog.ts",
       "reviewedVersion": "0.5.13",
@@ -90,7 +92,8 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/PACKAGES_ABC_0516.md#b--0515 · Chromium/проверка APK · исходник 5042b034e2af03e0c42f25affb13199aa2fe03ba"
+      "acceptanceEvidence": "docs/acceptance/PACKAGES_ABC_0516.md#b--0515 · Chromium/проверка APK · исходник 5042b034e2af03e0c42f25affb13199aa2fe03ba",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "id": "easy-owl-equality",
@@ -127,7 +130,7 @@
       "codePath": "src/content/rotation.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Проверить судейским просмотром пять соседних повторов рисунка числовых позиций и повторные циклы Free; решать о фильтре после этого.",
+      "nextAction": "Проверить судейским просмотром пять соседних повторов рисунка числовых позиций и повторные циклы Free; решать о фильтре после этого. | ISSUE-01 #16: measured own repeat/geometry scheduler candidate; preserve six-step route and old receipts; not original history parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L89",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/rotation.ts",
       "consumerEvidence": "docs/porting/CAMPAIGN_MASKS_057.json",
@@ -139,7 +142,8 @@
       "issuanceDataflow20261125": {
         "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
         "note": "Tail of 300 only for ordinary exclusions; final rescue uses full history-provider collection."
-      }
+      },
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "id": "guru-profile",
@@ -242,7 +246,7 @@
       "codePath": "src/content/validator.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Получить исходный производитель каталожной метки или авторитетный oracle и сверить полный held-out набор. Ещё одна регрессия по конечным меткам не устанавливает авторскую формулу. До этого UNKNOWN; отсутствие APK4.18 не является блокером. В собственной игре использовать отдельно названные проверяемые метрики, без переноса чужой шкалы.",
+      "nextAction": "Получить исходный производитель каталожной метки или авторитетный oracle и сверить полный held-out набор. Ещё одна регрессия по конечным меткам не устанавливает авторскую формулу. До этого UNKNOWN; отсутствие APK4.18 не является блокером. В собственной игре использовать отдельно названные проверяемые метрики, без переноса чужой шкалы. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/content/validator.ts",
       "originalBehavior": "Original DBPuzzleBase.fromMap reads exactly board,puzzle,size,diff,holes,tag; changing/removing stuck does not alter its result. Three query projections use those same columns. Producer/formula remains UNKNOWN; explanation complexity getters are separate. Missing input is authoring code or an authoritative oracle, not APK 4.18. Three original cm5 rows 8228/8240/8249 with stuck=0 each have one non-Direct applied native step in both protocols; the equality between this solver's applied non-Direct count and stored stuck is refuted.",
@@ -278,7 +282,8 @@
         "refutedProxy": "stuck equals the number of non-Direct applied steps of this current solver: refuted by three source recipes in both protocols; authoring formula remains UNKNOWN."
       },
       "reason": "Original authoring producer/oracle is missing; inspected client projection does not read stuck. Exact formula UNKNOWN; no4.18APK requirement.",
-      "researchSupplement20261125": "144 контрольных SQL projection сравнения после DROP COLUMN stuck не изменили выдачу в проверенных условиях. Формула производителя UNKNOWN."
+      "researchSupplement20261125": "144 контрольных SQL projection сравнения после DROP COLUMN stuck не изменили выдачу в проверенных условиях. Формула производителя UNKNOWN.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-dynamic-filter",
@@ -3502,7 +3507,7 @@
       "codePath": "src/content/catalog.ts",
       "stage": "CORE research → возможный эксперимент с темпом, после решения владельца",
       "dependencies": "Оценка реального игрового темпа нашей content-v2, доказательства выбора оригинальных cohort, backward-compatible contentVersion, независимые записи решений; менять порядок задач только после решения владельца.",
-      "nextAction": "Сравнить completion time/errors для текущих корзин Crossmath и целевой мягкой стартовой выборки; отдельно воспроизвести на оригинале два профиля и их получение remote puzzle_version. Не заменять текущую кампанию 0.5.23 на SQL-bank без оснований.",
+      "nextAction": "Сравнить completion time/errors для текущих корзин Crossmath и целевой мягкой стартовой выборки; отдельно воспроизвести на оригинале два профиля и их получение remote puzzle_version. Не заменять текущую кампанию 0.5.23 на SQL-bank без оснований. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7fef14def6bd31107becb7b83f0a947c412cda06/research/games/crossmath/porting/guru-profile-pool-20261123/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/content/catalog.ts",
       "additionalSourceEvidence": [
@@ -3514,7 +3519,8 @@
         "evidenceClass": "NATIVE_STATIC + BUNDLED_DB + MODEL + CONSUMER_SOURCE",
         "liveAdaptivity": "UNKNOWN",
         "note": "20 821 строки оригинала, 515 своих задач; отличие структуры не равно измеренной человеческой сложности."
-      }
+      },
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-tag-4-2-lower-range",
@@ -3525,9 +3531,10 @@
       "codePath": "docs/spec/product/content_v2/README.md",
       "stage": "CORE research → optional content experiment; до выпуска нового контента не менять",
       "dependencies": "Независимое измерение первых полей, собственный генератор, ротации и существующие сохранённые puzzleId/contentVersion, запрет на копирование исходного контента.",
-      "nextAction": "В отдельном документе эксперимента оценить ожидаемое влияние мягких значений операндов на длину решения на своих заданиях; проверить именно исходные nextInt bounds в E47 и сравнить 2 228 tag=4_2 рецептов по доступным метрикам. Обновлять контент только после выбора владельца.",
+      "nextAction": "В отдельном документе эксперимента оценить ожидаемое влияние мягких значений операндов на длину решения на своих заданиях; проверить именно исходные nextInt bounds в E47 и сравнить 2 228 tag=4_2 рецептов по доступным метрикам. Обновлять контент только после выбора владельца. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/7fef14def6bd31107becb7b83f0a947c412cda06/research/games/crossmath/porting/guru-profile-pool-20261123/README.md",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/docs/spec/product/content_v2/README.md"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/docs/spec/product/content_v2/README.md",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-ui-four-tab-shell",
@@ -4315,8 +4322,9 @@
       "codePath": "src/content/catalog.ts",
       "dependencies": "Owner-approved v3 content version, independent solver/uniqueness test for every own mask variant, fixed token IDs and seed reproducibility, progress/saves migration, device gameplay testing; no third-party field data/assets.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/a623ff06e5f85360e14770301caac7c46a0db6d2/research/games/crossmath/porting/guru-mask-matched-20261123/README.md",
-      "nextAction": "On OUR own board generator, select one solved board, produce at least 2 distinct blank layouts with equal arithmetic answer and test independently: solution count 1, first deductive move, tray inventory, score/monetization ID and saved-board preservation. Then owner decision whether a separate content-v3 variant bank adds value; do not edit content-v2.",
-      "acceptanceRequirement": "Every new original authored mask has deterministic own ID, one solution, independent proof/hint coverage, old saves unchanged. Original GUI/display of mask choice UNKNOWN."
+      "nextAction": "On OUR own board generator, select one solved board, produce at least 2 distinct blank layouts with equal arithmetic answer and test independently: solution count 1, first deductive move, tray inventory, score/monetization ID and saved-board preservation. Then owner decision whether a separate content-v3 variant bank adds value; do not edit content-v2. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Every new original authored mask has deterministic own ID, one solution, independent proof/hint coverage, old saves unchanged. Original GUI/display of mask choice UNKNOWN.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-stuck-mask-topology",
@@ -4329,7 +4337,7 @@
       "codePath": "docs/spec/product/content_v2/README.md",
       "dependencies": "Independent constraint solver and authored puzzle data only; calibrated own difficulty measure, real human playtime/error evidence if considered for future content; owner policy review.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/catalog/CATALOG_SUMMARY.json",
-      "nextAction": "Для собственной выдачи сохранить текущие IDs и банк; перед новой версией банка измерить unique solution, шаги собственного proof engine и устойчивость масок. Топологические показатели и native counters не объявлять исходным stuck. Полный native replay каталога вести отдельным исследованием.",
+      "nextAction": "Для собственной выдачи сохранить текущие IDs и банк; перед новой версией банка измерить unique solution, шаги собственного proof engine и устойчивость масок. Топологические показатели и native counters не объявлять исходным stuck. Полный native replay каталога вести отдельным исследованием. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
       "acceptanceRequirement": "To call MATCH, define and independently validate the matching original stuck semantics; a structural proxy or browser success metric is insufficient. 4.18.0 binary unknown.",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/b6e368664265a0300efae484168bf767fa6d04af/research/games/crossmath/porting/guru-stuck-structure-model-20261123/README.md",
@@ -4355,7 +4363,8 @@
           "evidence": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/TOTAL_NATIVE_COVERAGE.json",
           "heavySupplement": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/diagnostics/heap-capacity-20261124/README.md"
         }
-      }
+      },
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-undo-unlimited-claim",
@@ -5479,7 +5488,7 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
       "stage": "CORE research / deferred product change pending owner decision",
       "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
-      "nextAction": "На оригинале подтвердить фактический SQL при empty/exception. При отдельном ТЗ проверить отсутствие кандидатов после фильтра и возврат к базовому пулу без смены difficulty/сохранённого ID.",
+      "nextAction": "На оригинале подтвердить фактический SQL при empty/exception. При отдельном ТЗ проверить отсутствие кандидатов после фильтра и возврат к базовому пулу без смены difficulty/сохранённого ID. | ISSUE-01 #16: measured own repeat/geometry scheduler candidate; preserve six-step route and old receipts; not original history parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
       "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption.",
       "issuanceDataflow20261125": {
@@ -5488,7 +5497,8 @@
       },
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
-      ]
+      ],
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "id": "guru-issuance-history-mask-rescue",
@@ -5501,7 +5511,7 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
       "stage": "CORE research / deferred product change pending owner decision",
       "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
-      "nextAction": "Установить origin candidate population, empty/error handling и Android occurrence. Не копировать неоднозначность: для собственной будущей схемы тестировать duplicate masks across buckets, исчерпание, stable IDs.",
+      "nextAction": "Установить origin candidate population, empty/error handling и Android occurrence. Не копировать неоднозначность: для собственной будущей схемы тестировать duplicate masks across buckets, исчерпание, stable IDs. | ISSUE-01 #16: measured own repeat/geometry scheduler candidate; preserve six-step route and old receipts; not original history parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
       "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption.",
       "issuanceDataflow20261125": {
@@ -5510,7 +5520,8 @@
       },
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
-      ]
+      ],
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "id": "guru-issuance-operation-ratio-denominator",
@@ -5523,7 +5534,7 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/73fbc059149aba440297cf4cdc074b98433ad7e5/src/content/catalog.ts",
       "stage": "CORE research / deferred product change pending owner decision",
       "dependencies": "Exact source evidence, authored bank, stable saves and explicit owner decision for changes",
-      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate.",
+      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "acceptanceRequirement": "Separate static source, modeled SQL and original Android acceptance; preserve requested difficulty, contentVersion and existing saved assignments. No automatic product adoption.",
       "issuanceDataflow20261125": {
@@ -5532,7 +5543,8 @@
       },
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
-      ]
+      ],
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-equation-count",
@@ -5546,8 +5558,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
-      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate.",
-      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-large-number-count",
@@ -5561,8 +5574,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
-      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate.",
-      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-multiply-divide-ratio",
@@ -5576,8 +5590,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
-      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate.",
-      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-plus-ratio",
@@ -5591,8 +5606,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
-      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate.",
-      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-minus-ratio",
@@ -5606,8 +5622,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
-      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate.",
-      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-multi-ratio",
@@ -5621,8 +5638,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
-      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate.",
-      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-div-ratio",
@@ -5636,8 +5654,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
-      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate.",
-      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+      "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-rescue-empty-history",
@@ -5651,8 +5670,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
-      "nextAction": "Check original outer recovery and actual reachability; future consumer must safely handle empty history, not copy source throw.",
-      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance."
+      "nextAction": "Check original outer recovery and actual reachability; future consumer must safely handle empty history, not copy source throw. | ISSUE-01 #16: measured own repeat/geometry scheduler candidate; preserve six-step route and old receipts; not original history parity.",
+      "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "id": "guru-issuance-filter-ratio-domain",
@@ -5666,8 +5686,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Explicit owner scope decision; native malformed-input/exception semantics and live config separate.",
-      "nextAction": "If selected for product, independently validate range constraints and reject malformed input; do not silently change issuance or saves.",
-      "acceptanceRequirement": "Exact source evidence distinguished from own implementation; test boundary/invalid values and unchanged save IDs."
+      "nextAction": "If selected for product, independently validate range constraints and reject malformed input; do not silently change issuance or saves. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact source evidence distinguished from own implementation; test boundary/invalid values and unchanged save IDs.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-ratio-order",
@@ -5681,8 +5702,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Explicit owner scope decision; native malformed-input/exception semantics and live config separate.",
-      "nextAction": "If selected for product, independently validate range constraints and reject malformed input; do not silently change issuance or saves.",
-      "acceptanceRequirement": "Exact source evidence distinguished from own implementation; test boundary/invalid values and unchanged save IDs."
+      "nextAction": "If selected for product, independently validate range constraints and reject malformed input; do not silently change issuance or saves. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact source evidence distinguished from own implementation; test boundary/invalid values and unchanged save IDs.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-count-domain",
@@ -5696,8 +5718,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Explicit owner scope decision; native malformed-input/exception semantics and live config separate.",
-      "nextAction": "If selected for product, independently validate range constraints and reject malformed input; do not silently change issuance or saves.",
-      "acceptanceRequirement": "Exact source evidence distinguished from own implementation; test boundary/invalid values and unchanged save IDs."
+      "nextAction": "If selected for product, independently validate range constraints and reject malformed input; do not silently change issuance or saves. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact source evidence distinguished from own implementation; test boundary/invalid values and unchanged save IDs.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-issuance-filter-count-order",
@@ -5711,8 +5734,9 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md",
       "stage": "CORE research / future owner decision",
       "dependencies": "Explicit owner scope decision; native malformed-input/exception semantics and live config separate.",
-      "nextAction": "If selected for product, independently validate range constraints and reject malformed input; do not silently change issuance or saves.",
-      "acceptanceRequirement": "Exact source evidence distinguished from own implementation; test boundary/invalid values and unchanged save IDs."
+      "nextAction": "If selected for product, independently validate range constraints and reject malformed input; do not silently change issuance or saves. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
+      "acceptanceRequirement": "Exact source evidence distinguished from own implementation; test boundary/invalid values and unchanged save IDs.",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "id": "guru-profile-saved-priority",
@@ -11487,5 +11511,54 @@
       "lastCollectionThreshold": 348
     },
     "notClaimed": "No game execution, device acceptance, canonical CLI, original repeat eligibility, actual player retention or live ad impact."
+  },
+  "issuancePilot20261126": {
+    "reviewedHead": "04576ec2239e840176a1a412c06e82aa7b9253cb",
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "sourceInventory": "944f4bb370edf46fb10c6f3b4d5ab0d505d85f23",
+    "model": "docs/porting/issuance-pilot-20261126/MEASUREMENTS.json",
+    "geometry": "docs/porting/issuance-pilot-20261126/GEOMETRY_CAPACITY.json",
+    "issuanceIssue": "https://github.com/DanilaH/crossmath-game/issues/16",
+    "contentIssue": "https://github.com/DanilaH/crossmath-game/issues/17",
+    "sourceIds": [
+      "easy-bank-reindex",
+      "easy-six-relax",
+      "easy-six-challenge",
+      "guru-mask-history",
+      "guru-issuance-filter-empty-retry",
+      "guru-issuance-history-mask-rescue",
+      "guru-issuance-rescue-empty-history",
+      "guru-seed-mask-variants",
+      "guru-stuck-mask-topology",
+      "guru-stuck",
+      "guru-issuance-operation-ratio-denominator",
+      "guru-issuance-filter-equation-count",
+      "guru-issuance-filter-large-number-count",
+      "guru-issuance-filter-multiply-divide-ratio",
+      "guru-issuance-filter-plus-ratio",
+      "guru-issuance-filter-minus-ratio",
+      "guru-issuance-filter-multi-ratio",
+      "guru-issuance-filter-div-ratio",
+      "guru-issuance-filter-ratio-domain",
+      "guru-issuance-filter-ratio-order",
+      "guru-issuance-filter-count-domain",
+      "guru-issuance-filter-count-order",
+      "guru-easy1-pool-substitution",
+      "guru-tag-4-2-lower-range"
+    ],
+    "controls": {
+      "modeledTrackPositions": 10800,
+      "candidateStreams": 18,
+      "geometrySamples9x9": 20000
+    },
+    "ownGeometry": {
+      "puzzles": 275,
+      "d4Shapes": 56,
+      "d4ShapeMasks": 274,
+      "easyShortLargestClass": 27,
+      "eightEq7x7Classes": 3,
+      "eightEq9x9SampleLowerBound": 417
+    },
+    "limits": "All modeled assignments completed; actual user/device and exact source runtime not run. Generator experiment has not produced new numerical puzzles. No source/status, game, economy, bank or runtime changes."
   }
 }

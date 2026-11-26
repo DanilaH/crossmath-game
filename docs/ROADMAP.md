@@ -412,3 +412,12 @@ Source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460/460 mapped (11 
 ## 26.11.2026 · META-01 — проект долгосрочной прогрессии
 
 [Задача #15](https://github.com/DanilaH/crossmath-game/issues/15) · [модель](porting/progression-pilot-20261126/MEASUREMENTS.json). Фактическая 0.5.24/29: кампания 240 полей, rank17+150; объединение настроенных маршрутов 515 ID, теоретический максимум rank32+75; мастерская завершена при 228. Кандидат: 15 XP только за впервые закрытую дату Daily с ранее решённым ID (не за произвольный replay), сохранение ранговой кривой и текущих выплат, 6 визуальных семейств, 45 новых локальных достижений (57 всего), 6 новых приборов/24 части (72 всего) на 233–348. Модель проверена на pinned content, не в runtime. Порог, баланс, catch-up и арт требуют утверждения; P5/коммерческие/платформенные deferred IDs сохраняются. 36 исходных ID связаны с предложением, без изменения сравнений/статусов. HELP-02 и cooldown не затронуты. KIT IMPACT REUSE/CANDIDATE.
+
+
+## 26.11.2026 · Выдача и разнообразие, два пилота
+
+[ISSUE-01 #16](https://github.com/DanilaH/crossmath-game/issues/16) — six-step route остаётся; внутри bucket global unsolved-first, минимальный issued count, мягкий приоритет D4-формы вне последних трёх, стабильный pin при новом track/index. Модель 10 800 позиций: свежий Relax min repeat gap3→117, Challenge2→102; после 60 campaign первых 120 позиций Relax 75→120 уникальных ID. Candidate3 во всех 18 проверенных completion-only сценариях не имеет gap≤50, но это не гарантия живых смешанных сессий. Окно 6 отдельно исследовано, не выбрано. Смена политики/сейва требует согласования.
+
+[CONTENT-03 #17](https://github.com/DanilaH/crossmath-game/issues/17) — offline generator lab: 275 собственных задач, 56 D4 форм, 274 D4+mask; Easy Short 27/40 одна форма. Полная модель geometry graph 7×7 с 8 уравнениями: 132 anchored sets, 3 D4 класса; 9×9 sample 10 000: 7853 geometry successes, ≥417 D4 классов, не числовые головоломки. Кандидат 40 Easy Short с 9×9 и прежними eq/hole/cap; только после независимого solver/Explain и device проверки рассматривать новый банк, потом Daily extension/operation/mask experiments. No existing ID changes. [Model](porting/issuance-pilot-20261126/MEASUREMENTS.json) · [Geometry](porting/issuance-pilot-20261126/GEOMETRY_CAPACITY.json).
+
+24 source IDs связаны с предложениями, статусы и сравнения не повышены. G1, original stuck, live config и actual player difficulty остаются UNKNOWN. KIT IMPACT RESEARCH/CANDIDATE; runtime NONE.

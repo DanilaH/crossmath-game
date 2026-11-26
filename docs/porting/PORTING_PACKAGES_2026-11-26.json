@@ -50,19 +50,22 @@
       "sourceFeatureId": "easy-six-relax",
       "package": "P0",
       "status": "ACCEPTED",
-      "comparison": "MATCH"
+      "comparison": "MATCH",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "sourceFeatureId": "easy-six-challenge",
       "package": "P0",
       "status": "ACCEPTED",
-      "comparison": "MATCH"
+      "comparison": "MATCH",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "sourceFeatureId": "easy-bank-reindex",
       "package": "P0",
       "status": "ACCEPTED",
-      "comparison": "PARTIAL"
+      "comparison": "PARTIAL",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "sourceFeatureId": "easy-owl-equality",
@@ -80,7 +83,8 @@
       "sourceFeatureId": "guru-mask-history",
       "package": "P2",
       "status": "ROADMAPPED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "sourceFeatureId": "guru-profile",
@@ -116,7 +120,8 @@
       "sourceFeatureId": "guru-stuck",
       "package": "P2",
       "status": "EVIDENCE_GAP",
-      "comparison": "UNKNOWN"
+      "comparison": "UNKNOWN",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-dynamic-filter",
@@ -1205,13 +1210,15 @@
       "sourceFeatureId": "guru-easy1-pool-substitution",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-tag-4-2-lower-range",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-ui-four-tab-shell",
@@ -1511,13 +1518,15 @@
       "sourceFeatureId": "guru-seed-mask-variants",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-stuck-mask-topology",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-undo-unlimited-claim",
@@ -1830,91 +1839,106 @@
       "sourceFeatureId": "guru-issuance-filter-empty-retry",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "sourceFeatureId": "guru-issuance-history-mask-rescue",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "sourceFeatureId": "guru-issuance-operation-ratio-denominator",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-equation-count",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-large-number-count",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-multiply-divide-ratio",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-plus-ratio",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-minus-ratio",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-multi-ratio",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-div-ratio",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-rescue-empty-history",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-ratio-domain",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-ratio-order",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-count-domain",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-issuance-filter-count-order",
       "package": "P2",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
     },
     {
       "sourceFeatureId": "guru-profile-saved-priority",
