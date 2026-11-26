@@ -44,3 +44,8 @@ G1 whole-catalog native solver and remaining accessible static traces still open
 - [WIN-RV-01 / #14](https://github.com/DanilaH/crossmath-game/issues/14) — проект добровольного бонуса победы, параметры и live policy к отдельному согласованию; статусы не повышены. HELP-02 и cooldown не повторять.
 
 Текущие counts: IMPLEMENTED_UNVERIFIED=34, ACCEPTED=17, ROADMAPPED=20, RESEARCHED=204, EVIDENCE_GAP=44, DEFERRED=286; MATCH=27, PARTIAL=93, MISSING=448, UNKNOWN=37. 605/605 ID, runtime и продуктовый код неизменны. Проверка статическая; физическая приёмка открыта. KIT IMPACT REUSE / CANDIDATE.
+
+
+## 26.11.2026 · META-01 — проект долгосрочной прогрессии
+
+[Задача #15](https://github.com/DanilaH/crossmath-game/issues/15) · [модель](progression-pilot-20261126/MEASUREMENTS.json). Фактическая 0.5.24/29: кампания 240 полей, rank17+150; объединение настроенных маршрутов 515 ID, теоретический максимум rank32+75; мастерская завершена при 228. Кандидат: 15 XP только за впервые закрытую дату Daily с ранее решённым ID (не за произвольный replay), сохранение ранговой кривой и текущих выплат, 6 визуальных семейств, 45 новых локальных достижений (57 всего), 6 новых приборов/24 части (72 всего) на 233–348. Модель проверена на pinned content, не в runtime. Порог, баланс, catch-up и арт требуют утверждения; P5/коммерческие/платформенные deferred IDs сохраняются. 36 исходных ID связаны с предложением, без изменения сравнений/статусов. HELP-02 и cooldown не затронуты. KIT IMPACT REUSE/CANDIDATE.

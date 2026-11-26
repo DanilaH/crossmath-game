@@ -3269,10 +3269,11 @@
       "codePath": "src/ui/metaView.ts",
       "stage": "META UX · после подтверждения runtime оригинала",
       "dependencies": "Сначала найти достижимый экран и триггеры референса; затем решение владельца; свои звуки/анимации, квитанции достижений, reduced motion, lifecycle",
-      "nextAction": "AOT resolver now identified. Capture actual screen calls and timing/audio; verify enum-object ordinal. Keep EVIDENCE_GAP until runtime evidence.",
+      "nextAction": "AOT resolver now identified. Capture actual screen calls and timing/audio; verify enum-object ordinal. Keep EVIDENCE_GAP until runtime evidence. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/metaView.ts",
-      "reviewedVersion": "0.5.24 / 29"
+      "reviewedVersion": "0.5.24 / 29",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-iap-premium",
@@ -6481,10 +6482,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "P1 — progression research",
       "dependencies": "Owner decision before policy or visuals change; source runtime proof where unknown; preserve saved progression and idempotent receipts.",
-      "nextAction": "Предложить собственные семейства, проверить видимые переходы оригинала, не переносить числа автоматически.",
+      "nextAction": "Предложить собственные семейства, проверить видимые переходы оригинала, не переносить числа автоматически. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance."
+      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-badge-show-selection",
@@ -6497,10 +6499,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/metaView.ts",
       "stage": "P1 — progression research",
       "dependencies": "Owner decision before policy or visuals change; source runtime proof where unknown; preserve saved progression and idempotent receipts.",
-      "nextAction": "Проверить реальное открытие/повтор/пропуск, enum binding и размеры; свой показ.",
+      "nextAction": "Проверить реальное открытие/повтор/пропуск, enum binding и размеры; свой показ. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance."
+      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-badge-upgrade-selection",
@@ -6513,10 +6516,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/metaView.ts",
       "stage": "P1 — progression research",
       "dependencies": "Owner decision before policy or visuals change; source runtime proof where unknown; preserve saved progression and idempotent receipts.",
-      "nextAction": "Снять переход внутри семейства и проверить тайминг, звук, reduced motion.",
+      "nextAction": "Снять переход внутри семейства и проверить тайминг, звук, reduced motion. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance."
+      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-badge-advance-selection",
@@ -6529,10 +6533,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/metaView.ts",
       "stage": "P1 — progression research",
       "dependencies": "Owner decision before policy or visuals change; source runtime proof where unknown; preserve saved progression and idempotent receipts.",
-      "nextAction": "Снять 7→8, 35→36 и длинный скачок, проверить исходное семейство; сделать свои ассеты по решению владельца.",
+      "nextAction": "Снять 7→8, 35→36 и длинный скачок, проверить исходное семейство; сделать свои ассеты по решению владельца. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance."
+      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-xp-eligible-completion",
@@ -6545,10 +6550,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/app/model.ts",
       "stage": "P1 — progression research",
       "dependencies": "Owner decision before policy or visuals change; source runtime proof where unknown; preserve saved progression and idempotent receipts.",
-      "nextAction": "Сверить первое/повторное решение, ежедневную дату, этап Endless; определить честную eligibility и исключения.",
+      "nextAction": "Сверить первое/повторное решение, ежедневную дату, этап Endless; определить честную eligibility и исключения. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance."
+      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-xp-equation-count-priority",
@@ -6577,10 +6583,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/app/model.ts",
       "stage": "P1 — progression research",
       "dependencies": "Owner decision before policy or visuals change; source runtime proof where unknown; preserve saved progression and idempotent receipts.",
-      "nextAction": "Контроль точной границы и нескольких повышений за одно событие; статус не принят, код проверен статически.",
+      "nextAction": "Контроль точной границы и нескольких повышений за одно событие; статус не принят, код проверен статически. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance."
+      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-rank-tail-repeat",
@@ -6593,10 +6600,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/app/model.ts",
       "stage": "P1 — progression research",
       "dependencies": "Owner decision before policy or visuals change; source runtime proof where unknown; preserve saved progression and idempotent receipts.",
-      "nextAction": "Согласовать долгую XP-политику отдельно от coin-grant и бюджет +60 за ранг.",
+      "nextAction": "Согласовать долгую XP-политику отдельно от coin-grant и бюджет +60 за ранг. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance."
+      "reason": "NATIVE_STATIC / historical CSV / model; consumer code review only, not runtime acceptance.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-xp-state-before-save",
@@ -9249,10 +9257,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-endless-score-id-2",
@@ -9265,10 +9274,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-endless-score-id-1",
@@ -9281,10 +9291,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-collect-doctor-hat-id-6",
@@ -9473,10 +9484,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-daily-challenger-id-1",
@@ -9489,10 +9501,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-earn-daily-challenger-trophy-id-4",
@@ -9505,10 +9518,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-earn-daily-challenger-trophy-id-3",
@@ -9521,10 +9535,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-earn-daily-challenger-trophy-id-2",
@@ -9537,10 +9552,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-earn-daily-challenger-trophy-id-1",
@@ -9553,10 +9569,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-postcard-collector-id-5",
@@ -9665,10 +9682,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-expert-id-3",
@@ -9681,10 +9699,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-expert-id-2",
@@ -9697,10 +9716,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-expert-id-1",
@@ -9713,10 +9733,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-hard-id-5",
@@ -9729,10 +9750,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-hard-id-4",
@@ -9745,10 +9767,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-hard-id-3",
@@ -9761,10 +9784,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-hard-id-2",
@@ -9777,10 +9801,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-hard-id-1",
@@ -9793,10 +9818,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-medium-id-5",
@@ -9809,10 +9835,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-medium-id-4",
@@ -9825,10 +9852,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-medium-id-3",
@@ -9841,10 +9869,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-medium-id-2",
@@ -9857,10 +9886,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-medium-id-1",
@@ -9873,10 +9903,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-easy-id-5",
@@ -9889,10 +9920,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-easy-id-4",
@@ -9905,10 +9937,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-easy-id-3",
@@ -9921,10 +9954,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-easy-id-2",
@@ -9937,10 +9971,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-achievement-standard-easy-id-1",
@@ -9953,10 +9988,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/career.ts",
       "stage": "META / later achievement decision",
       "dependencies": "Owner selects metrics and attainable thresholds, with own art and local durable event IDs. Platform integration requires independent consent/provider/receipt lifecycle.",
-      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward.",
+      "nextAction": "Choose own metric/threshold and original art only if approved; test exact-once local grant, reload and separately optional platform delivery. Do not interpret points as wallet reward. | META-01 #15: candidate adaptation; owner approval of rank/achievement parameters and UI, preserve original evidence boundary.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "id": "guru-feedback-vibration-general",
@@ -11386,5 +11422,70 @@
       "MISSING": 448,
       "UNKNOWN": 37
     }
+  },
+  "progressionProposal20261126": {
+    "issue": "https://github.com/DanilaH/crossmath-game/issues/15",
+    "reviewedHead": "04576ec2239e840176a1a412c06e82aa7b9253cb",
+    "model": "docs/porting/progression-pilot-20261126/MEASUREMENTS.json",
+    "sourceFeatureIds": [
+      "guru-badge-ceremony",
+      "guru-badge-family-mapping",
+      "guru-badge-show-selection",
+      "guru-badge-upgrade-selection",
+      "guru-badge-advance-selection",
+      "guru-xp-eligible-completion",
+      "guru-xp-carry-over",
+      "guru-rank-tail-repeat",
+      "guru-achievement-endless-score-id-3",
+      "guru-achievement-endless-score-id-2",
+      "guru-achievement-endless-score-id-1",
+      "guru-achievement-daily-challenger-id-2",
+      "guru-achievement-daily-challenger-id-1",
+      "guru-achievement-earn-daily-challenger-trophy-id-4",
+      "guru-achievement-earn-daily-challenger-trophy-id-3",
+      "guru-achievement-earn-daily-challenger-trophy-id-2",
+      "guru-achievement-earn-daily-challenger-trophy-id-1",
+      "guru-achievement-standard-expert-id-4",
+      "guru-achievement-standard-expert-id-3",
+      "guru-achievement-standard-expert-id-2",
+      "guru-achievement-standard-expert-id-1",
+      "guru-achievement-standard-hard-id-5",
+      "guru-achievement-standard-hard-id-4",
+      "guru-achievement-standard-hard-id-3",
+      "guru-achievement-standard-hard-id-2",
+      "guru-achievement-standard-hard-id-1",
+      "guru-achievement-standard-medium-id-5",
+      "guru-achievement-standard-medium-id-4",
+      "guru-achievement-standard-medium-id-3",
+      "guru-achievement-standard-medium-id-2",
+      "guru-achievement-standard-medium-id-1",
+      "guru-achievement-standard-easy-id-5",
+      "guru-achievement-standard-easy-id-4",
+      "guru-achievement-standard-easy-id-3",
+      "guru-achievement-standard-easy-id-2",
+      "guru-achievement-standard-easy-id-1"
+    ],
+    "approval": "PROPOSED: owner approval of economy and art pending; not implementation",
+    "controls": {
+      "eligibilityMatrix": 64,
+      "collectionMigrationStates": 516,
+      "rankDatePrefixes": 366
+    },
+    "proposed": {
+      "repeatNewDailyDateXP": 15,
+      "rankFamilies": [
+        1,
+        5,
+        10,
+        20,
+        30,
+        50
+      ],
+      "totalLocalAchievements": 57,
+      "totalInstruments": 18,
+      "totalParts": 72,
+      "lastCollectionThreshold": 348
+    },
+    "notClaimed": "No game execution, device acceptance, canonical CLI, original repeat eligibility, actual player retention or live ad impact."
   }
 }

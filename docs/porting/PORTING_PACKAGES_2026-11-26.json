@@ -1108,7 +1108,8 @@
       "sourceFeatureId": "guru-badge-ceremony",
       "package": "P3",
       "status": "EVIDENCE_GAP",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-iap-premium",
@@ -2196,31 +2197,36 @@
       "sourceFeatureId": "guru-badge-family-mapping",
       "package": "P3",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-badge-show-selection",
       "package": "P5",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-badge-upgrade-selection",
       "package": "P5",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-badge-advance-selection",
       "package": "P5",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-xp-eligible-completion",
       "package": "P3",
       "status": "RESEARCHED",
-      "comparison": "PARTIAL"
+      "comparison": "PARTIAL",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-xp-equation-count-priority",
@@ -2232,13 +2238,15 @@
       "sourceFeatureId": "guru-xp-carry-over",
       "package": "P3",
       "status": "RESEARCHED",
-      "comparison": "MATCH"
+      "comparison": "MATCH",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-rank-tail-repeat",
       "package": "P3",
       "status": "RESEARCHED",
-      "comparison": "PARTIAL"
+      "comparison": "PARTIAL",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-xp-state-before-save",
@@ -3234,19 +3242,22 @@
       "sourceFeatureId": "guru-achievement-endless-score-id-3",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-endless-score-id-2",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-endless-score-id-1",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-collect-doctor-hat-id-6",
@@ -3318,37 +3329,43 @@
       "sourceFeatureId": "guru-achievement-daily-challenger-id-2",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-daily-challenger-id-1",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-earn-daily-challenger-trophy-id-4",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-earn-daily-challenger-trophy-id-3",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-earn-daily-challenger-trophy-id-2",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-earn-daily-challenger-trophy-id-1",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-postcard-collector-id-5",
@@ -3390,115 +3407,134 @@
       "sourceFeatureId": "guru-achievement-standard-expert-id-4",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-expert-id-3",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-expert-id-2",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-expert-id-1",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-hard-id-5",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-hard-id-4",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-hard-id-3",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-hard-id-2",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-hard-id-1",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-medium-id-5",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-medium-id-4",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-medium-id-3",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-medium-id-2",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-medium-id-1",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-easy-id-5",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-easy-id-4",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-easy-id-3",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-easy-id-2",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-achievement-standard-easy-id-1",
       "package": "P3",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
     },
     {
       "sourceFeatureId": "guru-feedback-vibration-general",
