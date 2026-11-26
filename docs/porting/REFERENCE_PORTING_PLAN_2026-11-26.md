@@ -78,3 +78,12 @@ G1 whole-catalog native solver and remaining accessible static traces still open
 - [BATTLE-01 #23](https://github.com/DanilaH/crossmath-game/issues/23): refines existing M3 (not new competing specification). Formula applied to own bank: bot6 Easy Short28–32s, Hard36–40s, Expert64.5–75.5s, Hell103–114s; no human timing claim. Free fixed-plan lab → separately approved reactive behavior → ticket/streak/progression/commerce. Source time/interrupt/internal unit/live SDK gates remain.
 
 [Model](competition-pilot-20261126/MEASUREMENTS.json) · [absolute clock controls](competition-pilot-20261126/CLOCK_POLICY.json). 50 unique source IDs linked, all 605 retained, statuses/comparisons unchanged. No new product runtime, balance, art or owner scope approval. Physical G8/signature and source G1 etc remain open. KIT IMPACT REUSE/CANDIDATE.
+
+## 26.11.2026 · Коммерческий пакет P4 — staged proposals
+
+- [STORE-RV-01 #24](https://github.com/DanilaH/crossmath-game/issues/24): одна общая семантика существующего hint credit, без отдельной щедрой выдачи из нового UI. Optional coin lab 10 once/day candidate only; own help=60, donor store10 and 1 hint are not equivalent. Pending/late/duplicate reserve & receipt with day-bound semantic key.
+- [NOADS-01 #25](https://github.com/DanilaH/crossmath-game/issues/25): candidate one non-consumable suppresses forced ads, voluntary RV separate (own policy); native late banner load guard, restore/refund and trusted receipt. Guru Premium mapping UNKNOWN.
+- [IAP-01 #26](https://github.com/DanilaH/crossmath-game/issues/26): later resource store, separate consumable/entitlement semantics and platform gates; no price, purchase, SKU, new balance or release SDK approval. Battle tickets tied to #23.
+- [ADS-02 #27](https://github.com/DanilaH/crossmath-game/issues/27): current policy first live acceptance, later natural breakpoints only by owner decision. 180/120/420/30 and first5 unchanged, fallback deferred. Shared templates/caps and actual source activation remain UNKNOWN.
+
+[Report](commerce-pilot-20261126/README.md) · [P4 assignment](commerce-pilot-20261126/P4_ASSIGNMENTS.json) · [model](commerce-pilot-20261126/MEASUREMENTS.json). All 122 primary P4 IDs mapped to 6 packages (including existing #14 and #23), 23 cross-package dependency links; all 605 retained without status/comparison changes. 36 model scenarios/574 assertions, no actual product/provider test. Owner-gated commercial scope and outstanding original/physical/store evidence preserved. No code, prices, save or runtime changes. KIT IMPACT REUSE/CANDIDATE.

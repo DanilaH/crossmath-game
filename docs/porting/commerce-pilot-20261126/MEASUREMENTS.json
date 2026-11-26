@@ -1,0 +1,85 @@
+{
+  "evidence": "MODEL_TEST; pure proposed state machine and arithmetic; no Android, SDK, original code, implementation or demand",
+  "inputs": {
+    "helpCost": 60,
+    "startingCoins": 120,
+    "baseCoins": [
+      10,
+      15,
+      20,
+      25
+    ],
+    "existingRewardedHintCredits": 1,
+    "proposedStoreAmounts": [
+      10,
+      30,
+      60
+    ],
+    "proposedCaps": [
+      0,
+      1,
+      2
+    ],
+    "days": 7
+  },
+  "economics": [
+    {
+      "amount": 10,
+      "cap": 0,
+      "sevenDayMaximum": 0,
+      "helpEquivalent": 0
+    },
+    {
+      "amount": 10,
+      "cap": 1,
+      "sevenDayMaximum": 70,
+      "helpEquivalent": 1.1666666666666667
+    },
+    {
+      "amount": 10,
+      "cap": 2,
+      "sevenDayMaximum": 140,
+      "helpEquivalent": 2.3333333333333335
+    },
+    {
+      "amount": 30,
+      "cap": 0,
+      "sevenDayMaximum": 0,
+      "helpEquivalent": 0
+    },
+    {
+      "amount": 30,
+      "cap": 1,
+      "sevenDayMaximum": 210,
+      "helpEquivalent": 3.5
+    },
+    {
+      "amount": 30,
+      "cap": 2,
+      "sevenDayMaximum": 420,
+      "helpEquivalent": 7
+    },
+    {
+      "amount": 60,
+      "cap": 0,
+      "sevenDayMaximum": 0,
+      "helpEquivalent": 0
+    },
+    {
+      "amount": 60,
+      "cap": 1,
+      "sevenDayMaximum": 420,
+      "helpEquivalent": 7
+    },
+    {
+      "amount": 60,
+      "cap": 2,
+      "sevenDayMaximum": 840,
+      "helpEquivalent": 14
+    }
+  ],
+  "cases": 36,
+  "assertions": 574,
+  "negativeControls": 1,
+  "excluded": "presentation single-flight, provider terminal trust, save failure/ack/native entitlement not modeled; test in implementation; not a current cap"
+}
