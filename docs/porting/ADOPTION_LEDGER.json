@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "a38073b5bbd034b27d83da18c35e451a2318dcae",
+    "commit": "116a2702b36af36db91ee299d45c2ab5ba2e3a5c",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -397,7 +397,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/STRATEGIES.json",
         "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "sourceCodeEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/guru/code/30_direct_strategy_and_helpers.asm.txt",
@@ -451,7 +452,20 @@
         "ownProofWorkload": "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
         "reviewedConsumerHead": "e06f448f173635e68260dac14aa89bf7c1d4d5a7",
         "productImplementationChanged": false,
-        "androidExecuted": false
+        "androidExecuted": false,
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        }
       }
     },
     {
@@ -475,7 +489,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/STRATEGIES.json",
         "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "originalBehavior": "Original addition/subtraction Monotonic commits executed, with Direct-priority and canonical-mismatch controls. The four-element/triple-addition helper has no committing implementation in this build and returns zero/unchanged state. Natural catalog sequences include Monotonic.",
       "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA-256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA-256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. New evidence is not extrapolated to 4.18.",
@@ -522,7 +537,20 @@
         "ownProofWorkload": "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
         "reviewedConsumerHead": "e06f448f173635e68260dac14aa89bf7c1d4d5a7",
         "productImplementationChanged": false,
-        "androidExecuted": false
+        "androidExecuted": false,
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        }
       }
     },
     {
@@ -545,7 +573,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/FACTOR_FINAL.json",
         "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "originalBehavior": "Nine original Factor cases cover linked multiplication/division, finite repeated-value inventory and canonical rejection. A MultiplierConstraint step increments FactorConstraint aggregate; a four-term factor case commits two cells but returns solved=0/constrained=2 and zero strategy aggregates. Multiple matching factors do not necessarily persist a narrowed live candidate list.",
       "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA-256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA-256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. New evidence is not extrapolated to 4.18.",
@@ -592,7 +621,20 @@
         "ownProofWorkload": "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
         "reviewedConsumerHead": "e06f448f173635e68260dac14aa89bf7c1d4d5a7",
         "productImplementationChanged": false,
-        "androidExecuted": false
+        "androidExecuted": false,
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        }
       }
     },
     {
@@ -616,7 +658,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/strategy-source/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "originalBehavior": "One all-hidden equation 2+3=5 yields RHS 5 named IntersectionConstraint. The nested fallback tests empty accumulated List<SolutionCandidate>, not an unidentified counter. Ordinary full solve reaches fallback on two original source records; our tray/intersection proof categories are not semantically identical.",
       "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA-256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA-256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. New evidence is not extrapolated to 4.18.",
@@ -663,7 +706,20 @@
         "ownProofWorkload": "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
         "reviewedConsumerHead": "e06f448f173635e68260dac14aa89bf7c1d4d5a7",
         "productImplementationChanged": false,
-        "androidExecuted": false
+        "androidExecuted": false,
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        }
       }
     },
     {
@@ -684,7 +740,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/factor/catalog_search/accepted/README.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "originalBehavior": "Entry depth >= 3 returns, but the body at depth 2 can save a third assumption node. Natural record 46a8cc1b emits a three-node chain. Record a86ebe66 emits a two-node chain in persistent mode and a three-node chain in fresh/first-step mode. Recursive argument and saved chain length are distinct.",
       "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA-256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA-256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. New evidence is not extrapolated to 4.18.",
@@ -725,6 +782,23 @@
         "nextStep": "Проверить касания, Android Back и восстановление на Android-устройстве.",
         "independentAuditRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
         "independentAuditKind": "CONSUMER_COMPILED_JS_ISOLATED"
+      },
+      "latestNativeFollowup20261126": {
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        },
+        "productImplementationChanged": false,
+        "androidExecuted": false
       }
     },
     {
@@ -831,7 +905,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA-256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA-256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. New evidence is not extrapolated to 4.18.",
       "latestResearch": {
@@ -858,7 +933,20 @@
         "ownProofWorkload": "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
         "reviewedConsumerHead": "e06f448f173635e68260dac14aa89bf7c1d4d5a7",
         "productImplementationChanged": false,
-        "androidExecuted": false
+        "androidExecuted": false,
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        }
       }
     },
     {
@@ -4452,7 +4540,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/catalog/CATALOG_SUMMARY.json",
         "https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA-256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA-256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. New evidence is not extrapolated to 4.18.",
       "latestResearch": {
@@ -4480,7 +4569,20 @@
         "ownProofWorkload": "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
         "reviewedConsumerHead": "e06f448f173635e68260dac14aa89bf7c1d4d5a7",
         "productImplementationChanged": false,
-        "androidExecuted": false
+        "androidExecuted": false,
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        }
       }
     },
     {
@@ -4962,7 +5064,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/BACKTRACK_FINAL.json",
         "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "latestResearch": {
         "date": "2026-11-24",
@@ -5008,7 +5111,20 @@
         "ownProofWorkload": "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
         "reviewedConsumerHead": "e06f448f173635e68260dac14aa89bf7c1d4d5a7",
         "productImplementationChanged": false,
-        "androidExecuted": false
+        "androidExecuted": false,
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        }
       }
     },
     {
@@ -5434,7 +5550,8 @@
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/1851f3c766fcc0cdfe54a5cf76db5b01cbba8aba/research/games/crossmath/porting/guru-native-solve-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/STRATEGIES.json"
+        "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/root/STRATEGIES.json",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "dependencies": "Own public puzzle/physical-token model, independent verifyExplanation and accepted Help scope; native source fixtures and physical Android acceptance. Preserve answer-free public data, game content, balances and save schema.",
       "nextAction": "Сохранить answer-free публичный Puzzle и verifyExplanation. Добавлять контроли неверного proof/дефицита токенов для новых правил; совпадение с canonical ответом не заменяет доказательство. Проверку нашего Apply/сохранений продолжать по текущей приёмке.",
@@ -5464,6 +5581,23 @@
           "evidence": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/TOTAL_NATIVE_COVERAGE.json",
           "heavySupplement": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/diagnostics/heap-capacity-20261124/README.md"
         }
+      },
+      "latestNativeFollowup20261126": {
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        },
+        "productImplementationChanged": false,
+        "androidExecuted": false
       }
     },
     {
@@ -5483,7 +5617,8 @@
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/CATALOG_COVERAGE.json",
         "https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
       ],
       "dependencies": "Own public puzzle/physical-token model, independent verifyExplanation and accepted Help scope; native source fixtures and physical Android acceptance. Preserve answer-free public data, game content, balances and save schema.",
       "nextAction": "HELP-01 уже IMPLEMENTED; повторно не ставить типизацию результата. Для дальнейшего сравнения использовать раздельные persistent и fresh-first-step traces; не терять proof snapshot между preparation и Apply. Следующий продуктовый контроль — Android касания/Back/звук/вибрация по текущему протоколу.",
@@ -5547,7 +5682,20 @@
         "ownProofWorkload": "https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md",
         "reviewedConsumerHead": "e06f448f173635e68260dac14aa89bf7c1d4d5a7",
         "productImplementationChanged": false,
-        "androidExecuted": false
+        "androidExecuted": false,
+        "nativeReplay": {
+          "sampleRecipes": 192,
+          "persistentSolved": 102,
+          "freshFirstStepSolved": 96,
+          "pairedSolved": 96,
+          "censored": 96,
+          "combinedDistinctPairedRecipes": 108,
+          "representedOriginalDbRows": 178,
+          "totalSourceRecipes": 12899,
+          "wholeCatalogNativeConvergence": "UNKNOWN",
+          "actualOriginalAndroidFallback": "UNKNOWN",
+          "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+        }
       }
     },
     {
@@ -12267,7 +12415,7 @@
     "scope": "122 primary P4 IDs linked, statuses/comparisons unchanged; first release scope, prices, ad cadence, fallback, runtime, product code, SDK and saves untouched. Candidate store 10 coins once/day not approved; all unknown source/live gates remain."
   },
   "nativeFollowup20261126": {
-    "sourceInventoryCommit": "a38073b5bbd034b27d83da18c35e451a2318dcae",
+    "sourceInventoryCommit": "116a2702b36af36db91ee299d45c2ab5ba2e3a5c",
     "sourceCount": 610,
     "addedIds": [
       "guru-hint-target-flight-gate",
@@ -12290,7 +12438,26 @@
       "pairedSolved": 18,
       "timeCensored": 14
     },
-    "stage192": "In progress at this checkpoint; see private source report for next published completed result.",
-    "scope": "No gameplay, runtime, balance, bank, acceptance status changes. Original UI/SDK/human performance UNKNOWN."
+    "stage192": {
+      "sampleRecipes": 192,
+      "persistentSolved": 102,
+      "freshFirstStepSolved": 96,
+      "pairedSolved": 96,
+      "censored": 96,
+      "combinedDistinctPairedRecipes": 108,
+      "representedOriginalDbRows": 178,
+      "totalSourceRecipes": 12899,
+      "wholeCatalogNativeConvergence": "UNKNOWN",
+      "actualOriginalAndroidFallback": "UNKNOWN",
+      "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
+    },
+    "scope": "No gameplay, runtime, balance, bank, acceptance status changes. Original UI/SDK/human performance UNKNOWN.",
+    "canonicalCoverageGate": {
+      "run": "https://github.com/DanilaH/crossmath-game/actions/runs/45818944115",
+      "result": "PASS 610/610",
+      "sourcePin": "a38073b5bbd034b27d83da18c35e451a2318dcae",
+      "ledgerCommit": "dc4289e3ddd9465616e7183fc2cfbb9bfa1ee8ff",
+      "qualification": "Final evidence-only refresh; identical IDs/statuses/comparison, connector validation repeated."
+    }
   }
 }

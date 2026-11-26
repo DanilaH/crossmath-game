@@ -2,7 +2,7 @@
 
 ## Сводная база 26.11.2026
 
-Crossmath 0.5.24 / 29; actual developer HEAD `57820c8c6491c8b6240aeed5cb0dfde61c858927`, gameplay/artifact source `a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `a38073b5bbd034b27d83da18c35e451a2318dcae`: 610 IDs. [Current map](porting/CURRENT.md), [ledger](porting/ADOPTION_LEDGER.json), [all proposals #14–27](porting/REFERENCE_PORTING_PLAN_2026-11-26.md). Historical dated snapshots below are not current directives.
+Crossmath 0.5.24 / 29; actual developer HEAD `57820c8c6491c8b6240aeed5cb0dfde61c858927`, gameplay/artifact source `a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `116a2702b36af36db91ee299d45c2ab5ba2e3a5c`: 610 IDs. [Current map](porting/CURRENT.md), [ledger](porting/ADOPTION_LEDGER.json), [all proposals #14–27](porting/REFERENCE_PORTING_PLAN_2026-11-26.md). Historical dated snapshots below are not current directives.
 
 | Реализованный пакет | Фактический статус |
 | --- | --- |
@@ -17,7 +17,7 @@ Closure checkpoint: all three source archives rechecked, remaining gates and pro
 
 ## G1 follow-up 26.11.2026
 
-[Source Hint gates](https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md) — five granular registered rules, original branch controls 40/40, 16 direct targets; do not import donor fallback into Explain. [Own proof workload](https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md) — 515 boards/5201 independently verified assignments; controlled own masks 97/128 unique and fully Explain-solvable, 31 nonunique. CONTENT-03 #17: vector of initial singleton, residual, nonDirect, advanced, maxNonDirectRun, proof units and operation mix; no re-label or bank change before approved lab. Source retry32: 18 paired completed, 14 time-censored; expanded 192 replay is separate. All existing statuses unchanged; no physical device/SDK acceptance.
+[Source Hint gates](https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md) — five granular registered rules, original branch controls 40/40, 16 direct targets; do not import donor fallback into Explain. [Own proof workload](https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md) — 515 boards/5201 independently verified assignments; controlled own masks 97/128 unique and fully Explain-solvable, 31 nonunique. CONTENT-03 #17: vector of initial singleton, residual, nonDirect, advanced, maxNonDirectRun, proof units and operation mix; no re-label or bank change before approved lab. Source retry32: 18 paired completed, 14 time-censored; [Expanded 192 replay](https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md) complete: 96 paired SOLVED, 96 censored, combined 108 distinct /178 DB rows. All existing statuses unchanged; no physical device/SDK acceptance.
 
 ## Историческое исследование Guru · 24.11.2026
 
