@@ -882,28 +882,30 @@
     {
       "id": "guru-task-count",
       "sourceFeatureId": "guru-task-count",
-      "status": "RESEARCHED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "currentImplementation": "Нет отдельного звука шага счётчика",
       "codePath": "src/ui/feedback.ts",
-      "stage": "UX",
+      "stage": "FEEL-01 / planned",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Проверить один отчётливый отсчёт и объединение серии прибавок",
+      "nextAction": "Проверить один отчётливый отсчёт и объединение серии прибавок | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L363",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "guru-task-complete",
       "sourceFeatureId": "guru-task-complete",
-      "status": "RESEARCHED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "currentImplementation": "Общее подтверждение победы, отдельная фраза задания отсутствует",
       "codePath": "src/ui/feedback.ts",
-      "stage": "UX",
+      "stage": "FEEL-01 / planned",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Различить последний шаг цели и победу, проверить выключенный звук",
+      "nextAction": "Различить последний шаг цели и победу, проверить выключенный звук | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L374",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/feedback.ts",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "ref-haptics",
@@ -4792,16 +4794,17 @@
     {
       "id": "guru-endless-score-countup",
       "sourceFeatureId": "guru-endless-score-countup",
-      "status": "RESEARCHED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "VIDEO_OBSERVED: После успешного Submit в Endless оригинала HUD Score растёт примерно 0→140 видимыми шагами по 10 и финальным confetti до Stage 2/result. Из конкретной видео записи не доказаны универсальный тариф, серверная формула и длительность для любых стадий. VIDEO_OBSERVED 13-49-07.mp4 SHA 0b0313f8f0351834a3a650636a4ad2ad835e19fef72d48c89f518308415a4bbe: Stage1 Score0 t7.5–8.5, Score20 t9, Score40 t9.25, Score70 t10, Score120 t11, Stage2 Score140 + confetti t11.5; Stage1 result Score140 t16; ref research/games/crossmath/porting/guru-endless-video-contract-20261123/README.md",
       "currentImplementation": "Crossmath 0.5.24 / versionCode 29 сохраняет run.score атомарно при settleStage в src/meta/career.ts; src/ui/gameUi.ts показывает конечный Score сразу и использует свою анимацию наград, но анимации Score по 10 нет. Собственная формула очков не приравнивается к Guru.",
       "codePath": "src/ui/gameUi.ts",
-      "stage": "UX/ENDLESS · owner-reviewed feel prototype after physical acceptance of 0.5.24",
+      "stage": "FEEL-01 / planned",
       "dependencies": "src/meta/career.ts result/stage receipts, UI reducedMotion, haptic/audio own assets, Android 1× tap/submit/settle/next evidence, own save and idempotency",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/bd80dc0542d91e7d47675dcd1d0971f295537077/research/games/crossmath/porting/guru-endless-video-contract-20261123/README.md",
-      "nextAction": "На Android подтвердить игру с двумя ошибками отдельно от заявленного tutorial; снять точную видимую динамику Score при первом и повторном успешном Submit, отмене/фон/рестарте. Если владелец одобрит анимацию для Crossmath, делать только display count-up поверх уже атомарной квитанции; screenreader сразу видит final, reducedMotion мгновенно, нельзя менять собственную формулу и lives.",
-      "sourceVersionStatus": "Это наблюдение из video_2026-11-23_13-49-07.mp4, BUILD UNKNOWN. Подпись Guru 4.18.0 в другом ролике не подтверждает версию этого."
+      "nextAction": "На Android подтвердить игру с двумя ошибками отдельно от заявленного tutorial; снять точную видимую динамику Score при первом и повторном успешном Submit, отмене/фон/рестарте. Если владелец одобрит анимацию для Crossmath, делать только display count-up поверх уже атомарной квитанции; screenreader сразу видит final, reducedMotion мгновенно, нельзя менять собственную формулу и lives. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
+      "sourceVersionStatus": "Это наблюдение из video_2026-11-23_13-49-07.mp4, BUILD UNKNOWN. Подпись Guru 4.18.0 в другом ролике не подтверждает версию этого.",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "guru-strategy-conditional-backtrack",
@@ -6215,10 +6218,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/app/model.ts",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
-      "nextAction": "Ordinary Continue direct grant 10, other base grant gated. Own first-win base persists at settleCompletion; do not pay a second base on Continue.",
+      "nextAction": "Ordinary Continue direct grant 10, other base grant gated. Own first-win base persists at settleCompletion; do not pay a second base on Continue. | WIN-RV-01 proposal #14: multiplier, eligibility and live policy require explicit approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "id": "guru-win-coins-multi-thirty",
@@ -6231,10 +6235,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
-      "nextAction": "Success gate and first-marker confirmed. Observe exact total/eligibility; if approved choose explicit total vs delta and bind durable receipt to one first-win result.",
+      "nextAction": "Success gate and first-marker confirmed. Observe exact total/eligibility; if approved choose explicit total vs delta and bind durable receipt to one first-win result. | WIN-RV-01 proposal #14: multiplier, eligibility and live policy require explicit approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "id": "guru-win-coins-multi-config",
@@ -6247,10 +6252,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/spec/product/meta_v08/config.json",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner choice; original live evidence where unknown; preserve bank/save; provider and durable receipts for commercial changes.",
-      "nextAction": "Original consumer null→true fallback proven; explicit false retained. Live config unknown; own config proposal must have explicit safe default and owner choice.",
+      "nextAction": "Original consumer null→true fallback proven; explicit false retained. Live config unknown; own config proposal must have explicit safe default and owner choice. | WIN-RV-01 proposal #14: multiplier, eligibility and live policy require explicit approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance."
+      "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "id": "guru-battle-ticket-auto-cap-ten",
@@ -6375,10 +6381,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/adState.ts",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner decision where product change proposed; original runtime evidence for unknowns; preserve save and atomic receipts.",
-      "nextAction": "Determine eligible modes in original runtime, then restrict own result-bound reward to approved modes.",
+      "nextAction": "Determine eligible modes in original runtime, then restrict own result-bound reward to approved modes. | WIN-RV-01 proposal #14: multiplier, eligibility and live policy require explicit approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance."
+      "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance.",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "id": "guru-win-multi-ad-icon",
@@ -6391,10 +6398,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/adState.ts",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner decision where product change proposed; original runtime evidence for unknowns; preserve save and atomic receipts.",
-      "nextAction": "If owner approves, show distinct ad-labeled button; ordinary continuation stays visible, offline/cancel does not block it. Test actual mobile layout.",
+      "nextAction": "If owner approves, show distinct ad-labeled button; ordinary continuation stays visible, offline/cancel does not block it. Test actual mobile layout. | WIN-RV-01 proposal #14: multiplier, eligibility and live policy require explicit approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance."
+      "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance.",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "id": "guru-win-multi-first-claim-marker",
@@ -6407,10 +6415,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/adState.ts",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner decision where product change proposed; original runtime evidence for unknowns; preserve save and atomic receipts.",
-      "nextAction": "Track first successful durable settlement, not provider impression or callback. Separate analytic event and persistent receipt; test duplicate/restart.",
+      "nextAction": "Track first successful durable settlement, not provider impression or callback. Separate analytic event and persistent receipt; test duplicate/restart. | WIN-RV-01 proposal #14: multiplier, eligibility and live policy require explicit approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance."
+      "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance.",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "id": "guru-win-multi-initial-telemetry-gate",
@@ -6423,10 +6432,11 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/adState.ts",
       "stage": "COMMERCIAL — owner choice",
       "dependencies": "Owner decision where product change proposed; original runtime evidence for unknowns; preserve save and atomic receipts.",
-      "nextAction": "Original property names/cohort assignments UNKNOWN; observe first and subsequent offers. Do not invent live A/B enrollment.",
+      "nextAction": "Original property names/cohort assignments UNKNOWN; observe first and subsequent offers. Do not invent live A/B enrollment. | WIN-RV-01 proposal #14: multiplier, eligibility and live policy require explicit approval.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance."
+      "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance.",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "id": "guru-daily-tail-parity",
@@ -9951,98 +9961,98 @@
     {
       "id": "guru-feedback-vibration-general",
       "sourceFeatureId": "guru-feedback-vibration-general",
-      "status": "DEFERRED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "Отдельный параметр вибрации general",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved.",
+      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "guru-feedback-vibration-correct",
       "sourceFeatureId": "guru-feedback-vibration-correct",
-      "status": "DEFERRED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "Отдельный параметр вибрации correct",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved.",
+      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "guru-feedback-vibration-drag",
       "sourceFeatureId": "guru-feedback-vibration-drag",
-      "status": "DEFERRED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "Отдельный параметр вибрации drag",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved.",
+      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "guru-feedback-vibration-error",
       "sourceFeatureId": "guru-feedback-vibration-error",
-      "status": "DEFERRED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "Отдельный параметр вибрации error",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved.",
+      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "guru-feedback-vibration-exchange",
       "sourceFeatureId": "guru-feedback-vibration-exchange",
-      "status": "DEFERRED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "Отдельный параметр вибрации exchange",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved.",
+      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "guru-feedback-vibration-progress-completed",
       "sourceFeatureId": "guru-feedback-vibration-progress-completed",
-      "status": "DEFERRED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "Отдельный параметр вибрации progress_completed",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved.",
+      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "guru-feedback-vibration-collision",
@@ -10111,18 +10121,18 @@
     {
       "id": "guru-feedback-vibration-success",
       "sourceFeatureId": "guru-feedback-vibration-success",
-      "status": "DEFERRED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "Отдельный параметр вибрации success",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved.",
+      "nextAction": "Confirm applicable gesture/cue on original Android; use independent own pattern and ON/OFF control; no remote flag implementation approved. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "guru-feedback-config-fallback",
@@ -10255,82 +10265,82 @@
     {
       "id": "easy-feedback-fill-in-audio",
       "sourceFeatureId": "easy-feedback-fill-in-audio",
-      "status": "DEFERRED",
-      "comparison": "MISSING",
+      "status": "ROADMAPPED",
+      "comparison": "PARTIAL",
       "originalBehavior": "EasyFun: заполнение клетки вызывает звук",
-      "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
+      "currentImplementation": "Own placement cue triggers on committed landing contact in board.ts:97–105, 123–146; exact source sound/physical timing unverified.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Compare actual cue against contact frame; own cue only.",
+      "nextAction": "Compare actual cue against contact frame; own cue only. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "easy-feedback-correct-audio",
       "sourceFeatureId": "easy-feedback-correct-audio",
-      "status": "DEFERRED",
-      "comparison": "MISSING",
+      "status": "ROADMAPPED",
+      "comparison": "PARTIAL",
       "originalBehavior": "EasyFun: анимация правильного результата вызывает звук",
-      "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
+      "currentImplementation": "Own right cue and equation-line motion, with double-axis chime, in board.ts:89–117 and feedback.ts; exact original sound/physical timing unverified.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Verify no duplicate sounds for intersecting simultaneous equations; keep own audio.",
+      "nextAction": "Verify no duplicate sounds for intersecting simultaneous equations; keep own audio. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "easy-feedback-game-start-audio",
       "sourceFeatureId": "easy-feedback-game-start-audio",
-      "status": "DEFERRED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "EasyFun: анимация старта вызывает звук",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Test first rendered board and start cue without delaying input.",
+      "nextAction": "Test first rendered board and start cue without delaying input. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "easy-feedback-game-complete-audio",
       "sourceFeatureId": "easy-feedback-game-complete-audio",
-      "status": "DEFERRED",
-      "comparison": "MISSING",
+      "status": "ROADMAPPED",
+      "comparison": "PARTIAL",
       "originalBehavior": "EasyFun: анимация победы вызывает звук",
-      "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
+      "currentImplementation": "Own win cue after committed victory, with part/instrument variants and separate result presentation; original distinct result-opening sound and physical timing unverified.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Test one award-settlement authority and separate cue presentation.",
+      "nextAction": "Test one award-settlement authority and separate cue presentation. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "easy-feedback-rank-up-audio",
       "sourceFeatureId": "easy-feedback-rank-up-audio",
-      "status": "DEFERRED",
+      "status": "ROADMAPPED",
       "comparison": "MISSING",
       "originalBehavior": "EasyFun: анимация повышения ранга вызывает звук",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
-      "stage": "UX / later own cue adaptation",
+      "stage": "FEEL-01 / planned",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "Use independent rank cue; ensure no replay payout.",
+      "nextAction": "Use independent rank cue; ensure no replay payout. | FEEL-01 #13: own event-based adaptation and separate original/device acceptance.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "id": "easy-feedback-random-gold-audio",
@@ -11321,6 +11331,59 @@
       "MATCH": 27,
       "PARTIAL": 90,
       "MISSING": 451,
+      "UNKNOWN": 37
+    }
+  },
+  "feelHandoff20261126": {
+    "reviewedHead": "04576ec2239e840176a1a412c06e82aa7b9253cb",
+    "version": "0.5.24 / 29",
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "issue": "https://github.com/DanilaH/crossmath-game/issues/13",
+    "plannedIds": [
+      "guru-task-count",
+      "guru-task-complete",
+      "guru-endless-score-countup",
+      "guru-feedback-vibration-general",
+      "guru-feedback-vibration-correct",
+      "guru-feedback-vibration-drag",
+      "guru-feedback-vibration-error",
+      "guru-feedback-vibration-exchange",
+      "guru-feedback-vibration-progress-completed",
+      "guru-feedback-vibration-success",
+      "easy-feedback-fill-in-audio",
+      "easy-feedback-correct-audio",
+      "easy-feedback-game-start-audio",
+      "easy-feedback-game-complete-audio",
+      "easy-feedback-rank-up-audio"
+    ],
+    "baselineComparisonCorrections": [
+      "easy-feedback-fill-in-audio",
+      "easy-feedback-correct-audio",
+      "easy-feedback-game-complete-audio"
+    ],
+    "rewardProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/14",
+    "rewardProposalIds": [
+      "guru-win-coins-ten",
+      "guru-win-coins-multi-thirty",
+      "guru-win-coins-multi-config",
+      "guru-win-multi-mode-exclusion",
+      "guru-win-multi-ad-icon",
+      "guru-win-multi-first-claim-marker",
+      "guru-win-multi-initial-telemetry-gate"
+    ],
+    "scope": "Static consumer/source review and developer handoff; no implementation or acceptance promotion. Reward parameters require owner approval. Historical closure counts unchanged as snapshot.",
+    "statusCounts": {
+      "IMPLEMENTED_UNVERIFIED": 34,
+      "ACCEPTED": 17,
+      "ROADMAPPED": 20,
+      "RESEARCHED": 204,
+      "EVIDENCE_GAP": 44,
+      "DEFERRED": 286
+    },
+    "comparisonCounts": {
+      "MATCH": 27,
+      "PARTIAL": 93,
+      "MISSING": 448,
       "UNKNOWN": 37
     }
   }

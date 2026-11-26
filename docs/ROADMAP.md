@@ -399,3 +399,11 @@ Source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460/460 mapped (11 
 
 ## 26.11.2026 — closure checkpoint and dependency-first porting plan
 [Source](https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md) · [Remaining proof gates](porting/RESEARCH_CLOSURE_GATES_2026-11-26.md) · [Proposed packages](porting/REFERENCE_PORTING_PLAN_2026-11-26.md). 605/605; 86 new granular static definitions/calls, 7 refinements; all three archives SHA verified. 56 achievement definitions, 11 vibration fields, feedback/issuance callsite audit. G1 native whole-catalog run and remaining local traces not completed; G2–G9 specific source/device/live/product gates. 48 explicit EVIDENCE_GAP/UNKNOWN rows, plus additional static/live limits. No new runtime/policy, no promotion. Next actionable stage is selected P0/P1 and bounded G1 in parallel, not indefinite ID accumulation. Source pin 944f4bb370edf46fb10c6f3b4d5ab0d505d85f23.
+
+
+## 26.11.2026 · Первые пакеты переноса
+
+- [FEEL-01 / #13](https://github.com/DanilaH/crossmath-game/issues/13) — 15 source IDs переведены в ROADMAPPED; текущие посадка, решение и победный звук уже имеют функциональные аналоги: три MISSING исправлены на PARTIAL после чтения кода 0.5.24, не новая реализация. Count-up Endless входит в этот UI-пакет без изменения правил P5.
+- [WIN-RV-01 / #14](https://github.com/DanilaH/crossmath-game/issues/14) — проект добровольного бонуса победы, параметры и live policy к отдельному согласованию; статусы не повышены. HELP-02 и cooldown не повторять.
+
+Текущие counts: IMPLEMENTED_UNVERIFIED=34, ACCEPTED=17, ROADMAPPED=20, RESEARCHED=204, EVIDENCE_GAP=44, DEFERRED=286; MATCH=27, PARTIAL=93, MISSING=448, UNKNOWN=37. 605/605 ID, runtime и продуктовый код неизменны. Проверка статическая; физическая приёмка открыта. KIT IMPACT REUSE / CANDIDATE.

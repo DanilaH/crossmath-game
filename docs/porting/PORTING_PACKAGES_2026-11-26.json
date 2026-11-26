@@ -229,14 +229,16 @@
     {
       "sourceFeatureId": "guru-task-count",
       "package": "P1",
-      "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "guru-task-complete",
       "package": "P1",
-      "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "ref-haptics",
@@ -1669,8 +1671,9 @@
     {
       "sourceFeatureId": "guru-endless-score-countup",
       "package": "P5",
-      "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "guru-strategy-conditional-backtrack",
@@ -2090,19 +2093,22 @@
       "sourceFeatureId": "guru-win-coins-ten",
       "package": "P4",
       "status": "RESEARCHED",
-      "comparison": "PARTIAL"
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "sourceFeatureId": "guru-win-coins-multi-thirty",
       "package": "P4",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "sourceFeatureId": "guru-win-coins-multi-config",
       "package": "P4",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "sourceFeatureId": "guru-battle-ticket-auto-cap-ten",
@@ -2150,25 +2156,29 @@
       "sourceFeatureId": "guru-win-multi-mode-exclusion",
       "package": "P4",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "sourceFeatureId": "guru-win-multi-ad-icon",
       "package": "P4",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "sourceFeatureId": "guru-win-multi-first-claim-marker",
       "package": "P4",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "sourceFeatureId": "guru-win-multi-initial-telemetry-gate",
       "package": "P4",
       "status": "RESEARCHED",
-      "comparison": "MISSING"
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
     },
     {
       "sourceFeatureId": "guru-daily-tail-parity",
@@ -3493,38 +3503,44 @@
     {
       "sourceFeatureId": "guru-feedback-vibration-general",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "guru-feedback-vibration-correct",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "guru-feedback-vibration-drag",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "guru-feedback-vibration-error",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "guru-feedback-vibration-exchange",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "guru-feedback-vibration-progress-completed",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "guru-feedback-vibration-collision",
@@ -3553,8 +3569,9 @@
     {
       "sourceFeatureId": "guru-feedback-vibration-success",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "guru-feedback-config-fallback",
@@ -3607,32 +3624,37 @@
     {
       "sourceFeatureId": "easy-feedback-fill-in-audio",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "easy-feedback-correct-audio",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "easy-feedback-game-start-audio",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "easy-feedback-game-complete-audio",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "PARTIAL",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "easy-feedback-rank-up-audio",
       "package": "P1",
-      "status": "DEFERRED",
-      "comparison": "MISSING"
+      "status": "ROADMAPPED",
+      "comparison": "MISSING",
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13"
     },
     {
       "sourceFeatureId": "easy-feedback-random-gold-audio",

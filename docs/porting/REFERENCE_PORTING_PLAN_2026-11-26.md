@@ -36,3 +36,11 @@ src/meta/career.ts, src/app/nativeLifecycle.ts, src/platform/ads.ts. Owner-appro
 Status: IMPLEMENTED_UNVERIFIED=34, ACCEPTED=17, ROADMAPPED=5, RESEARCHED=207, EVIDENCE_GAP=44, DEFERRED=298. Comparison: MATCH=27, PARTIAL=90, MISSING=451, UNKNOWN=37. These are counts of heterogeneous evidence rules, not percent of product completion. No status promoted. Implementation packages are a dependency-first recommendation; before coding select explicit IDs/owner decisions, inspect current diff, confirm source evidence and actual own code, then independent tests/acceptance. Keep all deferred/commercial IDs. Source research staging never changes runtime.
 
 G1 whole-catalog native solver and remaining accessible static traces still open; physical, provider, live and oracle gates remain external. Do not claim research exhausted or port complete. KIT IMPACT RESEARCH / CANDIDATE, runtime NONE.
+
+
+## 26.11.2026 · Первые пакеты переноса
+
+- [FEEL-01 / #13](https://github.com/DanilaH/crossmath-game/issues/13) — 15 source IDs переведены в ROADMAPPED; текущие посадка, решение и победный звук уже имеют функциональные аналоги: три MISSING исправлены на PARTIAL после чтения кода 0.5.24, не новая реализация. Count-up Endless входит в этот UI-пакет без изменения правил P5.
+- [WIN-RV-01 / #14](https://github.com/DanilaH/crossmath-game/issues/14) — проект добровольного бонуса победы, параметры и live policy к отдельному согласованию; статусы не повышены. HELP-02 и cooldown не повторять.
+
+Текущие counts: IMPLEMENTED_UNVERIFIED=34, ACCEPTED=17, ROADMAPPED=20, RESEARCHED=204, EVIDENCE_GAP=44, DEFERRED=286; MATCH=27, PARTIAL=93, MISSING=448, UNKNOWN=37. 605/605 ID, runtime и продуктовый код неизменны. Проверка статическая; физическая приёмка открыта. KIT IMPACT REUSE / CANDIDATE.
