@@ -1,70 +1,64 @@
-name: CI
-on: [push, pull_request]
+name: Encrypted research harness transport (isolated)
+on:
+  push:
+    branches: [research/ci-guru-harness-encrypted-20261126]
 permissions:
   contents: read
 jobs:
-  host:
+  transport:
     runs-on: ubuntu-24.04
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
         with:
-          node-version-file: .nvmrc
-      - name: Require read-only access to the private pinned kit
-        env:
-          KIT_READ_TOKEN: ${{ secrets.KIT_READ_TOKEN }}
-        run: |
-          if [ -z "$KIT_READ_TOKEN" ]; then
-            echo '::error::Configure KIT_READ_TOKEN with read-only Contents access to DanilaH/mini-games-kit. No production signing or ad credentials are required for this check.'
-            exit 1
-          fi
-      - uses: actions/checkout@v6
-        with:
-          repository: DanilaH/mini-games-kit
-          ref: b1bf2026eda7dd68a5ccbc883946191e03d235af
-          path: .test-output/kit
-          token: ${{ secrets.KIT_READ_TOKEN || github.token }}
           persist-credentials: false
-      - name: Pack exact private kit checkout
-        working-directory: .test-output/kit
+          repository: DanilaH/mini-games-kit
+          ref: 848d6f2926d89e55c974a49eb348accdec9f1354
+          token: ${{ secrets.KIT_READ_TOKEN }}
+          path: private-kit
+          sparse-checkout: research/games/crossmath
+      - name: Encrypt existing research archive to ephemeral recipient (no raw public output)
         run: |
-          npm ci --ignore-scripts --no-audit --no-fund
-          npm run build
-          npm pack --ignore-scripts --pack-destination ..
-      - name: Install without persisting a repository credential
-        run: |
-          node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz b1bf2026eda7dd68a5ccbc883946191e03d235af
-          npm install --no-audit --no-fund
-      - run: npm run check
-      - run: npm run content:verify
-      - run: node .test-output/kit/tools/bootstrap/doctor-game-guidance.mjs . --strict
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:browser
+          set -euo pipefail
+          umask 077
+          mkdir -p output
+          tmp=$(mktemp -d)
+          trap 'rm -rf "$tmp"' EXIT
+          cat > "$tmp/recipient.pem" <<'CERT'
+          -----BEGIN CERTIFICATE-----
+          MIIENzCCAp+gAwIBAgIUTKjI1KFGiQEj9XV3fFHEVxl295AwDQYJKoZIhvcNAQEL
+          BQAwKzEpMCcGA1UEAwwgQ3Jvc3NtYXRoIGVwaGVtZXJhbCBDSSB0cmFuc3BvcnQw
+          HhcNMjYxMTI2MTE0OTQ0WhcNMjYxMTI5MTE0OTQ0WjArMSkwJwYDVQQDDCBDcm9z
+          c21hdGggZXBoZW1lcmFsIENJIHRyYW5zcG9ydDCCAaIwDQYJKoZIhvcNAQEBBQAD
+          ggGPADCCAYoCggGBANhoUiL0qN8C+gULC/HtW2ST0xyoHw+1HF6KDp/0eyztJ+5L
+          v7ipX+TUYC8AZ0M7QqmPUnOsyeH+o6htwqFBsDoYBqk/oHxfT3juq7lPL32xZFpn
+          XJwxhIimjFoIBE97foTNcoiAZTKtOrvgsyukZGCDaGoMsuZrBCGKIhU7HRXlDkhQ
+          Hur7nglHIOx1Lr/x4L72Dn5mGhPAPODxiNqsy/AH9X1817fCEI7f5maELoFrS/wx
+          di4hiXsqjBIM8FgfYj50J3/ct6wDDBjcaHVMcti1dp+1fyhnZJay9+IDgu+7qL6j
+          LtJIQ8KnVp44U5I9hWUKc7rMRLPy8yp7wasQUalINp6h26IQL0EIzgU3rjFevn1d
+          ZrqifpHB8N4Shk7H+Kuw1U8DPhVZW3nVaTu0ArOXBf4G6Suqg+/WplhWpb/8GJy8
+          8GuL7Pn0yEEs/5MXhTVL21tnbX9QBiO2EwTT/kbfc4mcRbhvuXOiPq7DIABsfOT1
+          /4SCOV5VOgZB//emIwIDAQABo1MwUTAdBgNVHQ4EFgQUGnS/dA5n/oP68J4va85O
+          I3rBvWswHwYDVR0jBBgwFoAUGnS/dA5n/oP68J4va85OI3rBvWswDwYDVR0TAQH/
+          BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAYEAj7yID/AglZLCTHKdZJbHdYUyLvaK
+          lFws9IvUyWHJpn4A4ii34mUHysdCQwiEyQg+VRI4Njk+Ip6k0tr8LWIxuAPMRZgZ
+          Y0UkF4XL5ofU0KzUYswzOOYIE6e6LHNWtYibRgtfogh8x5K8X8w7A2VjpFqm8OPK
+          NqJyYsdNdATYP8OUwrV3KPQHn5ylXcuhldXgbDOXV5s9CryyrDjvmalQREy26zoq
+          yadjS4As3ElitXygMyq7GiZyjZtjETyF+/R4W79p0yHcDb5VVafXyTxxFepl6eV5
+          hYb48sLiX2ZehoFgtHkqxAaAGLSAzg6Omv3ke9w0DJA8br1IKFloLCB9rQ+fHhWR
+          XFMlHpxwwEwFXG6tEWCDk8mzxZc9kAngzjYYZxDbtt0UoV8SSVMDL1Bi5WJnx1BF
+          5tsph7ooKR41+ZH7P2KO33cOEnRJN9jTBYYzhMITqwuD5MpiMNDKA1uORMy73o8R
+          5imOWZ7jKZlATUEyRlhcKxr8DRIfxdd5BWyL
+          -----END CERTIFICATE-----
+          CERT
+          test "$(git -C private-kit rev-parse HEAD)" = 848d6f2926d89e55c974a49eb348accdec9f1354
+          tar -C private-kit -czf "$tmp/research.tar.gz" research/games/crossmath
+          openssl cms -encrypt -binary -aes-256-gcm -outform DER -in "$tmp/research.tar.gz" -out output/research.cms "$tmp/recipient.pem"
+          test -s output/research.cms
+          (cd output && sha256sum research.cms > SHA256SUMS)
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: crossmath-ui-evidence
-          path: |
-            .test-output/ui/
-            .test-output/meta-ui/
-            .test-output/endless-ui/
-            .test-output/ads-banner/
-            .test-output/feel/
-      - run: npm run android:sync:release
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-      - uses: android-actions/setup-android@v3
-        with:
-          packages: platform-tools
-      - run: sdkmanager "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0"
-      - run: ./gradlew --no-daemon assembleDebug assembleReleaseCheck
-        working-directory: native/android
-      - run: python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --out .test-output/apk-verification
-      - uses: actions/upload-artifact@v4
-        with:
-          name: crossmath-releasecheck-NOT-PRODUCTION
-          path: |
-            native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk
-            .test-output/apk-verification/
+          name: crossmath-encrypted-research-harness
+          path: output/
+          retention-days: 1
+          if-no-files-found: error
