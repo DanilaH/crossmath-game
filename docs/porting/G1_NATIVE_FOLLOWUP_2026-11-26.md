@@ -1,0 +1,7 @@
+# G1 / CONTENT-03 evidence update 26.11.2026
+
+Reviewed game 0.5.24/29 at e06f448f173635e68260dac14aa89bf7c1d4d5a7; runtime b1bf2026eda7dd68a5ccbc883946191e03d235af unchanged. Source a38073b5bbd034b27d83da18c35e451a2318dcae, 610 IDs. Original evidence [Hint gates](https://github.com/DanilaH/mini-games-kit/blob/a38073b5bbd034b27d83da18c35e451a2318dcae/research/games/crossmath/porting/guru-native-sampling-20261126/HINT_GATES.md), own controlled experiment [metrics](https://github.com/DanilaH/mini-games-kit/blob/6b40b1839703c72b2ae1b80513c389d6bcf0c0cd/research/games/crossmath/porting/guru-native-sampling-20261126/OWN_METRICS.md). Existing issue #17 remains canonical proposal; no bank/version/economy/SDK changes.
+
+Five independent rules mapped in P1, RESEARCHED (4 PARTIAL, 1 MISSING). Existing 605 workflow/comparison unchanged. Retain explicit Reveal, proof verification and atomic single receipt; no automatic donor fallback. All 515 product boards verified with exact code on game CI, 5201 single assignments; 128 same-base mask variants, 97 unique/solved, 31 nonunique. For issue #17, preserve first-single and Easy direct-only; reject nonunique or proof failure, log metrics vector and compare matched masks before human timing. No scalar stuck approximation or human difficulty claim.
+
+Source retry32 18 paired SOLVED and 14 time-censored; expanded192 pending final journal aggregate. Source and product evidence distinct. KIT IMPACT RESEARCH/REUSE; runtime NONE.
