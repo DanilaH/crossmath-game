@@ -1,6 +1,6 @@
 {
   "schema": "crossmath-proposed-porting-packages-v1",
-  "sourceInventory": "0b1a68d63a680bee804bf448f8f2f6fcf27ea67a",
+  "sourceInventory": "75220fdc10bfcc7dbb9ae2ab8c45199b7783c342",
   "ownerApproved": false,
   "packages": [
     {
@@ -4028,6 +4028,42 @@
     },
     {
       "sourceFeatureId": "guru-ab-force-fetch-publish-wrapper",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-repeat-easy1-reopen",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-active-before-db-release",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-swap-unawaited-open-save",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-observer-no-age-recheck",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-remote-string-mapper-status-unchecked",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-profile-known-version-telemetry",
       "package": "P6",
       "status": "RESEARCHED",
       "comparison": "MISSING"
