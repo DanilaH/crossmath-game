@@ -1,8 +1,8 @@
 # Crossmath roadmap
 
-## Сводная база 25.11.2026
+## Сводная база 26.11.2026
 
-Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
+Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `14939d46dc197b7c8ac04d230ce80c3663c06fd3`: 519 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
 
 | Реализованный пакет | Фактический статус |
 | --- | --- |
@@ -11,7 +11,7 @@ Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b
 
 [Приёмка HELP-01 и ADS-01](acceptance/issues-8-9/README.md) · [Приёмка HELP-02](acceptance/issue-11/README.md) · [Реестр переноса](porting/ADOPTION_LEDGER.json).
 
-Исполнение части AnalyticsCalibration подтверждено. Следующий пакет: потребитель диагностик, очередь событий и готовность рекламы, затем точная связь remote config с выдачей/рекламой/офферами. Исследование не является разрешением изменить продукт.
+Исследованы аналитическая инфраструктура и прямые remote-config consumers Daily/diagnostics/hints/banner. Активные серверные значения и реакция на ошибки UNKNOWN. Следующий доступный пакет: локальная выдача/прогрессия и фактический gameplay. Исследование не является разрешением изменить продукт.
 
 ## Актуальное исследование Guru и следующий продуктовый этап · 24.11.2026
 
@@ -391,3 +391,7 @@ Source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460/460 mapped (11 
 
 ## 25.11.2026 — Analytics transport, Worker and readiness (research)
 [Consumer comparison](porting/GURU_ANALYTICS_TRANSPORT_READINESS_2026-11-25.md) · [source](https://github.com/DanilaH/mini-games-kit/blob/f0001f9067dc3bb945053a72163afe3285b181d9/research/games/crossmath/porting/guru-analytics-transport-readiness-20261125/README.md). 500/500 mapped, 40 granular source IDs. Room/lease/session/expiry/priority/serial paths, bridge defaults, unique Android Worker, ActivityAnalytics backlog and per-format readiness. Two timestamp-tie risks reproduced in synthetic SQLite only. All new entries DEFERRED/MISSING; owner-gated production analytics, no runtime, economy or acceptance changes. Original server delivery, actual config, diagnostic consumer and live adaptation UNKNOWN. Continue local config/game bindings and accessible core evidence. Source pin f0001f9067dc3bb945053a72163afe3285b181d9.
+
+
+## 26.11.2026 — remote config consumers (research)
+[Consumer comparison](porting/GURU_REMOTE_CONSUMERS_2026-11-26.md) · [source](https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md). 519/519 mapped; +19 granular rules, +3 evidence refinements. Daily direct category shift/threshold and rescue; two diagnostic flags and bounded records; hint eligibility and fullscreen loading banner policy. 264 SQL controls, 176 synthetic shifts. Actual remote values, player-specific adaptation, exact rescue, strategy UI, original Android banner and commercial activation UNKNOWN. No game/runtime/economy change. Source pin 14939d46dc197b7c8ac04d230ce80c3663c06fd3. Next accessible work: local issuance/progression and original gameplay evidence; do not wait for server.

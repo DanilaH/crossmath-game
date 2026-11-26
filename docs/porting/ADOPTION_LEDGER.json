@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "f0001f9067dc3bb945053a72163afe3285b181d9",
+    "commit": "14939d46dc197b7c8ac04d230ce80c3663c06fd3",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -295,7 +295,8 @@
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md",
-        "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md"
       ],
       "researchSupplement20261125": "Подтверждена ветка filtered-empty retry и исследованы SQL ratio literals; exact PP mapping/live config UNKNOWN.",
       "issuanceDataflow20261125": {
@@ -309,6 +310,10 @@
         "evidenceClass": "NATIVE_STATIC + BUNDLED_DB + MODEL + CONSUMER_SOURCE",
         "liveAdaptivity": "UNKNOWN",
         "note": "Прямой путь requested difficulty → filterFor/toSql; причинная реакция на ошибки не установлена."
+      },
+      "remoteConsumerResearch20261126": {
+        "report": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+        "note": "Separate concrete config consumer traced; active original values and device effect UNKNOWN. Existing product status unchanged."
       }
     },
     {
@@ -688,7 +693,8 @@
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/NATIVE_METADATA.json",
-        "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/aef1f66dad253fa315c0ef30d3c624081817bd8a/research/games/crossmath/porting/guru-help-product-audit-20261125/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md"
       ],
       "sourceBuild": "Guru Crossmath 4.17.0 / 26101374; owner APKM SHA-256 76561bac7f231a420f559d62211077144994543c4e6e3cfe9393916ad0a39597; ARM64 libapp.so SHA-256 29dfb1e90815e021d737e806e9f2c19e7eb63e8ce12fbb49d165621ce28332b5. New evidence is not extrapolated to 4.18.",
       "latestResearch": {
@@ -728,6 +734,10 @@
         "nextStep": "Проверить касания, Android Back и восстановление на Android-устройстве.",
         "independentAuditRef": "https://github.com/DanilaH/mini-games-kit/blob/353328644b5eb172ba938578dcd62ce5230802df/research/games/crossmath/porting/guru-profile-balance-20261125/HELP02_REVIEW.md",
         "independentAuditKind": "CONSUMER_COMPILED_JS_ISOLATED"
+      },
+      "remoteConsumerResearch20261126": {
+        "report": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+        "note": "Separate concrete config consumer traced; active original values and device effect UNKNOWN. Existing product status unchanged."
       }
     },
     {
@@ -4582,7 +4592,14 @@
       "nextAction": "В оригинале Guru 4.17.0 воспроизвести медленную загрузку interstitial/rewarded и проверить баннер на период запроса, dismiss/no-fill/timeouts; зафиксировать actual Android provider and server flag before any use in Crossmath.",
       "dependencies": "Original Guru 4.17 AOT, original Android online/offline, active remote configuration when permissible; for user SDK/monetization require owner permission, consent, durable receipts, cancel/back/restore and all platform constraints",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/00edfef583327899970ea1dc1273546b17a9ee5e/research/games/crossmath/porting/full-system-audit-20261123/REMOTE_CONFIGS.json",
-      "acceptanceRequirement": "Original runtime path confirmed in exact version + verified active server/SDK callbacks; for own game separate approved design with native Android acceptance and no imported third-party assets."
+      "acceptanceRequirement": "Original runtime path confirmed in exact version + verified active server/SDK callbacks; for own game separate approved design with native Android acceptance and no imported third-party assets.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md"
+      ],
+      "remoteConsumerResearch20261126": {
+        "report": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+        "note": "Separate concrete config consumer traced; active original values and device effect UNKNOWN. Existing product status unchanged."
+      }
     },
     {
       "id": "guru-free-reward-remote-config",
@@ -8681,6 +8698,310 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/f0001f9067dc3bb945053a72163afe3285b181d9/research/games/crossmath/porting/guru-analytics-transport-readiness-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "Production analytics not selected for current implementation. Static source evidence (and synthetic SQL models for timestamp ties); actual Android runtime/active configuration and delivery/provider effects UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-daily-diff-config-fallback",
+      "sourceFeatureId": "guru-daily-diff-config-fallback",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Daily: отдельная конфигурация сложности и безопасное встроенное значение false/0/14",
+      "currentImplementation": "Authored immutable bank and own issuance rotation, no mapped Guru daily_diff_config category shift/minEqual consumer.",
+      "codePath": "src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/content/rotation.ts",
+      "stage": "CORE / future separate Daily issuance decision",
+      "dependencies": "Owner-approved versioned issuance and saved assignment policy; original rescue/provider predicate and device config evidence.",
+      "nextAction": "Own future Daily policy must retain local safe default and validate full config before applying; current bank unchanged.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-daily-diff-config-observer",
+      "sourceFeatureId": "guru-daily-diff-config-observer",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Daily: обновление объекта конфигурации через observable",
+      "currentImplementation": "Authored immutable bank and own issuance rotation, no mapped Guru daily_diff_config category shift/minEqual consumer.",
+      "codePath": "src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/content/rotation.ts",
+      "stage": "CORE / future separate Daily issuance decision",
+      "dependencies": "Owner-approved versioned issuance and saved assignment policy; original rescue/provider predicate and device config evidence.",
+      "nextAction": "Test new config applied only at new Daily assignment; never rewrite saved puzzle.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-daily-diff-shift-gates",
+      "sourceFeatureId": "guru-daily-diff-shift-gates",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Daily: сдвиг категории только при enable и дополнительном условии провайдера",
+      "currentImplementation": "Authored immutable bank and own issuance rotation, no mapped Guru daily_diff_config category shift/minEqual consumer.",
+      "codePath": "src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/content/rotation.ts",
+      "stage": "CORE / future separate Daily issuance decision",
+      "dependencies": "Owner-approved versioned issuance and saved assignment policy; original rescue/provider predicate and device config evidence.",
+      "nextAction": "If approved, expose explicit bounded category shift with documented eligibility, not hidden error-based director.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-daily-diff-top-exemption",
+      "sourceFeatureId": "guru-daily-diff-top-exemption",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Daily: высшая категория исключена из сдвига",
+      "currentImplementation": "Authored immutable bank and own issuance rotation, no mapped Guru daily_diff_config category shift/minEqual consumer.",
+      "codePath": "src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/content/rotation.ts",
+      "stage": "CORE / future separate Daily issuance decision",
+      "dependencies": "Owner-approved versioned issuance and saved assignment policy; original rescue/provider predicate and device config evidence.",
+      "nextAction": "Test 4 remains 4 for positive/negative configured shifts; confirm owner intent before adapting.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-daily-diff-shift-index-range",
+      "sourceFeatureId": "guru-daily-diff-shift-index-range",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Daily: сдвиг индекса проверяется на выход за четыре категории, без clamp в этой ветке",
+      "currentImplementation": "Authored immutable bank and own issuance rotation, no mapped Guru daily_diff_config category shift/minEqual consumer.",
+      "codePath": "src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/content/rotation.ts",
+      "stage": "CORE / future separate Daily issuance decision",
+      "dependencies": "Owner-approved versioned issuance and saved assignment policy; original rescue/provider predicate and device config evidence.",
+      "nextAction": "Validate shift against possible base categories; safe fallback instead of out-of-bounds. Test negative and excessive numeric shifts.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-daily-diff-min-equation",
+      "sourceFeatureId": "guru-daily-diff-min-equation",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Daily: equation_count передаётся как minEqual при включённой конфигурации",
+      "currentImplementation": "Authored immutable bank and own issuance rotation, no mapped Guru daily_diff_config category shift/minEqual consumer.",
+      "codePath": "src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/content/rotation.ts",
+      "stage": "CORE / future separate Daily issuance decision",
+      "dependencies": "Owner-approved versioned issuance and saved assignment policy; original rescue/provider predicate and device config evidence.",
+      "nextAction": "Before any new Daily selector, evaluate candidate availability for every allowed profile/category; choose safe fallback; retain immutable assignment.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-daily-diff-empty-query-rescue",
+      "sourceFeatureId": "guru-daily-diff-empty-query-rescue",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Daily: пустой первичный запрос ведёт в отдельный путь восстановления выдачи",
+      "currentImplementation": "Authored immutable bank and own issuance rotation, no mapped Guru daily_diff_config category shift/minEqual consumer.",
+      "codePath": "src/content/rotation.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/content/rotation.ts",
+      "stage": "CORE / future separate Daily issuance decision",
+      "dependencies": "Owner-approved versioned issuance and saved assignment policy; original rescue/provider predicate and device config evidence.",
+      "nextAction": "Verify all empty-result conditions and exact fallback before product port; ensure no blocked Daily entry.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-diagnostics-config-check-blocks-initial",
+      "sourceFeatureId": "guru-diagnostics-config-check-blocks-initial",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Диагностика: начальный флаг check_blocks_exception_config",
+      "currentImplementation": "Own local game/Explain logic; no mapped Guru remote candidate diagnostic flag or 50-record tracker.",
+      "codePath": "src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/help/logic.ts",
+      "stage": "DIAGNOSTICS / future separate owner decision",
+      "dependencies": "Confirm diagnostic purpose and exact gates; keep own validation independent of telemetry; privacy and owner approval.",
+      "nextAction": "Keep local consistency validation independent of telemetry config; test disabled logging doesn't suppress arithmetic checks.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-diagnostics-candidate-initial-key-mismatch",
+      "sourceFeatureId": "guru-diagnostics-candidate-initial-key-mismatch",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Диагностика: начальное чтение CandidateReportTracker использует ключ check_blocks_exception_config",
+      "currentImplementation": "Own local game/Explain logic; no mapped Guru remote candidate diagnostic flag or 50-record tracker.",
+      "codePath": "src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/help/logic.ts",
+      "stage": "DIAGNOSTICS / future separate owner decision",
+      "dependencies": "Confirm diagnostic purpose and exact gates; keep own validation independent of telemetry; privacy and owner approval.",
+      "nextAction": "Use separate typed keys and check cold initialization/update agreement; never copy suspected mismatch.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-diagnostics-flags-observe",
+      "sourceFeatureId": "guru-diagnostics-flags-observe",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Диагностика: независимые подписки и обновления двух флагов",
+      "currentImplementation": "Own local game/Explain logic; no mapped Guru remote candidate diagnostic flag or 50-record tracker.",
+      "codePath": "src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/help/logic.ts",
+      "stage": "DIAGNOSTICS / future separate owner decision",
+      "dependencies": "Confirm diagnostic purpose and exact gates; keep own validation independent of telemetry; privacy and owner approval.",
+      "nextAction": "Test independent flags, absent values, stale callbacks, and teardown.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-diagnostics-board-inconsistent-report",
+      "sourceFeatureId": "guru-diagnostics-board-inconsistent-report",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Диагностика: отдельные сообщения о несогласованности заполнения и доступных фишек",
+      "currentImplementation": "Own local game/Explain logic; no mapped Guru remote candidate diagnostic flag or 50-record tracker.",
+      "codePath": "src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/help/logic.ts",
+      "stage": "DIAGNOSTICS / future separate owner decision",
+      "dependencies": "Confirm diagnostic purpose and exact gates; keep own validation independent of telemetry; privacy and owner approval.",
+      "nextAction": "Add developer diagnostics for impossible board/token state; never use analytics as game validator.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-diagnostics-candidate-record-gate",
+      "sourceFeatureId": "guru-diagnostics-candidate-record-gate",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Диагностика: ведение локальных записей CandidateReportTracker ограничено двумя проверками",
+      "currentImplementation": "Own local game/Explain logic; no mapped Guru remote candidate diagnostic flag or 50-record tracker.",
+      "codePath": "src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/help/logic.ts",
+      "stage": "DIAGNOSTICS / future separate owner decision",
+      "dependencies": "Confirm diagnostic purpose and exact gates; keep own validation independent of telemetry; privacy and owner approval.",
+      "nextAction": "If necessary, use bounded debug-only event trail with opt-in; no player data payload by default.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-diagnostics-candidate-record-cap",
+      "sourceFeatureId": "guru-diagnostics-candidate-record-cap",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Диагностика: журнал кандидатов ограничен 50 записями",
+      "currentImplementation": "Own local game/Explain logic; no mapped Guru remote candidate diagnostic flag or 50-record tracker.",
+      "codePath": "src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/help/logic.ts",
+      "stage": "DIAGNOSTICS / future separate owner decision",
+      "dependencies": "Confirm diagnostic purpose and exact gates; keep own validation independent of telemetry; privacy and owner approval.",
+      "nextAction": "Use bounded ring buffer, test 49/50/51, preserve no mutation of live board.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-strategy-hint-config-fallback",
+      "sourceFeatureId": "guru-strategy-hint-config-fallback",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Стратегические подсказки: отдельный remote enable с default false",
+      "currentImplementation": "Own deterministic help selection and HELP-02, no mapped Guru remote/local strategy eligibility flag.",
+      "codePath": "src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/help/logic.ts",
+      "stage": "UX / future separate help experiment",
+      "dependencies": "Keep existing Explain coverage and reasoning; original preference/UI action evidence; owner-approved UX.",
+      "nextAction": "Keep Explain/HELP-02 behavior intact; optional later UX experiment requires owner approval.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-strategy-hint-config-local-eligibility",
+      "sourceFeatureId": "guru-strategy-hint-config-local-eligibility",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Стратегические подсказки: локальный флаг может разрешать путь независимо от remote enable",
+      "currentImplementation": "Own deterministic help selection and HELP-02, no mapped Guru remote/local strategy eligibility flag.",
+      "codePath": "src/help/logic.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/help/logic.ts",
+      "stage": "UX / future separate help experiment",
+      "dependencies": "Keep existing Explain coverage and reasoning; original preference/UI action evidence; owner-approved UX.",
+      "nextAction": "Trace local preference key and UI entry first; never disable existing Explain or auto-select strategy from this evidence.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-banner-loading-config-default",
+      "sourceFeatureId": "guru-banner-loading-config-default",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Баннер при загрузке fullscreen: отдельная настройка с fallback false",
+      "currentImplementation": "Existing bridge and cooldown/receipt pilot, no mapped remote fullscreen-loading banner policy.",
+      "codePath": "src/platform/ads.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
+      "stage": "COMMERCIAL/ADS / later separate owner decision",
+      "dependencies": "Real Android adapter acceptance, provider constraints, owner approval; preserve cooldown and earned settlement.",
+      "nextAction": "Do not change current banner/cooldown pilot. Compare only after real adapter acceptance.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-banner-loading-config-observe",
+      "sourceFeatureId": "guru-banner-loading-config-observe",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Баннер при загрузке fullscreen: однократная инициализация наблюдателя и перерасчёт при обновлении",
+      "currentImplementation": "Existing bridge and cooldown/receipt pilot, no mapped remote fullscreen-loading banner policy.",
+      "codePath": "src/platform/ads.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
+      "stage": "COMMERCIAL/ADS / later separate owner decision",
+      "dependencies": "Real Android adapter acceptance, provider constraints, owner approval; preserve cooldown and earned settlement.",
+      "nextAction": "Use one lifecycle-owned subscription, cancel on dispose; ensure config refresh does not show duplicate banner.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-banner-loading-interstitial-rewarded-sync",
+      "sourceFeatureId": "guru-banner-loading-interstitial-rewarded-sync",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Баннер: синхронизация отдельных состояний interstitial и rewarded",
+      "currentImplementation": "Existing bridge and cooldown/receipt pilot, no mapped remote fullscreen-loading banner policy.",
+      "codePath": "src/platform/ads.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
+      "stage": "COMMERCIAL/ADS / later separate owner decision",
+      "dependencies": "Real Android adapter acceptance, provider constraints, owner approval; preserve cooldown and earned settlement.",
+      "nextAction": "Test overlapping load/cancel/error callbacks and adapter state transitions separately from impression/reward.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
+    },
+    {
+      "id": "guru-banner-loading-allow-policy",
+      "sourceFeatureId": "guru-banner-loading-allow-policy",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Баннер: remote флаг используется в вычислении allowBanner, совместно с отдельным состоянием и счётчиками",
+      "currentImplementation": "Existing bridge and cooldown/receipt pilot, no mapped remote fullscreen-loading banner policy.",
+      "codePath": "src/platform/ads.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/ads.ts",
+      "stage": "COMMERCIAL/ADS / later separate owner decision",
+      "dependencies": "Real Android adapter acceptance, provider constraints, owner approval; preserve cooldown and earned settlement.",
+      "nextAction": "Before adaptation resolve state semantics and device transitions; separate banner permission from actual rendered banner, no ad cadence changes.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Not selected for current implementation; source static evidence and, where applicable, SQL/synthetic model only. Active original config and Android effect UNKNOWN. Not permanently excluded."
     }
   ],
   "latestReview": {
@@ -9536,5 +9857,16 @@
     "senderEffect": "UNKNOWN",
     "liveConfig": "UNKNOWN",
     "decision": "Research only. No implementation, telemetry, economy or runtime pin changes."
+  },
+  "remoteConsumerResearch20261126": {
+    "sourceInventory": "14939d46dc197b7c8ac04d230ce80c3663c06fd3",
+    "sourceCount": 519,
+    "added": 19,
+    "refined": 3,
+    "report": "https://github.com/DanilaH/mini-games-kit/blob/14939d46dc197b7c8ac04d230ce80c3663c06fd3/research/games/crossmath/porting/guru-remote-consumers-20261126/README.md",
+    "gameHead": "04576ec2239e840176a1a412c06e82aa7b9253cb",
+    "version": "0.5.24/29",
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "scope": "Daily, diagnostics, hint eligibility, banner loading; static + bundled DB + model, original runtime UNKNOWN; no production change."
   }
 }
