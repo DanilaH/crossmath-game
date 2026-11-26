@@ -1,0 +1,519 @@
+{
+  "reviewedHead": "04576ec2239e840176a1a412c06e82aa7b9253cb",
+  "inputs": [
+    {
+      "path": "docs/spec/product/content_v09/boards.json",
+      "gitBlob": "b6476924ddf5805ab007976c689faf23459df2a4"
+    },
+    {
+      "path": "docs/spec/product/content_v2/boards.json",
+      "gitBlob": "f8fd69fb1e93f5b54207b0c66623023d5dc9d087"
+    },
+    {
+      "path": "docs/spec/product/content_v09/routes.json",
+      "gitBlob": "6e42a2548f63336fed07295e826deff3f7fc73a4"
+    },
+    {
+      "path": "docs/spec/product/meta_v08/config.json",
+      "gitBlob": "baf68899c51ad3810a7cdbc363e02174014c70e4"
+    }
+  ],
+  "execution": "model function executed on connector-fetched pinned inputs; standalone Node wrapper not executed",
+  "scope": "MODEL on pinned consumer content, not game runtime, player retention or provider evidence",
+  "campaign": {
+    "count": 240,
+    "counts": {
+      "easy": 90,
+      "standard": 45,
+      "hard": 70,
+      "expert": 35
+    },
+    "totalXP": 3850,
+    "rank": {
+      "rank": 17,
+      "xp": 150,
+      "next": 300
+    },
+    "milestones": [
+      {
+        "wins": 1,
+        "totalXP": 10,
+        "rank": 1,
+        "xp": 10,
+        "next": 100,
+        "oldParts": 0,
+        "proposedParts": 0
+      },
+      {
+        "wins": 3,
+        "totalXP": 30,
+        "rank": 1,
+        "xp": 30,
+        "next": 100,
+        "oldParts": 1,
+        "proposedParts": 1
+      },
+      {
+        "wins": 4,
+        "totalXP": 40,
+        "rank": 1,
+        "xp": 40,
+        "next": 100,
+        "oldParts": 2,
+        "proposedParts": 2
+      },
+      {
+        "wins": 8,
+        "totalXP": 80,
+        "rank": 1,
+        "xp": 80,
+        "next": 100,
+        "oldParts": 4,
+        "proposedParts": 4
+      },
+      {
+        "wins": 15,
+        "totalXP": 175,
+        "rank": 2,
+        "xp": 75,
+        "next": 120,
+        "oldParts": 5,
+        "proposedParts": 5
+      },
+      {
+        "wins": 28,
+        "totalXP": 325,
+        "rank": 3,
+        "xp": 105,
+        "next": 140,
+        "oldParts": 8,
+        "proposedParts": 8
+      },
+      {
+        "wins": 48,
+        "totalXP": 560,
+        "rank": 5,
+        "xp": 40,
+        "next": 180,
+        "oldParts": 12,
+        "proposedParts": 12
+      },
+      {
+        "wins": 50,
+        "totalXP": 580,
+        "rank": 5,
+        "xp": 60,
+        "next": 180,
+        "oldParts": 12,
+        "proposedParts": 12
+      },
+      {
+        "wins": 100,
+        "totalXP": 1165,
+        "rank": 8,
+        "xp": 45,
+        "next": 240,
+        "oldParts": 22,
+        "proposedParts": 22
+      },
+      {
+        "wins": 150,
+        "totalXP": 1900,
+        "rank": 11,
+        "xp": 0,
+        "next": 300,
+        "oldParts": 32,
+        "proposedParts": 32
+      },
+      {
+        "wins": 200,
+        "totalXP": 2980,
+        "rank": 14,
+        "xp": 180,
+        "next": 300,
+        "oldParts": 42,
+        "proposedParts": 42
+      },
+      {
+        "wins": 228,
+        "totalXP": 3590,
+        "rank": 16,
+        "xp": 190,
+        "next": 300,
+        "oldParts": 48,
+        "proposedParts": 48
+      },
+      {
+        "wins": 233,
+        "totalXP": 3695,
+        "rank": 16,
+        "xp": 295,
+        "next": 300,
+        "oldParts": 48,
+        "proposedParts": 49
+      },
+      {
+        "wins": 238,
+        "totalXP": 3805,
+        "rank": 17,
+        "xp": 105,
+        "next": 300,
+        "oldParts": 48,
+        "proposedParts": 50
+      },
+      {
+        "wins": 240,
+        "totalXP": 3850,
+        "rank": 17,
+        "xp": 150,
+        "next": 300,
+        "oldParts": 48,
+        "proposedParts": 50
+      }
+    ]
+  },
+  "configuredRouteUnion": {
+    "count": 515,
+    "counts": {
+      "easy": 150,
+      "standard": 170,
+      "hard": 130,
+      "expert": 65
+    },
+    "totalXP": 8275,
+    "rank": {
+      "rank": 32,
+      "xp": 75,
+      "next": 300
+    },
+    "scope": "route membership, not completed playtest"
+  },
+  "daily": {
+    "count": 50,
+    "counts": {
+      "standard": 50
+    },
+    "proposedRepeatNewDateXP": 15,
+    "afterSaturation": [
+      {
+        "newDates": 0,
+        "totalXP": 8275,
+        "rank": 32,
+        "xp": 75,
+        "next": 300,
+        "extraRankCoins": 0,
+        "existingDailyCoins": 0
+      },
+      {
+        "newDates": 7,
+        "totalXP": 8380,
+        "rank": 32,
+        "xp": 180,
+        "next": 300,
+        "extraRankCoins": 0,
+        "existingDailyCoins": 210
+      },
+      {
+        "newDates": 30,
+        "totalXP": 8725,
+        "rank": 33,
+        "xp": 225,
+        "next": 300,
+        "extraRankCoins": 60,
+        "existingDailyCoins": 900
+      },
+      {
+        "newDates": 55,
+        "totalXP": 9100,
+        "rank": 35,
+        "xp": 0,
+        "next": 300,
+        "extraRankCoins": 180,
+        "existingDailyCoins": 1650
+      },
+      {
+        "newDates": 90,
+        "totalXP": 9625,
+        "rank": 36,
+        "xp": 225,
+        "next": 300,
+        "extraRankCoins": 240,
+        "existingDailyCoins": 2700
+      },
+      {
+        "newDates": 180,
+        "totalXP": 10975,
+        "rank": 41,
+        "xp": 75,
+        "next": 300,
+        "extraRankCoins": 540,
+        "existingDailyCoins": 5400
+      },
+      {
+        "newDates": 355,
+        "totalXP": 13600,
+        "rank": 50,
+        "xp": 0,
+        "next": 300,
+        "extraRankCoins": 1080,
+        "existingDailyCoins": 10650
+      },
+      {
+        "newDates": 365,
+        "totalXP": 13750,
+        "rank": 50,
+        "xp": 150,
+        "next": 300,
+        "extraRankCoins": 1080,
+        "existingDailyCoins": 10950
+      },
+      {
+        "newDates": 1355,
+        "totalXP": 28600,
+        "rank": 100,
+        "xp": 0,
+        "next": 300,
+        "extraRankCoins": 4080,
+        "existingDailyCoins": 40650
+      }
+    ]
+  },
+  "endless": {
+    "routeLength": 225,
+    "firstCycleScore": 28180,
+    "checkpoints": [
+      {
+        "stages": 1,
+        "score": 40
+      },
+      {
+        "stages": 3,
+        "score": 160
+      },
+      {
+        "stages": 5,
+        "score": 390
+      },
+      {
+        "stages": 10,
+        "score": 1140
+      },
+      {
+        "stages": 15,
+        "score": 1890
+      },
+      {
+        "stages": 20,
+        "score": 2330
+      },
+      {
+        "stages": 30,
+        "score": 3870
+      },
+      {
+        "stages": 50,
+        "score": 6310
+      },
+      {
+        "stages": 100,
+        "score": 12740
+      },
+      {
+        "stages": 225,
+        "score": 28180
+      }
+    ]
+  },
+  "collection": {
+    "oldParts": 48,
+    "proposedParts": 72,
+    "proposedInstruments": 18,
+    "addedThresholds": [
+      233,
+      238,
+      243,
+      248,
+      253,
+      258,
+      263,
+      268,
+      273,
+      278,
+      283,
+      288,
+      293,
+      298,
+      303,
+      308,
+      313,
+      318,
+      323,
+      328,
+      333,
+      338,
+      343,
+      348
+    ],
+    "newCompletionWins": 348,
+    "catchupExamples": [
+      {
+        "wins": 227,
+        "oldParts": 47,
+        "extendedParts": 47,
+        "catchupCoins": 0
+      },
+      {
+        "wins": 228,
+        "oldParts": 48,
+        "extendedParts": 48,
+        "catchupCoins": 0
+      },
+      {
+        "wins": 232,
+        "oldParts": 48,
+        "extendedParts": 48,
+        "catchupCoins": 0
+      },
+      {
+        "wins": 233,
+        "oldParts": 48,
+        "extendedParts": 49,
+        "catchupCoins": 0
+      },
+      {
+        "wins": 237,
+        "oldParts": 48,
+        "extendedParts": 49,
+        "catchupCoins": 0
+      },
+      {
+        "wins": 238,
+        "oldParts": 48,
+        "extendedParts": 50,
+        "catchupCoins": 0
+      },
+      {
+        "wins": 240,
+        "oldParts": 48,
+        "extendedParts": 50,
+        "catchupCoins": 0
+      },
+      {
+        "wins": 247,
+        "oldParts": 48,
+        "extendedParts": 51,
+        "catchupCoins": 0
+      },
+      {
+        "wins": 248,
+        "oldParts": 48,
+        "extendedParts": 52,
+        "catchupCoins": 20
+      },
+      {
+        "wins": 268,
+        "oldParts": 48,
+        "extendedParts": 56,
+        "catchupCoins": 40
+      },
+      {
+        "wins": 300,
+        "oldParts": 48,
+        "extendedParts": 62,
+        "catchupCoins": 60
+      },
+      {
+        "wins": 348,
+        "oldParts": 48,
+        "extendedParts": 72,
+        "catchupCoins": 120
+      },
+      {
+        "wins": 515,
+        "oldParts": 48,
+        "extendedParts": 72,
+        "catchupCoins": 120
+      }
+    ],
+    "modelMaxAdditionalCardCoins": 120
+  },
+  "achievementGroups": {
+    "difficulty": {
+      "easy": [
+        1,
+        10,
+        20,
+        50,
+        100
+      ],
+      "standard": [
+        1,
+        10,
+        20,
+        50,
+        100
+      ],
+      "hard": [
+        1,
+        10,
+        20,
+        50,
+        100
+      ],
+      "expert": [
+        1,
+        10,
+        20,
+        50
+      ]
+    },
+    "dailyDates": [
+      1,
+      7,
+      30,
+      90,
+      365
+    ],
+    "monthlyTrophies": [
+      1,
+      3,
+      6,
+      12
+    ],
+    "fullSets": [
+      10,
+      30,
+      100
+    ],
+    "anyEndlessScore": [
+      500,
+      1000,
+      5000,
+      10000,
+      25000
+    ],
+    "distinctWins": [
+      250,
+      400,
+      500
+    ],
+    "rank": [
+      10,
+      20,
+      30,
+      50,
+      100
+    ],
+    "completedCards": [
+      18
+    ]
+  },
+  "oldAchievements": 12,
+  "addedAchievements": 45,
+  "totalAchievements": 57,
+  "controls": {
+    "eligibilityMatrix": 64,
+    "collectionMigrationStates": 516,
+    "rankDatePrefixes": 366
+  }
+}
