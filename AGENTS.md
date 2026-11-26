@@ -20,11 +20,9 @@ Run npm run check, npm run android:sync:release, real Gradle debug/releaseCheck 
 
 - **2026-11-23 evidence correction:** owner video `13-49-51.mp4` t81 Settings displays `Version 4.18.0-26111743` (ORIGINAL_RUNTIME); 4.18 APK/native code unavailable. Other eight owner videos' exact builds UNKNOWN. This is not the statically inspected Guru 4.17.0 APKM. For UI/help/ads observations first read [4.18 runtime video audit](https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md) and the pinned source inventory. Study of a feature is not approval to alter prices, ads, reward cadence or saves.
 
-## Current reference and product baseline · 2026-11-25
+## Current reference and product baseline · 2026-11-26
 
-Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `944f4bb370edf46fb10c6f3b4d5ab0d505d85f23`: 605 IDs. [Consolidation](docs/porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](docs/porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
-
-- HELP-02 and ad cooldown pilot implemented; [acceptance](docs/acceptance/issue-11/README.md), [cooldown](docs/acceptance/interstitial-cooldown.md). Do not reissue those tasks; original/physical/live provider parity remains separate. Next source priority: AnalyticsCalibration evaluator, event queue, ad readiness and actual configuration consumers.
+Start with [single current research and product map](docs/porting/CURRENT.md), the live PR #4 HEAD and owner decisions. 605 IDs in [ledger](docs/porting/ADOPTION_LEDGER.json), exact source pin `944f4bb370edf46fb10c6f3b4d5ab0d505d85f23`; runtime `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance `469928d03f4bae5053e23db26e82187bedbc252e`. Reviewed gameplay 0.5.24/29 at a1fbf4d3, developer snapshot 57820c8c. HELP-02, cooldown and FEEL-01 are implemented; physical and provider gates open. Do not repeat completed broad analytics/store/competition studies. Next source work [G1–G9](docs/porting/RESEARCH_CLOSURE_GATES_2026-11-26.md), especially no-count native solver and exact remaining call chains. Historic PR #3/#7/#10 and archived docs are evidence, not current instructions. All commercial/saved content/SDK changes require separate owner approval.
 
 ### Historical solver checkpoint · 2026-11-24
 
