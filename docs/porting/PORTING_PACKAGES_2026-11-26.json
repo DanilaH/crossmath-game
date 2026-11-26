@@ -1,6 +1,6 @@
 {
   "schema": "crossmath-proposed-porting-packages-v1",
-  "sourceInventory": "703fe422616901ceb86045c6def358ce35b177db",
+  "sourceInventory": "153cd28eef00fe73982820bbe96ae38889c7e980",
   "ownerApproved": false,
   "packages": [
     {
@@ -3929,6 +3929,30 @@
       "package": "P3",
       "status": "RESEARCHED",
       "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-daily-diff-last-finished",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-daily-diff-legacy-count-priority",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-finished-history-record-schema",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-daily-rescue-requested-label",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
     }
   ]
 }
