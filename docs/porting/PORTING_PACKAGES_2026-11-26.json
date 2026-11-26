@@ -1,6 +1,6 @@
 {
   "schema": "crossmath-proposed-porting-packages-v1",
-  "sourceInventory": "153cd28eef00fe73982820bbe96ae38889c7e980",
+  "sourceInventory": "1c87c0d2b81f22cd927835b4ec1f382752432806",
   "ownerApproved": false,
   "packages": [
     {
@@ -3951,6 +3951,36 @@
     {
       "sourceFeatureId": "guru-daily-rescue-requested-label",
       "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-free-reward-tutorial-snapshot",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-celebrate-coin-debug-override",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-win-reward-mask-other-rewards",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "guru-igc-init-zero-delta",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-rv-wrapper-cause-only",
+      "package": "P4",
       "status": "RESEARCHED",
       "comparison": "MISSING"
     }
