@@ -1,6 +1,6 @@
 {
   "schema": "crossmath-proposed-porting-packages-v1",
-  "sourceInventory": "1c87c0d2b81f22cd927835b4ec1f382752432806",
+  "sourceInventory": "0b1a68d63a680bee804bf448f8f2f6fcf27ea67a",
   "ownerApproved": false,
   "packages": [
     {
@@ -3981,6 +3981,54 @@
     {
       "sourceFeatureId": "guru-rv-wrapper-cause-only",
       "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-hint-animation-image-gate",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-hint-completion-unguarded",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-close-no-hint-flush",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-director-dispose-no-flush",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-coin-animation-lifecycle",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-store-coin-no-pending-entry-gate",
+      "package": "P4",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-force-fetch-settings-override",
+      "package": "P6",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "guru-ab-force-fetch-publish-wrapper",
+      "package": "P6",
       "status": "RESEARCHED",
       "comparison": "MISSING"
     }
