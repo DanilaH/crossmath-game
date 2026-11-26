@@ -11,6 +11,7 @@ import { calendarDayIndex, canResumeDaily, dateAvailable, dayFromIndex, profileD
 import { reachablePastTrophies, trophyMonthStatus } from '../meta/monthlyTrophy';
 import type { Completion, Save } from '../app/model';
 import { rankThreshold } from '../app/model';
+import type { GoalProgress } from './playFeedback';
 import { achievementValue, recordVersion } from '../meta/career';
 import { resumePreview } from './resumePreview';
 import { menuIcon } from './icons';
@@ -1000,7 +1001,7 @@ export class MetaView {
 
   skipWorkshopReveal(): void { this.workshopReveal.skip(); }
   hideWorkshopReveal(): void { this.workshopReveal.hide(); }
-  renderResult(save: Save, fresh = false, disabled = false): void {
+  renderResult(save: Save, fresh = false, disabled = false, trackGain?:GoalProgress): void {
     const r = save.result;
     const details = document.getElementById('reward-breakdown')!;
     details.replaceChildren();
@@ -1050,8 +1051,7 @@ export class MetaView {
       this.hideInstrumentReward();
     }
     if (!award && !announcement) {
-      if (r.rankUps) title = this.t(`Новый ранг: ${r.rankLevel ?? save.profile.rank}`, `New rank: ${r.rankLevel ?? save.profile.rank}`);
-      else if (r.setCoins) title = this.t('План дня выполнен','Daily goals complete');
+      if (r.setCoins) title = this.t('План дня выполнен','Daily goals complete');
     }
     const detail=document.getElementById('result-detail')!;
     if(announcement)this.renderUnlockAction(save,detail,disabled);
@@ -1064,6 +1064,7 @@ export class MetaView {
       const label = this.trackGoalText(snapshot.id,snapshot.progress);
       goal.textContent = snapshot.stepComplete ? `${label} · ${this.t('Ступень пройдена','Step complete')}` : label;
     } else goal.textContent = count === undefined ? '' : `${count===relaxGoalTarget ? this.t('Цель выполнена','Goal complete') : this.t('Лёгкие поля','Easy boards')} · ${count}/${relaxGoalTarget}`;
+    if (trackGain && !goal.hidden) goal.append(` · +${trackGain.to-trackGain.from}`);
     goal.classList.toggle('pending-goal',snapshot !== undefined && snapshot.progress < trackGoalDefinitions[snapshot.id].target);
     const sources:[string,number][]=[[this.t("За поле", "Board"),r.baseCoins??(r.first?config.difficultyRewards[getPuzzle(r.puzzleId).difficulty].coins:0)],[this.t("За дату", "Daily date"),r.dailyCoins??0],[this.t("За цели", "Goals"),r.taskCoins??0],[this.t("За весь план", "Full goal set"),r.setCoins??0],[this.t("За ранг", "Rank"),r.rankCoins??r.rankUps*config.rank.rewardCoins],[this.t("За прибор", "Instrument"),r.cardCoins]];
     for(const [name,coins] of sources)if(coins)details.append(el('p','',`${name}: +${coins}`));details.append(el('p','',this.t(`Опыт: +${r.xp}`, `XP: +${r.xp}`)));if(r.fragments)details.append(el('p','',this.t(`Новых деталей: ${r.fragments} · всего ${r.collectionFragments} / 48`, `New parts: ${r.fragments} · total ${r.collectionFragments} / 48`)));if(r.rankUps)details.append(el('p','',this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`)));

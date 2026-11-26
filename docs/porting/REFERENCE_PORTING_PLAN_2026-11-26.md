@@ -1,17 +1,17 @@
 # Crossmath · поэтапный перенос исследованных механизмов
 
-26.11.2026. [Source audit](https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md) · [current ledger](ADOPTION_LEDGER.json) · [remaining evidence](RESEARCH_CLOSURE_GATES_2026-11-26.md). 605/605 IDs at source 944f4bb370edf46fb10c6f3b4d5ab0d505d85f23, current game 04576ec2239e840176a1a412c06e82aa7b9253cb, 0.5.24/29, runtime b1bf2026eda7dd68a5ccbc883946191e03d235af. Proposed stages only: owner decides scope/order; no global authorization to change economy or enable network/commercial systems. Every ID assigned once to a suggested primary package in PORTING_PACKAGES_2026-11-26.json. Cross-cutting dependencies and prior per-ID nextAction remain authoritative. No owner exclusions inferred. ACCEPTED is accepted current own implementation, not original parity; MATCH/PARTIAL are separate.
+26.11.2026. [Source audit](https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md) · [current ledger](ADOPTION_LEDGER.json) · [remaining evidence](RESEARCH_CLOSURE_GATES_2026-11-26.md). 605/605 IDs at source 944f4bb370edf46fb10c6f3b4d5ab0d505d85f23, current game 57820c8c6491c8b6240aeed5cb0dfde61c858927, 0.5.24/29, runtime b1bf2026eda7dd68a5ccbc883946191e03d235af. Proposed stages only: owner decides scope/order; no global authorization to change economy or enable network/commercial systems. Every ID assigned once to a suggested primary package in PORTING_PACKAGES_2026-11-26.json. Cross-cutting dependencies and prior per-ID nextAction remain authoritative. No owner exclusions inferred. ACCEPTED is accepted current own implementation, not original parity; MATCH/PARTIAL are separate.
 
 ## Current facts
 
 - Own 240+275 bank, HELP-02 515/515 (previous independently checked compiled report + developer acceptance, physical Android pending), two core routes and separate Daily/Endless.
 - Cooldown pilot developer 158 tests, scripted Chromium and exact signed APK; real SDK/device pending. 180/120/420/30 active seconds and first five wins remain. Owner-deferred rewarded→interstitial fallback remains deferred.
-- Own 12 local achievements and five feedback cue types; source new 56 platform descriptions and 11 haptic parameters not an instruction to copy thresholds, platform IDs or exact assets.
+- Own 12 local achievements and nine feedback cue types after FEEL-01; source new 56 platform descriptions and 11 haptic parameters not an instruction to copy thresholds, platform IDs or exact assets.
 
 ## Recommended sequence
 
 ### P0 · Регрессия и физическая приёмка реализованного (51 IDs routed)
-Developer #4; src/app/session.ts, src/platform/ads.ts, src/ui/board.ts, src/ui/gameUi.ts, src/ui/feedback.ts. HELP-02 515/515 and cooldown pilot already implemented; do not redo. Verify same certificate update, saved state, true phone touch, font/Back and real ad adapter when approved. Acceptance G8.
+Developer #4; src/app/session.ts, src/platform/ads.ts, src/ui/board.ts, src/ui/gameUi.ts, src/ui/feedback.ts. HELP-02 515/515, cooldown pilot and FEEL-01 already implemented; do not redo. FEEL-01 developer 169 tests/Chromium/APK; changed test signer must be reconciled before in-place upgrade. Verify same certificate update, saved state, true phone touch, font/Back and real ad adapter when approved. Acceptance G8.
 
 ### P1 · Игровое взаимодействие, обучающие сценарии и feel (84 IDs routed)
 src/core/engine.ts, src/help/logic.ts, src/ui/board.ts, src/ui/gameUi.ts, src/ui/feedback.ts. Start with approved visual direction, capture actual source and own before/action/after, use own semantic feedback cues; tests for wrong drop, undo, toggle, no repeated payout, phone timing. Preserve 515/515.
@@ -58,3 +58,14 @@ G1 whole-catalog native solver and remaining accessible static traces still open
 [CONTENT-03 #17](https://github.com/DanilaH/crossmath-game/issues/17) — offline generator lab: 275 собственных задач, 56 D4 форм, 274 D4+mask; Easy Short 27/40 одна форма. Полная модель geometry graph 7×7 с 8 уравнениями: 132 anchored sets, 3 D4 класса; 9×9 sample 10 000: 7853 geometry successes, ≥417 D4 классов, не числовые головоломки. Кандидат 40 Easy Short с 9×9 и прежними eq/hole/cap; только после независимого solver/Explain и device проверки рассматривать новый банк, потом Daily extension/operation/mask experiments. No existing ID changes. [Model](issuance-pilot-20261126/MEASUREMENTS.json) · [Geometry](issuance-pilot-20261126/GEOMETRY_CAPACITY.json).
 
 24 source IDs связаны с предложениями, статусы и сравнения не повышены. G1, original stuck, live config и actual player difficulty остаются UNKNOWN. KIT IMPACT RESEARCH/CANDIDATE; runtime NONE.
+
+
+## 26.11.2026 · FEEL-01 фактическая реализация и следующие пилоты
+
+[FEEL-01 приёмка](../acceptance/feel-01.md), gameplay a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21 / actual HEAD 57820c8c6491c8b6240aeed5cb0dfde61c858927. 15 source IDs обновлены IMPLEMENTED_UNVERIFIED/PARTIAL по diff и отчёту разработчика (169 тестов, Chromium, signed APK). Независимый повтор тестов/телефон не выполнен; новый тестовый сертификат отличается от предыдущего APK. Не удалять старую игру/сейв ради установки. Сохранены две более ранние корректировки guru-ad-protect и guru-issuance-operation-ratio-denominator, не принимать их регресс из копии developer ledger. Текущие counts: IMPLEMENTED_UNVERIFIED=49, ACCEPTED=17, ROADMAPPED=5, RESEARCHED=204, EVIDENCE_GAP=44, DEFERRED=286; MATCH=27, PARTIAL=105, MISSING=436, UNKNOWN=37. 605/605.
+
+- [DAILY-02 #18](https://github.com/DanilaH/crossmath-game/issues/18): первые 7 групп оставить, добавить 9, после 16 повторять 8..16; current 7 groups/6 unique; all 50 Daily boards close first group in one. 1440 fresh-set witness models across 90 v2 snapshots, ≤3 after fallback. No budget change: 60 for full set, 30 for date. Actual session/old and mixed saves pending.
+- [RETURN-01 #19](https://github.com/DanilaH/crossmath-game/issues/19): separate current-day streak and best, no retroactive archive credit, explicit opt-in approximate-time Android reminder, reuse existing kit recipe. No permission, SDK or payout activation without owner decision.
+- [EVENT-01 #20](https://github.com/DanilaH/crossmath-game/issues/20): optional 7 profile-day postcard, 3/6/9/12 distinct wins milestones, cosmetic only; 2560 synthetic expiry/receipt controls. 15-win variant rejected as unreachable at two/day. Preserve earned parts after expiry. Outside initial scope pending owner approval.
+
+[Daily model](daily-return-pilot-20261126/MEASUREMENTS.json) · [event model](daily-return-pilot-20261126/EVENT_POLICY.json). 30 IDs linked without promotion or source coverage change. Runtime NONE. KIT IMPACT REUSE/CANDIDATE.

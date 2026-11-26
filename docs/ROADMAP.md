@@ -2,12 +2,14 @@
 
 ## Сводная база 26.11.2026
 
-Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `944f4bb370edf46fb10c6f3b4d5ab0d505d85f23`: 605 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
+Crossmath 0.5.24 / 29; actual developer HEAD `57820c8c6491c8b6240aeed5cb0dfde61c858927`, gameplay/artifact source `a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `944f4bb370edf46fb10c6f3b4d5ab0d505d85f23`: 605 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
 
 | Реализованный пакет | Фактический статус |
 | --- | --- |
 | HELP-02 · задача №11 | Explain проходит все 515 полей с пустого старта без Reveal. Новые доказательства сверяются независимо. Проверены Chromium и точный APK, приёмка на Android-устройстве открыта. |
 | Пилот рекламного cooldown | Общий интервал interstitial, накопительная защита после earned и пауза после no-fill. Поведение проверено с тестовым адаптером. Проверка с реальным провайдером остаётся открытой. [Приёмка](acceptance/interstitial-cooldown.md) |
+| FEEL-01 · задача №13 | Реализован в PR №4; 169 тестов и Chromium/APK по отчёту разработчика. Сверено по коду; физический Android открыт. Сертификат нового APK отличается от предыдущего — in-place update не подтверждён. [Приёмка](acceptance/feel-01.md) |
+
 
 [Приёмка HELP-01 и ADS-01](acceptance/issues-8-9/README.md) · [Приёмка HELP-02](acceptance/issue-11/README.md) · [Реестр переноса](porting/ADOPTION_LEDGER.json).
 
@@ -421,3 +423,14 @@ Source inventory `bbaf857965f1440c48dca61c6f7375010165f4d8`: 460/460 mapped (11 
 [CONTENT-03 #17](https://github.com/DanilaH/crossmath-game/issues/17) — offline generator lab: 275 собственных задач, 56 D4 форм, 274 D4+mask; Easy Short 27/40 одна форма. Полная модель geometry graph 7×7 с 8 уравнениями: 132 anchored sets, 3 D4 класса; 9×9 sample 10 000: 7853 geometry successes, ≥417 D4 классов, не числовые головоломки. Кандидат 40 Easy Short с 9×9 и прежними eq/hole/cap; только после независимого solver/Explain и device проверки рассматривать новый банк, потом Daily extension/operation/mask experiments. No existing ID changes. [Model](porting/issuance-pilot-20261126/MEASUREMENTS.json) · [Geometry](porting/issuance-pilot-20261126/GEOMETRY_CAPACITY.json).
 
 24 source IDs связаны с предложениями, статусы и сравнения не повышены. G1, original stuck, live config и actual player difficulty остаются UNKNOWN. KIT IMPACT RESEARCH/CANDIDATE; runtime NONE.
+
+
+## 26.11.2026 · FEEL-01 фактическая реализация и следующие пилоты
+
+[FEEL-01 приёмка](acceptance/feel-01.md), gameplay a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21 / actual HEAD 57820c8c6491c8b6240aeed5cb0dfde61c858927. 15 source IDs обновлены IMPLEMENTED_UNVERIFIED/PARTIAL по diff и отчёту разработчика (169 тестов, Chromium, signed APK). Независимый повтор тестов/телефон не выполнен; новый тестовый сертификат отличается от предыдущего APK. Не удалять старую игру/сейв ради установки. Сохранены две более ранние корректировки guru-ad-protect и guru-issuance-operation-ratio-denominator, не принимать их регресс из копии developer ledger. Текущие counts: IMPLEMENTED_UNVERIFIED=49, ACCEPTED=17, ROADMAPPED=5, RESEARCHED=204, EVIDENCE_GAP=44, DEFERRED=286; MATCH=27, PARTIAL=105, MISSING=436, UNKNOWN=37. 605/605.
+
+- [DAILY-02 #18](https://github.com/DanilaH/crossmath-game/issues/18): первые 7 групп оставить, добавить 9, после 16 повторять 8..16; current 7 groups/6 unique; all 50 Daily boards close first group in one. 1440 fresh-set witness models across 90 v2 snapshots, ≤3 after fallback. No budget change: 60 for full set, 30 for date. Actual session/old and mixed saves pending.
+- [RETURN-01 #19](https://github.com/DanilaH/crossmath-game/issues/19): separate current-day streak and best, no retroactive archive credit, explicit opt-in approximate-time Android reminder, reuse existing kit recipe. No permission, SDK or payout activation without owner decision.
+- [EVENT-01 #20](https://github.com/DanilaH/crossmath-game/issues/20): optional 7 profile-day postcard, 3/6/9/12 distinct wins milestones, cosmetic only; 2560 synthetic expiry/receipt controls. 15-win variant rejected as unreachable at two/day. Preserve earned parts after expiry. Outside initial scope pending owner approval.
+
+[Daily model](porting/daily-return-pilot-20261126/MEASUREMENTS.json) · [event model](porting/daily-return-pilot-20261126/EVENT_POLICY.json). 30 IDs linked without promotion or source coverage change. Runtime NONE. KIT IMPACT REUSE/CANDIDATE.

@@ -5,9 +5,10 @@ import type { Language } from './locale';
 import { config, getPuzzle } from '../content/catalog';
 import { campaignResultStatus, rankThreshold } from '../app/model';
 import { BoardView, equationText } from './board';
-import type { MoveFeedback } from './board';
 import { Feedback } from './feedback';
-import type { AwardTone } from './feedback';
+import { acceptedFeedback, victoryFeedback } from './playFeedback';
+import type { MoveFeedback, VictoryFeedback } from './playFeedback';
+import { RewardReadout } from './rewardReadout';
 import type { GameSession, OpenOutcome } from '../app/session';
 import { hintPayment, storedSlot } from '../app/session';
 import { MetaView } from './metaView';
@@ -31,6 +32,11 @@ export class GameUi {
   private renderedLanguage?: Language;
   private moveFeedback: MoveFeedback | undefined;
   private freshRewardId: string | undefined;
+  private victory: VictoryFeedback | undefined;
+  private pendingStart: string | undefined;
+  private startFrame: number | undefined;
+  private readonly scoreReadout = new RewardReadout($('run-status'));
+  private readonly rewardReadout = new RewardReadout($('result-rewards'));
   private readonly tabScroll=new Map<RootScreen,number>();
   private get language(): Language { return this.session.state.settings.language; }
   private t(ru: string, en: string): string { return localize(this.language, ru, en); }
@@ -95,6 +101,7 @@ export class GameUi {
     $('ad-continue').onclick=()=>this.run(time=>this.ads!.reward('continue',time));
     $('next').onclick=()=>{
       this.meta.skipWorkshopReveal();
+      this.finishReadouts();
       this.run(async()=>{
         await this.ads?.beforeNext();
         await session.waitForWrite();
@@ -136,7 +143,7 @@ export class GameUi {
     $('retry').onclick=()=>this.retryAction?.();$('reload').onclick=()=>location.reload();
     this.timer=setInterval(()=>{this.tick();this.renderTime();if(this.ready)this.ads?.refresh();if(!this.busy&&this.ready&&!this.saveFailed&&session.hasDayChange())this.run(async()=>({committed:await session.refreshDay()}));else if(this.elapsed>=10)this.checkpoint();},2000);this.render();
   }
-  private leaveModal():void{for(const id of ['end-run-dialog','pause-dialog','help-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}this.blocker('user',false);this.blocker('modal',false);$('restart-confirm').hidden=true;this.board.clearSelection();window.scrollTo(0,0);}
+  private leaveModal():void{for(const id of ['end-run-dialog','pause-dialog','help-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}this.blocker('user',false);this.blocker('modal',false);$('restart-confirm').hidden=true;this.finishReadouts();this.board.clearSelection();window.scrollTo(0,0);}
 
   private requestEndRun():void {
     if (this.busy || this.saveFailed) return;
@@ -288,11 +295,20 @@ export class GameUi {
   }
   private tick():void{const now=performance.now();if(this.wasActive)this.elapsed+=(now-this.lastTime)/1000;this.lastTime=now;this.wasActive=this.ready&&!this.blocked&&!this.saveFailed&&this.session.state.meta.screen==='play'&&!this.session.state.attempt.userPaused&&this.session.state.attempt.status==='playing';}
   setReady():void{this.ready=true;this.ads?.start();this.syncNavigation();this.tick();this.render();if(this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused){this.showPause();}}
-  activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.suspend();this.meta.skipWorkshopReveal();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
+  activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.suspend();this.meta.skipWorkshopReveal();this.finishReadouts();this.moveFeedback=undefined;this.freshRewardId=undefined;this.stopStart();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
   private checkpoint():void{if(this.busy||!this.ready||this.saveFailed||this.elapsed<=0||this.session.state.attempt.status!=='playing')return;this.run(async time=>({committed:await this.session.checkpoint(time)}));}
   private run(operation:(elapsed:number)=>Promise<{committed:boolean}>,after:()=>void=()=>{},onFailure?:(error:unknown)=>void):void{
-    if(this.busy||this.session.writing)return;this.tick();const time=this.elapsed;this.busy=true;this.render();this.retryAction=()=>this.run(operation,after,onFailure);
-    void operation(time).then(result=>{if(result.committed)this.elapsed=Math.max(0,this.elapsed-time);this.saveFailed=false;$('save-error').hidden=true;this.retryAction=null;after();}).catch(error=>{
+    if(this.busy||this.session.writing)return;this.tick();const time=this.elapsed,before=this.session.state;this.busy=true;this.render();this.retryAction=()=>this.run(operation,after,onFailure);
+    void operation(time).then(result=>{
+      if(result.committed){
+        this.elapsed=Math.max(0,this.elapsed-time);
+        const next=this.session.state;
+        const attempt=next.attempt;
+        if(next.meta.screen==='play'&&attempt.status==='playing'&&attempt.boardRevision===0&&attempt.id!==before.attempt.id
+          && !Object.values(before.meta.inactive).some(slot=>slot.attempt.id===attempt.id))this.pendingStart=attempt.id;
+      }
+      this.saveFailed=false;$('save-error').hidden=true;this.retryAction=null;after();
+    }).catch(error=>{
       if (onFailure) {this.retryAction=null;onFailure(error);return;}
       this.saveFailed=true;this.board.cancel();
       for(const id of ['end-run-dialog','help-dialog','pause-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}
@@ -303,27 +319,49 @@ export class GameUi {
   private command(action:BoardAction,metadata?:{commandId:string;expectedRevision:number}):void{
     if(this.blocked||this.busy||this.session.writing||this.saveFailed)return;this.board.cancel();this.board.clearSelection();
     const identity = metadata ?? {commandId:crypto.randomUUID(), expectedRevision:this.session.state.attempt.boardRevision};
-    const cell = action.type === 'PlaceFromTray' ? action.cellId : action.type === 'MoveCell' ? action.to : undefined;
     let committedFeedback: MoveFeedback | undefined;
+    let before = this.session.state;
     this.run(async time => {
+      before = this.session.state;
       const result = await this.session.command(action, time, identity);
-      committedFeedback = result.outcome === 'applied' && result.cue !== 'none' ? {cue:result.cue, cell} : undefined;
+      committedFeedback = acceptedFeedback(action,identity.commandId,before.attempt,this.session.state.attempt,result.outcome,result.cue);
       return {committed:result.outcome === 'applied'};
-    }, () => {
-      if (committedFeedback?.cue === 'win') {
-        const award = this.markReward();
-        if (award) committedFeedback.award = award;
-      }
-      this.moveFeedback = committedFeedback;
-    });
+    }, () => this.presentMove(committedFeedback,before));
   }
 
-  private markReward(): AwardTone | undefined {
-    const receipt = this.session.state.result;
-    if (!receipt) return;
-    this.freshRewardId = receipt.id;
-    if (!receipt.fragments) return;
-    return receipt.cardCoins ? 'instrument' : 'part';
+  private presentMove(move:MoveFeedback|undefined,before:Save):void {
+    if(!move||this.disposed)return;
+    if(move.cue==='win'){
+      this.victory=victoryFeedback(before,this.session.state);
+      Object.assign(move.detail,this.victory?.detail);
+      if(!this.blocked)this.freshRewardId=this.victory?.id;
+    }
+    if(!this.blocked)this.moveFeedback=move;
+  }
+
+  private finishReadouts():void {
+    this.scoreReadout.finish();
+    this.rewardReadout.finish();
+    $('result-rank').classList.remove('rank-arrived');
+  }
+
+  private stopStart():void {
+    this.pendingStart=undefined;
+    if(this.startFrame!==undefined)cancelAnimationFrame(this.startFrame);
+    this.startFrame=undefined;
+  }
+
+  private playNewField(attemptId:string):void {
+    if(this.pendingStart!==attemptId||this.busy||this.blocked||!this.ready)return;
+    this.stopStart();
+    this.startFrame=requestAnimationFrame(()=>{
+      this.startFrame=requestAnimationFrame(()=>{
+        this.startFrame=undefined;
+        const {meta,attempt}=this.session.state;
+        if(!this.disposed&&!this.blocked&&!this.saveFailed&&meta.screen==='play'
+          &&attempt.id===attemptId&&attempt.boardRevision===0&&attempt.status==='playing')this.feedback.cue('start');
+      });
+    });
   }
 
   private showPause(): void {
@@ -500,16 +538,18 @@ export class GameUi {
   private applyHelp():void{
     if(this.busy)return;
     this.updateHelpPrice();
-    const plan=this.helpPlan,snapshot=this.helpSnapshot;
+    const plan=this.helpPlan,snapshot=this.helpSnapshot,operation=this.helpOperation;
     if(!plan||!snapshot||hintPayment(this.session.state.profile).missingCoins>0)return;let applied=false;
-    this.run(async time=>{const revision=this.session.state.revision,result=await this.session.help(this.helpKind,this.helpOperation,snapshot.boardRevision,plan,time);applied=result.outcome==='applied';
+    let before=this.session.state;
+    this.run(async time=>{before=this.session.state;const revision=before.revision,result=await this.session.help(plan.kind,operation,snapshot.boardRevision,plan,time);applied=result.outcome==='applied';
       if(!applied)$('help-description').textContent=result.outcome==='insufficient_resource'?this.t("Не хватает монет. Продолжать решать и начинать поле заново можно бесплатно.", "You need more coins for help. Keep playing or restart for free."):this.t("Поле изменилось или этот ход больше недоступен. Закройте помощь и попробуйте снова.", "The board changed or this move is no longer available. Close Help and try again.");return {committed:this.session.state.revision!==revision};
     },()=>{if(!applied)return;
-      const won = this.session.state.attempt.status === 'won';
-      const award = won ? this.markReward() : undefined;
-      const puzzle=getPuzzle(this.session.state.attempt.puzzleId);
-      $<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(puzzle,this.session.state.attempt);
-      this.showAppliedExplanation(puzzle,plan);this.feedback.cue(won?'win':this.session.state.attempt.mode==='endless'?'place':'right',false,false,award);
+      const attempt=this.session.state.attempt;
+      const puzzle=getPuzzle(attempt.puzzleId);
+      $<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(puzzle,attempt);
+      this.showAppliedExplanation(puzzle,plan);
+      this.presentMove(acceptedFeedback({type:'Help',cellId:plan.assignments[0]!.cellId},operation,before.attempt,attempt,'applied',
+        attempt.status==='won'?'win':attempt.mode==='endless'?'place':'right'),before);
     });
   }
   showRecoveryNotice():void {this.notice='recovered';this.render();}
@@ -594,8 +634,8 @@ export class GameUi {
     const context = $('play-context');
     context.hidden = a.mode !== 'daily' && a.mode !== 'free';
     context.textContent = a.mode === 'daily' ? a.dayKey ?? '' : band;
-    const move = this.moveFeedback;
-    this.moveFeedback = undefined;
+    const move = this.busy || this.blocked ? undefined : this.moveFeedback;
+    if(move)this.moveFeedback=undefined;
     this.board.update(p, a, move);
     $('lives').hidden = a.mode !== 'daily' && a.mode !== 'endless';
     const icons = $('life-icons');
@@ -607,7 +647,13 @@ export class GameUi {
     }
     $('life-count').textContent = this.t(`Жизни ${a.lives}/3`, `Lives ${a.lives}/3`);
     $('run-status').hidden = a.mode !== 'endless';
-    $('run-status').textContent = run ? `${this.t('Очки', 'Score')} ${run.score}` : '';
+    const freshReward = s.result?.id !== undefined && this.freshRewardId === s.result.id && !this.busy && !this.blocked;
+    const countReward = freshReward && !this.reduced();
+    const score = (value:number) => `${this.t('Очки', 'Score')} ${value}`;
+    const stage = s.result?.stageScore;
+    const runScore = s.result?.runScore;
+    this.scoreReadout.update(`${this.language}:${run?.id}:${run?.score}`,run ? score(run.score) : '',
+      countReward && stage && runScore !== undefined ? {from:runScore-stage,to:runScore,format:score} : undefined);
     $('run-kind').hidden = a.mode !== 'endless' || !run?.assisted;
     $('run-kind').textContent = this.t('С помощью', 'Assisted');
     $('submit').hidden=a.mode!=='endless'||a.status!=='playing';$<HTMLButtonElement>('submit').disabled=this.busy||this.blocked||this.saveFailed||Object.keys(a.placements).length!==p.tray.length||run?.status!=='active';
@@ -621,7 +667,7 @@ export class GameUi {
     if(a.mode==='endless')$('defeat-detail').textContent=this.t(`В забеге ${run?.score??0} очков. Сохраните итог или начните новый забег бесплатно.`, `Run score: ${run?.score??0}. Save your result or start a new run for free.`);$('retry-daily').textContent=a.mode==='endless'?this.t("Новый забег · бесплатно", "New run · free"):this.t("Ещё попытка · бесплатно", "Retry · free");$('finish-run').hidden=a.mode!=='endless';$<HTMLButtonElement>('finish-run').disabled=this.busy||this.saveFailed;
     const unavailable=this.busy||this.session.writing||this.blocked||this.saveFailed||a.status!=='playing';for(const id of ['help','sort'])$<HTMLButtonElement>(id).disabled=unavailable;$<HTMLButtonElement>('undo').disabled=unavailable||!a.history.length;
     const result = $('result');
-    const showResult = playing && !!s.result && !this.saveFailed;
+    const showResult = playing && !!s.result && !this.saveFailed && (!this.busy || !result.hidden);
     const arriving = result.hidden && showResult;
     result.hidden = !showResult;
     if (!showResult) { this.meta.hideInstrumentReward(); this.meta.hideWorkshopReveal(); }
@@ -639,11 +685,15 @@ export class GameUi {
         : campaignStatus === 'complete' ? this.t('Кампания завершена','Campaign completed')
         : campaignStatus === 'replay' ? this.t(`Поле ${p.campaignPosition} решено повторно`, `Board ${p.campaignPosition} solved again`)
         : endless ? this.t('Этап пройден', 'Stage cleared') : this.t('Поле решено', 'Board solved');
-      $('result-rewards').textContent = endless ? `+${quantity(this.language, reward.stageScore ?? 0, 'point')}`
-        : reward.coins ? `+${quantity(this.language, reward.coins, 'coin')}`
+      const coins=(value:number)=>`+${quantity(this.language,value,'coin')}`;
+      const rewardText = endless ? `+${quantity(this.language, reward.stageScore ?? 0, 'point')}`
+        : reward.coins ? coins(reward.coins)
         : reward.xp ? `+${reward.xp} XP`
         : campaignClosed ? '' : this.t('Решено повторно', 'Solved again');
-      if (!endless && reward.coins) $('result-rewards').prepend(menuIcon('coin'));
+      const showCoins = !endless && reward.coins > 0;
+      this.rewardReadout.update(`${reward.id}:${this.language}`,rewardText,
+        countReward && showCoins ? {from:0,to:reward.coins,format:coins} : undefined,
+        showCoins ? ()=>menuIcon('coin') : undefined);
       const nextPosition=s.profile.campaignCursor+1;
       next.textContent = a.mode === 'daily' ? this.t('В календарь', 'Back to calendar')
         : endless ? this.t('Следующий этап', 'Next stage')
@@ -659,9 +709,18 @@ export class GameUi {
       resultHome.disabled = this.busy;
       replay.disabled = this.busy || !this.session.canRestart();
       replay.hidden = endless;
-      const freshReward = this.freshRewardId === reward.id;
-      this.freshRewardId = undefined;
-      this.meta.renderResult(s, freshReward && !this.reduced(), this.busy || this.blocked);
+      if(freshReward)this.freshRewardId=undefined;
+      const victory=this.victory?.id===reward.id ? this.victory : undefined;
+      const rank=$('result-rank');
+      rank.hidden=!reward.rankUps;
+      rank.textContent=reward.rankUps ? this.t(`Ранг ${reward.rankLevel??s.profile.rank} ↑`,`Rank ${reward.rankLevel??s.profile.rank} ↑`) : '';
+      if(arriving||freshReward)rank.classList.toggle('rank-arrived',countReward&&!!reward.rankUps);
+      const quests=$('quest-progress-result');
+      quests.hidden=!victory?.quests.length;
+      quests.textContent=victory?.quests.length
+        ? [this.t('Цели дня','Daily goals'),...victory.quests.map(goal=>`${goal.from}→${goal.to}/${goal.target}`)].join(' · ') : '';
+      quests.dataset.complete=String(!!victory?.quests.some(goal=>goal.to>=goal.target));
+      this.meta.renderResult(s, countReward, this.busy || this.blocked, victory?.track);
       if (arriving) {
         $<HTMLDetailsElement>('result-details').open = false;
         if (this.ready && !this.blocked && !a.userPaused) $('result-title').focus({preventScroll: true});
@@ -672,10 +731,12 @@ export class GameUi {
     $<HTMLButtonElement>('restart').disabled=this.busy||s.meta.screen!=='play'||!this.session.canRestart();for(const id of ['home','home-from-pause','pause'])$<HTMLButtonElement>(id).disabled=this.busy||this.saveFailed;
     for (const id of ['keep-board','replace-board']) $<HTMLButtonElement>(id).disabled = this.busy || !!this.replacement?.recovery;
     if($<HTMLDialogElement>('help-dialog').open)this.updateHelpPrice();
+    if(this.reduced())this.finishReadouts();
     this.feedback.setActive(!this.blocked);this.repaint();
+    if(playing)this.playNewField(a.id);
     $('restart').textContent=a.mode==='endless'?this.t("Новый забег", "New run"):this.t("Начать заново", "Restart");$('restart-warning').textContent=a.mode==='endless'?this.t("Завершить текущий забег и начать новый? Текущий итог будет сохранён в соответствующих рекордах.", "End this run and start a new one? Your current result will count toward your record."):this.t("Начать это поле заново? Поставленные числа вернутся в лоток.", "Restart this board? The placed numbers will go back to the tray.");$('end-run').hidden=a.mode!=='endless'||run?.status==='ended'||s.meta.screen!=='play';$<HTMLButtonElement>('end-run').disabled=this.busy||this.saveFailed;
     $('mode-rules').textContent=a.mode==='endless'?this.t("Три жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.", "Three lives for the entire run. Select Check to submit a full board. A different incorrect layout costs a life. Using help counts toward the assisted record."):a.mode==='daily'?this.t("Три жизни на попытку. Новая ошибка снимает максимум одну жизнь за ход. Отмена, возврат и помощь жизнь не снимают. Повтор бесплатный.", "Three lives per attempt. A new error costs at most one life per move. Undo, returning numbers and help cost no lives. Retrying is free."):this.t("Числа сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.", "Your board is saved. There is no penalty for mistakes, and correct equations remain editable. Tap a number and a cell in either order, or drag a piece.");
   }
   onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen==='album')this.leaveWorkshop();else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
-  dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
+  dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.stopStart();this.finishReadouts();this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
 }
