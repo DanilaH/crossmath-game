@@ -1,70 +1,124 @@
-name: CI
-on: [push, pull_request]
+name: Research bootstrap (isolated branch, no game build)
+on:
+  push:
+    branches: [research/ci-native-bootstrap-20261126]
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  host:
+  wheels:
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Fetch pinned public Python wheels for Linux x86_64
+        run: |
+          set -euo pipefail
+          mkdir -p output/wheelhouse
+          python -m pip download --only-binary=:all: --dest output/wheelhouse unicorn==2.1.4 capstone==5.0.9 pyelftools==0.33
+          python -m pip install --no-index --find-links output/wheelhouse unicorn==2.1.4 capstone==5.0.9 pyelftools==0.33
+          python - <<'PY'
+          import json, platform, sys, importlib.metadata as m
+          from pathlib import Path
+          from unicorn import Uc, UC_ARCH_ARM64, UC_MODE_ARM
+          from unicorn.arm64_const import UC_ARM64_REG_X0
+          from capstone import Cs, CS_ARCH_ARM64, CS_MODE_ARM
+          from elftools.elf.elffile import ELFFile
+          code = bytes.fromhex('400580d2')
+          u = Uc(UC_ARCH_ARM64, UC_MODE_ARM)
+          u.mem_map(0x1000, 0x1000)
+          u.mem_write(0x1000, code)
+          u.emu_start(0x1000,0x1004)
+          assert u.reg_read(UC_ARM64_REG_X0)==42
+          assert list(Cs(CS_ARCH_ARM64, CS_MODE_ARM).disasm(code,0x1000))[0].mnemonic=='mov'
+          with open(sys.executable,'rb') as f: assert ELFFile(f).elfclass==64
+          report={'evidence':'TOOLCHAIN_SMOKE_ONLY','python':sys.version,'machine':platform.machine(),'versions':{n:m.version(n) for n in ('unicorn','capstone','pyelftools')},'synthetic_arm64_result':42}
+          Path('output/SMOKE.json').write_text(json.dumps(report,indent=2)+'\n')
+          PY
+          (cd output && sha256sum wheelhouse/* SMOKE.json > SHA256SUMS)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crossmath-public-native-wheels
+          path: output/
+          retention-days: 7
+          if-no-files-found: error
+  coverage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
         with:
-          node-version-file: .nvmrc
-      - name: Require read-only access to the private pinned kit
-        env:
-          KIT_READ_TOKEN: ${{ secrets.KIT_READ_TOKEN }}
-        run: |
-          if [ -z "$KIT_READ_TOKEN" ]; then
-            echo '::error::Configure KIT_READ_TOKEN with read-only Contents access to DanilaH/mini-games-kit. No production signing or ad credentials are required for this check.'
-            exit 1
-          fi
+          persist-credentials: false
+          sparse-checkout: docs/porting/ADOPTION_LEDGER.json
+          sparse-checkout-cone-mode: false
       - uses: actions/checkout@v6
         with:
           repository: DanilaH/mini-games-kit
-          ref: b1bf2026eda7dd68a5ccbc883946191e03d235af
-          path: .test-output/kit
-          token: ${{ secrets.KIT_READ_TOKEN || github.token }}
+          ref: 944f4bb370edf46fb10c6f3b4d5ab0d505d85f23
+          token: ${{ secrets.KIT_READ_TOKEN }}
           persist-credentials: false
-      - name: Pack exact private kit checkout
-        working-directory: .test-output/kit
+          path: private-kit
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            tools/verify-reference-porting.py
+            research/games/crossmath/porting/SOURCE_FEATURES.json
+      - name: Exact pinned inventory and consumer ledger
         run: |
-          npm ci --ignore-scripts --no-audit --no-fund
-          npm run build
-          npm pack --ignore-scripts --pack-destination ..
-      - name: Install without persisting a repository credential
-        run: |
-          node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz b1bf2026eda7dd68a5ccbc883946191e03d235af
-          npm install --no-audit --no-fund
-      - run: npm run check
-      - run: npm run content:verify
-      - run: node .test-output/kit/tools/bootstrap/doctor-game-guidance.mjs . --strict
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:browser
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: crossmath-ui-evidence
-          path: |
-            .test-output/ui/
-            .test-output/meta-ui/
-            .test-output/endless-ui/
-            .test-output/ads-banner/
-            .test-output/feel/
-      - run: npm run android:sync:release
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-      - uses: android-actions/setup-android@v3
-        with:
-          packages: platform-tools
-      - run: sdkmanager "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0"
-      - run: ./gradlew --no-daemon assembleDebug assembleReleaseCheck
-        working-directory: native/android
-      - run: python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --out .test-output/apk-verification
+          set -euo pipefail
+          inv=private-kit/research/games/crossmath/porting/SOURCE_FEATURES.json
+          ledger=docs/porting/ADOPTION_LEDGER.json
+          test "$(git hash-object "$inv")" = 128d208e09c1983381c6cd4dc5649d2390914ff3
+          test "$(git hash-object "$ledger")" = b78a43fde240157630906f4c3646ff59ce2948f7
+          test "$(git hash-object private-kit/tools/verify-reference-porting.py)" = 8789f8a2c0bee9034597cf9af95368a42bb1f87f
+          mkdir -p output
+          python3 private-kit/tools/verify-reference-porting.py --inventory "$inv" --ledger "$ledger" > output/COVERAGE.txt
+          cat output/COVERAGE.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: crossmath-releasecheck-NOT-PRODUCTION
-          path: |
-            native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk
-            .test-output/apk-verification/
+          name: crossmath-coverage-verifier-output
+          path: output/COVERAGE.txt
+          retention-days: 7
+  blutter:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          repository: worawit/blutter
+          ref: 4a60ac648bf448c5a7596437243bcd0b9376fdf0
+          persist-credentials: false
+          path: blutter-src
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Build public upstream tool only (no original game files)
+        working-directory: blutter-src
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config libicu-dev libcapstone-dev
+          python -m pip install pyelftools==0.33 requests
+          python - <<'PY'
+          from dartvm_fetch_build import DartLibInfo, fetch_and_build
+          from blutter import BlutterInput, cmake_blutter
+          info=DartLibInfo('3.8.1','android','arm64',True,'830f4f59e7969c70b595182826435c19')
+          fetch_and_build(info)
+          cmake_blutter(BlutterInput('/dev/null',info,'/tmp/blutter-no-donor',True,False,False))
+          PY
+          mkdir -p "$GITHUB_WORKSPACE/output/bin" "$GITHUB_WORKSPACE/output/lib"
+          exe=bin/blutter_dartvm3.8.1_android_arm64
+          test -x "$exe"
+          cp "$exe" "$GITHUB_WORKSPACE/output/bin/"
+          ldd "$exe" | tee "$GITHUB_WORKSPACE/output/ldd.txt"
+          ldd "$exe" | awk '/libicu|libcapstone/ && $3 ~ /^\// {print $3}' | while read -r lib; do cp -L "$lib" "$GITHUB_WORKSPACE/output/lib/"; done
+          git rev-parse HEAD > "$GITHUB_WORKSPACE/output/BLUTTER_COMMIT"
+          git -C dartsdk/v3.8.1 rev-parse HEAD > "$GITHUB_WORKSPACE/output/DART_COMMIT"
+          (cd "$GITHUB_WORKSPACE/output" && sha256sum bin/* lib/* BLUTTER_COMMIT DART_COMMIT ldd.txt > SHA256SUMS)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crossmath-public-blutter-tool
+          path: output/
+          retention-days: 7
+          if-no-files-found: error
