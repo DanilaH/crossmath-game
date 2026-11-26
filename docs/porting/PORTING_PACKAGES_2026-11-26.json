@@ -1,6 +1,6 @@
 {
   "schema": "crossmath-proposed-porting-packages-v1",
-  "sourceInventory": "116a2702b36af36db91ee299d45c2ab5ba2e3a5c",
+  "sourceInventory": "703fe422616901ceb86045c6def358ce35b177db",
   "ownerApproved": false,
   "packages": [
     {
@@ -273,8 +273,8 @@
     {
       "sourceFeatureId": "easy-career-top",
       "package": "P3",
-      "status": "EVIDENCE_GAP",
-      "comparison": "UNKNOWN"
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
     },
     {
       "sourceFeatureId": "easy-rank-relax",
@@ -3808,7 +3808,7 @@
       "sourceFeatureId": "easy-issuance-next-dispatch",
       "package": "P2",
       "status": "DEFERRED",
-      "comparison": "MISSING"
+      "comparison": "PARTIAL"
     },
     {
       "sourceFeatureId": "guru-feedback-capability-has-vibration-effect",
@@ -3861,6 +3861,72 @@
     {
       "sourceFeatureId": "guru-hint-strategy-missing-candidate-return",
       "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-classic-next-index",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-change-track-resume",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-saved-index-tutorial-gate",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-daily-next-classic",
+      "package": "P3",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-event-entry-resume",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-event-end-identity",
+      "package": "P5",
+      "status": "DEFERRED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-invalid-transition-null",
+      "package": "P2",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-daily-date-resume",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-issuance-tutorial-next-handoff",
+      "package": "P1",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL"
+    },
+    {
+      "sourceFeatureId": "easy-career-top-tie-first",
+      "package": "P3",
+      "status": "RESEARCHED",
+      "comparison": "MISSING"
+    },
+    {
+      "sourceFeatureId": "easy-career-playtime-whole-hours",
+      "package": "P3",
       "status": "RESEARCHED",
       "comparison": "PARTIAL"
     }

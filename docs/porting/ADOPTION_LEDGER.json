@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "116a2702b36af36db91ee299d45c2ab5ba2e3a5c",
+    "commit": "703fe422616901ceb86045c6def358ce35b177db",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -1136,17 +1136,18 @@
     {
       "id": "easy-career-top",
       "sourceFeatureId": "easy-career-top",
-      "status": "EVIDENCE_GAP",
-      "comparison": "UNKNOWN",
-      "currentImplementation": "Есть личные достижения и счётчики; привязка исходного top к UI UNKNOWN",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "currentImplementation": "Own per-mode seconds/completions and permanent local achievements; no original four-metric career threshold/Top label mapping. Original direct list consumer and UI chain now confirmed.",
       "codePath": "src/meta/career.ts",
       "stage": "P1",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Найти вызов чтения gamecareertemplate при открытии карьеры",
+      "nextAction": "Optional own career milestones under #15; derive honest local thresholds, avoid false percentile, migration only provable metrics; owner approval required.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L427",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/meta/career.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md"
       ],
       "closureAudit20261126": {
         "report": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
@@ -2887,9 +2888,12 @@
       "codePath": "src/meta/career.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить путь начисления и видимость записи в экране достижений.",
+      "nextAction": "Bounded direct B/BL census found no direct inbound calls to AskVIPAward/CollectVIPAward or GetAchievementTemplate; trace indirect entitlement/achievement consumers or lawful Android test. Do not infer dead feature or payout.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1563",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md"
+      ]
     },
     {
       "id": "guru-task-any-level",
@@ -10804,17 +10808,20 @@
       "id": "easy-issuance-next-dispatch",
       "sourceFeatureId": "easy-issuance-next-dispatch",
       "status": "DEFERRED",
-      "comparison": "MISSING",
+      "comparison": "PARTIAL",
       "originalBehavior": "EasyFun: общий GetNextGameLevelInfo делегирует выбор текущему контроллеру",
-      "currentImplementation": "Own authored content and mode routes, not IL2CPP virtual-controller protocol.",
-      "codePath": "src/content/catalog.ts",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/content/catalog.ts",
+      "currentImplementation": "Own session.next/openOffer and durable slots separate mode routes; no IL2CPP controller/vtable protocol. Preserve own API.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/app/session.ts",
       "stage": "CORE / issuance research and later separate policy",
-      "dependencies": "Resolve source mode-specific override before claiming issuance parity; preserve already assigned board and saves.",
-      "nextAction": "Keep own immutable routed content; no consumer change until mode-specific parity approved.",
+      "dependencies": "Preserve assigned board and atomic save; original four overrides now resolved.",
+      "nextAction": "Under #16, verify preview cannot consume cursor/history or commit twice; no requirement to copy controller architecture.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Exact reference controller protocol not required for current product; future issuance policy #16 owner-gated. Android source activation remains unverified.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md"
+      ]
     },
     {
       "id": "guru-feedback-capability-has-vibration-effect",
@@ -10954,6 +10961,174 @@
       "stage": "P1 / research, product/device decision separate",
       "nextAction": "Retain no-charge rejection for missing token; regression stale snapshot/inventory + repeated operation ID.",
       "reason": "Original isolated branch and static call-chain evidence, not Android/live or product acceptance."
+    },
+    {
+      "id": "easy-issuance-classic-next-index",
+      "sourceFeatureId": "easy-issuance-classic-next-index",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Classic: Next увеличивает индекс и сохраняет gameType/gameLevel",
+      "currentImplementation": "Campaign settlement advances campaignCursor on the matching win; Free has independent track progression and own bank rotation.",
+      "codePath": "src/app/model.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/app/model.ts",
+      "stage": "P2 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "Retain immutable assignment; test exact once advance, preview/restart and terminal campaign. #16",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29"
+    },
+    {
+      "id": "easy-issuance-change-track-resume",
+      "sourceFeatureId": "easy-issuance-change-track-resume",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "ChangeRelax/ChangeChallenge выбирают сохранённый индекс для GameLevel 0/1",
+      "currentImplementation": "Relax/Challenge have own freeProgress and mode slots; no original numeric GameLevel switching protocol.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/app/session.ts",
+      "stage": "P2 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "Preserve saved assignments and unlocks; test switch away/back with unsolved and won slots. #16",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29"
+    },
+    {
+      "id": "easy-issuance-saved-index-tutorial-gate",
+      "sourceFeatureId": "easy-issuance-saved-index-tutorial-gate",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Выбор сохранённого индекса ниже tutorialCount выдаёт Tutorial, иначе Classic",
+      "currentImplementation": "Own first 15 authored campaign fields and unlock policy; no original tutorialCount routing.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/content/catalog.ts",
+      "stage": "P1 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "Do not copy fixture or original tutorial count; test own fresh and migrated unlock boundary. #16",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29"
+    },
+    {
+      "id": "easy-issuance-daily-next-classic",
+      "sourceFeatureId": "easy-issuance-daily-next-classic",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Daily Next и ChangeToClassic возвращают сохранённый ClassicGameLevel и его индекс",
+      "currentImplementation": "session.next() after Daily navigates to calendar, not Classic. This is a deliberate current UX difference, not a defect.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/app/session.ts",
+      "stage": "P3 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "Keep current calendar route unless owner approves change after Daily. #18",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Owner has not approved replacing current Daily result navigation."
+    },
+    {
+      "id": "easy-issuance-event-entry-resume",
+      "sourceFeatureId": "easy-issuance-event-entry-resume",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Открытие Event из другого режима использует сохранённый индекс; из Event текущий индекс",
+      "currentImplementation": "Own parked slots for Campaign/Free/Daily/Endless; no shipped reference Event level controller.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/app/session.ts",
+      "stage": "P5 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "On #20 use versioned event ID and stored assignment/index, validate active/expired and receipt. Test resume after reload.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Event system not selected for first release; separate owner-gated package."
+    },
+    {
+      "id": "easy-issuance-event-end-identity",
+      "sourceFeatureId": "easy-issuance-event-end-identity",
+      "status": "DEFERRED",
+      "comparison": "MISSING",
+      "originalBehavior": "Event Next увеличивает индекс только до последнего поля, затем возвращает тот же объект",
+      "currentImplementation": "No shipped Event-level cursor; own Endless is a different mode and not evidence of event parity.",
+      "codePath": "src/meta/career.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/meta/career.ts",
+      "stage": "P5 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "On #20 prove no wrap/no extra payout at last field; explicit terminal result, reopen safe. Do not copy object identity as API.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Event system not selected for first release; separate owner-gated package."
+    },
+    {
+      "id": "easy-issuance-invalid-transition-null",
+      "sourceFeatureId": "easy-issuance-invalid-transition-null",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Неподдерживаемые действия контроллера возвращают null, не новое поле",
+      "currentImplementation": "Own session.next() guards non-won, busy and terminal conditions, returns false; no original null/enum protocol.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/app/session.ts",
+      "stage": "P2 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "Use typed invalid/unavailable result; check no cursor, history, wallet or attempt changes. #16",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29"
+    },
+    {
+      "id": "easy-issuance-daily-date-resume",
+      "sourceFeatureId": "easy-issuance-daily-date-resume",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "ChangeToDaily использует LastDailyChallengeDate и DailyDateToInt, GameLevel=1",
+      "currentImplementation": "Own date-specific assignment in openDaily and durable daily:<day> slot; no original LastDailyChallengeDate conversion.",
+      "codePath": "src/app/session.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/app/session.ts",
+      "stage": "P3 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "Keep immutable dated assignment; test old dates, restart, zone/expiry and selected day. #18",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29"
+    },
+    {
+      "id": "easy-issuance-tutorial-next-handoff",
+      "sourceFeatureId": "easy-issuance-tutorial-next-handoff",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Tutorial Next: первые два индекса special-case, далее граница tutorialCount−1",
+      "currentImplementation": "Own Campaign sequence and authored onboarding; not original first-index special transitions.",
+      "codePath": "src/content/catalog.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/content/catalog.ts",
+      "stage": "P1 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "Fresh/legacy onboarding transition tests without copying donor tutorial count. #16",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29"
+    },
+    {
+      "id": "easy-career-top-tie-first",
+      "sourceFeatureId": "easy-career-top-tie-first",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Career Top: одинаковый максимальный допустимый положительный порог сохраняет первую строку",
+      "currentImplementation": "Local stats and achievements exist, no reference CareerTop row selection.",
+      "codePath": "src/meta/career.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/meta/career.ts",
+      "stage": "P3 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "If #15 approved, choose stable own milestone IDs and deterministic tie policy, use actual local metrics. No fake Top percentile.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29"
+    },
+    {
+      "id": "easy-career-playtime-whole-hours",
+      "sourceFeatureId": "easy-career-playtime-whole-hours",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Career PlayTime использует целые часы из TotalPlaySecond",
+      "currentImplementation": "ModeStats.seconds stores seconds; no original whole-hour career Top threshold consumer.",
+      "codePath": "src/meta/career.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/38489056d0dad1d36157682729a086683b44093b/src/meta/career.ts",
+      "stage": "P3 / owner-gated research proposal",
+      "dependencies": "Preserve existing immutable assignment, atomic save and owner-approved scope; source native isolated only.",
+      "nextAction": "If #15 approved, derive whole hours from retained seconds; 3599/3600/3601 tests, preserve partial history.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+      "reviewedVersion": "0.5.24 / 29"
     }
   ],
   "latestReview": {
@@ -12459,5 +12634,41 @@
       "ledgerCommit": "dc4289e3ddd9465616e7183fc2cfbb9bfa1ee8ff",
       "qualification": "Final evidence-only refresh; identical IDs/statuses/comparison, connector validation repeated."
     }
+  },
+  "easyfunModeCareer20261126": {
+    "sourceInventoryCommit": "703fe422616901ceb86045c6def358ce35b177db",
+    "sourceCount": 621,
+    "reviewedHead": "38489056d0dad1d36157682729a086683b44093b",
+    "version": "0.5.24 / 29",
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "sourceReport": "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+    "newIds": [
+      "easy-issuance-classic-next-index",
+      "easy-issuance-change-track-resume",
+      "easy-issuance-saved-index-tutorial-gate",
+      "easy-issuance-daily-next-classic",
+      "easy-issuance-event-entry-resume",
+      "easy-issuance-event-end-identity",
+      "easy-issuance-invalid-transition-null",
+      "easy-issuance-daily-date-resume",
+      "easy-issuance-tutorial-next-handoff",
+      "easy-career-top-tie-first",
+      "easy-career-playtime-whole-hours"
+    ],
+    "refinedIds": [
+      "easy-issuance-next-dispatch",
+      "easy-career-top"
+    ],
+    "openId": "easy-achievement-vip",
+    "native": {
+      "transitions": 41,
+      "dispatcher": 8,
+      "career": 45,
+      "hours": 9,
+      "total": 103,
+      "negativeControls": 1,
+      "byteIdenticalRuns": 2
+    },
+    "scope": "Native isolated original with fixtures, no original Android or product code run. No implementation, economy, runtime or save change. Daily calendar route intentionally preserved."
   }
 }
