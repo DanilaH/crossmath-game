@@ -1,6 +1,6 @@
 # Crossmath project decisions
 
-Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `14939d46dc197b7c8ac04d230ce80c3663c06fd3`: 519 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
+Crossmath 0.5.24 / 29; actual developer HEAD `04576ec2239e840176a1a412c06e82aa7b9253cb`, gameplay/artifact source `d37cd305f597d38074929af1fbe3080aeac13549`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `944f4bb370edf46fb10c6f3b4d5ab0d505d85f23`: 605 IDs. [Consolidation](porting/RESEARCH_CONSOLIDATION_2026-11-25.md) and [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
 
 Guidance snapshot SHA: 469928d03f4bae5053e23db26e82187bedbc252e
 Runtime source: @danilah/mini-games-kit at b1bf2026eda7dd68a5ccbc883946191e03d235af
