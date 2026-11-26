@@ -1,0 +1,92 @@
+[
+  {
+    "profile": "today-control",
+    "viewport": [
+      390,
+      844
+    ],
+    "monthBox": {
+      "x": 10,
+      "y": 363.140625,
+      "width": 370,
+      "height": 76
+    },
+    "overflow": false,
+    "actualCompletedDates": 0
+  },
+  {
+    "profile": "today-control",
+    "viewport": [
+      320,
+      568
+    ],
+    "monthBox": {
+      "x": 10,
+      "y": 363.140625,
+      "width": 300,
+      "height": 86.484375
+    },
+    "overflow": false,
+    "actualCompletedDates": 0
+  },
+  {
+    "profile": "feb28",
+    "viewport": [
+      390,
+      844
+    ],
+    "monthBox": {
+      "x": 10,
+      "y": 363.140625,
+      "width": 370,
+      "height": 76
+    },
+    "overflow": false,
+    "actualCompletedDates": 28
+  },
+  {
+    "profile": "feb28",
+    "viewport": [
+      320,
+      568
+    ],
+    "monthBox": {
+      "x": 10,
+      "y": 363.140625,
+      "width": 300,
+      "height": 76
+    },
+    "overflow": false,
+    "actualCompletedDates": 28
+  },
+  {
+    "profile": "feb29",
+    "viewport": [
+      390,
+      844
+    ],
+    "monthBox": {
+      "x": 10,
+      "y": 363.140625,
+      "width": 370,
+      "height": 76
+    },
+    "overflow": false,
+    "actualCompletedDates": 29
+  },
+  {
+    "profile": "feb29",
+    "viewport": [
+      320,
+      568
+    ],
+    "monthBox": {
+      "x": 10,
+      "y": 363.140625,
+      "width": 300,
+      "height": 76
+    },
+    "overflow": false,
+    "actualCompletedDates": 29
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "3": {
+    "wins": 3,
+    "result": "Поле решено\n\n+10 монет\n\nСледующее поле\n⋯",
+    "caption": "",
+    "unlockedModes": [
+      "free"
+    ],
+    "balance": 150,
+    "reward": "Рамка счётов · 1/4",
+    "details": "За поле: +10\n\nОпыт: +10\n\nНовых деталей: 1 · всего 1 / 48\n\nОткрыта свободная игра",
+    "home": "Кампания\n\nПоле 4\n·\n+\n5\n=\n9\nПродолжить\n›\n20\nЗадача дня\n20 ноября · После 5 разных побед\n›\nКалендарь задач\nМастерская\nСчёты · 1 из 4 частей\n›\nВсе режимы\n›",
+    "modes": "Режимы\nКампания\nПоля по порядку\n›\nСпокойная игра\nБез потери жизней\n›\nИспытание\nПосле 15 разных побед\n›\nEndless\nПосле 15 разных побед\n›\nГотово",
+    "available": {
+      "free-open": true,
+      "challenge-open": false,
+      "endless-open": false
+    },
+    "destination": {
+      "mode": "free",
+      "track": "relax",
+      "day": null
+    }
+  },
+  "5": {
+    "wins": 5,
+    "result": "Поле решено\n\nОткрыты Daily и задания дня\n\n+10 монет\n\nСледующее поле\n⋯",
+    "caption": "Открыты Daily и задания дня",
+    "unlockedModes": [
+      "daily"
+    ],
+    "balance": 170,
+    "reward": null,
+    "details": "За поле: +10\n\nОпыт: +10\n\nОткрыты Daily и задания дня",
+    "home": "Кампания\n\nПоле 6\n3\n+\n5\n=\n·\nПродолжить\n›\n20\nЗадача дня\n20 ноября · 3 жизни\n›\nКалендарь задач\nМастерская\nСчёты · 2 из 4 частей\n›\nВсе режимы\n›",
+    "modes": "Режимы\nКампания\nПоля по порядку\n›\nСпокойная игра\nБез потери жизней\n›\nИспытание\nПосле 15 разных побед\n›\nEndless\nПосле 15 разных побед\n›\nГотово",
+    "available": {
+      "free-open": true,
+      "challenge-open": false,
+      "endless-open": false
+    },
+    "destination": {
+      "mode": "daily",
+      "track": null,
+      "day": "2026-11-20"
+    }
+  },
+  "15": {
+    "wins": 15,
+    "result": "Поле решено\n\nОткрыт Endless\n\n+15 монет\n\nСледующее поле\n⋯",
+    "caption": "Открыт Endless",
+    "unlockedModes": [
+      "endless"
+    ],
+    "balance": 395,
+    "reward": null,
+    "details": "За поле: +15\n\nОпыт: +15\n\nОткрыт Endless\n\nЗнак: За работу",
+    "home": "Кампания\n\nПоле 16\n6\n−\n·\n=\n3\nПродолжить\n›\n20\nЗадача дня\n20 ноября · 3 жизни\n›\nКалендарь задач\nМастерская\nСчётные палочки · 1 из 4 частей\n›\nВсе режимы\n›",
+    "modes": "Режимы\nКампания\nПоля по порядку\n›\nСпокойная игра\nБез потери жизней\n›\nИспытание\nПоля повышенной сложности\n›\nEndless\nПроверка после заполнения\n›\nГотово",
+    "available": {
+      "free-open": true,
+      "challenge-open": true,
+      "endless-open": true
+    },
+    "destination": {
+      "mode": "free",
+      "track": "challenge",
+      "day": null
+    }
+  }
+}

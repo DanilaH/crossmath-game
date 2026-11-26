@@ -1,0 +1,3798 @@
+{
+  "date": "2026-11-22",
+  "build": {
+    "repository": "DanilaH/crossmath-game",
+    "codeCommit": "297feadd480ceca40ba2dceaefd2a7987c86ae3a",
+    "artifactSource": "297feadd480ceca40ba2dceaefd2a7987c86ae3a",
+    "version": "0.5.20",
+    "versionCode": 25,
+    "runtimeKit": "469928d03f4bae5053e23db26e82187bedbc252e",
+    "branchHead": "1d3dae920de3cf14cc2ee7744c98f19fb44bb344",
+    "apkSha256": "77472917177324698fd1813c5f047fd3d8d031b10fc56afaf14e8c72cddf3a5b",
+    "apkPackage": "com.danilah.crossmath.themecheck",
+    "webReleaseHashes": {
+      "index.html": "19f01235cb6d97d18e536fa2121109399eb364bbdd6c50d1f7837b3fbf537927",
+      "native-build.json": "d6776c22b4d785acafac6f324de6e51d9700f8d00340e5638b59090fc0a0fc70",
+      "assets/rubik-latin-wght-normal-CnQIisVs.woff2": "691cd1d9b4c0cdf31a1dcf04259c86f92c85e69f6622abab7964d81e36890691",
+      "assets/web-BM7xF5pS.js": "874bbd026b2a3757b6c7bedc1bd163f0c735a3e0a943605c9853f660d828d658",
+      "assets/index-CZ4gObCW.css": "4d78c8a34e006151e26c5c3f8c24d5ccc3c847e189407643a07e8065aace229b",
+      "assets/dist-CMedSjkm.js": "067d9ca66629f984cf538346471032b4b24f9acd1cb914834126e2b88d3250fe",
+      "assets/index-CC5OCGXM.js": "9f6a9f6184ffe98c2dc02ebb91c3a968a0bf33ad9285555bfbfa34991bc8e111",
+      "assets/rubik-cyrillic-wght-normal-DveCct9I.woff2": "bdb2b33ab916e9e7b42edb61f8aea5f5dd83ad773d6ee4e9b55665daf8954ce8",
+      "licenses/Rubik-OFL.txt": "46a250495a963b0b84f2736c0185d0e3af8df9d23427bd425b92a8ece020283c"
+    }
+  },
+  "browser": "Chromium 141.0.7390.37 touch emulation",
+  "phone": "UNKNOWN",
+  "checks": {
+    "unitTests": 113,
+    "contentVerification": "PASS",
+    "releaseRebuild": "byte-identical for all release entries in dist"
+  },
+  "existingUiSuites": {
+    "ui": {
+      "status": "PASS",
+      "browser": "141.0.7390.37",
+      "checks": [
+        "first field: cell-first keyboard interaction and durable result",
+        "cold reload preserves result and pays once",
+        "field 7: distinct fives, atomic swap, exact undo and cold restore",
+        "field 10: intersection explanation, one charge, undo preserves payment",
+        "U2: second conflict is announced with axis and actual values; selecting the earlier line reads that conflict",
+        "field 12: editable valid row, tap/drag swap, repeat pays zero",
+        "first 25 campaign fields completed using real UI interactions",
+        "fields 1/12/25 have connected grids and their Next actions fit 320×568 and 390×844; the final touch does not click through",
+        "dense touch drag shows an unobscured target; cancellation clears the preview and preserves inventory",
+        "dark theme and reduced motion settings persist",
+        "bottom tools stay reachable at 320×568 at 200% while a dense board scrolls independently",
+        "idle first-move demonstration is presentation-only and cancels on user input",
+        "no uncaught page errors"
+      ]
+    },
+    "meta-ui": {
+      "status": "PASS",
+      "browser": "141.0.7390.37",
+      "checks": [
+        "frame in tray, direct abacus inspection, same result on close and cold reload; no duplicate grant",
+        "fresh profile: unlocks at 3/5; fifth win creates missions without retroactive credit; Free/campaign slots restore",
+        "one campaign CTA after five wins; direct Daily opens today; home actions fit on 320×568 and 390×844",
+        "actual UI Daily v2: +105 breakdown, three lives, dated completion, cold restore pays once",
+        "eighth distinct win: +20 card receipt, four visible abacus layers and accessible part list",
+        "320×568 at 200% root font: workshop return and coordinate taps reach Relax without a swipe; campaign owns its history and receipt",
+        "profile: active duration floors total seconds for display and leaves saved precision intact",
+        "fixed profile zone, three missed days advance one issuance, past/completed/future dates remain distinct",
+        "labelled 228/229 fixtures: complete 12-card album stays available, no 49th fragment",
+        "U1: Russian and English cold starts, safe default focus, Escape and Keep restore trigger and tokens, confirmed replacement, failed write and explicit retry",
+        "field 147: board scroll stays inside the play area, all 28 numbers on tall screen, tray paging + pan preserves token selection and order"
+      ]
+    },
+    "endless-ui": {
+      "status": "PASS",
+      "browser": "141.0.7390.37",
+      "checks": [
+        "actual fresh-profile campaign 1–15, Endless locked at 14 and unlocked at 15",
+        "pre-submit neutral board, explicit scoring, one rejected-layout penalty, free repeat/undo, cold result and carried lives",
+        "parked mode exact restore, explicit paid reveal taints whole run, three distinct stages earn permanent badge and assisted record",
+        "new solo run has separate record; repeated canonical ID still earns stage score, no base reward or repeated badge",
+        "three distinct rejected layouts stop run at zero; free new run resets run identity/lives without wallet debit",
+        "RU/EN switch and cold persistence, localized board/help/mission/calendar/album/profile/accessibility copy, timer hidden in Endless, optional ads absent without provider"
+      ]
+    }
+  },
+  "groups": {
+    "seed": {
+      "screens": {
+        "01-first-board": {
+          "text": "2\n3\n+\n=\n\nПоставьте число в пустую клетку\n\n5\nОтмена\nСортировка\nПомощь",
+          "font": [],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "",
+              false,
+              56
+            ],
+            [
+              "5",
+              false,
+              48
+            ],
+            [
+              "undo",
+              true,
+              48
+            ],
+            [
+              "sort",
+              false,
+              48
+            ],
+            [
+              "return",
+              true,
+              48
+            ],
+            [
+              "help",
+              false,
+              48
+            ]
+          ]
+        },
+        "02-home-locked": {
+          "text": "Кампания\n\nПоле 1\n2\n+\n3\n=\n·\nПродолжить\n›\n01\nЗадача дня\n1 ноября · После 5 разных побед\n›\nКалендарь задач\nМастерская\nПосле 3 разных побед\n›\nВсе режимы\n›",
+          "font": [
+            [
+              "Поле 1",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Задача дня",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Мастерская",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "continue-game",
+              false,
+              54
+            ],
+            [
+              "daily-primary",
+              true,
+              70
+            ],
+            [
+              "calendar-open",
+              true,
+              48
+            ],
+            [
+              "album-open",
+              true,
+              71
+            ],
+            [
+              "modes-open",
+              false,
+              59
+            ]
+          ]
+        },
+        "03-modes-locked": {
+          "text": "Режимы\nКампания\nПоля по порядку\n›\nСпокойная игра\nПосле 3 разных побед\n›\nИспытание\nПосле 15 разных побед\n›\nEndless\nПосле 15 разных побед\n›\nГотово",
+          "font": [
+            [
+              "Режимы",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Кампания",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Спокойная игра",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Испытание",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "campaign-open",
+              false,
+              54
+            ],
+            [
+              "free-open",
+              true,
+              54
+            ],
+            [
+              "challenge-open",
+              true,
+              54
+            ],
+            [
+              "endless-open",
+              true,
+              54
+            ],
+            [
+              "close-modes",
+              false,
+              48
+            ]
+          ]
+        },
+        "win-1": {
+          "text": "Поле решено\n\n+10 монет\n\nСледующее поле\n⋯",
+          "font": [
+            [
+              "Поле решено",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "next",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "win-3": {
+          "text": "Поле решено\n\nНовый режим · Спокойная игра\n\n+10 монет\n\nСледующее поле\n⋯",
+          "font": [
+            [
+              "Поле решено",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "next",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "win-5": {
+          "text": "Поле решено\n\nНовый режим · Задача дня\n\n+10 монет\n\nСледующее поле\n⋯",
+          "font": [
+            [
+              "Поле решено",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "next",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "win-8": {
+          "text": "Поле решено\n\n+30 монет\n\nСледующее поле\n⋯",
+          "font": [
+            [
+              "Поле решено",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "next",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "win-15": {
+          "text": "Поле решено\n\nНовые режимы · Испытание и Endless\n\n+15 монет\n\nСледующее поле\n⋯",
+          "font": [
+            [
+              "Поле решено",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "next",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    "routes": {
+      "screens": {
+        "04-historic-receipt": {
+          "text": "Поле решено\n\nНовый режим · Спокойная игра\n\n+10 монет\n\nСледующее поле\n⋯",
+          "font": [
+            [
+              "Поле решено",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "next",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "05-historic-card": {
+          "text": "Счёты\n\nСобрано · 4/4\n\n✓ рама\n✓ спицы\n✓ левые костяшки\n✓ правые костяшки\nК результату",
+          "font": [
+            [
+              "Счёты",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "close-card",
+              false,
+              48
+            ]
+          ]
+        },
+        "historicAward": {
+          "badge": "Рамка счётов · 1/4",
+          "earnedParts": 4,
+          "receiptParts": 1,
+          "shelf": 4
+        },
+        "06-reward-breakdown": {
+          "text": "Поле решено\n\nНовый режим · Спокойная игра\n\n+10 монет\n\nСледующее поле\n⋯\n\nЗа поле: +10\n\nОпыт: +10\n\nНовых деталей: 1 · всего 1 / 48\n\nНовый режим · Спокойная игра\n\nНа главной нажмите «Все режимы».\n\nПовторить",
+          "font": [
+            [
+              "Поле решено",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "next",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "07-home-open": {
+          "text": "Кампания\n\nПоле 4\n·\n+\n5\n=\n9\nПродолжить\n›\n01\nЗадача дня\n1 ноября · 3 жизни\n›\nКалендарь задач\nМастерская\nСчётные палочки · 0/4\n›\nВсе режимы\n›",
+          "font": [
+            [
+              "Поле 4",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Задача дня",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Мастерская",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "campaign-primary",
+              false,
+              54
+            ],
+            [
+              "daily-primary",
+              false,
+              70
+            ],
+            [
+              "calendar-open",
+              false,
+              48
+            ],
+            [
+              "album-open",
+              false,
+              71
+            ],
+            [
+              "modes-open",
+              false,
+              59
+            ]
+          ]
+        },
+        "08-workshop": {
+          "text": "Мастерская счёта\n\n1 из 12 приборов\n\n← На главную\nНа верстаке\nСчётные палочки\n0 / 4 частей\nНовых полей до детали: 5\nСчёты\n4 / 4 частей\nСчётные палочки\n0 / 4 частей\nНабор гирь\n0 / 4 частей\nРычажные весы\n0 / 4 частей\nСкладной метр\n0 / 4 частей\nЦиркуль\n0 / 4 частей\nТранспортир\n0 / 4 частей\nШтангенциркуль\n0 / 4 частей\nЧасовой циферблат\n0 / 4 частей\nЗубчатая передача\n0 / 4 частей\nМеханический счётчик\n0 / 4 частей\nЧертёжный пантограф\n0 / 4 частей",
+          "font": [
+            [
+              "Мастерская счёта",
+              "Georgia, serif"
+            ],
+            [
+              "Счётные палочки",
+              "Georgia, serif"
+            ],
+            [
+              "Счёты",
+              "Georgia, serif"
+            ],
+            [
+              "Счётные палочки",
+              "Georgia, serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "album-back",
+              false,
+              48
+            ],
+            [
+              "workbench",
+              false,
+              145
+            ],
+            [
+              "instrument-card-abacus",
+              false,
+              221
+            ],
+            [
+              "instrument-card-counting_rods",
+              false,
+              221
+            ],
+            [
+              "instrument-card-weights",
+              false,
+              221
+            ],
+            [
+              "instrument-card-balance",
+              false,
+              221
+            ],
+            [
+              "instrument-card-folding_rule",
+              false,
+              221
+            ],
+            [
+              "instrument-card-dividers",
+              false,
+              221
+            ],
+            [
+              "instrument-card-protractor",
+              false,
+              221
+            ],
+            [
+              "instrument-card-caliper",
+              false,
+              221
+            ],
+            [
+              "instrument-card-dial",
+              false,
+              221
+            ],
+            [
+              "instrument-card-gears",
+              false,
+              221
+            ],
+            [
+              "instrument-card-counter",
+              false,
+              242
+            ],
+            [
+              "instrument-card-pantograph",
+              false,
+              242
+            ]
+          ]
+        },
+        "09-workbench": {
+          "text": "Счётные палочки\n\nДальше — лоток\n\nлоток\nединицы\nпятёрки\nдесятки\nВ мастерскую",
+          "font": [
+            [
+              "Счётные палочки",
+              "Georgia, serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "close-card",
+              false,
+              48
+            ]
+          ]
+        },
+        "10-profile": {
+          "text": "Профиль\n← На главную\nРанг 1\n85 / 100 XP\n›\nПоследнее достижение\n\nПервый экспонат\n\nРекорды Endless\nСамостоятельно\n—\nС помощью\n—\n\nЗавершите забег Endless. Подсказки учитываются в отдельном рекорде.\n\nКампания\n3/240\nЗадачи дня\n0\nПриборы\n1/12\nСтатистика по режимам\nДостижения · 2/12",
+          "font": [
+            [
+              "Профиль",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Ранг 1",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Последнее достижение",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Рекорды Endless",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "profile-back",
+              false,
+              48
+            ],
+            [
+              "profile-rank",
+              false,
+              62
+            ],
+            [
+              "Статистика по режимам",
+              false,
+              48
+            ],
+            [
+              "Достижения · 2/12",
+              false,
+              48
+            ]
+          ]
+        },
+        "11-rank": {
+          "text": "Ранг 1\n\n85 / 100 XP\n\nДо следующего ранга: 15 XP\n\nЗа повышение: +60 монет\n\nРазных решённых полей: 8\n\nПродолжить",
+          "font": [
+            [
+              "Ранг 1",
+              "Georgia, serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "close-card",
+              false,
+              48
+            ]
+          ]
+        },
+        "12-stats": {
+          "text": "Статистика по режимам\n\nРазных полей 8 · Полных планов дня 0\n\nКампания\nПопытки\n3\nЗавершения\n3\nАктивное время\n0 с\nОшибки\n0\nОтмены\n0\nПерезапуски\n0\nОбъяснения\n0\nРаскрытия чисел\n0\nСвободная игра\nПопытки\n5\nЗавершения\n5\nАктивное время\n5 с\nОшибки\n0\nОтмены\n0\nПерезапуски\n0\nОбъяснения\n0\nРаскрытия чисел\n0\nDaily\nПопытки\n0\nЗавершения\n0\nАктивное время\n0 с\nОшибки\n0\nОтмены\n0\nПерезапуски\n0\nОбъяснения\n0\nРаскрытия чисел\n0\nEndless\nПопытки\n0\nЗавершения\n0\nАктивное время\n0 с\nОшибки\n0\nОтмены\n0\nПерезапуски\n0\nОбъяснения\n0\nРаскрытия чисел\n0",
+          "font": [],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "Статистика по режимам",
+              false,
+              48
+            ]
+          ]
+        },
+        "13-badges": {
+          "text": "Достижения · 2/12\n✓ Первая запись\n2026-11-01\nЗа работу\n8 / 15\nПолсотни\n8 / 50\nСотня\n8 / 100\nТри даты\n0 / 3\nСтраница календаря\n0 / 12\nПлан выполнен\n0 / 3\nДлинная партия\n0 / 3\n✓ Первый экспонат\n2026-11-01\nПолная полка\n1 / 4\nПятый ранг\n1 / 5\nСобрана мастерская\n1 / 12",
+          "font": [
+            [
+              "✓ Первая запись",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "За работу",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Полсотни",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Сотня",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "Достижения · 2/12",
+              false,
+              48
+            ]
+          ]
+        },
+        "14-calendar": {
+          "text": "СЧЁТНАЯ МАСТЕРСКАЯ\n\nКалендарь задач\n← На главную\n01.11\nСегодня\nИграть · 3 жизни\n›\n11\n2026\nНоябрь 2026 · 0/30\nРешите задачи за все дни месяца\nЗадания дня · 2/3\nСледующие даты",
+          "font": [
+            [
+              "Календарь задач",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "01.11",
+              "system-ui, sans-serif"
+            ],
+            [
+              "Сегодня",
+              "system-ui, sans-serif"
+            ],
+            [
+              "Ноябрь 2026 · 0/30",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "calendar-back",
+              false,
+              48
+            ],
+            [
+              "daily-2026-11-01",
+              false,
+              68
+            ],
+            [
+              "Задания дня · 2/3",
+              false,
+              48
+            ],
+            [
+              "",
+              true,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              true,
+              48
+            ],
+            [
+              "Следующие даты",
+              false,
+              48
+            ],
+            [
+              "daily-2026-11-02",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-03",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-04",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-05",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-06",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-07",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-08",
+              true,
+              92
+            ]
+          ]
+        },
+        "15-upcoming": {
+          "text": "Следующие даты\n02.11\nБудет доступно\n03.11\nБудет доступно\n04.11\nБудет доступно\n05.11\nБудет доступно\n06.11\nБудет доступно\n07.11\nБудет доступно\n08.11\nБудет доступно",
+          "font": [
+            [
+              "02.11",
+              "system-ui, sans-serif"
+            ],
+            [
+              "03.11",
+              "system-ui, sans-serif"
+            ],
+            [
+              "04.11",
+              "system-ui, sans-serif"
+            ],
+            [
+              "05.11",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "Следующие даты",
+              false,
+              48
+            ],
+            [
+              "daily-2026-11-02",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-03",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-04",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-05",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-06",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-07",
+              true,
+              92
+            ],
+            [
+              "daily-2026-11-08",
+              true,
+              92
+            ]
+          ]
+        },
+        "16-missions": {
+          "text": "Задания дня · 2/3\nРешите поле\n✓ +10\nРешите сегодняшнюю задачу\n0 / 1\nСоберите 4 уравнения\n✓ +10\n\nЗа каждую цель +10, за весь план ещё +30 монет.",
+          "font": [
+            [
+              "✓ +10",
+              "system-ui, sans-serif"
+            ],
+            [
+              "0 / 1",
+              "system-ui, sans-serif"
+            ],
+            [
+              "✓ +10",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "Задания дня · 2/3",
+              false,
+              48
+            ],
+            [
+              "Решите поле\n✓ +10",
+              true,
+              48
+            ],
+            [
+              "Решите сегодняшнюю задачу\n0 / 1",
+              false,
+              48
+            ],
+            [
+              "Соберите 4 уравнения\n✓ +10",
+              true,
+              48
+            ]
+          ]
+        },
+        "17-daily": {
+          "text": "2026-11-01\n\n♥♥♥\nЖизни 3/3\n\n13\n16\n7\n5\n15\n6\n1\n10\n12\n4\n11\n13\n1\n−\n=\n−\n=\n−\n=\n−\n=\n−\n=\n−\n=\n−\n=\n+\n=\n×\n=\n+\n=\n−\n=\n+\n=\n−\n=\n+\n=\n−\n=\n−\n=\n−\n=\n\n2\n26\n14\n20\n4\n25\n5\n21\n8\n6\n2\n36\n24\n3\n7\n9\n9\nОтмена\nСортировка\nПомощь",
+          "font": [],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "2",
+              false,
+              48
+            ]
+          ]
+        },
+        "18-daily-result": {
+          "text": "Поле решено\n\nНовый ранг: 2\n\n+145 монет\n\nВ календарь\n⋯",
+          "font": [
+            [
+              "Поле решено",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "next",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "19-history": {
+          "text": "← Режимы\nКампания\nПродолжить · Поле 16\nРезультат поля 15\nПройденные поля\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\nГотово",
+          "font": [
+            [
+              "Кампания",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "mode-back",
+              false,
+              48
+            ],
+            [
+              "campaign-continue",
+              false,
+              48
+            ],
+            [
+              "last-result",
+              false,
+              48
+            ],
+            [
+              "Пройденные поля",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-001",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-002",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-003",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-004",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-005",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-006",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-007",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-008",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-009",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-010",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-011",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-012",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-013",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-014",
+              false,
+              48
+            ]
+          ]
+        },
+        "replayNext": {
+          "label": "Следующее поле",
+          "from": 1,
+          "to": "Поле 16",
+          "cursor": 15
+        },
+        "20-relax": {
+          "text": "Легко\n\n1\n7\n9\n2\n3\n1\n12\n×\n=\n÷\n=\n+\n=\n×\n=\n×\n=\n+\n=\n−\n=\n−\n=\n\n11\n2\n6\n8\n4\n5\n10\n3\nОтмена\nСортировка\nПомощь",
+          "font": [],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "11",
+              false,
+              48
+            ],
+            [
+              "2",
+              false,
+              48
+            ],
+            [
+              "6",
+              false,
+              48
+            ],
+            [
+              "8",
+              false,
+              48
+            ],
+            [
+              "4",
+              false,
+              48
+            ],
+            [
+              "5",
+              false,
+              48
+            ],
+            [
+              "10",
+              false,
+              48
+            ],
+            [
+              "3",
+              false,
+              48
+            ],
+            [
+              "undo",
+              true,
+              48
+            ],
+            [
+              "sort",
+              false,
+              48
+            ]
+          ]
+        },
+        "21-replace": {
+          "text": "Начать другую свободную игру?\n\nТекущая расстановка в свободной игре будет потеряна.\n\nОставить партию\nЗаменить партию",
+          "font": [
+            [
+              "Начать другую свободную игру?",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "keep-board",
+              false,
+              63
+            ],
+            [
+              "replace-board",
+              false,
+              54
+            ]
+          ]
+        },
+        "22-challenge": {
+          "text": "Сложно\n\n23\n7\n13\n22\n3\n1\n2\n14\n+\n=\n÷\n=\n+\n=\n+\n=\n−\n=\n+\n=\n+\n=\n+\n=\n+\n=\n+\n=\n\n9\n4\n20\n10\n11\n1\n16\n15\n25\n12\n6\n5\nОтмена\nСортировка\nПомощь",
+          "font": [],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "9",
+              false,
+              48
+            ],
+            [
+              "4",
+              false,
+              48
+            ],
+            [
+              "20",
+              false,
+              48
+            ],
+            [
+              "10",
+              false,
+              48
+            ],
+            [
+              "11",
+              false,
+              48
+            ],
+            [
+              "1",
+              false,
+              48
+            ]
+          ]
+        },
+        "23-challenge-goal": {
+          "text": "Поле решено\n\n+20 монет\n\nСледующее поле\n⋯\n\nСложное поле · 1/1 ✓",
+          "font": [
+            [
+              "Поле решено",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "next",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "24-endless": {
+          "text": "♥♥♥\nЖизни 3/3\n\nОчки 0\n\n3\n5\n8\n16\n4\n17\n+\n=\n÷\n=\n+\n=\n+\n=\n\n24\n21\n4\nОтмена\nСортировка\nПомощь\nПроверить",
+          "font": [],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "",
+              false,
+              48
+            ],
+            [
+              "24",
+              false,
+              48
+            ],
+            [
+              "21",
+              false,
+              48
+            ],
+            [
+              "4",
+              false,
+              48
+            ],
+            [
+              "undo",
+              true,
+              48
+            ],
+            [
+              "sort",
+              false,
+              48
+            ],
+            [
+              "return",
+              true,
+              48
+            ],
+            [
+              "help",
+              false,
+              48
+            ],
+            [
+              "submit",
+              true,
+              48
+            ]
+          ]
+        },
+        "25-pause": {
+          "text": "Пауза\nПродолжить\nНа главную\nЗавершить забег и сохранить рекорд\nНастройки\nПравила режима\nНовый забег",
+          "font": [
+            [
+              "Пауза",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "resume",
+              false,
+              48
+            ],
+            [
+              "home-from-pause",
+              false,
+              48
+            ],
+            [
+              "end-run",
+              false,
+              65
+            ],
+            [
+              "Настройки",
+              false,
+              48
+            ],
+            [
+              "Правила режима",
+              false,
+              48
+            ],
+            [
+              "restart",
+              false,
+              48
+            ]
+          ]
+        },
+        "26-rules": {
+          "text": "Пауза\nПродолжить\nНа главную\nЗавершить забег и сохранить рекорд\nНастройки\nПравила режима\n\nТри жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.\n\nНовый забег",
+          "font": [
+            [
+              "Пауза",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "resume",
+              false,
+              48
+            ],
+            [
+              "home-from-pause",
+              false,
+              48
+            ],
+            [
+              "end-run",
+              false,
+              65
+            ],
+            [
+              "Настройки",
+              false,
+              48
+            ],
+            [
+              "Правила режима",
+              false,
+              48
+            ],
+            [
+              "restart",
+              false,
+              48
+            ]
+          ]
+        },
+        "27-restart-confirm": {
+          "text": "Пауза\nПродолжить\nНа главную\nЗавершить забег и сохранить рекорд\nНастройки\nПравила режима\n\nТри жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.\n\nНовый забег\n\nЗавершить текущий забег и начать новый? Текущий итог будет сохранён в соответствующих рекордах.\n\nОставить партию\nНачать заново",
+          "font": [
+            [
+              "Пауза",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "resume",
+              false,
+              48
+            ],
+            [
+              "home-from-pause",
+              false,
+              48
+            ],
+            [
+              "end-run",
+              false,
+              65
+            ],
+            [
+              "Настройки",
+              false,
+              48
+            ],
+            [
+              "Правила режима",
+              false,
+              48
+            ],
+            [
+              "restart",
+              false,
+              48
+            ],
+            [
+              "restart-no",
+              false,
+              48
+            ],
+            [
+              "restart-yes",
+              false,
+              48
+            ]
+          ]
+        },
+        "28-explain": {
+          "text": "Помощь\nОбъяснить ход\nПоказать число\n\nСтоимость 60 монет · У вас 415 монет и 0 кредитов\n\nЭтот забег попадёт в рекорды с помощью\n\nПрименим доказуемый ход и покажем, как его получить из равенств и лотка.\n\nК полю\nПрименить · 60 монет",
+          "font": [
+            [
+              "Помощь",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "explain",
+              false,
+              57
+            ],
+            [
+              "reveal",
+              false,
+              57
+            ],
+            [
+              "close-help",
+              false,
+              48
+            ],
+            [
+              "apply-help",
+              false,
+              63
+            ]
+          ]
+        },
+        "29-reveal": {
+          "text": "Помощь\nОбъяснить ход\nПоказать число\n\nСтоимость 60 монет · У вас 415 монет и 0 кредитов\n\nЭтот забег попадёт в рекорды с помощью\n\nПокажем правильное число. Мешающие неверные фишки вернутся в лоток.\n\nК полю\nПрименить · 60 монет",
+          "font": [
+            [
+              "Помощь",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "explain",
+              false,
+              57
+            ],
+            [
+              "reveal",
+              false,
+              57
+            ],
+            [
+              "close-help",
+              false,
+              48
+            ],
+            [
+              "apply-help",
+              false,
+              63
+            ]
+          ]
+        },
+        "30-settings": {
+          "text": "Настройки\nГотово\nЗвуки ходов\nВибрация\nТёмная тема «Мастерская»\nМеньше движения\nТаймер в кампании и свободной игре\nЯзык\nРусский\nEnglish",
+          "font": [
+            [
+              "Настройки",
+              "Georgia, serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "resume",
+              false,
+              48
+            ]
+          ]
+        },
+        "31-workshop-dark": {
+          "text": "The Counting Workshop\n\n1 of 12 instruments\n\n← Home\nOn the bench\nCounting rods\n1 of 4 parts\nNew boards until next part: 2\nAbacus\n4 of 4 parts\nCounting rods\n1 of 4 parts\nCalibration weights\n0 of 4 parts\nBeam balance\n0 of 4 parts\nFolding rule\n0 of 4 parts\nDividers\n0 of 4 parts\nProtractor\n0 of 4 parts\nVernier caliper\n0 of 4 parts\nClock dial\n0 of 4 parts\nGear train\n0 of 4 parts\nMechanical counter\n0 of 4 parts\nDrafting pantograph\n0 of 4 parts",
+          "font": [
+            [
+              "The Counting Workshop",
+              "Georgia, serif"
+            ],
+            [
+              "Counting rods",
+              "Georgia, serif"
+            ],
+            [
+              "Abacus",
+              "Georgia, serif"
+            ],
+            [
+              "Counting rods",
+              "Georgia, serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "album-back",
+              false,
+              48
+            ],
+            [
+              "workbench",
+              false,
+              139
+            ],
+            [
+              "instrument-card-abacus",
+              false,
+              193
+            ],
+            [
+              "instrument-card-counting_rods",
+              false,
+              193
+            ],
+            [
+              "instrument-card-weights",
+              false,
+              215
+            ],
+            [
+              "instrument-card-balance",
+              false,
+              215
+            ],
+            [
+              "instrument-card-folding_rule",
+              false,
+              193
+            ],
+            [
+              "instrument-card-dividers",
+              false,
+              193
+            ],
+            [
+              "instrument-card-protractor",
+              false,
+              193
+            ],
+            [
+              "instrument-card-caliper",
+              false,
+              193
+            ],
+            [
+              "instrument-card-dial",
+              false,
+              193
+            ],
+            [
+              "instrument-card-gears",
+              false,
+              193
+            ],
+            [
+              "instrument-card-counter",
+              false,
+              215
+            ],
+            [
+              "instrument-card-pantograph",
+              false,
+              215
+            ]
+          ]
+        },
+        "settingsPersist": [
+          "en",
+          "dark"
+        ]
+      },
+      "pageErrors": []
+    },
+    "failures": {
+      "screens": {
+        "settingsError": {
+          "dialog": null,
+          "message": "Не удалось подтвердить запись. Сохранённые данные сохранены. Повторите действие или восстановите сохранение перед продолжением.\n\nПовторитьВосстановить сохранение",
+          "retryInModal": false,
+          "reloadInModal": false,
+          "retryReachable": true,
+          "requestedSound": true,
+          "durableSound": true
+        },
+        "33-save-retry": {
+          "text": "Не удалось подтвердить запись. Сохранённые данные сохранены. Повторите действие или восстановите сохранение перед продолжением.\n\nПовторитьВосстановить сохранение",
+          "font": [],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "retry",
+              false,
+              48
+            ],
+            [
+              "reload",
+              false,
+              48
+            ]
+          ]
+        },
+        "boardRetry": {
+          "before": 0,
+          "after": 1
+        },
+        "34-backup": {
+          "text": "Восстановлено последнее исправное сохранение.",
+          "font": [],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": []
+        },
+        "35-startup-error": {
+          "text": "Не удалось открыть игру. Повторите загрузку.\n\nПовторить загрузку",
+          "font": [],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "Повторить загрузку",
+              false,
+              48
+            ]
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    "edges": {
+      "screens": {
+        "36-help-poor": {
+          "text": "Помощь\nОбъяснить ход\nПоказать число\n\nСтоимость 60 монет · У вас 10 монет и 0 кредитов\n\nНе хватает 50 монет\n\nПокажем правильное число. Мешающие неверные фишки вернутся в лоток.\n\nК полю\nПрименить",
+          "font": [
+            [
+              "Помощь",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "explain",
+              false,
+              48
+            ],
+            [
+              "reveal",
+              false,
+              48
+            ],
+            [
+              "close-help",
+              false,
+              48
+            ],
+            [
+              "apply-help",
+              true,
+              48
+            ]
+          ]
+        },
+        "helpMidnight": {
+          "enabledAfterMidnight": true,
+          "coins": 10,
+          "afterCoins": 10,
+          "sameBoard": true,
+          "message": "Не хватает 50 монет"
+        },
+        "38-daily-defeat": {
+          "text": "Жизни закончились\n\nМожно бесплатно начать эту дату заново.\n\nЕщё попытка · бесплатно",
+          "font": [
+            [
+              "Жизни закончились",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "retry-daily",
+              false,
+              48
+            ]
+          ]
+        },
+        "dailyFreeRestart": {
+          "before": 0,
+          "after": 3,
+          "coinsDelta": 0
+        },
+        "39-expired-defeat": {
+          "text": "Жизни закончились\n\nЭта дата вышла из архива. Выберите другую дату в календаре.\n\nВ календарь",
+          "font": [
+            [
+              "Жизни закончились",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "defeat-calendar",
+              false,
+              48
+            ]
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    "month": {
+      "screens": {
+        "40-jan-available": {
+          "text": "01\n2026\nЯнварь 2026 · 30/31\nОстался один день до трофея\nОткрыть задачу за 31 января",
+          "font": [
+            [
+              "Январь 2026 · 30/31",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "Открыть задачу за 31 января",
+              false,
+              48
+            ]
+          ]
+        },
+        "41-month-earned": {
+          "text": "01\n2026\nЯнварь 2026 · 31/31\nТрофей получен",
+          "font": [
+            [
+              "Январь 2026 · 31/31",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": []
+        },
+        "42-trophy-archive": {
+          "text": "Мои трофеи\n01\n2026\nЯнварь 2026 · 31/31\nТрофей получен",
+          "font": [
+            [
+              "Январь 2026 · 31/31",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "Мои трофеи",
+              false,
+              48
+            ]
+          ]
+        },
+        "januaryBackfill": {
+          "earned": "2026-01",
+          "date": "2026-01-31",
+          "effective": "2026-03-01",
+          "amountForDate": 30,
+          "dates": 31
+        }
+      },
+      "pageErrors": []
+    },
+    "extra": {
+      "screens": {
+        "43-future-item": {
+          "text": "Чертёжный пантограф\n\nДальше — опора\n\nопора\nближние тяги\nдальние тяги\nкарандаш\nВ мастерскую",
+          "font": [
+            [
+              "Чертёжный пантограф",
+              "Georgia, serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "close-card",
+              false,
+              48
+            ]
+          ]
+        },
+        "futureItem": {
+          "bench": "На верстаке\nСчётные палочки\n1 / 4 частей\nНовых полей до детали: 3",
+          "selected": "Чертёжный пантограф\n0 / 4 частей",
+          "caption": "Дальше — опора"
+        },
+        "44-live-run-exit": {
+          "text": "Пауза\nПродолжить\nНа главную\nЗавершить забег и сохранить рекорд\nНастройки\nПравила режима\nНовый забег",
+          "font": [
+            [
+              "Пауза",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "resume",
+              false,
+              48
+            ],
+            [
+              "home-from-pause",
+              false,
+              48
+            ],
+            [
+              "end-run",
+              false,
+              48
+            ],
+            [
+              "Настройки",
+              false,
+              48
+            ],
+            [
+              "Правила режима",
+              false,
+              48
+            ],
+            [
+              "restart",
+              false,
+              48
+            ]
+          ]
+        },
+        "45-final-record": {
+          "text": "Профиль\n← На главную\nРанг 2\n85 / 120 XP\n›\nПоследнее достижение\n\nЗа работу\n\nРекорды Endless\nСамостоятельно\n40 очк. · 1 пол.\nС помощью\n—\n\nЗавершите забег Endless. Подсказки учитываются в отдельном рекорде.\n\nКампания\n15/240\nЗадачи дня\n0\nПриборы\n1/12\nСтатистика по режимам\nДостижения · 3/12",
+          "font": [
+            [
+              "Профиль",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Ранг 2",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Последнее достижение",
+              "Rubik, system-ui, sans-serif"
+            ],
+            [
+              "Рекорды Endless",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "profile-back",
+              false,
+              48
+            ],
+            [
+              "profile-rank",
+              false,
+              62
+            ],
+            [
+              "Статистика по режимам",
+              false,
+              48
+            ],
+            [
+              "Достижения · 3/12",
+              false,
+              48
+            ]
+          ]
+        },
+        "endRun": {
+          "lives": 3,
+          "stage": 1,
+          "points": 40,
+          "placements": 1,
+          "endReached": "profile",
+          "status": "ended",
+          "newRun": true,
+          "newStage": 0
+        },
+        "46-rank-200": {
+          "text": "Ранг 1\n\n30 / 100 XP\n\nДо следующего ранга: 70 XP\n\nЗа повышение: +60 монет\n\nРазных решённых полей: 3\n\nПродолжить",
+          "font": [
+            [
+              "Ранг 1",
+              "Georgia, serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "close-card",
+              false,
+              63
+            ]
+          ]
+        },
+        "47-help-200": {
+          "text": "Помощь\nОбъяснить ход\nПоказать число\n\nСтоимость 60 монет · У вас 150 монет и 0 кредитов\n\nПрименим доказуемый ход и покажем, как его получить из равенств и лотка.\n\nК полю\nПрименить · 60 монет",
+          "font": [
+            [
+              "Помощь",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 320,
+          "height": 568,
+          "overflow": 0,
+          "actions": [
+            [
+              "explain",
+              false,
+              57
+            ],
+            [
+              "reveal",
+              false,
+              57
+            ],
+            [
+              "close-help",
+              false,
+              48
+            ],
+            [
+              "apply-help",
+              false,
+              106
+            ]
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    "final_board": {
+      "screens": {
+        "48-campaign-final": {
+          "text": "Маршрут пройден\n\n+25 монет\n\nНа главную\n⋯",
+          "font": [
+            [
+              "Маршрут пройден",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "result-home",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "49-full-history": {
+          "text": "← Режимы\nКампания\nРезультат поля 240\nПройденные поля\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58\n59\n60\n61\n62\n63\n64\n65\n66\n67\n68\n69\n70\n71\n72\n73\n74\n75\n76\n77\n78\n79\n80\n81\n82\n83\n84\n85\n86\n87\n88\n89\n90\n91\n92\n93\n94\n95\n96\n97\n98\n99\n100\n101\n102\n103\n104\n105\n106\n107\n108\n109\n110\n111\n112\n113\n114\n115\n116\n117\n118\n119\n120\n121\n122\n123\n124\n125\n126\n127\n128\n129\n130\n131\n132\n133\n134\n135\n136\n137\n138\n139\n140\n141\n142\n143\n144\n145\n146\n147\n148\n149\n150\n151\n152\n153\n154\n155\n156\n157\n158\n159\n160\n161\n162\n163\n164\n165\n166\n167\n168\n169\n170\n171\n172\n173\n174\n175\n176\n177\n178\n179\n180\n181\n182\n183\n184\n185\n186\n187\n188\n189\n190\n191\n192\n193\n194\n195\n196\n197\n198\n199\n200\n201\n202\n203\n204\n205\n206\n207\n208\n209\n210\n211\n212\n213\n214\n215\n216\n217\n218\n219\n220\n221\n222\n223\n224\n225\n226\n227\n228\n229\n230\n231\n232\n233\n234\n235\n236\n237\n238\n239\n240\nГотово",
+          "font": [
+            [
+              "Кампания",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "mode-back",
+              false,
+              48
+            ],
+            [
+              "last-result",
+              false,
+              48
+            ],
+            [
+              "Пройденные поля",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-001",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-002",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-003",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-004",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-005",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-006",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-007",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-008",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-009",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-010",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-011",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-012",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-013",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-014",
+              false,
+              48
+            ],
+            [
+              "replay-cm-own-01-015",
+              false,
+              48
+            ]
+          ]
+        },
+        "50-closed-replay": {
+          "text": "Поле 1 решено повторно\n\nПройденные поля\n⋯",
+          "font": [
+            [
+              "Поле 1 решено повторно",
+              "system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "result-home",
+              false,
+              48
+            ],
+            [
+              "⋯",
+              false,
+              48
+            ],
+            [
+              "result-replay",
+              false,
+              48
+            ]
+          ]
+        },
+        "legacyFinish": {
+          "title": "Маршрут пройден",
+          "wallet": 5190,
+          "unchanged": true
+        }
+      },
+      "pageErrors": []
+    },
+    "feedback": {
+      "screens": {
+        "feedback": {
+          "True": [
+            {
+              "audioMs": 24
+            }
+          ],
+          "False": []
+        }
+      },
+      "pageErrors": []
+    },
+    "contact": {
+      "screens": {
+        "contacts": [
+          {
+            "size": 390,
+            "motion": "no-preference",
+            "run": 0,
+            "fields": [
+              {
+                "field": 1,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "cancel",
+                    "tile",
+                    42,
+                    [
+                      "    at pr.cancelAll (<APK preview>/assets/index-CC5OCGXM.js:3203:226463)",
+                      "    at hr.resize (<APK preview>/assets/index-CC5OCGXM.js:3203:243702)",
+                      "    at ResizeObserver.f (<APK preview>/assets/index-CC5OCGXM.js:3215:56100)"
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 2,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ]
+                ]
+              },
+              {
+                "field": 3,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    365
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "size": 390,
+            "motion": "no-preference",
+            "run": 1,
+            "fields": [
+              {
+                "field": 1,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "cancel",
+                    "tile",
+                    42,
+                    [
+                      "    at pr.cancelAll (<APK preview>/assets/index-CC5OCGXM.js:3203:226463)",
+                      "    at hr.resize (<APK preview>/assets/index-CC5OCGXM.js:3203:243702)",
+                      "    at ResizeObserver.f (<APK preview>/assets/index-CC5OCGXM.js:3215:56100)"
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 2,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ]
+                ]
+              },
+              {
+                "field": 3,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    365
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "size": 390,
+            "motion": "reduce",
+            "run": 0,
+            "fields": [
+              {
+                "field": 1,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 2,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 3,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    365
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "size": 390,
+            "motion": "reduce",
+            "run": 1,
+            "fields": [
+              {
+                "field": 1,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 2,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 3,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    365
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "size": 320,
+            "motion": "no-preference",
+            "run": 0,
+            "fields": [
+              {
+                "field": 1,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "cancel",
+                    "tile",
+                    42,
+                    [
+                      "    at pr.cancelAll (<APK preview>/assets/index-CC5OCGXM.js:3203:226463)",
+                      "    at hr.resize (<APK preview>/assets/index-CC5OCGXM.js:3203:243702)",
+                      "    at ResizeObserver.f (<APK preview>/assets/index-CC5OCGXM.js:3215:56100)"
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 2,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ]
+                ]
+              },
+              {
+                "field": 3,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    365
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "size": 320,
+            "motion": "no-preference",
+            "run": 1,
+            "fields": [
+              {
+                "field": 1,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "cancel",
+                    "tile",
+                    42,
+                    [
+                      "    at pr.cancelAll (<APK preview>/assets/index-CC5OCGXM.js:3203:226463)",
+                      "    at hr.resize (<APK preview>/assets/index-CC5OCGXM.js:3203:243702)",
+                      "    at ResizeObserver.f (<APK preview>/assets/index-CC5OCGXM.js:3215:56100)"
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 2,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ]
+                ]
+              },
+              {
+                "field": 3,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    42,
+                    null
+                  ],
+                  [
+                    "audio",
+                    365
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ],
+                  [
+                    "play",
+                    "equation-line",
+                    230,
+                    null
+                  ],
+                  [
+                    "play",
+                    "tile",
+                    65,
+                    null
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "size": 320,
+            "motion": "reduce",
+            "run": 0,
+            "fields": [
+              {
+                "field": 1,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 2,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 3,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    365
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "size": 320,
+            "motion": "reduce",
+            "run": 1,
+            "fields": [
+              {
+                "field": 1,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 2,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    326
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              },
+              {
+                "field": 3,
+                "settings": {
+                  "vibration": true,
+                  "sound": true,
+                  "reducedMotion": false
+                },
+                "events": [
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    118
+                  ],
+                  [
+                    "vibrate",
+                    7
+                  ],
+                  [
+                    "audio",
+                    24
+                  ],
+                  [
+                    "audio",
+                    365
+                  ],
+                  [
+                    "vibrate",
+                    [
+                      12,
+                      35,
+                      16
+                    ]
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pageErrors": []
+    },
+    "calendar_links": {
+      "screens": {
+        "questStart": {
+          "text": "Решите поле\n0 / 1",
+          "mode": "daily",
+          "puzzle": "cm-own-02-230"
+        },
+        "51-older-unfinished": {
+          "text": "Начатые ранее\n2026-11-01 · продолжить",
+          "font": [
+            [
+              "Начатые ранее",
+              "Rubik, system-ui, sans-serif"
+            ]
+          ],
+          "width": 390,
+          "height": 844,
+          "overflow": 0,
+          "actions": [
+            [
+              "resume-2026-11-01",
+              false,
+              48
+            ]
+          ]
+        },
+        "unfinished": {
+          "issued": "2026-11-01",
+          "today": "2026-12-03",
+          "retainedTiles": 1,
+          "retainedLives": 3
+        }
+      },
+      "pageErrors": []
+    },
+    "tools_and_timer": {
+      "screens": {
+        "fieldTools": {
+          "inputValues": [
+            4,
+            1,
+            3,
+            5,
+            2,
+            10,
+            11
+          ],
+          "sortedValues": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            10,
+            11
+          ],
+          "returned": "t1",
+          "undoRestored": true,
+          "timeBeforePause": "Время 0:03",
+          "duringPause": "Время 0:03",
+          "afterResume": "Время 0:04",
+          "restartClearsBoard": true
+        }
+      },
+      "pageErrors": []
+    }
+  },
+  "timing": {
+    "0": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        2
+      ],
+      "medianMs": 3
+    },
+    "180": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        44,
+        41,
+        42,
+        32,
+        27,
+        28,
+        76
+      ],
+      "medianMs": 41
+    },
+    "30": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        25,
+        25,
+        23,
+        23,
+        22,
+        21,
+        22
+      ],
+      "medianMs": 23
+    },
+    "365": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        51,
+        40,
+        35,
+        49,
+        48,
+        49,
+        31
+      ],
+      "medianMs": 48
+    }
+  },
+  "longDaily": {
+    "before": 4193948,
+    "migratedBytes": 556080,
+    "milestones": {
+      "829": {
+        "bytes": 556804,
+        "months": 27,
+        "fullSlots": 31,
+        "compactReceipts": 798
+      },
+      "850": {
+        "bytes": 567212,
+        "months": 27,
+        "fullSlots": 31,
+        "compactReceipts": 819
+      },
+      "875": {
+        "bytes": 579525,
+        "months": 28,
+        "fullSlots": 31,
+        "compactReceipts": 844
+      },
+      "900": {
+        "bytes": 592014,
+        "months": 29,
+        "fullSlots": 31,
+        "compactReceipts": 869
+      },
+      "925": {
+        "bytes": 604403,
+        "months": 30,
+        "fullSlots": 31,
+        "compactReceipts": 894
+      },
+      "950": {
+        "bytes": 616941,
+        "months": 31,
+        "fullSlots": 31,
+        "compactReceipts": 919
+      },
+      "975": {
+        "bytes": 629287,
+        "months": 32,
+        "fullSlots": 31,
+        "compactReceipts": 944
+      },
+      "1000": {
+        "bytes": 641592,
+        "months": 32,
+        "fullSlots": 31,
+        "compactReceipts": 969
+      },
+      "1025": {
+        "bytes": 654040,
+        "months": 33,
+        "fullSlots": 31,
+        "compactReceipts": 994
+      },
+      "1050": {
+        "bytes": 666377,
+        "months": 34,
+        "fullSlots": 31,
+        "compactReceipts": 1019
+      },
+      "1075": {
+        "bytes": 678857,
+        "months": 35,
+        "fullSlots": 31,
+        "compactReceipts": 1044
+      },
+      "1100": {
+        "bytes": 691238,
+        "months": 36,
+        "fullSlots": 31,
+        "compactReceipts": 1069
+      }
+    },
+    "win": {
+      "id": "win:ebea9068-468d-4d4e-8204-fa77ebc34f55",
+      "attemptId": "ebea9068-468d-4d4e-8204-fa77ebc34f55",
+      "puzzleId": "cm-own-02-275",
+      "first": false,
+      "coins": 90,
+      "xp": 0,
+      "rankUps": 0,
+      "fragments": 0,
+      "cardCoins": 0,
+      "elapsedPlaying": 0,
+      "baseCoins": 0,
+      "rankCoins": 0,
+      "collectionFragments": 13,
+      "rankLevel": 6,
+      "unlockedModes": [],
+      "dailyCoins": 30,
+      "taskCoins": 30,
+      "setCoins": 30,
+      "badges": []
+    },
+    "repeatedDailyCoins": 0
+  }
+}
