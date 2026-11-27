@@ -18,6 +18,7 @@ async function view(page,name){
   table:[...document.querySelectorAll('.league-row')].map(n=>{const r=n.getBoundingClientRect();return {left:r.left,right:r.right};}),
   pointTextFits:[...document.querySelectorAll('.league-points')].every(n=>n.scrollWidth<=n.clientWidth+1),
   tabs:!document.querySelector('#root-tabs').hidden}));
+ if(await page.locator('#hub[data-screen=home]').count())assert.ok(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight),'Home fits without vertical scroll');
  assert.ok(v.scroll<=v.width+1,JSON.stringify(v));assert.equal(v.font,'16px');assert.equal(v.pointTextFits,true);
  assert.equal(await page.locator('.league-name').filter({hasText:/^Bot$|^Бот$/}).count(),0);
  if(await page.locator('.league-table').count())assert.equal(await page.locator('.league-avatar[style*=background-image]').count(),9);
@@ -105,6 +106,9 @@ try{
   const context=await browser.newContext({viewport:{width:320,height:480},hasTouch:true,isMobile:true,timezoneId:'UTC',reducedMotion:'reduce'});
   await context.addInitScript(s=>localStorage.setItem('crossmath.save.v1',JSON.stringify(s)),s);
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.clock.setFixedTime(new Date('2026-11-23T09:00:00Z'));await page.goto(url);await ready(page);
+  await tap(page,'#home');await view(page,`320x480-${language}-${theme}-rich-home-${fixture.milestone}`);
+  await page.setViewportSize({width:320,height:568});await view(page,`320x568-${language}-${theme}-rich-home-${fixture.milestone}`);
+  await page.setViewportSize({width:320,height:480});await tap(page,'#continue-game');
   await solve(page,fixture.points);await view(page,`320x480-${language}-${theme}-rich-win-${fixture.milestone}`);await context.close();
  }
  for(const language of ['ru','en']){
