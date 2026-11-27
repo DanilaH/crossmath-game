@@ -1116,7 +1116,11 @@
         "scope": "META #15/#18 per owner v1.1",
         "evidence": "docs/acceptance/meta15-18/README.md",
         "build": "0.5.25 / 30",
-        "kind": "Own UI/actual GameSession model; not original runtime or physical Android"
+        "kind": "Own UI/actual GameSession model; not original runtime or physical Android",
+        "independentReview": "docs/acceptance/meta15-18/RESEARCHER_REVIEW.md",
+        "reviewedHead": "d3bf9de6836989237dd84c5970d18bf8e7183eb4",
+        "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46050067286",
+        "physicalAndroid": "NOT RUN"
       }
     },
     {
@@ -1388,7 +1392,11 @@
         "scope": "META #15/#18 per owner v1.1",
         "evidence": "docs/acceptance/meta15-18/README.md",
         "build": "0.5.25 / 30",
-        "kind": "Own UI/actual GameSession model; not original runtime or physical Android"
+        "kind": "Own UI/actual GameSession model; not original runtime or physical Android",
+        "independentReview": "docs/acceptance/meta15-18/RESEARCHER_REVIEW.md",
+        "reviewedHead": "d3bf9de6836989237dd84c5970d18bf8e7183eb4",
+        "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46050067286",
+        "physicalAndroid": "NOT RUN"
       }
     },
     {
@@ -3710,7 +3718,11 @@
         "scope": "META #15/#18 per owner v1.1",
         "evidence": "docs/acceptance/meta15-18/README.md",
         "build": "0.5.25 / 30",
-        "kind": "Own UI/actual GameSession model; not original runtime or physical Android"
+        "kind": "Own UI/actual GameSession model; not original runtime or physical Android",
+        "independentReview": "docs/acceptance/meta15-18/RESEARCHER_REVIEW.md",
+        "reviewedHead": "d3bf9de6836989237dd84c5970d18bf8e7183eb4",
+        "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46050067286",
+        "physicalAndroid": "NOT RUN"
       }
     },
     {
@@ -4101,7 +4113,11 @@
         "scope": "META #15/#18 per owner v1.1",
         "evidence": "docs/acceptance/meta15-18/README.md",
         "build": "0.5.25 / 30",
-        "kind": "Own UI/actual GameSession model; not original runtime or physical Android"
+        "kind": "Own UI/actual GameSession model; not original runtime or physical Android",
+        "independentReview": "docs/acceptance/meta15-18/RESEARCHER_REVIEW.md",
+        "reviewedHead": "d3bf9de6836989237dd84c5970d18bf8e7183eb4",
+        "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46050067286",
+        "physicalAndroid": "NOT RUN"
       }
     },
     {
@@ -15253,6 +15269,19 @@
     "sourceIdsRetained": 729,
     "physicalAndroid": "NOT RUN",
     "originalParityPromotion": false,
-    "kitImpact": "REUSE"
+    "kitImpact": "REUSE",
+    "independentReview": {
+      "reviewedHead": "d3bf9de6836989237dd84c5970d18bf8e7183eb4",
+      "report": "docs/acceptance/meta15-18/RESEARCHER_REVIEW.md",
+      "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46050067286",
+      "normalTests": 479,
+      "leagueTests": 47,
+      "metaViews": 175,
+      "criticalNewDefectsObserved": 0,
+      "minor": "complete collection copy; physical compact calendar targets",
+      "physicalAndroid": "NOT RUN",
+      "economyApproval": "OPEN",
+      "nextStage": "MONETIZATION #27 preparation; #14 separate approval"
+    }
   }
 }

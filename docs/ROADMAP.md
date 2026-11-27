@@ -6,6 +6,8 @@
 
 **Последнее решение DEC-2026-11-27-LEAGUE-GURU:** одна Лига по Guru, без дивизионов. Завершить #22 переносом подтверждённых правил расписания [Guru Brains](https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md) и моделью числового баланса/недельных призов. Сохранить v1/v2, суммы/экономика — отдельное одобрение. [Архив исследования King/Hapo](https://github.com/DanilaH/crossmath-game/blob/1cdec63a16f74a77fde91eb54315c5fcec5107fe/docs/experiments/league-divisions-20261127/README.md) — DEFERRED для выпуска, не расширение scope. Реестр 729/729, [проверка исходного покрытия и модели](https://github.com/DanilaH/crossmath-game/actions/runs/46016633092).
 
+**Независимая сверка META 0.5.25/30:** [аудит](acceptance/meta15-18/RESEARCHER_REVIEW.md) по HEAD `d3bf9de6`, CI 479+47 тестов/175 состояний META. Технически следующий пакет — #27, подготовка/доведение выбранных рекламных размещений; CrossmathAds native implementation отсутствует, mock не live provider. #14 отдельно согласовать, #19 отложен. Компактные задания и выплаты оставить; призы Лиги и активация экспериментальных политик требуют решения. Физическая приёмка открыта.
+
 ## Актуальная очередь
 
 | Этап | Задачи | Критерий выхода |
