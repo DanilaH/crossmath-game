@@ -1,0 +1,2391 @@
+{
+  "date": "2026-11-27",
+  "codeSourceCommit": "097b9fc69b669c100ef1e6fa8b1063cb6cb56008",
+  "codeSourceTree": "50c6e2c54851507567c4fca0908f66b1888c4b33",
+  "baseline": "a57ceabc8570e57c0fcbf8aabdd5ee74674a7147",
+  "artifact": "Crossmath_0.5.24_League_v2.apk",
+  "apk": {
+    "kind": "releasecheck",
+    "package": "com.danilah.crossmath.releasecheck",
+    "versionName": "0.5.24",
+    "versionCode": 29,
+    "kitRef": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "freeIssuancePolicy": "d4-v2",
+    "contentLab": true,
+    "leagueLab": true,
+    "source": "097b9fc69b669c100ef1e6fa8b1063cb6cb56008",
+    "apkSha256": "b3076bc65ae3389cd505793f8615ac93b3c9f84fb41901dbcee67b8aee564b4a",
+    "bytes": 1898787,
+    "certificateSha256": "aa59fbbf75788165ad7e51444729fca882ea2bdfaca1ee460064986b442ac1d4",
+    "productionSigner": false,
+    "v2": true,
+    "zipalign16k": true,
+    "debuggable": false,
+    "webViewDebuggingConfigured": false,
+    "nativeInsetOwner": "content-root",
+    "nativeRuntime": "NOT RUN",
+    "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE"
+  },
+  "browser": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "320x480-ru-light-home",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-light-invite",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-light-win",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-ru-light-table",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-light-medal",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-light-history",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-dark-home",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-dark-invite",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-dark-win",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-ru-dark-table",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-dark-medal",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-dark-history",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-light-home",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-light-invite",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-light-win",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-en-light-table",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-light-medal",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-light-history",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-dark-home",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-dark-invite",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-dark-win",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-en-dark-table",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-dark-medal",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-en-dark-history",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-home",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-invite",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-win",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x568-ru-light-table",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-medal",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-history",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-dark-home",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-dark-invite",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-dark-win",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x568-ru-dark-table",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-dark-medal",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-dark-history",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-light-home",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-light-invite",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-light-win",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x568-en-light-table",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-light-medal",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-light-history",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-dark-home",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-dark-invite",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-dark-win",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x568-en-dark-table",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-dark-medal",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-dark-history",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-light-home",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-light-invite",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-light-win",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "390x844-ru-light-table",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-light-medal",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-light-history",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-dark-home",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-dark-invite",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-dark-win",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "390x844-ru-dark-table",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-dark-medal",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-ru-dark-history",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-light-home",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-light-invite",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-light-win",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "390x844-en-light-table",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-light-medal",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-light-history",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-dark-home",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-dark-invite",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-dark-win",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "390x844-en-dark-table",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-dark-medal",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "390x844-en-dark-history",
+        "width": 390,
+        "scroll": 390,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          },
+          {
+            "left": 10,
+            "right": 380
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-recovery",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-maximum-points",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          },
+          {
+            "left": 10,
+            "right": 310
+          }
+        ],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x480-ru-light-rich-win-3",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-en-dark-rich-win-3",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-ru-light-rich-win-5",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-en-dark-rich-win-5",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-ru-light-rich-win-15",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-en-dark-rich-win-15",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-ru-light-rich-win-228",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      },
+      {
+        "name": "320x480-en-dark-rich-win-228",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": false
+      }
+    ],
+    "errors": [],
+    "browser": "141.0.7390.37",
+    "clock": "CONTROLLED profile clock, no physical Android execution",
+    "androidBack": "Capacitor bridge simulation, two contexts"
+  },
+  "tests": {
+    "normalPassed": 221,
+    "leaguePassed": 38,
+    "fullExplainEmpty": 515,
+    "fullExplainPartial": 515,
+    "contentVerify": "PASS",
+    "coreBrowser": "PASS",
+    "issuance16Browser": "PASS",
+    "content17Browser": "final run recorded in PR and evidence archive"
+  },
+  "referenceCoverage": {
+    "inventoried": 714,
+    "mapped": 714,
+    "errors": 0,
+    "sourcePinUnchanged": true
+  },
+  "model": {
+    "scenarios": 4200,
+    "rosters": 600,
+    "lastMinuteEasyPlaceBefore": 1,
+    "lastMinuteEasyPlaceAfter": 10
+  },
+  "recording": {
+    "file": "League_interaction_1x.mp4",
+    "runtime": "Chromium on exact files extracted from delivered APK",
+    "speed": "1x",
+    "audio": "NOT CAPTURED",
+    "calendar": "CONTROLLED jumps: first opponent mark, midweek, next Monday; all taps real",
+    "path": "Home → League → join → ordinary board win (2→1) → League → week end → saved medal"
+  },
+  "android": {
+    "gradleDebug": "PASS",
+    "gradleReleaseCheck": "PASS",
+    "signatureMatchesPreviousPilot": true,
+    "devices": "List of devices attached",
+    "installUpdate": "NOT RUN",
+    "nativeBack": "NOT RUN",
+    "soundHaptics": "NOT RUN"
+  },
+  "unchangedCriticalFiles": [
+    {
+      "path": "package.json",
+      "gitBlob": "ddbaa01fe2a957ece4cd3f85e16375092c92f5f5",
+      "unchanged": true
+    },
+    {
+      "path": "package-lock.json",
+      "gitBlob": "1017284077d9418c78936c5304d26430f4087ba7",
+      "unchanged": true
+    },
+    {
+      "path": "src/core/engine.ts",
+      "gitBlob": "48c2854de7bedb1303115cdd23bd3197faa0778b",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/board.ts",
+      "gitBlob": "a6964c4f38ac7cdbc3d614d2b98c2e40a9e99709",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/play.css",
+      "gitBlob": "4a3fba43e687fd64ba845658d9618e75f7be82b6",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/feedback.ts",
+      "gitBlob": "b6b404e0c23d782981f921725bf4f2ee8b8f18ec",
+      "unchanged": true
+    },
+    {
+      "path": "src/ui/playFeedback.ts",
+      "gitBlob": "2accea63f2c47b8126d9e570741ea3bf9535b9cf",
+      "unchanged": true
+    },
+    {
+      "path": "docs/spec/product/content_v09/boards.json",
+      "gitBlob": "b6476924ddf5805ab007976c689faf23459df2a4",
+      "unchanged": true
+    },
+    {
+      "path": "docs/spec/product/content_v2/boards.json",
+      "gitBlob": "f8fd69fb1e93f5b54207b0c66623023d5dc9d087",
+      "unchanged": true
+    },
+    {
+      "path": "docs/experiments/content03/banks.json",
+      "gitBlob": "34042453afade67db7c95dbb6d58a088748b9746",
+      "unchanged": true
+    },
+    {
+      "path": "src/content/freeIssuance.ts",
+      "gitBlob": "ce3b666bd0ebc7d12812baa8cc3e508ed6bd1a69",
+      "unchanged": true
+    }
+  ],
+  "ci": "See current PR #4 checks and final readback in delivered evidence archive; CI is separate from device acceptance.",
+  "metaStarted": false
+}

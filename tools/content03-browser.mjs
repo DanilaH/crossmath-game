@@ -60,7 +60,7 @@ try{
   const page=await ctx.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.goto(url);await ready(page);
   await page.locator('#home').tap();await page.locator('#hub[data-screen=home]').waitFor();
-  await page.locator('#tab-profile').tap();await page.locator('#extra-fields summary').tap();await idle(page);
+  await page.locator('#tab-profile').tap();await page.locator('#extra-fields summary').tap();await page.locator('#content-lab-open:enabled').waitFor();
   const before=await page.evaluate(()=>localStorage.getItem('crossmath.save.v1'));
   await page.locator('#content-lab-open').tap();await ready(page);await idle(page);
   if(theme==='dark'){await tap(page,'#pause');await page.locator('#settings-options summary').tap();await page.locator('#theme').check();await idle(page);await tap(page,'#resume');}
