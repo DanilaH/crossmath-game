@@ -10,7 +10,7 @@ const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json
 const server=createServer(async(req,res)=>{try{const p=resolve(root,'.'+new URL(req.url,'http://localhost').pathname);assert.ok(p===root||p.startsWith(root+sep));res.setHeader('Content-Type',mime[extname(p)]??'text/html');res.end(await readFile(p===root?root+'/index.html':p));}catch{res.writeHead(404).end();}});
 const checks=[],errors=[];let browser;
 const snapshot=page=>page.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')));
-const ready=page=>page.locator('html[data-state=ready]').waitFor();
+const ready=async page=>{try{await page.locator('html[data-state=ready]').waitFor();}catch(error){await page.screenshot({path:resolve(out,'startup-failure.png')});console.error('STARTUP',await page.locator('body').innerText(),errors);throw error;}};
 async function tap(page,selector){await page.locator(selector).tap();await page.locator('#home:enabled').waitFor();}
 async function view(page,name){
  await page.evaluate(async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});
@@ -19,6 +19,8 @@ async function view(page,name){
   pointTextFits:[...document.querySelectorAll('.league-points')].every(n=>n.scrollWidth<=n.clientWidth+1),
   tabs:!document.querySelector('#root-tabs').hidden}));
  assert.ok(v.scroll<=v.width+1,JSON.stringify(v));assert.equal(v.font,'16px');assert.equal(v.pointTextFits,true);
+ assert.equal(await page.locator('.league-name').filter({hasText:/^Bot$|^Бот$/}).count(),0);
+ if(await page.locator('.league-table').count())assert.equal(await page.locator('.league-avatar[style*=background-image]').count(),9);
  assert.ok(v.table.every(r=>r.left>=0&&r.right<=v.width+1));
  await page.screenshot({path:resolve(out,name+'.png'),fullPage:false});checks.push({name,...v});
 }
@@ -50,7 +52,9 @@ try{
    await tap(page,'#resume');
   }
   const name=`${width}x${height}-${language}-${theme}`;
-  await tap(page,'#tab-profile');await tap(page,'#league-open');await view(page,name+'-invite');
+  await view(page,name+'-home');
+  const home=await page.evaluate(()=>({height:document.documentElement.scrollHeight,view:innerHeight}));if(home.height>home.view+1)console.error(await page.evaluate(()=>[...document.querySelectorAll('#shell,#shell > *,#hub > *,#hub .resume-card > *')].map(n=>({id:n.id,cls:n.className,y:n.getBoundingClientRect().y,h:n.getBoundingClientRect().height,style:getComputedStyle(n).padding}))));assert.ok(home.height<=home.view+1,JSON.stringify(home));
+  await tap(page,'#home-league-open');await view(page,name+'-invite');
   const joinRect=await page.locator('#league-join').boundingBox(),tabs=await page.locator('#root-tabs').boundingBox();assert.ok(joinRect.y+joinRect.height<=tabs.y);
   assert.equal((await snapshot(page)).league,undefined);
   await tap(page,'#home');await page.locator('#hub[data-screen=profile]').waitFor();

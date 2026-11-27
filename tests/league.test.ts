@@ -1,5 +1,5 @@
 import {describe,it,expect,vi} from 'vitest';
-import {advanceLeague,joinLeague,leagueLocalInstant,leaguePeriod,leagueRows,leagueUpdateDue,recordLeagueWin,validateLeague} from '../src/meta/league';
+import {advanceLeague,joinLeague,leagueLocalInstant,leaguePeriod,leagueRows,leagueUpdateDue,recordLeagueWin,validateLeague,leagueRoster} from '../src/meta/league';
 import type {LeagueState,LeagueWin} from '../src/meta/league';
 
 const start='2026-11-23T00:00:00Z',end='2026-11-30T00:00:00Z';
@@ -72,10 +72,13 @@ describe('LEAGUE-01 deterministic weekly model',()=>{
   expect(recordLeagueWin(s,win(s,{at:Date.parse(now)}),'2026-11-27T14:59:00Z')).toBe(0);
   expect(recordLeagueWin(s,win(s,{at:Date.parse(now)}),end)).toBe(0);
   advanceLeague(s,start);expect(JSON.stringify(s)).toBe(snapshot);
-  expect(s.active!.bots.every(b=>b.due.every(at=>at>=Date.parse(now)))).toBe(true);
+  expect(s.active!.bots.some(b=>b.due.some(at=>at<Date.parse(now)))).toBe(true);
  });
  it('makes a zero-point result a participation medal, including admission after the last activity window',()=>{
-  const s=fresh('2026-11-29T23:59:59Z');expect(s.active!.bots.every(b=>b.due.length===0)).toBe(true);
+  const s=fresh('2026-11-29T23:59:59Z');expect(s.active!.bots.every(b=>b.due.length>=7)).toBe(true);
+  recordLeagueWin(s,win(s,{at:Date.parse('2026-11-29T23:59:59Z')}),'2026-11-29T23:59:59Z');
+  expect(leagueRows(s.active!,s.lastSeenAt).find(r=>r.id==='self')!.place).toBe(10);
+  s.active!.contributions={};
   advanceLeague(s,end);expect(s.history[0]!.points).toBe(0);expect(s.history[0]!.medal.tier).toBe('participant');
   validateLeague(s,{id:'profile',timeZone:'UTC'});
  });
@@ -88,6 +91,14 @@ describe('LEAGUE-01 deterministic weekly model',()=>{
   const s=fresh('2026-10-26T04:00:00Z','America/New_York');advanceLeague(s,'2026-11-01T05:59:00Z');
   const before=leagueRows(s.active!,s.lastSeenAt);advanceLeague(s,'2026-11-01T06:01:00Z');
   expect(leagueRows(s.active!,s.lastSeenAt)).toEqual(before);validateLeague(s,{id:'profile',timeZone:'America/New_York'});
+ });
+ it('keeps nine identities and own portraits stable on reload, with disjoint adjacent-week rosters',()=>{
+  for(let i=0;i<100;i++){
+   const a=leagueRoster(`profile-${i}:2026-11-23:league-lab-2`),b=leagueRoster(`profile-${i}:2026-11-30:league-lab-2`);
+   expect(a).toEqual(leagueRoster(`profile-${i}:2026-11-23:league-lab-2`));
+   expect(new Set(a.map(r=>r.avatar)).size).toBe(9);
+   expect(new Set([...a,...b].map(r=>r.name[0])).size).toBe(18);
+  }
  });
  it('rejects malformed plans, awards, policy changes, duplicate history and wrong-profile restores',()=>{
   const valid=fresh();validateLeague(valid,{id:'profile',timeZone:'UTC'});

@@ -1,4 +1,4 @@
-import {advanceLeague,leagueEnabled,recordLeagueWin,validateLeague} from '../meta/league';
+import {advanceLeague,leagueEnabled,leagueRows,recordLeagueWin,validateLeague} from '../meta/league';
 import type {LeagueState} from '../meta/league';
 import { bucketTurn, challengeUnlockWins, isFreeTrack } from '../content/rotation';
 import type { ContentVersion } from '../content/rotation';
@@ -32,7 +32,7 @@ export interface Completion {
   trackGoal?: TrackGoalReceipt;
   workshop?: WorkshopReceipt;
   interstitialRequested?: true;
-  league?: {weekId:string;points:number};
+  league?: {weekId:string;points:number;fromPoints?:number;toPoints?:number;fromPlace?:number;toPlace?:number};
 }
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
@@ -46,6 +46,7 @@ export interface Save {
   ads:AdState;
   league?:LeagueState;
   leagueQuarantine?:{version:1;raw:unknown};
+  leagueReceiptQuarantine?:Record<string,unknown>;
 }
 export function createSave(id: string, now: string, timeZone: string, attemptId: string, contentVersion: ContentVersion = 'content-v2'): Save {
   const career=createCareer(now);career.modes.campaign.starts=1;
@@ -115,9 +116,13 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
   next.result.badges=settleAchievements(next,now,next.result.id);
   if(leagueEnabled&&next.league?.active){
     const weekId=next.league.active.id;
+    const before=leagueRows(next.league.active,Date.parse(now)).find(row=>row.id==='self')!;
     const points=recordLeagueWin(next.league,{profileId:profile.id,weekId,receiptId:next.result.id,puzzleId:p.puzzleId,
       mode:next.attempt.mode,difficulty:p.difficulty,assisted:next.attempt.assisted,at:Date.parse(now)},now);
-    if(points||next.league.active.contributions[p.puzzleId])next.result.league={weekId,points};
+    if(points||next.league.active.contributions[p.puzzleId]){
+      const after=leagueRows(next.league.active,Date.parse(now)).find(row=>row.id==='self')!;
+      next.result.league=points?{weekId,points,fromPoints:before.points,toPoints:after.points,fromPlace:before.place,toPlace:after.place}:{weekId,points};
+    }
   }
   return next;
 }
@@ -154,9 +159,27 @@ export function decodeSave(input: unknown): Save {
     try{validateLeague(s.league,s.profile);if(s.league.active)for(const [id,c] of Object.entries(s.league.active.contributions)){if(!s.profile.solvedIds.includes(id)||getPuzzle(id).difficulty!==c.difficulty)throw Error('Unmatched league contribution');}}
     catch{ s.leagueQuarantine={version:1,raw:structuredClone(s.league)};delete s.league; }
   }
-  const validateReceipt=(result:Completion):void=>{
+  if(s.leagueReceiptQuarantine!==undefined&&(!s.leagueReceiptQuarantine||typeof s.leagueReceiptQuarantine!=='object'||Array.isArray(s.leagueReceiptQuarantine))){s.leagueReceiptQuarantine={legacy:structuredClone(s.leagueReceiptQuarantine)};}
+  const isolateLeagueReceipt=(result:Completion,location:string):void=>{
+    if(result.league===undefined)return;
+    const value=result.league as unknown;
+    let valid=false;
+    if(value&&typeof value==='object'&&!Array.isArray(value)){
+      const r=value as NonNullable<Completion['league']>,match=typeof r.weekId==='string'&&r.weekId.match(/^(.*):(\d{4}-\d{2}-\d{2}):league-lab-[12]$/);
+      const expected={easy:1,standard:2,hard:3,expert:4}[getPuzzle(result.puzzleId).difficulty];
+      valid=!!match&&match[1]===p.id&&nonnegative(r.points)&&(r.points===0||r.points===expected);
+      const fields=[r.fromPoints,r.toPoints,r.fromPlace,r.toPlace];
+      if(fields.some(v=>v!==undefined))valid=valid&&fields.every(nonnegative)&&(r.toPoints! - r.fromPoints!)===r.points&&r.fromPlace!>=1&&r.fromPlace!<=10&&r.toPlace!>=1&&r.toPlace!<=r.fromPlace!;
+      const active=s.league?.active;
+      if(active&&active.id===r.weekId){const c=active.contributions[result.puzzleId];valid=valid&&!!c&&(r.points===0||c.receiptId===result.id&&c.points===r.points);}
+      else valid=valid&&(!!s.leagueQuarantine||!!s.league?.history.some(week=>week.id===r.weekId));
+      if(location==='endless')valid=false;
+    }
+    if(!valid){(s.leagueReceiptQuarantine??={})[`${location}:${result.id}`]={location,resultId:result.id,raw:structuredClone(value)};delete result.league;}
+  };
+  const validateReceipt=(result:Completion,location:string):void=>{
     if (![result.coins,result.xp,result.rankUps,result.fragments,result.cardCoins].every(nonnegative) || typeof result.first!=='boolean' || !Number.isFinite(result.elapsedPlaying) || result.elapsedPlaying<0) fail();
-    if(result.league&&(!nonnegative(result.league.points)||result.league.points>4||typeof result.league.weekId!=='string'))fail();
+    isolateLeagueReceipt(result,location);
     if (result.interstitialRequested !== undefined && result.interstitialRequested !== true) fail();
     if (result.workshop !== undefined) {
       const {workshop, collectionFragments: total, fragments} = result;
@@ -189,7 +212,7 @@ export function decodeSave(input: unknown): Save {
   assertInventory(puzzle,a); for (const layout of a.history) assertInventory(puzzle,layout);
   if (a.status==='won' && (!isSolved(puzzle,a) || !result || result.attemptId!==a.id || result.puzzleId!==a.puzzleId || result.id!==`win:${a.id}` || !p.solvedIds.includes(a.puzzleId))) return fail();
   if (a.status!=='won' && result!==null) return fail();
-  if (result) validateReceipt(result);
+  if (result) validateReceipt(result,slot);
   if (result?.campaignFinished !== undefined && (typeof result.campaignFinished!=='boolean' || a.mode!=='campaign' ||
     p.campaignCursor!==campaignSequence(s.contentVersion).length || result.campaignFinished && campaignSequence(s.contentVersion).at(-1)!==a.puzzleId)) fail();
   if (result?.dailyTrophyMonth !== undefined) {
@@ -217,7 +240,7 @@ export function decodeSave(input: unknown): Save {
         attempts.has(receipt.attemptId) || receipt.id!==`win:${receipt.attemptId}` || receipt.campaignFinished!==undefined ||
         receipt.relaxGoalProgress!==undefined || receipt.trackGoal!==undefined) return fail();
       attempts.add(receipt.attemptId);
-      validateReceipt(receipt);
+      validateReceipt(receipt,`archive:${day}`);
       validateDailyTrophyReceipt(receipt,day);
     }
   }

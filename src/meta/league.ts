@@ -4,26 +4,28 @@ import type {Difficulty,Mode} from '../core/types';
 /** LEAGUE-01 experimental calibration, never a live Guru configuration. */
 export const leagueEnabled=import.meta.env.MODE==='league-lab';
 export interface LeaguePolicy {
- version:'league-lab-1'; weights:Record<Difficulty,number>; assisted:'include'; tie:'self-first';
+ version:'league-lab-1'|'league-lab-2'; weights:Record<Difficulty,number>; assisted:'include'; tie:'self-first';
  bands:readonly (readonly [number,number])[];medals:{gold:number;silver:number;bronze:number;minimumPoints:number};
 }
-export const leaguePolicy:LeaguePolicy={version:'league-lab-1',weights:{easy:1,standard:2,hard:3,expert:4},
+export const legacyLeaguePolicy:LeaguePolicy={version:'league-lab-1',weights:{easy:1,standard:2,hard:3,expert:4},
  assisted:'include',tie:'self-first',medals:{gold:1,silver:2,bronze:3,minimumPoints:1},bands:[[6,11],[6,11],[4,8],[4,8],[3,6],[3,6],[1,4],[1,4],[1,4]]};
+export const leaguePolicy:LeaguePolicy={...legacyLeaguePolicy,version:'league-lab-2'};
+const policyFor=(version:string)=>version==='league-lab-1'?legacyLeaguePolicy:version==='league-lab-2'?leaguePolicy:undefined;
 // Brains' four local windows and nine weighted templates. Only [0.4,0,0,0.6]
 // is documented verbatim. The other weights below are OUR provisional calibration.
 const windows=[[490,660],[660,960],[960,1140],[1140,1380]] as const;
 const patterns=[[4,0,0,6],[0,5,5,0],[2,2,2,4],[0,3,3,4],[5,5,0,0],[0,0,4,6],[1,1,3,5],[4,2,4,0],[2,4,0,4]];
 export const botNames=[['Латунь','Brass'],['Графит','Graphite'],['Искра','Spark'],['Компас','Compass'],['Кедр','Cedar'],['Кварц','Quartz'],['Штрих','Stroke'],['Ритм','Rhythm'],['Линза','Lens']] as const;
-export interface BotPlan {id:string;name:readonly [string,string];pattern:number;dailyTargets:number[];due:number[]}
+export interface BotPlan {avatar?:number;id:string;name:readonly [string,string];pattern:number;dailyTargets:number[];due:number[]}
 export interface LeagueContribution {receiptId:string;at:number;points:number;assisted:boolean;difficulty:Difficulty}
 export interface LeagueWeek {
  id:string;policy:LeaguePolicy;seed:number;startDay:string;endDay:string;startAt:number;endAt:number;joinedAt:number;
  planHash:number;bots:BotPlan[];contributions:Record<string,LeagueContribution>;
 }
-export interface LeagueRow {id:string;name:readonly [string,string];points:number;place:number}
+export interface LeagueRow {avatar?:number;id:string;name:readonly [string,string];points:number;place:number}
 export interface LeagueResult {
  id:string;startDay:string;endDay:string;endAt:number;policyVersion:LeaguePolicy['version'];settledAt:number;
- rows:LeagueRow[];rank:number;points:number;medal:{id:string;place:number;tier:'gold'|'silver'|'bronze'|'participant'};
+ presented?:boolean;rows:LeagueRow[];rank:number;points:number;medal:{id:string;place:number;tier:'gold'|'silver'|'bronze'|'participant'};
 }
 export interface LeagueState {version:1;profileId:string;timeZone:string;lastSeenAt:number;active:LeagueWeek|null;history:LeagueResult[]}
 export interface LeagueWin {profileId:string;weekId:string;receiptId:string;puzzleId:string;mode:Mode;difficulty:Difficulty;assisted:boolean;at:number}
@@ -54,8 +56,30 @@ export function leaguePeriod(now:string,zone:string){
  const startDay=dayFromIndex(index-(weekday+6)%7),endDay=dayFromIndex(calendarDayIndex(startDay)+7);
  return {startDay,endDay,startAt:leagueLocalInstant(startDay,0,zone),endAt:leagueLocalInstant(endDay,0,zone)};
 }
+export const leagueNicknames=[
+ ['Мира','Mira'],['Alex_R','Alex_R'],['Ника','Nika'],['Sova','Sova'],['ДанФокс','DanFox'],['Tanya_M','Tanya_M'],['Макс77','Max77'],['Кира','Kira'],
+ ['GreyCat','GreyCat'],['Агата','Agata'],['Leon','Leon'],['Sasha','Sasha'],['Лея','Leia'],['Никита','Nikita'],['Owliver','Owliver'],['Arty','Arty'],
+ ['Лисёна','Foxie'],['June','June'],['Виктор','Victor'],['Mila','Mila'],['Romio','Romio'],['Eva_N','Eva_N'],['Тим','Tim'],['Лана','Lana'],
+ ['Ilya_K','Ilya_K'],['Марта','Marta'],['Samwise','Samwise'],['Rita','Rita'],['Raven','Raven'],['Алиса','Alice'],['Den_88','Den_88'],['Юна','Yuna'],
+ ['Loki','Loki'],['Вера','Vera'],['AnyaBee','AnyaBee'],['Марк','Mark'],['Fenix','Fenix'],['Нора','Nora'],['Boris_B','Boris_B'],['Olga','Olga'],
+ ['Felix','Felix'],['Dasha','Dasha'],['Эмиль','Emil'],['Kat_22','Kat_22'],['Рен','Ren'],['Sonya','Sonya'],['Nemo','Nemo'],['Валери','Valerie'],
+] as const;
+function shuffled<T>(values:readonly T[],rng:()=>number):T[]{const list=[...values];for(let i=list.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[list[i],list[j]]=[list[j]!,list[i]!];}return list;}
+/** Adjacent weeks select disjoint nine-person windows from a profile-specific pool. */
+export function leagueRoster(scope:string){
+ const match=scope.match(/^(.*):(\d{4}-\d{2}-\d{2}):league-lab-[12]$/);if(!match)throw Error('Invalid roster scope');
+ const profile=match[1]!,week=Math.floor(calendarDayIndex(match[2]!)/7),pool=shuffled(leagueNicknames,random(hash('roster:'+profile)));
+ const offset=((week*11)%pool.length+pool.length)%pool.length,avatars=shuffled(Array.from({length:16},(_,i)=>i),random(hash('portraits:'+scope)));
+ return Array.from({length:9},(_,i)=>({name:pool[(offset+i)%pool.length]!,avatar:avatars[i]!}));
+}
+export function leagueDisplayRow(row:LeagueRow,scope:string):LeagueRow{
+ if(row.id==='self'||row.avatar!==undefined)return row;
+ const index=Number(row.id.slice(4)),identity=leagueRoster(scope)[index];return identity?{...row,...identity}:row;
+}
 function generateBots(week:Omit<LeagueWeek,'planHash'|'bots'|'contributions'>,zone:string):BotPlan[]{
- return botNames.map((name,index)=>{
+ const roster=week.policy.version==='league-lab-1'?botNames.map(name=>({name})):leagueRoster(week.id);
+ return roster.map((identity,index)=>{
+  const {name}=identity;
   const rng=random(hash(`${week.seed}:${index}`)),dailyTargets:number[]=[],due:number[]=[];
   const [min,max]=week.policy.bands[index]!,pattern=index;
   for(let d=0;d<7;d++){
@@ -67,10 +91,10 @@ function generateBots(week:Omit<LeagueWeek,'planHash'|'bots'|'contributions'>,zo
     for(;window<3;window++){selection-=weights[window]!;if(selection<0)break;}
     const [from,to]=windows[window]!;
     const at=leagueLocalInstant(day,from,zone)+Math.floor(rng()*(to-from)*60_000);
-    if(at>=week.joinedAt&&at<week.endAt)due.push(at);
+    if(at>=(week.policy.version==='league-lab-1'?week.joinedAt:week.startAt)&&at<week.endAt)due.push(at);
    }
   }
-  due.sort((a,b)=>a-b);return {id:`bot-${index}`,name,pattern,dailyTargets,due};
+  due.sort((a,b)=>a-b);return {id:`bot-${index}`,...identity,pattern,dailyTargets,due};
  });
 }
 function makeWeek(profileId:string,zone:string,now:string):LeagueWeek{
@@ -83,8 +107,8 @@ function planHash(week:LeagueWeek):number{
 }
 export function leagueRows(week:LeagueWeek,at:number):LeagueRow[]{
  const rows=[{id:'self',name:['Вы','You'] as const,points:Object.values(week.contributions).reduce((n,c)=>n+c.points,0)},
-  ...week.bots.map(bot=>({id:bot.id,name:bot.name,points:bot.due.filter(mark=>mark<=at).length}))];
- return rows.map((row,index)=>({...row,index})).sort((a,b)=>b.points-a.points||a.index-b.index).map((row,index)=>({id:row.id,name:row.name,points:row.points,place:index+1}));
+  ...week.bots.map(bot=>({...(bot.avatar===undefined?{}:{avatar:bot.avatar}),id:bot.id,name:bot.name,points:bot.due.filter(mark=>mark<=at).length}))];
+ return rows.map((row,index)=>({...row,index})).sort((a,b)=>b.points-a.points||a.index-b.index).map((row,index)=>({...(row.avatar===undefined?{}:{avatar:row.avatar}),id:row.id,name:row.name,points:row.points,place:index+1}));
 }
 function medalTier(policy:LeaguePolicy,points:number,place:number):LeagueResult['medal']['tier']{
  const m=policy.medals;return points<m.minimumPoints?'participant':place<=m.gold?'gold':place<=m.silver?'silver':place<=m.bronze?'bronze':'participant';
@@ -97,7 +121,7 @@ export function advanceLeague(state:LeagueState,now:string):boolean {
   const rows=leagueRows(week,week.endAt-1),self=rows.find(r=>r.id==='self')!;
   if(state.history.some(result=>result.id===week.id))throw Error('League already settled');
   state.history.push({id:week.id,startDay:week.startDay,endDay:week.endDay,endAt:week.endAt,policyVersion:week.policy.version,
-   settledAt:at,rows,rank:self.place,points:self.points,medal:{id:`medal:${week.id}`,place:self.place,tier:medalTier(week.policy,self.points,self.place)}});
+   settledAt:at,presented:false,rows,rank:self.place,points:self.points,medal:{id:`medal:${week.id}`,place:self.place,tier:medalTier(week.policy,self.points,self.place)}});
   state.active=null;
  }
  return at!==previous;
@@ -107,7 +131,7 @@ export function joinLeague(previous:LeagueState|undefined,profileId:string,zone:
  if(next.profileId!==profileId||next.timeZone!==zone||instant(now)<next.lastSeenAt)return null;
  advanceLeague(next,now);if(next.active)return null;
  const week=makeWeek(profileId,zone,now);
- if(next.history.some(result=>result.id===week.id)||week.endAt<=next.lastSeenAt)return null;
+ if(next.history.some(result=>result.startDay===week.startDay)||week.endAt<=next.lastSeenAt)return null;
  next.active=week;return next;
 }
 export function recordLeagueWin(state:LeagueState,win:LeagueWin,now:string):number{
@@ -129,7 +153,7 @@ export function validateLeague(state:LeagueState|undefined,profile:{id:string;ti
  if(!state||state.version!==1||state.profileId!==profile.id||state.timeZone!==profile.timeZone||!finite(state.lastSeenAt)||!Array.isArray(state.history))return fail();
  const ids=new Set<string>();let lastEnd=0;
  for(const result of state.history){
-  if(!result||ids.has(result.id)||result.id!==`${profile.id}:${result.startDay}:league-lab-1`||result.policyVersion!=='league-lab-1'||
+  if(!result||ids.has(result.id)||!policyFor(result.policyVersion)||result.id!==`${profile.id}:${result.startDay}:${result.policyVersion}`||result.presented!==undefined&&typeof result.presented!=='boolean'||
    !finite(result.settledAt)||result.settledAt>state.lastSeenAt||!Array.isArray(result.rows)||result.rows.length!==10)return fail();
   const startIndex=calendarDayIndex(result.startDay);
   if(new Date(startIndex*dayMs).getUTCDay()!==1||calendarDayIndex(result.endDay)-startIndex!==7||result.startDay<dayFromIndex(Math.floor(lastEnd/dayMs)))return fail();
@@ -143,27 +167,30 @@ export function validateLeague(state:LeagueState|undefined,profile:{id:string;ti
     const order=(id:string)=>id==='self'?0:Number(id.slice(4))+1;
     if(order(row.id)<order(result.rows[index-1]!.id))return fail();
    }
+   if(row.avatar!==undefined&&(!finite(row.avatar)||row.avatar>15))return fail();
    rowIds.add(row.id);
   });
   const self=result.rows.find(r=>r.id==='self')!;
   if(result.rank!==self.place||result.points!==self.points||!result.medal||result.medal.id!==`medal:${result.id}`||result.medal.place!==result.rank||
-   result.medal.tier!==medalTier(leaguePolicy,result.points,result.rank))return fail();
+   result.medal.tier!==medalTier(policyFor(result.policyVersion)!,result.points,result.rank))return fail();
  }
  const week=state.active;if(week===null)return;
  if(!week||!finite(week.joinedAt)||week.joinedAt>state.lastSeenAt||week.endAt<=state.lastSeenAt||ids.has(week.id)||
-  JSON.stringify(week.policy)!==JSON.stringify(leaguePolicy))return fail();
- if(week.id!==`${profile.id}:${week.startDay}:league-lab-1`||week.seed!==hash(week.id)||
+  JSON.stringify(week.policy)!==JSON.stringify(policyFor(week.policy?.version)))return fail();
+ if(week.id!==`${profile.id}:${week.startDay}:${week.policy.version}`||week.seed!==hash(week.id)||
   !finite(week.startAt)||!finite(week.endAt)||week.startAt>week.joinedAt||week.joinedAt>=week.endAt||
   calendarDayIndex(week.endDay)-calendarDayIndex(week.startDay)!==7||
   new Date(calendarDayIndex(week.startDay)*dayMs).getUTCDay()!==1||
   !Array.isArray(week.bots)||week.bots.length!==9||!finite(week.planHash)||week.planHash!==planHash(week))return fail();
  for(const [index,bot] of week.bots.entries()){
   const [min,max]=week.policy.bands[index]!;
-  if(bot.id!==`bot-${index}`||JSON.stringify(bot.name)!==JSON.stringify(botNames[index])||bot.pattern!==index||
+  const isLegacy=week.policy.version==='league-lab-1';
+  if(bot.id!==`bot-${index}`||(isLegacy?JSON.stringify(bot.name)!==JSON.stringify(botNames[index]):!leagueNicknames.some(name=>JSON.stringify(name)===JSON.stringify(bot.name))||!finite(bot.avatar)||Number(bot.avatar)>15)||bot.pattern!==index||
    !Array.isArray(bot.dailyTargets)||bot.dailyTargets.length!==7||bot.dailyTargets.some(n=>!finite(n)||n<min||n>=max)||
    !Array.isArray(bot.due)||bot.due.length>bot.dailyTargets.reduce((a,b)=>a+b,0)||
-   bot.due.some((at,i)=>!finite(at)||at<week.joinedAt||at>=week.endAt||i>0&&at<bot.due[i-1]!))return fail();
+   bot.due.some((at,i)=>!finite(at)||at<(isLegacy?week.joinedAt:week.startAt)||at>=week.endAt||i>0&&at<bot.due[i-1]!))return fail();
  }
+ if(new Set(week.bots.map(b=>JSON.stringify(b.name))).size!==9||week.policy.version!=='league-lab-1'&&new Set(week.bots.map(b=>b.avatar)).size!==9)return fail();
  if(!week.contributions||Array.isArray(week.contributions))return fail();
  const receipts=new Set<string>();
  for(const [puzzleId,c] of Object.entries(week.contributions)){

@@ -1,4 +1,6 @@
-# LEAGUE-01 · недельная офлайн-лига, эксперимент
+# LEAGUE-01 · Лига, эксперимент
+
+**Актуальная доработка:** [REVIEW.md](REVIEW.md). Описание первого пилота ниже историческое: обязательные Offline/Bot подписи и обрезка прошлых отметок заменены решением DEC-2026-11-27-LEAGUE-PRESENTATION.
 
 [Задача №22](https://github.com/DanilaH/crossmath-game/issues/22) · [PR №4](https://github.com/DanilaH/crossmath-game/pull/4). База `31589d6e222cefe2871abf4c91e16e0d8c7422d7`, Crossmath 0.5.24 / 29, runtime `b1bf2026eda7dd68a5ccbc883946191e03d235af`. Утверждённый scope — §4 [v1.1](../../spec/Crossmath_TZ_v1.1_RU.md). Сборка `build:league-lab`; постоянное включение и числовая калибровка открыты.
 

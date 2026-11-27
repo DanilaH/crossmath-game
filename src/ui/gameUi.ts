@@ -38,6 +38,7 @@ export class GameUi {
   private startFrame: number | undefined;
   private readonly scoreReadout = new RewardReadout($('run-status'));
   private readonly rewardReadout = new RewardReadout($('result-rewards'));
+  private leagueReadout:RewardReadout|undefined;
   private readonly tabScroll=new Map<RootScreen,number>();
   private get language(): Language { return this.session.state.settings.language; }
   private t(ru: string, en: string): string { return localize(this.language, ru, en); }
@@ -350,6 +351,8 @@ export class GameUi {
   private finishReadouts():void {
     this.scoreReadout.finish();
     this.rewardReadout.finish();
+    this.leagueReadout?.finish();
+    this.meta.finishLeagueMotion();
     $('result-rank').classList.remove('rank-arrived');
   }
 
@@ -599,6 +602,7 @@ export class GameUi {
     $('play-screen').classList.toggle('is-solving', playing && a.status === 'playing' && !this.saveFailed);
     $('level').hidden = !playing;
     this.meta.render(s, this.busy || this.session.writing || this.saveFailed);
+    if(this.ready&&!this.busy&&!document.hidden&&!document.querySelector('dialog[open]')&&s.meta.screen==='league'){const medal=this.session.takeLeagueMedalReveal();if(medal)this.meta.revealLeagueMedal(medal);}
     const wallet = $('hub-wallet');
     wallet.hidden = playing;
     wallet.setAttribute('aria-label',quantity(this.language,s.profile.coins,'coin'));
@@ -608,7 +612,7 @@ export class GameUi {
     const insideAlbum=s.meta.screen==='album',insideLeague=s.meta.screen==='league';
     const deepTitle=$('deep-title');
     deepTitle.hidden=!insideAlbum&&!insideLeague;
-    deepTitle.textContent=insideLeague?this.t('Офлайн-лига','Offline league'):insideAlbum?this.t('Мастерская счёта','Counting Workshop'):'';
+    deepTitle.textContent=insideLeague?this.t('Лига','League'):insideAlbum?this.t('Мастерская счёта','Counting Workshop'):'';
     $('home').setAttribute('aria-label',insideAlbum||insideLeague?this.t('Назад','Back'):this.t('Crossmath — на главную','Crossmath — Home'));
     const tabBar=$('root-tabs');
     tabBar.hidden=playing||s.meta.screen==='album';
@@ -617,14 +621,6 @@ export class GameUi {
       tab.disabled=this.busy||this.session.writing||this.saveFailed;
       if (s.meta.screen===screen||insideLeague&&screen==='profile') tab.setAttribute('aria-current','page');
       else tab.removeAttribute('aria-current');
-    }
-    if(leagueEnabled){
-      let line=document.getElementById('league-result');
-      if(!line){line=document.createElement('p');line.id='league-result';$('result-rewards').after(line);}
-      const points=s.result?.league?.points;
-      const clockBack=!!s.league?.active&&Date.now()<s.league.lastSeenAt;
-      line.hidden=!!s.leagueQuarantine||!s.result?.league&&!clockBack;
-      line.textContent=clockBack?this.t('Лига ждёт восстановления времени профиля','League scoring awaits profile time'):points?(s.result!.league!.weekId===s.league?.active?.id?this.t(`+${points} в лигу`,`+${points} league points`):this.t(`В лигу той недели: +${points}`,`That week’s league: +${points}`)):this.t('Это поле уже зачтено в лиге','This board already counted this week');
     }
     const pauseLabel = playing ? this.t('Пауза', 'Pause') : this.t('Настройки', 'Settings');
     $('pause-title').textContent = pauseLabel;
@@ -665,6 +661,17 @@ export class GameUi {
     $('run-status').hidden = a.mode !== 'endless';
     const freshReward = s.result?.id !== undefined && this.freshRewardId === s.result.id && !this.busy && !this.blocked;
     const countReward = freshReward && !this.reduced();
+    if(leagueEnabled){
+      let line=document.getElementById('league-result');
+      if(!line){line=document.createElement('p');line.id='league-result';$('result-rewards').after(line);this.leagueReadout=new RewardReadout(line);}
+      const receipt=s.result?.league,points=receipt?.points,clockBack=!!s.league?.active&&Date.now()<s.league.lastSeenAt;
+      line.hidden=!!s.leagueQuarantine||!receipt&&!clockBack;
+      const promotion=receipt?.fromPlace!==undefined&&receipt.toPlace!<receipt.fromPlace?this.t(` · ${receipt.fromPlace} → ${receipt.toPlace} место`,` · ${receipt.fromPlace} → ${receipt.toPlace} place`):'';
+      const oldWeek=receipt&&s.league?.active&&receipt.weekId!==s.league.active.id?this.t(' · прошлая неделя',' · previous week'):'';
+      const format=(value:number)=>this.t(`+${value} в Лигу`,`+${value} League points`)+oldWeek+promotion;
+      const text=clockBack?this.t('Проверьте дату и время устройства','Check the device date and time'):points?format(points):this.t('Это поле уже зачтено в Лиге','This board already counted this week');
+      this.leagueReadout?.update(`${this.language}:${s.result?.id}:${clockBack}`,text,countReward&&points&&!clockBack?{from:0,to:points,format}:undefined);
+    }
     const score = (value:number) => `${this.t('Очки', 'Score')} ${value}`;
     const stage = s.result?.stageScore;
     const runScore = s.result?.runScore;

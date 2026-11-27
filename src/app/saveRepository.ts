@@ -18,6 +18,12 @@ function unsupportedSchema(raw:string|null):boolean {
   try { return Number(JSON.parse(raw ?? 'null')?.schemaVersion)>4; }
   catch { return false; }
 }
+function leagueSignature(save:Save):string{
+ const receipt=(value:Save['result'])=>value&&Object.hasOwn(value,'league')?[true,value.league]:[false];
+ return JSON.stringify([save.league,save.leagueQuarantine,save.leagueReceiptQuarantine,receipt(save.result),
+  Object.entries(save.meta?.inactive??{}).map(([key,slot])=>[key,receipt(slot?.result)]),
+  Object.entries(save.meta?.archivedDailyResults??{}).map(([key,result])=>[key,receipt(result)])]);
+}
 /** One canonical atomic blob holds attempt + wallet + receipts + result. Backup is last-good, not another writer. */
 export class SaveRepository {
   private readonly primary: JsonStorageRepository<Save>;
@@ -38,9 +44,9 @@ export class SaveRepository {
     try {
       if(raw===null)throw Error('No primary save');
       const parsed:unknown=JSON.parse(raw);
-      const hadLeagueQuarantine=(parsed as Save).leagueQuarantine!==undefined;
+      const leagueBefore=leagueSignature(parsed as Save);
       state=decodeSave(parsed);
-      needsWrite=(parsed as {schemaVersion?:unknown}).schemaVersion!==state.schemaVersion||state.leagueQuarantine!==undefined&&!hadLeagueQuarantine;
+      needsWrite=(parsed as {schemaVersion?:unknown}).schemaVersion!==state.schemaVersion||leagueBefore!==leagueSignature(state);
       validPrimary=true;
     } catch(error) {
       if (unsupportedSchema(raw)) throw error;

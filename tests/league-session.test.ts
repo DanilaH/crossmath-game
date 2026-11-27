@@ -117,6 +117,23 @@ describe.runIf(leagueEnabled)('LEAGUE-01 single save writer integration',()=>{
   expect(f.session.state.result!.league?.points).toBe(1);expect(f.session.state.profile.coins).toBe(coins);
   expect(f.session.state.league!.history).toHaveLength(1);expect(f.session.state.league!.active!.policy.weights.easy).toBe(1);
  });
+ it('presents a newly saved medal once, in the same write, and never grants currency for it',async()=>{
+  const f=await setup();await f.session.enterLeague();await f.session.navigate('league');
+  const coins=f.session.state.profile.coins;f.setTime('2026-11-30T00:00:00.000Z');
+  f.setFail(true);await expect(f.session.refreshDay()).rejects.toThrow();expect(f.session.takeLeagueMedalReveal()).toBeUndefined();
+  f.setFail(false);f.setAckLost(true);await f.session.refreshDay();
+  const medal=f.session.state.league!.history[0]!;expect(medal.presented).toBe(true);
+  expect(f.session.takeLeagueMedalReveal()).toBe(medal.id);expect(f.session.takeLeagueMedalReveal()).toBeUndefined();
+  const cold=new GameSession(await f.repo.load(),f.repo,()=>crypto.randomUUID(),()=> '2026-11-30T00:00:00.000Z');
+  await cold.restore();expect(cold.takeLeagueMedalReveal()).toBeUndefined();expect(cold.state.profile.coins).toBe(coins);
+ });
+ it('saves the actual points and place transition with the ordinary win',async()=>{
+  const f=await setup();f.setTime('2026-11-23T00:00:00.000Z');await f.session.enterLeague();
+  const first=Math.min(...f.session.state.league!.active!.bots.flatMap(b=>b.due));f.setTime(new Date(first).toISOString());
+  await f.session.refreshDay();await solve(f.session);
+  expect(f.session.state.result!.league).toMatchObject({points:1,fromPoints:0,toPoints:1,fromPlace:2,toPlace:1});
+  expect((await f.repo.load()).result!.league).toEqual(f.session.state.result!.league);
+ });
  it('isolates a broken league without rolling the wallet, ordinary victory or board back to the older backup',async()=>{
   const f=await setup();await f.session.enterLeague();await solve(f.session);
   const durable=JSON.parse(f.data.get(SAVE_KEY)!),league=structuredClone(durable.league);

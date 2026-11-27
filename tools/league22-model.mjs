@@ -61,13 +61,15 @@ try{
   }
   progression.attempt.status='won';progression=settleCompletion(progression,'2026-11-23T09:00:00Z');
  }
- const report={scope:'Synthetic cadence on the actual immutable bank/six-step routes and runtime league algorithm. Not observed human sessions or retention.',
-  baseline:'31589d6e222cefe2871abf4c91e16e0d8c7422d7',policy:league.leaguePolicy,controls:rows.length,rosters:600,
-  lateAdmission:{zeroPoints:late.history[0],oneEasyWin:lateWin.history[0],decision:'One last-minute win outranks bots with no remaining activity. Admission and medal eligibility need owner calibration before permanent activation.'},
+ const baseline=JSON.parse(await readFile('docs/experiments/league22/BASELINE_V1.json','utf8'));
+ assert.equal(lateWin.history[0].rank,10);assert.equal(lateWin.history[0].medal.tier,'participant');
+ const report={comparison:{baselinePolicy:baseline.policy.version,baselineLastMinuteEasyPlace:baseline.lateAdmission.oneEasyWin.rank,newLastMinuteEasyPlace:lateWin.history[0].rank,pairedCadences:summary.map(row=>({joinedDay:row.joinedDay,scenario:row.scenario,before:baseline.summary.find(r=>r.joinedDay===row.joinedDay&&r.scenario===row.scenario),after:row}))},scope:'Synthetic cadence on the actual immutable bank/six-step routes and runtime league algorithm. Not observed human sessions or retention.',
+  baseline:'a57ceabc8570e57c0fcbf8aabdd5ee74674a7147',policy:league.leaguePolicy,controls:rows.length,rosters:600,
+  lateAdmission:{zeroPoints:late.history[0],oneEasyWin:lateWin.history[0],decision:'v2 keeps the whole calendar-week schedule. One last-minute Easy win is place 10 and cannot earn a top-three medal; v1 active weeks stay frozen.'},
   maximumWeeklyPoints:Object.values(maxProfile.league.active.contributions).reduce((n,c)=>n+c.points,0),
   fullWeekBotTotals:league.botNames.map((name,index)=>({name,points:spread(botTotals.map(x=>x[index]))})),summary,
   storage:{activeBytes,settledWeekBytes:resultBytes,history52EstimateBytes:52*resultBytes,history1100EstimateBytes:1100*resultBytes},
-  caveats:['Joining late shortens all nine bot plans and makes the same win count more valuable. No midweek rebalancing.',
+  caveats:['Late joiners face the same calendar week; no free catch-up or adaptive boost. Numeric pacing still requires playtest approval.',
    'No-win entrants receive only a participation result in the current cosmetic experiment; medal thresholds require calibration.',
    'Player-priority ties and all-place cosmetic medals are provisional. No coin/hint/XP league reward.',
    'Source Guru live configuration and weekly prize table remain UNKNOWN. Eight template fractions are own parameters.']};

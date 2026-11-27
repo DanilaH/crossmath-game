@@ -1,5 +1,6 @@
 import {leagueEnabled} from '../meta/league';
 import {leagueEntry,leagueView} from './leagueView';
+import {LeagueMotion} from './leagueMotion';
 import { challengeUnlockWins, freeTracks } from '../content/rotation';
 import type { FreeTrack } from '../content/rotation';
 import { availableUnlockModes, dailyName, localize, trackName, unlockAnnouncement } from './locale';
@@ -99,6 +100,10 @@ const partsEN = [
 ];
 
 export class MetaView {
+  private readonly leagueMotion=new LeagueMotion();
+  private reduced=false;
+  finishLeagueMotion():void{this.leagueMotion.finish();}
+  revealLeagueMedal(id:string):void{this.leagueMotion.reveal(this.root,id,this.reduced);}
   private language:Language='ru';
   private t(ru:string,en:string):string { return localize(this.language,ru,en); }
   private art(index: number, parts: number, preview: ArtPreview = 'earned'): HTMLElement {
@@ -187,6 +192,7 @@ export class MetaView {
   }
   render(save:Save,disabled:boolean):void {
     this.language = save.settings.language;
+    this.reduced=save.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;
     const screen = save.meta.screen;
     this.disabled = disabled;
     if(this.previousScreen&&this.previousScreen!=='play') {
@@ -205,6 +211,7 @@ export class MetaView {
 
     const focused = document.activeElement?.id;
     const openPanels=this.openPanels.get(screen);
+    this.leagueMotion.capture(this.root);
     this.root.replaceChildren();
     if (screen === 'home') {
       this.home(save);
@@ -220,6 +227,7 @@ export class MetaView {
     }
     else this.album(save);
 
+    this.leagueMotion.play(this.root,this.reduced);
     for (const panel of this.root.querySelectorAll<HTMLDetailsElement>('details[id]')) panel.open=openPanels?.has(panel.id)??false;
     const control = focused && document.getElementById(focused);
     if (control && (this.root.contains(control) || this.choiceOptions.contains(control))) {
@@ -274,6 +282,7 @@ export class MetaView {
     const actions = el('div', 'resume-actions');
     actions.append(primary, newGame);
     stage.append(actions);
+    if(leagueEnabled){const entry=leagueEntry(save,()=>this.actions.navigate('league'),this.disabled);entry.id='home-league-open';entry.classList.add('home-league');stage.append(entry);}
     this.root.append(stage);
 
     const quick = el('div', 'home-quick');
@@ -776,6 +785,9 @@ export class MetaView {
     const c = save.career;
     this.heading(this.t('Профиль', 'Profile'));
     if(leagueEnabled)this.root.append(leagueEntry(save,()=>this.actions.navigate('league'),this.disabled));
+    if(import.meta.env.MODE==='content-lab'||import.meta.env.MODE==='league-lab'){
+      const fields=el('details','hub-panel');fields.id='extra-fields';fields.append(el('summary','',this.t('Дополнительные поля','Additional boards')),this.button(this.t('Новые поля','New boards'),()=>{location.href='content-lab.html';},'content-lab-open'));this.root.append(fields);
+    }
     const rank = this.button('', () => this.openRank(save, 'profile-rank'), 'profile-rank');
     rank.classList.add('mode-option');
     rank.setAttribute('aria-haspopup', 'dialog');

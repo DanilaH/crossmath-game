@@ -1,8 +1,939 @@
 {
+  "comparison": {
+    "baselinePolicy": "league-lab-1",
+    "baselineLastMinuteEasyPlace": 1,
+    "newLastMinuteEasyPlace": 10,
+    "pairedCadences": [
+      {
+        "joinedDay": 0,
+        "scenario": "skip",
+        "before": {
+          "joinedDay": 0,
+          "scenario": "skip",
+          "wins": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "points": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 0,
+          "scenario": "skip",
+          "wins": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "points": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 0,
+        "scenario": "easy-one-daily",
+        "before": {
+          "joinedDay": 0,
+          "scenario": "easy-one-daily",
+          "wins": {
+            "min": 7,
+            "median": 7,
+            "max": 7
+          },
+          "points": {
+            "min": 7,
+            "median": 7,
+            "max": 7
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 0,
+          "scenario": "easy-one-daily",
+          "wins": {
+            "min": 7,
+            "median": 7,
+            "max": 7
+          },
+          "points": {
+            "min": 7,
+            "median": 7,
+            "max": 7
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 0,
+        "scenario": "relax-two-daily",
+        "before": {
+          "joinedDay": 0,
+          "scenario": "relax-two-daily",
+          "wins": {
+            "min": 14,
+            "median": 14,
+            "max": 14
+          },
+          "points": {
+            "min": 18,
+            "median": 18,
+            "max": 18
+          },
+          "place": {
+            "min": 7,
+            "median": 7,
+            "max": 8
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 0,
+          "scenario": "relax-two-daily",
+          "wins": {
+            "min": 14,
+            "median": 14,
+            "max": 14
+          },
+          "points": {
+            "min": 18,
+            "median": 18,
+            "max": 18
+          },
+          "place": {
+            "min": 7,
+            "median": 7,
+            "max": 9
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 0,
+        "scenario": "relax-six-daily",
+        "before": {
+          "joinedDay": 0,
+          "scenario": "relax-six-daily",
+          "wins": {
+            "min": 42,
+            "median": 42,
+            "max": 42
+          },
+          "points": {
+            "min": 56,
+            "median": 56,
+            "max": 56
+          },
+          "place": {
+            "min": 1,
+            "median": 2,
+            "max": 3
+          },
+          "gold": 0.285
+        },
+        "after": {
+          "joinedDay": 0,
+          "scenario": "relax-six-daily",
+          "wins": {
+            "min": 42,
+            "median": 42,
+            "max": 42
+          },
+          "points": {
+            "min": 56,
+            "median": 56,
+            "max": 56
+          },
+          "place": {
+            "min": 1,
+            "median": 2,
+            "max": 3
+          },
+          "gold": 0.3
+        }
+      },
+      {
+        "joinedDay": 0,
+        "scenario": "challenge-two-daily",
+        "before": {
+          "joinedDay": 0,
+          "scenario": "challenge-two-daily",
+          "wins": {
+            "min": 14,
+            "median": 14,
+            "max": 14
+          },
+          "points": {
+            "min": 46,
+            "median": 46,
+            "max": 46
+          },
+          "place": {
+            "min": 3,
+            "median": 3,
+            "max": 4
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 0,
+          "scenario": "challenge-two-daily",
+          "wins": {
+            "min": 14,
+            "median": 14,
+            "max": 14
+          },
+          "points": {
+            "min": 46,
+            "median": 46,
+            "max": 46
+          },
+          "place": {
+            "min": 2,
+            "median": 3,
+            "max": 4
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 0,
+        "scenario": "challenge-six-daily",
+        "before": {
+          "joinedDay": 0,
+          "scenario": "challenge-six-daily",
+          "wins": {
+            "min": 42,
+            "median": 42,
+            "max": 42
+          },
+          "points": {
+            "min": 140,
+            "median": 140,
+            "max": 140
+          },
+          "place": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "gold": 1
+        },
+        "after": {
+          "joinedDay": 0,
+          "scenario": "challenge-six-daily",
+          "wins": {
+            "min": 42,
+            "median": 42,
+            "max": 42
+          },
+          "points": {
+            "min": 140,
+            "median": 140,
+            "max": 140
+          },
+          "place": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "gold": 1
+        }
+      },
+      {
+        "joinedDay": 0,
+        "scenario": "weekend-relax-six",
+        "before": {
+          "joinedDay": 0,
+          "scenario": "weekend-relax-six",
+          "wins": {
+            "min": 12,
+            "median": 12,
+            "max": 12
+          },
+          "points": {
+            "min": 16,
+            "median": 16,
+            "max": 16
+          },
+          "place": {
+            "min": 7,
+            "median": 7,
+            "max": 9
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 0,
+          "scenario": "weekend-relax-six",
+          "wins": {
+            "min": 12,
+            "median": 12,
+            "max": 12
+          },
+          "points": {
+            "min": 16,
+            "median": 16,
+            "max": 16
+          },
+          "place": {
+            "min": 7,
+            "median": 7,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 4,
+        "scenario": "skip",
+        "before": {
+          "joinedDay": 4,
+          "scenario": "skip",
+          "wins": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "points": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 4,
+          "scenario": "skip",
+          "wins": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "points": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 4,
+        "scenario": "easy-one-daily",
+        "before": {
+          "joinedDay": 4,
+          "scenario": "easy-one-daily",
+          "wins": {
+            "min": 3,
+            "median": 3,
+            "max": 3
+          },
+          "points": {
+            "min": 3,
+            "median": 3,
+            "max": 3
+          },
+          "place": {
+            "min": 9,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 4,
+          "scenario": "easy-one-daily",
+          "wins": {
+            "min": 3,
+            "median": 3,
+            "max": 3
+          },
+          "points": {
+            "min": 3,
+            "median": 3,
+            "max": 3
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 4,
+        "scenario": "relax-two-daily",
+        "before": {
+          "joinedDay": 4,
+          "scenario": "relax-two-daily",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 8,
+            "median": 8,
+            "max": 8
+          },
+          "place": {
+            "min": 7,
+            "median": 7,
+            "max": 9
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 4,
+          "scenario": "relax-two-daily",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 8,
+            "median": 8,
+            "max": 8
+          },
+          "place": {
+            "min": 9,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 4,
+        "scenario": "relax-six-daily",
+        "before": {
+          "joinedDay": 4,
+          "scenario": "relax-six-daily",
+          "wins": {
+            "min": 18,
+            "median": 18,
+            "max": 18
+          },
+          "points": {
+            "min": 24,
+            "median": 24,
+            "max": 24
+          },
+          "place": {
+            "min": 1,
+            "median": 2,
+            "max": 3
+          },
+          "gold": 0.285
+        },
+        "after": {
+          "joinedDay": 4,
+          "scenario": "relax-six-daily",
+          "wins": {
+            "min": 18,
+            "median": 18,
+            "max": 18
+          },
+          "points": {
+            "min": 24,
+            "median": 24,
+            "max": 24
+          },
+          "place": {
+            "min": 5,
+            "median": 7,
+            "max": 7
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 4,
+        "scenario": "challenge-two-daily",
+        "before": {
+          "joinedDay": 4,
+          "scenario": "challenge-two-daily",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 20,
+            "median": 20,
+            "max": 20
+          },
+          "place": {
+            "min": 1,
+            "median": 3,
+            "max": 4
+          },
+          "gold": 0.01
+        },
+        "after": {
+          "joinedDay": 4,
+          "scenario": "challenge-two-daily",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 20,
+            "median": 20,
+            "max": 20
+          },
+          "place": {
+            "min": 7,
+            "median": 7,
+            "max": 8
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 4,
+        "scenario": "challenge-six-daily",
+        "before": {
+          "joinedDay": 4,
+          "scenario": "challenge-six-daily",
+          "wins": {
+            "min": 18,
+            "median": 18,
+            "max": 18
+          },
+          "points": {
+            "min": 60,
+            "median": 60,
+            "max": 60
+          },
+          "place": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "gold": 1
+        },
+        "after": {
+          "joinedDay": 4,
+          "scenario": "challenge-six-daily",
+          "wins": {
+            "min": 18,
+            "median": 18,
+            "max": 18
+          },
+          "points": {
+            "min": 60,
+            "median": 60,
+            "max": 60
+          },
+          "place": {
+            "min": 1,
+            "median": 1,
+            "max": 3
+          },
+          "gold": 0.73
+        }
+      },
+      {
+        "joinedDay": 4,
+        "scenario": "weekend-relax-six",
+        "before": {
+          "joinedDay": 4,
+          "scenario": "weekend-relax-six",
+          "wins": {
+            "min": 12,
+            "median": 12,
+            "max": 12
+          },
+          "points": {
+            "min": 16,
+            "median": 16,
+            "max": 16
+          },
+          "place": {
+            "min": 3,
+            "median": 4,
+            "max": 5
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 4,
+          "scenario": "weekend-relax-six",
+          "wins": {
+            "min": 12,
+            "median": 12,
+            "max": 12
+          },
+          "points": {
+            "min": 16,
+            "median": 16,
+            "max": 16
+          },
+          "place": {
+            "min": 7,
+            "median": 7,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 6,
+        "scenario": "skip",
+        "before": {
+          "joinedDay": 6,
+          "scenario": "skip",
+          "wins": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "points": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 6,
+          "scenario": "skip",
+          "wins": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "points": {
+            "min": 0,
+            "median": 0,
+            "max": 0
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 6,
+        "scenario": "easy-one-daily",
+        "before": {
+          "joinedDay": 6,
+          "scenario": "easy-one-daily",
+          "wins": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "points": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "place": {
+            "min": 7,
+            "median": 9,
+            "max": 10
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 6,
+          "scenario": "easy-one-daily",
+          "wins": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "points": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 6,
+        "scenario": "relax-two-daily",
+        "before": {
+          "joinedDay": 6,
+          "scenario": "relax-two-daily",
+          "wins": {
+            "min": 2,
+            "median": 2,
+            "max": 2
+          },
+          "points": {
+            "min": 2,
+            "median": 2,
+            "max": 2
+          },
+          "place": {
+            "min": 7,
+            "median": 8,
+            "max": 10
+          },
+          "gold": 0
+        },
+        "after": {
+          "joinedDay": 6,
+          "scenario": "relax-two-daily",
+          "wins": {
+            "min": 2,
+            "median": 2,
+            "max": 2
+          },
+          "points": {
+            "min": 2,
+            "median": 2,
+            "max": 2
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 6,
+        "scenario": "relax-six-daily",
+        "before": {
+          "joinedDay": 6,
+          "scenario": "relax-six-daily",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 8,
+            "median": 8,
+            "max": 8
+          },
+          "place": {
+            "min": 1,
+            "median": 2,
+            "max": 3
+          },
+          "gold": 0.355
+        },
+        "after": {
+          "joinedDay": 6,
+          "scenario": "relax-six-daily",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 8,
+            "median": 8,
+            "max": 8
+          },
+          "place": {
+            "min": 9,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 6,
+        "scenario": "challenge-two-daily",
+        "before": {
+          "joinedDay": 6,
+          "scenario": "challenge-two-daily",
+          "wins": {
+            "min": 2,
+            "median": 2,
+            "max": 2
+          },
+          "points": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "place": {
+            "min": 1,
+            "median": 3,
+            "max": 5
+          },
+          "gold": 0.025
+        },
+        "after": {
+          "joinedDay": 6,
+          "scenario": "challenge-two-daily",
+          "wins": {
+            "min": 2,
+            "median": 2,
+            "max": 2
+          },
+          "points": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "place": {
+            "min": 10,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 6,
+        "scenario": "challenge-six-daily",
+        "before": {
+          "joinedDay": 6,
+          "scenario": "challenge-six-daily",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 20,
+            "median": 20,
+            "max": 20
+          },
+          "place": {
+            "min": 1,
+            "median": 1,
+            "max": 1
+          },
+          "gold": 1
+        },
+        "after": {
+          "joinedDay": 6,
+          "scenario": "challenge-six-daily",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 20,
+            "median": 20,
+            "max": 20
+          },
+          "place": {
+            "min": 7,
+            "median": 7,
+            "max": 8
+          },
+          "gold": 0
+        }
+      },
+      {
+        "joinedDay": 6,
+        "scenario": "weekend-relax-six",
+        "before": {
+          "joinedDay": 6,
+          "scenario": "weekend-relax-six",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 8,
+            "median": 8,
+            "max": 8
+          },
+          "place": {
+            "min": 1,
+            "median": 2,
+            "max": 3
+          },
+          "gold": 0.355
+        },
+        "after": {
+          "joinedDay": 6,
+          "scenario": "weekend-relax-six",
+          "wins": {
+            "min": 6,
+            "median": 6,
+            "max": 6
+          },
+          "points": {
+            "min": 8,
+            "median": 8,
+            "max": 8
+          },
+          "place": {
+            "min": 9,
+            "median": 10,
+            "max": 10
+          },
+          "gold": 0
+        }
+      }
+    ]
+  },
   "scope": "Synthetic cadence on the actual immutable bank/six-step routes and runtime league algorithm. Not observed human sessions or retention.",
-  "baseline": "31589d6e222cefe2871abf4c91e16e0d8c7422d7",
+  "baseline": "a57ceabc8570e57c0fcbf8aabdd5ee74674a7147",
   "policy": {
-    "version": "league-lab-1",
+    "version": "league-lab-2",
     "weights": {
       "easy": 1,
       "standard": 2,
@@ -60,13 +991,104 @@
   "rosters": 600,
   "lateAdmission": {
     "zeroPoints": {
-      "id": "late:2026-11-23:league-lab-1",
+      "id": "late:2026-11-23:league-lab-2",
       "startDay": "2026-11-23",
       "endDay": "2026-11-30",
       "endAt": 1795996800000,
-      "policyVersion": "league-lab-1",
+      "policyVersion": "league-lab-2",
       "settledAt": 1795996800000,
+      "presented": false,
       "rows": [
+        {
+          "avatar": 4,
+          "id": "bot-0",
+          "name": [
+            "Sasha",
+            "Sasha"
+          ],
+          "points": 57,
+          "place": 1
+        },
+        {
+          "avatar": 2,
+          "id": "bot-1",
+          "name": [
+            "Kat_22",
+            "Kat_22"
+          ],
+          "points": 55,
+          "place": 2
+        },
+        {
+          "avatar": 13,
+          "id": "bot-2",
+          "name": [
+            "Eva_N",
+            "Eva_N"
+          ],
+          "points": 37,
+          "place": 3
+        },
+        {
+          "avatar": 8,
+          "id": "bot-3",
+          "name": [
+            "Лея",
+            "Leia"
+          ],
+          "points": 34,
+          "place": 4
+        },
+        {
+          "avatar": 1,
+          "id": "bot-4",
+          "name": [
+            "Алиса",
+            "Alice"
+          ],
+          "points": 28,
+          "place": 5
+        },
+        {
+          "avatar": 14,
+          "id": "bot-5",
+          "name": [
+            "Агата",
+            "Agata"
+          ],
+          "points": 26,
+          "place": 6
+        },
+        {
+          "avatar": 10,
+          "id": "bot-6",
+          "name": [
+            "Olga",
+            "Olga"
+          ],
+          "points": 18,
+          "place": 7
+        },
+        {
+          "avatar": 3,
+          "id": "bot-8",
+          "name": [
+            "Ника",
+            "Nika"
+          ],
+          "points": 16,
+          "place": 8
+        },
+        {
+          "avatar": 12,
+          "id": "bot-7",
+          "name": [
+            "Юна",
+            "Yuna"
+          ],
+          "points": 15,
+          "place": 9
+        },
         {
           "id": "self",
           "name": [
@@ -74,106 +1096,116 @@
             "You"
           ],
           "points": 0,
-          "place": 1
-        },
-        {
-          "id": "bot-0",
-          "name": [
-            "Латунь",
-            "Brass"
-          ],
-          "points": 0,
-          "place": 2
-        },
-        {
-          "id": "bot-1",
-          "name": [
-            "Графит",
-            "Graphite"
-          ],
-          "points": 0,
-          "place": 3
-        },
-        {
-          "id": "bot-2",
-          "name": [
-            "Искра",
-            "Spark"
-          ],
-          "points": 0,
-          "place": 4
-        },
-        {
-          "id": "bot-3",
-          "name": [
-            "Компас",
-            "Compass"
-          ],
-          "points": 0,
-          "place": 5
-        },
-        {
-          "id": "bot-4",
-          "name": [
-            "Кедр",
-            "Cedar"
-          ],
-          "points": 0,
-          "place": 6
-        },
-        {
-          "id": "bot-5",
-          "name": [
-            "Кварц",
-            "Quartz"
-          ],
-          "points": 0,
-          "place": 7
-        },
-        {
-          "id": "bot-6",
-          "name": [
-            "Штрих",
-            "Stroke"
-          ],
-          "points": 0,
-          "place": 8
-        },
-        {
-          "id": "bot-7",
-          "name": [
-            "Ритм",
-            "Rhythm"
-          ],
-          "points": 0,
-          "place": 9
-        },
-        {
-          "id": "bot-8",
-          "name": [
-            "Линза",
-            "Lens"
-          ],
-          "points": 0,
           "place": 10
         }
       ],
-      "rank": 1,
+      "rank": 10,
       "points": 0,
       "medal": {
-        "id": "medal:late:2026-11-23:league-lab-1",
-        "place": 1,
+        "id": "medal:late:2026-11-23:league-lab-2",
+        "place": 10,
         "tier": "participant"
       }
     },
     "oneEasyWin": {
-      "id": "late:2026-11-23:league-lab-1",
+      "id": "late:2026-11-23:league-lab-2",
       "startDay": "2026-11-23",
       "endDay": "2026-11-30",
       "endAt": 1795996800000,
-      "policyVersion": "league-lab-1",
+      "policyVersion": "league-lab-2",
       "settledAt": 1795996800000,
+      "presented": false,
       "rows": [
+        {
+          "avatar": 4,
+          "id": "bot-0",
+          "name": [
+            "Sasha",
+            "Sasha"
+          ],
+          "points": 57,
+          "place": 1
+        },
+        {
+          "avatar": 2,
+          "id": "bot-1",
+          "name": [
+            "Kat_22",
+            "Kat_22"
+          ],
+          "points": 55,
+          "place": 2
+        },
+        {
+          "avatar": 13,
+          "id": "bot-2",
+          "name": [
+            "Eva_N",
+            "Eva_N"
+          ],
+          "points": 37,
+          "place": 3
+        },
+        {
+          "avatar": 8,
+          "id": "bot-3",
+          "name": [
+            "Лея",
+            "Leia"
+          ],
+          "points": 34,
+          "place": 4
+        },
+        {
+          "avatar": 1,
+          "id": "bot-4",
+          "name": [
+            "Алиса",
+            "Alice"
+          ],
+          "points": 28,
+          "place": 5
+        },
+        {
+          "avatar": 14,
+          "id": "bot-5",
+          "name": [
+            "Агата",
+            "Agata"
+          ],
+          "points": 26,
+          "place": 6
+        },
+        {
+          "avatar": 10,
+          "id": "bot-6",
+          "name": [
+            "Olga",
+            "Olga"
+          ],
+          "points": 18,
+          "place": 7
+        },
+        {
+          "avatar": 3,
+          "id": "bot-8",
+          "name": [
+            "Ника",
+            "Nika"
+          ],
+          "points": 16,
+          "place": 8
+        },
+        {
+          "avatar": 12,
+          "id": "bot-7",
+          "name": [
+            "Юна",
+            "Yuna"
+          ],
+          "points": 15,
+          "place": 9
+        },
         {
           "id": "self",
           "name": [
@@ -181,99 +1213,18 @@
             "You"
           ],
           "points": 1,
-          "place": 1
-        },
-        {
-          "id": "bot-0",
-          "name": [
-            "Латунь",
-            "Brass"
-          ],
-          "points": 0,
-          "place": 2
-        },
-        {
-          "id": "bot-1",
-          "name": [
-            "Графит",
-            "Graphite"
-          ],
-          "points": 0,
-          "place": 3
-        },
-        {
-          "id": "bot-2",
-          "name": [
-            "Искра",
-            "Spark"
-          ],
-          "points": 0,
-          "place": 4
-        },
-        {
-          "id": "bot-3",
-          "name": [
-            "Компас",
-            "Compass"
-          ],
-          "points": 0,
-          "place": 5
-        },
-        {
-          "id": "bot-4",
-          "name": [
-            "Кедр",
-            "Cedar"
-          ],
-          "points": 0,
-          "place": 6
-        },
-        {
-          "id": "bot-5",
-          "name": [
-            "Кварц",
-            "Quartz"
-          ],
-          "points": 0,
-          "place": 7
-        },
-        {
-          "id": "bot-6",
-          "name": [
-            "Штрих",
-            "Stroke"
-          ],
-          "points": 0,
-          "place": 8
-        },
-        {
-          "id": "bot-7",
-          "name": [
-            "Ритм",
-            "Rhythm"
-          ],
-          "points": 0,
-          "place": 9
-        },
-        {
-          "id": "bot-8",
-          "name": [
-            "Линза",
-            "Lens"
-          ],
-          "points": 0,
           "place": 10
         }
       ],
-      "rank": 1,
+      "rank": 10,
       "points": 1,
       "medal": {
-        "id": "medal:late:2026-11-23:league-lab-1",
-        "place": 1,
-        "tier": "gold"
+        "id": "medal:late:2026-11-23:league-lab-2",
+        "place": 10,
+        "tier": "participant"
       }
     },
-    "decision": "One last-minute win outranks bots with no remaining activity. Admission and medal eligibility need owner calibration before permanent activation."
+    "decision": "v2 keeps the whole calendar-week schedule. One last-minute Easy win is place 10 and cannot earn a top-three medal; v1 active weeks stay frozen."
   },
   "maximumWeeklyPoints": 1140,
   "fullWeekBotTotals": [
@@ -283,9 +1234,9 @@
         "Brass"
       ],
       "points": {
-        "min": 47,
+        "min": 46,
         "median": 56,
-        "max": 66
+        "max": 68
       }
     },
     {
@@ -294,9 +1245,9 @@
         "Graphite"
       ],
       "points": {
-        "min": 48,
+        "min": 46,
         "median": 56,
-        "max": 66
+        "max": 65
       }
     },
     {
@@ -305,9 +1256,9 @@
         "Spark"
       ],
       "points": {
-        "min": 32,
+        "min": 31,
         "median": 39,
-        "max": 47
+        "max": 48
       }
     },
     {
@@ -316,9 +1267,9 @@
         "Compass"
       ],
       "points": {
-        "min": 32,
+        "min": 30,
         "median": 38,
-        "max": 45
+        "max": 47
       }
     },
     {
@@ -327,9 +1278,9 @@
         "Cedar"
       ],
       "points": {
-        "min": 23,
+        "min": 22,
         "median": 28,
-        "max": 35
+        "max": 33
       }
     },
     {
@@ -351,7 +1302,7 @@
       "points": {
         "min": 8,
         "median": 14,
-        "max": 19
+        "max": 20
       }
     },
     {
@@ -362,7 +1313,7 @@
       "points": {
         "min": 8,
         "median": 14,
-        "max": 21
+        "max": 20
       }
     },
     {
@@ -371,9 +1322,9 @@
         "Lens"
       ],
       "points": {
-        "min": 8,
+        "min": 9,
         "median": 14,
-        "max": 19
+        "max": 21
       }
     }
   ],
@@ -434,7 +1385,7 @@
       "place": {
         "min": 7,
         "median": 7,
-        "max": 8
+        "max": 9
       },
       "gold": 0
     },
@@ -456,7 +1407,7 @@
         "median": 2,
         "max": 3
       },
-      "gold": 0.285
+      "gold": 0.3
     },
     {
       "joinedDay": 0,
@@ -472,7 +1423,7 @@
         "max": 46
       },
       "place": {
-        "min": 3,
+        "min": 2,
         "median": 3,
         "max": 4
       },
@@ -514,7 +1465,7 @@
       "place": {
         "min": 7,
         "median": 7,
-        "max": 9
+        "max": 10
       },
       "gold": 0
     },
@@ -552,7 +1503,7 @@
         "max": 3
       },
       "place": {
-        "min": 9,
+        "min": 10,
         "median": 10,
         "max": 10
       },
@@ -572,9 +1523,9 @@
         "max": 8
       },
       "place": {
-        "min": 7,
-        "median": 7,
-        "max": 9
+        "min": 9,
+        "median": 10,
+        "max": 10
       },
       "gold": 0
     },
@@ -592,11 +1543,11 @@
         "max": 24
       },
       "place": {
-        "min": 1,
-        "median": 2,
-        "max": 3
+        "min": 5,
+        "median": 7,
+        "max": 7
       },
-      "gold": 0.285
+      "gold": 0
     },
     {
       "joinedDay": 4,
@@ -612,11 +1563,11 @@
         "max": 20
       },
       "place": {
-        "min": 1,
-        "median": 3,
-        "max": 4
+        "min": 7,
+        "median": 7,
+        "max": 8
       },
-      "gold": 0.01
+      "gold": 0
     },
     {
       "joinedDay": 4,
@@ -634,9 +1585,9 @@
       "place": {
         "min": 1,
         "median": 1,
-        "max": 1
+        "max": 3
       },
-      "gold": 1
+      "gold": 0.73
     },
     {
       "joinedDay": 4,
@@ -652,9 +1603,9 @@
         "max": 16
       },
       "place": {
-        "min": 3,
-        "median": 4,
-        "max": 5
+        "min": 7,
+        "median": 7,
+        "max": 10
       },
       "gold": 0
     },
@@ -692,8 +1643,8 @@
         "max": 1
       },
       "place": {
-        "min": 7,
-        "median": 9,
+        "min": 10,
+        "median": 10,
         "max": 10
       },
       "gold": 0
@@ -712,8 +1663,8 @@
         "max": 2
       },
       "place": {
-        "min": 7,
-        "median": 8,
+        "min": 10,
+        "median": 10,
         "max": 10
       },
       "gold": 0
@@ -732,11 +1683,11 @@
         "max": 8
       },
       "place": {
-        "min": 1,
-        "median": 2,
-        "max": 3
+        "min": 9,
+        "median": 10,
+        "max": 10
       },
-      "gold": 0.355
+      "gold": 0
     },
     {
       "joinedDay": 6,
@@ -752,11 +1703,11 @@
         "max": 6
       },
       "place": {
-        "min": 1,
-        "median": 3,
-        "max": 5
+        "min": 10,
+        "median": 10,
+        "max": 10
       },
-      "gold": 0.025
+      "gold": 0
     },
     {
       "joinedDay": 6,
@@ -772,11 +1723,11 @@
         "max": 20
       },
       "place": {
-        "min": 1,
-        "median": 1,
-        "max": 1
+        "min": 7,
+        "median": 7,
+        "max": 8
       },
-      "gold": 1
+      "gold": 0
     },
     {
       "joinedDay": 6,
@@ -792,21 +1743,21 @@
         "max": 8
       },
       "place": {
-        "min": 1,
-        "median": 2,
-        "max": 3
+        "min": 9,
+        "median": 10,
+        "max": 10
       },
-      "gold": 0.355
+      "gold": 0
     }
   ],
   "storage": {
-    "activeBytes": 5496,
-    "settledWeekBytes": 956,
-    "history52EstimateBytes": 49712,
-    "history1100EstimateBytes": 1051600
+    "activeBytes": 5562,
+    "settledWeekBytes": 1029,
+    "history52EstimateBytes": 53508,
+    "history1100EstimateBytes": 1131900
   },
   "caveats": [
-    "Joining late shortens all nine bot plans and makes the same win count more valuable. No midweek rebalancing.",
+    "Late joiners face the same calendar week; no free catch-up or adaptive boost. Numeric pacing still requires playtest approval.",
     "No-win entrants receive only a participation result in the current cosmetic experiment; medal thresholds require calibration.",
     "Player-priority ties and all-place cosmetic medals are provisional. No coin/hint/XP league reward.",
     "Source Guru live configuration and weekly prize table remain UNKNOWN. Eight template fractions are own parameters."

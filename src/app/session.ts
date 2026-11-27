@@ -51,6 +51,8 @@ export function hintPayment({coins, hintCredits}: Save['profile']) {
 
 export class GameSession {
   private busy=false;
+  private leagueMedalRevealId:string|undefined;
+  takeLeagueMedalReveal():string|undefined{const id=this.leagueMedalRevealId;this.leagueMedalRevealId=undefined;return id;}
   private readonly writeWaiters = new Set<() => void>();
 
   get writing():boolean { return this.busy; }
@@ -148,8 +150,13 @@ export class GameSession {
   private async persist(next: Save, elapsed: number): Promise<void> {
     next.attempt.elapsedPlaying+=Math.max(0,elapsed);
     recordTime(next,this.state.attempt.mode,elapsed);
-    const timestamp=this.now();refreshDay(next,timestamp);next=settleCompletion(next,timestamp); next.revision=this.state.revision+1;
+    const timestamp=this.now();refreshDay(next,timestamp);next=settleCompletion(next,timestamp);
+    const medal=leagueEnabled&&next.meta.screen==='league'?next.league?.history.at(-1):undefined;
+    const revealId=medal?.presented===false?medal.id:undefined;
+    if(revealId)medal!.presented=true;
+    next.revision=this.state.revision+1;
     this.state=await this.repository.commit(this.state.revision,next);
+    if(revealId)this.leagueMedalRevealId=revealId;
   }
   async command(action: BoardAction, elapsed=0, metadata?: {commandId:string;expectedRevision:number}): Promise<Transition> {
     const command={...action,commandId:metadata?.commandId ?? this.id(),expectedRevision:metadata?.expectedRevision ?? this.state.attempt.boardRevision} as Command;
@@ -241,7 +248,7 @@ export class GameSession {
     try {await this.persist(structuredClone(this.state),elapsed);return true;} finally {this.finishWrite();}
   }
   canRestart(save=this.state):boolean{return (endlessEnabled||save.attempt.mode!=='endless')&&(save.attempt.mode!=='daily'||dateAvailable(save.profile.createdAt,save.profile.timeZone,save.meta.effectiveDay,save.attempt.dayKey!));}
-  hasLeagueUpdate():boolean{return leagueEnabled&&leagueUpdateDue(this.state.league,this.now());}
+  hasLeagueUpdate():boolean{return leagueEnabled&&(leagueUpdateDue(this.state.league,this.now())||this.state.meta.screen==='league'&&this.state.league?.history.at(-1)?.presented===false);}
   async enterLeague():Promise<boolean>{
     if(this.busy||!leagueEnabled||this.state.leagueQuarantine)return false;
     const league=joinLeague(this.state.league,this.state.profile.id,this.state.profile.timeZone,this.now());

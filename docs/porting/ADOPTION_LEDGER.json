@@ -1824,11 +1824,11 @@
       "sourceFeatureId": "guru-brains-week",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Experimental Monday-to-Monday profile-zone period, opt-in and one cosmetic medal receipt/history. No monetary league prize.",
+      "currentImplementation": "Experimental opt-in weekly League, visible Home/Profile entries, one durable cosmetic medal and one-time presentation. Full-calendar v2 late entry; legacy v1 support; no monetary reward.",
       "codePath": "src/meta/league.ts · src/app/model.ts · src/app/session.ts · src/ui/leagueView.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "LEAGUE-01 lab: agree on numerical weights, entry/late-week eligibility, bot distributions and medals after playtest. Physical Android and human pacing remain open. No source live-config/prize parity claim.",
+      "nextAction": "Playtest v2 presentation and full-calendar late-entry balance; agree numeric policy and permanent activation. Physical Android remains open. No full source live-config/prize parity claim.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
@@ -1848,6 +1848,16 @@
         "source": "https://github.com/DanilaH/mini-games-kit/blob/a994dc7910fd50f198f892e64a8203b764a921c1/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
         "physicalAndroid": "NOT RUN",
         "productionActivation": false
+      },
+      "league22Review": {
+        "ownerDecision": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-league-presentation--лига--league",
+        "acceptance": "docs/acceptance/issue-22/REVIEW.md",
+        "policy": "league-lab-2; legacy v1 weeks immutable",
+        "presentation": "League/Home entry/own portraits/natural seeded weekly nicknames; computer disclosure only in Rules; no fake online",
+        "isolation": "Malformed result.league removed to quarantine in current, inactive campaign/free/daily/endless and archived Daily; ordinary progress retained",
+        "physicalAndroid": "NOT RUN",
+        "numericApproval": "OPEN",
+        "productionActivation": false
       }
     },
     {
@@ -1855,11 +1865,11 @@
       "sourceFeatureId": "guru-brains-plan",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Nine own bot names/avatars, seeded daily targets and persisted UTC due arrays. Frozen checksum validation, no regeneration on reopen or rank-dependent tempo. Eight template fractions are own calibration.",
+      "currentImplementation": "Nine immutable seeded full-calendar activity plans in v2, own varied weekly identities/portraits, due-only catch-up. Existing v1 plans remain unchanged until settlement.",
       "codePath": "src/meta/league.ts · src/app/model.ts · src/app/session.ts · src/ui/leagueView.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "LEAGUE-01 lab: agree on numerical weights, entry/late-week eligibility, bot distributions and medals after playtest. Physical Android and human pacing remain open. No source live-config/prize parity claim.",
+      "nextAction": "Playtest v2 presentation and full-calendar late-entry balance; agree numeric policy and permanent activation. Physical Android remains open. No full source live-config/prize parity claim.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
@@ -1879,6 +1889,16 @@
         "source": "https://github.com/DanilaH/mini-games-kit/blob/a994dc7910fd50f198f892e64a8203b764a921c1/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
         "physicalAndroid": "NOT RUN",
         "productionActivation": false
+      },
+      "league22Review": {
+        "ownerDecision": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-league-presentation--лига--league",
+        "acceptance": "docs/acceptance/issue-22/REVIEW.md",
+        "policy": "league-lab-2; legacy v1 weeks immutable",
+        "presentation": "League/Home entry/own portraits/natural seeded weekly nicknames; computer disclosure only in Rules; no fake online",
+        "isolation": "Malformed result.league removed to quarantine in current, inactive campaign/free/daily/endless and archived Daily; ordinary progress retained",
+        "physicalAndroid": "NOT RUN",
+        "numericApproval": "OPEN",
+        "productionActivation": false
       }
     },
     {
@@ -1890,7 +1910,7 @@
       "codePath": "src/meta/league.ts · src/app/model.ts · src/app/session.ts · src/ui/leagueView.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "LEAGUE-01 lab: agree on numerical weights, entry/late-week eligibility, bot distributions and medals after playtest. Physical Android and human pacing remain open. No source live-config/prize parity claim.",
+      "nextAction": "Playtest v2 presentation and full-calendar late-entry balance; agree numeric policy and permanent activation. Physical Android remains open. No full source live-config/prize parity claim.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
@@ -1909,6 +1929,16 @@
         "model": "docs/experiments/league22/MEASUREMENTS.json",
         "source": "https://github.com/DanilaH/mini-games-kit/blob/a994dc7910fd50f198f892e64a8203b764a921c1/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
         "physicalAndroid": "NOT RUN",
+        "productionActivation": false
+      },
+      "league22Review": {
+        "ownerDecision": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-league-presentation--лига--league",
+        "acceptance": "docs/acceptance/issue-22/REVIEW.md",
+        "policy": "league-lab-2; legacy v1 weeks immutable",
+        "presentation": "League/Home entry/own portraits/natural seeded weekly nicknames; computer disclosure only in Rules; no fake online",
+        "isolation": "Malformed result.league removed to quarantine in current, inactive campaign/free/daily/endless and archived Daily; ordinary progress retained",
+        "physicalAndroid": "NOT RUN",
+        "numericApproval": "OPEN",
         "productionActivation": false
       }
     },
@@ -7401,7 +7431,7 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/progress.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "LEAGUE-01 lab: agree on numerical weights, entry/late-week eligibility, bot distributions and medals after playtest. Physical Android and human pacing remain open. No source live-config/prize parity claim.",
+      "nextAction": "Playtest v2 presentation and full-calendar late-entry balance; agree numeric policy and permanent activation. Physical Android remains open. No full source live-config/prize parity claim.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
@@ -7418,6 +7448,16 @@
         "model": "docs/experiments/league22/MEASUREMENTS.json",
         "source": "https://github.com/DanilaH/mini-games-kit/blob/a994dc7910fd50f198f892e64a8203b764a921c1/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
         "physicalAndroid": "NOT RUN",
+        "productionActivation": false
+      },
+      "league22Review": {
+        "ownerDecision": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-league-presentation--лига--league",
+        "acceptance": "docs/acceptance/issue-22/REVIEW.md",
+        "policy": "league-lab-2; legacy v1 weeks immutable",
+        "presentation": "League/Home entry/own portraits/natural seeded weekly nicknames; computer disclosure only in Rules; no fake online",
+        "isolation": "Malformed result.league removed to quarantine in current, inactive campaign/free/daily/endless and archived Daily; ordinary progress retained",
+        "physicalAndroid": "NOT RUN",
+        "numericApproval": "OPEN",
         "productionActivation": false
       }
     },
