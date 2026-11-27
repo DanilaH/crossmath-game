@@ -148,7 +148,7 @@ try{
   if(candidate){
    await page.locator('#win-rv-bonus:visible').waitFor();const base=await page.locator('#win-rv-bonus').boundingBox(),next=await page.locator('#next').boundingBox();
    assert.ok(base.y>=next.y+next.height-1,'Voluntary bonus is below the ordinary action');assert.ok(base.y+base.height<=height+1&&next.y+next.height<=height+1,'Both actions visible');await view(page,`win-bonus-${width}-${height}-${language}-${theme}`);
-   await tap(page,'#win-rv-bonus');await page.waitForFunction(()=>window.adsProtocolTest.open);
+   await page.locator('#win-rv-bonus:enabled').waitFor();await tap(page,'#win-rv-bonus');await page.waitForFunction(()=>window.adsProtocolTest.open);
    const request=Object.values((await save(page)).ads.requests).at(-1).request;const delta=request.win.delta;
    await page.evaluate(()=>window.adsProtocolTest.finish('earned'));
    await page.waitForFunction(coins=>JSON.parse(localStorage.getItem('crossmath.save.v1')).profile.coins===coins,victory.profile.coins+delta);
@@ -177,11 +177,20 @@ try{
    const seed=structuredClone(fixtures[fixture]);seed.settings.language=language;seed.settings.theme=language==='ru'?'light':'dark';
    const {context,page}=await episode(seed,{width:320,height:480},{reduce:true});const before=await finishBoard(page);
    await page.locator('#win-rv-bonus:visible').waitFor();const next=await page.locator('#next').boundingBox();assert.ok(next.y>=0&&next.y+next.height<=480,'Milestone ordinary continuation stays visible');
-   await view(page,fixture+'-'+language+'-bonus');await tap(page,'#win-rv-bonus');await page.waitForFunction(()=>window.adsProtocolTest.open);
+   await view(page,fixture+'-'+language+'-bonus');await page.locator('#win-rv-bonus:enabled').waitFor();await tap(page,'#win-rv-bonus');await page.waitForFunction(()=>window.adsProtocolTest.open);
    await page.evaluate(()=>window.adsProtocolTest.finish('cancelled'));await page.locator('#next:enabled').waitFor();
    assert.equal((await save(page)).profile.coins,before.profile.coins);await tap(page,'#next');await page.locator('#result').waitFor({state:'hidden'});
    assert.equal(await page.evaluate(()=>window.adsProtocolTest.calls.filter(c=>c.format==='interstitial').length),0);await context.close();
   }
+ }
+ if(candidate){
+  const seed=structuredClone(fixtures['before-8']),{context,page}=await episode(seed,{width:390,height:844});
+  const before=await finishBoard(page);await page.locator('#win-rv-bonus:disabled').waitFor();
+  const p=await page.locator('#win-rv-bonus').boundingBox();await page.touchscreen.tap(p.x+p.width/2,p.y+p.height/2);
+  assert.equal(await page.evaluate(()=>window.adsProtocolTest.calls.filter(c=>c.format==='rewarded').length),0,'No ad may interrupt committed reward animations');
+  await page.locator('#win-rv-bonus:enabled').waitFor();assert.equal(await page.locator('#workshop-award').getAttribute('data-phase'),'done');
+  await page.locator('#result [data-counting=true]').waitFor({state:'hidden'});
+  assert.equal((await save(page)).profile.coins,before.profile.coins);await view(page,'candidate-after-natural-reward-animation');await context.close();
  }
  const recordings=[];
  if(process.env.MON27_RECORD==='1'){
@@ -193,7 +202,7 @@ try{
   await page.locator('#result:visible').waitFor();await page.waitForTimeout(1800);const path=await page.video().path();await context.close();await rename(path,out+'/help-credit-1x.webm');recordings.push({file:'help-credit-1x.webm',fixture:'new',transport:'scripted native, actual JS bridge',audio:false,speed:1});
   if(candidate){
    const seed=structuredClone(fixtures['before-8']);const {context,page}=await episode(seed,{width:390,height:844},{video:true});
-   await page.waitForTimeout(600);await finishBoard(page);await page.waitForTimeout(1200);await tap(page,'#win-rv-bonus');await page.waitForFunction(()=>window.adsProtocolTest.open);
+   await page.waitForTimeout(600);await finishBoard(page);await page.waitForTimeout(1200);await page.locator('#win-rv-bonus:enabled').waitFor();await tap(page,'#win-rv-bonus');await page.waitForFunction(()=>window.adsProtocolTest.open);
    await page.waitForTimeout(800);await page.evaluate(()=>window.adsProtocolTest.finish('earned'));await page.waitForFunction(()=>Object.values(JSON.parse(localStorage.getItem('crossmath.save.v1')).ads.requests).some(r=>r.request.kind==='win-bonus'&&r.settlement==='earned'));
    await page.waitForTimeout(1200);await tap(page,'#next');await page.locator('#result').waitFor({state:'hidden'});await page.waitForTimeout(700);
    const path=await page.video().path();await context.close();await rename(path,out+'/victory-candidate-1x.webm');recordings.push({file:'victory-candidate-1x.webm',fixture:'before-8',transport:'scripted native, candidate only',audio:false,speed:1});

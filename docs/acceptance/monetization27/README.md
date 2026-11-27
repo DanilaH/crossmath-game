@@ -29,7 +29,7 @@ Proposal: after >5 different solved boards; first solution in Campaign/Free only
 | Hard | 20 | 40 | 60 |
 | Expert | 25 | 50 | 75 |
 
-These numbers/eligibility remain owner proposals. Example base10 + rank60 already credited70; candidate adds20, resulting90 from those sources, not210. Tasks, Daily, rank, cards, XP, parts and medals are never multiplied. With hypothetical 25% earned participation, expected base-only income is15/22.5/30/37.5, before all other sources; this arithmetic is **not** a conversion/earnings forecast. Existing META economy model and League A–D remain unchanged. No candidate payout is created in the main APK.
+These numbers/eligibility remain owner proposals. Example base10 + rank60 already credited70; candidate adds20, resulting90 from those sources, not210. Tasks, Daily, rank, cards, XP, parts and medals are never multiplied. With hypothetical 25% earned participation, expected base-only income is15/22.5/30/37.5, before all other sources; this arithmetic is **not** a conversion/earnings forecast. Existing META economy model and League A–D remain unchanged. No candidate payout is created in the main APK. The optional button stays disabled until the existing coin/score readouts and Workshop presentation naturally finish; ordinary Continue retains its existing skip behavior. No animation durations/effects are modified.
 
 Durable request snapshots `profileId + resultId + puzzleId + immutable base/delta + policy`. Receipt matches this request; SDK/UI never supply an authoritative amount. Dedup by both request and result; late earned targets the saved claim after Next/reload, not a new board's result. Failed write retains both entitlement and native receipt. Cancel/no-fill yields zero; truthful late earned remains receivable. Same-result requests with different IDs cannot pay twice. No native test provider is shipped.
 
@@ -62,3 +62,7 @@ See [provider handoff and real-device checklist](PROVIDER_HANDOFF.md). SDK/vendo
 ### Economy regression
 
 The complete META model report was rerun on this package:54 synthetic weeks/1014 actual GameSession settlements,5400 League rank replays and108000 independent Python wallet replays. The entire report is identical to the previous META artifact, including all payouts, sensitivities and A–D proposals. This verifies unchanged existing model outputs; it is not live ad revenue or proof of human participation. #14 numerical table above remains a separate inactive proposal.
+
+### #14 latest source clarification
+
+[Issue comment7201351751](https://github.com/DanilaH/crossmath-game/issues/14#issuecomment-7201351751) / [102-control Guru native replay](https://github.com/DanilaH/mini-games-kit/blob/1c87c0d2b81f22cd927835b4ec1f382752432806/research/games/crossmath/porting/guru-economy-native-20261127/README.md): deee14 guards are `multiCoinTextAnimation` and `buttonHideAnimation`, not recovered game-mode exclusions. Separate ef2a path remains unresolved. First-claim flag is telemetry, not a dedup ledger. Our candidate waits for its own existing readout/Workshop presentation states and deduplicates by durable result/request; Daily/Endless exclusions and extra2×base are own inactive proposals, not inferred original enums/30-coin wallet totals. Browser early-touch regression verifies zero ad calls until animations naturally finish.

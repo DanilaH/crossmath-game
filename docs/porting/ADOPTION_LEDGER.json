@@ -7153,7 +7153,7 @@
       "status": "RESEARCHED",
       "comparison": "MISSING",
       "originalBehavior": "deee5c/deee64, deee74/deee7c: refs 228761/228760; ef2ae8/ef2af0: ref228755. Semantics of each enum value UNKNOWN. | research/games/crossmath/porting/guru-reward-progression-20261125/README.md | 2026-11-27: Correction/clarification: exact PP41c00=multiCoinTextAnimation and PP41c08=buttonHideAnimation, both block deee14 before watch; 12 controls include both. Separate ef2a path not executed; do not conflate animation states with all mode exclusions. | research/games/crossmath/porting/guru-economy-native-20261127/README.md",
-      "currentImplementation": "No victory rewarded kind; only hint and continue. Exact original enum meanings UNKNOWN.",
+      "currentImplementation": "Own #14 candidate only: Campaign/Free first-win proposal, separate from source enums. deee14 original guards are multiCoinTextAnimation/buttonHideAnimation per102-control native replay; separate ef2a path remains UNKNOWN. Our candidate waits for existing readout/Workshop presentation; main build has no offer.",
       "codePath": "src/platform/adState.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/platform/adState.ts",
       "stage": "COMMERCIAL — owner choice",
@@ -7169,7 +7169,7 @@
         "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
         "evidence": "docs/acceptance/monetization27/README.md",
         "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
-        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android and real SDK acceptance. Original deee14 animation guards resolved; ef2a/remote/live wallet remain UNKNOWN."
       }
     },
     {

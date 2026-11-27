@@ -29,6 +29,7 @@ interface Replacement { operation: OpenOperation; triggerId: string; recovery: b
 export class GameUi {
   private disposed=false;
   private readonly ads:AdsController|undefined;
+  private bonusObserver:MutationObserver|undefined;
   private notice:'recovered'|'unavailable'|undefined;
   private replacement: Replacement | undefined;
   private renderedLanguage?: Language;
@@ -112,8 +113,10 @@ export class GameUi {
       const frame=document.createElementNS(video.namespaceURI,'rect');frame.setAttribute('x','1');frame.setAttribute('y','2');frame.setAttribute('width','18');frame.setAttribute('height','16');frame.setAttribute('rx','3');frame.setAttribute('fill','none');frame.setAttribute('stroke','currentColor');frame.setAttribute('stroke-width','1.5');
       const play=document.createElementNS(video.namespaceURI,'path');play.setAttribute('d','M8 6L14 10L8 14Z');play.setAttribute('fill','currentColor');video.append(frame,play);
       const caption=document.createElement('span');caption.dataset.bonusCaption='';bonus.append(video,caption);
-      bonus.onclick=()=>this.run(time=>this.ads!.reward('win-bonus',time));
+      bonus.onclick=()=>{if(!this.winBonusAnimating())this.run(time=>this.ads!.reward('win-bonus',time));};
       $('result').append(bonus);
+      this.bonusObserver=new MutationObserver(()=>{bonus.disabled=this.busy||session.writing||this.saveFailed||this.blocked||this.winBonusAnimating();});
+      this.bonusObserver.observe($('result'),{subtree:true,attributes:true,attributeFilter:['data-counting','data-phase','hidden']});
     }
     $('next').onclick=()=>{
       this.meta.skipWorkshopReveal();
@@ -577,6 +580,10 @@ export class GameUi {
     });
   }
   showRecoveryNotice():void {this.notice='recovered';this.render();}
+  private winBonusAnimating():boolean {
+    const workshop=$('workshop-award');
+    return !!$('result').querySelector('[data-counting="true"]')||!workshop.hidden&&workshop.dataset.phase!=='done';
+  }
   render():void{if(this.disposed)return;const s=this.session.state,a=s.attempt,p=getPuzzle(a.puzzleId),settings=s.settings;
     if(this.renderedLanguage!==this.language){
       this.renderedLanguage=this.language;
@@ -610,7 +617,7 @@ export class GameUi {
     if(winBonusCandidate){
       const button=$<HTMLButtonElement>('win-rv-bonus'),offer=winBonusOffer(s);
       button.hidden=!offer||!this.ads?.rewardAvailable('win-bonus');
-      button.disabled=this.busy||this.session.writing||this.saveFailed;
+      button.disabled=this.busy||this.session.writing||this.saveFailed||this.blocked||this.winBonusAnimating();
       if(offer){const label=this.t(`+${quantity(this.language,offer.delta,'coin')} за видео`,`Watch for +${quantity(this.language,offer.delta,'coin')}`);button.querySelector('[data-bonus-caption]')!.textContent=label;button.setAttribute('aria-label',label);}
     }
     const workshop = settings.theme === 'dark';
@@ -789,5 +796,5 @@ export class GameUi {
     $('mode-rules').textContent=a.mode==='endless'?this.t("Три жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.", "Three lives for the entire run. Select Check to submit a full board. A different incorrect layout costs a life. Using help counts toward the assisted record."):a.mode==='daily'?this.t("Три жизни на попытку. Новая ошибка снимает максимум одну жизнь за ход. Отмена, возврат и помощь жизнь не снимают. Повтор бесплатный.", "Three lives per attempt. A new error costs at most one life per move. Undo, returning numbers and help cost no lives. Retrying is free."):this.t("Числа сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.", "Your board is saved. There is no penalty for mistakes, and correct equations remain editable. Tap a number and a cell in either order, or drag a piece.");
   }
   onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen==='album')this.leaveWorkshop();else if(this.session.state.meta.screen==='league')this.navigate('profile');else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
-  dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.stopStart();this.finishReadouts();this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
+  dispose():void{this.disposed=true;this.bonusObserver?.disconnect();this.ads?.dispose();clearInterval(this.timer);this.stopStart();this.finishReadouts();this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
 }
