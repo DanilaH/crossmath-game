@@ -21,6 +21,7 @@ import './ui/menuScreens.css';
 import './ui/rootNavigation.css';
 import './ui/workshopReveal.css';
 import './ui/league.css';
+import './ui/metaPolish.css';
 
 const startup=new StartupTimeline<'hostReady'|'storageReady'|'firstFrame'|'ready'>(),cover=document.querySelector<HTMLElement>('#startup')!,root=document.querySelector<HTMLElement>('#game-root')!;
 let language:Language='ru';

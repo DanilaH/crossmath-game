@@ -39,6 +39,7 @@ jobs:
       - run: npm run test:league
       - run: node tools/league22-model.mjs
       - run: node tools/league22-guru-model.mjs
+      - run: node tools/meta18-economy.mjs
       - run: npm run content:verify
       - name: Verify the isolated content candidate
         run: |
@@ -53,7 +54,7 @@ jobs:
       - run: npm run test:browser
       - run: npm run build:issuance-pilot && node tools/issuance-pilot-browser.mjs
       - run: npm run build:content-lab && node tools/content03-browser.mjs
-      - run: npm run build:league-lab && node tools/league22-browser.mjs && node tools/league22-record.mjs
+      - run: npm run build:league-lab && node tools/league22-browser.mjs && node tools/league22-record.mjs && node tools/meta18-fixtures.mjs && node tools/meta18-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -69,6 +70,9 @@ jobs:
             .test-output/league22-guru/
             .test-output/league22-ui/
             .test-output/league22-recording/
+            .test-output/meta18/
+            .test-output/meta18-ui/
+            .test-output/meta18-economy/
             .test-output/help11-ui/
             .test-output/ads-banner/
             .test-output/feel/

@@ -1100,7 +1100,7 @@
       "sourceFeatureId": "guru-task-count",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "currentImplementation": "У реально изменившихся задач показан прирост из сравнения записанного состояния, один короткий звуковой акцент.",
+      "currentImplementation": "Компактная сводка тех же трёх заданий; результат показывает завершения или сохранённый прогресс без цепочки сырых counters. Текущие правила/семь групп/receipt/звук подтверждённой победы сохранены.",
       "codePath": "src/ui/gameUi.ts",
       "stage": "FEEL-01",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
@@ -1109,9 +1109,15 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21/src/ui/gameUi.ts",
       "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/feel-01.md",
+      "acceptanceEvidence": "docs/acceptance/meta15-18/README.md (additional UI/economy evidence; prior accepted behavior retained)",
       "reviewedVersion": "0.5.24 / 29",
-      "reviewedHead": "57820c8c6491c8b6240aeed5cb0dfde61c858927"
+      "reviewedHead": "57820c8c6491c8b6240aeed5cb0dfde61c858927",
+      "metaPolish20261127": {
+        "scope": "META #15/#18 per owner v1.1",
+        "evidence": "docs/acceptance/meta15-18/README.md",
+        "build": "0.5.25 / 30",
+        "kind": "Own UI/actual GameSession model; not original runtime or physical Android"
+      }
     },
     {
       "id": "guru-task-complete",
@@ -1360,7 +1366,7 @@
       "sourceFeatureId": "easy-month-trophy",
       "status": "ACCEPTED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Трофей прошлого месяца открывает доступную недостающую дату. Январская печать получена 1 марта после решения 31 января. Архив печатей сохранился после перезапуска.",
+      "currentImplementation": "Сохранённый месячный трофей: собственная печать из committed receipt, один существующий победный cue, архив в профиле/календаре, просмотр выбранного месяца и выход к сегодня. Исторические даты/earnedAt не переписываются; новые монеты за печать не введены.",
       "codePath": "src/ui/metaView.ts",
       "stage": "D",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
@@ -1376,8 +1382,14 @@
         "path": "https://github.com/DanilaH/crossmath-game/blob/279d545986eac9b6e90d01bcff9d989c2985c6a7/docs/porting/meta-0516/README.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 3 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495",
-      "reviewedVersion": "0.5.23"
+      "acceptanceEvidence": "docs/acceptance/meta15-18/README.md (additional UI/economy evidence; prior accepted behavior retained)",
+      "reviewedVersion": "0.5.23",
+      "metaPolish20261127": {
+        "scope": "META #15/#18 per owner v1.1",
+        "evidence": "docs/acceptance/meta15-18/README.md",
+        "build": "0.5.25 / 30",
+        "kind": "Own UI/actual GameSession model; not original runtime or physical Android"
+      }
     },
     {
       "id": "easy-event-badge",
@@ -1441,12 +1453,13 @@
       "codePath": "src/meta/missions.ts",
       "stage": "P1",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Original index clamps after group16 rather than cycling; own seven-group modulo cycle and max 3-board witness intentional. Compare gaps and day16–18, evaluate optional longer goals without changing short daily yet. | DAILY-02 #18: 16-group candidate, same three-board bound and existing payouts; owner approval, actual session and source live gate pending.",
+      "nextAction": "Retain reference evidence boundaries; numeric/eligibility changes require owner approval after docs/experiments/meta18/ECONOMY_RU.md. No automatic 16-group rollout.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/missions.ts",
       "originalBehavior": "Три цели выбираются по активным дням, 16 групп, последняя повторяется. G4:E38 §10 | NATIVE_STATIC Guru 4.17 AOT remote-config getters RemoteConfigExtension|getTaskConfig; live remote values UNKNOWN. 23-family enumeration in full-system-audit-20261123/REMOTE_CONFIGS.json. Additional: raw default JSON independently decoded ref45835/file 0x1967c8, 16×3. af1cfc/af1d20 clamps positive active-day index; af20ec/af20f0 tail parity. Source non-cyclic; previous descriptions saying cyclic are inaccurate. | research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18",
+      "metaScopeDecision": "Current seven groups and every grant unchanged; 16-group historical proposal is not current scope. Compact UI live; simple3/off are model-only. See DEC-2026-11-27-META-SCOPE."
     },
     {
       "id": "guru-daily-fallback",
@@ -1457,10 +1470,11 @@
       "codePath": "src/meta/missions.ts",
       "stage": "P1",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Проверить без открытых режимов, на исчерпании контента и после миграции | DAILY-02 #18: 16-group candidate, same three-board bound and existing payouts; owner approval, actual session and source live gate pending.",
+      "nextAction": "Retain reference evidence boundaries; numeric/eligibility changes require owner approval after docs/experiments/meta18/ECONOMY_RU.md. No automatic 16-group rollout.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L581",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts",
-      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18",
+      "metaScopeDecision": "Current seven groups and every grant unchanged; 16-group historical proposal is not current scope. Compact UI live; simple3/off are model-only. See DEC-2026-11-27-META-SCOPE."
     },
     {
       "id": "guru-daily-set",
@@ -1471,13 +1485,14 @@
       "codePath": "src/meta/missions.ts",
       "stage": "P1",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Проверить прерывание и повторное нажатие после выполнения последней цели | DAILY-02 #18: 16-group candidate, same three-board bound and existing payouts; owner approval, actual session and source live gate pending.",
+      "nextAction": "Retain reference evidence boundaries; numeric/eligibility changes require owner approval after docs/experiments/meta18/ECONOMY_RU.md. No automatic 16-group rollout.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L592",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/missions.ts",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/ff625788b01ef597c88126b2a120f915fcca6d24/research/games/crossmath/porting/guru-economy-20261125/README.md"
       ],
-      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18",
+      "metaScopeDecision": "Current seven groups and every grant unchanged; 16-group historical proposal is not current scope. Compact UI live; simple3/off are model-only. See DEC-2026-11-27-META-SCOPE."
     },
     {
       "id": "guru-postcard",
@@ -1868,7 +1883,8 @@
         "currentEvidence": "Unit/model/independent Python/browser; native device NOT RUN",
         "productionActivation": false,
         "weeklyMoneyActive": false
-      }
+      },
+      "metaEconomyRecalculation": "A/B/C recomputed against current/simple3/off; D=30/20/10 coin-only proposal. No prize activated; v1/v2/v3 immutable. docs/experiments/meta18/ECONOMY_RU.md"
     },
     {
       "id": "guru-brains-plan",
@@ -3681,7 +3697,7 @@
       "sourceFeatureId": "guru-badge-ceremony",
       "status": "EVIDENCE_GAP",
       "comparison": "MISSING",
-      "currentImplementation": "12 постоянных достижений; rank text/progress, собственная анимация мастерской. Нет семейной церемонии.",
+      "currentImplementation": "Полируются существующие 12 достижений, статические единицы/прогресс и фоновые ранг/XP; семейная церемония Guru не переносилась. Отдельная собственная месячная печать не является доказательством original badge ceremony.",
       "codePath": "src/ui/metaView.ts",
       "stage": "META UX · после подтверждения runtime оригинала",
       "dependencies": "Сначала найти достижимый экран и триггеры референса; затем решение владельца; свои звуки/анимации, квитанции достижений, reduced motion, lifecycle",
@@ -3689,7 +3705,13 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/cdd5f1b8f7e83cab63c3804ff0da570bf90d74e6/research/games/crossmath/porting/guru-long-term-progression-20261125/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/metaView.ts",
       "reviewedVersion": "0.5.24 / 29",
-      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15"
+      "progressionProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/15",
+      "metaPolish20261127": {
+        "scope": "META #15/#18 per owner v1.1",
+        "evidence": "docs/acceptance/meta15-18/README.md",
+        "build": "0.5.25 / 30",
+        "kind": "Own UI/actual GameSession model; not original runtime or physical Android"
+      }
     },
     {
       "id": "guru-iap-premium",
@@ -4063,7 +4085,7 @@
       "sourceFeatureId": "guru-ui-profile-nested-filters",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Профиль фильтрует кампанию, свободную игру, день и Endless. Сложность фильтрует пройденный маршрут кампании. История старых профилей помечается как частичная.",
+      "currentImplementation": "Существующие фильтры режимов/сложности и сохранённые статистики сохранены; ясные единицы достижений, readonly rank/XP и прогресс коллекции. Отдельных новых систем/целей нет.",
       "codePath": "src/ui/metaView.ts",
       "stage": "NAV · owner-approved 2026-11-23, design+implementation PR pending",
       "dependencies": "src/app/session.ts, src/meta/types.ts, src/ui/gameUi.ts, src/ui/metaView.ts, styles, localization RU/EN, 48px targets, safe-area, active slots, migrations",
@@ -4074,7 +4096,13 @@
       "sourceVersionStatus": "UNKNOWN in original uploaded video; app-specific UI observed and frames indexed, exact APK version not displayed",
       "reviewedVersion": "0.5.24",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-08"
+      "acceptanceEvidence": "docs/acceptance/meta15-18/README.md (additional UI/economy evidence; prior accepted behavior retained)",
+      "metaPolish20261127": {
+        "scope": "META #15/#18 per owner v1.1",
+        "evidence": "docs/acceptance/meta15-18/README.md",
+        "build": "0.5.25 / 30",
+        "kind": "Own UI/actual GameSession model; not original runtime or physical Android"
+      }
     },
     {
       "id": "guru-ui-leaderboard-nested-filters",
@@ -7062,11 +7090,12 @@
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/missions.ts",
       "stage": "P1 — progression research",
       "dependencies": "Owner decision where product change proposed; original runtime evidence for unknowns; preserve save and atomic receipts.",
-      "nextAction": "Compare active days 16–18 and calendar gaps. Keep current short objective pending owner decision; assess optional longer engagement objective. | DAILY-02 #18: 16-group candidate, same three-board bound and existing payouts; owner approval, actual session and source live gate pending.",
+      "nextAction": "Retain reference evidence boundaries; numeric/eligibility changes require owner approval after docs/experiments/meta18/ECONOMY_RU.md. No automatic 16-group rollout.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance.",
-      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18"
+      "dailyProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/18",
+      "metaScopeDecision": "Current seven groups and every grant unchanged; 16-group historical proposal is not current scope. Compact UI live; simple3/off are model-only. See DEC-2026-11-27-META-SCOPE."
     },
     {
       "id": "guru-task-count-overshoot",
@@ -15210,5 +15239,20 @@
     "economy": "No new payout table approved; separate model and owner decision",
     "researchAlternative": "https://github.com/DanilaH/crossmath-game/blob/1cdec63a16f74a77fde91eb54315c5fcec5107fe/docs/experiments/league-divisions-20261127/README.md",
     "gameplayChanged": false
+  },
+  "metaPolish20261127": {
+    "issues": [
+      15,
+      18
+    ],
+    "baseline": "ad1bbbc5833b1cfd4b9489e8ff74b76031ad1069",
+    "build": "0.5.25 / 30",
+    "scope": "Current workshop, profile, 12 achievements, statistics, calendar/trophy; compact quest UI, no payouts or rotation changes",
+    "evidence": "docs/acceptance/meta15-18/README.md",
+    "economy": "docs/experiments/meta18/ECONOMY_RU.md",
+    "sourceIdsRetained": 729,
+    "physicalAndroid": "NOT RUN",
+    "originalParityPromotion": false,
+    "kitImpact": "REUSE"
   }
 }

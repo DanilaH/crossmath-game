@@ -72,5 +72,7 @@ export function victoryFeedback(before: Save, after: Save): VictoryFeedback | un
       ? [{from:old.progress,to:slot.progress,target:slot.target}] : [];
   }) : [];
   if (quests.length) detail.goal = quests.some(goal=>goal.to >= goal.target) ? 'complete' : 'step';
+  // The monthly seal is part of this same committed victory, never a second cue.
+  if(receipt.dailyTrophyMonth)detail.goal='complete';
   return {id:receipt.id,detail,quests};
 }

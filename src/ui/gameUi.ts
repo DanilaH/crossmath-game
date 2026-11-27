@@ -60,6 +60,7 @@ export class GameUi {
     this.meta=new MetaView($('hub'),{
       joinLeague:()=>{this.run(async()=>({committed:await session.enterLeague()}));},
       navigate:(screen,history)=>this.navigate(screen,history),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),
+      trophy:month=>this.run(async time=>({committed:await session.navigate('calendar',time,month)}),()=>{this.leaveModal();window.scrollTo(0,0);requestAnimationFrame(()=>$('month-trophy')?.focus({preventScroll:true}));}),
       newGame:choice=>this.chooseNewGame(choice),selectDay:day=>this.selectDay(day),
       free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),
       endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:(offer,repeat)=>this.openOffer(offer,repeat),
@@ -740,8 +741,11 @@ export class GameUi {
       if(arriving||freshReward)rank.classList.toggle('rank-arrived',countReward&&!!reward.rankUps);
       const quests=$('quest-progress-result');
       quests.hidden=!victory?.quests.length;
-      quests.textContent=victory?.quests.length
-        ? [this.t('Цели дня','Daily goals'),...victory.quests.map(goal=>`${goal.from}→${goal.to}/${goal.target}`)].join(' · ') : '';
+      const completed= victory?.quests.filter(goal=>goal.to>=goal.target).length??0;
+      quests.textContent=victory?.quests.length ? reward.setCoins
+        ? this.t('Задания дня выполнены','Daily goals complete')
+        : completed ? this.t(`Задания дня · выполнено: ${completed}`,`Daily goals · completed: ${completed}`)
+        : this.t('Задания дня · прогресс сохранён','Daily goals · progress saved') : '';
       quests.dataset.complete=String(!!victory?.quests.some(goal=>goal.to>=goal.target));
       this.meta.renderResult(s, countReward, this.busy || this.blocked);
       if (arriving) {

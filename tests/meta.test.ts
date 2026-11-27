@@ -328,6 +328,21 @@ describe('D schema/album migration',()=>{
 });
 
 describe('Daily calendar trophies',()=>{
+ it('leaves a saved trophy view even when today was already the selected date, without changing earned state',async()=>{
+  const {session,repo}=await setup('2026-11-30');
+  session.state.profile.solvedIds=campaignSequence(session.state.contentVersion).slice(0,5);
+  session.state.meta.completedDates=Array.from({length:30},(_,i)=>dayFromIndex(calendarDayIndex('2026-11-01')+i));
+  session.state.meta.monthlyTrophies={'2026-11':{earnedAt:null}};
+  await session.navigate('calendar');await session.selectDailyDay('2026-11-30');
+  await session.navigate('calendar',0,'2026-11');
+  const before=structuredClone(session.state);
+  expect(await session.selectDailyDay('2026-11-30')).toBe(true);
+  const after=await repo.load();expect(after.meta.calendarTrophyMonth).toBeUndefined();
+  expect(after.profile).toEqual(before.profile);expect(after.career).toEqual(before.career);
+  expect(after.meta.monthlyTrophies).toEqual(before.meta.monthlyTrophies);
+  expect(after.attempt).toEqual(before.attempt);expect(after.result).toEqual(before.result);
+  expect(await session.selectDailyDay('2026-11-30')).toBe(false);
+ });
  function days(month:string,count:number):string[]{
   const first=calendarDayIndex(month+'-01');
   return Array.from({length:count},(_,i)=>dayFromIndex(first+i));

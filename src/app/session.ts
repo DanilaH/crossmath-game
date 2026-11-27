@@ -274,7 +274,7 @@ export class GameSession {
     }finally{this.finishWrite();}
   }
   async selectDailyDay(day:string):Promise<boolean> {
-    if(this.busy||this.state.meta.screen!=='calendar'||this.state.meta.calendarSelectedDay===day)return false;
+    if(this.busy||this.state.meta.screen!=='calendar'||this.state.meta.calendarSelectedDay===day&&!this.state.meta.calendarTrophyMonth)return false;
     const next=structuredClone(this.state);
     refreshDay(next,this.now());
     if(!dailyDayAvailable(next,day))return false;

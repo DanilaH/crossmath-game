@@ -1,0 +1,41 @@
+.meta-progress { display:block; width:100%; height:6px; border-radius:8px; background:linear-gradient(to right,var(--action-ink) var(--meta-progress),var(--play-line) 0); }
+/* Reserve the existing paper rotation inside its hit area; artwork stays centred. */
+#hub[data-screen=home] .resume-board-open { padding-inline:8px; }
+.collection-overview { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:center; }
+.collection-overview .meta-progress { grid-column:1/-1; }
+.collection-parts { color:var(--play-muted); font-size:.8rem; font-variant-numeric:tabular-nums; }
+.collection-complete { flex-wrap:wrap; }
+.collection-complete .muted { flex-basis:100%; }
+.quest-summary-copy { display:grid; min-width:0; gap:3px; }
+.quest-summary-copy small { color:var(--play-muted); font-size:.78rem; font-weight:450; line-height:1.3; }
+.quest-summary-count { margin-inline-start:auto; flex:none; align-self:center; padding:5px 7px; border-radius:8px; color:var(--action-ink); background:var(--action-wash); font-variant-numeric:tabular-nums; }
+.quest .quest-copy { min-width:0; }
+.quest:disabled { opacity:1; background:var(--action-wash); }
+.rank-detail { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:12px; padding:12px; margin-bottom:12px; background:var(--action-wash); border-radius:12px; }
+.rank-detail .menu-icon { width:42px; height:42px; }
+.rank-detail .meta-progress { grid-column:1/-1; }
+#profile-badges .badge .meta-progress { margin-top:3px; }
+.trophy-archive-entry { display:grid; width:100%; grid-template-columns:42px minmax(0,1fr) auto; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--play-line); text-align:start; text-transform:capitalize; }
+.trophy-archive-entry .month-seal { width:38px; height:38px; color:var(--reward-ink); }
+.monthly-trophy[data-status=earned] .meta-progress { background:var(--reward-ink); }
+.daily-selection .tear-month { white-space:nowrap; }
+.month-navigation { display:grid; grid-template-columns:42px minmax(0,1fr) 42px; align-items:center; margin-bottom:4px; }
+.month-navigation h2 { text-align:center; margin:0; }
+.month-arrow { display:grid; min-height:44px; place-items:center; padding:0; color:var(--action-ink); font-size:1.7rem; }
+#daily-trophy-result:not([hidden]) { display:grid; grid-template-columns:34px minmax(0,1fr); align-items:center; gap:8px; padding:6px 8px; border:1px solid var(--reward-edge); border-radius:10px; background:var(--reward-wash); }
+#daily-trophy-result .month-seal { width:32px; height:32px; border-width:2px; font-size:7px; color:var(--reward-ink); }
+#daily-trophy-result .month-seal b { font-size:12px; }
+@media (max-height:620px) and (min-width:300px) {
+  .daily-selection { grid-template-columns:58px minmax(0,1fr) minmax(72px,auto); gap:7px; padding:5px 8px; }
+  .daily-selection .home-tear { min-width:0; width:58px; }
+  .daily-selection-copy { font-size:.85rem; }
+  #daily-play { grid-column:auto; width:auto; max-width:105px; font-size:.86rem; padding:8px; }
+  .month-day { min-height:40px; }
+  .month-arrow { min-height:38px; }
+  #hub[data-screen=calendar] { gap:6px; }
+  #hub[data-screen=calendar] .hub-heading h1 { margin:0; font-size:1.5rem; }
+  .daily-month { padding:6px 4px; }
+  .month-navigation { margin-bottom:0; }
+}
+#life-icons { display:inline-flex; align-items:center; gap:1px; }
+#life-icons .menu-icon { width:16px; height:16px; }

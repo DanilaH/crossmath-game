@@ -63,6 +63,14 @@ describe('accepted gameplay feedback',()=>{
 });
 
 describe('victory projections',()=>{
+  it('includes a monthly trophy in the same committed victory cue without replaying it',()=>{
+    const before=createSave('player',date,'UTC','attempt'),after=structuredClone(before);
+    after.result={id:'win:attempt',attemptId:'attempt',puzzleId:first.puzzleId,first:false,coins:30,
+      xp:0,rankUps:0,fragments:0,cardCoins:0,elapsedPlaying:4,dailyTrophyMonth:'2026-11'};
+    const saved=structuredClone(after);
+    expect(victoryFeedback(before,after)).toEqual({id:'win:attempt',detail:{goal:'complete'},quests:[]});
+    expect(victoryFeedback(after,after)).toBeUndefined();expect(after).toEqual(saved);
+  });
   it('describes only changed goals of the same plan and keeps rank and instrument distinct',()=>{
     const before = createSave('player',date,'UTC','attempt');
     before.meta.quests = {dayKey:'2026-11-26',configVersion:'test',issueIndex:2,witness:[],replacements:[],slots:[
