@@ -153,7 +153,7 @@ public class CrossmathAdsPlugin extends Plugin {
         if(provider==null)return;
         try{
             boolean visible=bannerDesired&&active()&&current==null&&journal!=null&&provider.configured()&&provider.bannerReady();
-            if(visible){if(banner==null)banner=new NativeBannerHost(bridge.getWebView(),this::reconcileBanner);visible=banner.apply(provider.banner(banner.width()));}
+            if(visible){if(banner==null)banner=new NativeBannerHost(bridge.getWebView(),this::reconcileBanner);visible=banner.width()>0&&banner.apply(provider.banner(banner.width()));}
             else if(banner!=null)banner.hide();
             provider.bannerVisible(visible);
         }catch(Exception error){if(banner!=null)banner.hide();}
