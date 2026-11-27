@@ -10,6 +10,8 @@
 
 **Независимая сверка META 0.5.25/30:** [аудит](acceptance/meta15-18/RESEARCHER_REVIEW.md) по HEAD `d3bf9de6`, CI 479+47 тестов/175 состояний META. Технически следующий пакет — #27, подготовка/доведение выбранных рекламных размещений; CrossmathAds native implementation отсутствует, mock не live provider. #14 отдельно согласовать, #19 отложен. Компактные задания и выплаты оставить; призы Лиги и активация экспериментальных политик требуют решения. Физическая приёмка открыта.
 
+**Независимая сверка MONETIZATION 0.5.26/31:** [аудит](acceptance/monetization27/RESEARCHER_REVIEW.md), HEAD `1c6e5fb8`, [CI](https://github.com/DanilaH/crossmath-game/actions/runs/46065921886) 504+47+13 PASS. Native bridge подготовлен, provider Unconfigured. MON-01 (P1, STATIC_SOURCE): saved rewarded request до native dispatch может навсегда заблокировать rewarded/interstitial; закрыть до SDK activation. Далее единый RC: выбор SDK/test IDs/real device, согласованная интеграция #16/#17/#22 с сохранением всех данных, без лабораторного UI; #14/призы/экономика отдельное решение. #19 и новые системы отложены.
+
 ## Актуальная очередь
 
 | Этап | Задачи | Критерий выхода |
