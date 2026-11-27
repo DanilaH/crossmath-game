@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "c5d55b28a78df7af639ce181c8bce73aacc95ae9",
+    "commit": "5cee4ac787d16afaab8edd3cd6e809bdf7d42448",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -1828,8 +1828,8 @@
       "codePath": "src/meta/league.ts · src/app/model.ts · src/app/session.ts · src/ui/leagueView.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "Playtest v2 presentation and full-calendar late-entry balance; agree numeric policy and permanent activation. Physical Android remains open. No full source live-config/prize parity claim.",
-      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
+      "nextAction": "Playtest v2 presentation and full-calendar late-entry balance; agree numeric policy and permanent activation. Physical Android remains open. No full source live-config/prize parity claim. | Investigate actual divisional reference and reward amounts; no tier or reward policy approved.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
       "reviewedVersion": "0.5.24 / 29",
@@ -1840,7 +1840,7 @@
         "previousReason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
         "decisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-core-first--утверждённый-scope"
       },
-      "originalBehavior": "Guru Brains weekly main/temp periods; exact source week boundary, zone, settlement transfer and live prizes UNKNOWN.",
+      "originalBehavior": "Guru Brains weekly main/temp periods; exact source week boundary, zone, settlement transfer and live prizes UNKNOWN. | 2026-11-27: Main/temp staging and post-claim transfer path traced, no division advancement proven; live prizes remain UNKNOWN.",
       "league22Evidence": {
         "spec": "docs/spec/Crossmath_TZ_v1.1_RU.md §4",
         "acceptance": "docs/acceptance/issue-22/README.md",
@@ -1869,8 +1869,8 @@
       "codePath": "src/meta/league.ts · src/app/model.ts · src/app/session.ts · src/ui/leagueView.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "Playtest v2 presentation and full-calendar late-entry balance; agree numeric policy and permanent activation. Physical Android remains open. No full source live-config/prize parity claim.",
-      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
+      "nextAction": "Playtest v2 presentation and full-calendar late-entry balance; agree numeric policy and permanent activation. Physical Android remains open. No full source live-config/prize parity claim. | Review five added IDs, approve numeric calibration and versioned schedule policy.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
       "reviewedVersion": "0.5.24 / 29",
@@ -1881,7 +1881,7 @@
         "previousReason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
         "decisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-core-first--утверждённый-scope"
       },
-      "originalBehavior": "Guru 4.17.0 nine A1/A2/B1/B2/C1/C2/D1/D2/D3 categories, min+nextInt(max-min), weighted local windows and due marks. Active configuration UNKNOWN.",
+      "originalBehavior": "Guru 4.17.0 nine A1/A2/B1/B2/C1/C2/D1/D2/D3 categories, min+nextInt(max-min), weighted local windows and due marks. Active configuration UNKNOWN. | 2026-11-27: Exact nine templates recovered, random per-call selection, ceil quota and batched events; see new independent IDs.",
       "league22Evidence": {
         "spec": "docs/spec/Crossmath_TZ_v1.1_RU.md §4",
         "acceptance": "docs/acceptance/issue-22/README.md",
@@ -7408,14 +7408,14 @@
       "sourceFeatureId": "guru-brains-main-temp",
       "status": "DEFERRED",
       "comparison": "MISSING",
-      "originalBehavior": "Brains: основная и временная таблицы; после результата не true основного обработчика предусмотрен отдельный временный путь. G4 NATIVE_STATIC DDL refs 13424/67452; 12a477c/80 and 12a4810/14. a1e2f4 main handler, a1e30c true skips a1e324 temp handler. Initial gate may skip both; not all calls use fallback.",
+      "originalBehavior": "Brains: основная и временная таблицы; после результата не true основного обработчика предусмотрен отдельный временный путь. G4 NATIVE_STATIC DDL refs 13424/67452; 12a477c/80 and 12a4810/14. a1e2f4 main handler, a1e30c true skips a1e324 temp handler. Initial gate may skip both; not all calls use fallback. | 2026-11-27: Post-claim temp query, insert and clear traced. No division column; exact named promote binding UNKNOWN.",
       "currentImplementation": "Дневные задания и квитанции есть; Brains, отдельные рейтинги и недельный счётчик отсутствуют.",
       "codePath": "src/meta/progress.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/progress.ts",
       "stage": "LEAGUE reference / DEFERRED donor-specific extension",
       "dependencies": "Own LEAGUE #22 single writer; donor-specific extensions and exact original behavior remain separate.",
-      "nextAction": "Recover transfer and settlement order; test interrupted rollover, unavailable main and temp restore. | LEAGUE #22: owner approved one local weekly league directly on ordinary wins; old Daily+Race scoring and Race prerequisite superseded; exact source/runtime and own numerical policy remain separate.",
-      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
+      "nextAction": "Recover transfer and settlement order; test interrupted rollover, unavailable main and temp restore. | LEAGUE #22: owner approved one local weekly league directly on ordinary wins; old Daily+Race scoring and Race prerequisite superseded; exact source/runtime and own numerical policy remain separate. | Retain as donor-specific extension; no need to duplicate storage tables.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "The owner approved a simple offline league, not the donor lifetime hat wallet, main/temp tables or original exact calendar behavior; preserve evidence and reconsider only when needed.",
       "brainsProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/22"
@@ -12934,6 +12934,86 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "guru-brains-daily-pattern-draw",
+      "sourceFeatureId": "guru-brains-daily-pattern-draw",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Выбор нового шаблона активности из девяти на вызов дневного планировщика | G4 NATIVE_STATIC 2026-11-27: a20d64/68, a20db8/a20de8/a20e00; new day a20694/a206bc; init a22650/a2266c; PP 0xed90 -> ref217963. | research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "currentImplementation": "Per-bot pattern=index, frozen for whole week.",
+      "codePath": "src/meta/league.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/5e465c9a76d951b14fb608ef42feaa9aa878752f/src/meta/league.ts",
+      "stage": "LEAGUE #22 research follow-up; separate owner approval",
+      "dependencies": "Versioned own policy and unchanged v1/v2 persisted plans; numeric calibration and physical Android acceptance remain open.",
+      "nextAction": "Version new plans; choose one template per day; keep existing v1/v2 immutable.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Source behavior recovered, no gameplay change or production approval in this research."
+    },
+    {
+      "id": "guru-brains-window-quota",
+      "sourceFeatureId": "guru-brains-window-quota",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Дневная цель распределяется по выбранным временным окнам ceil + остаток | G4 NATIVE_STATIC 2026-11-27: a20e98/a20f44, a21044/a2110c/a211bc/a211cc, exact weights PP 0xed90 and windows PP 0xed98. 387 arithmetic model cases goals 5..47; target=1 fails for 3-window raw formula. | research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "currentImplementation": "Own patterns sampled independently for each point; no per-window quota.",
+      "codePath": "src/meta/league.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/5e465c9a76d951b14fb608ef42feaa9aa878752f/src/meta/league.ts",
+      "stage": "LEAGUE #22 research follow-up; separate owner approval",
+      "dependencies": "Versioned own policy and unchanged v1/v2 persisted plans; numeric calibration and physical Android acceptance remain open.",
+      "nextAction": "Adapt ceil and residual safely; target 1 yields negative remainder for 3-window raw formula. Approve scaled bands or bounded allocation; test exact nonnegative sums.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Source behavior recovered, no gameplay change or production approval in this research."
+    },
+    {
+      "id": "guru-brains-timestamp-batch",
+      "sourceFeatureId": "guru-brains-timestamp-batch",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Случайные начисления 1–4 за одну уникальную миллисекундную отметку в пределах окна | G4 NATIVE_STATIC 2026-11-27: a215d4 closure, a217c0..f0, a21808..10, a21840/48, a2197c..90. Cap to remaining quota, retry collisions. | research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "currentImplementation": "One due mark = one point, leagueRows counts marks; no weighted event format.",
+      "codePath": "src/meta/league.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/5e465c9a76d951b14fb608ef42feaa9aa878752f/src/meta/league.ts",
+      "stage": "LEAGUE #22 research follow-up; separate owner approval",
+      "dependencies": "Versioned own policy and unchanged v1/v2 persisted plans; numeric calibration and physical Android acceptance remain open.",
+      "nextAction": "Version persisted schedule with weighted timestamp events and uniqueness; deterministic catch-up and same-time/reload parity. No change to legacy plans.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Source behavior recovered, no gameplay change or production approval in this research."
+    },
+    {
+      "id": "guru-brains-weekend-catchup",
+      "sourceFeatureId": "guru-brains-weekend-catchup",
+      "status": "RESEARCHED",
+      "comparison": "MISSING",
+      "originalBehavior": "Максимум дневного диапазона в выходные в isFirst и пропущенных полных днях | G4 NATIVE_STATIC 2026-11-27: a21fdc..a22050 optional isFirst descriptor PP 0xeef8; weekday from 8221a8..c0/82228c/90; a20b6c..84 catch-up. Regular new-day call lacks isFirst; no unconditional active weekend max claim. | research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "currentImplementation": "Same scaled random range each day; precomputed calendar schedule; no first/catch-up weekend maximum.",
+      "codePath": "src/meta/league.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/5e465c9a76d951b14fb608ef42feaa9aa878752f/src/meta/league.ts",
+      "stage": "LEAGUE #22 research follow-up; separate owner approval",
+      "dependencies": "Versioned own policy and unchanged v1/v2 persisted plans; numeric calibration and physical Android acceptance remain open.",
+      "nextAction": "Model weekday and missed-day behavior separately. Do not change active weekends or numeric policy without approval.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Source behavior recovered, no gameplay change or production approval in this research."
+    },
+    {
+      "id": "guru-brains-roster-asset",
+      "sourceFeatureId": "guru-brains-roster-asset",
+      "status": "RESEARCHED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Категории ботов из конфига, выбор имён из отдельного ассета | G4 NATIVE_STATIC 2026-11-27: a221e4/224a8, PP 0xee08/0xee88; a22650/a2266c plan, a2269c random name index, a22930/34 isRobot=1. Nickname asset has 1502 entries. No identities copied. Adaptive player-strength dependence UNKNOWN. | research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "currentImplementation": "Own seeded diverse identities/avatars and fixed category roster in league-lab-2; no original nickname asset.",
+      "codePath": "src/meta/league.ts",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/5e465c9a76d951b14fb608ef42feaa9aa878752f/src/meta/league.ts",
+      "stage": "LEAGUE #22 research follow-up; separate owner approval",
+      "dependencies": "Versioned own policy and unchanged v1/v2 persisted plans; numeric calibration and physical Android acceptance remain open.",
+      "nextAction": "Keep own identities and honest disclosure; no donor names/assets. No demonstrated need for copied roster. Compare independent category/pattern mapping.",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "reason": "Source behavior recovered, no gameplay change or production approval in this research."
     }
   ],
   "latestReview": {
@@ -14851,5 +14931,23 @@
       "easy-hint-local-replace-return",
       "easy-hint-no-tray-transfer-not-swap"
     ]
+  },
+  "guruBrainsPlan20261127": {
+    "sourceInventoryCommit": "5cee4ac787d16afaab8edd3cd6e809bdf7d42448",
+    "reviewedHead": "5e465c9a76d951b14fb608ef42feaa9aa878752f",
+    "version": "0.5.24/29",
+    "evidence": "NATIVE_STATIC / BUNDLED_CONFIG; arithmetic MODEL",
+    "report": "https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md",
+    "addedIds": [
+      "guru-brains-daily-pattern-draw",
+      "guru-brains-window-quota",
+      "guru-brains-timestamp-batch",
+      "guru-brains-weekend-catchup",
+      "guru-brains-roster-asset"
+    ],
+    "divisionPromotion": "UNKNOWN in Guru",
+    "rewardAmounts": "UNKNOWN",
+    "physicalAndroid": "NOT RUN",
+    "gameplayChanged": false
   }
 }
