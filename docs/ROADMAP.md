@@ -2,6 +2,8 @@
 
 **Утверждено владельцем 27.11.2026 — core-first v1.1.** [Crossmath v1.1](spec/Crossmath_TZ_v1.1_RU.md) определяет актуальный состав и порядок. CORE-00 #28 → CORE #16/#17 → LEAGUE #22 → ограниченная META #15/#18/#19 → MONETIZATION #14/#27 → RELEASE. Endless временно отключить без потери сейвов; недельная Лига включена в выбранный scope и не зависит от Star Race/Battle. Остальное ниже — исторические срезы/исследовательские предложения, не распоряжение расширять scope. Точные изменения экономики, очков, темпа и релизной конфигурации согласовать отдельно.
 
+**Последнее решение DEC-2026-11-27-LEAGUE-GURU:** одна Лига по Guru, без дивизионов. Завершить #22 переносом подтверждённых правил расписания [Guru Brains](https://github.com/DanilaH/mini-games-kit/blob/5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127/README.md) и моделью числового баланса/недельных призов. Сохранить v1/v2, суммы/экономика — отдельное одобрение. [Архив исследования King/Hapo](https://github.com/DanilaH/crossmath-game/blob/1cdec63a16f74a77fde91eb54315c5fcec5107fe/docs/experiments/league-divisions-20261127/README.md) — DEFERRED для выпуска, не расширение scope. Реестр 729/729, [проверка исходного покрытия и модели](https://github.com/DanilaH/crossmath-game/actions/runs/46016633092).
+
 ## Актуальная очередь
 
 | Этап | Задачи | Критерий выхода |
