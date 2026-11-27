@@ -1,0 +1,26 @@
+name: League division research
+on:
+  push:
+    branches: [research/brains-plan-20261127]
+    paths: ['docs/experiments/league-divisions-20261127/**', 'docs/porting/ADOPTION_LEDGER.json', '.github/workflows/league-division-research.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - uses: actions/checkout@v6
+        with:
+          repository: DanilaH/mini-games-kit
+          ref: 95f01f566adb07f29100b9fac86f73c8149a2a22
+          path: .research-kit
+          token: ${{ secrets.KIT_READ_TOKEN }}
+          persist-credentials: false
+      - run: python3 .research-kit/tools/verify-reference-porting.py --inventory .research-kit/research/games/crossmath/porting/SOURCE_FEATURES.json --ledger docs/porting/ADOPTION_LEDGER.json
+      - run: node docs/experiments/league-divisions-20261127/model.mjs
