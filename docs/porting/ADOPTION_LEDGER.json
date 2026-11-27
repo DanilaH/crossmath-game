@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "75220fdc10bfcc7dbb9ae2ab8c45199b7783c342",
+    "commit": "51a3796c0c5139006f01e2c61078cb3be4a8cdd7",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -1906,9 +1906,13 @@
       "codePath": "src/app/nativeLifecycle.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "На чистой установке отдельно проверить отказ, согласие, открытие push и claim | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "На чистой установке отдельно проверить отказ, согласие, открытие push и claim | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11: #19/#24: permission/open/claim on original, denial/reopen/kill/restart, actual wallet delta and receipt. Static guard and grant request before visual effect now proved. Owner-gated.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L920",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/nativeLifecycle.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/nativeLifecycle.ts",
+      "originalBehavior": "E:panelpopnotification/TextCoin; push_rewared_title/claim | Static OnClaimClick 1450a90 guard then AddConsumableItem request then animation/callback; permission and actual credit/durable dedup UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-feedback",
@@ -2692,11 +2696,12 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для double_wheel_reward. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для double_wheel_reward. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11: Trace real UI/indirect registration/SDK request, cap and receipt. Original five-field parser verified; TemplateService does not register RewardTemplate in inspected paths. Not proof offer inactive. Owner-gated #24/#27.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1464",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
       ],
       "staticTemplateEvidence": {
         "tier": "BUNDLED_UNITY_TEXTASSET",
@@ -2704,7 +2709,7 @@
         "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
         "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
       },
-      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
+      "originalBehavior": "E:rewardtemplate/double_wheel_reward | RECHECK 2026-11-23: owner-supplied EasyFun 1.1.9 UnityFS data.unity3d resources.assets template TextAsset: isLimited FALSE; limitNum -1. All exact placement labels only once in unpacked source table among 83 inspected UnityFS modules; no exact identifier in IL2CPP metadata/native except ambiguous word revive. This does NOT establish active/reachable placement, request, SDK event, limit reset window, or delivered reward. research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md; verify_easyfun_ad_tables.py. | EXTRA TEXTASSET FIELD SEMANTICS: The original description refers to doubling daily wheel/spin reward; a Crossmath UI wheel route is UNKNOWN. SOURCE BUNDLED_1.1.9, not display/runtime proof. Research: research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md. | RewardTemplate.ReadData native parser confirmed; TemplateService fields lack RewardTemplate storage, Init/ctor no direct registration. No direct aligned B/BL caller or non-own CodeGenModule RELATIVE pointer found in bounded census. Not proof of dead feature; active offers and indirect/reflection routes UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
     },
     {
       "id": "easy-offer-free-wheel",
@@ -2715,11 +2720,12 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для free_wheel. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=TRUE, limitNum=4; reset period not supplied. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для free_wheel. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=TRUE, limitNum=4; reset period not supplied. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11: Trace real UI/indirect registration/SDK request, cap and receipt. Original five-field parser verified; TemplateService does not register RewardTemplate in inspected paths. Not proof offer inactive. Owner-gated #24/#27.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1475",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
       ],
       "staticTemplateEvidence": {
         "tier": "BUNDLED_UNITY_TEXTASSET",
@@ -2727,7 +2733,7 @@
         "facts": "Static rewardtemplate isLimited=TRUE, limitNum=4; reset period not supplied.",
         "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
       },
-      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=TRUE, limitNum=4; reset period not supplied. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
+      "originalBehavior": "E:rewardtemplate/free_wheel | RECHECK 2026-11-23: owner-supplied EasyFun 1.1.9 UnityFS data.unity3d resources.assets template TextAsset: isLimited TRUE; limitNum 4. All exact placement labels only once in unpacked source table among 83 inspected UnityFS modules; no exact identifier in IL2CPP metadata/native except ambiguous word revive. This does NOT establish active/reachable placement, request, SDK event, limit reset window, or delivered reward. research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md; verify_easyfun_ad_tables.py. | EXTRA TEXTASSET FIELD SEMANTICS: Original description refers to a free spin of daily wheel; presence of wheel game in this Crossmath build is UNKNOWN. SOURCE BUNDLED_1.1.9, not display/runtime proof. Research: research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md. | RewardTemplate.ReadData native parser confirmed; TemplateService fields lack RewardTemplate storage, Init/ctor no direct registration. No direct aligned B/BL caller or non-own CodeGenModule RELATIVE pointer found in bounded census. Not proof of dead feature; active offers and indirect/reflection routes UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
     },
     {
       "id": "easy-offer-free-20-diamond",
@@ -2738,11 +2744,12 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для free_20_diamond. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=TRUE, limitNum=10; reset period not supplied. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для free_20_diamond. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=TRUE, limitNum=10; reset period not supplied. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11: Trace real UI/indirect registration/SDK request, cap and receipt. Original five-field parser verified; TemplateService does not register RewardTemplate in inspected paths. Not proof offer inactive. Owner-gated #24/#27.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1486",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
       ],
       "staticTemplateEvidence": {
         "tier": "BUNDLED_UNITY_TEXTASSET",
@@ -2750,7 +2757,7 @@
         "facts": "Static rewardtemplate isLimited=TRUE, limitNum=10; reset period not supplied.",
         "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
       },
-      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=TRUE, limitNum=10; reset period not supplied. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
+      "originalBehavior": "E:rewardtemplate/free_20_diamond | RECHECK 2026-11-23: owner-supplied EasyFun 1.1.9 UnityFS data.unity3d resources.assets template TextAsset: isLimited TRUE; limitNum 10. All exact placement labels only once in unpacked source table among 83 inspected UnityFS modules; no exact identifier in IL2CPP metadata/native except ambiguous word revive. This does NOT establish active/reachable placement, request, SDK event, limit reset window, or delivered reward. research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md; verify_easyfun_ad_tables.py. | EXTRA TEXTASSET FIELD SEMANTICS: Original description refers to free diamonds, not a verified active Crossmath currency. SOURCE BUNDLED_1.1.9, not display/runtime proof. Research: research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md. | RewardTemplate.ReadData native parser confirmed; TemplateService fields lack RewardTemplate storage, Init/ctor no direct registration. No direct aligned B/BL caller or non-own CodeGenModule RELATIVE pointer found in bounded census. Not proof of dead feature; active offers and indirect/reflection routes UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
     },
     {
       "id": "easy-offer-try-ball-skin",
@@ -2761,11 +2768,12 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для try_ball_skin. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для try_ball_skin. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11: Trace real UI/indirect registration/SDK request, cap and receipt. Original five-field parser verified; TemplateService does not register RewardTemplate in inspected paths. Not proof offer inactive. Owner-gated #24/#27.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1497",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
       ],
       "staticTemplateEvidence": {
         "tier": "BUNDLED_UNITY_TEXTASSET",
@@ -2773,7 +2781,7 @@
         "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
         "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
       },
-      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
+      "originalBehavior": "E:rewardtemplate/try_ball_skin | RECHECK 2026-11-23: owner-supplied EasyFun 1.1.9 UnityFS data.unity3d resources.assets template TextAsset: isLimited FALSE; limitNum -1. All exact placement labels only once in unpacked source table among 83 inspected UnityFS modules; no exact identifier in IL2CPP metadata/native except ambiguous word revive. This does NOT establish active/reachable placement, request, SDK event, limit reset window, or delivered reward. research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md; verify_easyfun_ad_tables.py. | EXTRA TEXTASSET FIELD SEMANTICS: Original description refers to ball skin try-on, not confirmed Crossmath gameplay. SOURCE BUNDLED_1.1.9, not display/runtime proof. Research: research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md. | RewardTemplate.ReadData native parser confirmed; TemplateService fields lack RewardTemplate storage, Init/ctor no direct registration. No direct aligned B/BL caller or non-own CodeGenModule RELATIVE pointer found in bounded census. Not proof of dead feature; active offers and indirect/reflection routes UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
     },
     {
       "id": "easy-offer-add-ball-when-preview",
@@ -2784,11 +2792,12 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для add_ball_when_preview. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для add_ball_when_preview. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11: Trace real UI/indirect registration/SDK request, cap and receipt. Original five-field parser verified; TemplateService does not register RewardTemplate in inspected paths. Not proof offer inactive. Owner-gated #24/#27.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1508",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
       ],
       "staticTemplateEvidence": {
         "tier": "BUNDLED_UNITY_TEXTASSET",
@@ -2796,7 +2805,7 @@
         "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
         "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
       },
-      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
+      "originalBehavior": "E:rewardtemplate/add_ball_when_preview | RECHECK 2026-11-23: owner-supplied EasyFun 1.1.9 UnityFS data.unity3d resources.assets template TextAsset: isLimited FALSE; limitNum -1. All exact placement labels only once in unpacked source table among 83 inspected UnityFS modules; no exact identifier in IL2CPP metadata/native except ambiguous word revive. This does NOT establish active/reachable placement, request, SDK event, limit reset window, or delivered reward. research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md; verify_easyfun_ad_tables.py. | EXTRA TEXTASSET FIELD SEMANTICS: Original description refers to an extra-ball buff on preview, not a confirmed Crossmath route. SOURCE BUNDLED_1.1.9, not display/runtime proof. Research: research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md. | RewardTemplate.ReadData native parser confirmed; TemplateService fields lack RewardTemplate storage, Init/ctor no direct registration. No direct aligned B/BL caller or non-own CodeGenModule RELATIVE pointer found in bounded census. Not proof of dead feature; active offers and indirect/reflection routes UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
     },
     {
       "id": "easy-offer-add-ball-when-restart",
@@ -2807,11 +2816,12 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для add_ball_when_restart. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для add_ball_when_restart. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11: Trace real UI/indirect registration/SDK request, cap and receipt. Original five-field parser verified; TemplateService does not register RewardTemplate in inspected paths. Not proof offer inactive. Owner-gated #24/#27.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1519",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
       ],
       "staticTemplateEvidence": {
         "tier": "BUNDLED_UNITY_TEXTASSET",
@@ -2819,7 +2829,7 @@
         "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
         "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
       },
-      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
+      "originalBehavior": "E:rewardtemplate/add_ball_when_restart | RECHECK 2026-11-23: owner-supplied EasyFun 1.1.9 UnityFS data.unity3d resources.assets template TextAsset: isLimited FALSE; limitNum -1. All exact placement labels only once in unpacked source table among 83 inspected UnityFS modules; no exact identifier in IL2CPP metadata/native except ambiguous word revive. This does NOT establish active/reachable placement, request, SDK event, limit reset window, or delivered reward. research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md; verify_easyfun_ad_tables.py. | EXTRA TEXTASSET FIELD SEMANTICS: Original description refers to an extra-ball buff on restart, not a confirmed Crossmath route. SOURCE BUNDLED_1.1.9, not display/runtime proof. Research: research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md. | RewardTemplate.ReadData native parser confirmed; TemplateService fields lack RewardTemplate storage, Init/ctor no direct registration. No direct aligned B/BL caller or non-own CodeGenModule RELATIVE pointer found in bounded census. Not proof of dead feature; active offers and indirect/reflection routes UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
     },
     {
       "id": "easy-offer-revive",
@@ -2830,11 +2840,12 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для revive. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для revive. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11: Trace real UI/indirect registration/SDK request, cap and receipt. Original five-field parser verified; TemplateService does not register RewardTemplate in inspected paths. Not proof offer inactive. Owner-gated #24/#27.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1530",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
       ],
       "staticTemplateEvidence": {
         "tier": "BUNDLED_UNITY_TEXTASSET",
@@ -2842,7 +2853,7 @@
         "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
         "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
       },
-      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
+      "originalBehavior": "E:rewardtemplate/revive | RECHECK 2026-11-23: owner-supplied EasyFun 1.1.9 UnityFS data.unity3d resources.assets template TextAsset: isLimited FALSE; limitNum -1. All exact placement labels only once in unpacked source table among 83 inspected UnityFS modules; no exact identifier in IL2CPP metadata/native except ambiguous word revive. This does NOT establish active/reachable placement, request, SDK event, limit reset window, or delivered reward. research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md; verify_easyfun_ad_tables.py. | EXTRA TEXTASSET FIELD SEMANTICS: Generic reviving offer; real Crossmath eligible state and caller UNKNOWN. SOURCE BUNDLED_1.1.9, not display/runtime proof. Research: research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md. | RewardTemplate.ReadData native parser confirmed; TemplateService fields lack RewardTemplate storage, Init/ctor no direct registration. No direct aligned B/BL caller or non-own CodeGenModule RELATIVE pointer found in bounded census. Not proof of dead feature; active offers and indirect/reflection routes UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
     },
     {
       "id": "easy-offer-double-star-reward",
@@ -2853,11 +2864,12 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить вызывающий экран и штатный сценарий для double_star_reward. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Установить вызывающий экран и штатный сценарий для double_star_reward. При их отсутствии оставить как данные общей библиотеки. | RECHECK: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. Verify actual UI→IL2CPP lookup→request→SDK show/dismiss→settle/restore on original before claiming implementation. | STORE-RV-01 #24: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11: Trace real UI/indirect registration/SDK request, cap and receipt. Original five-field parser verified; TemplateService does not register RewardTemplate in inspected paths. Not proof offer inactive. Owner-gated #24/#27.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1541",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/7ec1aaeae2f6d561d062c86421be439f73ca4722/research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
       ],
       "staticTemplateEvidence": {
         "tier": "BUNDLED_UNITY_TEXTASSET",
@@ -2865,7 +2877,7 @@
         "facts": "Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer.",
         "classification": "Publisher-wide table: descriptions refer to wheel/ball skins/ball buff/diamonds/star progress (depending on placement); actual Crossmath user route UNKNOWN."
       },
-      "originalBehavior": " | Source 1.1.9 template: Static rewardtemplate isLimited=FALSE, limitNum=-1; this means no cap in that table, NOT an inactive offer. 83 exact UnityFS contents scanned; exact labels in global TextAsset, user route UNKNOWN."
+      "originalBehavior": "E:rewardtemplate/double_star_reward | RECHECK 2026-11-23: owner-supplied EasyFun 1.1.9 UnityFS data.unity3d resources.assets template TextAsset: isLimited FALSE; limitNum -1. All exact placement labels only once in unpacked source table among 83 inspected UnityFS modules; no exact identifier in IL2CPP metadata/native except ambiguous word revive. This does NOT establish active/reachable placement, request, SDK event, limit reset window, or delivered reward. research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md; verify_easyfun_ad_tables.py. | EXTRA TEXTASSET FIELD SEMANTICS: Original description refers to doubling progress-star reward; real Crossmath linked currency UNKNOWN. SOURCE BUNDLED_1.1.9, not display/runtime proof. Research: research/games/crossmath/porting/easyfun-ad-template-reachability-20261123/README.md. | RewardTemplate.ReadData native parser confirmed; TemplateService fields lack RewardTemplate storage, Init/ctor no direct registration. No direct aligned B/BL caller or non-own CodeGenModule RELATIVE pointer found in bounded census. Not proof of dead feature; active offers and indirect/reflection routes UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
     },
     {
       "id": "easy-achievement-complete",
@@ -2876,9 +2888,13 @@
       "codePath": "src/meta/career.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Установить путь начисления и видимость записи в экране достижений.",
+      "nextAction": "Установить путь начисления и видимость записи в экране достижений. | 27.11: #15: retain own badge metric thresholds; source reverse-index tested but user trigger/visible badge UNKNOWN. Verify real achievement increment and tier presentation before proposing parity.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1552",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
+      "originalBehavior": "E:achievementtemplate/Complete: 1,5,25,100 | AchievementManager.Init reads TemplateService +0x10 dictionary directly; GetAchievementTemplate getter has no direct inbound. BelongLevel 40 original isolated threshold cases; trigger/save and UI reachability not established. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-achievement-vip",
@@ -2889,12 +2905,14 @@
       "codePath": "src/meta/career.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Bounded direct B/BL census found no direct inbound calls to AskVIPAward/CollectVIPAward or GetAchievementTemplate; trace indirect entitlement/achievement consumers or lawful Android test. Do not infer dead feature or payout.",
+      "nextAction": "Bounded direct B/BL census found no direct inbound calls to AskVIPAward/CollectVIPAward or GetAchievementTemplate; trace indirect entitlement/achievement consumers or lawful Android test. Do not infer dead feature or payout. | 27.11: Original enum lacks VipPlayer, local clock/date writer confirmed; verify actual entitlement/claim/credit on licensed original Android or prove indirect mapping. Do not infer active purchase or exclude.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1563",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md"
-      ]
+        "https://github.com/DanilaH/mini-games-kit/blob/703fe422616901ceb86045c6def358ce35b177db/research/games/crossmath/porting/easyfun-mode-career-20261126/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
+      ],
+      "originalBehavior": "E:achievementtemplate/VipPlayer: 1 | AchievementType #2939 enum fields None/Complete/RichMan, no VipPlayer. VIP clock and date writer verified locally, no direct inbound B/BL to Ask/Collect, only own CodeGenModule relocation per method; purchase/award mapping UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md"
     },
     {
       "id": "guru-task-any-level",
@@ -11503,6 +11521,150 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/75220fdc10bfcc7dbb9ae2ab8c45199b7783c342/research/games/crossmath/porting/guru-profile-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "acceptanceRequirement": "Future approved pilot only: reproduce source boundary using fixtures; verify duplicate/default/unknown/empty/late emissions and open/write failures do not mutate active or parked attempts, Daily assignments, reward receipts or old saves. Distinguish isolated native replay from real Android/SDK."
+    },
+    {
+      "id": "easy-vip-elapsed-day-countdown",
+      "sourceFeatureId": "easy-vip-elapsed-day-countdown",
+      "originalBehavior": "AskVIPAward #20683 RVA 143ffe8: elapsed TotalDays >=1 => 0, otherwise 86400-trunc(TotalSeconds). 42 isolated original cases, tick boundaries and DateTime kind bits. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "codePath": "src/platform/adState.ts",
+      "stage": "P4",
+      "currentImplementation": "No VIP subscription, claim timestamp or entitlement. Existing hint/continue rewards are separate; no commercial activation approved.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#26 only after owner-approved entitlement: verify original caller and purchased entitlement; choose trusted clock policy, rollback/restart/duplicate fixtures and atomically persist claim receipt. Do not copy donor bug or amount.",
+      "dependencies": "Original activation/device evidence, owner commercial scope decision; preserve approved economy, saves and runtime. No donor assets.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/b687d3da608496337f00f321071e6a81ba369ce7/src/platform/adState.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Source exact build replay at boundaries; separate original Android and product unit/device tests. Actual entitlement, provider receipt, persistence and UI must be verified before acceptance."
+    },
+    {
+      "id": "easy-vip-clock-rollback-countdown",
+      "sourceFeatureId": "easy-vip-clock-rollback-countdown",
+      "originalBehavior": "AskVIPAward 143ffe8; native fixtures -3600s => 90000s, -172800s => 259200s. No upper clamp in inspected body; user-facing behavior UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "codePath": "src/platform/adState.ts",
+      "stage": "P4",
+      "currentImplementation": "No VIP subscription, claim timestamp or entitlement. Existing hint/continue rewards are separate; no commercial activation approved.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#26 only after owner-approved entitlement: verify original caller and purchased entitlement; choose trusted clock policy, rollback/restart/duplicate fixtures and atomically persist claim receipt. Do not copy donor bug or amount.",
+      "dependencies": "Original activation/device evidence, owner commercial scope decision; preserve approved economy, saves and runtime. No donor assets.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/b687d3da608496337f00f321071e6a81ba369ce7/src/platform/adState.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Source exact build replay at boundaries; separate original Android and product unit/device tests. Actual entitlement, provider receipt, persistence and UI must be verified before acceptance."
+    },
+    {
+      "id": "easy-vip-collect-date-sync",
+      "sourceFeatureId": "easy-vip-collect-date-sync",
+      "originalBehavior": "CollectVIPAward #20684 14400e8 -> StatusUtil setter #21547 14a1848; original wrapper call order Now, get_Cache, write GetVIPGiftDate, get_Cache, Sync. Six synthetic prior states; actual disk UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "codePath": "src/platform/adState.ts",
+      "stage": "P4",
+      "currentImplementation": "No VIP subscription, claim timestamp or entitlement. Existing hint/continue rewards are separate; no commercial activation approved.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#26 only after owner-approved entitlement: verify original caller and purchased entitlement; choose trusted clock policy, rollback/restart/duplicate fixtures and atomically persist claim receipt. Do not copy donor bug or amount.",
+      "dependencies": "Original activation/device evidence, owner commercial scope decision; preserve approved economy, saves and runtime. No donor assets.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/b687d3da608496337f00f321071e6a81ba369ce7/src/platform/adState.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Source exact build replay at boundaries; separate original Android and product unit/device tests. Actual entitlement, provider receipt, persistence and UI must be verified before acceptance."
+    },
+    {
+      "id": "easy-vip-collect-unguarded",
+      "sourceFeatureId": "easy-vip-collect-unguarded",
+      "originalBehavior": "Six calls to original CollectVIPAward in isolated fixtures with prior elapsed -1,0,1,86399,86400,90000 all write supplied now; subsequent Ask returns 86400. Caller eligibility and payout UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "codePath": "src/platform/adState.ts",
+      "stage": "P4",
+      "currentImplementation": "No VIP subscription, claim timestamp or entitlement. Existing hint/continue rewards are separate; no commercial activation approved.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#26 only after owner-approved entitlement: verify original caller and purchased entitlement; choose trusted clock policy, rollback/restart/duplicate fixtures and atomically persist claim receipt. Do not copy donor bug or amount.",
+      "dependencies": "Original activation/device evidence, owner commercial scope decision; preserve approved economy, saves and runtime. No donor assets.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/b687d3da608496337f00f321071e6a81ba369ce7/src/platform/adState.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Source exact build replay at boundaries; separate original Android and product unit/device tests. Actual entitlement, provider receipt, persistence and UI must be verified before acceptance."
+    },
+    {
+      "id": "easy-reward-template-five-field-parser",
+      "sourceFeatureId": "easy-reward-template-five-field-parser",
+      "originalBehavior": "RewardTemplate.ReadData #20233 1427268; five sequential stores id, displayScene, noteDes, isLimited, limitNum; separator |; 56 synthetic token fixtures. Split/int/bool runtime substituted; activation UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "codePath": "src/platform/adState.ts",
+      "stage": "P4",
+      "currentImplementation": "Own typed hint/continue placements; no generic five-field reward template loader.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27 verify reachable original offers and cap application. If approved, use validated whole-config parse and atomic swap; reject incomplete/invalid rows without partial config. Test limit -1/0/4/10 separately from eligibility.",
+      "dependencies": "Original activation/device evidence, owner commercial scope decision; preserve approved economy, saves and runtime. No donor assets.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/b687d3da608496337f00f321071e6a81ba369ce7/src/platform/adState.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Source exact build replay at boundaries; separate original Android and product unit/device tests. Actual entitlement, provider receipt, persistence and UI must be verified before acceptance."
+    },
+    {
+      "id": "easy-reward-template-short-row-partial",
+      "sourceFeatureId": "easy-reward-template-short-row-partial",
+      "originalBehavior": "ReadData 1427268: token counts 0..4 write only prefix then hit intercepted bounds helper; 5/6 complete (6th ignored). Actual exception/recovery UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "codePath": "src/platform/adState.ts",
+      "stage": "P4",
+      "currentImplementation": "Own typed hint/continue placements; no generic five-field reward template loader.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27 verify reachable original offers and cap application. If approved, use validated whole-config parse and atomic swap; reject incomplete/invalid rows without partial config. Test limit -1/0/4/10 separately from eligibility.",
+      "dependencies": "Original activation/device evidence, owner commercial scope decision; preserve approved economy, saves and runtime. No donor assets.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/b687d3da608496337f00f321071e6a81ba369ce7/src/platform/adState.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Source exact build replay at boundaries; separate original Android and product unit/device tests. Actual entitlement, provider receipt, persistence and UI must be verified before acceptance."
+    },
+    {
+      "id": "easy-achievement-tier-reverse-index",
+      "sourceFeatureId": "easy-achievement-tier-reverse-index",
+      "originalBehavior": "AchievementManager.BelongLevel 1432ca4 scans backwards, 1-based index if value>=threshold, else 0; 40 synthetic original cases including duplicate and unsorted thresholds. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "codePath": "src/meta/career.ts",
+      "stage": "P2",
+      "currentImplementation": "Own configured badge metric thresholds and durable unique receipt; not donor reverse-index tier API.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "#15 only if approved: ordered monotone thresholds, equal threshold policy, exact boundaries and durable receipt dedup; first verify source user trigger/UI.",
+      "dependencies": "Original activation/device evidence, owner commercial scope decision; preserve approved economy, saves and runtime. No donor assets.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/b687d3da608496337f00f321071e6a81ba369ce7/src/meta/career.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Source exact build replay at boundaries; separate original Android and product unit/device tests. Actual entitlement, provider receipt, persistence and UI must be verified before acceptance."
+    },
+    {
+      "id": "easy-push-claim-panel-guard",
+      "sourceFeatureId": "easy-push-claim-panel-guard",
+      "originalBehavior": "PanelPopPushReward.OnClaimClick #25410 1450a90; +0xb0 guard is set before downstream calls. Static code only; reopen/restart eligibility and durable dedup UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "codePath": "src/app/nativeLifecycle.ts",
+      "stage": "P4",
+      "currentImplementation": "Lifecycle restoration exists; no notification reward panel or claim receipt.",
+      "comparison": "MISSING",
+      "status": "EVIDENCE_GAP",
+      "nextAction": "#19/#24 after source Android reachability and owner approval: permission independent of reward, atomic durable claim receipt before animation; deny/reopen/duplicate/kill/restart and verify actual wallet delta.",
+      "dependencies": "Original activation/device evidence, owner commercial scope decision; preserve approved economy, saves and runtime. No donor assets.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/b687d3da608496337f00f321071e6a81ba369ce7/src/app/nativeLifecycle.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Source exact build replay at boundaries; separate original Android and product unit/device tests. Actual entitlement, provider receipt, persistence and UI must be verified before acceptance."
+    },
+    {
+      "id": "easy-push-claim-credit-before-animation",
+      "sourceFeatureId": "easy-push-claim-credit-before-animation",
+      "originalBehavior": "PanelPopPushReward.OnClaimClick 1450a90 -> ItemUtil.AddConsumableItem 1450b8c (type 0, panel data fields +0x20,+0x24) -> YAnim.PlayCoinCollectAnim 1450bd0 (argument 10); callback 1450c64 refresh/close 1450cf8. Amount semantics, actual credit and reachability UNKNOWN. | research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "codePath": "src/app/nativeLifecycle.ts",
+      "stage": "P4",
+      "currentImplementation": "Lifecycle restoration exists; no notification reward panel or claim receipt.",
+      "comparison": "MISSING",
+      "status": "EVIDENCE_GAP",
+      "nextAction": "#19/#24 after source Android reachability and owner approval: permission independent of reward, atomic durable claim receipt before animation; deny/reopen/duplicate/kill/restart and verify actual wallet delta.",
+      "dependencies": "Original activation/device evidence, owner commercial scope decision; preserve approved economy, saves and runtime. No donor assets.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/b687d3da608496337f00f321071e6a81ba369ce7/src/app/nativeLifecycle.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Source exact build replay at boundaries; separate original Android and product unit/device tests. Actual entitlement, provider receipt, persistence and UI must be verified before acceptance."
     }
   ],
   "latestReview": {
@@ -13208,5 +13370,45 @@
     "activeVsColdMismatch": 22,
     "sameBankReplacementRequests": 14,
     "scope": "Original ARM64 methods executed with synthetic Dart allocation/async/time/storage/map/stream/SDK/DB boundaries. Real persistence, real SQLite open/close, actual stream scheduling, server exposure, Android and own implementation are not proven. No product changes."
+  },
+  "easyfunVipNative20261127": {
+    "sourceCommit": "51a3796c0c5139006f01e2c61078cb3be4a8cdd7",
+    "sourceFeatureCount": 653,
+    "reviewedHead": "b687d3da608496337f00f321071e6a81ba369ce7",
+    "version": "0.5.24 / 29",
+    "runtime": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "report": "https://github.com/DanilaH/mini-games-kit/blob/51a3796c0c5139006f01e2c61078cb3be4a8cdd7/research/games/crossmath/porting/easyfun-vip-native-20261127/README.md",
+    "newIds": [
+      "easy-vip-elapsed-day-countdown",
+      "easy-vip-clock-rollback-countdown",
+      "easy-vip-collect-date-sync",
+      "easy-vip-collect-unguarded",
+      "easy-reward-template-five-field-parser",
+      "easy-reward-template-short-row-partial",
+      "easy-achievement-tier-reverse-index",
+      "easy-push-claim-panel-guard",
+      "easy-push-claim-credit-before-animation"
+    ],
+    "refinedIds": [
+      "easy-push-reward",
+      "easy-offer-double-wheel-reward",
+      "easy-offer-free-wheel",
+      "easy-offer-free-20-diamond",
+      "easy-offer-try-ball-skin",
+      "easy-offer-add-ball-when-preview",
+      "easy-offer-add-ball-when-restart",
+      "easy-offer-revive",
+      "easy-offer-double-star-reward",
+      "easy-achievement-complete",
+      "easy-achievement-vip"
+    ],
+    "nativeCases": 144,
+    "groups": {
+      "vipClock": 42,
+      "collect": 6,
+      "rewardParser": 56,
+      "achievementTier": 40
+    },
+    "scope": "Isolated original ARM64 with explicit runtime substitutions; two byte-identical local runs. Push static only. Actual source Android, entitlement, offer activation, disk and payout UNKNOWN. No implementation or acceptance promotion."
   }
 }
