@@ -42,7 +42,9 @@
     "explainPartial": 515,
     "independentBotDayPlans": 252,
     "sourceQuotaCases": 387,
-    "safeQuotaCases": 4509
+    "safeQuotaCases": 4509,
+    "contentLabBrowserStates": 876,
+    "contentLabTouchReadiness": "Real locator.tap actionability, existing occlusion/geometry assertions, added viewport bounds and no automatic scrolling; runtime unchanged"
   },
   "model": {
     "comparisons": 32400,

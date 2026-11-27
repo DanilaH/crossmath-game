@@ -24,11 +24,18 @@ const ready=async page=>{
 const idle=page=>page.locator('#lab-bank:enabled').waitFor();
 const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
 async function tap(page,selector){
+ const scroll=()=>page.evaluate(()=>({page:[scrollX,scrollY],board:[document.querySelector('.board-scroll').scrollLeft,document.querySelector('.board-scroll').scrollTop],tray:[document.querySelector('#tray').scrollLeft,document.querySelector('#tray').scrollTop]}));
+ const before=await scroll();
  const point=await page.locator(selector).evaluate(el=>{
   const r=el.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/2;
-  return {x,y,hit:el.contains(document.elementFromPoint(x,y))};
+  return {hit:el.contains(document.elementFromPoint(x,y)),inside:x>=0&&x<innerWidth&&y>=0&&y<innerHeight};
  });
- assert.ok(point.hit,selector);await page.touchscreen.tap(point.x,point.y);await idle(page);
+ assert.ok(point.hit&&point.inside,selector);
+ // Let Playwright wait for stable, enabled touch targets. A raw CDP tap just
+ // after reload can deliver touchstart/end without Chromium synthesizing click.
+ // Keep the viewport/occlusion checks and reject automatic scrolling as well.
+ await page.locator(selector).tap();await idle(page);
+ assert.deepEqual(await scroll(),before,'Touch must not scroll to reach '+selector);
 }
 async function geometry(page){
  await page.evaluate(async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});
