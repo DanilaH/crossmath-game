@@ -38,8 +38,9 @@ export class SaveRepository {
     try {
       if(raw===null)throw Error('No primary save');
       const parsed:unknown=JSON.parse(raw);
+      const hadLeagueQuarantine=(parsed as Save).leagueQuarantine!==undefined;
       state=decodeSave(parsed);
-      needsWrite=(parsed as {schemaVersion?:unknown}).schemaVersion!==state.schemaVersion;
+      needsWrite=(parsed as {schemaVersion?:unknown}).schemaVersion!==state.schemaVersion||state.leagueQuarantine!==undefined&&!hadLeagueQuarantine;
       validPrimary=true;
     } catch(error) {
       if (unsupportedSchema(raw)) throw error;

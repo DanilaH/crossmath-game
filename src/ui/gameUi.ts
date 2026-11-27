@@ -1,3 +1,4 @@
+import {leagueEnabled} from '../meta/league';
 import { AdsController } from '../platform/ads';
 import type { AdsProvider } from '../platform/ads';
 import { dailyName, localize, localizeDocument, missingCoinsLabel, quantity, trackName } from './locale';
@@ -56,6 +57,7 @@ export class GameUi {
     this.feedback=new Feedback(()=>session.state.settings);
     this.board=new BoardView($('board'),$('tray'),$('note'),this.feedback,()=>this.busy||session.writing||this.blocked||this.saveFailed||!this.ready,()=>this.reduced(),(action,metadata)=>this.command(action,metadata),()=>this.language);
     this.meta=new MetaView($('hub'),{
+      joinLeague:()=>{this.run(async()=>({committed:await session.enterLeague()}));},
       navigate:(screen,history)=>this.navigate(screen,history),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),
       newGame:choice=>this.chooseNewGame(choice),selectDay:day=>this.selectDay(day),
       free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),
@@ -86,7 +88,7 @@ export class GameUi {
     const endDialog=$<HTMLDialogElement>('end-run-dialog');
     $('end-run-no').onclick=()=>this.keepPlayingEndless();
     endDialog.addEventListener('cancel',event=>{event.preventDefault();this.keepPlayingEndless();});
-    $('home').onclick=()=>this.session.state.meta.screen==='album' ? this.leaveWorkshop() : this.navigate('home');
+    $('home').onclick=()=>this.session.state.meta.screen==='album' ? this.leaveWorkshop() : this.session.state.meta.screen==='league'?this.navigate('profile'):this.navigate('home');
     $('home-from-pause').onclick=()=>this.navigate('home');
     $('result-main').onclick=()=>this.navigate('home');
     $('result-home').onclick=()=>campaignResultStatus(session.state)==='finish' ? this.navigate('home') : this.navigate('modes',true);
@@ -141,7 +143,7 @@ export class GameUi {
     $('replace-board').onclick = () => this.confirmReplacement();
     $('replace-reload').onclick = () => location.reload();
     $('retry').onclick=()=>this.retryAction?.();$('reload').onclick=()=>location.reload();
-    this.timer=setInterval(()=>{this.tick();this.renderTime();if(this.ready)this.ads?.refresh();if(!this.busy&&this.ready&&!this.saveFailed&&session.hasDayChange())this.run(async()=>({committed:await session.refreshDay()}));else if(this.elapsed>=10)this.checkpoint();},2000);this.render();
+    this.timer=setInterval(()=>{this.tick();this.renderTime();if(this.ready)this.ads?.refresh();if(!this.busy&&this.ready&&!this.saveFailed&&(session.hasDayChange()||session.hasLeagueUpdate()))this.run(async()=>({committed:await session.refreshDay()}));else if(this.elapsed>=10)this.checkpoint();},2000);this.render();
   }
   private leaveModal():void{for(const id of ['end-run-dialog','pause-dialog','help-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}this.blocker('user',false);this.blocker('modal',false);$('restart-confirm').hidden=true;this.finishReadouts();this.board.clearSelection();window.scrollTo(0,0);}
 
@@ -168,13 +170,13 @@ export class GameUi {
   private navigate(screen: MetaScreen, campaignHistory = false): void {
     const from=this.session.state.meta.screen;
     if (from===screen||this.busy||this.session.writing||this.saveFailed) return;
-    if(from!=='play'&&from!=='album')this.tabScroll.set(from,window.scrollY);
+    if(from!=='play'&&from!=='album'&&from!=='league')this.tabScroll.set(from,window.scrollY);
     this.run(async time=>({committed:await this.session.navigate(screen,time)}),()=>{
       this.leaveModal();
       requestAnimationFrame(()=>{
         if (campaignHistory) this.meta.openCampaignHistory();
         else if (screen==='play') $('level').focus({preventScroll:true});
-        else if (screen==='album') $('deep-title').focus({preventScroll:true});
+        else if (screen==='album'||screen==='league') $('deep-title').focus({preventScroll:true});
         else {
           window.scrollTo(0,this.tabScroll.get(screen)??0);
           const back=from==='album'&&(screen==='home'||screen==='profile');
@@ -287,6 +289,12 @@ export class GameUi {
   private syncNavigation():void{if(!this.ready)return;const next=this.session.state.meta.screen!=='play';if(next===this.navigationBlocked)return;this.navigationBlocked=next;this.blocker('navigation',next);}
   private reduced():boolean{return this.session.state.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;}
   private renderTime():void {
+    const remaining=document.getElementById('league-remaining'),league=this.session.state.league;
+    if(remaining&&league?.active){
+      const left=Math.max(0,league.active.endAt-Math.max(Date.now(),league.lastSeenAt));
+      const days=Math.floor(left/86_400_000),hours=Math.floor(left%86_400_000/3_600_000);
+      remaining.textContent=this.t(`До итога: ${days} д ${hours} ч`,`Ends in ${days}d ${hours}h`);
+    }
     const a=this.session.state.attempt,node=$('play-time');
     node.hidden=!this.session.state.settings.timerVisible||a.mode==='daily'||a.mode==='endless';
     if(node.hidden)return;
@@ -597,18 +605,26 @@ export class GameUi {
     const balance = document.createElement('span');
     balance.textContent = String(s.profile.coins);
     wallet.replaceChildren(menuIcon('coin'),balance);
-    const insideAlbum=s.meta.screen==='album';
+    const insideAlbum=s.meta.screen==='album',insideLeague=s.meta.screen==='league';
     const deepTitle=$('deep-title');
-    deepTitle.hidden=!insideAlbum;
-    deepTitle.textContent=insideAlbum?this.t('Мастерская счёта','Counting Workshop'):'';
-    $('home').setAttribute('aria-label',insideAlbum?this.t('Назад','Back'):this.t('Crossmath — на главную','Crossmath — Home'));
+    deepTitle.hidden=!insideAlbum&&!insideLeague;
+    deepTitle.textContent=insideLeague?this.t('Офлайн-лига','Offline league'):insideAlbum?this.t('Мастерская счёта','Counting Workshop'):'';
+    $('home').setAttribute('aria-label',insideAlbum||insideLeague?this.t('Назад','Back'):this.t('Crossmath — на главную','Crossmath — Home'));
     const tabBar=$('root-tabs');
     tabBar.hidden=playing||s.meta.screen==='album';
     for(const screen of rootScreens) {
       const tab=$<HTMLButtonElement>(`tab-${screen}`);
       tab.disabled=this.busy||this.session.writing||this.saveFailed;
-      if (s.meta.screen===screen) tab.setAttribute('aria-current','page');
+      if (s.meta.screen===screen||insideLeague&&screen==='profile') tab.setAttribute('aria-current','page');
       else tab.removeAttribute('aria-current');
+    }
+    if(leagueEnabled){
+      let line=document.getElementById('league-result');
+      if(!line){line=document.createElement('p');line.id='league-result';$('result-rewards').after(line);}
+      const points=s.result?.league?.points;
+      const clockBack=!!s.league?.active&&Date.now()<s.league.lastSeenAt;
+      line.hidden=!!s.leagueQuarantine||!s.result?.league&&!clockBack;
+      line.textContent=clockBack?this.t('Лига ждёт восстановления времени профиля','League scoring awaits profile time'):points?(s.result!.league!.weekId===s.league?.active?.id?this.t(`+${points} в лигу`,`+${points} league points`):this.t(`В лигу той недели: +${points}`,`That week’s league: +${points}`)):this.t('Это поле уже зачтено в лиге','This board already counted this week');
     }
     const pauseLabel = playing ? this.t('Пауза', 'Pause') : this.t('Настройки', 'Settings');
     $('pause-title').textContent = pauseLabel;
@@ -737,6 +753,6 @@ export class GameUi {
     $('restart').textContent=a.mode==='endless'?this.t("Новый забег", "New run"):this.t("Начать заново", "Restart");$('restart-warning').textContent=a.mode==='endless'?this.t("Завершить текущий забег и начать новый? Текущий итог будет сохранён в соответствующих рекордах.", "End this run and start a new one? Your current result will count toward your record."):this.t("Начать это поле заново? Поставленные числа вернутся в лоток.", "Restart this board? The placed numbers will go back to the tray.");$('end-run').hidden=a.mode!=='endless'||run?.status==='ended'||s.meta.screen!=='play';$<HTMLButtonElement>('end-run').disabled=this.busy||this.saveFailed;
     $('mode-rules').textContent=a.mode==='endless'?this.t("Три жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.", "Three lives for the entire run. Select Check to submit a full board. A different incorrect layout costs a life. Using help counts toward the assisted record."):a.mode==='daily'?this.t("Три жизни на попытку. Новая ошибка снимает максимум одну жизнь за ход. Отмена, возврат и помощь жизнь не снимают. Повтор бесплатный.", "Three lives per attempt. A new error costs at most one life per move. Undo, returning numbers and help cost no lives. Retrying is free."):this.t("Числа сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.", "Your board is saved. There is no penalty for mistakes, and correct equations remain editable. Tap a number and a cell in either order, or drag a piece.");
   }
-  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen==='album')this.leaveWorkshop();else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
+  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen==='album')this.leaveWorkshop();else if(this.session.state.meta.screen==='league')this.navigate('profile');else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
   dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.stopStart();this.finishReadouts();this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
 }

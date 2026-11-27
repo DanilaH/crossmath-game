@@ -36,6 +36,8 @@ jobs:
           node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz b1bf2026eda7dd68a5ccbc883946191e03d235af
           npm install --no-audit --no-fund
       - run: CONTENT03_REPORT=1 npm run check
+      - run: npm run test:league
+      - run: node tools/league22-model.mjs
       - run: npm run content:verify
       - name: Verify the isolated content candidate
         run: |
@@ -50,6 +52,7 @@ jobs:
       - run: npm run test:browser
       - run: npm run build:issuance-pilot && node tools/issuance-pilot-browser.mjs
       - run: npm run build:content-lab && node tools/content03-browser.mjs
+      - run: npm run build:league-lab && node tools/league22-browser.mjs && node tools/league22-record.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -61,6 +64,9 @@ jobs:
             .test-output/issuance16/
             .test-output/content03/
             .test-output/content03-ui/
+            .test-output/league22/
+            .test-output/league22-ui/
+            .test-output/league22-recording/
             .test-output/help11-ui/
             .test-output/ads-banner/
             .test-output/feel/

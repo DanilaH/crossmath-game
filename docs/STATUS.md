@@ -4,6 +4,8 @@
 
 **CORE-00 поставлен на плейтест** в [PR №4](https://github.com/DanilaH/crossmath-game/pull/4). Ветки входа в Endless закрыты, прежние забеги сохраняются. Reveal работает локально. Детали и открытые проверки в [протоколе CORE-00](acceptance/core-00/README.md).
 
+**LEAGUE-01 подготовлен как эксперимент:** `npm run build:league-lab`, вход из профиля, девять компьютерных соперников, очки обычных полей и одна косметическая медаль за неделю. [Приёмка и числовые ограничения](acceptance/issue-22/README.md). Параметры и постоянное включение открыты; №16 и №17 сохранены.
+
 ## Current consolidated checkpoint · 26 November 2026
 
 Crossmath 0.5.24 / 29; reviewed developer snapshot `57820c8c6491c8b6240aeed5cb0dfde61c858927`, gameplay/artifact `a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance `469928d03f4bae5053e23db26e82187bedbc252e`, source inventory `944f4bb370edf46fb10c6f3b4d5ab0d505d85f23` (605 IDs). [Current map](porting/CURRENT.md) · [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.

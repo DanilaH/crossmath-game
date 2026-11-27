@@ -1,3 +1,5 @@
+import {advanceLeague,leagueEnabled,recordLeagueWin,validateLeague} from '../meta/league';
+import type {LeagueState} from '../meta/league';
 import { bucketTurn, challengeUnlockWins, isFreeTrack } from '../content/rotation';
 import type { ContentVersion } from '../content/rotation';
 import { createAdState, validateAdState } from '../platform/adState';
@@ -30,6 +32,7 @@ export interface Completion {
   trackGoal?: TrackGoalReceipt;
   workshop?: WorkshopReceipt;
   interstitialRequested?: true;
+  league?: {weekId:string;points:number};
 }
 export type HelpOutcome = 'applied' | 'no_step' | 'stale_snapshot' | 'busy' | 'already_solved' | 'insufficient_resource' | 'invalid_proof';
 export interface HelpReceipt { outcome: HelpOutcome; kind: 'explain' | 'reveal'; costCoins: number; costCredits: number }
@@ -41,6 +44,8 @@ export interface Save {
   meta: MetaState;
   career:Career;
   ads:AdState;
+  league?:LeagueState;
+  leagueQuarantine?:{version:1;raw:unknown};
 }
 export function createSave(id: string, now: string, timeZone: string, attemptId: string, contentVersion: ContentVersion = 'content-v2'): Save {
   const career=createCareer(now);career.modes.campaign.starts=1;
@@ -68,6 +73,7 @@ const modeUnlockThresholds: ReadonlyArray<readonly [string, number]> = [
 ];
 
 export function settleCompletion(save: Save, now=new Date().toISOString()): Save {
+  if(leagueEnabled&&save.league){save=structuredClone(save);advanceLeague(save.league!,now);}
   if (save.attempt.status !== 'won' || save.result?.attemptId === save.attempt.id) return save;
   const next=structuredClone(save);refreshDay(next,now);const p=getPuzzle(next.attempt.puzzleId), profile=next.profile;
   const previousWins=profile.solvedIds.length;
@@ -107,6 +113,12 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
   next.career.modes[next.attempt.mode].completions++;
   if(next.attempt.mode==='endless'){next.result.stageScore=settleStage(next);next.result.runScore=next.career.run!.score;next.result.stageKey=`${next.attempt.runId}:${next.attempt.stageId}`;}
   next.result.badges=settleAchievements(next,now,next.result.id);
+  if(leagueEnabled&&next.league?.active){
+    const weekId=next.league.active.id;
+    const points=recordLeagueWin(next.league,{profileId:profile.id,weekId,receiptId:next.result.id,puzzleId:p.puzzleId,
+      mode:next.attempt.mode,difficulty:p.difficulty,assisted:next.attempt.assisted,at:Date.parse(now)},now);
+    if(points||next.league.active.contributions[p.puzzleId])next.result.league={weekId,points};
+  }
   return next;
 }
 
@@ -137,8 +149,14 @@ export function decodeSave(input: unknown): Save {
   validateFreeIssuance(s.meta);
   validateCareer(s);
   validateAdState(s);
+  if(s.leagueQuarantine!==undefined&&(!s.leagueQuarantine||s.leagueQuarantine.version!==1||!('raw' in s.leagueQuarantine)||s.league!==undefined))fail();
+  if(s.league!==undefined){
+    try{validateLeague(s.league,s.profile);if(s.league.active)for(const [id,c] of Object.entries(s.league.active.contributions)){if(!s.profile.solvedIds.includes(id)||getPuzzle(id).difficulty!==c.difficulty)throw Error('Unmatched league contribution');}}
+    catch{ s.leagueQuarantine={version:1,raw:structuredClone(s.league)};delete s.league; }
+  }
   const validateReceipt=(result:Completion):void=>{
     if (![result.coins,result.xp,result.rankUps,result.fragments,result.cardCoins].every(nonnegative) || typeof result.first!=='boolean' || !Number.isFinite(result.elapsedPlaying) || result.elapsedPlaying<0) fail();
+    if(result.league&&(!nonnegative(result.league.points)||result.league.points>4||typeof result.league.weekId!=='string'))fail();
     if (result.interstitialRequested !== undefined && result.interstitialRequested !== true) fail();
     if (result.workshop !== undefined) {
       const {workshop, collectionFragments: total, fragments} = result;

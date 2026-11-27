@@ -1822,13 +1822,13 @@
     {
       "id": "guru-brains-week",
       "sourceFeatureId": "guru-brains-week",
-      "status": "ROADMAPPED",
-      "comparison": "MISSING",
-      "currentImplementation": "Недельной таблицы нет",
-      "codePath": "src/meta/career.ts",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "Experimental Monday-to-Monday profile-zone period, opt-in and one cosmetic medal receipt/history. No monetary league prize.",
+      "codePath": "src/meta/league.ts · src/app/model.ts · src/app/session.ts · src/ui/leagueView.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "#22 LEAGUE: own weekly period, explicit entry, calendar/timezone and close/open receipts; one offline table, no Race dependency. Test rollover, clock changes, restart, late/repeated finalization.",
+      "nextAction": "LEAGUE-01 lab: agree on numerical weights, entry/late-week eligibility, bot distributions and medals after playtest. Physical Android and human pacing remain open. No source live-config/prize parity claim.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
@@ -1839,18 +1839,27 @@
         "previousStage": "C0–C4",
         "previousReason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
         "decisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-core-first--утверждённый-scope"
+      },
+      "originalBehavior": "Guru Brains weekly main/temp periods; exact source week boundary, zone, settlement transfer and live prizes UNKNOWN.",
+      "league22Evidence": {
+        "spec": "docs/spec/Crossmath_TZ_v1.1_RU.md §4",
+        "acceptance": "docs/acceptance/issue-22/README.md",
+        "model": "docs/experiments/league22/MEASUREMENTS.json",
+        "source": "https://github.com/DanilaH/mini-games-kit/blob/a994dc7910fd50f198f892e64a8203b764a921c1/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
+        "physicalAndroid": "NOT RUN",
+        "productionActivation": false
       }
     },
     {
       "id": "guru-brains-plan",
       "sourceFeatureId": "guru-brains-plan",
-      "status": "ROADMAPPED",
-      "comparison": "MISSING",
-      "currentImplementation": "Нет симуляции недельного участника",
-      "codePath": "src/meta/career.ts",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "Nine own bot names/avatars, seeded daily targets and persisted UTC due arrays. Frozen checksum validation, no regeneration on reopen or rank-dependent tempo. Eight template fractions are own calibration.",
+      "codePath": "src/meta/league.ts · src/app/model.ts · src/app/session.ts · src/ui/leagueView.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "#22 LEAGUE: nine computer profiles, immutable seeded daily schedules and own calibrated activity; test no redraw, monotonic due ticks, restart, no reactive rubber banding. Original active configuration UNKNOWN.",
+      "nextAction": "LEAGUE-01 lab: agree on numerical weights, entry/late-week eligibility, bot distributions and medals after playtest. Physical Android and human pacing remain open. No source live-config/prize parity claim.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/career.ts",
@@ -1861,18 +1870,27 @@
         "previousStage": "C0–C4",
         "previousReason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
         "decisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-core-first--утверждённый-scope"
+      },
+      "originalBehavior": "Guru 4.17.0 nine A1/A2/B1/B2/C1/C2/D1/D2/D3 categories, min+nextInt(max-min), weighted local windows and due marks. Active configuration UNKNOWN.",
+      "league22Evidence": {
+        "spec": "docs/spec/Crossmath_TZ_v1.1_RU.md §4",
+        "acceptance": "docs/acceptance/issue-22/README.md",
+        "model": "docs/experiments/league22/MEASUREMENTS.json",
+        "source": "https://github.com/DanilaH/mini-games-kit/blob/a994dc7910fd50f198f892e64a8203b764a921c1/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
+        "physicalAndroid": "NOT RUN",
+        "productionActivation": false
       }
     },
     {
       "id": "guru-brains-hat",
       "sourceFeatureId": "guru-brains-hat",
-      "status": "ROADMAPPED",
-      "comparison": "MISSING",
-      "currentImplementation": "Нет недельного Brains и общего hat; собственные мета-счётчики раздельны.",
-      "codePath": "src/meta/progress.ts",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "currentImplementation": "Nonspendable league points only from committed ordinary wins, one puzzleId/week, equal assisted policy. Existing base currency, XP and experiment banks preserved.",
+      "codePath": "src/meta/league.ts · src/app/model.ts · src/app/session.ts · src/ui/leagueView.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "#22 LEAGUE: nonspendable points from ordinary committed distinct puzzle wins, weight by difficulty. No Daily set/Race prerequisite or copied source amounts. Agree on exact weights/assisted eligibility after lab; no duplicate point per week/puzzle.",
+      "nextAction": "LEAGUE-01 lab: agree on numerical weights, entry/late-week eligibility, bot distributions and medals after playtest. Physical Android and human pacing remain open. No source live-config/prize parity claim.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
@@ -1883,6 +1901,15 @@
         "previousStage": "C0–C4",
         "previousReason": "Этап после базовой версии. Нужны формат, баланс и приёмка соревновательного режима.",
         "decisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-core-first--утверждённый-scope"
+      },
+      "originalBehavior": "Guru separate weekly hat and lifetime sink paths; Daily set/Adventure/Race/Postcard grants. Actual source live prize table UNKNOWN.",
+      "league22Evidence": {
+        "spec": "docs/spec/Crossmath_TZ_v1.1_RU.md §4",
+        "acceptance": "docs/acceptance/issue-22/README.md",
+        "model": "docs/experiments/league22/MEASUREMENTS.json",
+        "source": "https://github.com/DanilaH/mini-games-kit/blob/a994dc7910fd50f198f892e64a8203b764a921c1/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
+        "physicalAndroid": "NOT RUN",
+        "productionActivation": false
       }
     },
     {
@@ -7366,15 +7393,15 @@
     {
       "id": "guru-brains-hat-own-ongoing",
       "sourceFeatureId": "guru-brains-hat-own-ongoing",
-      "status": "ROADMAPPED",
-      "comparison": "MISSING",
-      "originalBehavior": "Brains: обновление hat отбирает собственные незавершённые записи. G4 NATIVE_STATIC a255f0/4 and a25634/38/50/54 main; a1e4e8/ec and a1e52c/30/48/4c temp. SQL isRobot=? AND isSettlement=?; bound 0,0. Isolated schema model only.",
-      "currentImplementation": "Дневные задания и квитанции есть; Brains, отдельные рейтинги и недельный счётчик отсутствуют.",
-      "codePath": "src/meta/progress.ts",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "comparison": "PARTIAL",
+      "originalBehavior": "Brains selects self/ongoing rows with isRobot=0 AND isSettlement=0 in main/temp. Native static plus isolated SQL evidence; not source Android.",
+      "currentImplementation": "Own active profile/period contribution guard, separate bot plans, atomic ordinary receipt and one settlement. Closed periods never accept late/duplicate credit; optional corrupt league quarantined without rolling core back.",
+      "codePath": "src/meta/league.ts · src/app/model.ts · src/app/session.ts · src/ui/leagueView.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/meta/progress.ts",
       "stage": "LEAGUE #22",
       "dependencies": "CORE accepted; league point/bot/medal parameters and presentation separately calibrated and approved; no Star Race/Battle dependency, offline only.",
-      "nextAction": "#22 LEAGUE: own active-period scoped, deduped point and medal receipts; no previous-period mutation or bot/player confusion. Original source live payout UNKNOWN.",
+      "nextAction": "LEAGUE-01 lab: agree on numerical weights, entry/late-week eligibility, bot distributions and medals after playtest. Physical Android and human pacing remain open. No source live-config/prize parity claim.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/b8c511fe944cf5e06f5d6726d6ea03303022d275/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
@@ -7384,6 +7411,14 @@
         "previousStage": "C0–C4 — later owner decision",
         "previousReason": "Соревнования, боты и сезоны отложены за пределы первого релиза по решению владельца; не исключены окончательно.",
         "decisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-27-core-first--утверждённый-scope"
+      },
+      "league22Evidence": {
+        "spec": "docs/spec/Crossmath_TZ_v1.1_RU.md §4",
+        "acceptance": "docs/acceptance/issue-22/README.md",
+        "model": "docs/experiments/league22/MEASUREMENTS.json",
+        "source": "https://github.com/DanilaH/mini-games-kit/blob/a994dc7910fd50f198f892e64a8203b764a921c1/research/games/crossmath/porting/guru-star-brains-native-20261125/README.md",
+        "physicalAndroid": "NOT RUN",
+        "productionActivation": false
       }
     },
     {

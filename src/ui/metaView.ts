@@ -1,3 +1,5 @@
+import {leagueEnabled} from '../meta/league';
+import {leagueEntry,leagueView} from './leagueView';
 import { challengeUnlockWins, freeTracks } from '../content/rotation';
 import type { FreeTrack } from '../content/rotation';
 import { availableUnlockModes, dailyName, localize, trackName, unlockAnnouncement } from './locale';
@@ -80,7 +82,7 @@ export function nextFragmentText(save:Save):string {
   const remaining=workshopTarget(save.profile.solvedIds.length,save.profile.fragments)?.remaining;
   return localize(save.settings.language,`Новых полей до детали: ${remaining??0}`,`New boards until next part: ${remaining??0}`);
 }
-interface Actions { navigate:(screen:MetaScreen,history?:boolean)=>void; campaign:()=>void; newGame:(choice:NewGameChoice)=>void; selectDay:(day:string)=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
+interface Actions { joinLeague:()=>void; navigate:(screen:MetaScreen,history?:boolean)=>void; campaign:()=>void; newGame:(choice:NewGameChoice)=>void; selectDay:(day:string)=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
 const partsEN = [
   ['Frame','Rods','Left beads','Right beads'],
   ['Tray','Units','Fives','Tens'],
@@ -212,6 +214,10 @@ export class MetaView {
     }
     else if (screen === 'modes') this.modes(save);
     else if (screen === 'profile') this.profile(save);
+    else if (screen === 'league') {
+      if(leagueEnabled)this.root.append(leagueView(save,this.actions.joinLeague,disabled));
+      else {this.heading(this.t('Экспериментальная лига','Experimental league'),this.t('Доступна в сборке для плейтеста','Available in the playtest build'));}
+    }
     else this.album(save);
 
     for (const panel of this.root.querySelectorAll<HTMLDetailsElement>('details[id]')) panel.open=openPanels?.has(panel.id)??false;
@@ -769,6 +775,7 @@ export class MetaView {
     const p = save.profile;
     const c = save.career;
     this.heading(this.t('Профиль', 'Profile'));
+    if(leagueEnabled)this.root.append(leagueEntry(save,()=>this.actions.navigate('league'),this.disabled));
     const rank = this.button('', () => this.openRank(save, 'profile-rank'), 'profile-rank');
     rank.classList.add('mode-option');
     rank.setAttribute('aria-haspopup', 'dialog');

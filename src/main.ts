@@ -20,6 +20,7 @@ import './ui/home.css';
 import './ui/menuScreens.css';
 import './ui/rootNavigation.css';
 import './ui/workshopReveal.css';
+import './ui/league.css';
 
 const startup=new StartupTimeline<'hostReady'|'storageReady'|'firstFrame'|'ready'>(),cover=document.querySelector<HTMLElement>('#startup')!,root=document.querySelector<HTMLElement>('#game-root')!;
 let language:Language='ru';
@@ -43,7 +44,7 @@ try{
   const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(resize);observer?.observe(root);window.addEventListener('resize',resize);
   await frame;startup.mark('firstFrame');game.loop.sleep();cover.hidden=true;await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
   startup.mark('ready');document.documentElement.dataset.state='ready';platform.activity.setGameplayDesired(true);ui.setReady();
-  if(import.meta.env.MODE==='content-lab'){
+  if(import.meta.env.MODE==='content-lab'||import.meta.env.MODE==='league-lab'){
     const link=document.createElement('button');link.id='content-lab-open';link.textContent='Банк · Lab';link.className='control';
     link.onclick=()=>{location.href='content-lab.html';};document.querySelector('#screen-header')!.append(link);
   }

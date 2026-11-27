@@ -1,3 +1,4 @@
+import {joinLeague,leagueEnabled,leagueUpdateDue} from '../meta/league';
 import { challengeUnlockWins } from '../content/rotation';
 import type { FreeTrack } from '../content/rotation';
 import { beginInterstitial, canRequestReward, createRewardRequest, settleInterstitial, settleReward } from '../platform/adState';
@@ -147,7 +148,7 @@ export class GameSession {
   private async persist(next: Save, elapsed: number): Promise<void> {
     next.attempt.elapsedPlaying+=Math.max(0,elapsed);
     recordTime(next,this.state.attempt.mode,elapsed);
-    refreshDay(next,this.now());next=settleCompletion(next,this.now()); next.revision=this.state.revision+1;
+    const timestamp=this.now();refreshDay(next,timestamp);next=settleCompletion(next,timestamp); next.revision=this.state.revision+1;
     this.state=await this.repository.commit(this.state.revision,next);
   }
   async command(action: BoardAction, elapsed=0, metadata?: {commandId:string;expectedRevision:number}): Promise<Transition> {
@@ -240,16 +241,23 @@ export class GameSession {
     try {await this.persist(structuredClone(this.state),elapsed);return true;} finally {this.finishWrite();}
   }
   canRestart(save=this.state):boolean{return (endlessEnabled||save.attempt.mode!=='endless')&&(save.attempt.mode!=='daily'||dateAvailable(save.profile.createdAt,save.profile.timeZone,save.meta.effectiveDay,save.attempt.dayKey!));}
+  hasLeagueUpdate():boolean{return leagueEnabled&&leagueUpdateDue(this.state.league,this.now());}
+  async enterLeague():Promise<boolean>{
+    if(this.busy||!leagueEnabled||this.state.leagueQuarantine)return false;
+    const league=joinLeague(this.state.league,this.state.profile.id,this.state.profile.timeZone,this.now());
+    if(!league)return false;
+    this.busy=true;try{const next=structuredClone(this.state);next.league=league;await this.persist(next,0);return true;}finally{this.finishWrite();}
+  }
   hasDayChange():boolean{return profileDay(this.now(),this.state.profile.timeZone)>this.state.meta.effectiveDay;}
   async refreshDay():Promise<boolean>{
     if(this.busy)return false;const next=structuredClone(this.state), previousSet=next.meta.quests;
     refreshDay(next,this.now());
     if(previousSet && next.meta.quests===previousSet)refreshQuests(next);
-    if(JSON.stringify(next.meta)===JSON.stringify(this.state.meta))return false;
+    if(JSON.stringify(next.meta)===JSON.stringify(this.state.meta)&&!this.hasLeagueUpdate())return false;
     this.busy=true;try{await this.persist(next,0);return true;}finally{this.finishWrite();}
   }
   async navigate(screen:MetaScreen,elapsed=0,calendarTrophyMonth?:string):Promise<boolean>{
-    if(this.busy||screen==='play'&&this.suspendedAttempt)return false;this.busy=true;
+    if(this.busy||screen==='league'&&!leagueEnabled||screen==='play'&&this.suspendedAttempt)return false;this.busy=true;
     try{
       const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;
       if(screen==='album')next.meta.albumOrigin=this.state.meta.screen==='profile'?'profile':'home';
