@@ -13,21 +13,27 @@ try{
  const context=await browser.newContext({viewport:{width:320,height:568},isMobile:true,hasTouch:true,timezoneId:'UTC',recordVideo:{dir:out,size:{width:320,height:568}}});
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.clock.setFixedTime(new Date('2026-11-23T00:00:00Z'));
  const snapshot=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')));
- const tap=async selector=>{await page.locator(selector).tap();await page.locator('#home:enabled').waitFor();await page.waitForTimeout(450);};
+ const tap=async selector=>{await page.locator(selector).tap();await page.locator('#home:enabled').waitFor();await page.waitForTimeout(200);};
  await page.goto(`http://127.0.0.1:${server.address().port}/`);await page.locator('html[data-state=ready]').waitFor();
  await tap('#home');await page.waitForTimeout(1000);await tap('#home-league-open');await page.waitForTimeout(900);await tap('#league-join');
- const first=Math.min(...(await snapshot()).league.active.bots.flatMap(b=>b.due));await page.clock.setFixedTime(new Date(first));
+ const first=Math.min(...(await snapshot()).league.active.bots.flatMap(b=>b.events?b.events.map(e=>e.at):b.due));await page.clock.setFixedTime(new Date(first));
  await page.waitForFunction(at=>JSON.parse(localStorage.getItem('crossmath.save.v1')).league.lastSeenAt>=at,first);await page.waitForTimeout(1200);
  await tap('#tab-home');await tap('#continue-game');
- const state=await snapshot();
- const puzzle=boards.find(p=>p.puzzleId===state.attempt.puzzleId),answer=answers[puzzle.puzzleId].answer;
- for(const cell of puzzle.cells.filter(c=>c.given===undefined)){
-  const s=await snapshot(),used=new Set(Object.values(s.attempt.placements)),token=puzzle.tray.findIndex((n,i)=>n===answer[cell.id]&&!used.has('t'+i));
-  await tap(`[data-token="t${token}"]`);await tap(`#board [data-cell="${cell.id}"]`);
+ let promotion=false;
+ for(let win=0;win<4&&!promotion;win++){
+  const state=await snapshot(),puzzle=boards.find(p=>p.puzzleId===state.attempt.puzzleId),answer=answers[puzzle.puzzleId].answer;
+  for(const cell of puzzle.cells.filter(c=>c.given===undefined)){
+   const s=await snapshot(),used=new Set(Object.values(s.attempt.placements)),token=puzzle.tray.findIndex((n,i)=>n===answer[cell.id]&&!used.has('t'+i));
+   await tap(`[data-token="t${token}"]`);await tap(`#board [data-cell="${cell.id}"]`);
+  }
+  await page.locator('#result:visible').waitFor();const saved=(await snapshot()).result.league;
+  assert.equal(saved.toPoints-saved.fromPoints,saved.points);assert.ok(saved.points>=1);promotion=saved.toPlace<saved.fromPlace;
+  await page.waitForTimeout(1100);if(!promotion)await tap('#next');
  }
- await page.locator('#result:visible').waitFor();assert.deepEqual(Object.fromEntries(Object.entries((await snapshot()).result.league).filter(([k])=>k!=='weekId')),{points:1,fromPoints:0,toPoints:1,fromPlace:2,toPlace:1});await page.waitForTimeout(2400);
+ assert.equal(promotion,true);await page.waitForTimeout(1000);
  await tap('#result-main');await tap('#home-league-open');await page.waitForTimeout(1200);
- await page.clock.setFixedTime(new Date('2026-11-25T16:00:00Z'));await page.waitForFunction(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')).league.lastSeenAt>=Date.parse('2026-11-25T16:00:00Z'));await page.waitForTimeout(1600);
+ const active=(await snapshot()).league.active,event=active.bots.flatMap(b=>b.events).filter(e=>e.points>1&&e.at>first).sort((a,b)=>a.at-b.at)[0];assert.ok(event);
+ await page.clock.setFixedTime(new Date(event.at));await page.waitForFunction(at=>JSON.parse(localStorage.getItem('crossmath.save.v1')).league.lastSeenAt>=at,event.at);await page.waitForTimeout(1600);
  await page.clock.setFixedTime(new Date('2026-11-30T00:00:00Z'));await page.waitForFunction(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')).league.history.length===1);await page.waitForFunction(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')).league.history[0].presented===true);await page.waitForTimeout(2400);
  assert.equal(await page.locator('[data-revealing=true]').count(),1);assert.deepEqual(errors,[]);const video=page.video();await context.close();await video.saveAs(resolve(out,'league-week-1x.webm'));
  console.log('LEAGUE-01 recording PASS · real taps, 1x, controlled calendar jumps, no audio capture');

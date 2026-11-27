@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const server=await createServer({mode:'league-lab',server:{middlewareMode:true},appType:'custom'});
 try{
  const league=await server.ssrLoadModule('/src/meta/league.ts'),catalog=await server.ssrLoadModule('/src/content/catalog.ts');
- const {joinLeague,advanceLeague,recordLeagueWin,leagueRows}=league;
+ const {joinLeague,advanceLeague,recordLeagueWin,leagueRows,leagueBotEvents}=league;
  const anchor=Date.parse('2026-11-23T00:00:00Z'),rows=[],botTotals=[];
  const patterns=[{name:'skip',track:'relax',count:0,days:[0,1,2,3,4,5,6]},
   {name:'easy-one-daily',track:'easy',count:1,days:[0,1,2,3,4,5,6]},
@@ -17,7 +17,7 @@ try{
  for(let seed=0;seed<200;seed++)for(const joinedDay of [0,4,6]){
   const joinAt=new Date(anchor+joinedDay*86_400_000).toISOString();
   const base=joinLeague(undefined,'model-'+seed,'UTC',joinAt);
-  if(!joinedDay)botTotals.push(base.active.bots.map(b=>b.due.length));
+  if(!joinedDay)botTotals.push(base.active.bots.map(b=>leagueBotEvents(b).reduce((n,e)=>n+e.points,0)));
   for(const pattern of patterns){
    const state=structuredClone(base);let issued=0,accepted=0;
    for(const day of pattern.days.filter(d=>d>=joinedDay))for(let n=0;n<pattern.count;n++){
@@ -61,18 +61,18 @@ try{
   }
   progression.attempt.status='won';progression=settleCompletion(progression,'2026-11-23T09:00:00Z');
  }
- const baseline=JSON.parse(await readFile('docs/experiments/league22/BASELINE_V1.json','utf8'));
+ const baseline=JSON.parse(await readFile('docs/experiments/league22/BASELINE_V2.json','utf8'));
  assert.equal(lateWin.history[0].rank,10);assert.equal(lateWin.history[0].medal.tier,'participant');
  const report={comparison:{baselinePolicy:baseline.policy.version,baselineLastMinuteEasyPlace:baseline.lateAdmission.oneEasyWin.rank,newLastMinuteEasyPlace:lateWin.history[0].rank,pairedCadences:summary.map(row=>({joinedDay:row.joinedDay,scenario:row.scenario,before:baseline.summary.find(r=>r.joinedDay===row.joinedDay&&r.scenario===row.scenario),after:row}))},scope:'Synthetic cadence on the actual immutable bank/six-step routes and runtime league algorithm. Not observed human sessions or retention.',
-  baseline:'a57ceabc8570e57c0fcbf8aabdd5ee74674a7147',policy:league.leaguePolicy,controls:rows.length,rosters:600,
-  lateAdmission:{zeroPoints:late.history[0],oneEasyWin:lateWin.history[0],decision:'v2 keeps the whole calendar-week schedule. One last-minute Easy win is place 10 and cannot earn a top-three medal; v1 active weeks stay frozen.'},
+  baseline:'8ac5dc66583509ef8784c927aa450b01a54fd847',policy:league.leaguePolicy,controls:rows.length,rosters:600,
+  lateAdmission:{zeroPoints:late.history[0],oneEasyWin:lateWin.history[0],decision:'v3 retains v2 full calendar-week progress. One last-minute Easy win is place 10 and cannot earn a top-three medal; v1 active weeks stay frozen.'},
   maximumWeeklyPoints:Object.values(maxProfile.league.active.contributions).reduce((n,c)=>n+c.points,0),
-  fullWeekBotTotals:league.botNames.map((name,index)=>({name,points:spread(botTotals.map(x=>x[index]))})),summary,
+  fullWeekBotTotals:['A1','A2','B1','B2','C1','C2','D1','D2','D3'].map((category,index)=>({category,points:spread(botTotals.map(x=>x[index]))})),summary,
   storage:{activeBytes,settledWeekBytes:resultBytes,history52EstimateBytes:52*resultBytes,history1100EstimateBytes:1100*resultBytes},
   caveats:['Late joiners face the same calendar week; no free catch-up or adaptive boost. Numeric pacing still requires playtest approval.',
    'No-win entrants receive only a participation result in the current cosmetic experiment; medal thresholds require calibration.',
    'Player-priority ties and all-place cosmetic medals are provisional. No coin/hint/XP league reward.',
-   'Source Guru live configuration and weekly prize table remain UNKNOWN. Eight template fractions are own parameters.']};
+   'Exact source templates and batches are ported; own target bands and normal frozen-weekend policy remain provisional. Source live configuration/prizes UNKNOWN.']};
  await mkdir('.test-output/league22',{recursive:true});await writeFile('.test-output/league22/rich-wins.json',JSON.stringify(richWins)+'\n');await writeFile('.test-output/league22/max-profile.json',JSON.stringify(maxProfile)+'\n');await writeFile('.test-output/league22/model.json',JSON.stringify(report,null,2)+'\n');
  await writeFile('.test-output/league22/model-rows.json',JSON.stringify(rows,null,2)+'\n');
  console.log(JSON.stringify({controls:rows.length,summary,storage:report.storage},null,2));

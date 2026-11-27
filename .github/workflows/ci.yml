@@ -38,6 +38,7 @@ jobs:
       - run: CONTENT03_REPORT=1 npm run check
       - run: npm run test:league
       - run: node tools/league22-model.mjs
+      - run: node tools/league22-guru-model.mjs
       - run: npm run content:verify
       - name: Verify the isolated content candidate
         run: |
@@ -65,6 +66,7 @@ jobs:
             .test-output/content03/
             .test-output/content03-ui/
             .test-output/league22/
+            .test-output/league22-guru/
             .test-output/league22-ui/
             .test-output/league22-recording/
             .test-output/help11-ui/

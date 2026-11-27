@@ -1,5 +1,5 @@
 import {describe,it,expect,vi} from 'vitest';
-import {advanceLeague,joinLeague,leagueLocalInstant,leaguePeriod,leagueRows,leagueUpdateDue,recordLeagueWin,validateLeague,leagueRoster} from '../src/meta/league';
+import {advanceLeague,joinLeague,leagueLocalInstant,leaguePeriod,leagueRows,leagueUpdateDue,recordLeagueWin,validateLeague,leagueRoster,leagueBotEvents} from '../src/meta/league';
 import type {LeagueState,LeagueWin} from '../src/meta/league';
 
 const start='2026-11-23T00:00:00Z',end='2026-11-30T00:00:00Z';
@@ -8,16 +8,16 @@ const win=(s:LeagueState,overrides:Partial<LeagueWin>={}):LeagueWin=>({profileId
 describe('LEAGUE-01 deterministic weekly model',()=>{
  it('creates nine different saved schedules, exclusive daily bounds and due-only progress',()=>{
   const s=fresh(),p=s.active!;expect(p.bots).toHaveLength(9);
-  expect(new Set(p.bots.map(b=>JSON.stringify(b.due))).size).toBe(9);
+  expect(new Set(p.bots.map(b=>JSON.stringify(leagueBotEvents(b)))).size).toBe(9);
   for(const [i,bot] of p.bots.entries()){
    expect(bot.dailyTargets).toHaveLength(7);
    expect(bot.dailyTargets.every(v=>v>=p.policy.bands[i]![0]&&v<p.policy.bands[i]![1])).toBe(true);
-   expect(bot.due).toHaveLength(bot.dailyTargets.reduce((a,b)=>a+b,0));
-   expect(bot.due.every(at=>at>=p.joinedAt&&at<p.endAt)).toBe(true);
+   expect(leagueBotEvents(bot).reduce((n,e)=>n+e.points,0)).toBe(bot.dailyTargets.reduce((a,b)=>a+b,0));
+   expect(leagueBotEvents(bot).every(e=>e.at>=p.startAt&&e.at<p.endAt)).toBe(true);
   }
-  const first=Math.min(...p.bots.flatMap(b=>b.due));
+  const first=Math.min(...p.bots.flatMap(b=>leagueBotEvents(b).map(e=>e.at)));
   expect(leagueRows(p,first-1).every(r=>r.points===0)).toBe(true);
-  expect(leagueRows(p,first).some(r=>r.points===1)).toBe(true);
+  expect(leagueRows(p,first).some(r=>r.points>=1)).toBe(true);
   expect(leagueUpdateDue(s,new Date(first).toISOString())).toBe(true);
   advanceLeague(s,new Date(first).toISOString());expect(leagueUpdateDue(s,new Date(first).toISOString())).toBe(false);
   validateLeague(JSON.parse(JSON.stringify(s)),{id:'profile',timeZone:'UTC'});
@@ -72,10 +72,10 @@ describe('LEAGUE-01 deterministic weekly model',()=>{
   expect(recordLeagueWin(s,win(s,{at:Date.parse(now)}),'2026-11-27T14:59:00Z')).toBe(0);
   expect(recordLeagueWin(s,win(s,{at:Date.parse(now)}),end)).toBe(0);
   advanceLeague(s,start);expect(JSON.stringify(s)).toBe(snapshot);
-  expect(s.active!.bots.some(b=>b.due.some(at=>at<Date.parse(now)))).toBe(true);
+  expect(s.active!.bots.some(b=>leagueBotEvents(b).some(e=>e.at<Date.parse(now)))).toBe(true);
  });
  it('makes a zero-point result a participation medal, including admission after the last activity window',()=>{
-  const s=fresh('2026-11-29T23:59:59Z');expect(s.active!.bots.every(b=>b.due.length>=7)).toBe(true);
+  const s=fresh('2026-11-29T23:59:59Z');expect(s.active!.bots.every(b=>leagueBotEvents(b).reduce((n,e)=>n+e.points,0)>=7)).toBe(true);
   recordLeagueWin(s,win(s,{at:Date.parse('2026-11-29T23:59:59Z')}),'2026-11-29T23:59:59Z');
   expect(leagueRows(s.active!,s.lastSeenAt).find(r=>r.id==='self')!.place).toBe(10);
   s.active!.contributions={};
@@ -102,7 +102,7 @@ describe('LEAGUE-01 deterministic weekly model',()=>{
  });
  it('rejects malformed plans, awards, policy changes, duplicate history and wrong-profile restores',()=>{
   const valid=fresh();validateLeague(valid,{id:'profile',timeZone:'UTC'});
-  const mutations=[(s:LeagueState)=>{s.active!.bots[0]!.due[0]!--;},(s:LeagueState)=>{s.active!.policy.weights.easy=9;},
+  const mutations=[(s:LeagueState)=>{s.active!.bots[0]!.events![0]!.at--;},(s:LeagueState)=>{s.active!.policy.weights.easy=9;},
    (s:LeagueState)=>{s.active!.seed++;},(s:LeagueState)=>{s.active!.id='other';}];
   for(const mutate of mutations){const s=structuredClone(valid);mutate(s);expect(()=>validateLeague(s,{id:'profile',timeZone:'UTC'})).toThrow();}
   expect(()=>validateLeague(valid,{id:'other',timeZone:'UTC'})).toThrow();

@@ -165,7 +165,7 @@ export function decodeSave(input: unknown): Save {
     const value=result.league as unknown;
     let valid=false;
     if(value&&typeof value==='object'&&!Array.isArray(value)){
-      const r=value as NonNullable<Completion['league']>,match=typeof r.weekId==='string'&&r.weekId.match(/^(.*):(\d{4}-\d{2}-\d{2}):league-lab-[12]$/);
+      const r=value as NonNullable<Completion['league']>,match=typeof r.weekId==='string'&&r.weekId.match(/^(.*):(\d{4}-\d{2}-\d{2}):league-lab-[123]$/);
       const expected={easy:1,standard:2,hard:3,expert:4}[getPuzzle(result.puzzleId).difficulty];
       valid=!!match&&match[1]===p.id&&nonnegative(r.points)&&(r.points===0||r.points===expected);
       const fields=[r.fromPoints,r.toPoints,r.fromPlace,r.toPlace];

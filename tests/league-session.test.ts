@@ -3,7 +3,7 @@ import {createSave,decodeSave} from '../src/app/model';
 import {GameSession} from '../src/app/session';
 import {SaveRepository,SAVE_KEY} from '../src/app/saveRepository';
 import {getPuzzle} from '../src/content/catalog';
-import {leagueEnabled} from '../src/meta/league';
+import {leagueEnabled,leagueBotEvents} from '../src/meta/league';
 import answers from '../docs/spec/product/content_v09/author_solutions.json';
 
 const start='2026-11-23T09:00:00.000Z';
@@ -129,15 +129,15 @@ describe.runIf(leagueEnabled)('LEAGUE-01 single save writer integration',()=>{
  });
  it('saves the actual points and place transition with the ordinary win',async()=>{
   const f=await setup();f.setTime('2026-11-23T00:00:00.000Z');await f.session.enterLeague();
-  const first=Math.min(...f.session.state.league!.active!.bots.flatMap(b=>b.due));f.setTime(new Date(first).toISOString());
+  const first=Math.min(...f.session.state.league!.active!.bots.flatMap(b=>leagueBotEvents(b).map(e=>e.at)));f.setTime(new Date(first).toISOString());
   await f.session.refreshDay();await solve(f.session);
-  expect(f.session.state.result!.league).toMatchObject({points:1,fromPoints:0,toPoints:1,fromPlace:2,toPlace:1});
+  expect(f.session.state.result!.league).toMatchObject({points:1,fromPoints:0,toPoints:1,fromPlace:2,toPlace:f.session.state.league!.active!.bots.some(b=>leagueBotEvents(b).some(e=>e.at===first&&e.points>1))?2:1});
   expect((await f.repo.load()).result!.league).toEqual(f.session.state.result!.league);
  });
  it('isolates a broken league without rolling the wallet, ordinary victory or board back to the older backup',async()=>{
   const f=await setup();await f.session.enterLeague();await solve(f.session);
   const durable=JSON.parse(f.data.get(SAVE_KEY)!),league=structuredClone(durable.league);
-  league.active.bots[0].due[0]--;
+  league.active.bots[0].events[0].at--;
   durable.league=league;f.data.set(SAVE_KEY,JSON.stringify(durable));
   const repo=new SaveRepository(f.storage,f.fresh),loaded=await repo.load();
   expect(repo.recoveredBackup).toBe(false);expect(loaded.profile).toEqual(durable.profile);

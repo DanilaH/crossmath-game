@@ -1,0 +1,10 @@
+{
+  "status": "PROPOSALS_ONLY_NOT_ACTIVE",
+  "basis": "Own options; Guru coins/hints types confirmed, exact rank amounts UNKNOWN. No monetary claim.",
+  "eligibility": "Candidate: at least one committed eligible point; no automatic adoption of this gate or sums.",
+  "options": [
+    {"id":"A","nameRU":"Сдержанный смешанный","places":[{"coins":60,"hints":1},{"coins":40,"hints":0},{"coins":20,"hints":0}]},
+    {"id":"B","nameRU":"Пять призовых мест","places":[{"coins":90,"hints":1},{"coins":60,"hints":1},{"coins":30,"hints":0},{"coins":15,"hints":0},{"coins":15,"hints":0}]},
+    {"id":"C","nameRU":"Подсказки лидерам","places":[{"coins":0,"hints":2},{"coins":0,"hints":1},{"coins":0,"hints":1}]}
+  ]
+}

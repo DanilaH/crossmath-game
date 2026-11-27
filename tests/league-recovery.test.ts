@@ -61,9 +61,13 @@ describe('LEAGUE-01 corruption isolation in every durable result slot',()=>{
   (s.result as unknown as {league:unknown}).league={};const before=structuredClone(s.profile),attempt=structuredClone(s.attempt);
   const loaded=decodeSave(s);expect(loaded.profile).toEqual(before);expect(loaded.attempt).toEqual(attempt);expect(loaded.result!.league).toBeUndefined();expect(Object.keys(loaded.leagueReceiptQuarantine!)).toHaveLength(1);
  });
+ it.each(['league-v2-active-win.json','league-v2-closed-win.json'])('preserves the old ordinary win and owned result in %s',file=>{
+  const old=JSON.parse(readFileSync(new URL('./fixtures/'+file,import.meta.url),'utf8')) as Save,expected=structuredClone(old);
+  expect(decodeSave(old)).toEqual(expected);expect(old.profile.coins).toBe(130);expect(old.result!.league!.points).toBe(1);expect(old.leagueQuarantine).toBeUndefined();
+ });
  it('continues to reject corruption in core reward amounts',()=>{const s=fixture();s.result!.coins=-1;expect(()=>decodeSave(s)).toThrow();});
- it('preserves the already running v1 plans and their old results byte for byte',()=>{
-  const old=JSON.parse(readFileSync(new URL('./fixtures/league-v1-profile.json',import.meta.url),'utf8')) as Save;
+ it.each(['league-v1-profile.json','league-v2-profile.json'])('preserves the already running legacy %s plans byte for byte',file=>{
+  const old=JSON.parse(readFileSync(new URL('./fixtures/'+file,import.meta.url),'utf8')) as Save;
   const before=JSON.stringify(old.league);validateLeague(old.league,old.profile);
   const restored=decodeSave(old);expect(JSON.stringify(restored.league)).toBe(before);
   expect(restored.leagueQuarantine).toBeUndefined();expect(restored.profile).toEqual(old.profile);

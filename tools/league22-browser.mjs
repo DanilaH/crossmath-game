@@ -87,7 +87,7 @@ try{
   await tap(page,'#home');await tap(page,'#tab-profile');await tap(page,'#league-open');await tap(page,'#league-join');
   await tap(page,'#tab-home');await tap(page,'#continue-game');await solve(page);await tap(page,'#home');await tap(page,'#tab-profile');await tap(page,'#league-open');
   const before=await snapshot(page);
-  await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('crossmath.save.v1'));s.league.active.bots[0].due[0]--;localStorage.setItem('crossmath.save.v1',JSON.stringify(s));});
+  await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('crossmath.save.v1'));s.league.active.bots[0].events[0].at--;localStorage.setItem('crossmath.save.v1',JSON.stringify(s));});
   await page.reload();await ready(page);const after=await snapshot(page);
   assert.deepEqual(after.profile,before.profile);assert.deepEqual(after.attempt,before.attempt);assert.deepEqual(after.result,before.result);
   assert.ok(after.leagueQuarantine);assert.equal(after.league,undefined);assert.equal(await page.locator('#league-join').count(),0);

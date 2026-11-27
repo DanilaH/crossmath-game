@@ -1,26 +1,28 @@
+import {leagueActivitySeconds,leagueActivityPatterns,leagueWindowQuotas,leagueDayBatches} from './leagueSchedule';
+import type {LeagueBatch,LeagueWindow} from './leagueSchedule';
 import {calendarDayIndex,dayFromIndex,profileDay} from './calendar';
 import type {Difficulty,Mode} from '../core/types';
 
 /** LEAGUE-01 experimental calibration, never a live Guru configuration. */
 export const leagueEnabled=import.meta.env.MODE==='league-lab';
 export interface LeaguePolicy {
- version:'league-lab-1'|'league-lab-2'; weights:Record<Difficulty,number>; assisted:'include'; tie:'self-first';
+ version:'league-lab-1'|'league-lab-2'|'league-lab-3'; planner?:'guru-batches-v1';weekend?:'frozen-normal-range'; weights:Record<Difficulty,number>; assisted:'include'; tie:'self-first';
  bands:readonly (readonly [number,number])[];medals:{gold:number;silver:number;bronze:number;minimumPoints:number};
 }
 export const legacyLeaguePolicy:LeaguePolicy={version:'league-lab-1',weights:{easy:1,standard:2,hard:3,expert:4},
  assisted:'include',tie:'self-first',medals:{gold:1,silver:2,bronze:3,minimumPoints:1},bands:[[6,11],[6,11],[4,8],[4,8],[3,6],[3,6],[1,4],[1,4],[1,4]]};
-export const leaguePolicy:LeaguePolicy={...legacyLeaguePolicy,version:'league-lab-2'};
-const policyFor=(version:string)=>version==='league-lab-1'?legacyLeaguePolicy:version==='league-lab-2'?leaguePolicy:undefined;
-// Brains' four local windows and nine weighted templates. Only [0.4,0,0,0.6]
-// is documented verbatim. The other weights below are OUR provisional calibration.
+export const v2LeaguePolicy:LeaguePolicy={...legacyLeaguePolicy,version:'league-lab-2'};
+export const leaguePolicy:LeaguePolicy={...legacyLeaguePolicy,version:'league-lab-3',planner:'guru-batches-v1',weekend:'frozen-normal-range',bands:[[5,10],[5,10],[3,8],[3,8],[2,6],[2,6],[1,4],[1,4],[1,4]]};
+const policyFor=(version:string)=>version==='league-lab-1'?legacyLeaguePolicy:version==='league-lab-2'?v2LeaguePolicy:version==='league-lab-3'?leaguePolicy:undefined;
+// Frozen approximation used ONLY to keep existing v1/v2 plans compatible.
 const windows=[[490,660],[660,960],[960,1140],[1140,1380]] as const;
 const patterns=[[4,0,0,6],[0,5,5,0],[2,2,2,4],[0,3,3,4],[5,5,0,0],[0,0,4,6],[1,1,3,5],[4,2,4,0],[2,4,0,4]];
 export const botNames=[['Латунь','Brass'],['Графит','Graphite'],['Искра','Spark'],['Компас','Compass'],['Кедр','Cedar'],['Кварц','Quartz'],['Штрих','Stroke'],['Ритм','Rhythm'],['Линза','Lens']] as const;
-export interface BotPlan {avatar?:number;id:string;name:readonly [string,string];pattern:number;dailyTargets:number[];due:number[]}
+export interface BotPlan {avatar?:number;id:string;name:readonly [string,string];pattern?:number;dailyTargets:number[];due?:number[];dailyPatterns?:number[];events?:LeagueBatch[]}
 export interface LeagueContribution {receiptId:string;at:number;points:number;assisted:boolean;difficulty:Difficulty}
 export interface LeagueWeek {
  id:string;policy:LeaguePolicy;seed:number;startDay:string;endDay:string;startAt:number;endAt:number;joinedAt:number;
- planHash:number;bots:BotPlan[];contributions:Record<string,LeagueContribution>;
+ activityWindows?:LeagueWindow[][];planHash:number;bots:BotPlan[];contributions:Record<string,LeagueContribution>;
 }
 export interface LeagueRow {avatar?:number;id:string;name:readonly [string,string];points:number;place:number}
 export interface LeagueResult {
@@ -67,7 +69,7 @@ export const leagueNicknames=[
 function shuffled<T>(values:readonly T[],rng:()=>number):T[]{const list=[...values];for(let i=list.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[list[i],list[j]]=[list[j]!,list[i]!];}return list;}
 /** Adjacent weeks select disjoint nine-person windows from a profile-specific pool. */
 export function leagueRoster(scope:string){
- const match=scope.match(/^(.*):(\d{4}-\d{2}-\d{2}):league-lab-[12]$/);if(!match)throw Error('Invalid roster scope');
+ const match=scope.match(/^(.*):(\d{4}-\d{2}-\d{2}):league-lab-[123]$/);if(!match)throw Error('Invalid roster scope');
  const profile=match[1]!,week=Math.floor(calendarDayIndex(match[2]!)/7),pool=shuffled(leagueNicknames,random(hash('roster:'+profile)));
  const offset=((week*11)%pool.length+pool.length)%pool.length,avatars=shuffled(Array.from({length:16},(_,i)=>i),random(hash('portraits:'+scope)));
  return Array.from({length:9},(_,i)=>({name:pool[(offset+i)%pool.length]!,avatar:avatars[i]!}));
@@ -82,6 +84,14 @@ function generateBots(week:Omit<LeagueWeek,'planHash'|'bots'|'contributions'>,zo
   const {name}=identity;
   const rng=random(hash(`${week.seed}:${index}`)),dailyTargets:number[]=[],due:number[]=[];
   const [min,max]=week.policy.bands[index]!,pattern=index;
+  if(week.policy.version==='league-lab-3'){
+   const dailyPatterns:number[]=[],events:LeagueBatch[]=[];
+   for(let day=0;day<7;day++){
+    const target=min+Math.floor(rng()*(max-min)),selected=Math.floor(rng()*leagueActivityPatterns.length);
+    dailyTargets.push(target);dailyPatterns.push(selected);events.push(...leagueDayBatches(target,selected,week.activityWindows![day]!,rng));
+   }
+   return {id:`bot-${index}`,...identity,dailyTargets,dailyPatterns,events};
+  }
   for(let d=0;d<7;d++){
    const target=min+Math.floor(rng()*(max-min));dailyTargets.push(target);
    const day=dayFromIndex(calendarDayIndex(week.startDay)+d),weights=patterns[pattern]!;
@@ -99,15 +109,17 @@ function generateBots(week:Omit<LeagueWeek,'planHash'|'bots'|'contributions'>,zo
 }
 function makeWeek(profileId:string,zone:string,now:string):LeagueWeek{
  const period=leaguePeriod(now,zone),id=`${profileId}:${period.startDay}:${leaguePolicy.version}`;
- const base={...period,id,policy:structuredClone(leaguePolicy),seed:hash(id),joinedAt:instant(now)};
+ const activityWindows=Array.from({length:7},(_,day)=>{const civil=dayFromIndex(calendarDayIndex(period.startDay)+day);return leagueActivitySeconds.map(([from,to])=>[leagueLocalInstant(civil,Math.floor(from/60),zone)+from%60*1000,leagueLocalInstant(civil,Math.floor(to/60),zone)+to%60*1000] as LeagueWindow);});
+ const base={...period,id,policy:structuredClone(leaguePolicy),seed:hash(id),joinedAt:instant(now),activityWindows};
  const week={...base,bots:generateBots(base,zone),contributions:{},planHash:0};week.planHash=planHash(week);return week;
 }
 function planHash(week:LeagueWeek):number{
- return hash(JSON.stringify([week.id,week.policy,week.seed,week.startDay,week.endDay,week.startAt,week.endAt,week.joinedAt,week.bots]));
+ const data:unknown[]=[week.id,week.policy,week.seed,week.startDay,week.endDay,week.startAt,week.endAt,week.joinedAt,week.bots];if(week.policy.version==='league-lab-3')data.push(week.activityWindows);return hash(JSON.stringify(data));
 }
+export function leagueBotEvents(bot:BotPlan):readonly LeagueBatch[]{return bot.events??bot.due!.map(at=>({at,points:1}));}
 export function leagueRows(week:LeagueWeek,at:number):LeagueRow[]{
  const rows=[{id:'self',name:['Вы','You'] as const,points:Object.values(week.contributions).reduce((n,c)=>n+c.points,0)},
-  ...week.bots.map(bot=>({...(bot.avatar===undefined?{}:{avatar:bot.avatar}),id:bot.id,name:bot.name,points:bot.due.filter(mark=>mark<=at).length}))];
+  ...week.bots.map(bot=>({...(bot.avatar===undefined?{}:{avatar:bot.avatar}),id:bot.id,name:bot.name,points:leagueBotEvents(bot).reduce((n,event)=>n+(event.at<=at?event.points:0),0)}))];
  return rows.map((row,index)=>({...row,index})).sort((a,b)=>b.points-a.points||a.index-b.index).map((row,index)=>({...(row.avatar===undefined?{}:{avatar:row.avatar}),id:row.id,name:row.name,points:row.points,place:index+1}));
 }
 function medalTier(policy:LeaguePolicy,points:number,place:number):LeagueResult['medal']['tier']{
@@ -145,7 +157,7 @@ export function recordLeagueWin(state:LeagueState,win:LeagueWin,now:string):numb
 }
 export function leagueUpdateDue(state:LeagueState|undefined,now:string):boolean{
  if(!state?.active)return false;const at=instant(now);if(at<=state.lastSeenAt)return false;
- return at>=state.active.endAt||state.active.bots.some(b=>b.due.some(mark=>mark>state.lastSeenAt&&mark<=at));
+ return at>=state.active.endAt||state.active.bots.some(b=>leagueBotEvents(b).some(event=>event.at>state.lastSeenAt&&event.at<=at));
 }
 export function validateLeague(state:LeagueState|undefined,profile:{id:string;timeZone:string}):void{
  if(state===undefined)return;
@@ -182,13 +194,29 @@ export function validateLeague(state:LeagueState|undefined,profile:{id:string;ti
   calendarDayIndex(week.endDay)-calendarDayIndex(week.startDay)!==7||
   new Date(calendarDayIndex(week.startDay)*dayMs).getUTCDay()!==1||
   !Array.isArray(week.bots)||week.bots.length!==9||!finite(week.planHash)||week.planHash!==planHash(week))return fail();
+ if(week.policy.version==='league-lab-3'){
+  if(!Array.isArray(week.activityWindows)||week.activityWindows.length!==7)return fail();
+  let previous=week.startAt;
+  for(const bounds of week.activityWindows){
+   if(!Array.isArray(bounds)||bounds.length!==4)return fail();
+   for(const range of bounds){if(!Array.isArray(range)||range.length!==2||!range.every(finite)||range[0]!<previous||range[0]!>=range[1]!||range[1]!>=week.endAt)return fail();previous=range[1]!;}
+  }
+ }else if(week.activityWindows!==undefined)return fail();
  for(const [index,bot] of week.bots.entries()){
-  const [min,max]=week.policy.bands[index]!;
-  const isLegacy=week.policy.version==='league-lab-1';
-  if(bot.id!==`bot-${index}`||(isLegacy?JSON.stringify(bot.name)!==JSON.stringify(botNames[index]):!leagueNicknames.some(name=>JSON.stringify(name)===JSON.stringify(bot.name))||!finite(bot.avatar)||Number(bot.avatar)>15)||bot.pattern!==index||
-   !Array.isArray(bot.dailyTargets)||bot.dailyTargets.length!==7||bot.dailyTargets.some(n=>!finite(n)||n<min||n>=max)||
-   !Array.isArray(bot.due)||bot.due.length>bot.dailyTargets.reduce((a,b)=>a+b,0)||
-   bot.due.some((at,i)=>!finite(at)||at<(isLegacy?week.joinedAt:week.startAt)||at>=week.endAt||i>0&&at<bot.due[i-1]!))return fail();
+  const [min,max]=week.policy.bands[index]!,isLegacy=week.policy.version==='league-lab-1';
+  if(!bot||bot.id!==`bot-${index}`||(isLegacy?JSON.stringify(bot.name)!==JSON.stringify(botNames[index]):!leagueNicknames.some(name=>JSON.stringify(name)===JSON.stringify(bot.name))||!finite(bot.avatar)||Number(bot.avatar)>15)||
+   !Array.isArray(bot.dailyTargets)||bot.dailyTargets.length!==7||bot.dailyTargets.some(n=>!finite(n)||n<min||n>=max))return fail();
+  if(week.policy.version==='league-lab-3'){
+   if(bot.pattern!==undefined||bot.due!==undefined||!Array.isArray(bot.dailyPatterns)||bot.dailyPatterns.length!==7||bot.dailyPatterns.some(p=>!finite(p)||p>8)||!Array.isArray(bot.events)||bot.events.length>bot.dailyTargets.reduce((a,b)=>a+b,0))return fail();
+   const sums=Array.from({length:7},()=>[0,0,0,0]);
+   bot.events.forEach((event,i)=>{
+    if(!event||!finite(event.at)||!finite(event.points)||event.points<1||event.points>4||i>0&&event.at<=bot.events![i-1]!.at)return fail();
+    let found=false;
+    for(const [day,bounds] of week.activityWindows!.entries())for(const [window,[from,to]] of bounds.entries())if(event.at>=from&&event.at<to){sums[day]![window]!+=event.points;found=true;}
+    if(!found)return fail();
+   });
+   if(sums.some((sum,day)=>JSON.stringify(sum)!==JSON.stringify(leagueWindowQuotas(bot.dailyTargets[day]!,bot.dailyPatterns![day]!))))return fail();
+  }else if(bot.pattern!==index||bot.events!==undefined||bot.dailyPatterns!==undefined||!Array.isArray(bot.due)||bot.due.length>bot.dailyTargets.reduce((a,b)=>a+b,0)||bot.due.some((at,i)=>!finite(at)||at<(isLegacy?week.joinedAt:week.startAt)||at>=week.endAt||i>0&&at<bot.due![i-1]!))return fail();
  }
  if(new Set(week.bots.map(b=>JSON.stringify(b.name))).size!==9||week.policy.version!=='league-lab-1'&&new Set(week.bots.map(b=>b.avatar)).size!==9)return fail();
  if(!week.contributions||Array.isArray(week.contributions))return fail();
