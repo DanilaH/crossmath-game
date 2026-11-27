@@ -43,6 +43,8 @@
 
 ## Проверенная сборка
 
-APK `Crossmath_0.5.24_League_v2.apk`, source `097b9fc69b669c100ef1e6fa8b1063cb6cb56008`, SHA-256 `b3076bc65ae3389cd505793f8615ac93b3c9f84fb41901dbcee67b8aee564b4a`. Gradle debug/releaseCheck PASS, v2/16 KiB alignment PASS, non-debuggable, exact web payload PASS. Сертификат `aa59fbbf75788165ad7e51444729fca882ea2bdfaca1ee460064986b442ac1d4` совпадает с предыдущими пилотами. Запись повторена на извлечённых из этого APK файлах. Это не доказательство установки на физическое устройство. [Машиночитаемая сверка](ARTIFACTS.json).
+APK `Crossmath_0.5.24_League_v2.apk`, source `2f583728bbc49867e2a2e95e353c8f7fc399cd6e`, SHA-256 `9427c747e0dcbc9c32e807c9fb2fde5f96a04be200795713d4ef51c9ac9968b5`. Gradle debug/releaseCheck PASS, v2/16 KiB alignment PASS, non-debuggable, exact web payload PASS. Сертификат `aa59fbbf75788165ad7e51444729fca882ea2bdfaca1ee460064986b442ac1d4` совпадает с предыдущими пилотами. Запись повторена на извлечённых из этого APK файлах. Это не доказательство установки на физическое устройство. [Машиночитаемая сверка](ARTIFACTS.json).
 
 [Главная 390×844](screens/home-390x844.png) · [главная 320×568](screens/home-320x568.png) · [таблица light](screens/table-light-320x568.png) · [таблица dark](screens/table-dark-320x568.png). Скриншоты настоящего runtime, календарь контролируется тестом; не макеты и не кадры оригинального Guru.
+
+Дополнительная приёмка: на английских старых профилях обнаружен остаточный scroll 1–2 px при 320×568; убран только нижний запас. Эти профили до побед 3/5/15/228 добавлены в постоянный harness на 320×480/568: строгая проверка высоты без вертикальной прокрутки. Итог — 98 состояний. №17 повторно прошёл 876 сочетаний с новым входом из профиля.

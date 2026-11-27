@@ -1,7 +1,7 @@
 {
   "date": "2026-11-27",
-  "codeSourceCommit": "097b9fc69b669c100ef1e6fa8b1063cb6cb56008",
-  "codeSourceTree": "50c6e2c54851507567c4fca0908f66b1888c4b33",
+  "codeSourceCommit": "2f583728bbc49867e2a2e95e353c8f7fc399cd6e",
+  "codeSourceTree": "1a6ed649b85d384ca04e585e9f6a92b695080b9d",
   "baseline": "a57ceabc8570e57c0fcbf8aabdd5ee74674a7147",
   "artifact": "Crossmath_0.5.24_League_v2.apk",
   "apk": {
@@ -13,9 +13,9 @@
     "freeIssuancePolicy": "d4-v2",
     "contentLab": true,
     "leagueLab": true,
-    "source": "097b9fc69b669c100ef1e6fa8b1063cb6cb56008",
-    "apkSha256": "b3076bc65ae3389cd505793f8615ac93b3c9f84fb41901dbcee67b8aee564b4a",
-    "bytes": 1898787,
+    "source": "2f583728bbc49867e2a2e95e353c8f7fc399cd6e",
+    "apkSha256": "9427c747e0dcbc9c32e807c9fb2fde5f96a04be200795713d4ef51c9ac9968b5",
+    "bytes": 1898799,
     "certificateSha256": "aa59fbbf75788165ad7e51444729fca882ea2bdfaca1ee460064986b442ac1d4",
     "productionSigner": false,
     "v2": true,
@@ -2213,6 +2213,24 @@
         "tabs": true
       },
       {
+        "name": "320x480-ru-light-rich-home-3",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-rich-home-3",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
         "name": "320x480-ru-light-rich-win-3",
         "width": 320,
         "scroll": 320,
@@ -2220,6 +2238,24 @@
         "table": [],
         "pointTextFits": true,
         "tabs": false
+      },
+      {
+        "name": "320x480-en-dark-rich-home-3",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-dark-rich-home-3",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
       },
       {
         "name": "320x480-en-dark-rich-win-3",
@@ -2231,6 +2267,24 @@
         "tabs": false
       },
       {
+        "name": "320x480-ru-light-rich-home-5",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-rich-home-5",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
         "name": "320x480-ru-light-rich-win-5",
         "width": 320,
         "scroll": 320,
@@ -2238,6 +2292,24 @@
         "table": [],
         "pointTextFits": true,
         "tabs": false
+      },
+      {
+        "name": "320x480-en-dark-rich-home-5",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-dark-rich-home-5",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
       },
       {
         "name": "320x480-en-dark-rich-win-5",
@@ -2249,6 +2321,24 @@
         "tabs": false
       },
       {
+        "name": "320x480-ru-light-rich-home-15",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-rich-home-15",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
         "name": "320x480-ru-light-rich-win-15",
         "width": 320,
         "scroll": 320,
@@ -2256,6 +2346,24 @@
         "table": [],
         "pointTextFits": true,
         "tabs": false
+      },
+      {
+        "name": "320x480-en-dark-rich-home-15",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-dark-rich-home-15",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
       },
       {
         "name": "320x480-en-dark-rich-win-15",
@@ -2267,6 +2375,24 @@
         "tabs": false
       },
       {
+        "name": "320x480-ru-light-rich-home-228",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-ru-light-rich-home-228",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
         "name": "320x480-ru-light-rich-win-228",
         "width": 320,
         "scroll": 320,
@@ -2274,6 +2400,24 @@
         "table": [],
         "pointTextFits": true,
         "tabs": false
+      },
+      {
+        "name": "320x480-en-dark-rich-home-228",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
+      },
+      {
+        "name": "320x568-en-dark-rich-home-228",
+        "width": 320,
+        "scroll": 320,
+        "font": "16px",
+        "table": [],
+        "pointTextFits": true,
+        "tabs": true
       },
       {
         "name": "320x480-en-dark-rich-win-228",
@@ -2298,7 +2442,7 @@
     "contentVerify": "PASS",
     "coreBrowser": "PASS",
     "issuance16Browser": "PASS",
-    "content17Browser": "final run recorded in PR and evidence archive"
+    "content17Browser": "PASS · 876 cases"
   },
   "referenceCoverage": {
     "inventoried": 714,
