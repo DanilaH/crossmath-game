@@ -1,11 +1,20 @@
 # Crossmath project decisions
 
+## DEC-2026-11-27-CORE-FIRST · утверждённый scope
+
+Владелец согласился с предложенным в чате составом: «ну да. Сейчас соглашусь со всем этим». Актуальная спецификация — [Crossmath_TZ_v1.1_RU.md](spec/Crossmath_TZ_v1.1_RU.md). Сохранить Campaign, Relax/Challenge, Daily, обучение, управление, Undo, сортировку, Explain/Reveal; усилить core, разнообразие и баланс выдачи, уменьшить разрушительность Reveal, длинную грамматику сначала проверить отдельно. Три опоры меты — Daily+календарь/трофеи, мастерская, недельная лига. Rank/XP, достижения и статистика второстепенны. Ежедневные задания — упрощение/отключение после расчёта экономики, не автоматическое изменение выплат; уменьшить акценты Free-целей. Endless временно отключить, сохранить код, сейвы, рекорды и квитанции.
+
+**Единственное расширение прежнего release scope — недельная офлайн-лига:** 1 игрок + 9 явно обозначенных ботов с вымышленными никами, собственными аватарами, индивидуальными сохранёнными расписаниями; сложность влияет на очки, обычные победы, один puzzleId не более одного зачёта за неделю, медаль за итог, без сервера. Star Race, Battle, дивизионы, события, покупки, энергия, online остаются отложены, не окончательно исключены. Прежние зависимости #22 от #21 и формула через Daily/Race заменены. Числа и tie-break/eligibility, темп, призовая таблица и политика нового банка/миграции утверждаются по отдельным моделям и плейтестам.
+
+Следующая задача [CORE-00 #28](https://github.com/DanilaH/crossmath-game/issues/28). Затем CORE #16/#17, LEAGUE #22, META #15/#18/#19 в урезанном составе, MONETIZATION #14/#27, RELEASE. Не выполнять прежнюю очередь по номеру. Research 714/714 — карта доказательств; не требовать всех переносов или закрытия всех 52 явных UNKNOWN перед работой. До согласования сохранить 120/60, действующие выплаты, cooldown 180/120/420/30 и первые 5 побед, runtime, bank, saves. Physical Android/provider/signature acceptance separate. Это решение не утверждает реализацию, макет, изменение чисел или публикацию.
+
+
 Crossmath 0.5.24 / 29; reviewed developer snapshot `57820c8c6491c8b6240aeed5cb0dfde61c858927`, gameplay/artifact `a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance `469928d03f4bae5053e23db26e82187bedbc252e`, source inventory `944f4bb370edf46fb10c6f3b4d5ab0d505d85f23` (605 IDs). [Current map](porting/CURRENT.md) · [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
 
 Guidance snapshot SHA: 469928d03f4bae5053e23db26e82187bedbc252e
 Runtime source: @danilah/mini-games-kit at b1bf2026eda7dd68a5ccbc883946191e03d235af
 
-- Owner authorized implementation on 18 November 2026. Authority for the **initial release**: `docs/spec/Crossmath_TZ_v1.0_RU.md`. Energy, PvP/bots, seasons, purchases, cloud profiles and online rankings remain **outside the initial build**. Later research and owner-governed roadmap entries do not activate them automatically; a permanent `OWNER_EXCLUDED` requires an explicit separate owner decision. Do not silently change economy, SKUs, save or SDK.
+- Historical 18 November authorization: `docs/spec/Crossmath_TZ_v1.0_RU.md` defines the technical baseline. Release scope is superseded by DEC-2026-11-27-CORE-FIRST above: one weekly offline bot league included; Endless paused; energy, live PvP, separate bot races/duels, seasons, purchases, cloud profiles and online rankings remain outside this release. Later research and owner-governed roadmap entries do not activate them automatically; a permanent `OWNER_EXCLUDED` requires an explicit separate owner decision. Do not silently change economy, SKUs, save or SDK.
 - Generated from verified kit source at **469928d03f4bae5053e23db26e82187bedbc252e**. Runtime and guidance pins are separately recorded at that SHA. Required source files matched provider Git blob hashes before generation.
 - Tested bootstrap stack preserved: Node 24+, TS 7.0.2, Phaser 4.2.1, Capacitor 8.6.0/App 8.1.2, Vite 8.2.2, Vitest 4.1.11, JDK 21, AGP 8.13.0, Gradle 8.14.3, compile/target 36, min 24.
 - Provisional base package `com.danilah.crossmath`; `.playtest` / `.releasecheck` isolate test data. Production identity/publication are not selected. Production certificate stays null and production build fails closed.

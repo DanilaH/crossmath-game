@@ -1,5 +1,7 @@
 # Crossmath · поэтапный перенос исследованных механизмов
 
+**27.11.2026 · историческая карта исследований, не текущая очередь реализации.** Владелец утвердил [v1.1](../spec/Crossmath_TZ_v1.1_RU.md). CORE-00 #28 → #16/#17 → LEAGUE #22 → scoped #15/#18/#19 → scoped #14/#27 → RELEASE. #22 больше не зависит от #21/Race или Daily set score; обычные победы, 9 ботов, неделя и медаль. Остальные sourceFeatureId сохраняются; DEFERRED не означает OWNER_EXCLUDED. Ни один старый candidate balance не утверждён автоматически.
+
 26.11.2026. [Source audit](https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md) · [current ledger](ADOPTION_LEDGER.json) · [remaining evidence](RESEARCH_CLOSURE_GATES_2026-11-26.md). 605/605 IDs at source 944f4bb370edf46fb10c6f3b4d5ab0d505d85f23, current game 57820c8c6491c8b6240aeed5cb0dfde61c858927, 0.5.24/29, runtime b1bf2026eda7dd68a5ccbc883946191e03d235af. Proposed stages only: owner decides scope/order; no global authorization to change economy or enable network/commercial systems. Every ID assigned once to a suggested primary package in PORTING_PACKAGES_2026-11-26.json. Cross-cutting dependencies and prior per-ID nextAction remain authoritative. No owner exclusions inferred. ACCEPTED is accepted current own implementation, not original parity; MATCH/PARTIAL are separate.
 
 ## Current facts

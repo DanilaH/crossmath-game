@@ -1,5 +1,7 @@
 # Crossmath · единая актуальная карта переноса
 
+**Актуальный scope 27.11.2026:** [v1.1](../spec/Crossmath_TZ_v1.1_RU.md). 714 ID остаются реестром свидетельств, не обязательным release backlog. Owner approved one offline league with 9 bots; no automatic adoption of donor prices, SDK, or all competition features. Next #28.
+
 26.11.2026 · консолидация материалов, не новая сборка и не новый scope.
 
 - Игра **0.5.24 / 29**, фактический проверенный gameplay/artifact `a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21`, developer snapshot до docs merge `57820c8c6491c8b6240aeed5cb0dfde61c858927`, [PR #4](https://github.com/DanilaH/crossmath-game/pull/4). Перед задачей сверить live HEAD и diff, не предполагать main актуальным.
@@ -13,16 +15,16 @@
 |---|---:|---|---:|
 | MATCH | 28 | ACCEPTED | 17 |
 | PARTIAL | 147 | IMPLEMENTED_UNVERIFIED | 49 |
-| MISSING | 502 | ROADMAPPED | 5 |
-| UNKNOWN | 37 | RESEARCHED | 306 |
+| MISSING | 502 | ROADMAPPED | 11 |
+| UNKNOWN | 37 | RESEARCHED | 304 |
 | | | EVIDENCE_GAP | 48 |
-| | | DEFERRED | 289 |
+| | | DEFERRED | 285 |
 
 714 exact IDs; 52 explicit gap union rows (EVIDENCE_GAP or UNKNOWN), not all unknown source evidence. No implementation/acceptance promotion; Guru economy local consumer/dispatch, career Top and Guru Daily predicate/rescue source evidence resolved; actual activation UNKNOWN. [HELP-02 #11](../acceptance/issue-11/README.md), [cooldown pilot](../acceptance/interstitial-cooldown.md), [FEEL-01 #13](../acceptance/feel-01.md) already implemented; developer reports 169 tests, browser, exact APK. Physical Android/audio/haptics, provider and same-signer update remain open. Не удалять прежний APK/сохранение ради установки.
 
 ## Порядок продуктовых задач
 
-#14 WIN-RV parameters owner-gated; #15 META; #16 ISSUE; #17 CONTENT; #18 DAILY; #19 RETURN; #20 EVENT; #21 RACE; #22 BRAINS; #23 BATTLE; #24 STORE-RV; #25 NOADS; #26 IAP; #27 ADS-02. [Точные ссылки, зависимости и критерии](REFERENCE_PORTING_PLAN_2026-11-26.md). Scope first release по [PROJECT_DECISIONS](../PROJECT_DECISIONS.md); proposals not approval, P6 analytics product planning later. No new SDK, money, bot, save/content change or runtime pin.
+CORE-00 [#28](https://github.com/DanilaH/crossmath-game/issues/28) → CORE #16/#17 → LEAGUE #22 (direct ordinary wins, 9 bots, no #21 dependency) → scoped META #15/#18/#19 → MONETIZATION #14/#27 → RELEASE. #20/#21/#23–26 deferred, Endless temporarily disabled in planned release, preserve state. [v1.1](../spec/Crossmath_TZ_v1.1_RU.md) overrides previous sequence; no automatic number/SDK changes.
 
 ## Следующие расследования
 

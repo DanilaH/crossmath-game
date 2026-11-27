@@ -1,5 +1,9 @@
 # Crossmath handoff
 
+**Утверждено владельцем 27.11.2026 — core-first v1.1.** [Crossmath v1.1](spec/Crossmath_TZ_v1.1_RU.md) определяет актуальный состав и порядок. CORE-00 #28 → CORE #16/#17 → LEAGUE #22 → ограниченная META #15/#18/#19 → MONETIZATION #14/#27 → RELEASE. Endless временно отключить без потери сейвов; недельная офлайн-лига включена в выбранный scope и не зависит от Star Race/Battle. Остальное ниже — исторические срезы/исследовательские предложения, не распоряжение расширять scope. Точные изменения экономики, очков, темпа и релизной конфигурации согласовать отдельно.
+
+Новый разработчик начинает с #28. Сначала проверить latest PR #4 HEAD, actual code/save/offer routes. Не реализовывать старый WIN-RV раньше core; #22 не требует гонок. Preserve existing state/economy; показать артефакт и доказательства приёмки.
+
 ## Current consolidated checkpoint · 26 November 2026
 
 Crossmath 0.5.24 / 29; reviewed developer snapshot `57820c8c6491c8b6240aeed5cb0dfde61c858927`, gameplay/artifact `a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance `469928d03f4bae5053e23db26e82187bedbc252e`, source inventory `944f4bb370edf46fb10c6f3b4d5ab0d505d85f23` (605 IDs). [Current map](porting/CURRENT.md) · [ledger](porting/ADOPTION_LEDGER.json). Historical dated snapshots below are not current directives.
