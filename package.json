@@ -13,6 +13,7 @@
     "build": "npm run typecheck && vite build && node tools/verify-web.mjs",
     "build:release": "npm run typecheck && vite build --mode release && node tools/verify-web.mjs --release",
     "build:issuance-pilot": "npm run typecheck && vite build --mode issuance-pilot && node tools/verify-web.mjs --issuance-pilot",
+    "build:content-lab": "npm run typecheck && vite build --mode content-lab && node tools/verify-web.mjs --content-lab",
     "check": "npm run typecheck && npm test && npm run build",
     "android:sync": "npm run build && cap sync android",
     "android:sync:release": "npm run build:release && cap sync android",

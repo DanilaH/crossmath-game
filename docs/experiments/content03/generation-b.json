@@ -1,0 +1,23 @@
+{
+  "daily": {
+    "seed": 2026112731,
+    "attempts": 339,
+    "attemptBudget": 12000,
+    "accepted": 50,
+    "rejected": {
+      "geometry_incomplete": 284,
+      "mask_class_budget": 1,
+      "nonunique": 4
+    },
+    "d4Shapes": 47,
+    "largestClass": 2
+  },
+  "ops": {
+    "seed": 2026112732,
+    "accepted": 16,
+    "rejected": {
+      "operation_band": 72
+    },
+    "attemptBudgetPerPair": 1000
+  }
+}

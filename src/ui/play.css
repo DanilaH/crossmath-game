@@ -7,6 +7,8 @@ body.in-play #shell {
   padding-block: 8px;
 }
 
+body.in-play #content-lab-open { display:none; }
+
 body.in-play:has(#play-screen.is-solving, #defeat:not([hidden])) #shell {
   height: 100dvh;
   min-height: min(25rem, 400px);

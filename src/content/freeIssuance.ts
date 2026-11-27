@@ -7,7 +7,7 @@ import type { MetaState } from '../meta/types';
 
 export const pilotIssuancePolicy = 'd4-v2';
 type IssuancePolicy = 'legacy' | typeof pilotIssuancePolicy;
-export const buildIssuancePolicy = (): IssuancePolicy => import.meta.env.MODE === 'issuance-pilot' ? pilotIssuancePolicy : 'legacy';
+export const buildIssuancePolicy = (): IssuancePolicy => ['issuance-pilot','content-lab'].includes(import.meta.env.MODE) ? pilotIssuancePolicy : 'legacy';
 
 interface IssuedBoard { count: number; lastIndex: number }
 export interface FreeAssignment { index: number; puzzleId: string; policy: IssuancePolicy }

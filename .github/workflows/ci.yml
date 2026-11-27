@@ -35,12 +35,21 @@ jobs:
         run: |
           node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz b1bf2026eda7dd68a5ccbc883946191e03d235af
           npm install --no-audit --no-fund
-      - run: npm run check
+      - run: CONTENT03_REPORT=1 npm run check
       - run: npm run content:verify
+      - name: Verify the isolated content candidate
+        run: |
+          python3 docs/experiments/content03/verify.py
+          python3 docs/experiments/content03/generate.py --out .test-output/content03-repro
+          python3 docs/experiments/content03/extend.py --out .test-output/content03-repro
+          cmp docs/experiments/content03/banks.json .test-output/content03-repro/banks.json
+          cmp docs/experiments/content03/author_solutions.json .test-output/content03-repro/author_solutions.json
+          node docs/experiments/content03/long-expressions.mjs
       - run: node .test-output/kit/tools/bootstrap/doctor-game-guidance.mjs . --strict
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
       - run: npm run build:issuance-pilot && node tools/issuance-pilot-browser.mjs
+      - run: npm run build:content-lab && node tools/content03-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -50,6 +59,8 @@ jobs:
             .test-output/meta-ui/
             .test-output/core00/
             .test-output/issuance16/
+            .test-output/content03/
+            .test-output/content03-ui/
             .test-output/help11-ui/
             .test-output/ads-banner/
             .test-output/feel/

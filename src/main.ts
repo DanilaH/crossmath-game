@@ -43,6 +43,10 @@ try{
   const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(resize);observer?.observe(root);window.addEventListener('resize',resize);
   await frame;startup.mark('firstFrame');game.loop.sleep();cover.hidden=true;await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
   startup.mark('ready');document.documentElement.dataset.state='ready';platform.activity.setGameplayDesired(true);ui.setReady();
+  if(import.meta.env.MODE==='content-lab'){
+    const link=document.createElement('button');link.id='content-lab-open';link.textContent='Банк · Lab';link.className='control';
+    link.onclick=()=>{location.href='content-lab.html';};document.querySelector('#screen-header')!.append(link);
+  }
   if(repository.recoveredBackup)ui.showRecoveryNotice();
   if(import.meta.env.DEV){const{installDebug}=await import('./app/debug');if(alive)removeDebug=installDebug(()=>startup.snapshot({toReady:['start','ready'],toFrame:['start','firstFrame']}));}
   const destroy=(event:PageTransitionEvent)=>{if(event.persisted)return;alive=false;window.removeEventListener('pagehide',destroy);window.removeEventListener('resize',resize);observer?.disconnect();blocked();removeDebug();ui?.dispose();platform.destroy();destroyRenderer(game);};window.addEventListener('pagehide',destroy);

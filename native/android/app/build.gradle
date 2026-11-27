@@ -31,6 +31,7 @@ tasks.configureEach { task ->
   def web=stamp.isFile()?new groovy.json.JsonSlurper().parse(stamp):null
   if(web?.channel!='release')throw new GradleException('Run npm run android:sync:release before optimized variants')
   if(task.name=='preReleaseBuild') {
+   if(web.contentLab==true)throw new GradleException('Content lab is exclusive to the playtest APK')
    if(web.freeIssuancePolicy!='legacy')throw new GradleException('Issuance pilot is exclusive to the playtest APK')
    project.exec {workingDir rootProject.file('../..');commandLine 'node','tools/release-config.mjs','--check'}
   }

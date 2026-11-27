@@ -31,7 +31,14 @@
       "originalBehavior": "E:E03–04, level/classic | 27.11 native expression follow-up: The same exact 1.1.9 native evaluator supports multioperator expressions on both sides, with constrained intermediate values; 2013 isolated sides. Prior local ordinary content audit is separate; no observed long-expression player exposure claimed. | research/games/crossmath/porting/easyfun-expression-native-20261127/README.md",
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/6980f3a67b930f7c7084d897f36c857b76951efa/research/games/crossmath/porting/easyfun-expression-native-20261127/README.md"
-      ]
+      ],
+      "content03Experiment": {
+        "scope": "CONTENT-03 #17 · isolated own-content laboratory; original comparison and workflow status unchanged",
+        "summary": "40 Easy Short 9x9, 40 paired 7x7 controls, 50 additional Daily, 16 operation-paired variants. Independent numeric uniqueness and actual Explain from empty/partial starts. 128 separate masks: 113 admitted, 15 nonunique excluded. Existing 515 IDs and issuance pilot #16 preserved.",
+        "codePath": "docs/experiments/content03",
+        "evidence": "docs/acceptance/issue-17/README.md",
+        "nextAction": "Physical Android and human difficulty/readability playtest. Owner review before content version, migration or permanent activation. Own proof-work metrics do not recover Guru stuck or live filter configuration."
+      }
     },
     {
       "id": "easy-six-relax",
@@ -59,6 +66,13 @@
         "codePath": "src/content/freeIssuance.ts",
         "evidence": "docs/acceptance/issue-16/README.md",
         "nextAction": "Review the signed playtest and approve activation separately. The comparison and existing acceptance status refer to the original named behavior."
+      },
+      "content03Experiment": {
+        "scope": "CONTENT-03 #17 · isolated own-content laboratory; original comparison and workflow status unchanged",
+        "summary": "40 Easy Short 9x9, 40 paired 7x7 controls, 50 additional Daily, 16 operation-paired variants. Independent numeric uniqueness and actual Explain from empty/partial starts. 128 separate masks: 113 admitted, 15 nonunique excluded. Existing 515 IDs and issuance pilot #16 preserved.",
+        "codePath": "docs/experiments/content03",
+        "evidence": "docs/acceptance/issue-17/README.md",
+        "nextAction": "Physical Android and human difficulty/readability playtest. Owner review before content version, migration or permanent activation. Own proof-work metrics do not recover Guru stuck or live filter configuration."
       }
     },
     {
@@ -87,6 +101,13 @@
         "codePath": "src/content/freeIssuance.ts",
         "evidence": "docs/acceptance/issue-16/README.md",
         "nextAction": "Review the signed playtest and approve activation separately. The comparison and existing acceptance status refer to the original named behavior."
+      },
+      "content03Experiment": {
+        "scope": "CONTENT-03 #17 · isolated own-content laboratory; original comparison and workflow status unchanged",
+        "summary": "40 Easy Short 9x9, 40 paired 7x7 controls, 50 additional Daily, 16 operation-paired variants. Independent numeric uniqueness and actual Explain from empty/partial starts. 128 separate masks: 113 admitted, 15 nonunique excluded. Existing 515 IDs and issuance pilot #16 preserved.",
+        "codePath": "docs/experiments/content03",
+        "evidence": "docs/acceptance/issue-17/README.md",
+        "nextAction": "Physical Android and human difficulty/readability playtest. Owner review before content version, migration or permanent activation. Own proof-work metrics do not recover Guru stuck or live filter configuration."
       }
     },
     {
@@ -321,6 +342,13 @@
         "reviewedConsumerHead": "e06f448f173635e68260dac14aa89bf7c1d4d5a7",
         "productImplementationChanged": false,
         "androidExecuted": false
+      },
+      "content03Experiment": {
+        "scope": "CONTENT-03 #17 · isolated own-content laboratory; original comparison and workflow status unchanged",
+        "summary": "40 Easy Short 9x9, 40 paired 7x7 controls, 50 additional Daily, 16 operation-paired variants. Independent numeric uniqueness and actual Explain from empty/partial starts. 128 separate masks: 113 admitted, 15 nonunique excluded. Existing 515 IDs and issuance pilot #16 preserved.",
+        "codePath": "docs/experiments/content03",
+        "evidence": "docs/acceptance/issue-17/README.md",
+        "nextAction": "Physical Android and human difficulty/readability playtest. Owner review before content version, migration or permanent activation. Own proof-work metrics do not recover Guru stuck or live filter configuration."
       }
     },
     {
@@ -4635,7 +4663,14 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/a623ff06e5f85360e14770301caac7c46a0db6d2/research/games/crossmath/porting/guru-mask-matched-20261123/README.md",
       "nextAction": "On OUR own board generator, select one solved board, produce at least 2 distinct blank layouts with equal arithmetic answer and test independently: solution count 1, first deductive move, tray inventory, score/monetization ID and saved-board preservation. Then owner decision whether a separate content-v3 variant bank adds value; do not edit content-v2. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
       "acceptanceRequirement": "Every new original authored mask has deterministic own ID, one solution, independent proof/hint coverage, old saves unchanged. Original GUI/display of mask choice UNKNOWN.",
-      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17",
+      "content03Experiment": {
+        "scope": "CONTENT-03 #17 · isolated own-content laboratory; original comparison and workflow status unchanged",
+        "summary": "40 Easy Short 9x9, 40 paired 7x7 controls, 50 additional Daily, 16 operation-paired variants. Independent numeric uniqueness and actual Explain from empty/partial starts. 128 separate masks: 113 admitted, 15 nonunique excluded. Existing 515 IDs and issuance pilot #16 preserved.",
+        "codePath": "docs/experiments/content03",
+        "evidence": "docs/acceptance/issue-17/README.md",
+        "nextAction": "Physical Android and human difficulty/readability playtest. Owner review before content version, migration or permanent activation. Own proof-work metrics do not recover Guru stuck or live filter configuration."
+      }
     },
     {
       "id": "guru-stuck-mask-topology",
@@ -4698,6 +4733,13 @@
           "actualOriginalAndroidFallback": "UNKNOWN",
           "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
         }
+      },
+      "content03Experiment": {
+        "scope": "CONTENT-03 #17 · isolated own-content laboratory; original comparison and workflow status unchanged",
+        "summary": "40 Easy Short 9x9, 40 paired 7x7 controls, 50 additional Daily, 16 operation-paired variants. Independent numeric uniqueness and actual Explain from empty/partial starts. 128 separate masks: 113 admitted, 15 nonunique excluded. Existing 515 IDs and issuance pilot #16 preserved.",
+        "codePath": "docs/experiments/content03",
+        "evidence": "docs/acceptance/issue-17/README.md",
+        "nextAction": "Physical Android and human difficulty/readability playtest. Owner review before content version, migration or permanent activation. Own proof-work metrics do not recover Guru stuck or live filter configuration."
       }
     },
     {
@@ -5969,7 +6011,14 @@
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
       ],
-      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17",
+      "content03Experiment": {
+        "scope": "CONTENT-03 #17 · isolated own-content laboratory; original comparison and workflow status unchanged",
+        "summary": "40 Easy Short 9x9, 40 paired 7x7 controls, 50 additional Daily, 16 operation-paired variants. Independent numeric uniqueness and actual Explain from empty/partial starts. 128 separate masks: 113 admitted, 15 nonunique excluded. Existing 515 IDs and issuance pilot #16 preserved.",
+        "codePath": "docs/experiments/content03",
+        "evidence": "docs/acceptance/issue-17/README.md",
+        "nextAction": "Physical Android and human difficulty/readability playtest. Owner review before content version, migration or permanent activation. Own proof-work metrics do not recover Guru stuck or live filter configuration."
+      }
     },
     {
       "id": "guru-issuance-filter-equation-count",
@@ -5985,7 +6034,14 @@
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
       "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
       "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
-      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17",
+      "content03Experiment": {
+        "scope": "CONTENT-03 #17 · isolated own-content laboratory; original comparison and workflow status unchanged",
+        "summary": "40 Easy Short 9x9, 40 paired 7x7 controls, 50 additional Daily, 16 operation-paired variants. Independent numeric uniqueness and actual Explain from empty/partial starts. 128 separate masks: 113 admitted, 15 nonunique excluded. Existing 515 IDs and issuance pilot #16 preserved.",
+        "codePath": "docs/experiments/content03",
+        "evidence": "docs/acceptance/issue-17/README.md",
+        "nextAction": "Physical Android and human difficulty/readability playtest. Owner review before content version, migration or permanent activation. Own proof-work metrics do not recover Guru stuck or live filter configuration."
+      }
     },
     {
       "id": "guru-issuance-filter-large-number-count",
@@ -6017,7 +6073,14 @@
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
       "nextAction": "Exact static binding recovered. Actual live config UNKNOWN. Await owner decision before product change; native and device observations remain separate. | CONTENT-03 #17: separate offline candidate study, not approval of source formula, live profile or new shipped bank.",
       "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
-      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17"
+      "contentProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/17",
+      "content03Experiment": {
+        "scope": "CONTENT-03 #17 · isolated own-content laboratory; original comparison and workflow status unchanged",
+        "summary": "40 Easy Short 9x9, 40 paired 7x7 controls, 50 additional Daily, 16 operation-paired variants. Independent numeric uniqueness and actual Explain from empty/partial starts. 128 separate masks: 113 admitted, 15 nonunique excluded. Existing 515 IDs and issuance pilot #16 preserved.",
+        "codePath": "docs/experiments/content03",
+        "evidence": "docs/acceptance/issue-17/README.md",
+        "nextAction": "Physical Android and human difficulty/readability playtest. Owner review before content version, migration or permanent activation. Own proof-work metrics do not recover Guru stuck or live filter configuration."
+      }
     },
     {
       "id": "guru-issuance-filter-plus-ratio",
