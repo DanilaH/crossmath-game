@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "6fd19408bfd58a0a39512749b19d5caa6e6355b8",
+    "commit": "c5d55b28a78df7af639ce181c8bce73aacc95ae9",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -1879,7 +1879,7 @@
       "codePath": "src/ui/gameUi.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Проверить открытый диалог при смене даты в Android WebView. Тарифы Crossmath остаются собственными. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
+      "nextAction": "Проверить открытый диалог при смене даты в Android WebView. Тарифы Crossmath остаются собственными. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN. | 27.11 Hint follow-up: typed Send/receiver and author-target local cell writes now resolved; verify real Android event delivery/wallet and no duplicate/stale settlement. Preserve own independent Explain, receipt and approved cost.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L885",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts",
       "reviewedVersion": "0.5.23",
@@ -1890,9 +1890,10 @@
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 5 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495",
-      "originalBehavior": "E:E08 CoinBuyHintCount | 27.11.2026 reward follow-up: PanelGame.OnBtnHintClick credit first, then static price+0x40 (120 prior bundled default), otherwise RV type2. 12 isolated button cases. Exact registered success callback adds then consumes one, not a banked grant. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "originalBehavior": "E:E08 CoinBuyHintCount | 27.11.2026 reward follow-up: PanelGame.OnBtnHintClick credit first, then static price+0x40 (120 prior bundled default), otherwise RV type2. 12 isolated button cases. Exact registered success callback adds then consumes one, not a banked grant. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md | 27.11.2026 Hint follow-up: Credit-first/coin/RV payment chain now binds to author-answer Hint selection, not Explain; own price remains unchanged. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md"
       ]
     },
     {
@@ -2268,12 +2269,13 @@
       "codePath": "src/core/engine.ts",
       "stage": "CORE",
       "dependencies": "банк + валидатор + контракт сохранения",
-      "nextAction": "Обменять две одинаковые фишки и получить тот же арифметический результат | Native expression follow-up: preserve own three-cell arithmetic and stricter full-board recomputation; actual long-expression content/UI exposure remains UNKNOWN. #17 optional separately versioned grammar lab, no change to current bank.",
+      "nextAction": "Обменять две одинаковые фишки и получить тот же арифметический результат | Native expression follow-up: preserve own three-cell arithmetic and stricter full-board recomputation; actual long-expression content/UI exposure remains UNKNOWN. #17 optional separately versioned grammar lab, no change to current bank. | 27.11 Hint follow-up: typed Send/receiver and author-target local cell writes now resolved; verify real Android event delivery/wallet and no duplicate/stale settlement. Preserve own independent Explain, receipt and approved cost.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1156",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/core/engine.ts",
-      "originalBehavior": "E:E02–03/E06, CrossViewBase и полный банк | 27.11 native expression follow-up: Native CheckEquationCorrect splits/evaluates both sides with RPN; LetterData.op_Equality compares typed value not object identity; CheckGameComplete only checks filled interactable cells and cached status !=2, not new arithmetic evaluation. 39,204 source binary pairs in own 1..99 domain compared to own inspected arithmetic formula with no differences in valid result. Actual stale-cache reachability UNKNOWN. | research/games/crossmath/porting/easyfun-expression-native-20261127/README.md",
+      "originalBehavior": "E:E02–03/E06, CrossViewBase и полный банк | 27.11 native expression follow-up: Native CheckEquationCorrect splits/evaluates both sides with RPN; LetterData.op_Equality compares typed value not object identity; CheckGameComplete only checks filled interactable cells and cached status !=2, not new arithmetic evaluation. 39,204 source binary pairs in own 1..99 domain compared to own inspected arithmetic formula with no differences in valid result. Actual stale-cache reachability UNKNOWN. | research/games/crossmath/porting/easyfun-expression-native-20261127/README.md | 27.11.2026 Hint follow-up: Hint target matching uses authored LetterData+0x18 with typed equality, unlike completion predicate. 290 target controls; fill receiver recomputation order statically identified. No actual alternative valid puzzle or stale-status bug proven. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/6980f3a67b930f7c7084d897f36c857b76951efa/research/games/crossmath/porting/easyfun-expression-native-20261127/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6980f3a67b930f7c7084d897f36c857b76951efa/research/games/crossmath/porting/easyfun-expression-native-20261127/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md"
       ]
     },
     {
@@ -5415,18 +5417,19 @@
       "sourceFeatureId": "easy-rewarded-hint-precheck",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "originalBehavior": "EasyFun Offline Crossmath 1.1.9 /1193 exact XAPK e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d, IL2CPP metadata v31 SHA 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6; ARM64 libil2cpp.so SHA 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720. PanelGame.OnBtnHintClick #24836: direct BL RewardedVideoLoaded 0x154de04 and ReportShowAdLimitedByClient 0x154e050; ShowRewardVideo direct BL not observed in that handler, actual grant UNKNOWN. See research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md and MEASUREMENTS.json; reproducible on exact owner originals, negative-control mutation PASS. | 27.11.2026 reward follow-up: Earlier direct BL-only census missed tail B 154def4 to ShowRewardVideo #20566 14350e4. Executed request path with mocked provider available; actual callback registration resolved via metadata 2f06690→24872. Native callback executes add/consume; SDK earned and board application UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "originalBehavior": "EasyFun Offline Crossmath 1.1.9 /1193 exact XAPK e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d, IL2CPP metadata v31 SHA 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6; ARM64 libil2cpp.so SHA 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720. PanelGame.OnBtnHintClick #24836: direct BL RewardedVideoLoaded 0x154de04 and ReportShowAdLimitedByClient 0x154e050; ShowRewardVideo direct BL not observed in that handler, actual grant UNKNOWN. See research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md and MEASUREMENTS.json; reproducible on exact owner originals, negative-control mutation PASS. | 27.11.2026 reward follow-up: Earlier direct BL-only census missed tail B 154def4 to ShowRewardVideo #20566 14350e4. Executed request path with mocked provider available; actual callback registration resolved via metadata 2f06690→24872. Native callback executes add/consume; SDK earned and board application UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md | 27.11.2026 Hint follow-up: Exact typed event chain from payment/true callback to registered OnUseHint and virtual UseHint; original selectors and cell pointer writes verified independently. Real SDK/show and live Android still UNKNOWN. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "currentImplementation": "В нашей 0.5.24/29 есть AdsController.reward('hint') + rewardAvailable/canRequestReward, собственная receipt очередь для hintCredits; original PanelGame.OnBtnHintClick по native имеет вызовы RewardedVideoLoaded + ReportShowAdLimitedByClient, не подтверждён показ/грант.",
       "codePath": "src/platform/ads.ts; src/platform/adState.ts; src/platform/androidAds.ts",
       "stage": "COMMERCIAL / REFERENCE RESEARCH ONLY; individual original Android proof and owner approval mandatory, no automatic show placements",
       "dependencies": "Exact original EasyFun 1.1.9 Android run with consent/ad SDK/remote settings, actual modal action and user-visible show/no-fill; native Crossmath 0.5.24/29 acceptance; owner monetization decision; preserve offline flow and UI.",
-      "nextAction": "Original native Android hint: button visibility, check/no-fill, ad launched or not, callback order, actual hint resource; our real SDK: exactly-once grant on rewardSettled and no grant on cancel. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
+      "nextAction": "Original native Android hint: button visibility, check/no-fill, ad launched or not, callback order, actual hint resource; our real SDK: exactly-once grant on rewardSettled and no grant on cancel. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN. | 27.11 Hint follow-up: typed Send/receiver and author-target local cell writes now resolved; verify real Android event delivery/wallet and no duplicate/stale settlement. Preserve own independent Explain, receipt and approved cost.",
       "acceptanceRequirement": "For this sourceFeatureId: matched original handler and reproducible video/SDK trace show or no-fill, user action, timing and any cap; our independently built implementation only after explicit owner decision, no duplicated fullscreen/persisted lost state and no copied vendor code/assets.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / versionCode 1193, original XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720.",
       "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN.",
       "additionalSourceEvidence": [
-        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+        "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md"
       ]
     },
     {
@@ -12320,50 +12323,59 @@
     {
       "id": "easy-hint-button-paid-dispatch",
       "sourceFeatureId": "easy-hint-button-paid-dispatch",
-      "originalBehavior": "154df1c UseItemCount; 154df44 dispatch MethodInfo global 2f06688; tail154df5c UpdateHintView. Native normal funded branch. No simulated cache race or real subscriber/placement. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "originalBehavior": "154df1c UseItemCount; 154df44 dispatch MethodInfo global 2f06688; tail154df5c UpdateHintView. Native normal funded branch. No simulated cache race or real subscriber/placement. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md | 27.11.2026 Hint follow-up: Resolved exact 2f06688 as TypeEventSystem.Send<GEvent_Use_Hint> MethodSpec78229. Controller registration binds OnUseHint, then native vslot10 UseHint; original local board write chain independently executed with synthetic observers. Actual bus lifecycle/Android UNKNOWN. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "codePath": "src/app/session.ts",
       "stage": "P4",
       "currentImplementation": "Own hintPayment and applyHelp use positive configured cost, verified help layout and single committed receipt. Existing economy is 60 coins/1 credit.",
       "comparison": "PARTIAL",
       "status": "RESEARCHED",
-      "nextAction": "#24/#27: preserve own positive amounts, credit first and atomic debit with verified help; no copying donor cost or unsafe raw input. Test insufficient/zero/negative/repeat/failed persistence; actual source UI/SDK separate.",
+      "nextAction": "#24/#27: preserve own positive amounts, credit first and atomic debit with verified help; no copying donor cost or unsafe raw input. Test insufficient/zero/negative/repeat/failed persistence; actual source UI/SDK separate. | 27.11 Hint follow-up: typed Send/receiver and author-target local cell writes now resolved; verify real Android event delivery/wallet and no duplicate/stale settlement. Preserve own independent Explain, receipt and approved cost.",
       "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/session.ts",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-hint-reward-add-then-consume",
       "sourceFeatureId": "easy-hint-reward-add-then-consume",
-      "originalBehavior": "Exact callback #24872 154f398, registered MethodInfo usage 0x6000c251 at 2f06690 -> 154dec0; 154f400 AddConsumableItem(1,1,0),154f410 UseItemCount(1,1),154f428 common dispatch 2f06688. 10 native callback cases; cap99 means old99→98, normal old0→0. Actual board mutation and delivery UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "originalBehavior": "Exact callback #24872 154f398, registered MethodInfo usage 0x6000c251 at 2f06690 -> 154dec0; 154f400 AddConsumableItem(1,1,0),154f410 UseItemCount(1,1),154f428 common dispatch 2f06688. 10 native callback cases; cap99 means old99→98, normal old0→0. Actual board mutation and delivery UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md | 27.11.2026 Hint follow-up: Resolved shared event as GEvent_Use_Hint, explicit receiver OnUseHint and native UseHint/FillInLetter/SetFillLetter. Hint uses stored author LetterData and local physical token selection; not a logical proof solver. Actual SDK, subscriber delivery and disk UNKNOWN. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "codePath": "src/platform/adState.ts",
       "stage": "P4",
       "currentImplementation": "Own earned callback adds hint credit once with receipt and cooldown; later verified Apply consumes it. Cancel/failed does not grant.",
       "comparison": "PARTIAL",
       "status": "RESEARCHED",
-      "nextAction": "#24/#27: retain stored credit, don't immediately spend or auto-apply on ad close; verify earned vs close and late/cancel/duplicate/kill/restart.",
+      "nextAction": "#24/#27: retain stored credit, don't immediately spend or auto-apply on ad close; verify earned vs close and late/cancel/duplicate/kill/restart. | 27.11 Hint follow-up: typed Send/receiver and author-target local cell writes now resolved; verify real Android event delivery/wallet and no duplicate/stale settlement. Preserve own independent Explain, receipt and approved cost.",
       "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/platform/adState.ts",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-hint-reward-false-dispatch",
       "sourceFeatureId": "easy-hint-reward-false-dispatch",
-      "originalBehavior": "154f3e4 false skips add/debit/application request; 154f42c–154f450 dispatch MethodInfo 2efd8e8 on both. Negative mutation TBZ→TBNZ discriminates fixture. Exact subscriber effect and live false delivery UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "originalBehavior": "154f3e4 false skips add/debit/application request; 154f42c–154f450 dispatch MethodInfo 2efd8e8 on both. Negative mutation TBZ→TBNZ discriminates fixture. Exact subscriber effect and live false delivery UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md | 27.11.2026 Hint follow-up: Resolved final dispatch as TypeEventSystem.Send<GEvent_Game_Resume> (spec78223 inst3250 typedef2813), both signal branches; false never sends GEvent_Use_Hint in previous native callback replay. No claim of actual resume timing. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "codePath": "src/platform/adState.ts",
       "stage": "P4",
       "currentImplementation": "Own earned callback adds hint credit once with receipt and cooldown; later verified Apply consumes it. Cancel/failed does not grant.",
       "comparison": "PARTIAL",
       "status": "RESEARCHED",
-      "nextAction": "#24/#27: retain stored credit, don't immediately spend or auto-apply on ad close; verify earned vs close and late/cancel/duplicate/kill/restart.",
+      "nextAction": "#24/#27: retain stored credit, don't immediately spend or auto-apply on ad close; verify earned vs close and late/cancel/duplicate/kill/restart. | 27.11 Hint follow-up: typed Send/receiver and author-target local cell writes now resolved; verify real Android event delivery/wallet and no duplicate/stale settlement. Preserve own independent Explain, receipt and approved cost.",
       "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/platform/adState.ts",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-random-gold-success-multiplier",
@@ -12492,6 +12504,214 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-hint-use-event-binding",
+      "sourceFeatureId": "easy-hint-use-event-binding",
+      "originalBehavior": "154df44 direct payment and 154f428 rewarded call TypeEventSystem.Send<GEvent_Use_Hint> via 2f06688, usage0xc002632b, MethodSpec78229, genericInst3263, typedef2831. Exact ELF metadata registration 2e613e0 and decoded methodSpecs at838350. Static binding; real event bus delivery UNKNOWN. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own GameSession directly applies validated command/plan with revision and atomic receipt; no donor event bus or auto-application on earned.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "Retain current atomic session/earned receipt semantics. Verify actual SDK and original subscriber delivery/registration; no automatic help on ad close.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-controller-subscription",
+      "sourceFeatureId": "easy-hint-controller-subscription",
+      "originalBehavior": "InitEvent 142c508–142c534 and tail 142c634 register/unregister exact delegate 2efbdc8 usage0x60009f35 method20378; Register at 2efbde0 spec78211, UnRegister at 2efbdf8 spec78270, both genericInst3263 GEvent_Use_Hint. OnDispose 142cdbc–142cdec unregisters same delegate. Static binding, no observed subscriber lifecycle. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own GameSession directly applies validated command/plan with revision and atomic receipt; no donor event bus or auto-application on earned.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "Retain current atomic session/earned receipt semantics. Verify actual SDK and original subscriber delivery/registration; no automatic help on ad close.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-reward-resume-event",
+      "sourceFeatureId": "easy-hint-reward-resume-event",
+      "originalBehavior": "154f42c–154f450 TypeEventSystem.Send via global2efd8e8 usage0xc002631f MethodSpec78223 genericInst3250 typedef2813. Exact metadata binding; no additional reward from this Send itself, actual resume effect UNKNOWN. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own GameSession directly applies validated command/plan with revision and atomic receipt; no donor event bus or auto-application on earned.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "Retain current atomic session/earned receipt semantics. Verify actual SDK and original subscriber delivery/registration; no automatic help on ad close.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-view-virtual-dispatch",
+      "sourceFeatureId": "easy-hint-view-virtual-dispatch",
+      "originalBehavior": "GameControllerBase.OnUseHint #20378 142c230–142c24c reads view+0x20 and vslot10 at class+0x1d8. Metadata vslot10 GameViewBase #3646, Daily #3650, Tutorial #3653 all resolves UseHint #24614 153f8a0. Actual dispatch ran in 24 fixtures; synthetic objects, no full Android. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own GameSession directly applies validated command/plan with revision and atomic receipt; no donor event bus or auto-application on earned.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "Retain current atomic session/earned receipt semantics. Verify actual SDK and original subscriber delivery/registration; no automatic help on ad close.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-tray-sort-index",
+      "sourceFeatureId": "easy-hint-tray-sort-index",
+      "originalBehavior": "LetterViewBase.GetFirstLetterGrid #24643 153fb34–153fc60 reads letter+0x58, IsFilled 145eef4 from link+0x68, sort+0x70. 72 native selector records, skip null letters and placed tiles; sort ordering may differ from number ordering. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/help/reveal.ts",
+      "stage": "P1",
+      "currentImplementation": "Own isolated Reveal uses authored solution, selected wrong cell first or first wrong; materializeHelp returns all wrong occupied cells then selects compatible physical token in trayOrder. Explain remains independent of author answer.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "Optional Reveal-only owner-approved minimal-repair UX lab: selected target priority, return at most target token and one misplaced source if needed; preserve unrelated cells, physical IDs, no spend on no-step/stale/invalid, one atomic receipt; verify duplicates, full board and restore. Do not change Explain.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/help/reveal.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-tray-strict-first-tie",
+      "sourceFeatureId": "easy-hint-tray-strict-first-tie",
+      "originalBehavior": "153fb88 initial1000;153fbf8–153fc00 skip >= best. 72 controls, tie mutation b.ge->b.gt changes first to second. Artificial out-of-domain sort values, no assertion normal UI uses them. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/help/reveal.ts",
+      "stage": "P1",
+      "currentImplementation": "Own isolated Reveal uses authored solution, selected wrong cell first or first wrong; materializeHelp returns all wrong occupied cells then selects compatible physical token in trayOrder. Explain remains independent of author answer.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "Optional Reveal-only owner-approved minimal-repair UX lab: selected target priority, return at most target token and one misplaced source if needed; preserve unrelated cells, physical IDs, no spend on no-step/stale/invalid, one atomic receipt; verify duplicates, full board and restore. Do not change Explain.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/help/reveal.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-author-answer-target",
+      "sourceFeatureId": "easy-hint-author-answer-target",
+      "originalBehavior": "CrossViewBase.GetFirstAvailableGridByLetterGrid #24503 1537608–15377e4 reads gridData+0x18 authored LetterData, tile+0x58, native equality 142d660 type+value. Requires gridData, interactable+0x20; skip matching filled cell. 290 native target cases incl Number vs Sign; no equation solving or selected-cell priority in body. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/help/reveal.ts",
+      "stage": "P1",
+      "currentImplementation": "Own isolated Reveal uses authored solution, selected wrong cell first or first wrong; materializeHelp returns all wrong occupied cells then selects compatible physical token in trayOrder. Explain remains independent of author answer.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "Optional Reveal-only owner-approved minimal-repair UX lab: selected target priority, return at most target token and one misplaced source if needed; preserve unrelated cells, physical IDs, no spend on no-step/stale/invalid, one atomic receipt; verify duplicates, full board and restore. Do not change Explain.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/help/reveal.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-first-target-occupied",
+      "sourceFeatureId": "easy-hint-first-target-occupied",
+      "originalBehavior": "153774c fill branch and inequality 15377a8–15377ac then returns first matching target; no preference for empty over occupied. Isolated tray-first-target and tray-skip-correct cases. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/help/reveal.ts",
+      "stage": "P1",
+      "currentImplementation": "Own isolated Reveal uses authored solution, selected wrong cell first or first wrong; materializeHelp returns all wrong occupied cells then selects compatible physical token in trayOrder. Explain remains independent of author answer.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "Optional Reveal-only owner-approved minimal-repair UX lab: selected target priority, return at most target token and one misplaced source if needed; preserve unrelated cells, physical IDs, no spend on no-step/stale/invalid, one atomic receipt; verify duplicates, full board and restore. Do not change Explain.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/help/reveal.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-no-tray-wrong-min-value",
+      "sourceFeatureId": "easy-hint-no-tray-wrong-min-value",
+      "originalBehavior": "UseHint 153f940–153f970 -> GetAutoSolveWrongLetter #24504 15377e4–15379c8; editable filled, author inequality, compare placed LetterData numeric payload+0x14 against initial1000, strict < keeps first tie. 108 native wrong-selector cases; threshold synthetic, no claim about shipped puzzle numbers. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/help/reveal.ts",
+      "stage": "P1",
+      "currentImplementation": "Own isolated Reveal uses authored solution, selected wrong cell first or first wrong; materializeHelp returns all wrong occupied cells then selects compatible physical token in trayOrder. Explain remains independent of author answer.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "Optional Reveal-only owner-approved minimal-repair UX lab: selected target priority, return at most target token and one misplaced source if needed; preserve unrelated cells, physical IDs, no spend on no-step/stale/invalid, one atomic receipt; verify duplicates, full board and restore. Do not change Explain.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/help/reveal.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-local-replace-return",
+      "sourceFeatureId": "easy-hint-local-replace-return",
+      "originalBehavior": "UseHint 153fb0c–153fb2c invokes virtual FillInLetter slot4 (#25627 145c9fc); SetFillLetter clears prior pointer, fill-out observer and go-back request, then stores new pointer/current value+filled flag. Isolated actual cell writes, animation/observers shimmed. No whole-field reset. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/help/reveal.ts",
+      "stage": "P1",
+      "currentImplementation": "Own isolated Reveal uses authored solution, selected wrong cell first or first wrong; materializeHelp returns all wrong occupied cells then selects compatible physical token in trayOrder. Explain remains independent of author answer.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "Optional Reveal-only owner-approved minimal-repair UX lab: selected target priority, return at most target token and one misplaced source if needed; preserve unrelated cells, physical IDs, no spend on no-step/stale/invalid, one atomic receipt; verify duplicates, full board and restore. Do not change Explain.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/help/reveal.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-no-tray-transfer-not-swap",
+      "sourceFeatureId": "easy-hint-no-tray-transfer-not-swap",
+      "originalBehavior": "153f9c0–153fa14 reads old token, FillInLetter(null,true) on source, FillInLetter(token,true) on target, then UpdateLetterView(source). If destination occupied wrong, returns its old token instead of swapping. Original FillInLetter/SetFillLetter writes confirmed in 24 route cases, observer links substituted. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/help/reveal.ts",
+      "stage": "P1",
+      "currentImplementation": "Own isolated Reveal uses authored solution, selected wrong cell first or first wrong; materializeHelp returns all wrong occupied cells then selects compatible physical token in trayOrder. Explain remains independent of author answer.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "Optional Reveal-only owner-approved minimal-repair UX lab: selected target priority, return at most target token and one misplaced source if needed; preserve unrelated cells, physical IDs, no spend on no-step/stale/invalid, one atomic receipt; verify duplicates, full board and restore. Do not change Explain.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/help/reveal.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-target-missing-no-retry",
+      "sourceFeatureId": "easy-hint-target-missing-no-retry",
+      "originalBehavior": "153fa74–153fb08 fallback with synthetic global suppression byte+0x21; no further selection. When no free token and no wrong cell, 153f94c jumps to intercepted null guard153fb30. Artificial states, not proof actual player can waste hint or crash. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/help/reveal.ts",
+      "stage": "P1",
+      "currentImplementation": "Own isolated Reveal uses authored solution, selected wrong cell first or first wrong; materializeHelp returns all wrong occupied cells then selects compatible physical token in trayOrder. Explain remains independent of author answer.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "Optional Reveal-only owner-approved minimal-repair UX lab: selected target priority, return at most target token and one misplaced source if needed; preserve unrelated cells, physical IDs, no spend on no-step/stale/invalid, one atomic receipt; verify duplicates, full board and restore. Do not change Explain.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/help/reveal.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+    },
+    {
+      "id": "easy-hint-fill-completion-callback",
+      "sourceFeatureId": "easy-hint-fill-completion-callback",
+      "originalBehavior": "CrossViewBase.OnFillInLetterEvent #24494 1536694–1536724: CheckAllGridConnection 15366a8, token+0x68=cell at15366c4, CheckGameComplete 15366c8, finish delegate+0x78 or alternative+0x80. Static receiver order; daily/tutorial overrides distinct. Actual full event bus, equation callbacks, mode lifecycle and persistence UNKNOWN. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "codePath": "src/core/engine.ts",
+      "stage": "P1",
+      "currentImplementation": "Own applyHelpLayout validates inventory and recomputes full arithmetic through isSolved; no donor presentation-dependent completion callback.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "Preserve strict own isSolved, token inventory, Endless neutrality/assisted semantics and save authority. Actual original mode observer order and UI require device.",
+      "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/core/engine.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
     }
   ],
   "latestReview": {
@@ -14345,5 +14565,45 @@
     "repeatByteIdentical": true,
     "negativeControl": true,
     "limitations": "Provider, game gate, cache/disk, sequence/pointer index and UI/event dispatch substituted. No actual SDK earned/delivery, board mutation, real probabilities, or event alternate hint payout. No code/economy/runtime changes."
+  },
+  "easyfunHintNative20261127": {
+    "report": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
+    "sourceCommit": "c5d55b28a78df7af639ce181c8bce73aacc95ae9",
+    "reviewedConsumerHead": "ea14714c6464eefb48da7cbbe150de61d48239bd",
+    "sourceFeatures": 714,
+    "added": [
+      "easy-hint-use-event-binding",
+      "easy-hint-controller-subscription",
+      "easy-hint-reward-resume-event",
+      "easy-hint-view-virtual-dispatch",
+      "easy-hint-tray-sort-index",
+      "easy-hint-tray-strict-first-tie",
+      "easy-hint-author-answer-target",
+      "easy-hint-first-target-occupied",
+      "easy-hint-no-tray-wrong-min-value",
+      "easy-hint-local-replace-return",
+      "easy-hint-no-tray-transfer-not-swap",
+      "easy-hint-target-missing-no-retry",
+      "easy-hint-fill-completion-callback"
+    ],
+    "refined": [
+      "easy-hint-button-paid-dispatch",
+      "easy-hint-reward-add-then-consume",
+      "easy-hint-reward-false-dispatch",
+      "easy-rewarded-hint-precheck",
+      "easy-hint-price",
+      "easy-value-win"
+    ],
+    "isolatedNativeCases": 494,
+    "groups": {
+      "tray": 72,
+      "target": 290,
+      "wrong": 108,
+      "controller": 24
+    },
+    "repeatByteIdentical": true,
+    "negativeControl": true,
+    "typedEventBinding": true,
+    "limitations": "Original target selectors, typed equality, controller virtual and cell flag/current-value/pointer stores executed; synthetic Unity equality, observer links, animation, toast and class initialization. Actual event bus, mode-specific arithmetic callback/UI/SDK/persistence remain UNKNOWN. No product change."
   }
 }
