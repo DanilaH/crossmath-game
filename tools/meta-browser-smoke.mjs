@@ -20,6 +20,20 @@ try{
  const ready=()=>page.locator('html[data-state=ready]').waitFor();
  const snapshot=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')));
  const tap=async(selector)=>{await page.locator(selector).tap();await page.locator('#home:enabled').waitFor();};
+ const resizeViewport=async(width,height)=>{
+  // CDP can acknowledge the viewport command before Chromium dispatches its resize event.
+  await page.evaluate(({width,height})=>{
+   const onResize=()=>{
+    if(innerWidth!==width||innerHeight!==height)return;
+    removeEventListener('resize',onResize);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{window.viewportSettled=true;}));
+   };
+   window.viewportSettled=false;
+   addEventListener('resize',onResize);
+  },{width,height});
+  await page.setViewportSize({width,height});
+  await page.waitForFunction(()=>window.viewportSettled);
+ };
  const openModes = async () => {
   await tap('#tab-modes');
   await page.locator('#hub[data-screen=modes]').waitFor();
@@ -266,8 +280,7 @@ try{
  await page.evaluate(save=>localStorage.setItem('crossmath.save.v1',JSON.stringify(save)),dense);await page.reload();await ready();
  assert.equal((await snapshot()).attempt.id,dense.attempt.id);
  for(const [width,height] of [[320,480],[320,568],[390,844]]){
-   await page.setViewportSize({width,height});
-   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+   await resizeViewport(width,height);
    const measures=await page.evaluate(()=>{
     const viewport=document.querySelector('.board-scroll');
     const cells=[...document.querySelectorAll('button[data-cell]')];
@@ -286,7 +299,7 @@ try{
    geometry.push({screen:'v2 Hell fixture',viewport:[width,height],...measures});
    await page.screenshot({path:out+`/hell-${width}x${height}.png`,fullPage:true});
  }
- await page.setViewportSize({width:320,height:568});
+ await resizeViewport(320,568);
  await tap('#tray-next');
  const trayOffset=await page.locator('#tray').evaluate(e=>e.scrollTop);
  assert.ok(trayOffset>0);
