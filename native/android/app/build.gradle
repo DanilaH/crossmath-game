@@ -31,6 +31,7 @@ tasks.configureEach { task ->
   def web=stamp.isFile()?new groovy.json.JsonSlurper().parse(stamp):null
   if(web?.channel!='release')throw new GradleException('Run npm run android:sync:release before optimized variants')
   if(task.name=='preReleaseBuild') {
+   if(web.winBonusCandidate==true)throw new GradleException('Win bonus candidate is exclusive to the playtest APK')
    if(web.leagueLab==true)throw new GradleException('League lab is exclusive to the playtest APK')
    if(web.contentLab==true)throw new GradleException('Content lab is exclusive to the playtest APK')
    if(web.freeIssuancePolicy!='legacy')throw new GradleException('Issuance pilot is exclusive to the playtest APK')

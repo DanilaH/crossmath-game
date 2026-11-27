@@ -1,6 +1,6 @@
 {
   "name": "crossmath-game",
-  "version": "0.5.25",
+  "version": "0.5.26",
   "private": true,
   "type": "module",
   "engines": {
@@ -22,7 +22,9 @@
     "test:browser": "node tools/browser-smoke.mjs && node tools/meta-browser-smoke.mjs && node tools/core00-browser.mjs && node tools/help-coverage-browser.mjs && node tools/ads-browser-smoke.mjs && node tools/feel-browser-smoke.mjs",
     "content:verify": "python3 -B docs/spec/product/content_v09/verify.py && python3 -B docs/spec/product/content_v09/check_routes.py && python3 -B docs/spec/product/content_v2/verify.py && python3 -B docs/spec/product/meta_v08/verify_meta.py",
     "build:league-lab": "npm run typecheck && vite build --mode league-lab && node tools/verify-web.mjs --league-lab",
-    "test:league": "vitest run --mode league-lab tests/league*.test.ts"
+    "test:league": "vitest run --mode league-lab tests/league*.test.ts",
+    "build:win-rv-lab": "npm run typecheck && vite build --mode win-rv-lab && node tools/verify-web.mjs --win-rv-lab",
+    "test:win-rv": "vitest run --mode win-rv-lab tests/win-bonus.test.ts"
   },
   "dependencies": {
     "@capacitor/android": "8.6.0",

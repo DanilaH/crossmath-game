@@ -1,0 +1,160 @@
+{
+  "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+  "unchanged": [
+    {
+      "path": "docs/spec/product/content_v09/audit.csv",
+      "sha256": "8eed2a215686370cc1293a8289df91d7456bd03e53172f6b73d9a098a847a583"
+    },
+    {
+      "path": "docs/spec/product/content_v09/author_solutions.json",
+      "sha256": "cdedfff91d14e3abaa5899454f6d3481b62b3a1af9a9f81ada600a7be64d1217"
+    },
+    {
+      "path": "docs/spec/product/content_v09/boards.json",
+      "sha256": "3c44daba366bea0d1d708b1ce3759079722e4fea6a9440d488eb82c39150c8c2"
+    },
+    {
+      "path": "docs/spec/product/content_v09/build.py",
+      "sha256": "3b4e0c753f66e95079ac797d9eb470ef8e5cfadb0e6f0f638d617cfc1519a60e"
+    },
+    {
+      "path": "docs/spec/product/content_v09/check_routes.py",
+      "sha256": "1c9067189e8995bea5fa3d9911d260e74f309f1b3e46718e89b23510b7809b73"
+    },
+    {
+      "path": "docs/spec/product/content_v09/logic.py",
+      "sha256": "6a5f63bf6a7811c88feaf7f5889ae2916915d4f5a37882f5fadff2037f69d83b"
+    },
+    {
+      "path": "docs/spec/product/content_v09/routes.json",
+      "sha256": "b31ac13de2a74295770e182cb0e39698258f46b882ade589a96de16a876f10ce"
+    },
+    {
+      "path": "docs/spec/product/content_v09/routes_verification.json",
+      "sha256": "ee998a23f3eb44ef510131ac6fa03dd8794c199f775000a21401f080eafb37e6"
+    },
+    {
+      "path": "docs/spec/product/content_v09/tutorial_boards.png",
+      "sha256": "6c93854ba2cff4e1410f8f7182b17beef6a2475a86a172c613844cccb626edd2"
+    },
+    {
+      "path": "docs/spec/product/content_v09/verification.json",
+      "sha256": "db46265ca62b17b273979f58207044e3ccb635231cf35b162706c1cf0f8cdb6d"
+    },
+    {
+      "path": "docs/spec/product/content_v09/verify.py",
+      "sha256": "874aba5ad763cdb4edcfa6aaf9d26a5cf5c78c7b4f700b9bbe5dabbedaea23a0"
+    },
+    {
+      "path": "docs/spec/product/content_v2/author_solutions.json",
+      "sha256": "25035320a8d5a4a1bc0b6592c99fe8364fa8279954190568eaa4413985ee7b15"
+    },
+    {
+      "path": "docs/spec/product/content_v2/boards.json",
+      "sha256": "64cf3d81be3a14a34c9f31a121fce7b70003c85b0eb3fed2114104a3259600af"
+    },
+    {
+      "path": "docs/spec/product/content_v2/build.py",
+      "sha256": "77cc0452173bf7f71494436eba57994987f74f0b2b8e1d0cc1899c74553c3577"
+    },
+    {
+      "path": "docs/spec/product/content_v2/verify.py",
+      "sha256": "49f0b777a1ceb4cd8c592575fff8f565c2163ac0fef642115303ff03ce6b2c7e"
+    },
+    {
+      "path": "src/core/engine.ts",
+      "sha256": "87790de0f8b5eb6aaef26d10f3705896f8069200030581edc1e325dd5d2faf86"
+    },
+    {
+      "path": "src/core/types.ts",
+      "sha256": "7accea77d94425f1c01c77e382ab80dd54e86dce649520296051b5ecf4f4757c"
+    },
+    {
+      "path": "src/help/domainProof.ts",
+      "sha256": "8f375fd4fdb8d1554f5b4d9f644b45fef4048b0b9287d3e9d510cc7715cebf63"
+    },
+    {
+      "path": "src/help/logic.ts",
+      "sha256": "272af7ad14266e111c02173722510ca27ff14534bfa311f487ae263a24ded6c4"
+    },
+    {
+      "path": "src/help/propagate.ts",
+      "sha256": "e2a078761610c58951ce4f51ab6a133503991b9e8889d55f2fd4c936323454a9"
+    },
+    {
+      "path": "src/help/reveal.ts",
+      "sha256": "c0c89cbedccea026d22545e872ebcdce7e89e2b4f7d2dd0b0003c4308b0e381d"
+    },
+    {
+      "path": "src/help/verifyDomainProof.ts",
+      "sha256": "b0c9234c28bb5daba2d0f3b04b583af271d90c585afd0046d7523c7d92566c38"
+    },
+    {
+      "path": "src/app/model.ts",
+      "sha256": "24668c537c05933d20c1a4d5f823ec3a6b368c2171159fd308ea102288ad57be"
+    },
+    {
+      "path": "src/meta/progress.ts",
+      "sha256": "e7149c202c494d943011a549d62e57814679b21d018a9a121e61c7d1ea5ac55c"
+    },
+    {
+      "path": "src/meta/missions.ts",
+      "sha256": "0b5cee5efdd36a544993ba23b3b7624eaf50ccb5736e1563dd049f5782602c53"
+    },
+    {
+      "path": "src/meta/leagueSchedule.ts",
+      "sha256": "b3db1970f1b3bc8a9300e35e46695db073a3894bcf147f4a4042f65342005300"
+    },
+    {
+      "path": "src/meta/dailyArchive.ts",
+      "sha256": "9083ffa2acc02327ba683464493209b592738b6832959b0d2aab4dc7905bd1cc"
+    },
+    {
+      "path": "docs/spec/product/meta_v08/config.json",
+      "sha256": "bcbdd507ad6188ffc236e26001fcf0f47db9d586230ecd02b141712208cc89ea"
+    },
+    {
+      "path": "src/ui/board.ts",
+      "sha256": "829976d3b03c4d29470c5cd91076528bed3928db1ce0ec128104403ebbc48681"
+    },
+    {
+      "path": "src/ui/play.css",
+      "sha256": "7174f7a14344d1bfda758173ffe329481fe72f5e3bf2eb5d003571e79407c40c"
+    },
+    {
+      "path": "src/ui/playFeedback.ts",
+      "sha256": "f36618a504709a995669b7107b1456209bbafadcd409020e93484f2c916c1a90"
+    },
+    {
+      "path": "src/ui/feedback.ts",
+      "sha256": "1566f4b793e390b2a5dde148d9dc8ef000b66d5275e55c89481748deda2bf50e"
+    },
+    {
+      "path": "src/ui/rewardReadout.ts",
+      "sha256": "05bd263d6eceb77d427dced7d55f09e913691b7d0b33241f8a1d0917a02c8432"
+    },
+    {
+      "path": "src/ui/workshopReveal.css",
+      "sha256": "19d262cdf153e85cb0e2bb6f7f6108ace046d23c366b149b530753113e2e1fcd"
+    }
+  ],
+  "onlyCandidateModeFlag": [
+    {
+      "path": "src/content/freeIssuance.ts",
+      "removeOnly": ",'win-rv-lab'",
+      "sha256": "f4ac9dcca06a52eb3be2f4f3b078ed1bb8b8b6b69c4f61955ecec20a8a19b14b"
+    },
+    {
+      "path": "src/meta/league.ts",
+      "removeOnly": "||import.meta.env.MODE==='win-rv-lab'",
+      "sha256": "65a9d983c0325320e63cec6cdc66dd76ec282aca784f921f1e42e1ef2a1b907b"
+    }
+  ],
+  "sourceIDs": 729,
+  "sourceInventory": {
+    "repository": "DanilaH/mini-games-kit",
+    "commit": "95f01f566adb07f29100b9fac86f73c8149a2a22",
+    "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
+  },
+  "sourceProjectionSha256": "5547295507b5901f1bc4cbcf2bd59f2b37d050c37dd053c78e4003cee4a462c5"
+}

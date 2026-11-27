@@ -1,3 +1,5 @@
+> **28.11.2026 MONETIZATION preparation:** scoped #27 and isolated #14 candidate implemented for acceptance,0.5.26/31. [Package](acceptance/monetization27/README.md). No SDK/ID/real-fill/production acceptance or payout activation inferred; previous labs remain experiments. Next explicit decision: provider SDK/test configuration, device acceptance, then separately bonus parameters. No new forced placements/#19/store/IAP.
+
 # Crossmath roadmap
 
 **Текущий разрешённый пакет META #15/#18:** [полировка](acceptance/meta15-18/README.md) и [сравнение экономики](experiments/meta18/ECONOMY_RU.md), поверх поставленной #22, без новой главы/валют/серий/уведомлений. Семь групп и все выплаты неизменны; compact UI, Daily/calendar/trophy/profile/workshop polish. 54 модельные недели / 5 400 результатов / независимый кошелёк; simple3/off и A/B/C/D Лиги только предложения. #19 и MONETIZATION не начаты. Старые roadmap proposals и «META не начат» — история, не новое поручение.

@@ -30,6 +30,7 @@ with zipfile.ZipFile(a.apk) as z:
     assert stamp.get('freeIssuancePolicy','legacy')==('d4-v2' if a.issuance_pilot else 'legacy'),'Wrong Free issuance policy in APK'
     assert stamp.get('leagueLab',False)==a.league_lab,'Wrong league channel'
     assert stamp.get('contentLab',False)==a.content_lab,'Wrong laboratory channel'
+    assert stamp.get('winBonusCandidate',False) is False,'Victory bonus candidate must not enter the delivered regular APK'
     assert not set(cfg['releaseExcludedPaths'])&set(public)
     for path in Path('dist').rglob('*'):
         if not path.is_file():continue
@@ -46,6 +47,11 @@ with zipfile.ZipFile(a.apk) as z:
     blocks=re.split(r'(?=Class #\d+)','\n'.join(output));descriptor='L'+cfg['appId'].replace('.','/')+'/GameStoragePlugin;'
     plugin=[b for b in blocks if re.search(r"Class descriptor\s*:\s*'"+re.escape(descriptor)+"'",b)];assert plugin,'Storage bridge removed by R8'
     for method in ['get','set','remove','list']:assert any(re.search(r"name\s*:\s*'"+method+"'",b) for b in plugin),method
+    ads_descriptor='L'+cfg['appId'].replace('.','/')+'/CrossmathAdsPlugin;'
+    ads_plugin=[b for b in blocks if re.search(r"Class descriptor\s*:\s*'"+re.escape(ads_descriptor)+"'",b)]
+    assert ads_plugin,'Optional ads bridge removed by R8'
+    for method in ['availability','pendingRewards','acknowledge','showRewarded','showInterstitial','cancelUnopened','setBanner']:
+        assert any(re.search(r"name\s*:\s*'"+method+"'",b) for b in ads_plugin),method
 mapping=Path('native/android/app/build/outputs/mapping')/('release' if a.kind=='release' else 'releaseCheck')/'mapping.txt';assert mapping.is_file() and mapping.stat().st_size>1000
 report={'kind':a.kind,'package':package,'versionName':cfg['versionName'],'versionCode':cfg['versionCode'],'kitRef':stamp['kitRef'],'freeIssuancePolicy':stamp.get('freeIssuancePolicy','legacy'),'contentLab':stamp.get('contentLab',False),'leagueLab':stamp.get('leagueLab',False),'source':os.environ.get('GITHUB_SHA','local'),'apkSha256':hashlib.sha256(a.apk.read_bytes()).hexdigest(),'bytes':a.apk.stat().st_size,'certificateSha256':cert,'productionSigner':a.kind=='release','v2':True,'zipalign16k':True,'debuggable':False,'webViewDebuggingConfigured':False,'nativeInsetOwner':'content-root','webPayload':web,'nativeRuntime':'NOT RUN','liveServices':'NOT INSTALLED BY THIS HOST TEMPLATE'}
 for name,text in [('signing.txt',sign),('badging.txt',badging),('manifest.txt',manifest),('alignment.txt',alignment)]: (a.out/name).write_text(text)

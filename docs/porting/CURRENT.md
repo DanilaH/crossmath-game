@@ -1,3 +1,5 @@
+> **28.11.2026 product checkpoint:** MONETIZATION preparation #27 / isolated #14,0.5.26/31 over PR#4@157b133. [Current package](../acceptance/monetization27/README.md). Native bridge/journal protocol2, default Unconfigured; SDK/IDs/live device not selected/accepted, main win bonus disabled. Existing economy/placements/labs retained. Source inventory95f01f5/729 and runtimeb1bf2026 remain unchanged; historical snapshots below do not override this.
+
 # Crossmath · единая актуальная карта переноса
 
 **Актуальный scope 27.11.2026:** [v1.1](../spec/Crossmath_TZ_v1.1_RU.md). 714 ID остаются реестром свидетельств, не обязательным release backlog. Owner approved one offline league with 9 bots; no automatic adoption of donor prices, SDK, or all competition features. Next #28.

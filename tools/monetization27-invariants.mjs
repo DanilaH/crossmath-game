@@ -1,0 +1,11 @@
+import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+const base=JSON.parse(await readFile('docs/acceptance/monetization27/BASELINE.json','utf8'));
+const sha=data=>createHash('sha256').update(data).digest('hex');
+for(const {path,sha256} of base.unchanged)assert.equal(sha(await readFile(path)),sha256,path+' immutable contract');
+for(const {path,sha256,removeOnly} of base.onlyCandidateModeFlag)assert.equal(sha((await readFile(path,'utf8')).replace(removeOnly,'')),sha256,path+' only isolated mode flag');
+const ledger=JSON.parse(await readFile('docs/porting/ADOPTION_LEDGER.json','utf8'));
+assert.equal(sha(JSON.stringify(ledger.features.map(f=>[f.id,f.status,f.comparison]))),base.sourceProjectionSha256);
+assert.equal(ledger.features.length,base.sourceIDs);assert.deepEqual(ledger.sourceInventory,base.sourceInventory);
+console.log('MON27 invariant hashes PASS · '+base.unchanged.length+' exact files, '+base.onlyCandidateModeFlag.length+' flag-only files, '+base.sourceIDs+' reference IDs');

@@ -1,6 +1,7 @@
 import {leagueEnabled} from '../meta/league';
 import { AdsController } from '../platform/ads';
 import type { AdsProvider } from '../platform/ads';
+import { winBonusCandidate, winBonusOffer } from '../platform/winBonus';
 import { dailyName, localize, localizeDocument, missingCoinsLabel, quantity, trackName } from './locale';
 import type { Language } from './locale';
 import { config, getPuzzle } from '../content/catalog';
@@ -103,6 +104,17 @@ export class GameUi {
     $('explain').onclick=()=>this.chooseHelp('explain');$('reveal').onclick=()=>this.chooseHelp('reveal');$('apply-help').onclick=()=>this.applyHelp();
     $('ad-hint').onclick=()=>this.run(time=>this.ads!.reward('hint',time));
     $('ad-continue').onclick=()=>this.run(time=>this.ads!.reward('continue',time));
+    if(winBonusCandidate){
+      const bonus=document.createElement('button');bonus.id='win-rv-bonus';bonus.type='button';bonus.className='hub-button';bonus.hidden=true;
+      Object.assign(bonus.style,{gridColumn:'1 / -1',display:'flex',alignItems:'center',justifyContent:'center',gap:'8px'});
+      const video=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      video.setAttribute('viewBox','0 0 20 20');video.setAttribute('width','18');video.setAttribute('height','18');video.setAttribute('aria-hidden','true');video.style.flex='none';
+      const frame=document.createElementNS(video.namespaceURI,'rect');frame.setAttribute('x','1');frame.setAttribute('y','2');frame.setAttribute('width','18');frame.setAttribute('height','16');frame.setAttribute('rx','3');frame.setAttribute('fill','none');frame.setAttribute('stroke','currentColor');frame.setAttribute('stroke-width','1.5');
+      const play=document.createElementNS(video.namespaceURI,'path');play.setAttribute('d','M8 6L14 10L8 14Z');play.setAttribute('fill','currentColor');video.append(frame,play);
+      const caption=document.createElement('span');caption.dataset.bonusCaption='';bonus.append(video,caption);
+      bonus.onclick=()=>this.run(time=>this.ads!.reward('win-bonus',time));
+      $('result').append(bonus);
+    }
     $('next').onclick=()=>{
       this.meta.skipWorkshopReveal();
       this.finishReadouts();
@@ -503,7 +515,7 @@ export class GameUi {
     }
   }
 
-  private closeHelp():void{if(this.busy)return;$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);}
+  private closeHelp():void{if(this.busy)return;this.ads?.dismissRewardStatus('hint');$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);}
   private showAppliedExplanation(puzzle: Puzzle, plan: HintPlan): void {
     const assignment = plan.assignments[0]!, {value} = assignment;
     if (plan.kind === 'explain' && plan.proof) {
@@ -558,7 +570,7 @@ export class GameUi {
     },()=>{if(!applied)return;
       const attempt=this.session.state.attempt;
       const puzzle=getPuzzle(attempt.puzzleId);
-      $<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(puzzle,attempt);
+      this.ads?.dismissRewardStatus('hint');$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(puzzle,attempt);
       this.showAppliedExplanation(puzzle,plan);
       this.presentMove(acceptedFeedback({type:'Help',cellId:plan.assignments[0]!.cellId},operation,before.attempt,attempt,'applied',
         attempt.status==='won'?'win':attempt.mode==='endless'?'place':'right'),before);
@@ -589,6 +601,18 @@ export class GameUi {
       button.disabled=this.busy||this.session.writing||this.saveFailed;
     }
     if($<HTMLDialogElement>('help-dialog').open)this.updateHelpPrice();
+    const adStatus=$('ad-hint-status'),rewardStatus=this.ads?.rewardStatus('hint');
+    adStatus.hidden=!rewardStatus;
+    adStatus.textContent=rewardStatus==='earned'?this.t('Кредит подсказки сохранён.','Your hint credit is saved.')
+      :rewardStatus==='pending'?this.t('Проверяем результат видео. Партия сохранена.','Checking the video result. Your board is saved.')
+      :rewardStatus==='cancelled'?this.t('Видео закрыто без награды.','The video closed without a reward.')
+      :rewardStatus?this.t('Видео сейчас недоступно. Попробуйте позже.','Video is unavailable. Please try again later.'):'';
+    if(winBonusCandidate){
+      const button=$<HTMLButtonElement>('win-rv-bonus'),offer=winBonusOffer(s);
+      button.hidden=!offer||!this.ads?.rewardAvailable('win-bonus');
+      button.disabled=this.busy||this.session.writing||this.saveFailed;
+      if(offer){const label=this.t(`+${quantity(this.language,offer.delta,'coin')} за видео`,`Watch for +${quantity(this.language,offer.delta,'coin')}`);button.querySelector('[data-bonus-caption]')!.textContent=label;button.setAttribute('aria-label',label);}
+    }
     const workshop = settings.theme === 'dark';
     if (document.body.classList.contains('dark') !== workshop) {
       document.body.classList.toggle('dark', workshop);

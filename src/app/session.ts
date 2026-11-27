@@ -94,7 +94,9 @@ export class GameSession {
       if(!entry||event.profileId!==this.state.profile.id||!['earned','cancelled','failed'].includes(event.outcome)){
         throw Error('Unmatched ad receipt');
       }
-      if(entry.settlement)return;
+      // A truthful earned callback may arrive after close/failure. Never undo a grant,
+      // but allow earned to supersede a no-reward terminal callback once.
+      if(entry.settlement==='earned'||entry.settlement==='expired'||entry.settlement&&event.outcome!=='earned')return;
       const next=structuredClone(this.state);
       refreshDay(next,this.now());
       settleReward(next,event);

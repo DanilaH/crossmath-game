@@ -37,6 +37,8 @@ jobs:
           npm install --no-audit --no-fund
       - run: CONTENT03_REPORT=1 npm run check
       - run: npm run test:league
+      - run: npm run test:win-rv
+      - run: node tools/monetization27-invariants.mjs
       - run: node tools/league22-model.mjs
       - run: node tools/league22-guru-model.mjs
       - run: node tools/meta18-economy.mjs
@@ -55,6 +57,8 @@ jobs:
       - run: npm run build:issuance-pilot && node tools/issuance-pilot-browser.mjs
       - run: npm run build:content-lab && node tools/content03-browser.mjs
       - run: npm run build:league-lab && node tools/league22-browser.mjs && node tools/league22-record.mjs && node tools/meta18-fixtures.mjs && node tools/meta18-browser.mjs
+      - run: node tools/monetization27-browser.mjs
+      - run: npm run build:win-rv-lab && MON27_OUT=.test-output/mon27-win-ui node tools/monetization27-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -76,6 +80,8 @@ jobs:
             .test-output/help11-ui/
             .test-output/ads-banner/
             .test-output/feel/
+            .test-output/mon27-ui/
+            .test-output/mon27-win-ui/
       - run: npm run android:sync:release
       - uses: actions/setup-java@v4
         with:
@@ -85,7 +91,7 @@ jobs:
         with:
           packages: platform-tools
       - run: sdkmanager "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0"
-      - run: ./gradlew --no-daemon assembleDebug assembleReleaseCheck
+      - run: ./gradlew --no-daemon testDebugUnitTest assembleDebug assembleReleaseCheck
         working-directory: native/android
       - run: python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --out .test-output/apk-verification
       - uses: actions/upload-artifact@v4
@@ -94,3 +100,4 @@ jobs:
           path: |
             native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk
             .test-output/apk-verification/
+            native/android/app/build/test-results/testDebugUnitTest/

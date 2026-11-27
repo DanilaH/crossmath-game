@@ -5,13 +5,16 @@ import { dateAvailable } from '../meta/calendar';
 import type { Save } from '../app/model';
 import type { Attempt } from '../core/types';
 import { endlessEnabled } from '../content/modeAvailability';
+import { validWinBonusTarget, winBonusOffer } from './winBonus';
+import type { WinBonusTarget } from './winBonus';
 
-export type RewardKind = 'hint' | 'continue';
+export type RewardKind = 'hint' | 'continue' | 'win-bonus';
 export interface RewardRequest {
   id: string;
   profileId: string;
   kind: RewardKind;
   target?: { attemptId: string; runId?: string };
+  win?: WinBonusTarget;
 }
 export interface RewardEvent { id: string; profileId: string; outcome: 'earned' | 'cancelled' | 'failed' }
 type Settlement = RewardEvent['outcome'] | 'expired';
@@ -57,6 +60,7 @@ function interstitialGate(save: Save): ActionInterstitialGate {
 }
 
 function reserveResult(save: Save, resultId: string | undefined): ActionInterstitialGate | null {
+  if(Object.values(save.ads.requests).some(entry=>entry.settlement===undefined))return null;
   if (save.meta.screen !== 'play' || !endlessEnabled && save.attempt.mode === 'endless' || save.attempt.status !== 'won' || !save.result ||
       save.result.id !== resultId || save.result.interstitialRequested) return null;
   const gate = interstitialGate(save);
@@ -95,13 +99,25 @@ function eligibleTarget(save: Save, attempt: Attempt): boolean {
 
 export function canRequestReward(save: Save, kind: RewardKind): boolean {
   if (save.meta.screen !== 'play' || !endlessEnabled && save.attempt.mode === 'endless') return false;
+  // Unknown pending is not a terminal cancellation, including after a cold restart.
+  if(Object.values(save.ads.requests).some(entry=>entry.settlement===undefined))return false;
+  if(kind==='win-bonus')return winBonusOffer(save)!==null;
   return kind === 'hint' ? save.attempt.status === 'playing' : eligibleTarget(save, save.attempt);
 }
 
 export function createRewardRequest(save: Save, id: string, kind: RewardKind): RewardRequest {
+  if(!id||Object.hasOwn(save.ads.requests,id))throw Error('Duplicate ad request');
   const a = save.attempt;
   const target = kind === 'continue' ? {attemptId:a.id, ...(a.runId ? {runId:a.runId} : {})} : undefined;
   const request:RewardRequest = {id, profileId:save.profile.id, kind, ...(target ? {target} : {})};
+  if(kind==='win-bonus'){
+    const win=winBonusOffer(save);
+    if(!win)throw Error('Ineligible win bonus');
+    request.win=win;
+    // The voluntary candidate consumes this result's forced opportunity even on cancel.
+    // It never chains a forced show after the player leaves the video.
+    save.result!.interstitialRequested=true;
+  }
   save.ads.requests[id] = {request};
   return request;
 }
@@ -112,12 +128,22 @@ export function settleReward(save: Save, event: RewardEvent): void {
   entry.settlement = event.outcome;
   if (event.outcome !== 'earned') return;
 
+  if(entry.request.kind==='win-bonus' && Object.values(save.ads.requests).some(other=>other!==entry&&other.request.win?.resultId===entry.request.win!.resultId&&other.settlement==='earned')){
+    entry.settlement='expired';return;
+  }
+
   const gate = interstitialGate(save);
   gate.recordEarnedReward();
   save.ads.interstitialGate = gate.snapshot();
   save.ads.lastReward = activeSeconds(save);
   if (entry.request.kind === 'hint') {
     save.profile.hintCredits += config.rewardedHintCredits;
+    return;
+  }
+  if(entry.request.kind==='win-bonus'){
+    const target=entry.request.win!;
+    // The persisted request is the authority. No current-result/UI/SDK amount is used.
+    save.profile.coins+=target.delta;
     return;
   }
   const target = entry.request.target!;
@@ -150,9 +176,10 @@ export function validateAdState(save: Save): void {
   for (const [id, entry] of Object.entries(ads.requests)) {
     const request = entry?.request;
     if (!id || request?.id !== id || request.profileId !== save.profile.id ||
-        !['hint', 'continue'].includes(request.kind) ||
+        !['hint', 'continue', 'win-bonus'].includes(request.kind) ||
         (request.kind === 'continue' ? !request.target || typeof request.target.attemptId !== 'string'
           || !request.target.attemptId || (request.target.runId !== undefined && typeof request.target.runId !== 'string') : !!request.target)
+        || (request.kind==='win-bonus' ? !validWinBonusTarget(request.win) || !!request.target : request.win!==undefined)
         || (entry.settlement !== undefined && !['earned', 'cancelled', 'failed', 'expired'].includes(entry.settlement))) {
       throw Error('Invalid ad request');
     }

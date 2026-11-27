@@ -17,7 +17,7 @@ public class MainActivity extends BridgeActivity {
   }
 
   @Override public void onCreate(Bundle savedInstanceState){
-    SplashScreen.installSplashScreen(this);registerPlugin(GameStoragePlugin.class);super.onCreate(savedInstanceState);
+    SplashScreen.installSplashScreen(this);registerPlugin(GameStoragePlugin.class);registerPlugin(CrossmathAdsPlugin.class);super.onCreate(savedInstanceState);
     WindowCompat.setDecorFitsSystemWindows(getWindow(),false);
     WindowCompat.getInsetsController(getWindow(),getWindow().getDecorView()).setAppearanceLightStatusBars(true);
     WindowCompat.getInsetsController(getWindow(),getWindow().getDecorView()).setAppearanceLightNavigationBars(true);

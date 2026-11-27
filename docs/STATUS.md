@@ -1,5 +1,8 @@
 # Crossmath status
 
+**MONETIZATION #27 / isolated #14 · 28.11.2026:** current preparation0.5.26/31 over PR#4@157b133. [Audit/acceptance](acceptance/monetization27/README.md), [provider decision/device plan](acceptance/monetization27/PROVIDER_HANDOFF.md). Optional native protocol2/journal added, default Unconfigured, no SDK/IDs or main bonus. Same placements, economy and180/120/420/30/first5; prior#16/#17/#22 retained as labs. No #19/new force/store/IAP. Native device/live SDK/update are NOT RUN; provider/numbers require owner decision. Older “MONETIZATION not started” text below is historical.
+
+
 **META #15/#18 · текущий пакет по прямому поручению владельца:** [полировка и приёмка](acceptance/meta15-18/README.md), [сравнение экономики](experiments/meta18/ECONOMY_RU.md). Crossmath 0.5.25 / 30, база `ad1bbbc5833b1cfd4b9489e8ff74b76031ad1069`. Существующая коллекция/профиль, компактные задания без смены ротации/выплат, месячная печать из receipt и архив календаря. Simple/off и A/B/C/D Лиги — только модель. Все прошлые пакеты сохраняются. Записи ниже «META не начат» — исторический слой поставки #22. #19 и MONETIZATION не начаты.
 
 **LEAGUE-01 · Guru v3:** [планировщик и приёмка](acceptance/issue-22/GURU.md), [темп и варианты наград](experiments/league22-guru/BALANCE_RU.md). Exact 9 daily templates, окна/квоты, события 1–4; 32 400 моделей, старые v1/v2 сохранены. Никакие предложенные призы не активированы. META после приёмки владельца.

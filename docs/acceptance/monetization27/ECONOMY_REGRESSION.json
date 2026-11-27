@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "baselineArtifactSource": "d3bf9de6836989237dd84c5970d18bf8e7183eb4",
+  "baselineModelSha256": "26c222c6d16f05cbba2f977cb3a406982203e38fe73dfc38375b8db4a1ad475a",
+  "currentModelSha256": "26c222c6d16f05cbba2f977cb3a406982203e38fe73dfc38375b8db4a1ad475a",
+  "reportsIdentical": true,
+  "modelOnly": true,
+  "cohortWeeks": 54,
+  "liveVariant": "compact-same-rules",
+  "livePrizes": false,
+  "payoutConfigSha256": "bcbdd507ad6188ffc236e26001fcf0f47db9d586230ecd02b141712208cc89ea",
+  "independent": {
+    "status": "PASS",
+    "cohortWeeks": 54,
+    "settledEvents": 1014,
+    "rankReplays": 5400,
+    "walletReplays": 108000,
+    "method": "Independent Python integer-stride demand and receipt sums; no production JS imports"
+  }
+}

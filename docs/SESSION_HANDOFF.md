@@ -1,3 +1,5 @@
+**MONETIZATION #27 / isolated #14 · 28.11.2026:** current preparation0.5.26/31 over PR#4@157b133. [Audit/acceptance](acceptance/monetization27/README.md), [provider decision/device plan](acceptance/monetization27/PROVIDER_HANDOFF.md). Optional native protocol2/journal added, default Unconfigured, no SDK/IDs or main bonus. Same placements, economy and180/120/420/30/first5; prior#16/#17/#22 retained as labs. No #19/new force/store/IAP. Native device/live SDK/update are NOT RUN; provider/numbers require owner decision. Older “MONETIZATION not started” text below is historical.
+
 # Crossmath handoff
 
 **Текущий пакет — META #15/#18:** прямое разрешение владельца после поставки #22. [README](acceptance/meta15-18/README.md), [экономика](experiments/meta18/ECONOMY_RU.md). База live PR #4 `ad1bbbc…`, версия 0.5.25/30. Сохранить CORE/#16/#17/#22, fixed100%, payouts/receipts/515/runtime. Полировать только существующее; 7 групп заданий без изменения, simple3/off и призы A/B/C/D только расчёт. Не реализовывать старые новые главы/57 badges/16 groups, #19 или MONETIZATION автоматически. Старые указания «META не начинать» ниже не переопределяют новое поручение.

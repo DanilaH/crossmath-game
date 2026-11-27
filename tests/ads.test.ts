@@ -49,7 +49,7 @@ class ScriptedProvider implements AdsProvider {
   onBanner:(visible:boolean)=>Promise<void>=async()=>{};
   async availability(){this.statusCalls++;if(this.hangQueries)return new Promise<AdAvailability>(()=>{});return this.status;}
   async pendingRewards(){if(this.hangQueries)return new Promise<RewardEvent[]>(()=>{});return [...this.pending.values()];}
-  async acknowledge(id:string){if(this.failAck)throw Error('Ack failed');this.acks.push(id);this.pending.delete(id);}
+  async acknowledge(id:string,outcome?:RewardEvent['outcome']){if(this.failAck)throw Error('Ack failed');this.acks.push(id);if(!outcome||this.pending.get(id)?.outcome===outcome)this.pending.delete(id);}
   async watchAvailability(listener:Listener<AdAvailability>){this.states.add(listener);return ()=>{this.states.delete(listener);};}
   async watchRewards(listener:Listener<RewardEvent>){this.rewards.add(listener);return ()=>{this.rewards.delete(listener);};}
   async showRewarded(request:RewardRequest){this.requests.push(request);return this.onRewarded(request);}
@@ -295,11 +295,15 @@ describe('Rewarded and interstitial provider contract',()=>{
     await session.update({},false);
     const id=session.state.attempt.id;
     await controller.reward('continue',0);
+    expect((await controller.reward('continue',0)).committed).toBe(false);
+    const firstRequest=provider.requests[0]!;
+    provider.emit(firstRequest,'cancelled');
+    await vi.waitFor(()=>expect(provider.acks).toContain(firstRequest.id));
     await controller.reward('continue',0);
     const [first,duplicate]=provider.requests as [RewardRequest,RewardRequest];
     await session.openCampaign();
     provider.emit(first);
-    await vi.waitFor(()=>expect(provider.acks).toContain(first.id));
+    await vi.waitFor(()=>expect(session.state.ads.requests[first.id]?.settlement).toBe('earned'));
     expect(session.state.attempt.mode).toBe('campaign');
     await session.openDaily(date);
     expect(session.state.attempt.id).toBe(id);
@@ -579,4 +583,117 @@ it('keeps the valid schema-3 save intact when migration write fails, then upgrad
   expect(migrated.attempt).toEqual(old.attempt);
   expect(migrated.career).toEqual(old.career);
   controller.dispose();
+});
+
+describe('MONETIZATION callback and lifecycle faults',()=>{
+ it('serializes cancelled and earned deliveries without stale ack deleting the newer receipt',async()=>{
+  const {session,provider,controller}=await setup();
+  await controller.reward('hint',0);const request=provider.requests[0]!;
+  const ack=deferred<void>(),outcomes:(RewardEvent['outcome']|undefined)[]=[];
+  provider.acknowledge=async(id,outcome)=>{
+   outcomes.push(outcome);if(outcome==='cancelled')await ack.promise;
+   if(provider.pending.get(id)?.outcome===outcome)provider.pending.delete(id);
+  };
+  provider.emit(request,'cancelled');await vi.waitFor(()=>expect(outcomes).toEqual(['cancelled']));
+  provider.emit(request,'earned');ack.resolve();
+  await vi.waitFor(()=>expect(session.state.profile.hintCredits).toBe(1));
+  await vi.waitFor(()=>expect(outcomes).toEqual(['cancelled','earned']));
+  expect(provider.pending.size).toBe(0);expect(session.state.ads.requests[request.id]!.settlement).toBe('earned');
+  controller.dispose();
+ });
+ it('keeps an unknown request single-flight across cold restart without blocking ordinary play or help',async()=>{
+  const {controller,provider,session,repo}=await setup();
+  await controller.reward('hint',0);const request=provider.requests[0]!;
+  expect(controller.rewardAvailable('hint')).toBe(false);expect(await session.beginReward('hint')).toBeNull();
+  controller.dispose();
+  const restored=new GameSession(await repo.load(),repo,()=> 'restart',()=>now),next=new AdsController(restored,provider,()=>{},()=>{});
+  next.start();await flush();expect(next.rewardAvailable('hint')).toBe(false);expect(next.rewardStatus('hint')).toBe('pending');
+  const plan=restored.prepareHelp('explain');
+  expect((await restored.help('explain','normal-payment',0,plan)).outcome).toBe('applied');
+  expect(restored.state.profile.coins).toBe(70); // original first win +10 less normal help60
+  provider.emit(request);await vi.waitFor(()=>expect(restored.state.profile.hintCredits).toBe(1));
+  next.dispose();
+ });
+ it('keeps a truly opened fullscreen blocked beyond the pre-show deadline and resumes only on close',async()=>{
+  const {session,provider,controller,blocks}=await setup(),pending=deferred<FullscreenResult>();
+  await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);
+  provider.onInterstitial=context=>{context.opened();return pending.promise;};
+  vi.useFakeTimers();try{
+   const operation=controller.beforeNext();await vi.advanceTimersByTimeAsync(1);
+   expect(blocks.has('ad')).toBe(true);await vi.advanceTimersByTimeAsync(60000);expect(blocks.has('ad')).toBe(true);
+   pending.resolve('shown');await operation;expect(blocks.has('ad')).toBe(false);
+  }finally{vi.useRealTimers();controller.dispose();}
+ });
+ it('removes delayed subscriptions and refuses a stale query after disposal without touching the profile',async()=>{
+  const provider=new ScriptedProvider(),watch=deferred<()=>void>(),status=deferred<AdAvailability>(),remove=vi.fn();
+  provider.watchRewards=()=>watch.promise;provider.availability=()=>status.promise;
+  const {controller,session}=await setup(provider),before=structuredClone(session.state);
+  controller.dispose();watch.resolve(remove);status.resolve(ready);await flush();
+  expect(remove).toHaveBeenCalledOnce();expect(session.state).toEqual(before);expect(controller.rewardAvailable('hint')).toBe(false);
+ });
+ it('does not turn sync adapter errors, network loss or missing optional SDK into a startup gate',async()=>{
+  const provider=new ScriptedProvider();
+  provider.watchAvailability=()=>{throw Error('SDK absent');};provider.watchRewards=()=>{throw Error('SDK absent');};
+  provider.availability=()=>{throw Error('No network');};provider.pendingRewards=()=>{throw Error('No network');};
+  const {controller,session,blocks}=await setup(provider);
+  expect(controller.rewardAvailable('hint')).toBe(false);expect(blocks.size).toBe(0);
+  expect((await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2})).outcome).toBe('applied');controller.dispose();
+ });
+ it('records phases without raw request, profile, save, or ad configuration data',async()=>{
+  const {session,provider,controller}=await setup();controller.dispose();
+  const events:unknown[]=[],next=new AdsController(session,provider,()=>{},()=>{},event=>events.push(event));
+  next.start();await flush();await next.reward('hint',0);const request=provider.requests.at(-1)!;provider.emit(request);
+  await vi.waitFor(()=>expect(provider.acks).toContain(request.id));
+  const serialized=JSON.stringify(events);expect(serialized).not.toContain(request.id);expect(serialized).not.toContain('profileId');
+  for(const phase of ['intent','reserved','provider-call','terminal','receipt','committed','acknowledged'])expect(serialized).toContain(phase);
+  next.dispose();
+ });
+});
+
+it.each([[4,false],[5,false],[6,true]] as const)('protects exactly the first-five boundary: wins=%s',async(wins,eligible)=>{
+ const {session,controller}=await setup();await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});
+ session.state.profile.solvedIds=boards.slice(0,wins).map(p=>p.puzzleId);
+ expect(canShowInterstitial(session.state)).toBe(eligible);controller.dispose();
+});
+it.each([[179,false],[180,true],[181,true]] as const)('uses accumulated active time at %s seconds, independent of wall date',async(seconds,eligible)=>{
+ const {session,controller}=await setup();await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});
+ session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);session.state.ads.lastInterstitial=0;
+ session.state.career.modes.campaign.seconds=seconds;const state=structuredClone(session.state);
+ expect(canShowInterstitial(session.state)).toBe(eligible);expect(session.state).toEqual(state);controller.dispose();
+});
+
+it('does not release an actually opened native ad when the opened event is delayed past the JS deadline',async()=>{
+ const provider=new ScriptedProvider();provider.status={...ready,protocolVersion:2} as AdAvailability;
+ const pending=deferred<FullscreenResult>(),cancel=vi.fn(async()=> 'opened' as const);
+ const modern=Object.assign(provider,{cancelUnopened:cancel});
+ const {session,controller,blocks}=await setup(modern);
+ await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);
+ provider.onInterstitial=()=>pending.promise;
+ vi.useFakeTimers();try{
+  const work=controller.beforeNext();await vi.advanceTimersByTimeAsync(1501);expect(cancel).toHaveBeenCalledOnce();expect(blocks.has('ad')).toBe(true);
+  await vi.advanceTimersByTimeAsync(60000);expect(blocks.has('ad')).toBe(true);
+  pending.resolve('shown');await work;expect(blocks.has('ad')).toBe(false);expect(session.state.ads.lastInterstitial).toBe(0);
+ }finally{vi.useRealTimers();controller.dispose();}
+});
+it('releases a protocol2 pre-show hang only after native cancellation proves that the lease is closed',async()=>{
+ const provider=new ScriptedProvider();provider.status={...ready,protocolVersion:2} as AdAvailability;
+ const pending=deferred<FullscreenResult>(),cancel=deferred<'closed'|'opened'>();
+ const modern=Object.assign(provider,{cancelUnopened:vi.fn(()=>cancel.promise)}),{session,controller,blocks}=await setup(modern);
+ await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);
+ provider.onInterstitial=()=>pending.promise;
+ vi.useFakeTimers();try{
+  const work=controller.beforeNext();await vi.advanceTimersByTimeAsync(1501);expect(blocks.has('ad')).toBe(true);
+  cancel.resolve('closed');await vi.advanceTimersByTimeAsync(1);await work;expect(blocks.has('ad')).toBe(false);
+  await controller.beforeNext();expect(provider.interstitials).toBe(1);pending.resolve('cancelled');await vi.advanceTimersByTimeAsync(1);
+ }finally{vi.useRealTimers();controller.dispose();}
+});
+it('reblocks a delayed legacy opened notification until its genuine dismissal, with no new show',async()=>{
+ const {session,provider,controller,blocks}=await setup();const pending=deferred<FullscreenResult>();let context!:FullscreenContext;
+ await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});session.state.profile.solvedIds=boards.slice(0,6).map(p=>p.puzzleId);
+ provider.onInterstitial=c=>{context=c;return pending.promise;};
+ vi.useFakeTimers();try{
+  const work=controller.beforeNext();await vi.advanceTimersByTimeAsync(1501);await work;expect(blocks.has('ad')).toBe(false);
+  context.opened();expect(blocks.has('ad')).toBe(true);pending.resolve('shown');await vi.advanceTimersByTimeAsync(1);expect(blocks.has('ad')).toBe(false);
+  expect(provider.interstitials).toBe(1);
+ }finally{vi.useRealTimers();controller.dispose();}
 });

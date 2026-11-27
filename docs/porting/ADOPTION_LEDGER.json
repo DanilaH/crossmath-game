@@ -2776,7 +2776,15 @@
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
       "nextAction": "Проверить фактическую видимость и зарезервированную высоту при входе в состояние «игровое поле». | ADS-02 #27: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1354",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "easy-banner-pause",
@@ -4430,7 +4438,15 @@
       "nextAction": "На Android 4.18 проверить banner show/hide на поле/в меню/в результате; в нашей release check - actual SDK и safe-area, не имитировать прибыль рекламного показa.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts",
-      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4"
+      "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-explain-btn-impression",
@@ -5274,7 +5290,15 @@
         "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
       ],
       "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
-      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "easy-ad-rewarded-callback-states",
@@ -5299,7 +5323,15 @@
         "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
       ],
       "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
-      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-endless-score-countup",
@@ -5452,7 +5484,15 @@
       "acceptanceRequirement": "For this sourceFeatureId: matched original handler and reproducible video/SDK trace show or no-fill, user action, timing and any cap; our independently built implementation only after explicit owner decision, no duplicated fullscreen/persisted lost state and no copied vendor code/assets.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / versionCode 1193, original XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720.",
-      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN."
+      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN.",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "easy-interstitial-daily-level-play",
@@ -5615,7 +5655,15 @@
       "acceptanceRequirement": "For this sourceFeatureId: matched original handler and reproducible video/SDK trace show or no-fill, user action, timing and any cap; our independently built implementation only after explicit owner decision, no duplicated fullscreen/persisted lost state and no copied vendor code/assets.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / versionCode 1193, original XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720.",
-      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN."
+      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN.",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "easy-rewarded-hint-precheck",
@@ -5635,7 +5683,15 @@
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
         "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md"
-      ]
+      ],
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "easy-banner-lifecycle-hide",
@@ -5680,7 +5736,15 @@
         "liveSdkExecuted": false
       },
       "productNextAction": "Проверить видимость и геометрию баннера с выбранным Android-провайдером. Отдельно проверить реальный SDK и impression.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2a7d231098d34de29d8607cc4131fec3dcead899/src/platform/ads.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2a7d231098d34de29d8607cc4131fec3dcead899/src/platform/ads.ts",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "easy-ad-cheat-skip-toggle",
@@ -5746,7 +5810,15 @@
         "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
       ],
       "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
-      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "easy-rewarded-pending-reset",
@@ -5768,7 +5840,15 @@
         "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/BINDINGS.json"
       ],
       "architectureEvidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/06a01d5c1f7af3cdf8013c9ce0f6a691d086af78/research/games/crossmath/porting/decompiled-source-evidence-20261124/easyfun/README.md",
-      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation"
+      "ownerMethodDecisionRef": "docs/PROJECT_DECISIONS.md#dec-2026-11-24-source-based-implementation",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "easy-ad-close-delayed-banner-request",
@@ -5819,7 +5899,15 @@
         "liveSdkExecuted": false
       },
       "productNextAction": "Проверить видимость и геометрию баннера с выбранным Android-провайдером. Отдельно проверить реальный SDK и impression.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2a7d231098d34de29d8607cc4131fec3dcead899/src/platform/ads.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2a7d231098d34de29d8607cc4131fec3dcead899/src/platform/ads.ts",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-solver-step-canonical-guard",
@@ -6568,7 +6656,15 @@
       "additionalConsumerEvidence": [
         "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/docs/acceptance/interstitial-cooldown.md",
         "https://github.com/DanilaH/mini-games-kit/blob/b1bf2026eda7dd68a5ccbc883946191e03d235af/src/platform/interstitial-gate.ts"
-      ]
+      ],
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-ad-cd-reward-additive",
@@ -6873,7 +6969,15 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1c87c0d2b81f22cd927835b4ec1f382752432806/research/games/crossmath/porting/guru-economy-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "NATIVE_ISOLATED + NATIVE_STATIC; SDK/remote activation, real persistence and device settlement not proven. No implementation approval or acceptance promotion.",
-      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-win-coins-multi-thirty",
@@ -6890,7 +6994,15 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1c87c0d2b81f22cd927835b4ec1f382752432806/research/games/crossmath/porting/guru-economy-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "NATIVE_ISOLATED + NATIVE_STATIC; SDK/remote activation, real persistence and device settlement not proven. No implementation approval or acceptance promotion.",
-      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-win-coins-multi-config",
@@ -6907,7 +7019,15 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "NATIVE_STATIC or model, not live device/SDK acceptance.",
-      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-battle-ticket-auto-cap-ten",
@@ -7042,7 +7162,15 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1c87c0d2b81f22cd927835b4ec1f382752432806/research/games/crossmath/porting/guru-economy-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "NATIVE_ISOLATED + NATIVE_STATIC; SDK/remote activation, real persistence and device settlement not proven. No implementation approval or acceptance promotion.",
-      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-win-multi-ad-icon",
@@ -7059,7 +7187,15 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance.",
-      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-win-multi-first-claim-marker",
@@ -7076,7 +7212,15 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/1c87c0d2b81f22cd927835b4ec1f382752432806/research/games/crossmath/porting/guru-economy-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "NATIVE_ISOLATED + NATIVE_STATIC; SDK/remote activation, real persistence and device settlement not proven. No implementation approval or acceptance promotion.",
-      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-win-multi-initial-telemetry-gate",
@@ -7093,7 +7237,15 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/487c344eba804dbcde635de9fa0d505fc6d192de/research/games/crossmath/porting/guru-reward-progression-20261125/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "reason": "NATIVE_STATIC + catalog/model; not original live runtime or consumer acceptance.",
-      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14"
+      "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/14",
+      "monetization27Preparation": {
+        "scope": "Owner 2026-11-28 #27 + isolated #14 candidate; no source parity promotion",
+        "consumerVersion": "0.5.26/31",
+        "baseHead": "157b133bf58be8323c43a10656eb092fe277b97c",
+        "evidence": "docs/acceptance/monetization27/README.md",
+        "current": "Existing Next/banner/help placements and180/120/420/30/first5 preserved. Registered native protocol2 journal/port defaults Unconfigured; no SDK/IDs. Late earned and exact outcome ack tested. #14 button only win-rv-lab, proposed extra2xbase with request/result dedup, main candidate=false. No fallback/new force/store.",
+        "nextAction": "Owner SDK/IDs and numerical decisions; physical Android/update/real callback/creative/impression acceptance. Original enum/config/live behavior UNKNOWN remains UNKNOWN."
+      }
     },
     {
       "id": "guru-daily-tail-parity",

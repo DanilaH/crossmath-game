@@ -776,7 +776,7 @@ export class MetaView {
     const total = save.profile.fragments;
     const assembled = Math.floor(total / partCount);
     const limit = config.cards.length;
-    const summary = assembled === limit ? nextFragmentText(save)
+    const summary = assembled === limit ? this.t('Мастерская собрана','Workshop complete')
       : this.t(`${assembled} из ${limit} приборов`, `${assembled} of ${limit} instruments`);
     const collection=el('section','collection-overview');
     collection.append(el('p','collection-summary',summary),el('span','collection-parts',this.t(`${total} / ${limit*partCount} деталей`,`${total} / ${limit*partCount} parts`)),
@@ -965,7 +965,7 @@ export class MetaView {
       badges.append(row);
     }
     this.root.append(badges);
-    if(import.meta.env.MODE==='content-lab'||import.meta.env.MODE==='league-lab'){
+    if(import.meta.env.MODE==='content-lab'||import.meta.env.MODE==='league-lab'||import.meta.env.MODE==='win-rv-lab'){
       const fields=el('details','hub-panel');fields.id='extra-fields';fields.append(el('summary','',this.t('Дополнительные поля','Additional boards')),this.button(this.t('Новые поля','New boards'),()=>{location.href='content-lab.html';},'content-lab-open'));this.root.append(fields);
     }
   }
