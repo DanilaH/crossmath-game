@@ -64,7 +64,7 @@ try{
  const baseline=JSON.parse(await readFile('docs/experiments/league22/BASELINE_V2.json','utf8'));
  assert.equal(lateWin.history[0].rank,10);assert.equal(lateWin.history[0].medal.tier,'participant');
  const report={comparison:{baselinePolicy:baseline.policy.version,baselineLastMinuteEasyPlace:baseline.lateAdmission.oneEasyWin.rank,newLastMinuteEasyPlace:lateWin.history[0].rank,pairedCadences:summary.map(row=>({joinedDay:row.joinedDay,scenario:row.scenario,before:baseline.summary.find(r=>r.joinedDay===row.joinedDay&&r.scenario===row.scenario),after:row}))},scope:'Synthetic cadence on the actual immutable bank/six-step routes and runtime league algorithm. Not observed human sessions or retention.',
-  baseline:'8ac5dc66583509ef8784c927aa450b01a54fd847',policy:league.leaguePolicy,controls:rows.length,rosters:600,
+  baseline:'8ac5dc66583509ef8784c927aa450b01a54fd847',policy:league.leaguePolicy,controls:rows.length,admissionSnapshots:600,uniqueScheduleSets:200,
   lateAdmission:{zeroPoints:late.history[0],oneEasyWin:lateWin.history[0],decision:'v3 retains v2 full calendar-week progress. One last-minute Easy win is place 10 and cannot earn a top-three medal; v1 active weeks stay frozen.'},
   maximumWeeklyPoints:Object.values(maxProfile.league.active.contributions).reduce((n,c)=>n+c.points,0),
   fullWeekBotTotals:['A1','A2','B1','B2','C1','C2','D1','D2','D3'].map((category,index)=>({category,points:spread(botTotals.map(x=>x[index]))})),summary,

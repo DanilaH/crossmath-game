@@ -3,7 +3,6 @@
   "source": "mini-games-kit@5cee4ac787d16afaab8edd3cd6e809bdf7d42448/research/games/crossmath/porting/guru-brains-plan-20261127",
   "scope": "Synthetic deterministic model, not original runtime execution, human pacing, retention or ad revenue.",
   "controls": 32400,
-  "rosters": 2700,
   "cohortWeeks": 36,
   "policy": {
     "version": "league-lab-3",
@@ -11795,5 +11794,8 @@
     "Rolling wallet debits help before each board and credits prizes only after weekly settlement. An unfunded request assumes an external earned credit for analytic continuity, not an automatic in-game grant or a real ad view. Income is held to the no-help trace.",
     "Credit equivalents use current 60-coin help cost; credits cannot turn into coins. This is a capacity upper bound, not predicted rewarded-view loss or revenue.",
     "Late entrants face accumulated calendar progress; no activity/rank-dependent bot changes. Existing v1/v2 weeks and awards stay frozen."
-  ]
+  ],
+  "admissionSnapshots": 2700,
+  "uniqueScheduleSets": 900,
+  "profileWeekScopes": 300
 }
