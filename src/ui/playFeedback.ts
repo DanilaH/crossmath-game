@@ -1,7 +1,6 @@
 import type { Save } from '../app/model';
 import type { Transition } from '../core/engine';
 import type { Attempt, BoardAction } from '../core/types';
-import { activeTrackGoal, relaxGoalTarget, trackGoalDefinitions } from '../meta/trackGoals';
 
 export type Cue = 'pick' | 'place' | 'right' | 'wrong' | 'win' | 'return' | 'sort' | 'undo' | 'start';
 export type Contact = 'wood' | 'exchange';
@@ -57,7 +56,6 @@ export interface VictoryFeedback {
   id: string;
   detail: CueDetail;
   quests: GoalProgress[];
-  track?: GoalProgress;
 }
 
 export function victoryFeedback(before: Save, after: Save): VictoryFeedback | undefined {
@@ -73,13 +71,6 @@ export function victoryFeedback(before: Save, after: Save): VictoryFeedback | un
     return old?.goalId === slot.goalId && old.target === slot.target && slot.progress > old.progress
       ? [{from:old.progress,to:slot.progress,target:slot.target}] : [];
   }) : [];
-  const previous = before.attempt.freeTrack && activeTrackGoal(before,before.attempt.freeTrack);
-  const next = receipt.trackGoal ?? (receipt.relaxGoalProgress === undefined ? undefined
-    : {id:'relax-easy-v1' as const,progress:receipt.relaxGoalProgress});
-  const track = previous && next?.id === previous.id && next.progress > previous.progress
-    ? {from:previous.progress,to:next.progress,target:next.id === 'relax-easy-v1' ? relaxGoalTarget : trackGoalDefinitions[next.id].target}
-    : undefined;
-  const goals = track ? [...quests,track] : quests;
-  if (goals.length) detail.goal = goals.some(goal=>goal.to >= goal.target) ? 'complete' : 'step';
-  return {id:receipt.id,detail,quests,...(track ? {track} : {})};
+  if (quests.length) detail.goal = quests.some(goal=>goal.to >= goal.target) ? 'complete' : 'step';
+  return {id:receipt.id,detail,quests};
 }

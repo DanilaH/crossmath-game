@@ -4,6 +4,7 @@ import { config } from '../content/catalog';
 import { dateAvailable } from '../meta/calendar';
 import type { Save } from '../app/model';
 import type { Attempt } from '../core/types';
+import { endlessEnabled } from '../content/modeAvailability';
 
 export type RewardKind = 'hint' | 'continue';
 export interface RewardRequest {
@@ -56,7 +57,7 @@ function interstitialGate(save: Save): ActionInterstitialGate {
 }
 
 function reserveResult(save: Save, resultId: string | undefined): ActionInterstitialGate | null {
-  if (save.meta.screen !== 'play' || save.attempt.status !== 'won' || !save.result ||
+  if (save.meta.screen !== 'play' || !endlessEnabled && save.attempt.mode === 'endless' || save.attempt.status !== 'won' || !save.result ||
       save.result.id !== resultId || save.result.interstitialRequested) return null;
   const gate = interstitialGate(save);
   return gate.beginRequest(save.result.id, save.profile.solvedIds.length) ? gate : null;
@@ -93,7 +94,7 @@ function eligibleTarget(save: Save, attempt: Attempt): boolean {
 }
 
 export function canRequestReward(save: Save, kind: RewardKind): boolean {
-  if (save.meta.screen !== 'play') return false;
+  if (save.meta.screen !== 'play' || !endlessEnabled && save.attempt.mode === 'endless') return false;
   return kind === 'hint' ? save.attempt.status === 'playing' : eligibleTarget(save, save.attempt);
 }
 

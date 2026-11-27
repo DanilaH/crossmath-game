@@ -1,4 +1,4 @@
-import { describe,it,expect } from 'vitest';
+import { describe,it,expect,vi } from 'vitest';
 import { createSave,decodeSave,settleCompletion } from '../src/app/model';
 import { SaveRepository,SAVE_KEY } from '../src/app/saveRepository';
 import { GameSession,storedSlot } from '../src/app/session';
@@ -8,6 +8,7 @@ import { availableOffers,findWitness,goals } from '../src/meta/missions';
 import type { Save } from '../src/app/model';
 import type { QuestSlot } from '../src/meta/types';
 import answers from '../docs/spec/product/content_v09/author_solutions.json';
+vi.mock('../src/content/modeAvailability',()=>({endlessEnabled:true}));
 const solutions:Record<string,{answer:number[]}>=answers;
 const now='2026-11-19T12:00:00Z';
 class Memory {data=new Map<string,string>();failure:'none'|'before'|'after'='none';async getItem(k:string){return this.data.get(k)??null;}async removeItem(k:string){this.data.delete(k);}async setItem(k:string,v:string){if(k===SAVE_KEY&&this.failure==='before')throw Error('before');this.data.set(k,v);if(k===SAVE_KEY&&this.failure==='after')throw Error('ack');}}

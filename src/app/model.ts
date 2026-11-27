@@ -14,6 +14,7 @@ import { dailyArchiveStart, isCalendarDay } from '../meta/calendar';
 import { createCareer, settleAchievements, settleStage, upgradeCareer, validateCareer } from '../meta/career';
 import type { Career } from '../meta/career';
 import type { WorkshopReceipt } from '../meta/workshopProgress';
+import { endlessEnabled } from '../content/modeAvailability';
 
 export interface Settings { theme: 'light' | 'dark'; sound: boolean; vibration: boolean; reducedMotion: boolean; language: 'ru' | 'en'; timerVisible: boolean }
 export interface Completion {
@@ -92,7 +93,7 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
   }
   next.result={id:`win:${next.attempt.id}`,attemptId:next.attempt.id,puzzleId:p.puzzleId,first,coins,xp:reward.xp,rankUps,fragments:profile.fragments-previousFragments,cardCoins,elapsedPlaying:next.attempt.elapsedPlaying,baseCoins:reward.coins,rankCoins:rankUps*config.rank.rewardCoins,
     collectionFragments:profile.fragments,rankLevel:profile.rank,workshop:{from:previousWins,to:profile.solvedIds.length},unlockedModes:modeUnlockThresholds
-      .filter(([, threshold]) => previousWins < threshold && profile.solvedIds.length >= threshold)
+      .filter(([mode, threshold]) => (endlessEnabled || mode !== 'endless') && previousWins < threshold && profile.solvedIds.length >= threshold)
       .map(([mode]) => mode)};
   if (next.attempt.mode==='campaign' && profile.campaignCursor===campaign.length) {
     next.result.campaignFinished=previousCursor<campaign.length;

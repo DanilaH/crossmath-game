@@ -15,6 +15,8 @@
 
 #20/#21/#23–26 отложены. Длинные выражения — lab, не обязательный release gate. Широкий реверс завершён, конкретные UNKNOWN сохраняются.
 
+[CORE-00 · реализация и протокол плейтеста](acceptance/core-00/README.md). Приёмка владельцем открыта.
+
 ## Сводная база 27.11.2026
 
 Crossmath 0.5.24 / 29; actual developer HEAD `57820c8c6491c8b6240aeed5cb0dfde61c858927`, gameplay/artifact source `a1fbf4d3546e5cf638168bf28d6f5a5ac0aa1a21`, runtime kit `b1bf2026eda7dd68a5ccbc883946191e03d235af`, guidance pin `469928d03f4bae5053e23db26e82187bedbc252e`. Independent source inventory `c5d55b28a78df7af639ce181c8bce73aacc95ae9`: 714 IDs. [Current map](porting/CURRENT.md), [ledger](porting/ADOPTION_LEDGER.json), [all proposals #14–27](porting/REFERENCE_PORTING_PLAN_2026-11-26.md). Historical dated snapshots below are not current directives.

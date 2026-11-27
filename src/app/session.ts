@@ -21,6 +21,7 @@ import type { EndlessRun } from '../meta/career';
 import { calendarPuzzle, canResumeDaily, dateAvailable, profileDay } from '../meta/calendar';
 import type { Difficulty } from '../core/types';
 import type { MetaScreen, NewGameChoice, Offer, SavedSlot } from '../meta/types';
+import { endlessEnabled } from '../content/modeAvailability';
 
 export function storedSlot(save:Save,key:string):SavedSlot|undefined{return save.meta.activeSlot===key?{attempt:save.attempt,result:save.result}:save.meta.inactive[key];}
 export function campaignContinuation(save: Save): string | undefined {
@@ -116,6 +117,31 @@ export class GameSession {
     });
   }
   constructor(public state: Save, private readonly repository: SaveRepository, private readonly id:()=>string,private readonly now:()=>string=()=>new Date().toISOString()) {}
+  async restore(): Promise<void> {
+    if (endlessEnabled || this.state.meta.activeSlot !== 'endless') {
+      await this.refreshDay();
+      return;
+    }
+    const next = structuredClone(this.state);
+    const {meta} = next;
+    meta.inactive.endless = {attempt:next.attempt,result:next.result};
+    const campaign = meta.inactive.campaign;
+    if (campaign) {
+      next.attempt = campaign.attempt;
+      next.result = campaign.result;
+      delete meta.inactive.campaign;
+    } else {
+      const index = Math.min(next.profile.campaignCursor,campaignSequence(next.contentVersion).length-1);
+      next.attempt = createAttempt(campaignPuzzle(index,next.contentVersion),this.id());
+      next.result = null;
+    }
+    meta.activeSlot = 'campaign';
+    if (meta.screen === 'play') meta.screen = 'home';
+    await this.persist(next,0);
+  }
+
+  private get suspendedAttempt(): boolean { return !endlessEnabled && this.state.attempt.mode === 'endless'; }
+
   private async persist(next: Save, elapsed: number): Promise<void> {
     next.attempt.elapsedPlaying+=Math.max(0,elapsed);
     recordTime(next,this.state.attempt.mode,elapsed);
@@ -124,7 +150,7 @@ export class GameSession {
   }
   async command(action: BoardAction, elapsed=0, metadata?: {commandId:string;expectedRevision:number}): Promise<Transition> {
     const command={...action,commandId:metadata?.commandId ?? this.id(),expectedRevision:metadata?.expectedRevision ?? this.state.attempt.boardRevision} as Command;
-    if (this.busy||this.state.attempt.mode==='endless'&&this.state.career.run?.status!=='active') return {state:this.state.attempt,outcome:'unavailable',cue:'none'};
+    if (this.busy||this.suspendedAttempt||this.state.attempt.mode==='endless'&&this.state.career.run?.status!=='active') return {state:this.state.attempt,outcome:'unavailable',cue:'none'};
     this.busy=true;
     try {
       const result=applyCommand(getPuzzle(this.state.attempt.puzzleId),this.state.attempt,command);
@@ -135,6 +161,7 @@ export class GameSession {
     } finally { this.finishWrite(); }
   }
   prepareHelp(kind:'explain'|'reveal', selectedCell?:number): HintPlan | null {
+    if (this.suspendedAttempt) return null;
     if (kind === 'explain') {
       const result = this.prepareExplanation();
       return result.outcome === 'ready' ? result.plan : null;
@@ -149,7 +176,7 @@ export class GameSession {
   async help(kind:'explain'|'reveal', operationId:string, expectedRevision:number, plan:HintPlan|null, elapsed=0): Promise<HelpReceipt> {
     const previous=this.state.helpReceipts[operationId]; if (previous) return previous;
     const receipt=(outcome:HelpOutcome,costCoins=0,costCredits=0):HelpReceipt=>({outcome,kind,costCoins,costCredits});
-    if (this.busy || this.state.attempt.userPaused||this.state.attempt.mode==='endless'&&this.state.career.run?.status!=='active') return receipt('busy');
+    if (this.busy || this.suspendedAttempt || this.state.attempt.userPaused||this.state.attempt.mode==='endless'&&this.state.career.run?.status!=='active') return receipt('busy');
     this.busy=true;
     try {
       const a=this.state.attempt,p=getPuzzle(a.puzzleId);
@@ -210,7 +237,7 @@ export class GameSession {
     this.busy=true;
     try {await this.persist(structuredClone(this.state),elapsed);return true;} finally {this.finishWrite();}
   }
-  canRestart(save=this.state):boolean{return save.attempt.mode!=='daily'||dateAvailable(save.profile.createdAt,save.profile.timeZone,save.meta.effectiveDay,save.attempt.dayKey!);}
+  canRestart(save=this.state):boolean{return (endlessEnabled||save.attempt.mode!=='endless')&&(save.attempt.mode!=='daily'||dateAvailable(save.profile.createdAt,save.profile.timeZone,save.meta.effectiveDay,save.attempt.dayKey!));}
   hasDayChange():boolean{return profileDay(this.now(),this.state.profile.timeZone)>this.state.meta.effectiveDay;}
   async refreshDay():Promise<boolean>{
     if(this.busy)return false;const next=structuredClone(this.state), previousSet=next.meta.quests;
@@ -220,7 +247,7 @@ export class GameSession {
     this.busy=true;try{await this.persist(next,0);return true;}finally{this.finishWrite();}
   }
   async navigate(screen:MetaScreen,elapsed=0,calendarTrophyMonth?:string):Promise<boolean>{
-    if(this.busy)return false;this.busy=true;
+    if(this.busy||screen==='play'&&this.suspendedAttempt)return false;this.busy=true;
     try{
       const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;
       if(screen==='album')next.meta.albumOrigin=this.state.meta.screen==='profile'?'profile':'home';
@@ -312,7 +339,9 @@ export class GameSession {
   questOffer(index:number):Offer|null{
     const set=this.state.meta.quests,slot=set?.slots[index];if(!set||!slot||slot.paid)return null;
     const available = availableOffers(this.state);
-    const witness = set.witness.filter(offer => !offer.freeTrack || available.some(current => current.freeTrack===offer.freeTrack && current.puzzleId===offer.puzzleId));
+    if (!endlessEnabled && slot.goalId==='endless') return null;
+    const witness = set.witness.filter(offer => (endlessEnabled || offer.mode!=='endless') &&
+      (!offer.freeTrack || available.some(current => current.freeTrack===offer.freeTrack && current.puzzleId===offer.puzzleId)));
     return witness.find(o=>contribution(slot.goalId,o,set.dayKey)>0&&!this.state.meta.contributedIds.includes(o.puzzleId)&&(o.campaignPosition===undefined||o.campaignPosition<=this.state.profile.campaignCursor)&&!o.requiresSolved?.length)??witness[0]??available.find(o=>!this.state.meta.contributedIds.includes(o.puzzleId))??null;
   }
   questStartsNewRun(index: number): boolean {
@@ -325,7 +354,7 @@ export class GameSession {
     return this.openOffer(offer, replace, elapsed, true);
   }
   async openEndless(elapsed=0,advanceWon=false):Promise<OpenOutcome>{
-    if(this.busy||this.state.profile.solvedIds.length<config.unlockProposal.endlessAfterNewWins)return 'unavailable';
+    if(!endlessEnabled||this.busy||this.state.profile.solvedIds.length<config.unlockProposal.endlessAfterNewWins)return 'unavailable';
     const saved=storedSlot(this.state,'endless');if(!saved||this.state.career.run?.status==='ended')return this.newRun(false,elapsed);
     this.busy=true;try{const next=structuredClone(this.state);if(next.attempt.status==='playing'){next.attempt.elapsedPlaying+=Math.max(0,elapsed);recordTime(next,next.attempt.mode,elapsed);}
       if(next.meta.activeSlot!=='endless')next.meta.inactive[next.meta.activeSlot]={attempt:structuredClone(next.attempt),result:next.result};
@@ -335,7 +364,7 @@ export class GameSession {
     }finally{this.finishWrite();}
   }
   async newRun(replace=false,elapsed=0):Promise<OpenOutcome>{
-    if(this.busy||this.state.profile.solvedIds.length<config.unlockProposal.endlessAfterNewWins)return 'unavailable';
+    if(!endlessEnabled||this.busy||this.state.profile.solvedIds.length<config.unlockProposal.endlessAfterNewWins)return 'unavailable';
     if(this.state.career.run?.status==='active'&&!replace)return 'confirm_replace';
     this.busy=true;try{const next=structuredClone(this.state);if(next.attempt.status==='playing'){next.attempt.elapsedPlaying+=Math.max(0,elapsed);recordTime(next,next.attempt.mode,elapsed);}
       finishRun(next,this.now());if(next.meta.activeSlot!=='endless')next.meta.inactive[next.meta.activeSlot]={attempt:structuredClone(next.attempt),result:next.result};
@@ -350,11 +379,11 @@ export class GameSession {
     next.attempt.runId=run.id;next.attempt.stageId=run.stage;next.attempt.lives=run.lives;next.attempt.assisted=run.assisted;next.result=null;next.career.modes.endless.starts++;
   }
   private async nextStage():Promise<boolean>{
-    if(this.busy||this.state.attempt.mode!=='endless'||this.state.attempt.status!=='won'||this.state.career.run?.status!=='active')return false;
+    if(!endlessEnabled||this.busy||this.state.attempt.mode!=='endless'||this.state.attempt.status!=='won'||this.state.career.run?.status!=='active')return false;
     this.busy=true;try{const next=structuredClone(this.state);this.advanceStage(next);refreshQuests(next);await this.persist(next,0);return true;}finally{this.finishWrite();}
   }
   async endRun(elapsed=0):Promise<boolean>{
-    if(this.busy||this.state.attempt.mode!=='endless'||!this.state.career.run||this.state.career.run.status==='ended')return false;
+    if(!endlessEnabled||this.busy||this.state.attempt.mode!=='endless'||!this.state.career.run||this.state.career.run.status==='ended')return false;
     this.busy=true;try{const next=structuredClone(this.state);finishRun(next,this.now());next.attempt.userPaused=false;next.meta.screen='profile';await this.persist(next,next.attempt.status==='playing'?elapsed:0);return true;}finally{this.finishWrite();}
   }
 }

@@ -47,7 +47,8 @@ jobs:
           path: |
             .test-output/ui/
             .test-output/meta-ui/
-            .test-output/endless-ui/
+            .test-output/core00/
+            .test-output/help11-ui/
             .test-output/ads-banner/
             .test-output/feel/
       - run: npm run android:sync:release

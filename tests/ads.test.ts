@@ -2,11 +2,13 @@ import { describe, expect, it, vi } from 'vitest';
 import { createSave } from '../src/app/model';
 import { GameSession } from '../src/app/session';
 import { SAVE_KEY, SaveRepository } from '../src/app/saveRepository';
-import { canShowInterstitial } from '../src/platform/adState';
+import { canShowInterstitial, createRewardRequest } from '../src/platform/adState';
 import type { RewardEvent, RewardRequest } from '../src/platform/adState';
 import { AdsController } from '../src/platform/ads';
 import type { AdAvailability, AdsProvider, FullscreenContext, FullscreenResult } from '../src/platform/ads';
-import { boards } from '../src/content/catalog';
+import { boards, getPuzzle, routes } from '../src/content/catalog';
+import { createAttempt } from '../src/core/engine';
+import { recordVersion } from '../src/meta/career';
 import { quantity } from '../src/ui/locale';
 
 type Listener<T> = (value:T)=>void;
@@ -321,26 +323,32 @@ describe('Rewarded and interstitial provider contract',()=>{
     controller.dispose();
   });
 
-  it('marks revival as assisted for the same Endless run and refuses a second revival within it',async()=>{
-    const {session,provider,controller}=await setup();
-    session.state.profile.solvedIds=boards.slice(0,15).map(p=>p.puzzleId);
-    await session.openEndless();
-    session.state.attempt.status='out-of-lives';
-    session.state.attempt.lives=0;
-    session.state.career.run!.status='failed';
-    session.state.career.run!.lives=0;
+  it('settles a pending legacy continuation once in the parked Endless slot',async()=>{
+    const {session,provider,controller,repo}=await setup();
+    const save=session.state;
+    save.profile.solvedIds=boards.slice(0,15).map(p=>p.puzzleId);
+    save.meta.inactive.campaign={attempt:save.attempt,result:null};
+    save.meta.activeSlot='endless';
+    save.attempt={...createAttempt(getPuzzle(routes.endlessSequence[0]!),'old-board','endless'),runId:'old-run',stageId:0,status:'out-of-lives',lives:0};
+    save.career.run={id:'old-run',version:recordVersion,stage:0,solvedStages:0,score:0,lives:0,assisted:false,status:'failed'};
+    const request=createRewardRequest(save,'already-shown','continue');
     await session.update({},false);
-    await controller.reward('continue',0);
-    const request=provider.requests[0]!;
+    expect(await session.beginReward('continue')).toBeNull();
+    await session.restore();
+    const before=await repo.load();
     provider.emit(request);
     await vi.waitFor(()=>expect(provider.acks).toContain(request.id));
-    expect(session.state.career.run).toMatchObject({id:request.target!.runId,lives:1,status:'active',assisted:true});
-    session.state.attempt.status='out-of-lives';
-    session.state.attempt.lives=0;
-    session.state.career.run!.status='failed';
-    session.state.career.run!.lives=0;
-    await session.update({},false);
+    const earned=await repo.load();
+    expect(earned.attempt).toEqual(before.attempt);
+    expect(earned.profile).toEqual(before.profile);
+    expect(earned.career.run).toMatchObject({id:'old-run',lives:1,status:'active',assisted:true});
+    expect(earned.meta.inactive.endless!.attempt).toEqual({...before.meta.inactive.endless!.attempt,lives:1,status:'playing',assisted:true});
+    expect(earned.ads.continued['old-run']).toBe(request.id);
+    provider.emit(request);
+    await vi.waitFor(()=>expect(provider.acks).toEqual([request.id,request.id]));
+    expect(await repo.load()).toEqual(earned);
     expect(controller.rewardAvailable('continue')).toBe(false);
+    expect(provider.requests).toEqual([]);
     controller.dispose();
   });
 

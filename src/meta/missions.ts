@@ -5,6 +5,7 @@ import { calendarPuzzle } from './calendar';
 import type { Save } from '../app/model';
 import type { Difficulty } from '../core/types';
 import type { Offer, QuestSet, QuestSlot } from './types';
+import { endlessEnabled } from '../content/modeAvailability';
 export const goals=new Map(config.goals.map(g=>[g.id,g]));
 export const mastered=(save:Save):Difficulty[]=>[...new Set(save.profile.solvedIds.map(id=>getPuzzle(id).difficulty))];
 export function freeTrackOffer(save: Save, track: FreeTrack): Offer {
@@ -32,7 +33,7 @@ export function availableOffers(save:Save):Offer[] {
     }
   }
   if(profile.solvedIds.length>=config.unlockProposal.dailyAfterNewWins&&!meta.completedDates.includes(meta.effectiveDay))offers.push({puzzleId:meta.assignments[meta.effectiveDay]?.puzzleId??calendarPuzzle(meta.effectiveDay),mode:'daily',dayKey:meta.effectiveDay});
-  if(profile.solvedIds.length>=config.unlockProposal.endlessAfterNewWins){const start=nextEndlessStage(save);
+  if(endlessEnabled&&profile.solvedIds.length>=config.unlockProposal.endlessAfterNewWins){const start=nextEndlessStage(save);
     for(let stage=start;stage<start+3;stage++)offers.push({puzzleId:routes.endlessSequence[stage%routes.endlessSequence.length]!,mode:'endless',endlessStage:stage});
   }
   return offers;
@@ -92,4 +93,12 @@ export function refreshQuests(save:Save):void {
     slots:config.rotation[meta.issuedDays%config.rotation.length]!.map(id=>({goalId:id,target:goals.get(id)!.goal,progress:0,paid:false})),witness:[],replacements:[]};
   const next=resolveQuests(set,availableOffers(save),save.profile.campaignCursor,meta.contributedIds,nextEndlessStage(save));
   if(next){if(!meta.quests)meta.issuedDays++;meta.quests=next;}
+  else if (!endlessEnabled && meta.quests && needsEndlessQuestReview(meta.quests)) {
+    // No reachable equivalent remains today. Keep the ledger and suppress the stale route.
+    meta.quests.witness=[];
+  }
+}
+
+export function needsEndlessQuestReview(set:QuestSet):boolean {
+  return !endlessEnabled && (set.slots.some(slot=>!slot.paid&&slot.goalId==='endless') || set.witness.some(offer=>offer.mode==='endless'));
 }

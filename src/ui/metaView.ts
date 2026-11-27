@@ -1,6 +1,6 @@
 import { challengeUnlockWins, freeTracks } from '../content/rotation';
 import type { FreeTrack } from '../content/rotation';
-import { dailyName, localize, trackName, unlockAnnouncement } from './locale';
+import { availableUnlockModes, dailyName, localize, trackName, unlockAnnouncement } from './locale';
 import type { Language } from './locale';
 import { campaignSequence, config, getPuzzle } from '../content/catalog';
 import { campaignContinuation, dailyDayAvailable, selectedDailyDay, storedSlot } from '../app/session';
@@ -11,7 +11,7 @@ import { calendarDayIndex, canResumeDaily, dateAvailable, dayFromIndex, profileD
 import { reachablePastTrophies, trophyMonthStatus } from '../meta/monthlyTrophy';
 import type { Completion, Save } from '../app/model';
 import { rankThreshold } from '../app/model';
-import type { GoalProgress } from './playFeedback';
+import { endlessEnabled } from '../content/modeAvailability';
 import { achievementValue, recordVersion } from '../meta/career';
 import { resumePreview } from './resumePreview';
 import { menuIcon } from './icons';
@@ -225,7 +225,7 @@ export class MetaView {
     const { attempt, profile } = save;
     const wins = profile.solvedIds.length;
     const resume = attempt.mode === 'daily' ? canResumeDaily(attempt)
-      : attempt.mode === 'endless' ? save.career.run?.status === 'active' : attempt.status === 'playing';
+      : attempt.mode === 'endless' ? endlessEnabled && save.career.run?.status === 'active' : attempt.status === 'playing';
     const campaignId = campaignContinuation(save);
     const campaignAttempt = storedSlot(save, 'campaign')?.attempt;
     const campaignFinished = profile.campaignCursor === campaignSequence(save.contentVersion).length
@@ -354,7 +354,10 @@ export class MetaView {
     document.getElementById('game-choice-title')!.textContent=unlocked
       ? this.t('Новые режимы','New modes') : this.t('Новая игра','New game');
     const games=el('div','mode-group');
-    if (unlocked) games.append(this.freeModeOption(save,'challenge','choice-'),this.endlessModeOption(save,'choice-'));
+    if (unlocked) {
+      games.append(this.freeModeOption(save,'challenge','choice-'));
+      if (endlessEnabled) games.append(this.endlessModeOption(save,'choice-'));
+    }
     else {
       const wins=save.profile.solvedIds.length;
       if (save.profile.campaignCursor<campaignSequence(save.contentVersion).length) {
@@ -365,12 +368,11 @@ export class MetaView {
       for (const track of freeTracks) {
         const threshold=track==='relax'?config.unlockProposal.freePlayAfterNewWins:challengeUnlockWins;
         if(wins>=threshold) {
-          const goal=activeTrackGoal(save,track);
           games.append(this.modeButton(track,`choice-${track}`,trackName(this.language,track),
-            goal?this.trackGoalText(goal.id,goal.progress):'',()=>this.actions.newGame(track)));
+            '',()=>this.actions.newGame(track)));
         }
       }
-      if (wins>=config.unlockProposal.endlessAfterNewWins) games.append(this.modeButton('endless','choice-endless','Endless',
+      if (endlessEnabled && wins>=config.unlockProposal.endlessAfterNewWins) games.append(this.modeButton('endless','choice-endless','Endless',
         this.t('Новый забег','New run'),()=>this.actions.newGame('endless')));
     }
     this.choiceOptions.replaceChildren(games);
@@ -388,7 +390,7 @@ export class MetaView {
         this.t('Есть сохранение','Saved board'),()=>this.actions.offer({mode:'free',puzzleId:savedFree.puzzleId})));
     }
     for (const track of freeTracks) games.append(this.freeModeOption(save,track));
-    games.append(this.endlessModeOption(save));
+    if (endlessEnabled) games.append(this.endlessModeOption(save));
     this.root.append(games);
   }
 
@@ -398,7 +400,7 @@ export class MetaView {
     const locked=save.profile.solvedIds.length<threshold;
     const goal=activeTrackGoal(save,track);
     const subtitle=locked?this.unlockText(threshold)
-      : goal?this.trackGoalText(goal.id,goal.progress):this.t('Ступень пройдена ✓','Step complete ✓');
+      : goal && !goal.id.endsWith('-position-v1') ? this.trackGoalText(goal.id,goal.progress) : '';
     const open=this.modeButton(track,prefix+(track==='relax'?'free-open':'challenge-open'),trackName(this.language,track),subtitle,()=>this.actions.free(track));
     if(saved?.freeTrack===track && saved.status==='playing') {
       open.querySelector('.quick-copy')!.append(el('span','quick-status',this.t('Есть сохранение','Saved board')));
@@ -520,6 +522,7 @@ export class MetaView {
     panel.append(el('summary', '', this.t('Задания дня', 'Daily goals') + count));
     if(!set){panel.append(el('p','muted',save.profile.solvedIds.length<5?this.t("Откроются после пяти разных побед.", "Solve five different boards to unlock goals."):this.t("Сегодня можно продолжить маршрут.", "You can continue the campaign today.")));this.root.append(panel);return;}
     for (const [i,slot] of set.slots.entries()) {
+      if (!endlessEnabled && !slot.paid && slot.goalId==='endless') continue;
       const goal = goals.get(slot.goalId)!;
       const button = this.button('', () => this.actions.quest(i));
       button.dataset.quest = String(i);
@@ -820,12 +823,14 @@ export class MetaView {
       entry.append(el('span','',title), el('strong','',score));
       records.append(entry);
     }
-    if (!bank.solo || !bank.assisted) records.append(el('p','muted',this.t(
+    if (endlessEnabled && (!bank.solo || !bank.assisted)) records.append(el('p','muted',this.t(
       'Завершите забег Endless. Подсказки учитываются в отдельном рекорде.',
       'Finish an Endless run. Runs with hints have a separate record.')));
-    if (c.run && c.run.status !== 'ended') records.append(el('p','muted',this.t(
+    if (c.run && c.run.status !== 'ended') records.append(el('p','muted',endlessEnabled ? this.t(
       `Текущий забег · ${c.run.score} очк. · ${c.run.solvedStages} пол. Итог появится после завершения.`,
-      `Current run · ${c.run.score} pts · ${c.run.solvedStages} boards. Finish it to record the result.`)));
+      `Current run · ${c.run.score} pts · ${c.run.solvedStages} boards. Finish it to record the result.`) : this.t(
+      `Сохранённый забег · ${c.run.score} очк. · ${c.run.solvedStages} пол.`,
+      `Saved run · ${c.run.score} pts · ${c.run.solvedStages} boards.`)));
     const workshop=this.button(this.t('Мастерская','Workshop'),()=>this.actions.navigate('album'),'profile-workshop');
     workshop.classList.add('profile-workshop');
     workshop.prepend(menuIcon('workshop'));
@@ -851,21 +856,25 @@ export class MetaView {
       for(const button of modeButtons.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.mode===this.statMode));
       statsBody.replaceChildren(this.profileStatistics(save,labels[this.statMode],update));
     };
+    const hasEndlessHistory = Boolean(c.run || bank.solo || bank.assisted);
     for(const mode of ['campaign','free','daily','endless'] as const) {
+      if (mode==='endless' && !endlessEnabled && !hasEndlessHistory) continue;
       const filter=this.button(labels[mode],()=>{this.statMode=mode;update();},`stats-filter-${mode}`);
       filter.dataset.mode=mode;
       modeButtons.append(filter);
     }
     update();
     stats.append(modeButtons,statsBody);
-    this.root.append(stats,records);
+    this.root.append(stats);
+    if (endlessEnabled || hasEndlessHistory) this.root.append(records);
 
     const badges = el('details','hub-panel profile-details');
     badges.id = 'profile-badges';
     const earnedCount = Object.keys(c.achievements).length;
-    badges.append(el('summary','',this.t(`Достижения · ${earnedCount}/${config.achievements.length}`,
-      `Achievements · ${earnedCount}/${config.achievements.length}`)));
-    for (const badge of config.achievements) {
+    const shownBadges = config.achievements.filter(badge => endlessEnabled || badge.metric!=='bestBoardsInRun' || c.achievements[badge.id]);
+    badges.append(el('summary','',this.t(`Достижения · ${earnedCount}/${shownBadges.length}`,
+      `Achievements · ${earnedCount}/${shownBadges.length}`)));
+    for (const badge of shownBadges) {
       const earned = c.achievements[badge.id];
       const row = el('div','badge');
       row.dataset.badge = badge.id;
@@ -974,7 +983,7 @@ export class MetaView {
   }
 
   private renderUnlockAction(save:Save,detail:HTMLElement,disabled:boolean):void {
-    const modes=save.result?.unlockedModes ?? [];
+    const modes=availableUnlockModes(save.result?.unlockedModes);
     const double=modes.includes('endless') && (modes.includes('challenge') || challengeUnlockWins===config.unlockProposal.endlessAfterNewWins);
     const daily=modes.includes('daily');
     const label=double?this.t('Выбрать новый режим','Choose a new mode')
@@ -1001,7 +1010,7 @@ export class MetaView {
 
   skipWorkshopReveal(): void { this.workshopReveal.skip(); }
   hideWorkshopReveal(): void { this.workshopReveal.hide(); }
-  renderResult(save: Save, fresh = false, disabled = false, trackGain?:GoalProgress): void {
+  renderResult(save: Save, fresh = false, disabled = false): void {
     const r = save.result;
     const details = document.getElementById('reward-breakdown')!;
     details.replaceChildren();
@@ -1059,13 +1068,10 @@ export class MetaView {
     const goal = document.getElementById('relax-goal-result')!;
     const count = r.relaxGoalProgress;
     const snapshot = r.trackGoal;
-    goal.hidden = count === undefined && !snapshot;
-    if (snapshot) {
-      const label = this.trackGoalText(snapshot.id,snapshot.progress);
-      goal.textContent = snapshot.stepComplete ? `${label} · ${this.t('Ступень пройдена','Step complete')}` : label;
-    } else goal.textContent = count === undefined ? '' : `${count===relaxGoalTarget ? this.t('Цель выполнена','Goal complete') : this.t('Лёгкие поля','Easy boards')} · ${count}/${relaxGoalTarget}`;
-    if (trackGain && !goal.hidden) goal.append(` · +${trackGain.to-trackGain.from}`);
-    goal.classList.toggle('pending-goal',snapshot !== undefined && snapshot.progress < trackGoalDefinitions[snapshot.id].target);
+    const completedGoal = snapshot && !snapshot.id.endsWith('-position-v1') && snapshot.progress === trackGoalDefinitions[snapshot.id].target;
+    goal.hidden = !completedGoal && count !== relaxGoalTarget;
+    goal.textContent = completedGoal ? this.trackGoalText(snapshot.id,snapshot.progress)
+      : count === relaxGoalTarget ? this.t('Лёгкие поля · 3/3','Easy boards · 3/3') : '';
     const sources:[string,number][]=[[this.t("За поле", "Board"),r.baseCoins??(r.first?config.difficultyRewards[getPuzzle(r.puzzleId).difficulty].coins:0)],[this.t("За дату", "Daily date"),r.dailyCoins??0],[this.t("За цели", "Goals"),r.taskCoins??0],[this.t("За весь план", "Full goal set"),r.setCoins??0],[this.t("За ранг", "Rank"),r.rankCoins??r.rankUps*config.rank.rewardCoins],[this.t("За прибор", "Instrument"),r.cardCoins]];
     for(const [name,coins] of sources)if(coins)details.append(el('p','',`${name}: +${coins}`));details.append(el('p','',this.t(`Опыт: +${r.xp}`, `XP: +${r.xp}`)));if(r.fragments)details.append(el('p','',this.t(`Новых деталей: ${r.fragments} · всего ${r.collectionFragments} / 48`, `New parts: ${r.fragments} · total ${r.collectionFragments} / 48`)));if(r.rankUps)details.append(el('p','',this.t(`Новый ранг: ${r.rankLevel??save.profile.rank}`, `New rank: ${r.rankLevel??save.profile.rank}`)));
     if (announcement) details.append(el('p','',announcement));

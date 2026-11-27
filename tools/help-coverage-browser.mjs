@@ -72,12 +72,15 @@ async function boardLayout(page){
    return {left,top,right,bottom,width,height};};
   const scroll=document.querySelector('.board-scroll');
   const board=bounds('#board'),view=bounds('.board-scroll');
-  const digitsFit=[...document.querySelectorAll('#board .given, #board .placed .tile')].every(el=>{
+  const digits=[...document.querySelectorAll('#board .given, #board .placed .tile')].map(el=>{
    const range=document.createRange();
    range.selectNodeContents(el);
-   return range.getBoundingClientRect().width<=el.clientWidth+1;
+   const style=getComputedStyle(el);
+   return {number:el.textContent,width:range.getBoundingClientRect().width,inside:el.clientWidth,
+    font:style.fontFamily,size:style.fontSize};
   });
-  return {board,view,digitsFit,scroll:[scroll.scrollLeft,scroll.scrollTop],viewport:[innerWidth,innerHeight],
+  const overflow=digits.filter(digit=>digit.width>digit.inside+1);
+  return {board,view,digitsFit:!overflow.length,overflow,scroll:[scroll.scrollLeft,scroll.scrollTop],viewport:[innerWidth,innerHeight],
    note:bounds('#note'),tray:bounds('#traybox'),tools:bounds('.tools')};
  });
  const {board,view,note,tray,tools,digitsFit,scroll:[x,y],viewport:[width,height]}=layout;
@@ -86,7 +89,7 @@ async function boardLayout(page){
   &&note.bottom<=tray.top+1&&tray.bottom<=tools.top+1&&tools.bottom<=height&&view.left>=0&&view.right<=width,
  JSON.stringify(layout));
  assert.deepEqual([x,y],[0,0]);
- assert.ok(digitsFit,'Two-digit numbers fit their tiles');
+ assert.ok(digitsFit,'Two-digit numbers fit their tiles '+JSON.stringify(layout.overflow));
  return layout;
 }
 
@@ -138,6 +141,12 @@ try{
   assert.ok(geometry.note[0]>=0&&geometry.note[1]<=height&&geometry.help[1]<=height);
   assert.ok(geometry.highlighted>0,JSON.stringify(geometry));
   const boardAfter=await boardLayout(page);
+  if(width===320&&height===480&&fixture.id==='cm-own-02-114'){
+   // Also exercise the wider system fallback that reproduces the original CI failure.
+   const font=await page.addStyleTag({content:"#board .tile,#board .given {font-family:'DejaVu Sans',system-ui,sans-serif}"});
+   await boardLayout(page);
+   await font.evaluate(node=>node.remove());
+  }
   await page.screenshot({path:resolve(out,`${fixture.id}-${language}-${width}x${height}-${theme}.png`)});
   await page.reload();await idle(page);
   const restored=await save(page);
@@ -168,32 +177,35 @@ try{
  assert.equal(Object.keys((await save(cost)).helpReceipts).length,0);
  await poor.close();
 
- const endlessId=routes.endlessSequence[0],puzzle=legacy.find(p=>p.puzzleId===endlessId);
- const trayOrder=puzzle.tray.map((_,i)=>'t'+i),placements={};
- for(const cell of puzzle.cells.filter(c=>c.given===undefined)){
-  placements[cell.id]=trayOrder.find(t=>puzzle.tray[Number(t.slice(1))]===author[endlessId].answer[cell.id]&&!Object.values(placements).includes(t));
- }
- const different=Object.keys(placements).find(c=>puzzle.tray[Number(placements[c].slice(1))]!==puzzle.tray[Number(Object.values(placements)[0].slice(1))]);
- assert.ok(different);
- const wrong={...placements},first=Object.keys(placements)[0];
- [wrong[first],wrong[different]]=[wrong[different],wrong[first]];
  const endlessMessages=[];
- for(const position of [placements,wrong]){
-  const context=await browser.newContext(mobile(320,480));
-  const page=await load(context,{id:endlessId,contentVersion:puzzle.contentVersion,rulesetVersion:puzzle.rulesetVersion,
-   trayOrder,placements:position,mode:'endless',boardRevision:trayOrder.length});
-  await tap(page,'#help');await page.locator('#explain:enabled').waitFor();
-  const before=await save(page);await tap(page,'#explain');
-  endlessMessages.push(await page.locator('#help-description').innerText());
-  assert.equal(await page.locator('#apply-help').isDisabled(),true);
-  assert.deepEqual(await save(page),before);
-  await page.keyboard.press('Escape');await page.locator('#help-dialog').waitFor({state:'hidden'});
-  assert.equal(await page.locator('#board .right').count(),0);
-  assert.equal((await save(page)).career.run.assisted,false);
-  await context.close();
+ // This route can still be replayed against archived builds with live Endless.
+ if(process.env.CROSSMATH_LEGACY_ENDLESS==='1'){
+  const endlessId=routes.endlessSequence[0],puzzle=legacy.find(p=>p.puzzleId===endlessId);
+  const trayOrder=puzzle.tray.map((_,i)=>'t'+i),placements={};
+  for(const cell of puzzle.cells.filter(c=>c.given===undefined)){
+   placements[cell.id]=trayOrder.find(t=>puzzle.tray[Number(t.slice(1))]===author[endlessId].answer[cell.id]&&!Object.values(placements).includes(t));
+  }
+  const different=Object.keys(placements).find(c=>puzzle.tray[Number(placements[c].slice(1))]!==puzzle.tray[Number(Object.values(placements)[0].slice(1))]);
+  assert.ok(different);
+  const wrong={...placements},first=Object.keys(placements)[0];
+  [wrong[first],wrong[different]]=[wrong[different],wrong[first]];
+  for(const position of [placements,wrong]){
+   const context=await browser.newContext(mobile(320,480));
+   const page=await load(context,{id:endlessId,contentVersion:puzzle.contentVersion,rulesetVersion:puzzle.rulesetVersion,
+    trayOrder,placements:position,mode:'endless',boardRevision:trayOrder.length});
+   await tap(page,'#help');await page.locator('#explain:enabled').waitFor();
+   const before=await save(page);await tap(page,'#explain');
+   endlessMessages.push(await page.locator('#help-description').innerText());
+   assert.equal(await page.locator('#apply-help').isDisabled(),true);
+   assert.deepEqual(await save(page),before);
+   await page.keyboard.press('Escape');await page.locator('#help-dialog').waitFor({state:'hidden'});
+   assert.equal(await page.locator('#board .right').count(),0);
+   assert.equal((await save(page)).career.run.assisted,false);
+   await context.close();
+  }
+  assert.equal(endlessMessages[0],endlessMessages[1]);
+  assert.match(endlessMessages[0],/^Сейчас не удалось подготовить объяснение/);
  }
- assert.equal(endlessMessages[0],endlessMessages[1]);
- assert.match(endlessMessages[0],/^Сейчас не удалось подготовить объяснение/);
 
  if(process.env.HELP_BROWSER_RECORD==='1'){
   const size={width:320,height:480};
@@ -208,7 +220,7 @@ try{
  }
  assert.deepEqual(errors,[]);
  await writeFile(resolve(out,'report.json'),JSON.stringify({browser:browser.version(),details,endlessMessages},null,2)+'\n');
- console.log(`HELP-02 browser PASS · ${details.length} proof views, full board bounds, insufficient funds, neutral full Endless`);
+ console.log(`HELP-02 browser PASS · ${details.length} proof views, full board bounds and insufficient funds`);
 }finally{
  await browser?.close();
  server.close();

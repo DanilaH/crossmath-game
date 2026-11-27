@@ -23,7 +23,7 @@ async function campaign(session:GameSession,count:number){for(let i=0;i<count;i+
 function set(ids:string[],progress=[0,0,0],paid=[false,false,false]):QuestSet{return{dayKey:'2026-11-18',issueIndex:0,configVersion:config.configVersion,slots:ids.map((id,i)=>({goalId:id,target:goals.get(id)!.goal,progress:progress[i]!,paid:paid[i]!})),replacements:[],witness:[]};}
 
 describe('D calendar and mode state',()=>{
- it('announces each newly available mode once, including both choices on the fifteenth unique win', async () => {
+ it('announces each available mode once and maps an old Endless unlock to Challenge', async () => {
   const {session, repo} = await setup();
   await campaign(session, 3);
   expect(session.state.result?.unlockedModes).toEqual(['free']);
@@ -33,9 +33,9 @@ describe('D calendar and mode state',()=>{
   expect(session.state.result?.unlockedModes).toEqual([]);
   await campaign(session, 1);
   const modes = session.state.result!.unlockedModes;
-  expect(modes).toEqual(['challenge', 'endless']);
+  expect(modes).toEqual(['challenge']);
   for (const language of ['ru', 'en'] as const) {
-    const text = language === 'ru' ? 'Новые режимы · Испытание и Endless' : 'New modes · Challenge and Endless';
+    const text = language === 'ru' ? 'Новый режим · Испытание' : 'New mode · Challenge';
     expect(unlockAnnouncement(language, modes)).toBe(text);
     expect(unlockAnnouncement(language, ['endless'])).toBe(text);
   }

@@ -162,6 +162,7 @@ export class BoardView {
       const node = this.part(fixed ? 'span' : 'button', fixed ? 'given' : 'cell', cell.x, cell.y);
       if (fixed) {
         node.textContent = String(cell.given);
+        node.classList.toggle('two-digit', node.textContent.length === 2);
       } else {
         node.dataset.cell = String(cell.id);
         node.setAttribute('type', 'button');
@@ -282,7 +283,11 @@ export class BoardView {
       const label=`${position}. ${type} ${v??''}. ${relations}${warning}`;
       e.setAttribute('aria-label',label);
       if(cell.given!==undefined)continue;
-      (e as HTMLButtonElement).disabled=this.disabled()||a.status!=='playing';e.firstElementChild!.textContent=v===undefined?'':String(v);e.classList.toggle('placed',v!==undefined);e.classList.toggle('empty',v===undefined);
+      (e as HTMLButtonElement).disabled=this.disabled()||a.status!=='playing';
+      const tile=e.firstElementChild!;
+      tile.textContent=v===undefined?'':String(v);
+      tile.classList.toggle('two-digit',tile.textContent.length===2);
+      e.classList.toggle('placed',v!==undefined);e.classList.toggle('empty',v===undefined);
       const active=this.selected?.kind==='cell'&&Number(this.selected.id)===cell.id;e.classList.toggle('selected',active);e.setAttribute('aria-pressed',String(active));
     }
     this.renderTray();

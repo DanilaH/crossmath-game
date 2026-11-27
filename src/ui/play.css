@@ -240,13 +240,23 @@ body.in-play:has(#help-dialog[open]) .play-area {
 
 .tile, .given {
   border-radius: min(5px, calc(var(--step) * .12));
-  font-size: clamp(15px, calc(var(--step) * .52), 30px);
+  --number-size: clamp(15px, calc(var(--step) * .52), 30px);
+  font-size: var(--number-size);
   font-weight: 820;
   font-feature-settings: "tnum";
 }
 
-.board.is-packed :is(.tile, .given, .op) {
+.board.is-packed .op {
   font-size: clamp(12px, calc(var(--step) * .62), 18px);
+}
+
+.board.is-packed :is(.tile, .given) {
+  --number-size: clamp(12px, calc(var(--step) * .62), 18px);
+}
+
+.board :is(.tile, .given).two-digit {
+  /* Leave room for a wider system font and both chip borders. */
+  font-size: min(var(--number-size), calc((var(--board-face) - 2px) * .68));
 }
 
 .tile {
@@ -565,7 +575,7 @@ html[data-host="browser"] .win-dock {
 }
 #quest-progress-result[data-complete="true"] { color: var(--reward-ink); }
 #daily-trophy-result { color: var(--reward-ink); }
-#relax-goal-result.pending-goal { color: var(--play-muted); }
+#relax-goal-result { color: var(--play-muted); }
 
 .win-dock :is(#next, #result-home) {
   max-width: 20ch;

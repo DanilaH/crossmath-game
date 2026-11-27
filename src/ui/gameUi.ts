@@ -720,7 +720,7 @@ export class GameUi {
       quests.textContent=victory?.quests.length
         ? [this.t('Цели дня','Daily goals'),...victory.quests.map(goal=>`${goal.from}→${goal.to}/${goal.target}`)].join(' · ') : '';
       quests.dataset.complete=String(!!victory?.quests.some(goal=>goal.to>=goal.target));
-      this.meta.renderResult(s, countReward, this.busy || this.blocked, victory?.track);
+      this.meta.renderResult(s, countReward, this.busy || this.blocked);
       if (arriving) {
         $<HTMLDetailsElement>('result-details').open = false;
         if (this.ready && !this.blocked && !a.userPaused) $('result-title').focus({preventScroll: true});

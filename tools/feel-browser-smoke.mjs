@@ -325,34 +325,37 @@ try{
  await delay(daily.page,750);
  await endDaily();await daily.context.close();
 
- const endlessSeed=profileWith(base);
- endlessSeed.profile.solvedIds=[...puzzles.keys()].slice(0,15);
- endlessSeed.meta.screen='home';
- const endless=await pageFor(endlessSeed,'endless');
- const endEndless=await record(endless.page,'endless');
- await tap(endless.page,'#tab-modes');await tap(endless.page,'#endless-open');
- await fill(endless.page,false);
- const stage=await state(endless.page);
- const stageBoard=puzzles.get(stage.attempt.puzzleId);
- const stageLayout=Object.entries(stage.attempt.placements);
- const [a,b]=[stageLayout[0],stageLayout.find(([,id])=>stageBoard.tray[Number(id.slice(1))]!==stageBoard.tray[Number(stageLayout[0][1].slice(1))])];
- assert.ok(b);
- await tap(endless.page,cell(a[0]));await tap(endless.page,cell(b[0]));
- assert.equal(await endless.page.locator('#board .op.right,#board .op.invalid').count(),0);
- await tap(endless.page,'#submit');await delay(endless.page,270);
- assert.equal((await state(endless.page)).attempt.lives,2);
- const n=audioCount(await log(endless.page));
- await tap(endless.page,'#submit');await delay(endless.page);
- assert.equal(audioCount(await log(endless.page)),n);
- await tap(endless.page,'#undo');await delay(endless.page,190);
- await tap(endless.page,'#submit');
- await checkpoint(endless.page,'endless-win');
- if(!baseline)assert.equal(await endless.page.locator('#run-status[data-counting]').count(),1);
- await delay(endless.page,680);
- await checkpoint(endless.page,'endless-settled');
- assert.deepEqual(traces['endless-win'].bounds,traces['endless-settled'].bounds);
- assert.ok((await state(endless.page)).career.run.score>0);
- await endEndless();traces.endlessEvents=await log(endless.page);await endless.context.close();
+ // This route can still be replayed against archived builds with live Endless.
+ if(process.env.CROSSMATH_LEGACY_ENDLESS==='1'){
+  const endlessSeed=profileWith(base);
+  endlessSeed.profile.solvedIds=[...puzzles.keys()].slice(0,15);
+  endlessSeed.meta.screen='home';
+  const endless=await pageFor(endlessSeed,'endless');
+  const endEndless=await record(endless.page,'endless');
+  await tap(endless.page,'#tab-modes');await tap(endless.page,'#endless-open');
+  await fill(endless.page,false);
+  const stage=await state(endless.page);
+  const stageBoard=puzzles.get(stage.attempt.puzzleId);
+  const stageLayout=Object.entries(stage.attempt.placements);
+  const [a,b]=[stageLayout[0],stageLayout.find(([,id])=>stageBoard.tray[Number(id.slice(1))]!==stageBoard.tray[Number(stageLayout[0][1].slice(1))])];
+  assert.ok(b);
+  await tap(endless.page,cell(a[0]));await tap(endless.page,cell(b[0]));
+  assert.equal(await endless.page.locator('#board .op.right,#board .op.invalid').count(),0);
+  await tap(endless.page,'#submit');await delay(endless.page,270);
+  assert.equal((await state(endless.page)).attempt.lives,2);
+  const n=audioCount(await log(endless.page));
+  await tap(endless.page,'#submit');await delay(endless.page);
+  assert.equal(audioCount(await log(endless.page)),n);
+  await tap(endless.page,'#undo');await delay(endless.page,190);
+  await tap(endless.page,'#submit');
+  await checkpoint(endless.page,'endless-win');
+  if(!baseline)assert.equal(await endless.page.locator('#run-status[data-counting]').count(),1);
+  await delay(endless.page,680);
+  await checkpoint(endless.page,'endless-settled');
+  assert.deepEqual(traces['endless-win'].bounds,traces['endless-settled'].bounds);
+  assert.ok((await state(endless.page)).career.run.score>0);
+  await endEndless();traces.endlessEvents=await log(endless.page);await endless.context.close();
+ }
 
  if(capture){
   const rankSeed=profileWith(base);
@@ -446,7 +449,7 @@ try{
  }
  assert.deepEqual(errors,[]);
  await writeFile(resolve(out,'report.json'),JSON.stringify({source:process.env.GITHUB_SHA,baseline,browser:browser.version(),traces,clips},null,2)+'\n');
- console.log('FEEL-01 browser PASS · '+(baseline?'baseline comparison':'campaign, tools, crossing, Daily, Endless, layout, settings and save retry'));
+ console.log('FEEL-01 browser PASS · '+(baseline?'baseline comparison':'campaign, tools, crossing, Daily, layout, settings and save retry'));
 }finally{
  await browser?.close();
  server.close();

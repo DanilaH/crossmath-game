@@ -3,7 +3,7 @@ import { config, getPuzzle } from '../content/catalog';
 import { isCalendarDay, profileDay } from './calendar';
 import { restoreMonthlyTrophies, settleMonthlyTrophy, validateMonthlyTrophies } from './monthlyTrophy';
 import { relaxGoalTarget, validateTrackGoalWins } from './trackGoals';
-import { contribution, refreshQuests } from './missions';
+import { contribution, needsEndlessQuestReview, refreshQuests } from './missions';
 import type { Save, Completion } from '../app/model';
 import type { MetaState } from './types';
 
@@ -14,7 +14,7 @@ export function refreshDay(save:Save,now:string):void {
   restoreMonthlyTrophies(save);
   const day=profileDay(now,save.profile.timeZone),meta=save.meta;
   if(day>meta.effectiveDay){meta.effectiveDay=day;meta.quests=null;meta.contributedIds=[];}
-  if(!meta.quests)refreshQuests(save);
+  if(!meta.quests||needsEndlessQuestReview(meta.quests))refreshQuests(save);
 }
 export function settleDailyAndQuests(save:Save,receipt:Completion,now:string):void {
   const meta=save.meta,a=save.attempt;receipt.dailyCoins=0;receipt.taskCoins=0;receipt.setCoins=0;

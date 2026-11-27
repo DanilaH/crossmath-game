@@ -2,6 +2,7 @@ import { challengeUnlockWins } from '../content/rotation';
 import { config } from '../content/catalog';
 import type { FreeTrack } from '../content/rotation';
 import type { Operator } from '../core/types';
+import { endlessEnabled } from '../content/modeAvailability';
 
 export const operatorGlyph: Record<Operator, string> = { '+': '+', '-': '−', '*': '×', '/': '÷' };
 
@@ -20,7 +21,15 @@ export function dailyName(language: Language): string {
 }
 
 // Historical completions stored only "endless" at the shared Challenge/Endless milestone.
+export function availableUnlockModes(modes: readonly string[] = []): readonly string[] {
+  if (endlessEnabled || !modes.includes('endless')) return modes;
+  const available = modes.filter(mode => mode !== 'endless');
+  if (!available.includes('challenge') && challengeUnlockWins === config.unlockProposal.endlessAfterNewWins) available.push('challenge');
+  return available;
+}
+
 export function unlockAnnouncement(language: Language, modes: readonly string[] = []): string {
+  modes = availableUnlockModes(modes);
   const names: string[] = [];
   if (modes.includes('free')) names.push(trackName(language, 'relax'));
   if (modes.includes('daily')) names.push(dailyName(language));
