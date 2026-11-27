@@ -2,7 +2,7 @@
   "schema": "consumer-adoption-ledger-v1",
   "sourceInventory": {
     "repository": "DanilaH/mini-games-kit",
-    "commit": "6980f3a67b930f7c7084d897f36c857b76951efa",
+    "commit": "6fd19408bfd58a0a39512749b19d5caa6e6355b8",
     "path": "research/games/crossmath/porting/SOURCE_FEATURES.json"
   },
   "consumer": {
@@ -1295,9 +1295,13 @@
       "codePath": "src/app/session.ts",
       "stage": "P1",
       "dependencies": "слот режима + миграция сохранения + интерфейс результата/профиля",
-      "nextAction": "Сохранить как экономическую развилку и рассчитать влияние на доступность",
+      "nextAction": "Сохранить как экономическую развилку и рассчитать влияние на доступность | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L515",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/session.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/app/session.ts",
+      "originalBehavior": "E:E08, UseItemCount | 27.11.2026 reward follow-up: OnBtnCoinRestartClick consumes static cost+0x9c, then requests restart and closes regardless of UseItemCount return. 4 artificial invocation controls; actual UI eligibility and restart subscriber UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-month-trophy",
@@ -1840,9 +1844,13 @@
       "codePath": "src/meta/progress.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Повторить одно поле и сверить кошелёк с квитанцией | WIN-RV-01 #14: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Повторить одно поле и сверить кошелёк с квитанцией | WIN-RV-01 #14: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L863",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/meta/progress.ts",
+      "originalBehavior": "E:E08 CompleteRewardCoinCount | 27.11.2026 reward follow-up: PanelPopCoinReward exact registered close continuation reads static +0x38, requests Coin then animation (3 synthetic base values). Previously catalogued base5 is static default, actual wallet payout/UI UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-video-multiplier",
@@ -1853,10 +1861,14 @@
       "codePath": "src/platform/adState.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Проверить отсутствие сети, закрытие до награды и повторный callback | WIN-RV-01 #14: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Проверить отсутствие сети, закрытие до награды и повторный callback | WIN-RV-01 #14: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L874",
       "reason": "Выбор монетизации относится к отдельному продуктовому решению. До него проверяем источник и стоимость.",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/platform/adState.ts",
+      "originalBehavior": "E:E08 RewardVideoCoinMulti | 27.11.2026 reward follow-up: Random holder success callback uses current pointer sector's rewardMulti[index] × static base, not an unconditional fixed x10. Separate compiled RewardVideoCoinMulti config remains registered; actual sector array, reachability, odds and offer distribution UNKNOWN. FreeRewardCallback tail calls true; false callback grants base but actual delivery from SDK unproven. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-hint-price",
@@ -1867,7 +1879,7 @@
       "codePath": "src/ui/gameUi.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "Проверить открытый диалог при смене даты в Android WebView. Тарифы Crossmath остаются собственными.",
+      "nextAction": "Проверить открытый диалог при смене даты в Android WebView. Тарифы Crossmath остаются собственными. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L885",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/gameUi.ts",
       "reviewedVersion": "0.5.23",
@@ -1877,7 +1889,11 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 5 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495"
+      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 5 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495",
+      "originalBehavior": "E:E08 CoinBuyHintCount | 27.11.2026 reward follow-up: PanelGame.OnBtnHintClick credit first, then static price+0x40 (120 prior bundled default), otherwise RV type2. 12 isolated button cases. Exact registered success callback adds then consumes one, not a banked grant. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+      ]
     },
     {
       "id": "guru-ad-protect",
@@ -5348,16 +5364,19 @@
       "sourceFeatureId": "easy-interstitial-coin-close-precheck",
       "status": "RESEARCHED",
       "comparison": "MISSING",
-      "originalBehavior": "Original EasyFun Offline Crossmath 1.1.9/1193 NATIVE_STATIC: EasyFun 1.1.9: закрытие окна награды монет проверяет доступность interstitial. EasyFun Offline Crossmath 1.1.9 /1193 exact XAPK e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d, IL2CPP metadata v31 SHA 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6; ARM64 libil2cpp.so SHA 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720. PanelPopCoinReward.OnCloseReward #25026: CheckShowInterstitialAvailable BL 0x1558230. No direct BL ShowInterstitial in the same method; indirect next path UNKNOWN. Method call is in compiled code and may be guarded; actual execution/SDK impression/probability UNKNOWN.",
+      "originalBehavior": "EasyFun Offline Crossmath 1.1.9 /1193 exact XAPK e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d, IL2CPP metadata v31 SHA 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6; ARM64 libil2cpp.so SHA 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720. PanelPopCoinReward.OnCloseReward #25026: CheckShowInterstitialAvailable BL 0x1558230. No direct BL ShowInterstitial in the same method; indirect next path UNKNOWN. See research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md and MEASUREMENTS.json; reproducible on exact owner originals, negative-control mutation PASS. | 27.11.2026 reward follow-up: OnCloseReward static loaded check + availability→0/0.5 scheduled continuation, guard set first. Exact continuation #25035 locally executed requests base coin and animation; actual impression/scheduler and reentry UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
       "currentImplementation": "В нашей 0.5.24/29 AdsController.beforeNext() проверяет canShowInterstitial на экране результата; конкретный исходный handler/экран отдельного события не имеет.",
       "codePath": "src/platform/ads.ts; src/platform/adState.ts; src/platform/androidAds.ts",
       "stage": "COMMERCIAL / REFERENCE RESEARCH ONLY; individual original Android proof and owner approval mandatory, no automatic show placements",
       "dependencies": "Exact original EasyFun 1.1.9 Android run with consent/ad SDK/remote settings, actual modal action and user-visible show/no-fill; native Crossmath 0.5.24/29 acceptance; owner monetization decision; preserve offline flow and UI.",
-      "nextAction": "Original EasyFun coin reward popup: verify what happens after Check, whether ad actually requested via indirect path, reward before/after closing. | ADS-02 #27: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md.",
+      "nextAction": "Original EasyFun coin reward popup: verify what happens after Check, whether ad actually requested via indirect path, reward before/after closing. | ADS-02 #27: staged commercial proposal, retain original proof/owner gates; see docs/porting/commerce-pilot-20261126/README.md. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
       "acceptanceRequirement": "For this sourceFeatureId: matched original handler and reproducible video/SDK trace show or no-fill, user action, timing and any cap; our independently built implementation only after explicit owner decision, no duplicated fullscreen/persisted lost state and no copied vendor code/assets.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / versionCode 1193, original XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720.",
-      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN."
+      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-interstitial-event-next-precheck",
@@ -5396,16 +5415,19 @@
       "sourceFeatureId": "easy-rewarded-hint-precheck",
       "status": "IMPLEMENTED_UNVERIFIED",
       "comparison": "PARTIAL",
-      "originalBehavior": "Original EasyFun Offline Crossmath 1.1.9/1193 NATIVE_STATIC: EasyFun 1.1.9: нажатие Hint имеет ветки проверки rewarded availability и клиентского лимита. EasyFun Offline Crossmath 1.1.9 /1193 exact XAPK e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d, IL2CPP metadata v31 SHA 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6; ARM64 libil2cpp.so SHA 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720. PanelGame.OnBtnHintClick #24836: direct BL RewardedVideoLoaded 0x154de04 and ReportShowAdLimitedByClient 0x154e050; ShowRewardVideo direct BL not observed in that handler, actual grant UNKNOWN. Method call is in compiled code and may be guarded; actual execution/SDK impression/probability UNKNOWN.",
+      "originalBehavior": "EasyFun Offline Crossmath 1.1.9 /1193 exact XAPK e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d, IL2CPP metadata v31 SHA 21ab087523cc6b7d92f97dad3a70e647ab56727001b6f95db4a302f2f044b4e6; ARM64 libil2cpp.so SHA 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720. PanelGame.OnBtnHintClick #24836: direct BL RewardedVideoLoaded 0x154de04 and ReportShowAdLimitedByClient 0x154e050; ShowRewardVideo direct BL not observed in that handler, actual grant UNKNOWN. See research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md and MEASUREMENTS.json; reproducible on exact owner originals, negative-control mutation PASS. | 27.11.2026 reward follow-up: Earlier direct BL-only census missed tail B 154def4 to ShowRewardVideo #20566 14350e4. Executed request path with mocked provider available; actual callback registration resolved via metadata 2f06690→24872. Native callback executes add/consume; SDK earned and board application UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
       "currentImplementation": "В нашей 0.5.24/29 есть AdsController.reward('hint') + rewardAvailable/canRequestReward, собственная receipt очередь для hintCredits; original PanelGame.OnBtnHintClick по native имеет вызовы RewardedVideoLoaded + ReportShowAdLimitedByClient, не подтверждён показ/грант.",
       "codePath": "src/platform/ads.ts; src/platform/adState.ts; src/platform/androidAds.ts",
       "stage": "COMMERCIAL / REFERENCE RESEARCH ONLY; individual original Android proof and owner approval mandatory, no automatic show placements",
       "dependencies": "Exact original EasyFun 1.1.9 Android run with consent/ad SDK/remote settings, actual modal action and user-visible show/no-fill; native Crossmath 0.5.24/29 acceptance; owner monetization decision; preserve offline flow and UI.",
-      "nextAction": "Original native Android hint: button visibility, check/no-fill, ad launched or not, callback order, actual hint resource; our real SDK: exactly-once grant on rewardSettled and no grant on cancel.",
+      "nextAction": "Original native Android hint: button visibility, check/no-fill, ad launched or not, callback order, actual hint resource; our real SDK: exactly-once grant on rewardSettled and no grant on cancel. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
       "acceptanceRequirement": "For this sourceFeatureId: matched original handler and reproducible video/SDK trace show or no-fill, user action, timing and any cap; our independently built implementation only after explicit owner decision, no duplicated fullscreen/persisted lost state and no copied vendor code/assets.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5a72a2a827cb089ff2ec8e8aecbfc334141001a8/research/games/crossmath/porting/easyfun-native-ad-stubs-20261123/README.md",
       "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / versionCode 1193, original XAPK SHA256 e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d; libil2cpp.so SHA256 1b69ef78f2e25717f3a2e61485d6ad4228d73827f1166661ee37bc8d7f11c720.",
-      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN."
+      "reason": "Client static callsite only. Actual original executable branch, SDK impression, remote consent/no-fill and product approval UNKNOWN.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-banner-lifecycle-hide",
@@ -10845,16 +10867,19 @@
       "sourceFeatureId": "easy-feedback-random-gold-audio",
       "status": "DEFERRED",
       "comparison": "MISSING",
-      "originalBehavior": "EasyFun: callback случайной монетной награды вызывает звук",
+      "originalBehavior": "UIRandomGoldHolder.RewardCallBack #24699 BL 1543d08→1442ee0; amount/activation UNKNOWN. | research/games/crossmath/porting/closure-audit-20261126/README.md | 27.11.2026 reward follow-up: Native true/false callbacks both call PlaySound before wallet grant; exact synchronization, sound identity and actual device UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
       "currentImplementation": "Own five synthesized cues and workshop contact, independent sound/vibration switches and active/dispose gating; no mapped exact source registry, remote category, hardware query or exact cue dispatch.",
       "codePath": "src/ui/feedback.ts",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/04576ec2239e840176a1a412c06e82aa7b9253cb/src/ui/feedback.ts",
       "stage": "UX / later own cue adaptation",
       "dependencies": "Source gesture/phone timing, owner-approved direction, own assets; preserve accepted atomic game actions and no double reward.",
-      "nextAction": "No new random-gold mechanic approved; test cue only if feature approved.",
+      "nextAction": "No new random-gold mechanic approved; test cue only if feature approved. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded."
+      "reason": "Not selected for current implementation. Static definition/callsite only; exact original runtime activation and effect UNKNOWN. Not permanently excluded.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-issuance-next-dispatch",
@@ -11844,18 +11869,21 @@
     {
       "id": "easy-event-finish-hint-not-granted",
       "sourceFeatureId": "easy-event-finish-hint-not-granted",
-      "originalBehavior": "143e6e4–143e770 handles RT2 or RT0; isolated RT1 and unsupported return without grant. Bounded census/result/Claim inspections do not establish alternate hint payout. Not proof hints never paid. | research/games/crossmath/porting/easyfun-event-native-20261127/README.md",
+      "originalBehavior": "143e6e4–143e770 handles RT2 or RT0; isolated RT1 and unsupported return without grant. Bounded census/result/Claim inspections do not establish alternate hint payout. Not proof hints never paid. | research/games/crossmath/porting/easyfun-event-native-20261127/README.md | 27.11.2026 reward follow-up: Bounded direct B/BL census of set_Hint identifies only ItemUtil.AddConsumableItem (two writes) and UseItemCount. Existing inspected callers show Hint ad route add+consume, not Event. Alternative indirect/reflection/cache write or actual event grant remains UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
       "codePath": "src/app/model.ts",
       "stage": "P5",
       "currentImplementation": "No active event ladder or event reward settlement; own base/daily/quest/stage and badge progress committed in model.",
       "comparison": "UNKNOWN",
       "status": "EVIDENCE_GAP",
-      "nextAction": "#20: after owner approval and original device evidence, validated unique stage IDs; shared preview/grant data; atomic completion, reward receipt and wallet/badge. Test missing/duplicate/overflow, retry, cold restart and expiry; no unapproved reward or donor amounts.",
+      "nextAction": "#20: after owner approval and original device evidence, validated unique stage IDs; shared preview/grant data; atomic completion, reward receipt and wallet/badge. Test missing/duplicate/overflow, retry, cold restart and expiry; no unapproved reward or donor amounts. | 27.11 source reward follow-up: exact local requests and callback evidence in report; retain own approved economy and atomic receipts; actual SDK/board/event reachability remains UNKNOWN.",
       "dependencies": "Original Android reachability, event config and persisted grant; owner-approved scope/economy; existing save and runtime constraints.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2e981611a17febf2f9fe61159602a8054eb20ce4/src/app/model.ts",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/836a7a02ccead81d491e3ec4137d7e266a5434d9/research/games/crossmath/porting/easyfun-event-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "acceptanceRequirement": "Exact source build and evidence tier in report; isolated native requests are not disk/UI proof. Independently test own durable receipt, actual applied delta, duplicates, reopen and restart before acceptance."
+      "acceptanceRequirement": "Exact source build and evidence tier in report; isolated native requests are not disk/UI proof. Independently test own durable receipt, actual applied delta, duplicates, reopen and restart before acceptance.",
+      "additionalSourceEvidence": [
+        "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md"
+      ]
     },
     {
       "id": "easy-event-finish-badge-update-existing",
@@ -12208,6 +12236,262 @@
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6980f3a67b930f7c7084d897f36c857b76951efa/research/games/crossmath/porting/easyfun-expression-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
       "acceptanceRequirement": "Exact source synthetic/native boundaries in report; no Android or consumer implementation acceptance. Future candidate: independent solver + proof verifier, full-bank preservation, uniqueness, exhaustive accepted-state fixtures, budgets and actual device readability."
+    },
+    {
+      "id": "easy-item-spend-balance-gate",
+      "sourceFeatureId": "easy-item-spend-balance-gate",
+      "originalBehavior": "ItemUtil.UseItemCount #21184 1493520; type0 branch 1493574–14935b4, type1 14935b8–149360c. Other types return false. 144 native signed boundary fixtures; cache getter/setter substituted. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own hintPayment and applyHelp use positive configured cost, verified help layout and single committed receipt. Existing economy is 60 coins/1 credit.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27: preserve own positive amounts, credit first and atomic debit with verified help; no copying donor cost or unsafe raw input. Test insufficient/zero/negative/repeat/failed persistence; actual source UI/SDK separate.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-item-spend-nonpositive-amount",
+      "sourceFeatureId": "easy-item-spend-nonpositive-amount",
+      "originalBehavior": "1493578/14935bc signed comparison old>=amount, then subtraction. Synthetic zero spends return true; negative spend increases resource. Not a reachable user exploit; actual callers positive in inspected paths. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own hintPayment and applyHelp use positive configured cost, verified help layout and single committed receipt. Existing economy is 60 coins/1 credit.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27: preserve own positive amounts, credit first and atomic debit with verified help; no copying donor cost or unsafe raw input. Test insufficient/zero/negative/repeat/failed persistence; actual source UI/SDK separate.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-item-spend-hint-counter",
+      "sourceFeatureId": "easy-item-spend-hint-counter",
+      "originalBehavior": "14935d8–14935e0. Native cases with amount -1,0,1,5 etc; coin debit does not touch this counter. Actual persisted counters UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own attempt/career counts applied help, not arbitrary successful debit count.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27: preserve own positive amounts, credit first and atomic debit with verified help; no copying donor cost or unsafe raw input. Test insufficient/zero/negative/repeat/failed persistence; actual source UI/SDK separate.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-item-spend-event-delta",
+      "sourceFeatureId": "easy-item-spend-event-delta",
+      "originalBehavior": "14935ac/1493608 stores negated requested amount, dispatch1493638; failed debit emits no item event in isolated cases. Real subscribers UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own help receipt records costCoins and costCredits; no donor Item_Info_Update dispatch.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27: preserve own positive amounts, credit first and atomic debit with verified help; no copying donor cost or unsafe raw input. Test insufficient/zero/negative/repeat/failed persistence; actual source UI/SDK separate.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-hint-button-credit-first",
+      "sourceFeatureId": "easy-hint-button-credit-first",
+      "originalBehavior": "PanelGame.OnBtnHintClick #24836 154dd5c–154def4; 12 native button fixtures availability×balance with provider loaded. Reads hint, consumes1 if nonzero; otherwise price check, else requests RV type2. Static no-fill branch separate. Actual provider/UI and target selection UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own hintPayment and applyHelp use positive configured cost, verified help layout and single committed receipt. Existing economy is 60 coins/1 credit.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27: preserve own positive amounts, credit first and atomic debit with verified help; no copying donor cost or unsafe raw input. Test insufficient/zero/negative/repeat/failed persistence; actual source UI/SDK separate.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-hint-button-paid-dispatch",
+      "sourceFeatureId": "easy-hint-button-paid-dispatch",
+      "originalBehavior": "154df1c UseItemCount; 154df44 dispatch MethodInfo global 2f06688; tail154df5c UpdateHintView. Native normal funded branch. No simulated cache race or real subscriber/placement. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P4",
+      "currentImplementation": "Own hintPayment and applyHelp use positive configured cost, verified help layout and single committed receipt. Existing economy is 60 coins/1 credit.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27: preserve own positive amounts, credit first and atomic debit with verified help; no copying donor cost or unsafe raw input. Test insufficient/zero/negative/repeat/failed persistence; actual source UI/SDK separate.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-hint-reward-add-then-consume",
+      "sourceFeatureId": "easy-hint-reward-add-then-consume",
+      "originalBehavior": "Exact callback #24872 154f398, registered MethodInfo usage 0x6000c251 at 2f06690 -> 154dec0; 154f400 AddConsumableItem(1,1,0),154f410 UseItemCount(1,1),154f428 common dispatch 2f06688. 10 native callback cases; cap99 means old99→98, normal old0→0. Actual board mutation and delivery UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/platform/adState.ts",
+      "stage": "P4",
+      "currentImplementation": "Own earned callback adds hint credit once with receipt and cooldown; later verified Apply consumes it. Cancel/failed does not grant.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27: retain stored credit, don't immediately spend or auto-apply on ad close; verify earned vs close and late/cancel/duplicate/kill/restart.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/platform/adState.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-hint-reward-false-dispatch",
+      "sourceFeatureId": "easy-hint-reward-false-dispatch",
+      "originalBehavior": "154f3e4 false skips add/debit/application request; 154f42c–154f450 dispatch MethodInfo 2efd8e8 on both. Negative mutation TBZ→TBNZ discriminates fixture. Exact subscriber effect and live false delivery UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/platform/adState.ts",
+      "stage": "P4",
+      "currentImplementation": "Own earned callback adds hint credit once with receipt and cooldown; later verified Apply consumes it. Cancel/failed does not grant.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "#24/#27: retain stored credit, don't immediately spend or auto-apply on ad close; verify earned vs close and late/cancel/duplicate/kill/restart.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/platform/adState.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-random-gold-success-multiplier",
+      "sourceFeatureId": "easy-random-gold-success-multiplier",
+      "originalBehavior": "UIRandomGoldHolder.RewardCallBack #24699 1543d2c GetPointerIndex,1543d50 rewardMulti[index],1543d74 static base+0x38,1543d7c mul,1543d88 AddConsumableItem Coin. 60 native cases across base×sector×signal×sequence; pointer index substituted, no live probability/eligibility. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/model.ts",
+      "stage": "P4",
+      "currentImplementation": "Own first unique completion pays base and other receipts atomically; no random multiplier wheel/close-triggered wallet settlement.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#14 only after owner approval: immutable result-scoped amount, total vs delta, exactly-once committed receipt before visual reward; verify late/cancel/duplicate and kill/restart. No copied multiplier, RNG, base values, extra ad placement or delay. Original UI/SDK/sequence reachability remains UNKNOWN.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/model.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-random-gold-false-base",
+      "sourceFeatureId": "easy-random-gold-false-base",
+      "originalBehavior": "1543d8c–1543dd0; uses same static base field, no sector read. Native cases confirm one base grant request, not a claim that SDK cancellation necessarily invokes this branch. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/model.ts",
+      "stage": "P4",
+      "currentImplementation": "Own first unique completion pays base and other receipts atomically; no random multiplier wheel/close-triggered wallet settlement.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#14 only after owner approval: immutable result-scoped amount, total vs delta, exactly-once committed receipt before visual reward; verify late/cancel/duplicate and kill/restart. No copied multiplier, RNG, base values, extra ad placement or delay. Original UI/SDK/sequence reachability remains UNKNOWN.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/model.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-random-gold-free-callback",
+      "sourceFeatureId": "easy-random-gold-free-callback",
+      "originalBehavior": "1543ca8 mov w1,1; tail B 1543cac to RewardCallBack; one isolated native fixture base5×synthetic multiplier10=50. Free route UI activation UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/model.ts",
+      "stage": "P4",
+      "currentImplementation": "Own first unique completion pays base and other receipts atomically; no random multiplier wheel/close-triggered wallet settlement.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#14 only after owner approval: immutable result-scoped amount, total vs delta, exactly-once committed receipt before visual reward; verify late/cancel/duplicate and kill/restart. No copied multiplier, RNG, base values, extra ad placement or delay. Original UI/SDK/sequence reachability remains UNKNOWN.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/model.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-random-gold-sequence-reset",
+      "sourceFeatureId": "easy-random-gold-sequence-reset",
+      "originalBehavior": "1543d10–1543d24 then GetPointerIndex; false grant before resumeSeq. 60 native case matrix. Animation method calls substituted, actual feel and pointer synchronization UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/model.ts",
+      "stage": "P4",
+      "currentImplementation": "Own first unique completion pays base and other receipts atomically; no random multiplier wheel/close-triggered wallet settlement.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#14 only after owner approval: immutable result-scoped amount, total vs delta, exactly-once committed receipt before visual reward; verify late/cancel/duplicate and kill/restart. No copied multiplier, RNG, base values, extra ad placement or delay. Original UI/SDK/sequence reachability remains UNKNOWN.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/model.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-coin-close-base-continuation",
+      "sourceFeatureId": "easy-coin-close-base-continuation",
+      "originalBehavior": "PanelPopCoinReward.<OnCloseReward>b__4_0 #25035 1558520; exact registration 2f06b68 usage0x6000c397 at15582a0; 1558578 grant, tail1558590 animation. 3 native base fixtures, two direct invocations each repeat grant. Parent guard static only; real duplicate payout/reachability UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/model.ts",
+      "stage": "P4",
+      "currentImplementation": "Own first unique completion pays base and other receipts atomically; no random multiplier wheel/close-triggered wallet settlement.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#14 only after owner approval: immutable result-scoped amount, total vs delta, exactly-once committed receipt before visual reward; verify late/cancel/duplicate and kill/restart. No copied multiplier, RNG, base values, extra ad placement or delay. Original UI/SDK/sequence reachability remains UNKNOWN.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/model.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-coin-close-delay-guard",
+      "sourceFeatureId": "easy-coin-close-delay-guard",
+      "originalBehavior": "OnCloseReward 1558164–15582c8; 1558180 flag,15581fc InterstitialLoaded,1558230 CheckShowInterstitialAvailable(type3),1558240 selects float,15582c8 scheduler request. OnOpen resets 1557e88. STATIC only: no measured delay, impression, or double-close bug. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/model.ts",
+      "stage": "P4",
+      "currentImplementation": "Own first unique completion pays base and other receipts atomically; no random multiplier wheel/close-triggered wallet settlement.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#14 only after owner approval: immutable result-scoped amount, total vs delta, exactly-once committed receipt before visual reward; verify late/cancel/duplicate and kill/restart. No copied multiplier, RNG, base values, extra ad placement or delay. Original UI/SDK/sequence reachability remains UNKNOWN.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/model.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-daily-paid-restart-debit-result-ignored",
+      "sourceFeatureId": "easy-daily-paid-restart-debit-result-ignored",
+      "originalBehavior": "OnBtnCoinRestartClick #25087 155a490 emits restart-way,155a4b8 UseItemCount configured+0x9c,155a4c0 dispatch,155a4e0 close. 4 native synthetic fixtures 0/199/200/201 with cost200. Actual button eligibility or successful restart with insufficient balance UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/session.ts",
+      "stage": "P3",
+      "currentImplementation": "Own Daily restart is free within availability window; no coin debit on restart.",
+      "comparison": "MISSING",
+      "status": "RESEARCHED",
+      "nextAction": "#18 preserve approved free restart; if owner ever chooses payment, fail closed with no restart on debit failure. Source UI eligibility and actual restart subscriber UNKNOWN.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/session.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
+    },
+    {
+      "id": "easy-coin-service-direct-wallet-update",
+      "sourceFeatureId": "easy-coin-service-direct-wallet-update",
+      "originalBehavior": "#20858 14479e4;1447a44–1447a70 wallet read/write then user properties; positive with flag0 refresh, zero no refresh, negative refresh with flag. 6 native fixtures. Direct aligned B/BL census no inbound to method except own metadata pointer; actual indirect call/SDK/persistence UNKNOWN. | research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "codePath": "src/app/model.ts",
+      "stage": "P4",
+      "currentImplementation": "Own wallet changes through committed save, no donor CoinService direct write/user-properties coupling.",
+      "comparison": "PARTIAL",
+      "status": "RESEARCHED",
+      "nextAction": "#24 retain committed receipt authority and independent UI; no unapproved analytics/SDK or alternate wallet write route.",
+      "dependencies": "Owner-approved scope/economy and own save/receipt contracts; exact original Android reachability, provider and actual board/wallet state separate.",
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/2419774d3684747f4a1ee5bf250e20677216419f/src/app/model.ts",
+      "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+      "reviewedVersion": "0.5.24 / 29",
+      "acceptanceRequirement": "Native synthetic cases and static callsites in exact report; no product acceptance claim. Validate own source-scoped payment/receipt, boundary rejection, actual applied delta, restart and duplicate behavior if approved."
     }
   ],
   "latestReview": {
@@ -14023,5 +14307,43 @@
     "repeatByteIdentical": true,
     "negativeControl": true,
     "limitations": "Managed allocation/collections shimmed. Own binary formula compared by inspection, not execution of own TS. Original long-level occurrence and actual board status updates/UI/device UNKNOWN. No product, bank, save, runtime or economy changes."
+  },
+  "easyfunRewardNative20261127": {
+    "report": "https://github.com/DanilaH/mini-games-kit/blob/6fd19408bfd58a0a39512749b19d5caa6e6355b8/research/games/crossmath/porting/easyfun-reward-native-20261127/README.md",
+    "sourceCommit": "6fd19408bfd58a0a39512749b19d5caa6e6355b8",
+    "reviewedConsumerHead": "2419774d3684747f4a1ee5bf250e20677216419f",
+    "sourceFeatures": 701,
+    "added": [
+      "easy-item-spend-balance-gate",
+      "easy-item-spend-nonpositive-amount",
+      "easy-item-spend-hint-counter",
+      "easy-item-spend-event-delta",
+      "easy-hint-button-credit-first",
+      "easy-hint-button-paid-dispatch",
+      "easy-hint-reward-add-then-consume",
+      "easy-hint-reward-false-dispatch",
+      "easy-random-gold-success-multiplier",
+      "easy-random-gold-false-base",
+      "easy-random-gold-free-callback",
+      "easy-random-gold-sequence-reset",
+      "easy-coin-close-base-continuation",
+      "easy-coin-close-delay-guard",
+      "easy-daily-paid-restart-debit-result-ignored",
+      "easy-coin-service-direct-wallet-update"
+    ],
+    "refined": [
+      "easy-base-coins",
+      "easy-video-multiplier",
+      "easy-hint-price",
+      "easy-restart-coins",
+      "easy-rewarded-hint-precheck",
+      "easy-feedback-random-gold-audio",
+      "easy-interstitial-coin-close-precheck",
+      "easy-event-finish-hint-not-granted"
+    ],
+    "isolatedNativeCases": 240,
+    "repeatByteIdentical": true,
+    "negativeControl": true,
+    "limitations": "Provider, game gate, cache/disk, sequence/pointer index and UI/event dispatch substituted. No actual SDK earned/delivery, board mutation, real probabilities, or event alternate hint payout. No code/economy/runtime changes."
   }
 }
