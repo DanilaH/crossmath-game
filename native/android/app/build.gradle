@@ -29,6 +29,7 @@ tasks.configureEach { task ->
  if(task.name in ['preReleaseBuild','preReleaseCheckBuild'])task.doFirst {
   def stamp=file('src/main/assets/public/native-build.json')
   if(!stamp.isFile()||new groovy.json.JsonSlurper().parse(stamp).channel!='release')throw new GradleException('Run npm run android:sync:release before optimized variants')
+  if(task.name=='preReleaseBuild'&&new groovy.json.JsonSlurper().parse(stamp).freeIssuancePolicy!='legacy')throw new GradleException('Issuance pilot is exclusive to the playtest APK')
  }
  if(task.name=='preReleaseBuild')task.doFirst {project.exec {workingDir rootProject.file('../..');commandLine 'node','tools/release-config.mjs','--check'}}
 }

@@ -15,6 +15,7 @@ import { createCareer, settleAchievements, settleStage, upgradeCareer, validateC
 import type { Career } from '../meta/career';
 import type { WorkshopReceipt } from '../meta/workshopProgress';
 import { endlessEnabled } from '../content/modeAvailability';
+import { closeFreeAssignment, validateFreeIssuance } from '../content/freeIssuance';
 
 export interface Settings { theme: 'light' | 'dark'; sound: boolean; vibration: boolean; reducedMotion: boolean; language: 'ru' | 'en'; timerVisible: boolean }
 export interface Completion {
@@ -89,7 +90,10 @@ export function settleCompletion(save: Save, now=new Date().toISOString()): Save
   const activeGoal = track ? activeTrackGoal(next,track) : null;
   if (track) {
     const progress = next.meta.freeProgress ??= {relax: 0, challenge: 0};
-    if (next.attempt.freeIndex === progress[track]) progress[track]++;
+    if (next.attempt.freeIndex === progress[track]) {
+      closeFreeAssignment(next.meta,track,progress[track]);
+      progress[track]++;
+    }
   }
   next.result={id:`win:${next.attempt.id}`,attemptId:next.attempt.id,puzzleId:p.puzzleId,first,coins,xp:reward.xp,rankUps,fragments:profile.fragments-previousFragments,cardCoins,elapsedPlaying:next.attempt.elapsedPlaying,baseCoins:reward.coins,rankCoins:rankUps*config.rank.rewardCoins,
     collectionFragments:profile.fragments,rankLevel:profile.rank,workshop:{from:previousWins,to:profile.solvedIds.length},unlockedModes:modeUnlockThresholds
@@ -130,6 +134,7 @@ export function decodeSave(input: unknown): Save {
   if (!['light','dark'].includes(s.settings.theme) || !['ru','en'].includes(s.settings.language) || !['sound','vibration','reducedMotion','timerVisible'].every(k=>typeof s.settings[k as keyof Settings]==='boolean')) return fail();
   validateMeta(s);
   if(s.meta.freeProgress && ![s.meta.freeProgress.relax,s.meta.freeProgress.challenge].every(nonnegative)) return fail();
+  validateFreeIssuance(s.meta);
   validateCareer(s);
   validateAdState(s);
   const validateReceipt=(result:Completion):void=>{

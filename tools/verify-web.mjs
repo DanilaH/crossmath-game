@@ -1,7 +1,9 @@
 import {readFile,readdir} from 'node:fs/promises';
-const release=process.argv.includes('--release'),config=JSON.parse(await readFile('android-project.json','utf8'));
+const pilot=process.argv.includes('--issuance-pilot'),release=process.argv.includes('--release')||pilot;
+const config=JSON.parse(await readFile('android-project.json','utf8'));
 const stamp=JSON.parse(await readFile('dist/native-build.json','utf8'));
 if(stamp.channel!==(release?'release':'playtest'))throw Error('Wrong web build channel');
+if(stamp.freeIssuancePolicy!==(pilot?'d4-v2':'legacy'))throw Error('Wrong Free issuance policy');
 async function walk(dir){const files=[];for(const entry of await readdir(dir,{withFileTypes:true})){const p=dir+'/'+entry.name;if(entry.isDirectory())files.push(...await walk(p));else files.push(p);}return files;}
 const files=await walk('dist');
 for(const path of files){

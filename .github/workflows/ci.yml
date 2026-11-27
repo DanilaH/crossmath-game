@@ -40,6 +40,7 @@ jobs:
       - run: node .test-output/kit/tools/bootstrap/doctor-game-guidance.mjs . --strict
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
+      - run: npm run build:issuance-pilot && node tools/issuance-pilot-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -48,6 +49,7 @@ jobs:
             .test-output/ui/
             .test-output/meta-ui/
             .test-output/core00/
+            .test-output/issuance16/
             .test-output/help11-ui/
             .test-output/ads-banner/
             .test-output/feel/

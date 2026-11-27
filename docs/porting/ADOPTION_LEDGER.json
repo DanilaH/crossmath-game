@@ -53,7 +53,13 @@
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 2 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495",
-      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16",
+      "issue16Pilot": {
+        "summary": "Pilot preserves the six Relax positions, lengths, difficulty bands and three-win unlock.",
+        "codePath": "src/content/freeIssuance.ts",
+        "evidence": "docs/acceptance/issue-16/README.md",
+        "nextAction": "Review the signed playtest and approve activation separately. The comparison and existing acceptance status refer to the original named behavior."
+      }
     },
     {
       "id": "easy-six-challenge",
@@ -75,7 +81,13 @@
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 2 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495",
-      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16",
+      "issue16Pilot": {
+        "summary": "Pilot preserves the six Challenge positions, lengths, difficulty bands and fifteen-win unlock.",
+        "codePath": "src/content/freeIssuance.ts",
+        "evidence": "docs/acceptance/issue-16/README.md",
+        "nextAction": "Review the signed playtest and approve activation separately. The comparison and existing acceptance status refer to the original named behavior."
+      }
     },
     {
       "id": "easy-bank-reindex",
@@ -97,7 +109,13 @@
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "acceptanceEvidence": "docs/acceptance/PACKAGES_ABC_0516.md#b--0515 · Chromium/проверка APK · исходник 5042b034e2af03e0c42f25affb13199aa2fe03ba",
-      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16",
+      "issue16Pilot": {
+        "summary": "Legacy reindex stays active in the regular build. The opt-in build adds exact same-bucket scheduling and durable current-position pins.",
+        "codePath": "src/content/freeIssuance.ts",
+        "evidence": "docs/acceptance/issue-16/README.md",
+        "nextAction": "Review the signed playtest and approve activation separately. The comparison and existing acceptance status refer to the original named behavior."
+      }
     },
     {
       "id": "easy-owl-equality",
@@ -148,7 +166,13 @@
         "note": "Tail of 300 only for ordinary exclusions; final rescue uses full history-provider collection."
       },
       "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16",
-      "originalBehavior": "G4:E27 §6, _getStandardPuzzleId/queryPuzzle | Маски почти уникальны: cm4 10 411/10 421, cm5 10 384/10 400; одна маска максимум два рецепта, исследование 2026-11-23. | Строгая нижняя граница после исключения любых 300 масок: cm4 1344/2462/2705/2700 по diff1–4, cm5 1403/1865/2462/3456 без remote filter. research/games/crossmath/porting/guru-profile-pool-20261123/README.md | 2026-11-25 Independent SQLite recalculation: intact default buckets cannot be exhausted by 300 distinct masks alone. research/games/crossmath/porting/guru-issuance-audit-20261125/README.md | 2026-11-25 Tail exclusion and full-history getter separated by exact static dataflow. research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md | 2026-11-26: Daily native 301→skip1→300 exclusions, map mask field getter f3b824 confirmed static; standard prior evidence preserved. Whole-history rescue distinct. | research/games/crossmath/porting/guru-daily-issuance-native-20261126/README.md"
+      "originalBehavior": "G4:E27 §6, _getStandardPuzzleId/queryPuzzle | Маски почти уникальны: cm4 10 411/10 421, cm5 10 384/10 400; одна маска максимум два рецепта, исследование 2026-11-23. | Строгая нижняя граница после исключения любых 300 масок: cm4 1344/2462/2705/2700 по diff1–4, cm5 1403/1865/2462/3456 без remote filter. research/games/crossmath/porting/guru-profile-pool-20261123/README.md | 2026-11-25 Independent SQLite recalculation: intact default buckets cannot be exhausted by 300 distinct masks alone. research/games/crossmath/porting/guru-issuance-audit-20261125/README.md | 2026-11-25 Tail exclusion and full-history getter separated by exact static dataflow. research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md | 2026-11-26: Daily native 301→skip1→300 exclusions, map mask field getter f3b824 confirmed static; standard prior evidence preserved. Whole-history rescue distinct. | research/games/crossmath/porting/guru-daily-issuance-native-20261126/README.md",
+      "issue16Pilot": {
+        "summary": "The opt-in build uses a three-position D4 numeric-coordinate window in each Free track. The original holes mask history remains a separate rule.",
+        "codePath": "src/content/freeIssuance.ts",
+        "evidence": "docs/acceptance/issue-16/README.md",
+        "nextAction": "Review the signed playtest and approve activation separately. The comparison and existing acceptance status refer to the original named behavior."
+      }
     },
     {
       "id": "guru-profile",
@@ -5887,7 +5911,13 @@
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
       ],
-      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16",
+      "issue16Pilot": {
+        "summary": "The opt-in build tries the authored required bucket when global unsolved candidates are exhausted. It retains the old assignment if setup cannot complete.",
+        "codePath": "src/content/freeIssuance.ts",
+        "evidence": "docs/acceptance/issue-16/README.md",
+        "nextAction": "Review the signed playtest and approve activation separately. The comparison and existing acceptance status refer to the original named behavior."
+      }
     },
     {
       "id": "guru-issuance-history-mask-rescue",
@@ -5910,7 +5940,13 @@
       "additionalSourceEvidence": [
         "https://github.com/DanilaH/mini-games-kit/blob/3517662878dd1982294ec206cfc165b4daa9ccf5/research/games/crossmath/porting/guru-issuance-dataflow-20261125/README.md"
       ],
-      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16",
+      "issue16Pilot": {
+        "summary": "The opt-in build relaxes its geometry preference only inside the exact required bucket and minimum count tier.",
+        "codePath": "src/content/freeIssuance.ts",
+        "evidence": "docs/acceptance/issue-16/README.md",
+        "nextAction": "Review the signed playtest and approve activation separately. The comparison and existing acceptance status refer to the original named behavior."
+      }
     },
     {
       "id": "guru-issuance-operation-ratio-denominator",
@@ -6061,7 +6097,13 @@
       "dependencies": "Source PP bindings and original runtime evidence; immutable bank and saves",
       "nextAction": "Native natural empty primary+zero history reaches throw stub for Daily; own empty pool must safely handle without crash; device/outer error behavior remains unknown.",
       "acceptanceRequirement": "Exact original evidence or explicitly separate consumer proposal; no runtime change or automatic acceptance.",
-      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16"
+      "issuanceProposalIssue": "https://github.com/DanilaH/crossmath-game/issues/16",
+      "issue16Pilot": {
+        "summary": "The opt-in resolver returns unavailable for an empty authored bucket. It leaves the prior slot, cursor and ledger intact.",
+        "codePath": "src/content/freeIssuance.ts",
+        "evidence": "docs/acceptance/issue-16/README.md",
+        "nextAction": "Review the signed playtest and approve activation separately. The comparison and existing acceptance status refer to the original named behavior."
+      }
     },
     {
       "id": "guru-issuance-filter-ratio-domain",

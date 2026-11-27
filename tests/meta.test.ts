@@ -175,7 +175,7 @@ describe('D calendar and mode state',()=>{
   session.state.profile.solvedIds.push(advertised.puzzleId);
   await session.refreshDay();
   const updated=session.questOffer(0)!;
-  expect(updated).toMatchObject({freeTrack:'relax',puzzleId:freeTrackOffer(session.state,'relax').puzzleId});
+  expect(updated).toMatchObject({freeTrack:'relax',puzzleId:freeTrackOffer(session.state,'relax')!.puzzleId});
   expect(updated.puzzleId).not.toBe(advertised.puzzleId);
   expect(await session.openOffer(advertised,false,0,true)).toBe('unavailable');
   expect(await session.openOffer(updated,false,0,true)).toBe('opened');
@@ -188,7 +188,7 @@ describe('D calendar and mode state',()=>{
   const old=createAttempt(p,'issued-previously','free');old.freeTrack='relax';old.freeIndex=0;
   old.placements[first.id]='t0';
   initial.meta.inactive.free={attempt:old,result:null};await session.update({},false);
-  expect(freeTrackOffer(session.state,'relax').puzzleId).toBe(p.puzzleId);
+  expect(freeTrackOffer(session.state,'relax')?.puzzleId).toBe(p.puzzleId);
   expect(await session.openFreeTrack('challenge')).toBe('confirm_replace');
   expect(storedSlot(await repo.load(),'free')?.attempt).toEqual(old);
   await session.openFreeTrack('relax');expect((await repo.load()).attempt).toEqual(old);

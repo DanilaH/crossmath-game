@@ -42,6 +42,7 @@ const latestCampaign = deepFreeze(tunedCampaign);
 export const campaignSequence = (version: ContentVersion): readonly string[] => version === 'content-v2' ? latestCampaign : routes.campaignSequence;
 export const freeTrackPuzzle = (track: FreeTrack, index: number): Puzzle => trackPuzzle(track, index);
 export const freeAssignmentVersion = 1;
+export const freeTrackBucket = (track: FreeTrack, index: number): readonly Puzzle[] => pools.get(bucketTurn(track,index).bucket) ?? [];
 
 export function newFreeTrackPuzzle(track: FreeTrack, index: number, solvedIds: readonly string[]): Puzzle {
   const pool = pools.get(bucketTurn(track, index).bucket)!;

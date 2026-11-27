@@ -1,6 +1,7 @@
 // Standalone candidate model: run from the exact game checkout; no author answers.
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+const includeTrace=process.argv.includes('--trace');
 function model(old,b,routes){
  const check=(x,m)=>{if(!x)throw Error(m)}, pools={}, all=new Map([...old,...b].map(p=>[p.puzzleId,p]));
  for(const p of b)(pools[p.bucket]??=[]).push(p);
@@ -54,7 +55,8 @@ function model(old,b,routes){
    }
    const firstCycleLength=t==="relax"?120:105, firstCycleUnique=new Set(h.slice(0,firstCycleLength).map(p=>p.puzzleId)).size;
    if(window){check(earlyBucketRepeat===0&&firstCycleUnique===firstCycleLength,"early repeat in simulated completed stream");}
-   return {...repeatStats(h),firstCycleLength,firstCycleUnique,earlyBucketRepeat,shapeRelaxations:window?shapeRelaxations:null};
+   return {...repeatStats(h),firstCycleLength,firstCycleUnique,earlyBucketRepeat,shapeRelaxations:window?shapeRelaxations:null,
+     ...(includeTrace?{idTrace:h.map(p=>p.puzzleId)}:{})};
  }
  const scenarios=[];
  for(const track of ["relax","challenge"])for(const prefix of [0,60,240]){
@@ -62,8 +64,10 @@ function model(old,b,routes){
    scenarios.push({track,initialCampaignWins:prefix===0?"no v2 ID solved (unlock tutorial excluded)":prefix,completedTrackPositions:360,baseline:sim(track,360,initial),candidate3:sim(track,360,initial,3),alternative6:sim(track,360,initial,6)});
  }
  const stress=[];for(const track of ["relax","challenge"])for(const prefix of [15,30,90,135,150,200]){
-   const p=sim(track,360,campaign.slice(0,prefix).map(x=>x.puzzleId),3);
-   stress.push({track,prefix,minIdGap:p.minIdGap,idGapLE12:p.idGapLE12,idGapLE50:p.idGapLE50,earlyBucketRepeat:p.earlyBucketRepeat,firstCycleUnique:p.firstCycleUnique,shapeGapLE3:p.shapeGapLE3,shapeGapLE6:p.shapeGapLE6});
+   const initial=campaign.slice(0,prefix).map(x=>x.puzzleId);
+   const p=sim(track,360,initial,3);
+   stress.push({track,prefix,minIdGap:p.minIdGap,idGapLE12:p.idGapLE12,idGapLE50:p.idGapLE50,earlyBucketRepeat:p.earlyBucketRepeat,firstCycleUnique:p.firstCycleUnique,shapeGapLE3:p.shapeGapLE3,shapeGapLE6:p.shapeGapLE6,
+     ...(includeTrace?{idTrace:p.idTrace,baselineTrace:sim(track,360,initial).idTrace}:{})});
  }
  check(selectCandidate([],0,new Map(),new Map(),new Map(),3)===null,"empty pool safe");
  const single=pools["easy-short"][0],last=new Map([[single.puzzleId,0]]),counts=new Map([[single.puzzleId,1]]),ls=new Map([[shapes.get(single.puzzleId),0]]);
