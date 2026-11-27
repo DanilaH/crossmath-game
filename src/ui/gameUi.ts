@@ -613,7 +613,7 @@ export class GameUi {
     const insideAlbum=s.meta.screen==='album',insideLeague=s.meta.screen==='league';
     const deepTitle=$('deep-title');
     deepTitle.hidden=!insideAlbum&&!insideLeague;
-    deepTitle.textContent=insideLeague?this.t('Лига','League'):insideAlbum?this.t('Мастерская счёта','Counting Workshop'):'';
+    deepTitle.textContent=insideLeague?this.t('Лига','League'):insideAlbum?this.t('Мастерская','Workshop'):'';
     $('home').setAttribute('aria-label',insideAlbum||insideLeague?this.t('Назад','Back'):this.t('Crossmath — на главную','Crossmath — Home'));
     const tabBar=$('root-tabs');
     tabBar.hidden=playing||s.meta.screen==='album';

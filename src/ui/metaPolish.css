@@ -1,4 +1,7 @@
 .meta-progress { display:block; width:100%; height:6px; border-radius:8px; background:linear-gradient(to right,var(--action-ink) var(--meta-progress),var(--play-line) 0); }
+summary { -webkit-tap-highlight-color:transparent; touch-action:manipulation; border-radius:7px; }
+summary:focus-visible { outline:3px solid var(--action-ink); outline-offset:2px; }
+#hub .hub-panel > summary:active { background:var(--action-wash); }
 /* Reserve the existing paper rotation inside its hit area; artwork stays centred. */
 #hub[data-screen=home] .resume-board-open { padding-inline:8px; }
 .collection-overview { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:center; }
