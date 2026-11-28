@@ -1159,6 +1159,13 @@
       "closureAudit20261126": {
         "report": "https://github.com/DanilaH/mini-games-kit/blob/944f4bb370edf46fb10c6f3b4d5ab0d505d85f23/research/games/crossmath/porting/closure-audit-20261126/README.md",
         "note": "New static evidence or bounded direct-call census; old comparison and acceptance preserved. Actual live/device gate remains."
+      },
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "Physical finger/motor/acoustic test still open; do not promote comparison.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
       }
     },
     {
@@ -2292,7 +2299,14 @@
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "Проверить отказ без сброса и восстановление фокуса",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1048",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-06 confirmation below fold on short viewport; reveal/focus it, preserve destructive action consent.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "easy-rating",
@@ -2395,7 +2409,14 @@
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
       "nextAction": "На телефоне измерить активное время при системном сворачивании",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1125",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/ui/gameUi.ts",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-06 help/pause scrolling and immediate confirmation visibility; no state contract change.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "easy-daily-archive",
@@ -2416,7 +2437,14 @@
         "path": "docs/porting/play-audit-0513/DELIVERY_SPEC_RU.md"
       },
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 3 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495"
+      "acceptanceEvidence": "docs/acceptance/issue-5/README.md · пакет 3 · Chromium · 9fa8ab94a7bfa21d343163d922f8395a720fb495",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-03/05 preserve date selection and archived attempts; improve calendar touch without changing eligibility.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "plan-editor",
@@ -2516,7 +2544,14 @@
       "dependencies": "банк + валидатор + контракт сохранения",
       "nextAction": "Проверить два равных числа, уже поставленную фишку и Undo",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L1211",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/core/engine.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/core/engine.ts",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "16/16 browser probes sorted correctly; UX-04 icon, 9.92px label and nonblocking presentation improvement only.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-return-tray",
@@ -4020,7 +4055,14 @@
       "sourceVersionStatus": "UNKNOWN in original uploaded video; app-specific UI observed and frames indexed, exact APK version not displayed",
       "reviewedVersion": "0.5.24",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-01, NAV-06, NAV-07"
+      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-01, NAV-06, NAV-07",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-02 origin-aware League Back proposal; retain 4 tabs and current adopted modes.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-ui-home-continue-new",
@@ -4038,7 +4080,14 @@
       "sourceVersionStatus": "Part of source behavior directly visible in video_13-49-51.mp4; Settings in same MP4 t81.0 identifies 4.18.0-26111743. Other MP4 evidence same-session inferred.",
       "reviewedVersion": "0.5.24",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-01, NAV-03"
+      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-01, NAV-03",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-01 compact preview at 320x480; preserve Continue/New and saved puzzle, aspect-fit mini preview.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-ui-new-game-sheet",
@@ -4074,7 +4123,14 @@
       "sourceVersionStatus": "Part of source behavior directly visible in video_13-49-51.mp4; Settings in same MP4 t81.0 identifies 4.18.0-26111743. Other MP4 evidence same-session inferred.",
       "reviewedVersion": "0.5.24",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-01, NAV-06"
+      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-01, NAV-06",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-03 Home Daily opens prior selected date in all 12 combinations; proposed open effectiveDay without resetting saved attempts.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-ui-daily-full-tab",
@@ -4092,7 +4148,14 @@
       "sourceVersionStatus": "UNKNOWN in original uploaded video; app-specific UI observed and frames indexed, exact APK version not displayed",
       "reviewedVersion": "0.5.24",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-04, NAV-06"
+      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-04, NAV-06",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-03 distinguish direct today shortcut from persistent calendar selection; improve compact touch where possible.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-ui-battle-locked-tab",
@@ -4170,7 +4233,14 @@
       "sourceVersionStatus": "Part of source behavior directly visible in video_13-49-51.mp4; Settings in same MP4 t81.0 identifies 4.18.0-26111743. Other MP4 evidence same-session inferred.",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "reviewedVersion": "0.5.24",
-      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-01, NAV-02, NAV-07"
+      "acceptanceEvidence": "docs/acceptance/issue-6/README.md · Chromium · NAV-01, NAV-02, NAV-07",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-05 dense 320x430 target 18px, digits 9.5px; device gate, retain actual board math and hit regions.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-ui-explain-coach",
@@ -4386,7 +4456,14 @@
       "dependencies": "Проверенная версия референса и соответствующий видимый UI-trigger; src/ui/gameUi.ts, src/ui/metaView.ts, state/persistence, RU/EN, native host, accessibility + result lifecycle",
       "nextAction": "Сохранить атомарность и воспроизводить отдельные собственные overlay-события из квитанций: same result, 1× звук, skip/фон/сохранение, без повторного начисления. После нового owner review.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/6c8542981d292a8dd4621cd855cb18dab127b48b/research/games/crossmath/porting/guru-runtime-418-20261123/README.md",
-      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/metaView.ts"
+      "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/9fa8ab94a7bfa21d343163d922f8395a720fb495/src/ui/metaView.ts",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "Keep existing compact reward presentation; no donor popup queue adoption in this polish.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-ui-cap-first-guide",
@@ -4571,7 +4648,14 @@
       "nextAction": "На чистом Guru 4.17.0 вызвать Sort Tray до/после первого показа, затем повторить после Back и cold restart; зафиксировать реальный guide, его правило показа и продолжительность.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/814f036f6fc1f529e7704905d7b5e62098a7c3f3/research/games/crossmath/porting/guru-ux-telemetry-417/README.md",
       "originalBuild": "Guru 4.17.0 / 26101374 NATIVE_STATIC/ASSET_VERIFIED. Exact named tokens/assets not found in Guru 3.5.2; equivalent old behavior not excluded.",
-      "acceptanceRequirement": "Before asserting MATCH: independently observe user input and visible state change in original, then same test in our 0.5.24+ Android APK; model/browser/rendered asset alone insufficient."
+      "acceptanceRequirement": "Before asserting MATCH: independently observe user input and visible state change in original, then same test in our 0.5.24+ Android APK; model/browser/rendered asset alone insufficient.",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-04 improve sort discoverability through icon/label, no new donor tutorial trigger approved.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-guide-revert-trigger",
@@ -4586,7 +4670,14 @@
       "nextAction": "В исходной версии 4.17.0 после намеренного размещения/возврата фишки проверить, появляется ли Revert guide, когда и сколько раз, как закрывается и сохраняется.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/814f036f6fc1f529e7704905d7b5e62098a7c3f3/research/games/crossmath/porting/guru-ux-telemetry-417/README.md",
       "originalBuild": "Guru 4.17.0 / 26101374 NATIVE_STATIC/ASSET_VERIFIED. Exact named tokens/assets not found in Guru 3.5.2; equivalent old behavior not excluded.",
-      "acceptanceRequirement": "Before asserting MATCH: independently observe user input and visible state change in original, then same test in our 0.5.24+ Android APK; model/browser/rendered asset alone insufficient."
+      "acceptanceRequirement": "Before asserting MATCH: independently observe user input and visible state change in original, then same test in our 0.5.24+ Android APK; model/browser/rendered asset alone insufficient.",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "UX-04 disabled Return visible and stable; no new donor tutorial trigger approved.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-guide-strategy-trigger",
@@ -11102,7 +11193,14 @@
       "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "acceptanceEvidence": "docs/acceptance/feel-01.md",
-      "reviewedHead": "57820c8c6491c8b6240aeed5cb0dfde61c858927"
+      "reviewedHead": "57820c8c6491c8b6240aeed5cb0dfde61c858927",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "Latest CI scheduling only; 38 observed contact pairs median 0.1ms, physical motor unknown.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "guru-feedback-vibration-drag",
@@ -11427,7 +11525,14 @@
       "handoffIssue": "https://github.com/DanilaH/crossmath-game/issues/13",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
       "acceptanceEvidence": "docs/acceptance/feel-01.md",
-      "reviewedHead": "57820c8c6491c8b6240aeed5cb0dfde61c858927"
+      "reviewedHead": "57820c8c6491c8b6240aeed5cb0dfde61c858927",
+      "uiFeelIndependent20261128": {
+        "build": "0.5.28/33",
+        "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+        "consumerEvidence": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+        "proposal": "Latest CI scheduling only; max 7ms audio, physical speaker latency unknown.",
+        "nextAction": "See https://github.com/DanilaH/crossmath-game/issues/32; verify after implementation; original comparison/status preserved."
+      }
     },
     {
       "id": "easy-feedback-game-start-audio",
@@ -15723,5 +15828,27 @@
     "liveSDK": "NOT INSTALLED",
     "referenceParityPromoted": false,
     "signing": "stable test certificate5f pinned; old aa59 update blocked without original key"
+  },
+  "uiFeelIndependent20261128": {
+    "reviewedHead": "4a76f388f9582c15d7f264914042b8a16c092706",
+    "build": "0.5.28/33",
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "sourceInventory": "95f01f566adb07f29100b9fac86f73c8149a2a22",
+    "report": "docs/acceptance/ui-feel-audit/README.md",
+    "issue": "https://github.com/DanilaH/crossmath-game/issues/32",
+    "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46143344755",
+    "artifactId": 15263046996,
+    "rows": 310,
+    "probes": 40,
+    "pageErrors": 0,
+    "rootOverflow": 0,
+    "sourceInventoryCount": 729,
+    "mappedCount": 729,
+    "missing": 0,
+    "orphan": 0,
+    "originalParityPromotion": false,
+    "gameplayChanged": false,
+    "physicalAndroid": "NOT RUN",
+    "note": "Independent actual RC build in project CI; delivered APK/evidence separately matched; local extracted APK navigation blocked. UI polish proposal after #31, not implementation or owner approval."
   }
 }
