@@ -258,7 +258,8 @@ export class AdsController {
     this.fullscreen=true;
     this.block(true);
     const deadline=new Promise<FullscreenResult>(resolve=>{
-      timer=setTimeout(()=>{
+      const recover=()=>{
+        if(operationDone||this.disposed||opened||!waiting)return;
         if(request&&this.provider.reconcileReward&&(this.availability.protocolVersion??0)>=3){
           void this.reconcile(request).then(result=>{
             if(result.state==='opened')context.opened();
@@ -268,7 +269,11 @@ export class AdsController {
               if(this.fullscreenWork===work)this.fullscreenWork=undefined;
               resolve('unavailable');
             }
-          }).catch(()=>this.report('error',format,'native-admission-unknown'));
+          }).catch(()=>{
+            this.report('error',format,'native-admission-unknown');
+            // Retry a rejected durable proof, never expire unknown/shown work. Hung calls stay single-flight.
+            if(!operationDone&&!this.disposed&&!opened&&waiting)timer=setTimeout(recover,500);
+          });
         }else if(cancelUnopened){
           // A delayed opened event is not evidence that native never opened. The native
           // main-thread lease decides before the JS input/audio blocker is released.
@@ -276,7 +281,8 @@ export class AdsController {
             if(state==='opened')context.opened();else resolve('unavailable');
           }).catch(()=>this.report('error',format,'native-presentation-unknown'));
         }else resolve('unavailable');
-      },startWindow);
+      };
+      timer=setTimeout(recover,startWindow);
     });
     const work=Promise.resolve().then(()=>{this.report('provider-call',format);return operation(context);}).catch(()=>'failed' as const).then(async result=>{
       this.report('terminal',format,result);

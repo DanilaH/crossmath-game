@@ -730,4 +730,17 @@ describe('MON-01 request-ID admission reconciliation',()=>{
   next.resolve('cancelled');await second;vi.useRealTimers();controller.dispose();
   expect(Object.values(session.state.ads.requests)).toHaveLength(2);
  });
+ it('retries a rejected fence proof after transient IO/bridge failure and restores eligibility without a new show',async()=>{
+  const proof=vi.fn(async(request:RewardRequest)=>({state:'closed' as const,receipt:{id:request.id,profileId:request.profileId,outcome:'cancelled' as const}}));
+  proof.mockRejectedValueOnce(Error('Fence commit/reply unavailable'));
+  const provider=Object.assign(new ScriptedProvider(),{status:{...ready,protocolVersion:3},reconcileReward:proof});
+  const {session,controller,blocks}=await setup(provider);provider.onRewarded=()=>new Promise<FullscreenResult>(()=>{});
+  vi.useFakeTimers();const work=controller.reward('hint',0);await vi.advanceTimersByTimeAsync(1600);
+  expect(blocks.has('ad')).toBe(true);expect(Object.values(session.state.ads.requests)[0]!.settlement).toBeUndefined();
+  await vi.advanceTimersByTimeAsync(600);await work;await vi.advanceTimersByTimeAsync(10);
+  expect(blocks.size).toBe(0);expect(provider.requests).toHaveLength(1);expect(proof.mock.calls.length).toBeGreaterThanOrEqual(2);
+  expect(Object.values(session.state.ads.requests)[0]!.settlement).toBe('cancelled');expect(controller.rewardAvailable('hint')).toBe(true);
+  expect(session.state.profile.hintCredits).toBe(0);vi.useRealTimers();controller.dispose();
+ });
+
 });

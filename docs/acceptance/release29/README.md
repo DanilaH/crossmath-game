@@ -22,7 +22,7 @@ Future RC Daily assignments use the 100-entry calendar-v3 schedule (old50 + new5
 
 ## Regression and evidence
 
-- Unit: **268 game tests** in the normal suite; **51 RC/League tests** separately. Normal-mode RC-only/League-only cases are intentionally skipped and run in their declared profiles. Separate win-bonus candidate remains isolated.
+- Unit: **269 game tests** in the normal suite; **51 RC/League tests** separately. Normal-mode RC-only/League-only cases are intentionally skipped and run in their declared profiles. Separate win-bonus candidate remains isolated.
 - **23 native JVM tests**; optimized releaseCheck Gradle build, R8 retained storage/ads bridges, APK signature v2, zipalign16k, version/package and exact web-payload verification PASS. This is not device execution.
 - All 90 integrated IDs: independent uniqueness (exactly one solution), full verified Explain from empty and partial/restarted positions, no Reveal. Existing full515 and lab proofs remain in the normal suite.
 - **1800 mixed assignments** with deterministic replay, per-pin decode/restore and unchanged six-slot buckets. [Issuance model](../../../tools/release29-issuance.mjs): **10800 assignments**, three profiles/policies and two tracks. No repeat before bucket exhaustion in D4.
@@ -52,7 +52,7 @@ Across these fixed scenarios, income differs in20/54 weeks, from−10 to+180 coi
 
 ## APK and remaining gates
 
-Local candidate: `com.danilah.crossmath.releasecheck`,0.5.27/32,1,896,426 bytes, SHA256 `e35ced7c472864e6503ec92a406e57c347d7b7c4ed47de080472799fa72e3d58`. Optimized, non-debuggable, lab flags false, win bonus off, provider Unconfigured. CI independently builds/verifies its own APK; hashes/signers are not interchangeable.
+Local candidate: `com.danilah.crossmath.releasecheck`,0.5.27/32,1,896,502 bytes, SHA256 `d2dba24f4a3134ba8382cc8491d04b37c43fcd50b68989e2526a6f1c13c46977`. Optimized, non-debuggable, lab flags false, win bonus off, provider Unconfigured. CI independently builds/verifies its own APK; hashes/signers are not interchangeable.
 
 **BLOCKED — physical Android update and SDK acceptance.** No phone/emulator execution is claimed. The previous local playtest key is absent in this execution environment. The local APK uses a new host test certificate `5f4432685e6ae74b9777454c1606828dbc1a5aee385662c296ef719ebc44ad22`, different from previous0.5.26 signer `aa59fbbf75788165ad7e51444729fca882ea2bdfaca1ee460064986b442ac1d4`. It cannot replace that installation in place. **Keep the old installation/data; use this APK only in a separate test installation/device until the original key is supplied securely.** Logical save migration passes are not same-signer update proof. No signing identity workaround or production key was introduced.
 

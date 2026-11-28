@@ -12,6 +12,7 @@ The game could save a rewarded request and then never reach native dispatch beca
 - Startup recovery snapshots also run on the process-wide IO executor, so an old Activity callback cannot race a main-thread AtomicFile read. Provider recovery is posted back to main without blocking startup.
 - Native terminal receipts remain available for request reconciliation after ACK. Honest late earned dominates cancellation/failure and is still applied once by the saved game transaction before exact outcome ACK.
 - The game reconciles orphan pending requests after startup/refresh, excluding its own current admission. A proved fence retires a hung JS operation and its listener handles. Old work cannot clear a newer fullscreen owner.
+- A transient failed fence/read poisons no future admission: native reopens the authoritative journal on the shared IO owner; the held JS operation retries rejected proof queries every500ms, single-flight, without another SDK show. Unknown/opened requests never expire from this retry timer.
 - Bridge reply failure after native opening retains the input/audio hold until correlated `fullscreenClosed`. Failure to query native is not dismissal. Ordinary play remains possible after restart with an unknown receipt, while competing ads stay blocked by the pending request.
 
 ## Executable evidence

@@ -82,7 +82,7 @@ public class CrossmathAdsPlugin extends Plugin {
     @PluginMethod public void availability(PluginCall call){GameStoragePlugin.IO.execute(this::retryReceipts);main.post(()->{try{if(!disposed)provider.refresh();call.resolve(status());}catch(Exception error){call.reject("Ad availability failed");}});}
     @PluginMethod public void pendingRewards(PluginCall call){GameStoragePlugin.IO.execute(()->{
         try{if(journal==null)throw new IOException();JSArray receipts=new JSArray();for(AdReceiptJournal.Receipt r:journal.pending())receipts.put(event(r));JSObject result=new JSObject();result.put("receipts",receipts);call.resolve(result);}
-        catch(Exception error){call.reject("Ad receipt recovery unavailable");}
+        catch(Exception error){journal=null;call.reject("Ad receipt recovery unavailable");}
     });}
     @PluginMethod public void acknowledge(PluginCall call){
         String id=call.getString("id"),outcome=call.getString("outcome");
@@ -121,6 +121,7 @@ public class CrossmathAdsPlugin extends Plugin {
         boolean unopened=owns&&!opened;if(unopened)finish(show,"cancelled");
         GameStoragePlugin.IO.execute(()->{
             try{
+                retryReceipts();
                 if(journal==null)throw new IOException();
                 AdReceiptJournal.Receipt receipt=journal.reconcile(id,profile,kind,unopened);
                 main.post(()->{
@@ -129,7 +130,7 @@ public class CrossmathAdsPlugin extends Plugin {
                     result.put("state",live?"opened":receipt.outcome==null?"unknown":"closed");
                     if(receipt.outcome!=null)result.put("receipt",event(receipt));call.resolve(result);
                 });
-            }catch(Exception error){call.reject("Reward admission recovery unavailable");}
+            }catch(Exception error){journal=null;call.reject("Reward admission recovery unavailable");}
         });
     });}
     private void safeShow(PluginCall call,boolean rewarded){try{show(call,rewarded);}catch(Exception error){if(current!=null&&current.call==call)finish(current,"failed");else resolve(call,"failed");}}
@@ -162,7 +163,7 @@ public class CrossmathAdsPlugin extends Plugin {
         if(rewarded){
             GameStoragePlugin.IO.execute(()->{
                 try{journal.reserve(id,profile,kind);show.reserved=true;journal.arm(id);main.post(begin);}
-                catch(Exception error){main.post(()->finish(show,"failed"));}
+                catch(Exception error){journal=null;main.post(()->finish(show,"failed"));}
             });
         }else begin.run();
     }
