@@ -52,7 +52,7 @@ Across these fixed scenarios, income differs in20/54 weeks, from−10 to+180 coi
 
 ## APK and remaining gates
 
-Local candidate: `com.danilah.crossmath.releasecheck`,0.5.27/32,1,896,274 bytes, SHA256 `cf6ea8e0198aa51ae214d49408789c4e018dabdb52af04a1fdcf90a1b5b2935a`. Optimized, non-debuggable, lab flags false, win bonus off, provider Unconfigured. CI independently builds/verifies its own APK; hashes/signers are not interchangeable.
+Local candidate: `com.danilah.crossmath.releasecheck`,0.5.27/32,1,896,426 bytes, SHA256 `e35ced7c472864e6503ec92a406e57c347d7b7c4ed47de080472799fa72e3d58`. Optimized, non-debuggable, lab flags false, win bonus off, provider Unconfigured. CI independently builds/verifies its own APK; hashes/signers are not interchangeable.
 
 **BLOCKED — physical Android update and SDK acceptance.** No phone/emulator execution is claimed. The previous local playtest key is absent in this execution environment. The local APK uses a new host test certificate `5f4432685e6ae74b9777454c1606828dbc1a5aee385662c296ef719ebc44ad22`, different from previous0.5.26 signer `aa59fbbf75788165ad7e51444729fca882ea2bdfaca1ee460064986b442ac1d4`. It cannot replace that installation in place. **Keep the old installation/data; use this APK only in a separate test installation/device until the original key is supplied securely.** Logical save migration passes are not same-signer update proof. No signing identity workaround or production key was introduced.
 

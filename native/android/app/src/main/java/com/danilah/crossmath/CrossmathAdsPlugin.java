@@ -59,7 +59,16 @@ public class CrossmathAdsPlugin extends Plugin {
         try{provider.start(getActivity(),new CrossmathAdProvider.Events(){
             public void availabilityChanged(){main.post(()->{if(!disposed){statusChanged();reconcileBanner();}});}
             public void recovered(String id,String outcome){persistReceipt(id,outcome);}
-        });if(journal!=null)provider.recover(journal.unresolved());}catch(Exception error){/* unavailable, never a gameplay prerequisite */}
+        });
+            // Every journal read shares the same IO owner as late callbacks/AtomicFile writes.
+            // In particular, Activity startup must not race another instance's receipt commit.
+            GameStoragePlugin.IO.execute(()->{
+                try{
+                    List<AdReceiptJournal.Receipt> unresolved=journal==null?null:journal.unresolved();
+                    main.post(()->{if(!disposed&&unresolved!=null)try{provider.recover(unresolved);}catch(Exception error){/* optional recovery */}});
+                }catch(Exception error){/* unknown remains pending; never infer cancellation */}
+            });
+        }catch(Exception error){/* unavailable, never a gameplay prerequisite */}
     }
     private boolean active(){return !disposed&&foreground&&getActivity()!=null&&!getActivity().isFinishing()&&getActivity().getWindow().getDecorView().hasWindowFocus();}
     private JSObject status(){
