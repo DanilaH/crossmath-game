@@ -265,10 +265,12 @@ export class GameSession {
     if(JSON.stringify(next.meta)===JSON.stringify(this.state.meta)&&!this.hasLeagueUpdate())return false;
     this.busy=true;try{await this.persist(next,0);return true;}finally{this.finishWrite();}
   }
-  async navigate(screen:MetaScreen,elapsed=0,calendarTrophyMonth?:string):Promise<boolean>{
+  async navigate(screen:MetaScreen,elapsed=0,calendarTrophyMonth?:string,today=false):Promise<boolean>{
     if(this.busy||screen==='league'&&!leagueEnabled||screen==='play'&&this.suspendedAttempt)return false;this.busy=true;
     try{
       const next=structuredClone(this.state);next.meta.screen=screen;next.attempt.userPaused=false;
+      if(screen==='calendar'&&today){refreshDay(next,this.now());next.meta.calendarSelectedDay=next.meta.effectiveDay;}
+      if(screen==='league'&&this.state.meta.screen!=='league')next.meta.leagueOrigin=this.state.meta.screen==='home'?'home':'profile';
       if(screen==='album')next.meta.albumOrigin=this.state.meta.screen==='profile'?'profile':'home';
       delete next.meta.calendarTrophyMonth;
       if(screen==='calendar' && calendarTrophyMonth)next.meta.calendarTrophyMonth=calendarTrophyMonth;

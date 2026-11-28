@@ -90,7 +90,7 @@ export function nextFragmentText(save:Save):string {
   const remaining=workshopTarget(save.profile.solvedIds.length,save.profile.fragments)?.remaining;
   return localize(save.settings.language,`Новых полей до детали: ${remaining??0}`,`New boards until next part: ${remaining??0}`);
 }
-interface Actions { joinLeague:()=>void; navigate:(screen:MetaScreen,history?:boolean)=>void; trophy:(month:string)=>void; campaign:()=>void; newGame:(choice:NewGameChoice)=>void; selectDay:(day:string)=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
+interface Actions { joinLeague:()=>void; navigate:(screen:MetaScreen,history?:boolean,today?:boolean)=>void; trophy:(month:string)=>void; campaign:()=>void; newGame:(choice:NewGameChoice)=>void; selectDay:(day:string)=>void; free:(track:FreeTrack)=>void; daily:(day:string)=>void; endless:()=>void; offer:(offer:Offer,repeatCompleted?:boolean)=>void; quest:(index:number)=>void; questStartsNewRun:(index:number)=>boolean; blocking:(blocked:boolean)=>void }
 const partsEN = [
   ['Frame','Rods','Left beads','Right beads'],
   ['Tray','Units','Fives','Tens'],
@@ -209,7 +209,13 @@ export class MetaView {
     if (subtitle) head.append(el('p','muted',subtitle));
     this.root.append(head);
   }
+  private renderedSave:Save|undefined;
+  private renderedDisabled:boolean|undefined;
+  private renderedReduced:boolean|undefined;
   render(save:Save,disabled:boolean):void {
+    const reduced=save.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(this.renderedSave===save&&this.renderedDisabled===disabled&&this.renderedReduced===reduced)return;
+    this.renderedSave=save;this.renderedDisabled=disabled;this.renderedReduced=reduced;
     this.language = save.settings.language;
     this.reduced=save.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;
     const screen = save.meta.screen;
@@ -307,7 +313,7 @@ export class MetaView {
     const quick = el('div', 'home-quick');
     const day = save.meta.effectiveDay;
     const dailyWins = config.unlockProposal.dailyAfterNewWins;
-    const daily = this.button('', () => this.actions.navigate('calendar'), 'daily-primary');
+    const daily = this.button('', () => this.actions.navigate('calendar',false,true), 'daily-primary');
     daily.classList.add('quick-daily');
     const status = this.dayStatus(save, day);
     const dayStatus = wins < dailyWins ? this.unlockText(dailyWins)

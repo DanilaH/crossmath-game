@@ -53,6 +53,7 @@ export function upgradeSave(input:unknown):unknown {
 export function validateMeta(save:Save):void {
   const m=save.meta,nonnegative=(n:unknown)=>Number.isSafeInteger(n)&&Number(n)>=0;
   if(!m||m.version!==1||!['play','album','league',...rootScreens].includes(m.screen)||typeof m.activeSlot!=='string'||!isCalendarDay(m.effectiveDay)||!nonnegative(m.issuedDays)||!['easy','standard','hard','expert'].includes(m.freeDifficulty))throw Error('Corrupt meta header');
+  if(m.leagueOrigin!==undefined&&m.leagueOrigin!=='home'&&m.leagueOrigin!=='profile')throw Error('Corrupt league origin');
   if(m.albumOrigin!==undefined&&m.albumOrigin!=='home'&&m.albumOrigin!=='profile')throw Error('Corrupt workshop origin');
   if(m.calendarSelectedDay!==undefined&&(!isCalendarDay(m.calendarSelectedDay)||m.calendarSelectedDay>m.effectiveDay))throw Error('Corrupt calendar selection');
   for(const list of [m.completedDates,m.contributedIds,m.slotReceipts,m.setReceipts])if(!Array.isArray(list)||list.some(x=>typeof x!=='string')||new Set(list).size!==list.length)throw Error('Corrupt meta ledger');

@@ -1,3 +1,5 @@
+> **Current UX-QA #32 ·0.5.30/35:** [acceptance/ui32/README.md](acceptance/ui32/README.md). Scoped navigation/preview/dialog/tool/layout/feel corrections after delivered FUNC31. Preserve all prior CORE/META/RC,605 fields, economy and kit; fixed100%. Full project CI and exact stable-signed APK are the delivery gates; physical phone/old-key/live SDK gates remain separate. Earlier milestone instructions below are historical.
+
 > **Current FUNC-QA #31 ·0.5.29/34:** [acceptance/functional-audit/README.md](acceptance/functional-audit/README.md). After delivered0.5.28/33: all605 Reveal, actual storage CAS and lossless bounded pages; no live Undo/ID/receipt loss. Prior CORE/META/RC and physical/old-key/SDK gates retained. Runtime/economy unchanged. Project CI is the acceptance source. Older single-writer/nontransactional notes below describe the superseded infrastructure.
 
 ## DEC-2026-11-28-RC-QA · финальная регрессия #30

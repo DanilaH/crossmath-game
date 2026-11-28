@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {createServer} from 'vite';
 import assert from 'node:assert/strict';
 export const baselineSpecs=[
+ {name:'rc529',ref:'291cb971ec4c9a577851ada6a1c53dbf7d9b8fe2',policy:'league-lab-3',mode:'release-candidate'},
  {name:'rc528',ref:'4a76f388f9582c15d7f264914042b8a16c092706',policy:'league-lab-3',mode:'release-candidate'},
  {name:'league-v1',ref:'a57ceabc8570e57c0fcbf8aabdd5ee74674a7147',policy:'league-lab-1'},
  {name:'league-v2',ref:'097b9fc69b669c100ef1e6fa8b1063cb6cb56008',policy:'league-lab-2'},
@@ -43,6 +44,12 @@ if(process.argv.includes('--prepare')){
    assert.equal(hash(await readFile(archive)),'c3dbe3044b1b9b4da1d70af3d9a12a88239dfcb9889e4153dcb4aedc2bf6ce46');
    execFileSync('python3',['-m','zipfile','-e',archive,root+'/artifact-web']);
    provenance.artifact={apkSha256:'d2dba24f4a3134ba8382cc8491d04b37c43fcd50b68989e2526a6f1c13c46977',versionName:'0.5.27',versionCode:32,webArchiveSha256:hash(await readFile(archive)),scope:'Exact delivered integrated RC web; native installation not simulated'};
+  }
+  if(spec.name==='rc529'){
+   const archive=resolve('tests/fixtures/playtest529-web.zip');
+   assert.equal(hash(await readFile(archive)),'dc478e55e4fa6f5db6ca69ff67e97617a447dc3b032d9be89ea1b40f460768e4');
+   execFileSync('python3',['-m','zipfile','-e',archive,root+'/artifact-web']);
+   provenance.artifact={apkSha256:'0fde335c67cc27b05c9605c562b2245ee998fd3c8a485adecb2143e7ad7ea25f',versionName:'0.5.29',versionCode:34,webArchiveSha256:hash(await readFile(archive)),scope:'Exact delivered FUNC31 public web; native installation not simulated'};
   }
   if(spec.name==='rc528'){
    const archive=resolve('tests/fixtures/playtest528-web.zip');

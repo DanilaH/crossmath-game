@@ -1,3 +1,4 @@
+import {quantity} from './locale';
 import type {Save} from '../app/model';
 import {leagueRows,leaguePeriod,leaguePolicy,leagueRoster,leagueDisplayRow} from '../meta/league';
 import type {LeagueResult,LeagueRow} from '../meta/league';
@@ -35,7 +36,7 @@ export function leagueView(save:Save,join:()=>void,disabled:boolean,now=new Date
  function results(result:LeagueResult,primary=false){
   const box=el('section','league-finish');if(primary)box.id='league-finish';box.dataset.medal=result.id;
   const medal=leagueMedal(result.rank,result.medal.tier);medal.setAttribute('aria-hidden','false');medal.setAttribute('aria-label',t(`Медаль недели · место ${result.rank}`,`Weekly medal · place ${result.rank}`));
-  const copy=el('div');copy.append(el('p','league-finish-kicker',t('ВАШ ИТОГ','YOUR RESULT')),el('h2','',t(`${result.rank} место`,`${result.rank} place`)),el('p','',t(`${result.points} очков за неделю`,`${result.points} points this week`)),el('p','muted',date(result.startDay)+' — '+date(new Date(Date.parse(result.endDay+'T12:00:00Z')-86_400_000).toISOString().slice(0,10))));
+  const copy=el('div');copy.append(el('p','league-finish-kicker',t('ВАШ ИТОГ','YOUR RESULT')),el('h2','',t(`${result.rank} место`,`${result.rank} place`)),el('p','',t(`${quantity('ru',result.points,'point')} за неделю`,`${result.points} points this week`)),el('p','muted',date(result.startDay)+' — '+date(new Date(Date.parse(result.endDay+'T12:00:00Z')-86_400_000).toISOString().slice(0,10))));
   box.append(medal,copy);return box;
  }
  function table(rows:LeagueRow[],scope:string){
@@ -52,7 +53,7 @@ export function leagueView(save:Save,join:()=>void,disabled:boolean,now=new Date
   const rows=leagueRows(week,state.lastSeenAt),self=rows.find(r=>r.id==='self')!,left=Math.max(0,week.endAt-Math.max(Date.parse(now),state.lastSeenAt));
   const days=Math.floor(left/86_400_000),hours=Math.floor(left%86_400_000/3_600_000),status=el('section','league-status');
   const place=el('span','league-standing');place.append(el('b','',String(self.place)),el('span','',t('место','place')));
-  const score=el('span','league-total');score.append(el('b','',String(self.points)),el('span','',t('очков','points')));
+  const score=el('span','league-total');score.append(el('b','',String(self.points)),el('span','',t(quantity('ru',self.points,'point').split(' ').slice(1).join(' '),'points')));
   status.append(place,score,Object.assign(el('span','league-countdown',t(`Итог через ${days} д ${hours} ч`,`Ends in ${days}d ${hours}h`)),{id:'league-remaining'}));
   root.append(status,table(rows,week.id));
  }else{

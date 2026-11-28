@@ -5,6 +5,17 @@ const base=JSON.parse(await readFile('docs/acceptance/monetization27/BASELINE.js
 const sha=data=>createHash('sha256').update(data).digest('hex');
 for(const {path,sha256} of base.unchanged){
  let bytes=await readFile(path);
+ if(path==='src/meta/progress.ts'){
+  const added="  if(m.leagueOrigin!==undefined&&m.leagueOrigin!=='home'&&m.leagueOrigin!=='profile')throw Error('Corrupt league origin');\n";
+  const text=bytes.toString();assert.equal(text.split(added).length,2);bytes=Buffer.from(text.replace(added,''));
+ }
+ if(path==='src/ui/board.ts'){
+  // UX-QA32 authorizes only the reviewed keyed-tray presentation and tall-view layout diff.
+  const changes=JSON.parse(await readFile('docs/acceptance/ui32/authorized-board-presentation.json','utf8'));
+  let text=bytes.toString();
+  for(const {before,after} of changes){assert.equal(text.split(after).length,2,'Exactly one approved UI32 presentation span');text=text.replace(after,before);}
+  bytes=Buffer.from(text);
+ }
  if(path==='src/help/reveal.ts'){
   // FUNC-01 authorizes only the frozen additional table, not different Reveal mechanics.
   const added="// Frozen public IDs only: no laboratory catalog or answer dependency in Explain.\nimport additionalAnswers from '../content/additionalAnswers.json';\n";

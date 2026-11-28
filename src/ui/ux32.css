@@ -1,0 +1,48 @@
+/* UX-QA #32: preserve materials, fit content in both axes, keep targets stable. */
+#hub[data-screen="home"] .resume-preview {
+  display:grid; grid-template:1fr / 1fr; place-items:center; container-type:size;
+}
+.resume-preview .preview-grid {
+  display:grid; grid-template-columns:repeat(var(--columns),minmax(0,1fr));
+  grid-template-rows:repeat(var(--rows),minmax(0,1fr));
+  place-items:center; gap:1px;
+  width:min(100cqw,calc(100cqh * var(--columns) / var(--rows)));
+  height:min(100cqh,calc(100cqw * var(--rows) / var(--columns)));
+}
+#hub[data-screen="home"] .preview-slot {
+  width:95%; height:95%; max-width:none; min-height:0;
+  font-size:clamp(8px,min(15cqw,15cqh),25px); line-height:1;
+}
+#hub[data-screen="home"] .preview-operator { font-size:clamp(8px,min(15cqw,15cqh),22px); line-height:1; }
+.resume-preview .preview-equation { display:none; }
+@container (max-height:65px) {
+  .resume-preview .preview-grid { display:none; }
+  .resume-preview .preview-equation {
+    display:grid; grid-template-columns:1fr .6fr 1fr .6fr 1fr; align-items:center; justify-items:center;
+    width:100%; height:min(100cqh,32px); gap:2px;
+  }
+  #hub[data-screen="home"] .preview-equation .preview-slot { font-size:clamp(12px,65cqh,22px); }
+  #hub[data-screen="home"] .preview-equation .preview-operator { font-size:clamp(12px,65cqh,20px); }
+}
+.tools button, #play-screen.is-solving .tools button { font-size:11.5px; color:var(--play-ink); }
+#return:disabled { visibility:visible; }
+.tools button:disabled { opacity:.45; }
+.tools .tool-icon { width:24px; height:24px; flex:none; }
+#pause-dialog[data-confirming="restart"] > :is(.pause-actions,details,#restart) { display:none; }
+#pause-dialog[data-confirming="restart"] #restart-confirm { display:block; }
+#restart-confirm .buttons { display:grid; grid-template-columns:1fr; }
+#restart-confirm button { width:100%; }
+#help-title { flex:none; }
+.month-navigation { grid-template-columns:48px minmax(0,1fr) 48px; }
+.month-arrow { min-height:44px; }
+@media (min-height:620px) { .month-arrow { min-height:48px; } }
+/* Quiet response; it owns no gameplay state and never delays navigation. */
+#hub > :is(.home-stage,.hub-heading,.league-page), #hub > .profile-overview { animation:section-arrive 120ms ease-out; }
+@keyframes section-arrive { from { opacity:.75; translate:0 3px; } to { opacity:1; translate:0 0; } }
+@media (prefers-reduced-motion:reduce) { #hub > * { animation:none; } }
+body.calm #hub > * { animation:none; }
+
+.token-face { display:block; pointer-events:none; }
+
+body.dark #root-tabs .menu-icon { filter:brightness(1.8) saturate(.85); }
+#help-dialog:has(#help-description:not([hidden])) { max-height:82svh; }

@@ -58,8 +58,8 @@ try{
   await tap(page,'#home-league-open');await view(page,name+'-invite');
   const joinRect=await page.locator('#league-join').boundingBox(),tabs=await page.locator('#root-tabs').boundingBox();assert.ok(joinRect.y+joinRect.height<=tabs.y);
   assert.equal((await snapshot(page)).league,undefined);
-  await tap(page,'#home');await page.locator('#hub[data-screen=profile]').waitFor();
-  await tap(page,'#league-open');await tap(page,'#league-join');
+  await tap(page,'#home');await page.locator('#hub[data-screen=home]').waitFor();
+  await tap(page,'#tab-profile');await tap(page,'#league-open');await tap(page,'#league-join');
   const plans=JSON.stringify((await snapshot(page)).league.active.bots);
   assert.equal(await page.locator('.league-row').count(),10);assert.equal(await page.locator('#tab-profile[aria-current=page]').count(),1);
   await tap(page,'#tab-home');await tap(page,'#continue-game');await solve(page);await view(page,name+'-win');

@@ -15,6 +15,7 @@ interface Landing { cell: number; revision: number; from: DOMRect }
 export const equationText=(p:Puzzle,a:Attempt,index:number):string=>{const eq=p.equations[index]!;const [left,right,result]=eq.cells.map(id=>cellValue(p,a,id)??'□');return `${left} ${operatorGlyph[eq.op]} ${right} = ${result}`;};
 export class BoardView {
   private puzzle!:Puzzle;private attempt!:Attempt;private selected:Source|null=null;private gesture:Gesture|null=null;
+  private readonly sortMotion=new OwnedDomMotion();
   private readonly motion=new OwnedDomMotion();private readonly cells=new Map<number,HTMLElement>();private signs:HTMLElement[][]=[];
   private equationLines: HTMLElement[] = [];
   private landing: Landing | undefined;
@@ -53,6 +54,9 @@ export class BoardView {
   private t(ru:string,en:string):string {return localize(this.language(),ru,en);}
   update(puzzle: Puzzle, attempt: Attempt, move?: MoveFeedback): void {
     const before = this.attempt;
+    const sorting=move?.cue==='sort'&&moveIsCurrent(move,attempt)&&this.lastFeedbackCommand!==move.commandId;
+    const positions=sorting&&!this.reduced()?new Map([...this.tray.querySelectorAll<HTMLElement>('[data-token]:not([hidden])')].map(e=>[e.dataset.token!,e.getBoundingClientRect()])):undefined;
+    if(sorting||this.reduced())this.sortMotion.cancelAll();
     const changed = this.puzzle?.puzzleId !== puzzle.puzzleId || before.id !== attempt.id;
     this.puzzle = puzzle;
     this.attempt = attempt;
@@ -80,6 +84,13 @@ export class BoardView {
     if (changed || !move || !moveIsCurrent(move, attempt) || this.lastFeedbackCommand === move.commandId) return;
     this.lastFeedbackCommand = move.commandId;
     this.motion.cancelAll();
+    if(positions)for(const piece of this.tray.querySelectorAll<HTMLElement>('[data-token]:not([hidden])')){
+      const old=positions.get(piece.dataset.token!),now=piece.getBoundingClientRect();
+      const visible=(r:DOMRect)=>r.top>=this.tray.getBoundingClientRect().top-1&&r.bottom<=this.tray.getBoundingClientRect().bottom+1;
+      if(old&&visible(old)&&visible(now)&&(old.x!==now.x||old.y!==now.y))this.sortMotion.animate(piece.firstElementChild,[
+        {translate:`${old.x-now.x}px ${old.y-now.y}px`},{translate:'0 0'},
+      ],{duration:140,easing:'cubic-bezier(.2,.7,.3,1)'},{fromCurrent:'replace'});
+    }
 
     const scored = move.cue === 'win' || attempt.mode !== 'endless' && (move.cue === 'right' || move.cue === 'wrong');
     const previous = scored ? evaluate(puzzle, move.before) : [];
@@ -225,8 +236,11 @@ export class BoardView {
     // Sorting is explicit; occupied slots keep their physical place during all other actions.
     const order=this.attempt.trayOrder,existing=[...this.tray.querySelectorAll<HTMLElement>('.slot')];
     if(existing.map(e=>e.dataset.slot).join('|')!==order.join('|')){
-      this.tray.replaceChildren();this.tray.scrollTop=0;for(const id of order){const slot=document.createElement('span');slot.className='slot';slot.dataset.slot=id;
-        const token=document.createElement('button');token.type='button';token.className='token';token.dataset.token=id;token.textContent=String(tokenValue(this.puzzle,id));slot.append(token);this.tray.append(slot);}
+      const keyed=new Map(existing.map(e=>[e.dataset.slot,e]));
+      for(const id of order){let slot=keyed.get(id);if(!slot){slot=document.createElement('span');slot.className='slot';slot.dataset.slot=id;
+        const token=document.createElement('button');token.type='button';token.className='token';token.dataset.token=id;const face=document.createElement('span');face.className='token-face';face.textContent=String(tokenValue(this.puzzle,id));token.append(face);slot.append(token);}
+        this.tray.append(slot);}
+      this.tray.scrollTop=0;
     }
     const used=new Set(Object.values(this.attempt.placements));
     for(const token of this.tray.querySelectorAll<HTMLButtonElement>('button')){const id=token.dataset.token!;token.hidden=used.has(id);token.disabled=this.disabled()||this.attempt.status!=='playing';const active=this.selected?.kind==='token'&&this.selected.id===id;token.classList.toggle('selected',active);token.setAttribute('aria-pressed',String(active));token.setAttribute('aria-label',this.t(`Число ${tokenValue(this.puzzle,id)}, экземпляр ${Number(id.slice(1))+1}`,`Number ${tokenValue(this.puzzle,id)}, piece ${Number(id.slice(1))+1}`));}
@@ -374,7 +388,7 @@ export class BoardView {
     this.render();
   }
   private movable(source:Source):boolean{return source.kind==='token'||this.attempt.placements[source.id]!==undefined;}
-  private down=(e:PointerEvent):void=>{if(e.isPrimary)this.consumedPointerClick=false;const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;
+  private down=(e:PointerEvent):void=>{if(e.isPrimary){this.consumedPointerClick=false;this.sortMotion.cancelAll();}const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;
     this.dismissTutorial();
     const piece=(e.target as Element).closest<HTMLElement>('[data-cell],[data-token]')!;
     if(this.movable(source))piece.classList.add('grasping');
@@ -401,8 +415,8 @@ export class BoardView {
     animation?.addEventListener('cancel',()=>copy.remove(),{once:true});
   }
   private clearHover():void{for(const el of document.querySelectorAll('.hover'))el.classList.remove('hover');}
-  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted','grasping');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};
-  suspend():void {this.landing=undefined;this.cancel();this.motion.cancelAll();}
+  cancel=():void=>{this.sortMotion.cancelAll();this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted','grasping');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};
+  suspend():void {this.landing=undefined;this.cancel();this.motion.cancelAll();this.sortMotion.cancelAll();}
   private pointerCancel=(e:PointerEvent):void=>{if(this.gesture?.pointer===e.pointerId)this.cancel();};
   private scroll=():void=>{if(this.gesture)this.cancel();};
   private click = (e: MouseEvent): void => {
@@ -429,7 +443,7 @@ export class BoardView {
     const roomy = p.width <= 5 && p.height <= 5 && innerHeight >= 650;
     const preferredHit = roomy ? 56 : 48;
     const widthStep = (width - preferredHit) / Math.max(1, p.width - 1);
-    const heightStep = p.height > 5 ? 30 : innerHeight < 650 ? 36 : roomy ? 56 : 46;
+    const heightStep = p.height > 5 ? (innerHeight>=650?46:30) : innerHeight < 650 ? 36 : roomy ? 56 : 46;
     const preferredStep = Math.max(preferredHit / 2, Math.min(widthStep, heightStep));
     let step = preferredStep, hit = preferredHit;
     if (this.playArea.parentElement!.classList.contains('is-solving')) {

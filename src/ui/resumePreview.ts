@@ -29,6 +29,7 @@ export function resumePreview(puzzle: Puzzle, attempt?: Attempt): HTMLElement {
   view.className = 'resume-preview';
   view.style.setProperty('--columns', String(columns));
   view.style.setProperty('--rows', String(rows));
+  const grid=document.createElement('div');grid.className='preview-grid';view.append(grid);
   const value = (id: number) => attempt ? cellValue(puzzle, attempt, id) : cells.get(id)?.given;
   const labels = equations.filter(({left,right}) => left.x >= x && left.y >= y && right.x < x + columns && right.y < y + rows)
     .map(({equation}) => {
@@ -50,7 +51,19 @@ export function resumePreview(puzzle: Puzzle, attempt?: Attempt): HTMLElement {
       slot.textContent = found.operator;
     }
     slot.setAttribute('aria-hidden','true');
-    view.append(slot);
+    grid.append(slot);
+  }
+  const equation=equations.filter(({left,right})=>left.x>=x&&left.y>=y&&right.x<x+columns&&right.y<y+rows)
+    .sort((a,b)=>b.equation.cells.filter(id=>attempt?.placements[id]).length-a.equation.cells.filter(id=>attempt?.placements[id]).length)[0]?.equation;
+  if(equation){
+    const strip=document.createElement('div');strip.className='preview-equation';strip.setAttribute('aria-hidden','true');
+    const [a,b,c]=equation.cells;
+    for(const [id,op] of [[a,undefined],[undefined,operatorGlyph[equation.op]],[b,undefined],[undefined,'='],[c,undefined]] as const){
+      const part=document.createElement('span');
+      part.className=id===undefined?'preview-operator':`preview-slot ${value(id)===undefined?'preview-blank':cells.get(id)?.given===undefined?'preview-piece':'preview-given'}`;
+      part.textContent=id===undefined?op!:String(value(id)??'·');strip.append(part);
+    }
+    view.append(strip);
   }
   return view;
 }

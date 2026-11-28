@@ -40,7 +40,7 @@ jobs:
       - run: npm run test:win-rv
       - run: npm run test:rc
       - name: FUNC-QA asserting regressions from the independent audit
-        run: npx vitest run --mode release-candidate tests/functional-audit.test.ts tests/save-atomic.test.ts tests/reveal-additional.test.ts
+        run: npx vitest run --mode release-candidate tests/functional-audit.test.ts tests/save-atomic.test.ts tests/reveal-additional.test.ts tests/ui32-navigation.test.ts
       - run: node tools/monetization27-invariants.mjs
       - run: node tools/league22-model.mjs
       - run: node tools/league22-guru-model.mjs
@@ -64,6 +64,8 @@ jobs:
           node tools/functional31-browser.mjs
           node tools/settings31-browser.mjs
           node tools/meta18-fixtures.mjs
+          node tools/ui32-browser.mjs
+          node tools/ui32-interactions.mjs
           node tools/rc30-baselines.mjs --prepare
           node tools/rc30-update-browser.mjs
           RELEASE29_BASELINE=../rc30-baselines/legacy526 node tools/release29-update-browser.mjs
@@ -114,6 +116,8 @@ jobs:
             .test-output/rc30-update/
             .test-output/rc30-protocol/
             .test-output/rc30-banner/
+            .test-output/ui32/
+            .test-output/ui32-interactions/
             .test-output/functional31/
       - run: npm run android:sync:rc
       - uses: actions/setup-java@v4

@@ -15746,5 +15746,39 @@
     ],
     "acceptance": "docs/acceptance/functional-audit/README.md",
     "boundary": "Current game tests; source statuses unchanged, original/device parity not inferred; host-only storage candidate, runtime pin unchanged"
+  },
+  "uiFeelQA32": {
+    "issue": 32,
+    "version": "0.5.30/35",
+    "base": "291cb971ec4c9a577851ada6a1c53dbf7d9b8fe2",
+    "research": "c1260ac124e7435c6142ae51c572cd70ad26b0ac",
+    "sourceFeatureIds": [
+      "guru-ui-home-continue-new",
+      "guru-ui-home-context-shortcuts",
+      "guru-ui-daily-full-tab",
+      "easy-daily-archive",
+      "guru-ui-four-tab-shell",
+      "guru-sort-tray",
+      "guru-guide-sort-trigger",
+      "guru-guide-revert-trigger",
+      "guru-ui-play-immersive",
+      "easy-pause",
+      "easy-restart-confirm",
+      "guru-ui-win-popup-queue",
+      "guru-feedback-vibration-correct",
+      "easy-feedback-correct-audio",
+      "ref-haptics"
+    ],
+    "acceptance": "docs/acceptance/ui32/README.md",
+    "codePaths": [
+      "src/ui/resumePreview.ts",
+      "src/ui/ux32.css",
+      "src/ui/board.ts",
+      "src/ui/gameUi.ts",
+      "src/ui/metaView.ts",
+      "src/ui/toolIcon.ts",
+      "src/app/session.ts"
+    ],
+    "boundary": "Current-game UX corrections and browser/native-bridge regression; original comparison/status and729-ID source inventory unchanged; physical finger/audio/haptic and Android installation remain device gates. OwnedDomMotion reused; no runtime/economy/engine changes."
   }
 }

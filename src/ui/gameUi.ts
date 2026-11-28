@@ -1,3 +1,4 @@
+import {toolIcon} from './toolIcon';
 import {leagueEnabled} from '../meta/league';
 import { AdsController } from '../platform/ads';
 import type { AdsProvider } from '../platform/ads';
@@ -61,7 +62,7 @@ export class GameUi {
     this.board=new BoardView($('board'),$('tray'),$('note'),this.feedback,()=>this.busy||session.writing||this.blocked||this.saveFailed||!this.ready,()=>this.reduced(),(action,metadata)=>this.command(action,metadata),()=>this.language);
     this.meta=new MetaView($('hub'),{
       joinLeague:()=>{this.run(async()=>({committed:await session.enterLeague()}));},
-      navigate:(screen,history)=>this.navigate(screen,history),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),
+      navigate:(screen,history,today)=>this.navigate(screen,history,today),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),
       trophy:month=>this.run(async time=>({committed:await session.navigate('calendar',time,month)}),()=>{this.leaveModal();window.scrollTo(0,0);requestAnimationFrame(()=>$('month-trophy')?.focus({preventScroll:true}));}),
       newGame:choice=>this.chooseNewGame(choice),selectDay:day=>this.selectDay(day),
       free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),
@@ -82,7 +83,7 @@ export class GameUi {
       tab.onclick=()=>this.navigate(screen);
     }
     for (const [id,name] of [['undo','undo'],['sort','sort'],['return','return-to-tray'],['help','hint']] as const) {
-      $(id).querySelector('svg')?.replaceWith(menuIcon(name));
+      $(id).querySelector('svg')?.replaceWith(name==='hint'?menuIcon(name):toolIcon(name));
     }
     $('help-title').insertBefore(menuIcon('hint'),$('help-title').firstChild);
 
@@ -92,7 +93,7 @@ export class GameUi {
     const endDialog=$<HTMLDialogElement>('end-run-dialog');
     $('end-run-no').onclick=()=>this.keepPlayingEndless();
     endDialog.addEventListener('cancel',event=>{event.preventDefault();this.keepPlayingEndless();});
-    $('home').onclick=()=>this.session.state.meta.screen==='album' ? this.leaveWorkshop() : this.session.state.meta.screen==='league'?this.navigate('profile'):this.navigate('home');
+    $('home').onclick=()=>this.session.state.meta.screen==='album' ? this.leaveWorkshop() : this.session.state.meta.screen==='league'?this.leaveLeague():this.navigate('home');
     $('home-from-pause').onclick=()=>this.navigate('home');
     $('result-main').onclick=()=>this.navigate('home');
     $('result-home').onclick=()=>campaignResultStatus(session.state)==='finish' ? this.navigate('home') : this.navigate('modes',true);
@@ -134,9 +135,14 @@ export class GameUi {
         });
       });
     };
-    $('restart').onclick=()=>{$('restart-confirm').hidden=false;};$('restart-no').onclick=()=>{$('restart-confirm').hidden=true;};
+    $('restart').onclick=()=>{
+      $('restart-confirm').hidden=false;
+      $('pause-dialog').dataset.confirming='restart';
+      $('pause-dialog').scrollTop=0;
+      $('restart-no').focus({preventScroll:true});
+    };$('restart-no').onclick=()=>this.cancelRestart();
     $('restart-yes').onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{$<HTMLDialogElement>('pause-dialog').close();this.blocker('user',false);$('restart-confirm').hidden=true;window.scrollTo(0,0);});
-    $<HTMLDialogElement>('pause-dialog').addEventListener('cancel',e=>{e.preventDefault();this.resume();});
+    $<HTMLDialogElement>('pause-dialog').addEventListener('cancel',e=>{e.preventDefault();if(!$('restart-confirm').hidden)this.cancelRestart();else this.resume();});
     const helpDialog=$<HTMLDialogElement>('help-dialog');
     helpDialog.addEventListener('cancel',e=>{e.preventDefault();this.closeHelp();});
     helpDialog.addEventListener('close',()=>{
@@ -184,11 +190,12 @@ export class GameUi {
     this.run(async time=>({committed:await this.session.endRun(time)}),()=>this.leaveModal());
   }
   private leaveWorkshop():void { this.navigate(this.session.state.meta.albumOrigin??'home'); }
-  private navigate(screen: MetaScreen, campaignHistory = false): void {
+  private leaveLeague():void { this.navigate(this.session.state.meta.leagueOrigin??'profile'); }
+  private navigate(screen: MetaScreen, campaignHistory = false, today = false): void {
     const from=this.session.state.meta.screen;
     if (from===screen||this.busy||this.session.writing||this.saveFailed) return;
     if(from!=='play'&&from!=='album'&&from!=='league')this.tabScroll.set(from,window.scrollY);
-    this.run(async time=>({committed:await this.session.navigate(screen,time)}),()=>{
+    this.run(async time=>({committed:await this.session.navigate(screen,time,undefined,today)}),()=>{
       this.leaveModal();
       requestAnimationFrame(()=>{
         if (campaignHistory) this.meta.openCampaignHistory();
@@ -196,8 +203,8 @@ export class GameUi {
         else if (screen==='album'||screen==='league') $('deep-title').focus({preventScroll:true});
         else {
           window.scrollTo(0,this.tabScroll.get(screen)??0);
-          const back=from==='album'&&(screen==='home'||screen==='profile');
-          const focus=back ? $(screen==='home'?'album-open':'profile-workshop') : $(`tab-${screen}`);
+          const back=(from==='album'||from==='league')&&(screen==='home'||screen==='profile');
+          const focus=back ? $(from==='league'?(screen==='home'?'home-league-open':'league-open'):(screen==='home'?'album-open':'profile-workshop')) : $(`tab-${screen}`);
           focus?.focus({preventScroll:!back});
         }
       });
@@ -391,7 +398,14 @@ export class GameUi {
     });
   }
 
+  private cancelRestart():void {
+    $('restart-confirm').hidden=true;
+    delete $('pause-dialog').dataset.confirming;
+    $('restart').focus();
+  }
+
   private showPause(): void {
+    delete $('pause-dialog').dataset.confirming;
     const playing = this.session.state.meta.screen === 'play';
     $<HTMLDetailsElement>('settings-options').open = !playing;
     $<HTMLDetailsElement>('rules-options').open = false;
@@ -399,6 +413,7 @@ export class GameUi {
     $('restart-confirm').hidden = true;
     this.blocker('user', true);
     $<HTMLDialogElement>('pause-dialog').showModal();
+    $('pause-dialog').scrollTop=0;
   }
 
   private openPause(): void {
@@ -799,6 +814,6 @@ export class GameUi {
     // Measure after lives, labels, dialogs and native banner acknowledgement have settled.
     if(playing)this.board.resize();
   }
-  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen==='album')this.leaveWorkshop();else if(this.session.state.meta.screen==='league')this.navigate('profile');else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
+  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open){if(!$('restart-confirm').hidden)this.cancelRestart();else this.resume();}else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen==='album')this.leaveWorkshop();else if(this.session.state.meta.screen==='league')this.leaveLeague();else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
   dispose():void{this.disposed=true;this.bonusObserver?.disconnect();this.ads?.dispose();clearInterval(this.timer);this.stopStart();this.finishReadouts();this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
 }

@@ -23,6 +23,7 @@ export interface MetaState {
   calendarTrophyMonth?: string;
   calendarSelectedDay?: string;
   albumOrigin?: 'home'|'profile';
+  leagueOrigin?: 'home'|'profile';
   trackGoalWins?: Partial<Record<TrackWinGoalId,true>>;
   freeIssuance?: FreeIssuance;
 }

@@ -1,3 +1,7 @@
+## Current owner scope · UX-QA-01 #32 · 2026-11-28
+
+0.5.30/35 over delivered FUNC31 `291cb971`. See docs/acceptance/ui32/README.md. Preserve four tabs, fixed100%, artwork,605-bank, economy, storage/CAS and runtime. Fix both-axis preview, origin-aware League Back and explicit Today shortcut; visible restart confirmation/help context; stable readable tools and post-commit140ms keyed sort faces, tall-screen layout. Research matrix310/40 plus native-bridge interaction checks and all prior CI remain. No zoom/pan system, new mechanisms, SDK or publication. Dense320×430 physical finger and Android update/audio/haptic are separate open gates.
+
 ## Current owner scope · FUNC-QA #31 · 2026-11-28
 
 0.5.29/34 over delivered RC-QA `4a76f388`. See docs/acceptance/functional-audit/README.md. Fix Reveal for exactly90 released additions; Explain stays answer-free. Host CAS spans comparison/pages/backup/root/collection across browser tabs and native processes. Large saves use lossless bounded pages; preserve every live Undo/ID/receipt and unfinished slot, never silently truncate or raise the4MiB/value cap. Old flat schemas remain supported; actual0.5.28 executable upgrade is added. Use project CI and the pinned stable test signer; no runtime/economy/mechanics/SDK/publication change. #30 device/old-key gates remain separate.
