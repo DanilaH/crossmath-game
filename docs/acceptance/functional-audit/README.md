@@ -28,7 +28,9 @@ Characterization tests are ported into **asserting regressions**, not accepted j
 
 `rc30-baselines.mjs`/`rc30-update-browser.mjs` retain all earlier historical builds and add the **delivered0.5.28/33 APK web** at `4a76f388`. Frozen public ZIP SHA/provenance is in `tests/fixtures/PLAYTEST_WEB.md`. Six executable baselines yield25 update/recovery cases, plus the existing legacy0.5.26/1100-date/maximum test. This is an actual old-code→new-code/storage transition, not physical Android installation.
 
-CI retains all prior CORE/META/D4/content/League/help/ads/feel checks,729 source IDs and the strict720-case banner matrix plus4 delayed-layout cases. Existing source invariants permit only the exact additional Reveal import/spread and previously authorized RC changes. The original bank, economy, difficulty/rotation, assistance/Undo semantics, gesture rendering and reward animation files are not edited.
+CI retains all prior CORE/META/D4/content/League/help/ads/feel checks,729 source IDs and the strict720-case banner matrix plus4 delayed-layout cases. Existing source invariants permit only the exact additional Reveal import/spread and previously authorized RC changes. The original bank, economy, difficulty/rotation, assistance/Undo semantics, gesture rendering and reward animation implementations are unchanged. Only pending settings inputs retain their local selection while the writer is busy; the settled render still adopts durable state or restores a failed change.
+
+`settings31-browser.mjs` independently holds the real Web Lock while the actual packaged settings UI changes theme/language. A pending input stays selected and disabled while authoritative settings remain unchanged. Release commits it; an injected primary-write failure restores the old durable setting and a reload preserves wallet/settings. This reproduces the full-CI checkbox regression with the pre-fix executable, without weakening `.check()` or any save/geometry assertion.
 
 ## APK and remaining limits
 

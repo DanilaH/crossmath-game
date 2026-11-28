@@ -590,7 +590,7 @@ export class GameUi {
       localizeDocument(this.language);
       this.board.clearSelection();
     }
-    const language=$<HTMLSelectElement>('language');language.value=this.language;language.disabled=this.busy;
+    const language=$<HTMLSelectElement>('language');if(!this.busy)language.value=this.language;language.disabled=this.busy;
     this.renderTime();
     $('storage-note').textContent=this.notice==='recovered'
       ?this.t('Восстановлено последнее исправное сохранение.','Restored the last good save.')
@@ -784,7 +784,9 @@ export class GameUi {
         if (this.ready && !this.blocked && !a.userPaused) $('result-title').focus({preventScroll: true});
       }
     }
-    for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){const input=$<HTMLInputElement>(id);input.checked=key==='theme'?settings.theme==='dark':settings[key];input.disabled=this.busy;}
+    // Keep the native input's pending intent while persistence owns the writer.
+    // The settled render adopts durable state, including reverting a failed change.
+    for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){const input=$<HTMLInputElement>(id);if(!this.busy)input.checked=key==='theme'?settings.theme==='dark':settings[key];input.disabled=this.busy;}
     for(const id of ['resume','restart','restart-yes','restart-no','explain','reveal','close-help','end-run-no','end-run-yes'])$<HTMLButtonElement>(id).disabled=this.busy;
     $<HTMLButtonElement>('restart').disabled=this.busy||s.meta.screen!=='play'||!this.session.canRestart();for(const id of ['home','home-from-pause','pause'])$<HTMLButtonElement>(id).disabled=this.busy||this.saveFailed;
     for (const id of ['keep-board','replace-board']) $<HTMLButtonElement>(id).disabled = this.busy || !!this.replacement?.recovery;
