@@ -9,9 +9,9 @@ public final class AdReceiptJournal {
     public interface Disk { byte[] read() throws IOException; void replace(byte[] bytes) throws IOException; }
     public static final class Receipt {
         public final String id, profileId, kind, outcome;
-        public final boolean acknowledged;
-        Receipt(String id,String profileId,String kind,String outcome,boolean acknowledged) {
-            this.id=id;this.profileId=profileId;this.kind=kind;this.outcome=outcome;this.acknowledged=acknowledged;
+        public final boolean acknowledged, armed;
+        Receipt(String id,String profileId,String kind,String outcome,boolean acknowledged,boolean armed) {
+            this.id=id;this.profileId=profileId;this.kind=kind;this.outcome=outcome;this.acknowledged=acknowledged;this.armed=armed;
         }
     }
     private final Disk disk;
@@ -24,7 +24,25 @@ public final class AdReceiptJournal {
         if(!Arrays.asList("hint","continue","win-bonus").contains(kind))throw new IOException("Unknown kind");
         if(entries.containsKey(id))throw new IOException("Request already reserved");
         LinkedHashMap<String,Receipt> next=new LinkedHashMap<>(entries);
-        next.put(id,new Receipt(id,profileId,kind,null,false));commit(next);
+        next.put(id,new Receipt(id,profileId,kind,null,false,false));commit(next);
+    }
+    /** Fence absence/preparation before returning a no-reward answer. CAD2 unknowns stay armed. */
+    public synchronized Receipt reconcile(String id,String profile,String kind,boolean provenUnopened) throws IOException {
+        refresh();check(id);check(profile);
+        if(!Arrays.asList("hint","continue","win-bonus").contains(kind))throw new IOException("Unknown kind");
+        Receipt old=entries.get(id);
+        if(old!=null&&(!old.profileId.equals(profile)||!old.kind.equals(kind)))throw new IOException("Request identity mismatch");
+        if(old!=null&&(old.outcome!=null||old.armed&&!provenUnopened))return old;
+        LinkedHashMap<String,Receipt> next=new LinkedHashMap<>(entries);
+        Receipt fenced=new Receipt(id,profile,kind,"cancelled",false,old!=null&&old.armed);
+        next.put(id,fenced);commit(next);return fenced;
+    }
+    /** Persist uncertainty BEFORE handing control to an SDK, never after a show callback. */
+    public synchronized void arm(String id) throws IOException {
+        refresh();Receipt old=entries.get(id);
+        if(old==null||old.outcome!=null)throw new IOException("Request fenced or absent");
+        LinkedHashMap<String,Receipt> next=new LinkedHashMap<>(entries);
+        next.put(id,new Receipt(old.id,old.profileId,old.kind,null,false,true));commit(next);
     }
     public synchronized Receipt settle(String id,String outcome) throws IOException {
         refresh();
@@ -33,14 +51,14 @@ public final class AdReceiptJournal {
         // Earned dominates a delayed cancellation/failure, including after an earlier ack.
         if("earned".equals(old.outcome)||outcome.equals(old.outcome)||old.outcome!=null&&!outcome.equals("earned"))return old;
         LinkedHashMap<String,Receipt> next=new LinkedHashMap<>(entries);
-        Receipt receipt=new Receipt(old.id,old.profileId,old.kind,outcome,false);next.put(id,receipt);commit(next);return receipt;
+        Receipt receipt=new Receipt(old.id,old.profileId,old.kind,outcome,false,old.armed);next.put(id,receipt);commit(next);return receipt;
     }
     public synchronized void acknowledge(String id,String outcome) throws IOException {
         refresh();
         Receipt old=entries.get(id);
         if(old==null||old.outcome==null||!old.outcome.equals(outcome))return;
         LinkedHashMap<String,Receipt> next=new LinkedHashMap<>(entries);
-        next.put(id,new Receipt(old.id,old.profileId,old.kind,old.outcome,true));commit(next);
+        next.put(id,new Receipt(old.id,old.profileId,old.kind,old.outcome,true,old.armed));commit(next);
     }
     public synchronized List<Receipt> pending() throws IOException {
         refresh();
@@ -70,20 +88,20 @@ public final class AdReceiptJournal {
     private static String get(DataInputStream in) throws IOException {int n=in.readInt();if(n<0||n>4096)throw new IOException("Invalid field");byte[] b=new byte[n];in.readFully(b);return new String(b,StandardCharsets.UTF_8);}
     private static byte[] encode(Map<String,Receipt> entries) throws IOException {
         ByteArrayOutputStream buffer=new ByteArrayOutputStream();DataOutputStream out=new DataOutputStream(buffer);
-        out.writeInt(0x43414432);out.writeInt(entries.size());
-        for(Receipt r:entries.values()){put(out,r.id);put(out,r.profileId);put(out,r.kind);put(out,r.outcome==null?"":r.outcome);out.writeBoolean(r.acknowledged);}
+        out.writeInt(0x43414433);out.writeInt(entries.size());
+        for(Receipt r:entries.values()){put(out,r.id);put(out,r.profileId);put(out,r.kind);put(out,r.outcome==null?"":r.outcome);out.writeBoolean(r.acknowledged);out.writeBoolean(r.armed);}
         out.flush();return buffer.toByteArray();
     }
     private static LinkedHashMap<String,Receipt> decode(byte[] bytes) throws IOException {
         LinkedHashMap<String,Receipt> result=new LinkedHashMap<>();if(bytes==null)return result;
         DataInputStream in=new DataInputStream(new ByteArrayInputStream(bytes));
-        if(in.readInt()!=0x43414432)throw new IOException("Unsupported receipt journal");
+        int version=in.readInt();if(version!=0x43414432&&version!=0x43414433)throw new IOException("Unsupported receipt journal");
         int count=in.readInt();if(count<0||count>bytes.length)throw new IOException("Invalid receipt count");
         for(int i=0;i<count;i++){
-            String id=get(in),profile=get(in),kind=get(in),outcome=get(in);boolean ack=in.readBoolean();
+            String id=get(in),profile=get(in),kind=get(in),outcome=get(in);boolean ack=in.readBoolean(),armed=version==0x43414432||in.readBoolean();
             check(id);check(profile);
             if(!Arrays.asList("hint","continue","win-bonus").contains(kind)||!Arrays.asList("","earned","cancelled","failed").contains(outcome)||outcome.isEmpty()&&ack||result.containsKey(id))throw new IOException("Corrupt receipt");
-            result.put(id,new Receipt(id,profile,kind,outcome.isEmpty()?null:outcome,ack));
+            result.put(id,new Receipt(id,profile,kind,outcome.isEmpty()?null:outcome,ack,armed));
         }
         if(in.available()!=0)throw new IOException("Trailing receipt data");return result;
     }

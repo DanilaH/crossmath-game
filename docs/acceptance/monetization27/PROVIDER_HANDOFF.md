@@ -2,6 +2,10 @@
 
 Status: SDK/provider/version **NOT SELECTED** by owner; banner/interstitial/rewarded IDs **NOT CONFIGURED**; production signing certificate absent from public config. No ad dependency, secret, live initialization or default reward substitute was added. `CrossmathAdProvider.Unconfigured` is the complete default, not a fake ad implementation. Do not present this APK as a monetized production build.
 
+## Protocol 3 correction for RELEASE-01
+
+Read [MON-01 request admission contract](../release29/MON-01.md). `reconcileReward` is request-ID based and durably fences only proven unopened requests. CAD2 unknowns never expire. The journal reserves then arms before provider control; `willOpen` must still run on main immediately before synchronous SDK show. `fullscreenClosed` is an independent correlated lifecycle event, not an earned callback. Exercise both lost RPC replies and a live SDK before enabling the provider.
+
 ## SDK adapter contract
 
 1. Implement `CrossmathAdProvider` at the explicit `createProvider` seam after approval; add exact pinned Android dependency and required manifest/R8 rules based on **current official vendor docs**. No reflection/global/env test-provider selector. Recheck store/privacy/consent requirements and use approved test units separately from live ones. Log configuration names/status only, never values.

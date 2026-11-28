@@ -72,4 +72,46 @@ public class AdReceiptJournalTest {
         old.settle("old","earned");reopened.settle("new","earned");old.acknowledge("old","earned");
         assertEquals(1,reopened.pending().size());assertEquals("new",reopened.pending().get(0).id);
     }
+    @Test public void absentFenceSurvivesRestartAndPreventsLateDispatch() throws Exception {
+        Disk d=new Disk();AdReceiptJournal j=new AdReceiptJournal(d);
+        assertEquals("cancelled",j.reconcile("a","p","hint",false).outcome);
+        j=new AdReceiptJournal(d);try{j.reserve("a","p","hint");fail();}catch(IOException expected){}
+        try{j.arm("a");fail();}catch(IOException expected){}
+        j.acknowledge("a","cancelled");assertEquals("cancelled",j.reconcile("a","p","hint",false).outcome);
+    }
+    @Test public void crashCutsSeparatePreparationFromUncertainSdkAdmission() throws Exception {
+        for(boolean armed:new boolean[]{false,true}){
+            Disk d=new Disk();AdReceiptJournal j=new AdReceiptJournal(d);j.reserve("a","p","hint");if(armed)j.arm("a");
+            j=new AdReceiptJournal(d);AdReceiptJournal.Receipt r=j.reconcile("a","p","hint",false);
+            assertEquals(armed?null:"cancelled",r.outcome);
+            if(armed){assertTrue(r.armed);j.settle("a","earned");assertEquals("earned",j.reconcile("a","p","hint",false).outcome);}
+        }
+    }
+    @Test public void mainThreadProofCancelsArmedButUnopenedLeaseAndPreservesLateEarned() throws Exception {
+        Disk d=new Disk();AdReceiptJournal j=new AdReceiptJournal(d);j.reserve("a","p","continue");j.arm("a");
+        assertEquals("cancelled",j.reconcile("a","p","continue",true).outcome);
+        try{j.arm("a");fail();}catch(IOException expected){}
+        j.acknowledge("a","cancelled");j.settle("a","earned");j.acknowledge("a","cancelled");assertEquals("earned",j.pending().get(0).outcome);
+    }
+    @Test public void fenceFailureOrLostReplyNeverInventsEarnedAndCanBeRetriedAuthoritatively() throws Exception {
+        for(boolean ambiguous:new boolean[]{false,true}){
+            Disk d=new Disk();AdReceiptJournal j=new AdReceiptJournal(d);d.fail=!ambiguous;d.ambiguous=ambiguous;
+            try{j.reconcile("a","p","hint",false);fail();}catch(IOException expected){}
+            d.fail=false;d.ambiguous=false;j=new AdReceiptJournal(d);
+            assertEquals("cancelled",j.reconcile("a","p","hint",false).outcome);
+            assertEquals("cancelled",j.pending().get(0).outcome);
+        }
+    }
+    @Test public void oldCad2UnresolvedAlwaysMigratesAsUnknownNeverAsPrepared() throws Exception {
+        Disk d=new Disk();ByteArrayOutputStream b=new ByteArrayOutputStream();DataOutputStream out=new DataOutputStream(b);
+        out.writeInt(0x43414432);out.writeInt(1);
+        for(String field:new String[]{"a","p","hint",""}){byte[] bytes=field.getBytes("UTF-8");out.writeInt(bytes.length);out.write(bytes);}out.writeBoolean(false);d.bytes=b.toByteArray();
+        AdReceiptJournal j=new AdReceiptJournal(d);assertNull(j.reconcile("a","p","hint",false).outcome);assertTrue(j.unresolved().get(0).armed);
+        j.settle("a","earned");j=new AdReceiptJournal(d);assertEquals("earned",j.pending().get(0).outcome);
+    }
+    @Test public void identityMismatchCannotFenceAnotherProfileOrKind() throws Exception {
+        Disk d=new Disk();AdReceiptJournal j=new AdReceiptJournal(d);j.reserve("a","p","hint");
+        for(String[] identity:new String[][]{{"other","hint"},{"p","continue"}}){try{j.reconcile("a",identity[0],identity[1],false);fail();}catch(IOException expected){}}
+        assertEquals(1,j.unresolved().size());
+    }
 }

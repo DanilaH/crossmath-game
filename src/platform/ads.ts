@@ -7,6 +7,7 @@ import type { RewardEvent, RewardKind, RewardRequest } from './adState';
 export interface AdAvailability { rewarded: boolean; interstitial: boolean; banner: boolean; rewardKinds?:RewardKind[]; protocolVersion?:number }
 export interface AdTrace { phase:'intent'|'eligibility'|'reserved'|'provider-call'|'opened'|'terminal'|'receipt'|'committed'|'acknowledged'|'error'; format:'rewarded'|'interstitial'|'banner'; outcome?:string }
 export type FullscreenResult = InterstitialRequestOutcome;
+export interface RewardReconciliation { state:'closed'|'opened'|'unknown'; receipt?:RewardEvent }
 type Unsubscribe = () => void | Promise<void>;
 export interface FullscreenContext {
   presentationId:string;
@@ -23,6 +24,8 @@ export interface AdsProvider {
   // Resolves on dismissal or pre-show refusal. Earned receipts travel independently.
   showRewarded(request:RewardRequest,context:FullscreenContext): Promise<FullscreenResult>;
   showInterstitial(context:FullscreenContext): Promise<FullscreenResult>;
+  // Protocol3 durably fences a never-dispatched request; unknown shown requests never expire.
+  reconcileReward?(request:RewardRequest):Promise<RewardReconciliation>;
   // Protocol2 cancels an unopened native lease atomically or confirms it is already opened.
   cancelUnopened?(presentationId:string):Promise<'closed'|'opened'>;
   // Resolves when the provider handles this idempotent intent. It owns native visibility and reservation.
@@ -39,6 +42,9 @@ export class AdsController {
   private fullscreen = false;
   private fullscreenWork:Promise<FullscreenResult>|undefined;
   private presentationCount=0;
+  private admission=false;
+  private activeReward:string|undefined;
+  private readonly reconciliations=new Map<string,Promise<RewardReconciliation>>();
   private statusRefresh:Promise<void>|undefined;
   private pendingRefresh:Promise<void>|undefined;
   private statusVersion = 0;
@@ -102,6 +108,7 @@ export class AdsController {
       if(this.disposed)return;
       this.statusVersion++;
       this.availability=status;
+      this.recoverAdmissions();
       this.changed();
     })));
     this.subscribe(Promise.resolve().then(()=>this.provider.watchRewards(event=>this.receive(event))));
@@ -124,13 +131,34 @@ export class AdsController {
       this.statusRefresh=Promise.resolve().then(()=>this.provider.availability()).then(status=>{
         if(this.disposed||version!==this.statusVersion)return;
         this.availability=status;
+        this.recoverAdmissions();
         this.changed();
       }).catch(()=>undefined).finally(()=>{this.statusRefresh=undefined;});
     }
     if(!this.pendingRefresh){
       this.pendingRefresh=Promise.resolve().then(()=>this.provider.pendingRewards()).then(events=>{
-        if(!this.disposed)for(const event of events)this.receive(event);
+        if(!this.disposed){for(const event of events)this.receive(event);this.recoverAdmissions();}
       }).catch(()=>undefined).finally(()=>{this.pendingRefresh=undefined;});
+    }
+  }
+
+  private reconcile(request:RewardRequest):Promise<RewardReconciliation> {
+    let work=this.reconciliations.get(request.id);
+    if(!work){
+      work=Promise.resolve().then(()=>this.provider.reconcileReward!(request)).then(result=>{
+        if(!['closed','opened','unknown'].includes(result.state))throw Error('Invalid admission state');
+        if(result.receipt)this.receive(result.receipt);
+        return result;
+      }).finally(()=>this.reconciliations.delete(request.id));
+      this.reconciliations.set(request.id,work);
+    }
+    return work;
+  }
+
+  private recoverAdmissions():void {
+    if(this.disposed||this.admission||!this.provider.reconcileReward||(this.availability.protocolVersion??0)<3)return;
+    for(const {request,settlement} of Object.values(this.session.state.ads.requests)){
+      if(settlement===undefined&&request.id!==this.activeReward)void this.reconcile(request).catch(()=>this.report('error','rewarded','admission-recovery'));
     }
   }
 
@@ -163,9 +191,9 @@ export class AdsController {
 
   private rewardReason(kind:RewardKind):string {
     if(this.disposed)return 'disposed';
-    if(this.fullscreen||this.fullscreenWork)return 'fullscreen-in-flight';
+    if(this.admission||this.fullscreen||this.fullscreenWork)return 'fullscreen-in-flight';
     if(!this.availability.rewarded)return 'provider-unavailable';
-    if(kind==='win-bonus'&&(this.availability.protocolVersion!==2||!this.availability.rewardKinds?.includes(kind)))return 'unsupported-placement';
+    if(kind==='win-bonus'&&((this.availability.protocolVersion??0)<2||!this.availability.rewardKinds?.includes(kind)))return 'unsupported-placement';
     if(Object.values(this.session.state.ads.requests).some(entry=>entry.settlement===undefined))return 'pending-receipt';
     return canRequestReward(this.session.state,kind)?'eligible':'ineligible-target';
   }
@@ -174,13 +202,16 @@ export class AdsController {
     this.report('intent','rewarded',kind);
     const reason=this.rewardReason(kind);this.report('eligibility','rewarded',reason);
     if(reason!=='eligible')return {committed:false};
-    const request=await this.session.beginReward(kind,elapsed);
-    if(!request||this.disposed)return {committed:!!request};
-    this.recentRewards.set(kind,request.id);
-    this.report('reserved','rewarded',kind);
-    await this.show(context=>this.provider.showRewarded(request,context));
-    this.refresh();
-    return {committed:true};
+    this.admission=true;
+    try{
+      const request=await this.session.beginReward(kind,elapsed);
+      if(!request||this.disposed)return {committed:!!request};
+      this.activeReward=request.id;
+      this.recentRewards.set(kind,request.id);
+      this.report('reserved','rewarded',kind);
+      await this.show(context=>this.provider.showRewarded(request,context),undefined,'rewarded',request);
+      return {committed:true};
+    }finally{this.admission=false;this.activeReward=undefined;this.refresh();}
   }
 
   async beforeNext():Promise<void> {
@@ -211,13 +242,14 @@ export class AdsController {
     operation:(context:FullscreenContext)=>Promise<FullscreenResult>,
     onResult?:(result:FullscreenResult)=>Promise<void>,
     format:'rewarded'|'interstitial'='rewarded',
+    request?:RewardRequest,
   ):Promise<FullscreenResult> {
     const startWindow=1500;
     let timer:ReturnType<typeof setTimeout>|undefined;
     let waiting=true;
     let opened=false;
     let operationDone=false;
-    const cancelUnopened=this.availability.protocolVersion===2?this.provider.cancelUnopened?.bind(this.provider):undefined;
+    const cancelUnopened=(this.availability.protocolVersion??0)>=2?this.provider.cancelUnopened?.bind(this.provider):undefined;
     const context:FullscreenContext={
       presentationId:`crossmath-ad-${Date.now()}-${++this.presentationCount}`,
       startBefore:Date.now()+startWindow,
@@ -227,7 +259,17 @@ export class AdsController {
     this.block(true);
     const deadline=new Promise<FullscreenResult>(resolve=>{
       timer=setTimeout(()=>{
-        if(cancelUnopened){
+        if(request&&this.provider.reconcileReward&&(this.availability.protocolVersion??0)>=3){
+          void this.reconcile(request).then(result=>{
+            if(result.state==='opened')context.opened();
+            else if(result.state==='closed'){
+              // A persisted request fence owns cancellation, even if listener registration is hung.
+              operationDone=true;
+              if(this.fullscreenWork===work)this.fullscreenWork=undefined;
+              resolve('unavailable');
+            }
+          }).catch(()=>this.report('error',format,'native-admission-unknown'));
+        }else if(cancelUnopened){
           // A delayed opened event is not evidence that native never opened. The native
           // main-thread lease decides before the JS input/audio blocker is released.
           void cancelUnopened(context.presentationId).then(state=>{
@@ -245,6 +287,7 @@ export class AdsController {
     this.changed();
     void work.finally(()=>{
       operationDone=true;
+      if(this.fullscreenWork!==work)return;
       this.fullscreenWork=undefined;
       if(!this.disposed){if(!waiting&&this.fullscreen){this.fullscreen=false;this.block(false);}this.changed();}
     });

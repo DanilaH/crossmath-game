@@ -697,3 +697,37 @@ it('reblocks a delayed legacy opened notification until its genuine dismissal, w
   expect(provider.interstitials).toBe(1);
  }finally{vi.useRealTimers();controller.dispose();}
 });
+
+describe('MON-01 request-ID admission reconciliation',()=>{
+ it.each(['absent','prepared','armed','earned'] as const)('cold restart: %s is reconciled without expiring unknown shown work',async phase=>{
+  const provider=new ScriptedProvider();provider.status={...ready,protocolVersion:3} as AdAvailability;
+  const {session,repo,controller}=await setup(provider);controller.dispose();
+  const request=(await session.beginReward('hint',0))!;
+  const before=JSON.stringify(session.state.ads.interstitialGate),hints=session.state.profile.hintCredits;
+  const reconcile=vi.fn(async()=>({state:phase==='armed'?'unknown' as const:'closed' as const,...(phase==='armed'?{}:{receipt:{id:request.id,profileId:request.profileId,outcome:phase==='earned'?'earned' as const:'cancelled' as const}})}));
+  const recoveredProvider=Object.assign(new ScriptedProvider(),{status:{...ready,protocolVersion:3},reconcileReward:reconcile});
+  const restored=new GameSession(await repo.load(),repo,()=> 'restored-ad',()=>now);
+  const restoredController=new AdsController(restored,recoveredProvider,()=>{},()=>{});restoredController.start();
+  for(let i=0;i<6;i++)await flush();
+  expect(reconcile).toHaveBeenCalledWith(request);
+  expect(restored.state.ads.requests[request.id]!.settlement).toBe(phase==='armed'?undefined:phase==='earned'?'earned':'cancelled');
+  expect(restored.state.profile.hintCredits).toBe(hints+(phase==='earned'?1:0));
+  expect(restoredController.rewardAvailable('hint')).toBe(phase!=='armed');
+  if(phase!=='earned')expect(JSON.stringify(restored.state.ads.interstitialGate)).toBe(before);
+  restoredController.refresh();await flush();await flush();
+  expect(restored.state.profile.hintCredits).toBe(hints+(phase==='earned'?1:0));restoredController.dispose();
+ });
+ it('fences a hung pre-dispatch operation, permits another request and ignores late old completion',async()=>{
+  const provider=Object.assign(new ScriptedProvider(),{status:{...ready,protocolVersion:3},reconcileReward:vi.fn(async(request:RewardRequest)=>({state:'closed' as const,receipt:{id:request.id,profileId:request.profileId,outcome:'cancelled' as const}}))});
+  const {session,controller,blocks}=await setup(provider);const old=deferred<FullscreenResult>(),next=deferred<FullscreenResult>();
+  provider.onRewarded=()=>old.promise;
+  vi.useFakeTimers();const first=controller.reward('hint',0);await vi.advanceTimersByTimeAsync(1600);await first;
+  expect(blocks.size).toBe(0);expect(provider.reconcileReward.mock.calls.length).toBeGreaterThanOrEqual(1);
+  await vi.advanceTimersByTimeAsync(10);expect(controller.rewardAvailable('hint')).toBe(true);
+  provider.onRewarded=()=>next.promise;const second=controller.reward('hint',0);await vi.advanceTimersByTimeAsync(10);
+  expect(blocks.has('ad')).toBe(true);old.resolve('failed');await vi.advanceTimersByTimeAsync(10);
+  expect(blocks.has('ad')).toBe(true);expect(controller.rewardAvailable('hint')).toBe(false);
+  next.resolve('cancelled');await second;vi.useRealTimers();controller.dispose();
+  expect(Object.values(session.state.ads.requests)).toHaveLength(2);
+ });
+});

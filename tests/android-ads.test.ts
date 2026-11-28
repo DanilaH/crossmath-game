@@ -16,18 +16,19 @@ it('does not hold fullscreen return for a hung listener removal and correlates o
  state.bridge.addListener=vi.fn(async(_,callback)=>{listener=callback;return {remove};});
  state.bridge.showRewarded=vi.fn(async()=>{listener({presentationId:'stale'});expect(opened).not.toHaveBeenCalled();listener({presentationId:'p'});return {result:'shown'};});
  expect(await androidAdsProvider()!.showRewarded({id:'r',profileId:'owner',kind:'hint'},{presentationId:'p',startBefore:until(),opened})).toBe('shown');
- expect(opened).toHaveBeenCalledOnce();expect(remove).toHaveBeenCalledOnce();
+ expect(opened).toHaveBeenCalledOnce();expect(remove).toHaveBeenCalledTimes(2);
 });
 it('forbids late automatic show when listener registration outlasts the pre-show deadline',async()=>{
  const remove=vi.fn(async()=>{}),show=vi.fn(async()=>({result:'shown'}));
  state.bridge.addListener=vi.fn(async()=>({remove}));state.bridge.showInterstitial=show;
- expect(await androidAdsProvider()!.showInterstitial({presentationId:'p',startBefore:Date.now()-1,opened:()=>{}})).toBe('unavailable');expect(show).not.toHaveBeenCalled();expect(remove).toHaveBeenCalledOnce();
+ expect(await androidAdsProvider()!.showInterstitial({presentationId:'p',startBefore:Date.now()-1,opened:()=>{}})).toBe('unavailable');expect(show).not.toHaveBeenCalled();expect(remove).toHaveBeenCalledTimes(2);
 });
 it('cleans up after native failure and rejects non-protocol terminal values',async()=>{
  const remove=vi.fn(async()=>{});state.bridge.addListener=async()=>({remove});state.bridge.showInterstitial=async()=>({result:'loaded'});
  expect(await androidAdsProvider()!.showInterstitial({presentationId:'p',startBefore:until(),opened:()=>{}})).toBe('failed');
  state.bridge.showInterstitial=async()=>{throw Error('Missing SDK');};
- await expect(androidAdsProvider()!.showInterstitial({presentationId:'p2',startBefore:until(),opened:()=>{}})).rejects.toThrow('Missing SDK');expect(remove).toHaveBeenCalledTimes(2);
+ state.bridge.cancelUnopened=async()=>({state:'closed'});
+ expect(await androidAdsProvider()!.showInterstitial({presentationId:'p2',startBefore:until(),opened:()=>{}})).toBe('failed');expect(remove).toHaveBeenCalledTimes(4);
 });
 it('projects recovered native receipts without inventing earned from show result',async()=>{
  const receipt={id:'r',profileId:'p',outcome:'earned'};state.bridge.pendingRewards=async()=>({receipts:[receipt]});

@@ -66,7 +66,7 @@ public class CrossmathAdsPlugin extends Plugin {
         JSObject state=new JSObject();boolean rewarded=false,interstitial=false,hasBanner=false,bonus=false;
         try{boolean enabled=!disposed&&journal!=null&&provider!=null&&provider.configured();rewarded=enabled&&provider.rewardedReady();interstitial=enabled&&provider.interstitialReady();hasBanner=enabled&&provider.bannerReady();bonus=enabled&&provider.supportsWinBonus();}
         catch(Exception error){rewarded=false;interstitial=false;hasBanner=false;bonus=false;}
-        state.put("protocolVersion",2);state.put("rewarded",rewarded);state.put("interstitial",interstitial);state.put("banner",hasBanner);
+        state.put("protocolVersion",3);state.put("rewarded",rewarded);state.put("interstitial",interstitial);state.put("banner",hasBanner);
         JSArray kinds=new JSArray();kinds.put("hint");kinds.put("continue");if(bonus)kinds.put("win-bonus");state.put("rewardKinds",kinds);return state;
     }
     private void statusChanged(){if(!disposed)notifyListeners("availabilityChanged",status());}
@@ -103,6 +103,24 @@ public class CrossmathAdsPlugin extends Plugin {
         if(show!=null&&show.lease.id.equals(id)&&!opened)finish(show,"cancelled");
         JSObject result=new JSObject();result.put("state",opened?"opened":"closed");call.resolve(result);
     });}
+    @PluginMethod public void reconcileReward(PluginCall call){main.post(()->{
+        String id=call.getString("id"),profile=call.getString("profileId"),kind=call.getString("kind");
+        Show show=current;boolean owns=show!=null&&Objects.equals(show.requestId,id),opened=owns&&show.lease.opened();
+        // Main owns willOpen: invalidate its lease BEFORE enqueuing the durable fence.
+        boolean unopened=owns&&!opened;if(unopened)finish(show,"cancelled");
+        GameStoragePlugin.IO.execute(()->{
+            try{
+                if(journal==null)throw new IOException();
+                AdReceiptJournal.Receipt receipt=journal.reconcile(id,profile,kind,unopened);
+                main.post(()->{
+                    JSObject result=new JSObject();
+                    boolean live=current!=null&&Objects.equals(current.requestId,id)&&current.lease.opened();
+                    result.put("state",live?"opened":receipt.outcome==null?"unknown":"closed");
+                    if(receipt.outcome!=null)result.put("receipt",event(receipt));call.resolve(result);
+                });
+            }catch(Exception error){call.reject("Reward admission recovery unavailable");}
+        });
+    });}
     private void safeShow(PluginCall call,boolean rewarded){try{show(call,rewarded);}catch(Exception error){if(current!=null&&current.call==call)finish(current,"failed");else resolve(call,"failed");}}
     private void show(PluginCall call,boolean rewarded){
         String presentation=call.getString("presentationId"),id=rewarded?call.getString("id"):null;
@@ -132,7 +150,7 @@ public class CrossmathAdsPlugin extends Plugin {
         main.postDelayed(()->{if(current==show&&show.lease.expire(SystemClock.elapsedRealtime()))finish(show,"unavailable");},remaining);
         if(rewarded){
             GameStoragePlugin.IO.execute(()->{
-                try{journal.reserve(id,profile,kind);show.reserved=true;main.post(begin);}
+                try{journal.reserve(id,profile,kind);show.reserved=true;journal.arm(id);main.post(begin);}
                 catch(Exception error){main.post(()->finish(show,"failed"));}
             });
         }else begin.run();
@@ -142,6 +160,7 @@ public class CrossmathAdsPlugin extends Plugin {
         show.lease.finish();current=null;
         // A terminal no-reward receipt is revisable by an honest late earned callback.
         if(show.requestId!=null&&show.reserved)persistReceipt(show.requestId,"cancelled".equals(outcome)||"shown".equals(outcome)?"cancelled":"failed");
+        JSObject closed=new JSObject();closed.put("presentationId",show.lease.id);closed.put("result",outcome);notifyListeners("fullscreenClosed",closed);
         resolve(show.call,outcome);reconcileBanner();statusChanged();
     }
     private void resolve(PluginCall call,String outcome){JSObject result=new JSObject();result.put("result",outcome);call.resolve(result);}
