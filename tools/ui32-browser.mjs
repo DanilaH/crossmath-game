@@ -51,7 +51,7 @@ async function view(p,name,capture=false){await p.evaluate(async()=>{await docum
  }
  // Check every rendered label/text run for clipping against explicit non-scroll clip ancestors.
  const walker=document.createTreeWalker(active,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode()){
-  const e=n.parentElement;if(!e||!n.textContent.trim()||!visible(e)||e.closest('svg,button,summary,select,style,script,#board,#tray,.sr-only,.readout-accessible,.league-page>.hub-heading'))continue;
+  const e=n.parentElement;if(!e||!n.textContent.trim()||!visible(e)||e.closest('svg,button,summary,select,style,script,#board,#tray,.sr-only,.readout-accessible,.league-page.is-active>.hub-heading'))continue;
   const rr=document.createRange();rr.selectNodeContents(n);
   for(const a of rr.getClientRects()){
    for(let c=e;c&&c!==active.parentElement;c=c.parentElement){const st=getComputedStyle(c),b=c.getBoundingClientRect();
@@ -134,3 +134,5 @@ assert.equal(rows.length,310,'Full original state matrix');assert.equal(probes.l
 assert.deepEqual(rows.filter(r=>r.rootWidth>r.viewport[0]+1||r.overlap.length||r.off.length),[],'No horizontal overflow or enabled centre occlusion');
 for(const probe of probes){if(probe.name.endsWith('league-back'))assert.equal(probe.actual,'home');else if(probe.name.endsWith('daily-entry'))assert.equal(probe.selected,probe.today);else{assert.equal(probe.revision,1);assert.deepEqual(probe.after,[...probe.before].sort((a,b)=>a-b));}}
 assert.deepEqual(rows.flatMap(r=>r.clipped.map(x=>({name:r.name,...x}))),[],'No unintended text clipping');
+
+for(const before of JSON.parse(await readFile('docs/acceptance/ui32/layout-baseline.json','utf8')).rows){const after=rows.find(r=>r.name===before.name);assert.ok(after&&after.cellMin>=before.cellMin-.1&&after.boardDigitMin>=before.digitMin-.1,JSON.stringify({before,after:after&&{cellMin:after.cellMin,digitMin:after.boardDigitMin}}));assert.equal(after.stats.sort.h,48,'Stable toolbar height in '+before.name);}

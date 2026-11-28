@@ -603,6 +603,7 @@ export class GameUi {
     if(this.renderedLanguage!==this.language){
       this.renderedLanguage=this.language;
       localizeDocument(this.language);
+      $('return').setAttribute('aria-label',this.t('Вернуть выбранное число в лоток','Return the selected number to the tray'));
       this.board.clearSelection();
     }
     const language=$<HTMLSelectElement>('language');if(!this.busy)language.value=this.language;language.disabled=this.busy;

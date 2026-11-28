@@ -1,0 +1,86 @@
+{
+  "sourceArtifact": 15263046996,
+  "sourceSha256": "75f68c3129c6cab5e2adcea8bac4eb85ba0e35e2066e9bbca1666f99e18932af",
+  "rows": [
+    {
+      "name": "320x430-ru-light-medium",
+      "cellMin": 26,
+      "digitMin": 15
+    },
+    {
+      "name": "320x430-ru-light-dense",
+      "cellMin": 18,
+      "digitMin": 9.5
+    },
+    {
+      "name": "320x430-en-dark-medium",
+      "cellMin": 25.2,
+      "digitMin": 14.4
+    },
+    {
+      "name": "320x430-en-dark-dense",
+      "cellMin": 18,
+      "digitMin": 9.5
+    },
+    {
+      "name": "320x480-ru-light-medium",
+      "cellMin": 30,
+      "digitMin": 17.7
+    },
+    {
+      "name": "320x480-ru-light-dense",
+      "cellMin": 21.8,
+      "digitMin": 12.1
+    },
+    {
+      "name": "320x480-en-dark-medium",
+      "cellMin": 30,
+      "digitMin": 17.7
+    },
+    {
+      "name": "320x480-en-dark-dense",
+      "cellMin": 21.3,
+      "digitMin": 11.8
+    },
+    {
+      "name": "320x568-ru-light-medium",
+      "cellMin": 48,
+      "digitMin": 15.6
+    },
+    {
+      "name": "320x568-ru-light-dense",
+      "cellMin": 22.8,
+      "digitMin": 12.8
+    },
+    {
+      "name": "320x568-en-dark-medium",
+      "cellMin": 48,
+      "digitMin": 15.6
+    },
+    {
+      "name": "320x568-en-dark-dense",
+      "cellMin": 22.8,
+      "digitMin": 12.8
+    },
+    {
+      "name": "390x844-ru-light-medium",
+      "cellMin": 48,
+      "digitMin": 15.6
+    },
+    {
+      "name": "390x844-ru-light-dense",
+      "cellMin": 48,
+      "digitMin": 13.9
+    },
+    {
+      "name": "390x844-en-dark-medium",
+      "cellMin": 48,
+      "digitMin": 15.6
+    },
+    {
+      "name": "390x844-en-dark-dense",
+      "cellMin": 48,
+      "digitMin": 13.9
+    }
+  ]
+}
