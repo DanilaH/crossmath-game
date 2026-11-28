@@ -204,7 +204,7 @@ export class GameUi {
         else {
           window.scrollTo(0,this.tabScroll.get(screen)??0);
           const back=(from==='album'||from==='league')&&(screen==='home'||screen==='profile');
-          const focus=back ? $(from==='league'?(screen==='home'?'home-league-open':'league-open'):(screen==='home'?'album-open':'profile-workshop')) : $(`tab-${screen}`);
+          const focus=back ? $(leagueEnabled&&from==='league'?(screen==='home'?'home-league-open':'league-open'):(screen==='home'?'album-open':'profile-workshop')) : $(`tab-${screen}`);
           focus?.focus({preventScroll:!back});
         }
       });
