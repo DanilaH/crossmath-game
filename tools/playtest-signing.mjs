@@ -19,7 +19,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
  try{
   if(process.env.ANDROID_PREVIEW_KEYSTORE){
    // Only a public certificate leaves keytool; no key bytes or passwords are logged.
-   const output=execFileSync('keytool',['-list','-v','-keystore',process.env.ANDROID_PREVIEW_KEYSTORE,'-storepass:env','CROSSMATH_PREVIEW_STORE_PASSWORD'],{encoding:'utf8',env:{...process.env,LC_ALL:'C',CROSSMATH_PREVIEW_STORE_PASSWORD:'android'},stdio:['ignore','pipe','pipe']});
+   const output=execFileSync('keytool',['-list','-v','-alias','androiddebugkey','-keystore',process.env.ANDROID_PREVIEW_KEYSTORE,'-storepass:env','CROSSMATH_PREVIEW_STORE_PASSWORD'],{encoding:'utf8',env:{...process.env,LC_ALL:'C',CROSSMATH_PREVIEW_STORE_PASSWORD:'android'},stdio:['ignore','pipe','pipe']});
    cert=output.match(/SHA256:\s*([A-Fa-f0-9:]+)/)?.[1].replaceAll(':','');
   }
   const result=playtestSigningProblems(JSON.parse(readFileSync('android-project.json','utf8')),process.env,cert);

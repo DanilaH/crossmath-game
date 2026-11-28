@@ -63,14 +63,22 @@ if(process.argv.includes('--prepare')){
    await win();await session.next();
    now='2026-11-28T12:00:00Z';await session.refreshDay();
    assert.equal(await session.openFreeTrack('relax'),'opened');
+   await session.navigate('home');const issued=structuredClone(session.state);await session.navigate('play');
    const p=getPuzzle(session.state.attempt.puzzleId),cell=p.cells.find(c=>c.given===undefined),i=p.tray.findIndex(v=>v===answers[p.puzzleId].answer[cell.id]);
    await session.command({type:'PlaceFromTray',tokenId:'t'+i,cellId:cell.id});await session.command({type:'SortTray'});
    assert.ok(JSON.stringify(session.state.meta.freeIssuance).includes('d4-v2'),'D4 pin is written by old implementation');
-   await session.openDaily('2026-11-23');await win();await session.next();await session.openDaily('2026-11-24');
+   await session.openDaily('2026-11-23');await win();await session.next();
+   // Exercise a real old whole-set claim, not just an empty setReceipts array.
+   for(let n=0;n<3&&session.state.meta.quests?.slots.some(s=>!s.paid);n++){
+    const index=session.state.meta.quests.slots.findIndex(s=>!s.paid);
+    assert.equal(await session.openQuest(index,true),'opened');await win();await session.next();
+   }
+   assert.ok(session.state.meta.setReceipts.length>0,'Old executable model earns the complete quest-set receipt');
+   await session.openDaily('2026-11-24');
    const d=getPuzzle(session.state.attempt.puzzleId),dc=d.cells.find(c=>c.given===undefined),di=d.tray.findIndex(v=>v===answers[d.puzzleId].answer[dc.id]);
    await session.command({type:'PlaceFromTray',tokenId:'t'+di,cellId:dc.id});
    await session.navigate('home');const active=structuredClone(session.state);decodeSave(active);decodeSave(completed);
-   await writeFile(root+'/fixtures.json',JSON.stringify({provenance,active,completed,scope:'Historical GameSession/engine/repository created all placements, wins, D4 pins, quests, calendar and League plans; model-assisted preconditions, not manual UI play'},null,2));
+   await writeFile(root+'/fixtures.json',JSON.stringify({provenance,active,completed,issued,scope:'Historical GameSession/engine/repository created all placements, wins, D4 pins, paid whole quest sets, calendar and League plans; model-assisted preconditions, not manual UI play'},null,2));
    console.log(spec.name+' old executable fixtures PASS');
   }finally{await modules.close();}
  }
