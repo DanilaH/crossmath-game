@@ -22,6 +22,7 @@ const ready=async page=>{
  catch(error){throw Error(await page.locator('#startup').innerText(),{cause:error});}
 };
 const idle=page=>page.locator('#lab-bank:enabled').waitFor();
+const touches=new WeakMap();
 const rect=el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
 async function tap(page,selector){
  const scroll=()=>page.evaluate(()=>({page:[scrollX,scrollY],board:[document.querySelector('.board-scroll').scrollLeft,document.querySelector('.board-scroll').scrollTop],tray:[document.querySelector('#tray').scrollLeft,document.querySelector('#tray').scrollTop]}));
@@ -31,10 +32,15 @@ async function tap(page,selector){
   return {hit:el.contains(document.elementFromPoint(x,y)),inside:x>=0&&x<innerWidth&&y>=0&&y<innerHeight};
  });
  assert.ok(point.hit&&point.inside,selector);
- // Let Playwright wait for stable, enabled touch targets. A raw CDP tap just
- // after reload can deliver touchstart/end without Chromium synthesizing click.
- // Keep the viewport/occlusion checks and reject automatic scrolling as well.
- await page.locator(selector).tap();await idle(page);
+ // Keep Playwright's actionability checks, then use a real-duration finger press.
+ // Zero-duration CDP gestures followed immediately by reload can suppress the next
+ // compatibility click in Chromium. Geometry and no-scroll assertions stay strict.
+ await page.locator(selector).tap({trial:true});
+ let touch=touches.get(page);if(!touch){touch=await page.context().newCDPSession(page);touches.set(page,touch);}
+ const r=await page.locator(selector).evaluate(rect),p={x:r.x+r.width/2,y:r.y+r.height/2};
+ await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[p]});
+ await page.waitForTimeout(50);
+ await touch.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await idle(page);
  assert.deepEqual(await scroll(),before,'Touch must not scroll to reach '+selector);
 }
 async function geometry(page){
@@ -96,12 +102,16 @@ try{
  const from=await page.locator(`[data-token="t${good}"]`).evaluate(rect),to=await page.locator(`#board [data-cell="${first.id}"]`).evaluate(rect);
  const session=await ctx.newCDPSession(page),a={x:from.x+from.width/2,y:from.y+from.height/2},b={x:to.x+to.width/2,y:to.y+to.height/2};
  await session.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[a]});
+ await page.waitForTimeout(40);
  await session.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:a.x+(b.x-a.x)/2,y:a.y+(b.y-a.y)/2}]});
+ await page.waitForTimeout(40);
  await session.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[b]});
  await session.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await idle(page);
  assert.equal((await state(page)).attempt.placements[first.id],'t'+good);
  const saved=await state(page);
+ await page.waitForTimeout(350); // Finish the browser gesture before a cold-document replacement.
  await page.reload();await ready(page);await idle(page);assert.deepEqual(await state(page),saved);
+ await geometry(page);
  while((await state(page)).attempt.status==='playing'){
   await tap(page,'#help');await page.locator('#help-dialog[open]').waitFor();
   await page.waitForTimeout(160);await tap(page,'#apply-help');
@@ -123,4 +133,14 @@ try{
  assert.deepEqual(errors,[]);
  await writeFile(resolve(out,'report.json'),JSON.stringify({status:'PASS',browser:browser.version(),views:rows.length,rows,episode:{tap:true,drag:true,wrong:true,undo:true,explain:true,coldRestore:true}},null,2)+'\n');
  console.log('CONTENT-03 browser PASS · '+rows.length+' boards, touch/drag, error, Undo, Explain, cold restore');
+}catch(error){
+ // Retain failure evidence and flush recordings before closing the browser.
+ for(const [i,context] of (browser?.contexts()??[]).entries()){
+  for(const [j,page] of context.pages().entries()){
+   await page.screenshot({path:resolve(out,`failure-${i}-${j}.png`)}).catch(()=>{});
+   await writeFile(resolve(out,`failure-${i}-${j}.json`),JSON.stringify({error:String(error),state:await state(page).catch(()=>null),pageErrors:errors},null,2));
+  }
+  await context.close();
+ }
+ throw error;
 }finally{await browser?.close();server.close();}

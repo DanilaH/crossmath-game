@@ -23,10 +23,13 @@ if(process.argv.includes('--prepare')){
   const pkg=JSON.parse(await readFile(root+'/package.json','utf8'));
   assert.ok(pkg.dependencies['@danilah/mini-games-kit'].endsWith('#b1bf2026eda7dd68a5ccbc883946191e03d235af'));
   const mode=spec.mode??'league-lab';
-  execFileSync(process.execPath,[resolve('node_modules/vite/bin/vite.js'),'build','--mode',mode],{cwd:root,stdio:'inherit'});
+  // SSR fixture servers set NODE_ENV=development in this parent process. Historical
+  // playtest executables must retain production transforms, never that inherited flag.
+  execFileSync(process.execPath,[resolve('node_modules/vite/bin/vite.js'),'build','--mode',mode],{cwd:root,env:{...process.env,NODE_ENV:'production'},stdio:'inherit'});
+  execFileSync(process.execPath,['tools/verify-web.mjs',mode==='release-candidate'?'--release-candidate':'--league-lab'],{cwd:root,stdio:'inherit'});
   const stamp=JSON.parse(await readFile(root+'/dist/native-build.json','utf8'));
   assert.equal(stamp.freeIssuancePolicy,'d4-v2');assert.equal(stamp.leagueLab,mode==='league-lab');
-  const provenance={...spec,version:JSON.parse(await readFile(root+'/android-project.json','utf8')),mode,stamp,indexSha256:hash(await readFile(root+'/dist/index.html')),sourceTree:execFileSync('git',['rev-parse',spec.ref+'^{tree}'],{encoding:'utf8'}).trim(),origin:'Historical executable rebuilt from exact commit, not a delivered APK or new decoder fixture'};
+  const provenance={...spec,version:JSON.parse(await readFile(root+'/android-project.json','utf8')),mode,nodeEnv:'production',stamp,indexSha256:hash(await readFile(root+'/dist/index.html')),sourceTree:execFileSync('git',['rev-parse',spec.ref+'^{tree}'],{encoding:'utf8'}).trim(),origin:'Historical executable rebuilt from exact commit, not a delivered APK or new decoder fixture'};
   await writeFile(root+'/provenance.json',JSON.stringify(provenance,null,2));
   if(spec.name==='playtest526'){
    const archive=resolve('tests/fixtures/playtest526-web.zip');
@@ -86,6 +89,7 @@ if(process.argv.includes('--prepare')){
  const legacy=resolve(baselineRoot,'legacy526');await mkdir(legacy,{recursive:true});
  execFileSync('tar',['-x','-C',legacy],{input:execFileSync('git',['archive','1c6e5fb84cbb303831c393eb29f98d21e3d80ccf'],{maxBuffer:80*1024*1024})});
  try{await access(legacy+'/node_modules');}catch{await symlink(await realpath('node_modules'),legacy+'/node_modules','dir');}
- execFileSync(process.execPath,[resolve('node_modules/vite/bin/vite.js'),'build','--mode','release'],{cwd:legacy,stdio:'inherit'});
+ execFileSync(process.execPath,[resolve('node_modules/vite/bin/vite.js'),'build','--mode','release'],{cwd:legacy,env:{...process.env,NODE_ENV:'production'},stdio:'inherit'});
+ execFileSync(process.execPath,['tools/verify-web.mjs','--release'],{cwd:legacy,stdio:'inherit'});
  execFileSync(process.execPath,['tools/meta18-fixtures.mjs'],{cwd:legacy,stdio:'inherit'});
 }
