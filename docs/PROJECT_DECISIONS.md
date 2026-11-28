@@ -1,3 +1,7 @@
+## DEC-2026-11-28-RC-QA · финальная регрессия #30
+
+По прямому поручению владельца: закрыть RC-01–03 в CI самого Crossmath и подготовить0.5.28/33 для финального плейтеста. Допустимо исправление воспроизведённой обрезки новых полей при занятой баннером высоте. Публичный сертификат тестовой серии0.5.27 закреплён; новый ключ не создаётся при его отсутствии. Временный APK CI маркируется как проверочный, финальная выдача требует стабильной подписи. Старый aa59 signer и физическая проверка обновления — отдельный незакрытый gate. Новые механики, экономика, SDK и публикация не разрешены. См. [приёмку](acceptance/rc30/README.md).
+
 ## DEC-2026-11-28-RELEASE-01 · coherent playtest candidate
 
 Owner authorized MON-01 correction and RELEASE-01 #29 on PR #4. The isolated `release-candidate` profile enables D4-v2, 40 reviewed Easy9×9 and 50 Daily boards, weekly Guru League v3 and all existing CORE/META. Lab controls and operation-pair experiments remain isolated. All 515 existing IDs/campaign positions, issued dates/pins, active/parked attempts, resources, receipts and League v1/v2/v3 decoders remain. No lab entry in player UI. New public IDs are cm-own-03-001…090; mapping is frozen in acceptance/release29/content-map.json. New Daily assignments use calendar-v3; saved calendar-v2 assignments are not remapped.

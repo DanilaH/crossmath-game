@@ -3,6 +3,7 @@ import {createServer} from 'node:http';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
 import assert from 'node:assert/strict';
+const currentVersion=JSON.parse(await readFile('android-project.json','utf8'));
 const baseline=resolve(process.env.RELEASE29_BASELINE??'../baseline526');
 const oldStamp=JSON.parse(await readFile(baseline+'/dist/native-build.json','utf8'));assert.equal(oldStamp.freeIssuancePolicy,'legacy');assert.equal(oldStamp.leagueLab,false);
 const {fixtures}=JSON.parse(await readFile(baseline+'/.test-output/meta18/fixtures.json','utf8'));
@@ -28,7 +29,7 @@ try{
   const before=await save();root=rc;await page.reload();await ready();const after=await save();
   for(const key of ['profile','attempt','result','settings','career','ads'])assert.deepEqual(after[key],before[key],fixture+': '+key);
   for(const key of ['assignments','inactive','completedDates','freeProgress','freeIssuance','archivedDailyResults'])assert.deepEqual(after.meta[key],before.meta[key],fixture+': '+key);
-  await page.screenshot({path:out+'/'+fixture+'-after-update.png'});checks.push({fixture,profile:true,chipsHistory:true,slots:true,calendarDates:after.meta.completedDates.length,theme:after.settings.theme,language:after.settings.language,oldVersion:'0.5.26/31 d91b5bf',newVersion:'0.5.27/32'});await context.close();
+  await page.screenshot({path:out+'/'+fixture+'-after-update.png'});checks.push({fixture,profile:true,chipsHistory:true,slots:true,calendarDates:after.meta.completedDates.length,theme:after.settings.theme,language:after.settings.language,oldVersion:'0.5.26/31 d91b5bf',newVersion:currentVersion.versionName+'/'+currentVersion.versionCode});await context.close();
  }
  await writeFile(out+'/report.json',JSON.stringify({status:'PASS',checks,scope:'Same-origin real old packaged web to new packaged web with retained storage and actual touches; NOT Android APK installation/signing acceptance'},null,2));console.log('RELEASE-01 web update PASS · active/parked touched boards, 1100 dates, maximum profile, RU/EN/theme');
 }finally{await browser?.close();server.close();}

@@ -30,6 +30,9 @@ tasks.configureEach { task ->
   def stamp=file('src/main/assets/public/native-build.json')
   def web=stamp.isFile()?new groovy.json.JsonSlurper().parse(stamp):null
   if(web?.channel!='release')throw new GradleException('Run npm run android:sync:release before optimized variants')
+  if(task.name=='preReleaseCheckBuild') {
+   project.exec {workingDir rootProject.file('../..');commandLine 'node','tools/playtest-signing.mjs'}
+  }
   if(task.name=='preReleaseBuild') {
    if(web.releaseCandidate==true)throw new GradleException('Release candidate requires separate production activation approval')
    if(web.winBonusCandidate==true)throw new GradleException('Win bonus candidate is exclusive to the playtest APK')

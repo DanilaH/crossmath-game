@@ -15680,8 +15680,7 @@
       "permanent win bonus"
     ],
     "published": false
-  }
-,
+  },
   "releaseCandidateIndependent20261128": {
     "reviewedHead": "4fb5ff6d60eb718b67ffb3ff22d75cab95dfe5cb",
     "build": "0.5.27/32",
@@ -15702,5 +15701,27 @@
     "liveSdk": "NOT RUN",
     "referenceStatusChanges": false,
     "gameplayChanged": false
+  },
+  "releaseCandidateQA30": {
+    "issue": "https://github.com/DanilaH/crossmath-game/issues/30",
+    "version": "0.5.28",
+    "versionCode": 33,
+    "baseHead": "ed029d6d4662346fbb6526fb789f373bd4d6c035",
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "evidence": "docs/acceptance/rc30/README.md",
+    "sourceFeatureIds": [
+      "guru-daily-active",
+      "guru-daily-set",
+      "easy-daily-archive"
+    ],
+    "automatedScope": [
+      "historical actual executable upgrades with D4/League/calendar/quest/reward/quarantine snapshots",
+      "all90 new boards in RU/EN/light/dark with reduced banner area",
+      "scripted protocol3 actual packaged adapter + UI"
+    ],
+    "device": "NOT RUN",
+    "liveSDK": "NOT INSTALLED",
+    "referenceParityPromoted": false,
+    "signing": "stable test certificate5f pinned; old aa59 update blocked without original key"
   }
 }

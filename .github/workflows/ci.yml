@@ -72,6 +72,13 @@ jobs:
           META18_OUTPUT=.test-output/release29-meta node tools/meta18-browser.mjs
           LEAGUE22_OUTPUT=.test-output/release29-league node tools/league22-browser.mjs
           MON27_OUT=.test-output/release29-ads node tools/monetization27-browser.mjs
+      - name: RC-QA-01 historical updates, new bank with banner, protocol3
+        run: |
+          node tools/rc30-baselines.mjs --prepare
+          node tools/rc30-update-browser.mjs
+          RELEASE29_BASELINE=../rc30-baselines/legacy526 node tools/release29-update-browser.mjs
+          node tools/rc30-protocol-browser.mjs
+          node tools/rc30-banner-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -97,6 +104,9 @@ jobs:
             .test-output/mon27-ui/
             .test-output/mon27-win-ui/
             .test-output/release29*/
+            .test-output/rc30-update/
+            .test-output/rc30-protocol/
+            .test-output/rc30-banner/
       - run: npm run android:sync:rc
       - uses: actions/setup-java@v4
         with:
@@ -108,10 +118,12 @@ jobs:
       - run: sdkmanager "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0"
       - run: ./gradlew --no-daemon testDebugUnitTest assembleDebug assembleReleaseCheck
         working-directory: native/android
+        env:
+          ANDROID_ALLOW_EPHEMERAL_PREVIEW: '1'
       - run: python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --release-candidate --out .test-output/apk-verification
       - uses: actions/upload-artifact@v4
         with:
-          name: crossmath-releasecheck-NOT-PRODUCTION
+          name: crossmath-build-check-EPHEMERAL-NOT-UPDATE
           include-hidden-files: true
           path: |
             native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk

@@ -1,3 +1,5 @@
+> **RC-QA-01 #30 · current candidate0.5.28/33:** [regression and signing](acceptance/rc30/README.md). Project CI owns full checks and new upgrade/banner/protocol3 suites. Same signer as delivered0.5.27; older aa59 installations need their original key. Physical Android and SDK evidence remain NOT RUN. Historical package summaries below do not override this scope.
+
 > 2026-11-28: RELEASE-01 0.5.27/32 integrated RC after MON-01. Read [acceptance/release29/README.md](acceptance/release29/README.md) first; D4-v2 +90 reviewed boards +League v3, no lab UI, payouts/kit unchanged. Android same-signer update/live SDK remain BLOCKED, no publication. Older entries below are historical.
 
 # Crossmath status

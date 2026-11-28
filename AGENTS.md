@@ -1,3 +1,7 @@
+## Current owner scope · RC-QA-01 #30 · 2026-11-28
+
+Final regression of integrated RC0.5.28/33 over ed029d6 / reviewed4fb5ff6. See docs/acceptance/rc30/README.md. Close RC-01–03 through project CI; retain legacy and actual pilot executable upgrades, all90 new fields in banner-reduced viewports, protocol3 browser E2E. The sole gameplay-view change is the exact compact CSS block; engine/BoardView/gestures/economy/runtime unchanged. Stable playtest signer is pinned to delivered0.5.27; never silently generate a replacement. CI ephemeral APK is NOT-UPDATE. Device/old-aa59 update and real SDK remain separate open gates. No publication/new systems.
+
 ## Current owner scope · RELEASE-01 #29 · 2026-11-28
 
 Current authorized work supersedes older lab-only scope: fix MON-01 and deliver an integrated **playtest RC**, product profile `release-candidate`, 0.5.27/32. D4-v2 + 40 reviewed Easy9×9/50 Daily + weekly Guru League v3 + existing CORE/META. See docs/acceptance/release29/README.md and MON-01.md. Preserve all original IDs/campaign, issued assignments/chips, economy, receipts, League plans and kit pin. No technical lab entry in RC UI. Keep production Gradle guard; no publication, SDK choice, permanent win bonus or League coin/hint prizes without a separate owner decision. Device/live SDK/same-signer update gates cannot be inferred from browser/JVM/static APK checks.

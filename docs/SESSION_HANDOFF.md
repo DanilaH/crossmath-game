@@ -1,3 +1,5 @@
+> **Current handoff · RC-QA-01 #30:**0.5.28/33 over ed029d6; read [acceptance/rc30/README.md](acceptance/rc30/README.md). Existing integrated CORE/META/D4/90 boards/League retained. Project CI, frozen old executables, full new-bank banner matrix and protocol3 UI tests are mandatory. Stable5f playtest signer, explicit CI ephemeral identity; no implicit key replacement. No physical device/live SDK acceptance inferred. Do not restart prior historical META/League work below.
+
 **MONETIZATION #27 / isolated #14 · 28.11.2026:** current preparation0.5.26/31 over PR#4@157b133. [Audit/acceptance](acceptance/monetization27/README.md), [provider decision/device plan](acceptance/monetization27/PROVIDER_HANDOFF.md). Optional native protocol2/journal added, default Unconfigured, no SDK/IDs or main bonus. Same placements, economy and180/120/420/30/first5; prior#16/#17/#22 retained as labs. No #19/new force/store/IAP. Native device/live SDK/update are NOT RUN; provider/numbers require owner decision. Older “MONETIZATION not started” text below is historical.
 
 # Crossmath handoff

@@ -6,7 +6,22 @@ const sha=data=>createHash('sha256').update(data).digest('hex');
 for(const {path,sha256} of base.unchanged){
  let bytes=await readFile(path);
  if(path==='src/app/model.ts')bytes=Buffer.from(bytes.toString().replace("[routes.version,'calendar-v2','calendar-v3'].includes(assignment.calendarVersion)","[routes.version,dailyVersion].includes(assignment.calendarVersion)").replace("assignment.calendarVersion !== routes.version ?","assignment.calendarVersion === dailyVersion ?"));
- assert.equal(sha(bytes),sha256,path+' immutable contract (calendar-v3 decoder addition only)');
+ if(path==='src/ui/play.css'){
+  // RC-02 permits precisely this compact-viewport fix, not a blanket new baseline.
+  // All other CSS and the complete BoardView/gesture implementation still hash to MON27.
+  const current=`@media (max-height: 510px) {
+  #play-screen.is-solving .play-area { gap: 2px; }
+  #play-screen.is-solving .traybox { --tray-rows: 1; }
+  #play-screen.is-solving .traybox:has(#tray-nav:not([hidden])) .tray {
+    margin-inline-end: 101px;
+  }
+  #play-screen.is-solving #tray-nav { grid-auto-flow: column; }
+}`;
+  const original=current.replace('  #play-screen.is-solving .play-area { gap: 2px; }\n','').replaceAll('#play-screen.is-solving ','#play-screen.is-solving .has-tall-board ');
+  const text=bytes.toString();assert.equal(text.split(current).length,2,'Exactly one authorized RC-02 block');
+  bytes=Buffer.from(text.replace(current,original));
+ }
+ assert.equal(sha(bytes),sha256,path+' immutable contract (calendar decoder / exact RC-02 layout block only)');
 }
 for(const {path,sha256,removeOnly} of base.onlyCandidateModeFlag){
  let text=await readFile(path,'utf8');
@@ -18,4 +33,4 @@ for(const {path,sha256,removeOnly} of base.onlyCandidateModeFlag){
 const ledger=JSON.parse(await readFile('docs/porting/ADOPTION_LEDGER.json','utf8'));
 assert.equal(sha(JSON.stringify(ledger.features.map(f=>[f.id,f.status,f.comparison]))),base.sourceProjectionSha256);
 assert.equal(ledger.features.length,base.sourceIDs);assert.deepEqual(ledger.sourceInventory,base.sourceInventory);
-console.log('MON27 invariant hashes PASS · '+base.unchanged.length+' contracts (33 exact files + calendar decoder addition), '+base.onlyCandidateModeFlag.length+' flag-only files, '+base.sourceIDs+' reference IDs');
+console.log('MON27 invariant hashes PASS · '+base.unchanged.length+' contracts (exact files + calendar decoder / exact RC-02 layout block), '+base.onlyCandidateModeFlag.length+' flag-only files, '+base.sourceIDs+' reference IDs');

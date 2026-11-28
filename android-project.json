@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "appId": "com.danilah.crossmath",
-  "versionName": "0.5.27",
-  "versionCode": 32,
+  "versionName": "0.5.28",
+  "versionCode": 33,
   "orientation": "portrait",
   "certificateSha256": null,
   "releaseExcludedPaths": [
@@ -14,5 +14,6 @@
     "Startup diagnostics JSON",
     "data-debug-panel"
   ],
-  "appName": "Crossmath"
+  "appName": "Crossmath",
+  "playtestCertificateSha256": "5f4432685e6ae74b9777454c1606828dbc1a5aee385662c296ef719ebc44ad22"
 }

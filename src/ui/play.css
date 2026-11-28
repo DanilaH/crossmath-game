@@ -899,9 +899,10 @@ html[data-host="browser"] #help-dialog { margin-bottom: calc(8px + env(safe-area
 @media (min-height: 780px) { .traybox { --tray-rows: 4; } }
 
 @media (max-height: 510px) {
-  #play-screen.is-solving .has-tall-board .traybox { --tray-rows: 1; }
-  #play-screen.is-solving .has-tall-board .traybox:has(#tray-nav:not([hidden])) .tray {
+  #play-screen.is-solving .play-area { gap: 2px; }
+  #play-screen.is-solving .traybox { --tray-rows: 1; }
+  #play-screen.is-solving .traybox:has(#tray-nav:not([hidden])) .tray {
     margin-inline-end: 101px;
   }
-  #play-screen.is-solving .has-tall-board #tray-nav { grid-auto-flow: column; }
+  #play-screen.is-solving #tray-nav { grid-auto-flow: column; }
 }
