@@ -1,0 +1,37 @@
+name: Independent final RC audit
+on:
+  push:
+    branches: [research/final-rc-audit-20261128]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - uses: actions/checkout@v6
+        with:
+          repository: DanilaH/mini-games-kit
+          ref: b1bf2026eda7dd68a5ccbc883946191e03d235af
+          path: .test-output/kit
+          token: ${{ secrets.KIT_READ_TOKEN }}
+          persist-credentials: false
+      - name: Exact runtime
+        working-directory: .test-output/kit
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run build
+          npm pack --ignore-scripts --pack-destination ..
+      - run: |
+          node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz b1bf2026eda7dd68a5ccbc883946191e03d235af
+          npm install --no-audit --no-fund
+      - run: npx vitest run --mode release-candidate tests/final-rc-audit.test.ts --reporter=verbose
+      - run: npx vitest run --mode release-candidate tests/functional-audit.test.ts tests/reveal-additional.test.ts tests/save-atomic.test.ts tests/ui32-navigation.test.ts --reporter=dot
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-rc-independent-report
+          path: .test-output/final-audit/
