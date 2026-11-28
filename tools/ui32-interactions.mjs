@@ -41,6 +41,7 @@ try{
    assert.equal(await page.evaluate(()=>document.activeElement.id),stable.focus);assert.ok(Math.abs(await page.evaluate(()=>scrollY)-stable.scroll)<2,'Polling retains scroll');
    await tap(page,'#tab-home');await tap(page,'#continue-game');await visible(page,'#return');assert.equal(await page.locator('#return').isDisabled(),true);
    for(const id of ['undo','sort','return','help']){await visible(page,'#'+id);assert.ok(await page.locator('#'+id).evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=11));}
+   assert.ok(await page.locator('#tray .token-face').first().evaluate(e=>getComputedStyle(e).backgroundImage.includes('linear-gradient')&&getComputedStyle(e).pointerEvents==='none'),'Full chip artwork moves independently of its hit target');
    const before=await snapshot(page);await tap(page,'#sort');const sorted=await snapshot(page);
    const motion=await page.evaluate(()=>document.querySelector('#tray').getAnimations({subtree:true}).map(a=>a.effect.getTiming().duration));
    assert.ok(motion.length&&motion.every(t=>t===140),'Committed sort uses bounded FLIP');

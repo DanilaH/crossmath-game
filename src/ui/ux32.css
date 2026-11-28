@@ -46,3 +46,14 @@ body.calm #hub > * { animation:none; }
 
 body.dark #root-tabs .menu-icon { filter:brightness(1.8) saturate(.85); }
 #help-dialog:has(#help-description:not([hidden])) { max-height:82svh; }
+/* Move the whole mint/amber face, never its final-layout button hit area. */
+#tray .token { position:relative; display:grid; place-items:stretch; padding:0; border:0; background:transparent; box-shadow:none; }
+#tray .token-face {
+  display:grid; place-items:center; width:100%; height:100%; border-radius:inherit;
+  border:1px solid var(--play-chip-edge); border-bottom-color:var(--play-chip-rim);
+  background:linear-gradient(163deg,var(--chip-glint) 0%,var(--play-chip-top) 22%,var(--play-chip) 73%,var(--chip-end));
+  box-shadow:0 2px var(--play-chip-rim),inset 0 1px var(--chip-ledge),inset 0 -2px var(--chip-inset);
+  color:var(--play-chip-ink);
+}
+#tray .token.grasping .token-face { box-shadow:0 4px var(--play-chip-rim),inset 0 1px var(--chip-ledge); }
+#tray .token.lifted .token-face { border:1px solid var(--play-socket-line); box-shadow:inset 0 2px 2px #1c25461a; background:var(--play-socket); color:transparent; }
