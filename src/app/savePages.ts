@@ -23,7 +23,7 @@ function manifest(raw:string):Manifest|null {
 export async function planSave(save:Save):Promise<SavePlan> {
   const raw=JSON.stringify(save),bytes=utf8.encode(raw);
   if(bytes.length<=INLINE_BYTES)return {raw,entries:[]};
-  const codec=typeof CompressionStream==='function'?'gzip':'utf8';
+  const codec=typeof CompressionStream==='function'&&typeof DecompressionStream==='function'?'gzip':'utf8';
   const packed=codec==='gzip'?new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer()):bytes;
   const entries=new Map<string,string>();
   const add=async(node:Node)=>{const value=JSON.stringify(node),id=await hash(value);entries.set(PAGE_PREFIX+id,value);return id;};
@@ -49,6 +49,7 @@ async function walk(m:Manifest,storage:AtomicStorage,collect:(key:string,node:No
 }
 export async function readSave(raw:string,storage:AtomicStorage):Promise<unknown>{
   const m=manifest(raw);if(!m)return JSON.parse(raw);
+  if(m.codec==='gzip'&&typeof DecompressionStream!=='function')throw new SaveReadUnavailable(Error('Gzip decoder unavailable'));
   const blocks:Uint8Array[]=[];let size=0;
   await walk(m,storage,(_key,node)=>{if('data'in node){const block=unbase64(node.data);size+=block.length;if(size>m.storedBytes)throw Error('Invalid packed length');blocks.push(block);}});
   if(size!==m.storedBytes)throw Error('Invalid packed length');

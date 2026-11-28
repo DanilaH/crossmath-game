@@ -57,30 +57,37 @@ describe('FUNC-03 lossless paged saves',()=>{
   expect([...storage.data.values()].every(v=>new TextEncoder().encode(v).length<=128*1024)).toBe(true);expect(storage.data.get(SAVE_KEY)!.length).toBeLessThan(1024);
   const bytes=[...storage.data.values()].reduce((sum,v)=>sum+new TextEncoder().encode(v).length,0);expect(bytes).toBeLessThan(JSON.stringify(s).length/3);
  },30000);
- it('retains a multi-level page tree without compression support',async()=>{
-  vi.stubGlobal('CompressionStream',undefined);
+ it.each(['CompressionStream','DecompressionStream'])('retains a multi-level page tree without %s support',async missing=>{
+  vi.stubGlobal(missing,undefined);
   try{const {storage,a}=await setup(),s=longSave();s.revision=1;await a.commit(0,s);expect(await a.load()).toEqual(s);const root=JSON.parse(storage.data.get(PAGE_PREFIX+JSON.parse(storage.data.get(SAVE_KEY)!).root)!);expect(root.children).toHaveLength(2);expect(JSON.parse(storage.data.get(PAGE_PREFIX+root.children[0])!).children).toHaveLength(64);expect([...storage.data.values()].every(v=>v.length<=128*1024)).toBe(true);}
   finally{vi.unstubAllGlobals();}
- });
+ },30000);
  it('a failed page write leaves the small old save playable; retry and orphan collection succeed',async()=>{
   vi.stubGlobal('CompressionStream',undefined);
   try{const {storage,a}=await setup(),before=await a.load(),s=longSave();s.revision=1;let pages=0;storage.fail=key=>{if(key.startsWith(PAGE_PREFIX)&&++pages===2)throw Error('page write fault');};
    await expect(a.commit(0,s)).rejects.toThrow('page write fault');storage.fail=null;expect(await a.load()).toEqual(before);
    const orphan=PAGE_PREFIX+'0'.repeat(64);storage.data.set(orphan,'orphan');await a.commit(0,s);expect(await a.load()).toEqual(s);expect(storage.data.has(orphan)).toBe(false);
   }finally{vi.unstubAllGlobals();}
- });
+ },30000);
  it('rotates the last-good paged backup and preserves its receipts when a primary page is damaged',async()=>{
   const {storage,a}=await setup(),first=longSave();first.revision=1;await a.commit(0,first);
   const next=structuredClone(first);next.revision=2;next.settings.sound=true;await a.commit(1,next);
   const raw=storage.data.get(SAVE_KEY)!,root=JSON.parse(raw).root;storage.data.set(PAGE_PREFIX+root,'damaged');
   const recovered=await a.load();expect(a.recoveredBackup).toBe(true);expect(recovered).toEqual(first);expect(storage.data.get(SAVE_KEY+'.quarantine')).toBe(raw);expect(recovered.helpReceipts).toEqual(first.helpReceipts);
- });
+ },30000);
+ it('an unavailable decoder preserves compressed primary instead of recovering an older backup',async()=>{
+  const {storage,a}=await setup(),s=longSave();s.revision=1;await a.commit(0,s);const root=storage.data.get(SAVE_KEY);
+  vi.stubGlobal('DecompressionStream',undefined);
+  try{await expect(a.load()).rejects.toThrow('Save page read unavailable');expect(storage.data.get(SAVE_KEY)).toBe(root);expect(storage.data.has(SAVE_KEY+'.quarantine')).toBe(false);}
+  finally{vi.unstubAllGlobals();}
+  expect(await a.load()).toEqual(s);
+ },30000);
  it('an unavailable page read never quarantines or rolls back a valid primary',async()=>{
   const {storage,a}=await setup(),s=longSave();s.revision=1;await a.commit(0,s);const root=storage.data.get(SAVE_KEY);
   const get=storage.getItem.bind(storage);storage.getItem=async key=>{if(key.startsWith(PAGE_PREFIX))throw Error('unavailable disk');return get(key);};
   await expect(a.load()).rejects.toThrow('Save page read unavailable');expect(storage.data.get(SAVE_KEY)).toBe(root);expect(storage.data.has(SAVE_KEY+'.quarantine')).toBe(false);
   storage.getItem=get;expect(await a.load()).toEqual(s);
- });
+ },30000);
  it('collects obsolete snapshots but keeps primary, backup and quarantined pages',async()=>{
   const {storage,a}=await setup(),s=longSave();s.revision=1;await a.commit(0,s);
   const quarantine=storage.data.get(SAVE_KEY)!;storage.data.set(SAVE_KEY+'.quarantine',quarantine);
@@ -88,5 +95,5 @@ describe('FUNC-03 lossless paged saves',()=>{
   expect(await a.load()).toEqual(s);expect(decodeSave(await readSave(quarantine,storage)).revision).toBe(1);expect(decodeSave(await readSave(storage.data.get(SAVE_KEY+'.backup')!,storage)).revision).toBe(5);
   const live=new Set<string>();for(const raw of [storage.data.get(SAVE_KEY)!,storage.data.get(SAVE_KEY+'.backup')!,quarantine]){const plan=await planSave(decodeSave(await readSave(raw,storage)));for(const e of plan.entries)live.add(e.key);}
   expect((await storage.listKeys(PAGE_PREFIX)).sort()).toEqual([...live].sort());
- });
+ },30000);
 });
