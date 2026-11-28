@@ -61,7 +61,7 @@ if(process.argv.includes('--prepare')){
   try{
    const {createSave,decodeSave}=await modules.ssrLoadModule('/src/app/model.ts'),{GameSession}=await modules.ssrLoadModule('/src/app/session.ts'),{SaveRepository}=await modules.ssrLoadModule('/src/app/saveRepository.ts'),{getPuzzle}=await modules.ssrLoadModule('/src/content/catalog.ts');
    const answers={...JSON.parse(await readFile(root+'/docs/spec/product/content_v09/author_solutions.json','utf8')),...JSON.parse(await readFile(root+'/docs/spec/product/content_v2/author_solutions.json','utf8'))};
-   if(['rc527','rc528'].includes(spec.name)){
+   if(['rc527','rc528','rc529'].includes(spec.name)){
     const map=JSON.parse(await readFile(root+'/docs/acceptance/release29/content-map.json','utf8')),raw=JSON.parse(await readFile(root+'/docs/experiments/content03/author_solutions.json','utf8'));
     for(const entry of map)answers[entry.product]=raw[entry.source];
    }
