@@ -54,7 +54,7 @@ describe.skipIf(!product.candidate)('Independent functional audit — regression
   }
   const storage=new BarrierMemory(),repoA=new SaveRepository(storage,fresh),repoB=new SaveRepository(storage,fresh);
   const a=await repoA.load(),b=await repoB.load();const nextA=structuredClone(a),nextB=structuredClone(b);nextA.revision++;nextB.revision++;nextA.settings.sound=true;nextB.settings.vibration=true;
-  storage.armed=true;const outcomes=await Promise.allSettled([repoA.commit(a.revision,nextA),repoB.commit(b.revision,nextB)]);storage.armed=false;
+  storage.armed=true;const outcomes=await Promise.allSettled([repoA.commit(a,nextA),repoB.commit(b,nextB)]);storage.armed=false;
   const final=await repoA.load();const row={outcomes:outcomes.map(x=>x.status),sound:final.settings.sound,vibration:final.settings.vibration,revision:final.revision};
   emit('concurrent-writers',row);console.log('AUDIT_CONCURRENT '+JSON.stringify(row));expect(outcomes.filter(x=>x.status==='fulfilled')).toHaveLength(1);expect(outcomes.filter(x=>x.status==='rejected')).toHaveLength(1);
  });
@@ -65,7 +65,7 @@ describe.skipIf(!product.candidate)('Independent functional audit — regression
   const states=a.history,base=structuredClone(a);base.history=[];base.commandIds=[];const size=(n:number)=>{const candidate=structuredClone(s);candidate.attempt={...structuredClone(base),boardRevision:n,history:Array.from({length:n},(_,i)=>states[i%states.length]!),commandIds:Array.from({length:n},(_,i)=>'audit-'+String(i).padStart(30,'0'))};return candidate;};
   const bytes=(x:Save)=>new TextEncoder().encode(JSON.stringify(x)).length;
   let low=0,high=100000;while(low+1<high){const mid=(low+high)>>1;if(bytes(size(mid))>4*1024*1024)high=mid;else low=mid;}
-  const near=size(low),over=size(high);decodeSave(over);const {repo,storage}=await setup(near);over.revision=near.revision+1;let outcome='accepted';try{await repo.commit(near.revision,over)}catch(e){outcome=String(e);}
+  const near=size(low),over=size(high);decodeSave(over);const {repo,storage}=await setup(near);over.revision=near.revision+1;let outcome='accepted';try{await repo.commit(await repo.load(),over)}catch(e){outcome=String(e);}
   emit('history-cap',{puzzle:p.puzzleId,synthetic:true,history:high,logicalBytes:bytes(over),storedBytes:[...storage.data.values()].reduce((sum,v)=>sum+new TextEncoder().encode(v).length,0),maxValueBytes:Math.max(...[...storage.data.values()].map(v=>new TextEncoder().encode(v).length)),outcome});console.log('AUDIT_CAP '+JSON.stringify({puzzle:p.puzzleId,tray:p.tray.length,syntheticHistory:high,bytes:bytes(over),outcome}));expect(bytes(over)).toBeGreaterThan(4*1024*1024);expect(outcome).toBe('accepted');expect(await repo.load()).toEqual(over);
  },60000);
  it('real session roundtrips across campaign, mixed modes, league, archive, reward and write faults',async()=>{

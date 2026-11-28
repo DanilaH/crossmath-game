@@ -1,3 +1,7 @@
+## Current owner scope · FINAL-SAVE-01 #33 · 2026-11-28
+
+0.5.31/36 over delivered UX32 `34adfa1d`. See docs/acceptance/save33/README.md. Bind each write to the exact durable base observed by that caller; reused revision after backup recovery is not sufficient authority. Preserve flat/paged schemas, backup/quarantine, every receipt/Undo, all mechanics/economy/UI/runtime and tests. Use the independent project audit plus full project CI, one stable-signed APK. No new mechanisms, art, SDK or publication. Device gates remain separate.
+
 ## Current owner scope · UX-QA-01 #32 · 2026-11-28
 
 0.5.30/35 over delivered FUNC31 `291cb971`. See docs/acceptance/ui32/README.md. Preserve four tabs, fixed100%, artwork,605-bank, economy, storage/CAS and runtime. Fix both-axis preview, origin-aware League Back and explicit Today shortcut; visible restart confirmation/help context; stable readable tools and post-commit140ms keyed sort faces, tall-screen layout. Research matrix310/40 plus native-bridge interaction checks and all prior CI remain. No zoom/pan system, new mechanisms, SDK or publication. Dense320×430 physical finger and Android update/audio/haptic are separate open gates.

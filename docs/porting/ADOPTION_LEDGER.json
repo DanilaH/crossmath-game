@@ -15780,5 +15780,25 @@
       "src/app/session.ts"
     ],
     "boundary": "Current-game UX corrections and browser/native-bridge regression; original comparison/status and729-ID source inventory unchanged; physical finger/audio/haptic and Android installation remain device gates. OwnedDomMotion reused; no runtime/economy/engine changes."
+  },
+  "finalSaveQA33": {
+    "issue": 33,
+    "build": "0.5.31/36",
+    "baseline": "34adfa1d1a051bd8eab653061f62871e7881faaa",
+    "scope": "Consumer exact observed-root capability for backup ABA; source reference statuses unchanged",
+    "code": [
+      "src/app/saveRepository.ts",
+      "src/app/session.ts"
+    ],
+    "acceptance": "docs/acceptance/save33/README.md",
+    "evidence": [
+      "tests/final-rc-audit.test.ts",
+      "tests/save-recovery.test.ts",
+      "tools/save33-browser.mjs"
+    ],
+    "sourceFeatureId": "ref-background",
+    "originalParity": "UNKNOWN",
+    "device": "NOT RUN",
+    "runtimeChange": false
   }
 }

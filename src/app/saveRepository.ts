@@ -8,6 +8,10 @@ import { compactDailyArchive } from '../meta/dailyArchive';
 
 export const SAVE_KEY='crossmath.save.v1';
 const BACKUP_KEY=SAVE_KEY+'.backup';
+interface ObservedBase {storage:AtomicStorage;raw:string;revision:number;profileId:string}
+// Non-serializable capabilities belong to the exact loaded/committed object, not
+// the repository's latest read. Another session may reload that same repository.
+const observedBases=new WeakMap<Save,ObservedBase>();
 export class SaveConflict extends Error {}
 export class RecoveryRequired extends Error {}
 export class UnrecoverableSave extends Error {
@@ -32,6 +36,10 @@ export class SaveRepository {
   private recoveryRequired=false;
   public recoveredBackup=false;
   constructor(private readonly storage:AtomicStorage,private readonly fresh:()=>Save){}
+  private observe(state:Save,raw:string):Save{
+    observedBases.set(state,{storage:this.storage,raw,revision:state.revision,profileId:state.profile.id});
+    return state;
+  }
   private enqueue<T>(operation:()=>Promise<T>):Promise<T>{
     const task=this.queue.catch(()=>undefined).then(operation);this.queue=task;return task;
   }
@@ -42,6 +50,7 @@ export class SaveRepository {
   });}
   private async loadOnce():Promise<Save>{
     const raw=await this.storage.getItem(SAVE_KEY);
+    let observedRaw=raw;
     let state:Save,needsWrite=false,validPrimary=false;
     let backupRaw:string|null|undefined;
     try{
@@ -74,8 +83,9 @@ export class SaveRepository {
         extras.push({key:BACKUP_KEY,value:plan.raw});
       }
       await this.publish(raw,backupRaw,plan,extras);
+      observedRaw=plan.raw;
     }else if(await this.storage.getItem(SAVE_KEY)!==raw)throw new SaveConflict('Save changed during load');
-    this.recoveryRequired=false;return state;
+    this.recoveryRequired=false;return this.observe(state,observedRaw!);
   }
   resetCorrupt({primaryRaw,backupRaw}:UnrecoverableSave):Promise<void>{return this.enqueue(async()=>{
     const [primary,backup]=await Promise.all([this.storage.getItem(SAVE_KEY),this.storage.getItem(BACKUP_KEY)]);
@@ -87,21 +97,26 @@ export class SaveRepository {
     extras.push({key:BACKUP_KEY,value:fresh.raw});
     try{await this.publish(primaryRaw,backupRaw,fresh,extras);}catch(error){if(error instanceof SaveConflict)throw new SaveConflict('Save changed before reset');throw error;}
   });}
-  commit(expectedRevision:number,next:Save):Promise<Save>{
+  commit(base:Save,next:Save):Promise<Save>{
+    // Capture before enqueue: an intervening load/recovery cannot rebind this write.
+    const observed=observedBases.get(base);
     const captured=decodeSave(next);compactDailyArchive(captured);
     return this.enqueue(async()=>{
       if(this.recoveryRequired)throw new RecoveryRequired('Reload durable state before retrying');
+      if(!observed||observed.storage!==this.storage)throw new SaveConflict('Save base was not loaded from this storage; reload required');
+      const expectedRevision=observed.revision;
       const raw=await this.storage.getItem(SAVE_KEY);
+      if(raw!==observed.raw)throw new SaveConflict('Save revision/base changed; reload required');
       let current:Save;
       try{current=raw===null?this.fresh():decodeSave(await readSave(raw,this.storage));}
       catch(error){if(await this.storage.getItem(SAVE_KEY)!==raw)throw new SaveConflict('Save revision changed');throw error;}
-      if(current.revision!==expectedRevision||current.profile.id!==captured.profile.id||captured.revision!==expectedRevision+1)throw new SaveConflict('Save revision changed');
+      if(current.revision!==expectedRevision||current.profile.id!==observed.profileId||current.profile.id!==captured.profile.id||captured.revision!==expectedRevision+1)throw new SaveConflict('Save revision changed');
       const backupRaw=await this.storage.getItem(BACKUP_KEY);
       const plan=await planSave(captured);
       // Repack a legacy large root too: neither canonical copy grows with raw Undo snapshots.
       const previous=await planSave(current);
-      await this.publish(raw,backupRaw,{raw:plan.raw,entries:[...previous.entries,...plan.entries]},[{key:BACKUP_KEY,value:previous.raw}]);
-      return structuredClone(captured);
+      await this.publish(observed.raw,backupRaw,{raw:plan.raw,entries:[...previous.entries,...plan.entries]},[{key:BACKUP_KEY,value:previous.raw}]);
+      return this.observe(structuredClone(captured),plan.raw);
     });
   }
   private async publish(expected:string|null,backupExpected:string|null,plan:SavePlan,extras:StorageEntry[]):Promise<void>{

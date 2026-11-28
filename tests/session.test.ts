@@ -147,7 +147,7 @@ describe('P04/P05/P06: durable game operations',()=>{
   expect(storage.data.get(SAVE_KEY)).toBe(future);
  });
  it('detects a stale writer instead of overwriting a newer confirmed profile',async()=>{
-  const{storage,session}=await setup();const repo2=new SaveRepository(storage,fresh);const old=await repo2.load();await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});await expect(repo2.commit(0,{...old,revision:1})).rejects.toThrow('revision');
+  const{storage,session}=await setup();const repo2=new SaveRepository(storage,fresh);const old=await repo2.load();await session.command({type:'PlaceFromTray',tokenId:'t0',cellId:2});await expect(repo2.commit(old,{...old,revision:1})).rejects.toThrow('revision');
  });
  it('grants every rank/card milestone exactly once across the complete campaign, including 228/229',async()=>{
   const{session}=await setup();

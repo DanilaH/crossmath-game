@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {createServer} from 'vite';
 import assert from 'node:assert/strict';
 export const baselineSpecs=[
+ {name:'rc530',ref:'34adfa1d1a051bd8eab653061f62871e7881faaa',policy:'league-lab-3',mode:'release-candidate'},
  {name:'rc529',ref:'291cb971ec4c9a577851ada6a1c53dbf7d9b8fe2',policy:'league-lab-3',mode:'release-candidate'},
  {name:'rc528',ref:'4a76f388f9582c15d7f264914042b8a16c092706',policy:'league-lab-3',mode:'release-candidate'},
  {name:'league-v1',ref:'a57ceabc8570e57c0fcbf8aabdd5ee74674a7147',policy:'league-lab-1'},
@@ -45,6 +46,12 @@ if(process.argv.includes('--prepare')){
    execFileSync('python3',['-m','zipfile','-e',archive,root+'/artifact-web']);
    provenance.artifact={apkSha256:'d2dba24f4a3134ba8382cc8491d04b37c43fcd50b68989e2526a6f1c13c46977',versionName:'0.5.27',versionCode:32,webArchiveSha256:hash(await readFile(archive)),scope:'Exact delivered integrated RC web; native installation not simulated'};
   }
+  if(spec.name==='rc530'){
+   const archive=resolve('tests/fixtures/playtest530-web.zip');
+   assert.equal(hash(await readFile(archive)),'04df85ae8c7bca3475c2a52528b1c8b432e49cabdf08cfe53ae39018708a81c9');
+   execFileSync('python3',['-m','zipfile','-e',archive,root+'/artifact-web']);
+   provenance.artifact={apkSha256:'fcb6dd771f29fc07db5dccf62229a2639960867d019f15d0c701a33644512060',versionName:'0.5.30',versionCode:35,webArchiveSha256:hash(await readFile(archive)),scope:'Exact delivered UX32 public web; native installation not simulated'};
+  }
   if(spec.name==='rc529'){
    const archive=resolve('tests/fixtures/playtest529-web.zip');
    assert.equal(hash(await readFile(archive)),'dc478e55e4fa6f5db6ca69ff67e97617a447dc3b032d9be89ea1b40f460768e4');
@@ -61,7 +68,7 @@ if(process.argv.includes('--prepare')){
   try{
    const {createSave,decodeSave}=await modules.ssrLoadModule('/src/app/model.ts'),{GameSession}=await modules.ssrLoadModule('/src/app/session.ts'),{SaveRepository}=await modules.ssrLoadModule('/src/app/saveRepository.ts'),{getPuzzle}=await modules.ssrLoadModule('/src/content/catalog.ts');
    const answers={...JSON.parse(await readFile(root+'/docs/spec/product/content_v09/author_solutions.json','utf8')),...JSON.parse(await readFile(root+'/docs/spec/product/content_v2/author_solutions.json','utf8'))};
-   if(['rc527','rc528','rc529'].includes(spec.name)){
+   if(['rc527','rc528','rc529','rc530'].includes(spec.name)){
     const map=JSON.parse(await readFile(root+'/docs/acceptance/release29/content-map.json','utf8')),raw=JSON.parse(await readFile(root+'/docs/experiments/content03/author_solutions.json','utf8'));
     for(const entry of map)answers[entry.product]=raw[entry.source];
    }

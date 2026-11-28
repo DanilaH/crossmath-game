@@ -31,7 +31,7 @@ try{
  for(const spec of baselineSpecs){
   const root=resolve(baselineRoot,spec.name),f=JSON.parse(await readFile(root+'/fixtures.json','utf8'));
   let web=root+'/dist';try{await access(root+'/artifact-web/index.html');web=root+'/artifact-web';}catch{}
-  for(const state of (spec.name==='league-v1'?['active','completed']:['active','completed','quarantined',...(['playtest526','rc527','rc528','rc529'].includes(spec.name)?['issued']:[])])){
+  for(const state of (spec.name==='league-v1'?['active','completed']:['active','completed','quarantined',...(['playtest526','rc527','rc528','rc529','rc530'].includes(spec.name)?['issued']:[])])){
    host.use(web);const seed=structuredClone(f[state==='quarantined'?'active':state]);if(state==='quarantined'){seed.league.active.planHash=-1;const savedResult=Object.values(seed.meta.archivedDailyResults??{})[0]??Object.values(seed.meta.inactive).find(slot=>slot.result)?.result;assert.ok(savedResult);savedResult.league={invalid:true};}
    const {page,context}=await episode(browser,host.url,seed);page.on('pageerror',e=>errors.push(e.message));
    if(state==='active'){await tap(page,'#tab-calendar');await tap(page,'#daily-play');await place(page);await tap(page,'#home');}
@@ -43,7 +43,7 @@ try{
     await tap(page,'#undo');await page.locator('#help:enabled').waitFor();await place(page);await tap(page,'#home');
     await tap(page,'#tab-calendar');await tap(page,'#daily-play');await page.locator('#help:enabled').waitFor();assert.deepEqual((await save(page)).attempt.placements,before.attempt.placements);await tap(page,'#home');
    }
-   if(state==='completed'&&!['rc527','rc528','rc529'].includes(spec.name)){
+   if(state==='completed'&&!['rc527','rc528','rc529','rc530'].includes(spec.name)){
     if(await page.locator('#home:visible').count())await tap(page,'#home');
     const oldCalendar=await viteServer({root,mode:'league-lab',server:{middlewareMode:true,watch:null},appType:'custom'});
     let unissued;try{const old=await oldCalendar.ssrLoadModule('/src/meta/calendar.ts');unissued=Array.from({length:332},(_,i)=>new Date(Date.parse(before.meta.effectiveDay+'T12:00:00Z')-i*86400000).toISOString().slice(0,10)).find(day=>dateAvailable(before.profile.createdAt,before.profile.timeZone,before.meta.effectiveDay,day)&&!before.meta.assignments[day]&&old.calendarPuzzle(day)!==calendarPuzzle(day));assert.ok(unissued,'Unissued date changes under calendar-v3');}finally{await oldCalendar.close();}

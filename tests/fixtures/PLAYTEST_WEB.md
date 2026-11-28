@@ -16,3 +16,7 @@ These archives contain only our game's public WebView payload extracted from pre
 ## 0.5.29 / 34
 
 `playtest529-web.zip`: SHA-256 `dc478e55e4fa6f5db6ca69ff67e97617a447dc3b032d9be89ea1b40f460768e4`, extracted from delivered APK `0fde335c67cc27b05c9605c562b2245ee998fd3c8a485adecb2143e7ad7ea25f`, source `291cb971ec4c9a577851ada6a1c53dbf7d9b8fe2`. Logical old-code update only; native installation remains separate.
+
+## 0.5.30 / 35
+
+`playtest530-web.zip`: SHA-256 `04df85ae8c7bca3475c2a52528b1c8b432e49cabdf08cfe53ae39018708a81c9`, exact public web from delivered APK `fcb6dd771f29fc07db5dccf62229a2639960867d019f15d0c701a33644512060`, source `34adfa1d1a051bd8eab653061f62871e7881faaa`. No changes to the historical executable; native install/update remains a separate device gate.

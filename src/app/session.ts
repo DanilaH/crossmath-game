@@ -157,7 +157,7 @@ export class GameSession {
     const revealId=medal?.presented===false?medal.id:undefined;
     if(revealId)medal!.presented=true;
     next.revision=this.state.revision+1;
-    this.state=await this.repository.commit(this.state.revision,next);
+    this.state=await this.repository.commit(this.state,next);
     if(revealId)this.leagueMedalRevealId=revealId;
   }
   async command(action: BoardAction, elapsed=0, metadata?: {commandId:string;expectedRevision:number}): Promise<Transition> {

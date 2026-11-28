@@ -40,7 +40,7 @@ describe('FUNC-01 exact additional Reveal boundary',()=>{
   const plan=s.prepareHelp('reveal')!;expect(plan).not.toBeNull();lost=true;
   const applied=await s.help('reveal','one-paid',plan.boardRevision,plan);expect(applied).toMatchObject({outcome:'applied',costCoins:60});expect(s.state.profile.coins).toBe(60);
   const cold=new GameSession(await repo.load(),repo,()=> 'other');expect(await cold.help('reveal','one-paid',plan.boardRevision,plan)).toEqual(applied);expect(cold.state.profile.coins).toBe(60);
-  const next=structuredClone(cold.state);next.revision++;next.profile.coins=0;await repo.commit(cold.state.revision,next);const poor=new GameSession(await repo.load(),repo,()=> 'poor');
+  const next=structuredClone(cold.state);next.revision++;next.profile.coins=0;await repo.commit(cold.state,next);const poor=new GameSession(await repo.load(),repo,()=> 'poor');
   expect((await poor.help('reveal','no-money',poor.state.attempt.boardRevision,poor.prepareHelp('reveal'))).outcome).toBe('insufficient_resource');expect(poor.state.attempt.placements).toEqual(cold.state.attempt.placements);
  });
 });
