@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {createServer} from 'vite';
 import assert from 'node:assert/strict';
 export const baselineSpecs=[
+ {name:'rc528',ref:'4a76f388f9582c15d7f264914042b8a16c092706',policy:'league-lab-3',mode:'release-candidate'},
  {name:'league-v1',ref:'a57ceabc8570e57c0fcbf8aabdd5ee74674a7147',policy:'league-lab-1'},
  {name:'league-v2',ref:'097b9fc69b669c100ef1e6fa8b1063cb6cb56008',policy:'league-lab-2'},
  {name:'league-v3',ref:'fc09706c91282aed827a11215de6afc2ec884465',policy:'league-lab-3'},
@@ -43,11 +44,17 @@ if(process.argv.includes('--prepare')){
    execFileSync('python3',['-m','zipfile','-e',archive,root+'/artifact-web']);
    provenance.artifact={apkSha256:'d2dba24f4a3134ba8382cc8491d04b37c43fcd50b68989e2526a6f1c13c46977',versionName:'0.5.27',versionCode:32,webArchiveSha256:hash(await readFile(archive)),scope:'Exact delivered integrated RC web; native installation not simulated'};
   }
+  if(spec.name==='rc528'){
+   const archive=resolve('tests/fixtures/playtest528-web.zip');
+   assert.equal(hash(await readFile(archive)),'cb9c7b3f488c81ae4d2f760dcd2f71054f479995af8df438df07319862c80152');
+   execFileSync('python3',['-m','zipfile','-e',archive,root+'/artifact-web']);
+   provenance.artifact={apkSha256:'aae1f10dfd607c2da8371019f6789b84e1ae55a13ec374142940924eb5847445',versionName:'0.5.28',versionCode:33,webArchiveSha256:hash(await readFile(archive)),scope:'Exact delivered RC-QA web; native installation not simulated'};
+  }
   const modules=await createServer({root,mode,server:{middlewareMode:true,watch:null},appType:'custom'});
   try{
    const {createSave,decodeSave}=await modules.ssrLoadModule('/src/app/model.ts'),{GameSession}=await modules.ssrLoadModule('/src/app/session.ts'),{SaveRepository}=await modules.ssrLoadModule('/src/app/saveRepository.ts'),{getPuzzle}=await modules.ssrLoadModule('/src/content/catalog.ts');
    const answers={...JSON.parse(await readFile(root+'/docs/spec/product/content_v09/author_solutions.json','utf8')),...JSON.parse(await readFile(root+'/docs/spec/product/content_v2/author_solutions.json','utf8'))};
-   if(spec.name==='rc527'){
+   if(['rc527','rc528'].includes(spec.name)){
     const map=JSON.parse(await readFile(root+'/docs/acceptance/release29/content-map.json','utf8')),raw=JSON.parse(await readFile(root+'/docs/experiments/content03/author_solutions.json','utf8'));
     for(const entry of map)answers[entry.product]=raw[entry.source];
    }

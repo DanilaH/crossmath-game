@@ -15723,5 +15723,28 @@
     "liveSDK": "NOT INSTALLED",
     "referenceParityPromoted": false,
     "signing": "stable test certificate5f pinned; old aa59 update blocked without original key"
+  },
+  "functionalQA31": {
+    "issue": 31,
+    "version": "0.5.29/34",
+    "base": "4a76f388f9582c15d7f264914042b8a16c092706",
+    "research": "dcf8598b87b591a65060560b40783545677dfe0f",
+    "codePaths": [
+      "src/help/reveal.ts",
+      "src/content/additionalAnswers.json",
+      "src/app/atomicStorage.ts",
+      "src/app/savePages.ts",
+      "src/app/saveRepository.ts",
+      "native/android/app/src/main/java/com/danilah/crossmath/StorageBatch.java"
+    ],
+    "sourceFeatureIds": [
+      "guru-hint-answer",
+      "easy-hint-author-answer-target",
+      "easy-hint-local-replace-return",
+      "easy-hint-no-tray-transfer-not-swap",
+      "ref-background"
+    ],
+    "acceptance": "docs/acceptance/functional-audit/README.md",
+    "boundary": "Current game tests; source statuses unchanged, original/device parity not inferred; host-only storage candidate, runtime pin unchanged"
   }
 }

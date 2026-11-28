@@ -78,14 +78,15 @@ export async function episode(browser,url,seed,{height=568,protocol=3,banner=fal
   const methods=['availability','pendingRewards','acknowledge','showRewarded','showInterstitial','cancelUnopened','reconcileReward','setBanner'];
   window.androidBridge={};window.Capacitor={
    PluginHeaders:[{name:'CrossmathAds',methods:[...methods.map(name=>({name,rtype:'promise'})),{name:'addListener'},{name:'removeListener'}]},
-    {name:'GameStorage',methods:['get','set','remove','list'].map(name=>({name,rtype:'promise'}))},
+    {name:'GameStorage',methods:['get','set','remove','list','compareAndSet'].map(name=>({name,rtype:'promise'}))},
     {name:'App',methods:[{name:'addListener'},{name:'removeListener'},...['getState','minimizeApp'].map(name=>({name,rtype:'promise'}))]}],
    nativeCallback(plugin,method,options,callback){const id=String(++serial);if(method==='addListener')listeners.set(id,{event:options.eventName,callback});if(method==='removeListener')listeners.delete(options.callbackId);return id;},
    async nativePromise(plugin,method,options){
     if(plugin==='GameStorage'){
+     if(method==='compareAndSet'){for(const [key,value] of Object.entries(options.expected))if(localStorage.getItem(key)!==value)return {applied:false};for(const entry of options.puts)localStorage.setItem(entry.key,entry.value);for(const key of options.remove)localStorage.removeItem(key);return {applied:true};}
      if(method==='get')return {value:localStorage.getItem(options.key)};
      if(method==='set')localStorage.setItem(options.key,options.value);
-     if(method==='remove')localStorage.removeItem(options.key);if(method==='list')return {keys:[]};return;
+     if(method==='remove')localStorage.removeItem(options.key);if(method==='list')return {keys:Object.keys(localStorage).filter(k=>k.startsWith(options.prefix))};return;
     }
     if(method==='removeListener'){listeners.delete(options.callbackId);return;}
     if(plugin==='App'){if(method==='getState')return {isActive:true};return;}

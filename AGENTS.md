@@ -1,3 +1,7 @@
+## Current owner scope · FUNC-QA #31 · 2026-11-28
+
+0.5.29/34 over delivered RC-QA `4a76f388`. See docs/acceptance/functional-audit/README.md. Fix Reveal for exactly90 released additions; Explain stays answer-free. Host CAS spans comparison/pages/backup/root/collection across browser tabs and native processes. Large saves use lossless bounded pages; preserve every live Undo/ID/receipt and unfinished slot, never silently truncate or raise the4MiB/value cap. Old flat schemas remain supported; actual0.5.28 executable upgrade is added. Use project CI and the pinned stable test signer; no runtime/economy/mechanics/SDK/publication change. #30 device/old-key gates remain separate.
+
 ## Current owner scope · RC-QA-01 #30 · 2026-11-28
 
 Final regression of integrated RC0.5.28/33 over ed029d6 / reviewed4fb5ff6. See docs/acceptance/rc30/README.md. Close RC-01–03 through project CI; retain legacy and actual pilot executable upgrades, all90 new fields in banner-reduced viewports, protocol3 browser E2E. Gameplay-view changes are the exact compact CSS block and acknowledged-layout remeasurement; engine/BoardView/gestures/economy/runtime unchanged. Stable playtest signer is pinned to delivered0.5.27; never silently generate a replacement. CI ephemeral APK is NOT-UPDATE. Device/old-aa59 update and real SDK remain separate open gates. No publication/new systems.

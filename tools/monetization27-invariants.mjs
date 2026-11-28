@@ -5,6 +5,12 @@ const base=JSON.parse(await readFile('docs/acceptance/monetization27/BASELINE.js
 const sha=data=>createHash('sha256').update(data).digest('hex');
 for(const {path,sha256} of base.unchanged){
  let bytes=await readFile(path);
+ if(path==='src/help/reveal.ts'){
+  // FUNC-01 authorizes only the frozen additional table, not different Reveal mechanics.
+  const added="// Frozen public IDs only: no laboratory catalog or answer dependency in Explain.\nimport additionalAnswers from '../content/additionalAnswers.json';\n";
+  const text=bytes.toString();assert.equal(text.split(added).length,2);
+  bytes=Buffer.from(text.replace(added,'').replace('{...answers, ...newAnswers, ...additionalAnswers}','{...answers, ...newAnswers}'));
+ }
  if(path==='src/app/model.ts')bytes=Buffer.from(bytes.toString().replace("[routes.version,'calendar-v2','calendar-v3'].includes(assignment.calendarVersion)","[routes.version,dailyVersion].includes(assignment.calendarVersion)").replace("assignment.calendarVersion !== routes.version ?","assignment.calendarVersion === dailyVersion ?"));
  if(path==='src/ui/play.css'){
   // RC-02 permits precisely this compact-viewport fix, not a blanket new baseline.

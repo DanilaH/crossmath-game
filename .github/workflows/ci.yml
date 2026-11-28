@@ -39,6 +39,8 @@ jobs:
       - run: npm run test:league
       - run: npm run test:win-rv
       - run: npm run test:rc
+      - name: FUNC-QA asserting regressions from the independent audit
+        run: npx vitest run --mode release-candidate tests/functional-audit.test.ts tests/save-atomic.test.ts tests/reveal-additional.test.ts
       - run: node tools/monetization27-invariants.mjs
       - run: node tools/league22-model.mjs
       - run: node tools/league22-guru-model.mjs
@@ -57,6 +59,7 @@ jobs:
       - name: RC-QA-01 historical updates, new bank with banner, protocol3
         run: |
           npm run build:rc
+          node tools/functional31-browser.mjs
           node tools/meta18-fixtures.mjs
           node tools/rc30-baselines.mjs --prepare
           node tools/rc30-update-browser.mjs
@@ -110,6 +113,7 @@ jobs:
             .test-output/rc30-update/
             .test-output/rc30-protocol/
             .test-output/rc30-banner/
+            .test-output/functional31/
       - run: npm run android:sync:rc
       - uses: actions/setup-java@v4
         with:

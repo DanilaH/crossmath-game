@@ -112,9 +112,10 @@ try{
    await context.addInitScript(s=>{
     if(!localStorage.getItem('crossmath.save.v1'))localStorage.setItem('crossmath.save.v1',JSON.stringify(s));
     window.androidBridge={};const listeners=new Map();
-    window.Capacitor={PluginHeaders:[{name:'App',methods:[{name:'addListener'},{name:'removeListener'},{name:'getState',rtype:'promise'},{name:'minimizeApp',rtype:'promise'}]},{name:'GameStorage',methods:['get','set','remove'].map(name=>({name,rtype:'promise'}))}],
+    window.Capacitor={PluginHeaders:[{name:'App',methods:[{name:'addListener'},{name:'removeListener'},{name:'getState',rtype:'promise'},{name:'minimizeApp',rtype:'promise'}]},{name:'GameStorage',methods:['get','set','remove','list','compareAndSet'].map(name=>({name,rtype:'promise'}))}],
      nativeCallback(_plugin,method,options,callback){if(method==='addListener')listeners.set(options.eventName,callback);if(method==='removeListener')listeners.delete(options.eventName);return options.eventName;},
-     async nativePromise(plugin,method,options){if(plugin==='App'){if(method==='minimizeApp')window.minimized=true;return {isActive:true};}if(method==='get')return {value:localStorage.getItem(options.key)};if(method==='set')localStorage.setItem(options.key,options.value);if(method==='remove')localStorage.removeItem(options.key);}};
+     async nativePromise(plugin,method,options){if(plugin==='App'){if(method==='minimizeApp')window.minimized=true;return {isActive:true};}if(method==='list')return {keys:Object.keys(localStorage).filter(k=>k.startsWith(options.prefix))};if(method==='compareAndSet'){for(const [key,value] of Object.entries(options.expected))if(localStorage.getItem(key)!==value)return {applied:false};for(const entry of options.puts)localStorage.setItem(entry.key,entry.value);for(const key of options.remove)localStorage.removeItem(key);return {applied:true};}
+     if(method==='get')return {value:localStorage.getItem(options.key)};if(method==='set')localStorage.setItem(options.key,options.value);if(method==='remove')localStorage.removeItem(options.key);}};
     window.testBack=()=>listeners.get('backButton')({canGoBack:false});
    },seed);
    const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.clock.setFixedTime(new Date(seed.meta.effectiveDay+'T12:00:00Z'));await page.goto(url);await ready(page);

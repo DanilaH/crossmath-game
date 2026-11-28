@@ -49,7 +49,7 @@ with zipfile.ZipFile(a.apk) as z:
                 file=Path(temp)/name;file.write_bytes(z.read(name));output.append(run('dexdump',file))
     blocks=re.split(r'(?=Class #\d+)','\n'.join(output));descriptor='L'+cfg['appId'].replace('.','/')+'/GameStoragePlugin;'
     plugin=[b for b in blocks if re.search(r"Class descriptor\s*:\s*'"+re.escape(descriptor)+"'",b)];assert plugin,'Storage bridge removed by R8'
-    for method in ['get','set','remove','list']:assert any(re.search(r"name\s*:\s*'"+method+"'",b) for b in plugin),method
+    for method in ['get','set','remove','list','compareAndSet']:assert any(re.search(r"name\s*:\s*'"+method+"'",b) for b in plugin),method
     ads_descriptor='L'+cfg['appId'].replace('.','/')+'/CrossmathAdsPlugin;'
     ads_plugin=[b for b in blocks if re.search(r"Class descriptor\s*:\s*'"+re.escape(ads_descriptor)+"'",b)]
     assert ads_plugin,'Optional ads bridge removed by R8'

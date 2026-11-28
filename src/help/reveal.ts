@@ -1,10 +1,12 @@
 // The answer boundary is intentionally isolated from the explanation service.
 import newAnswers from '../../docs/spec/product/content_v2/author_solutions.json';
 import answers from '../../docs/spec/product/content_v09/author_solutions.json';
+// Frozen public IDs only: no laboratory catalog or answer dependency in Explain.
+import additionalAnswers from '../content/additionalAnswers.json';
 import { cellValue, tokenValue } from '../core/types';
 import type { Attempt, Layout, Puzzle } from '../core/types';
 import type { HintPlan } from './logic';
-const solutions: Readonly<Record<string,{answer:number[]}>> = {...answers, ...newAnswers};
+const solutions: Readonly<Record<string,{answer:number[]}>> = {...answers, ...newAnswers, ...additionalAnswers};
 
 function revealReturns(p: Puzzle, a: Attempt, target: number, answer: readonly number[]): number[] | null {
   const value = answer[target];

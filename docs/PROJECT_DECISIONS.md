@@ -1,3 +1,5 @@
+> **Current FUNC-QA #31 ·0.5.29/34:** [acceptance/functional-audit/README.md](acceptance/functional-audit/README.md). After delivered0.5.28/33: all605 Reveal, actual storage CAS and lossless bounded pages; no live Undo/ID/receipt loss. Prior CORE/META/RC and physical/old-key/SDK gates retained. Runtime/economy unchanged. Project CI is the acceptance source. Older single-writer/nontransactional notes below describe the superseded infrastructure.
+
 ## DEC-2026-11-28-RC-QA · финальная регрессия #30
 
 По прямому поручению владельца: закрыть RC-01–03 в CI самого Crossmath и подготовить0.5.28/33 для финального плейтеста. Допустимо исправление воспроизведённой обрезки новых полей при занятой баннером высоте. Публичный сертификат тестовой серии0.5.27 закреплён; новый ключ не создаётся при его отсутствии. Временный APK CI маркируется как проверочный, финальная выдача требует стабильной подписи. Старый aa59 signer и физическая проверка обновления — отдельный незакрытый gate. Новые механики, экономика, SDK и публикация не разрешены. См. [приёмку](acceptance/rc30/README.md).
