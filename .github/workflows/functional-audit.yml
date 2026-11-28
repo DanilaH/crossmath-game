@@ -29,3 +29,6 @@ jobs:
           node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz b1bf2026eda7dd68a5ccbc883946191e03d235af
           npm install --no-audit --no-fund
       - run: npx vitest run --mode release-candidate tests/functional-audit.test.ts --reporter=verbose
+      - run: npx vite build --mode release-candidate
+      - run: npx playwright install --with-deps chromium
+      - run: node tools/functional-audit-browser.mjs
