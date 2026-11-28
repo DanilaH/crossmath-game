@@ -328,6 +328,9 @@ export class AdsController {
     } finally {
       this.bannerInFlight=false;
     }
+    // A native sibling can change the usable viewport after the initiating render.
+    // Refresh layout after its acknowledgement even if resize delivery was delayed.
+    if(this.bannerConfirmed===desired&&!this.disposed)this.changed();
     // A rejected intent is retried by refresh, unless this flight was superseded or dispose needs a hide.
     if(this.bannerDesired!==desired||this.finalBannerHidePending)void this.flushBanner();
   }

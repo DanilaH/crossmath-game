@@ -64,6 +64,21 @@ try{
   }
   await context.close();console.log(`RC-02 ${height} ${language} ${theme}: 90 fields PASS`);
  }
- for(let i=0;i<tuples.length;i+=4)await Promise.all(tuples.slice(i,i+4).map(runTuple));
- assert.deepEqual(errors,[]);await writeFile(out+'/report.json',JSON.stringify({status:'PASS',cases:rows.length,rows,errors,scope:'All 90 integrated fields, 50px scripted native sibling reservation; viewport430/518. Actual UI + touch/drag. NOT rendered SDK banner or device proof.'},null,2));
+ if(!process.env.RC30_LAYOUT_ACK_ONLY)for(let i=0;i<tuples.length;i+=4)await Promise.all(tuples.slice(i,i+4).map(runTuple));
+ const layoutFaults=[];
+ for(const language of ['ru','en'])for(const theme of ['light','dark']){
+  const p=banks.find(p=>p.puzzleId==='cm-own-03-052');
+  const {page,context}=await episode(browser,host.url,seed(p,language,theme),{height:568,banner:true,config:{layoutGate:true}});
+  page.on('pageerror',e=>errors.push(e.message));await page.waitForFunction(()=>innerHeight===518);await measure(page);
+  await tap(page,'#pause');await page.waitForFunction(()=>innerHeight===568);
+  await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
+  const before=await save(page);await page.evaluate(()=>window.rc30.configure({holdLayout:true}));
+  await tap(page,'#resume');await page.waitForFunction(()=>innerHeight===518);
+  const geometry=await measure(page);assert.deepEqual((await save(page)).attempt.placements,before.attempt.placements);
+  await page.screenshot({path:`${out}/delayed-layout-${language}-${theme}.png`});
+  layoutFaults.push({puzzleId:p.puzzleId,language,theme,geometry,resizeNotificationsWithheld:true});await context.close();
+ }
+ assert.deepEqual(errors,[]);const report={status:'PASS',cases:rows.length,rows,layoutFaults,errors,scope:'All 90 integrated fields, 50px scripted native sibling reservation; viewport430/518. Actual UI + touch/drag and delayed-resize fault injection. NOT rendered SDK banner or device proof.'};
+ await writeFile(out+(process.env.RC30_LAYOUT_ACK_ONLY?'/layout-fault-report.json':'/report.json'),JSON.stringify(report,null,2));
+ console.log('RC-02 delayed layout acknowledgement: 4 cases PASS');
 }finally{await browser.close();host.close();await modules.close();}

@@ -1,6 +1,6 @@
 ## Current owner scope · RC-QA-01 #30 · 2026-11-28
 
-Final regression of integrated RC0.5.28/33 over ed029d6 / reviewed4fb5ff6. See docs/acceptance/rc30/README.md. Close RC-01–03 through project CI; retain legacy and actual pilot executable upgrades, all90 new fields in banner-reduced viewports, protocol3 browser E2E. The sole gameplay-view change is the exact compact CSS block; engine/BoardView/gestures/economy/runtime unchanged. Stable playtest signer is pinned to delivered0.5.27; never silently generate a replacement. CI ephemeral APK is NOT-UPDATE. Device/old-aa59 update and real SDK remain separate open gates. No publication/new systems.
+Final regression of integrated RC0.5.28/33 over ed029d6 / reviewed4fb5ff6. See docs/acceptance/rc30/README.md. Close RC-01–03 through project CI; retain legacy and actual pilot executable upgrades, all90 new fields in banner-reduced viewports, protocol3 browser E2E. Gameplay-view changes are the exact compact CSS block and acknowledged-layout remeasurement; engine/BoardView/gestures/economy/runtime unchanged. Stable playtest signer is pinned to delivered0.5.27; never silently generate a replacement. CI ephemeral APK is NOT-UPDATE. Device/old-aa59 update and real SDK remain separate open gates. No publication/new systems.
 
 ## Current owner scope · RELEASE-01 #29 · 2026-11-28
 

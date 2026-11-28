@@ -54,6 +54,16 @@ jobs:
           node docs/experiments/content03/long-expressions.mjs
       - run: node .test-output/kit/tools/bootstrap/doctor-game-guidance.mjs . --strict
       - run: npx playwright install --with-deps chromium
+      - name: RC-QA-01 historical updates, new bank with banner, protocol3
+        run: |
+          npm run build:rc
+          node tools/meta18-fixtures.mjs
+          node tools/rc30-baselines.mjs --prepare
+          node tools/rc30-update-browser.mjs
+          RELEASE29_BASELINE=../rc30-baselines/legacy526 node tools/release29-update-browser.mjs
+          node tools/rc30-protocol-browser.mjs
+          node tools/rc30-banner-browser.mjs
+      - run: npm run build
       - run: npm run test:browser
       - run: npm run build:issuance-pilot && node tools/issuance-pilot-browser.mjs
       - run: npm run build:content-lab && node tools/content03-browser.mjs
@@ -72,13 +82,6 @@ jobs:
           META18_OUTPUT=.test-output/release29-meta node tools/meta18-browser.mjs
           LEAGUE22_OUTPUT=.test-output/release29-league node tools/league22-browser.mjs
           MON27_OUT=.test-output/release29-ads node tools/monetization27-browser.mjs
-      - name: RC-QA-01 historical updates, new bank with banner, protocol3
-        run: |
-          node tools/rc30-baselines.mjs --prepare
-          node tools/rc30-update-browser.mjs
-          RELEASE29_BASELINE=../rc30-baselines/legacy526 node tools/release29-update-browser.mjs
-          node tools/rc30-protocol-browser.mjs
-          node tools/rc30-banner-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

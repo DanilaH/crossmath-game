@@ -47,6 +47,17 @@ export async function episode(browser,url,seed,{height=568,protocol=3,banner=fal
   const write=j=>localStorage.setItem(journalKey,JSON.stringify(j));
   const control=()=>JSON.parse(localStorage.getItem(configKey));
   const listeners=new Map();let serial=0;
+  if(config.layoutGate){
+   // Fault injection: a native viewport change is applied but resize notifications arrive late.
+   const OriginalObserver=window.ResizeObserver;
+   window.ResizeObserver=class extends OriginalObserver{constructor(callback){super((entries,observer)=>{if(!control().holdLayout)callback(entries,observer);});}};
+   const add=window.addEventListener,remove=window.removeEventListener,wrapped=new Map();
+   window.addEventListener=function(type,listener,options){
+    if(type==='resize'&&listener){const original=listener;listener=function(event){if(!control().holdLayout){if(typeof original==='function')original.call(this,event);else original.handleEvent(event);}};wrapped.set(original,listener);}
+    return add.call(this,type,listener,options);
+   };
+   window.removeEventListener=function(type,listener,options){return remove.call(this,type,type==='resize'?(wrapped.get(listener)??listener):listener,options);};
+  }
   const emit=(event,value)=>{for(const e of listeners.values())if(e.event===event)e.callback(value);};
   const receipt=r=>({id:r.id,profileId:r.profileId,outcome:r.outcome});
   const c=window.rc30={journal:read,config:control,live:null,events:[],
