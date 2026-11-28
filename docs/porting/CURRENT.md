@@ -1,3 +1,5 @@
+> **28.11.2026 Independent RC review:** 0.5.27/32, gameplay HEAD `4fb5ff6d`, MON-01 correction and coherent candidate confirmed by source and project CI. Next: [#30 RC-QA](https://github.com/DanilaH/crossmath-game/issues/30), covering prior-pilot migration, reduced banner viewport with new boards, protocol v3 browser E2E. Physical Android upgrade/signature and live SDK remain BLOCKED. No new mechanics or production activation. [Independent review](../acceptance/release29/RESEARCHER_REVIEW.md). Inventory 729 IDs; runtime unchanged; older checkpoints historical.
+
 > **28.11.2026 product checkpoint:** MONETIZATION preparation #27 / isolated #14,0.5.26/31 over PR#4@157b133. [Current package](../acceptance/monetization27/README.md). Native bridge/journal protocol2, default Unconfigured; SDK/IDs/live device not selected/accepted, main win bonus disabled. Existing economy/placements/labs retained. Source inventory95f01f5/729 and runtimeb1bf2026 remain unchanged; historical snapshots below do not override this.
 
 # Crossmath · единая актуальная карта переноса

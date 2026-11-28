@@ -15681,4 +15681,26 @@
     ],
     "published": false
   }
+,
+  "releaseCandidateIndependent20261128": {
+    "reviewedHead": "4fb5ff6d60eb718b67ffb3ff22d75cab95dfe5cb",
+    "build": "0.5.27/32",
+    "report": "docs/acceptance/release29/RESEARCHER_REVIEW.md",
+    "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46121947426",
+    "sourceInventoryCount": 729,
+    "mappedCount": 729,
+    "missing": 0,
+    "orphan": 0,
+    "mon01": "verified source and existing tests; absent/prepared only; admitted/unknown remains provider-gated",
+    "nextIssue": "https://github.com/DanilaH/crossmath-game/issues/30",
+    "acceptanceGaps": [
+      "RC-01 actual pilot upgrade and CI",
+      "RC-02 new boards with banner-reduced viewport",
+      "RC-03 scripted browser protocol v3"
+    ],
+    "physicalAndroid": "BLOCKED; signer mismatch and device not verified",
+    "liveSdk": "NOT RUN",
+    "referenceStatusChanges": false,
+    "gameplayChanged": false
+  }
 }
