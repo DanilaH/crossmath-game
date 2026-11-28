@@ -27,6 +27,7 @@ class NativeContract {
  async acknowledge({id,outcome}:{id:string;outcome:string}){const r=this.phase.get(id)!;if(r.outcome===outcome)r.ack=true;if(this.ackLost)throw Error('ACK reply lost');}
  async reconcileReward(request:RewardRequest){
   let r=this.phase.get(request.id);const live=this.current?.id===request.id;
+  if(r&&(r.request.profileId!==request.profileId||r.request.kind!==request.kind))throw Error('identity mismatch');
   if(!r){r={request,armed:false,outcome:'cancelled'};this.phase.set(request.id,r);}
   else if(!r.outcome&&(!r.armed||live&&!this.current!.opened)){r.outcome='cancelled';if(live)this.current=undefined;}
   const result={state:live&&this.current?.opened?'opened':r.outcome?'closed':'unknown',...(r.outcome?{receipt:this.receipt(request.id)}:{})};
@@ -80,4 +81,12 @@ describe('MON-01 actual Android JS adapter + durable game session',()=>{
   const next=new AdsController(f.session,f.provider,()=>{},()=>{});next.start();await flush();
   next.refresh();await flush();expect(f.session.state.ads.requests[req.id]!.settlement).toBe('cancelled');expect(f.native.sdkCalls).toBe(0);next.dispose();
  });
+ it('a mismatched profile/kind cannot invalidate an owned unopened lease',async()=>{
+  const f=await setup();const req=(await f.session.beginReward('hint',0))!;
+  f.native.phase.set(req.id,{request:req,armed:true});f.native.current={id:req.id,presentationId:'unopened',opened:false};
+  for(const wrong of [{...req,profileId:'wrong'},{...req,kind:'continue' as const}])await expect(f.provider.reconcileReward!(wrong)).rejects.toThrow('identity mismatch');
+  expect(f.native.current).toEqual({id:req.id,presentationId:'unopened',opened:false});expect(f.native.phase.get(req.id)!.outcome).toBeUndefined();
+  f.controller.dispose();
+ });
+
 });

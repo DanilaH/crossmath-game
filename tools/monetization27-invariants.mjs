@@ -12,7 +12,7 @@ for(const {path,sha256,removeOnly} of base.onlyCandidateModeFlag){
  let text=await readFile(path,'utf8');
  text=text.replace("import {productProfile} from '../product/releaseProfile';\n",'').replace("import {product} from '../product/releaseProfile';\n",'');
  text=text.replace('productProfile(import.meta.env.MODE).issuance',"['issuance-pilot','content-lab','league-lab','win-rv-lab'].includes(import.meta.env.MODE) ? pilotIssuancePolicy : 'legacy'");
- text=text.replace('export const leagueEnabled=product.league;',"export const leagueEnabled=import.meta.env.MODE==='league-lab'||import.meta.env.MODE==='win-rv-lab';");
+ text=text.replace('export const leagueEnabled=__CROSSMATH_LEAGUE__;',"export const leagueEnabled=import.meta.env.MODE==='league-lab'||import.meta.env.MODE==='win-rv-lab';");
  assert.equal(sha(text.replace(removeOnly,'')),sha256,path+' product availability flags only; algorithms immutable');
 }
 const ledger=JSON.parse(await readFile('docs/porting/ADOPTION_LEDGER.json','utf8'));

@@ -24,9 +24,9 @@ public class CrossmathAdsPlugin extends Plugin {
     private Show current;
     private ViewTreeObserver.OnWindowFocusChangeListener focus;
     private static final class Show {
-        final FullscreenLease lease;final PluginCall call;final String requestId;
+        final FullscreenLease lease;final PluginCall call;final String requestId,profileId,kind;
         volatile boolean reserved;
-        Show(FullscreenLease l,PluginCall c,String r){lease=l;call=c;requestId=r;}
+        Show(FullscreenLease l,PluginCall c,String r,String profile,String rewardKind){lease=l;call=c;requestId=r;profileId=profile;kind=rewardKind;}
     }
     // Deliberate SDK integration point. Changing this requires owner approval + native acceptance.
     protected CrossmathAdProvider createProvider(){return new CrossmathAdProvider.Unconfigured();}
@@ -105,7 +105,9 @@ public class CrossmathAdsPlugin extends Plugin {
     });}
     @PluginMethod public void reconcileReward(PluginCall call){main.post(()->{
         String id=call.getString("id"),profile=call.getString("profileId"),kind=call.getString("kind");
-        Show show=current;boolean owns=show!=null&&Objects.equals(show.requestId,id),opened=owns&&show.lease.opened();
+        Show show=current;boolean owns=show!=null&&show.requestId!=null&&Objects.equals(show.requestId,id);
+        if(owns&&(!Objects.equals(show.profileId,profile)||!Objects.equals(show.kind,kind))){call.reject("Reward request identity mismatch");return;}
+        boolean opened=owns&&show.lease.opened();
         // Main owns willOpen: invalidate its lease BEFORE enqueuing the durable fence.
         boolean unopened=owns&&!opened;if(unopened)finish(show,"cancelled");
         GameStoragePlugin.IO.execute(()->{
@@ -131,7 +133,7 @@ public class CrossmathAdsPlugin extends Plugin {
             if(rewarded&&journal!=null){GameStoragePlugin.IO.execute(()->{try{journal.reserve(id,profile,kind);persistReceipt(id,"failed");}catch(Exception error){/* Do not overwrite a pre-existing request. */}});}
             resolve(call,"unavailable");return;
         }
-        Show show=new Show(new FullscreenLease(presentation,SystemClock.elapsedRealtime()+remaining),call,id);current=show;reconcileBanner();
+        Show show=new Show(new FullscreenLease(presentation,SystemClock.elapsedRealtime()+remaining),call,id,profile,kind);current=show;reconcileBanner();
         Runnable begin=()->{
             if(disposed||current!=show||!active()||show.lease.terminal()||show.lease.expire(SystemClock.elapsedRealtime())){if(show.reserved)persistReceipt(id,"failed");finish(show,"unavailable");return;}
             CrossmathAdProvider.Fullscreen callbacks=new CrossmathAdProvider.Fullscreen(){

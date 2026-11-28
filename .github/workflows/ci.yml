@@ -76,6 +76,7 @@ jobs:
         if: always()
         with:
           name: crossmath-ui-evidence
+          include-hidden-files: true
           path: |
             .test-output/ui/
             .test-output/meta-ui/
@@ -111,6 +112,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: crossmath-releasecheck-NOT-PRODUCTION
+          include-hidden-files: true
           path: |
             native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk
             .test-output/apk-verification/

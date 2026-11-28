@@ -9,6 +9,7 @@ export default defineConfig(({mode})=>{
     channel:mode==='release'||pilot?'release':'playtest',freeIssuancePolicy:pilot?'d4-v2':'legacy',contentLab:lab,leagueLab:league,winBonusCandidate:win,
   };
   return {
+    define:{__CROSSMATH_LEAGUE__:JSON.stringify(profile.league),__CROSSMATH_ADDITIONAL_BANK__:JSON.stringify(profile.additionalBank)},
     base:'./',build:{target:'es2022',sourcemap:false,...(lab?{rollupOptions:{input:['index.html','content-lab.html']}}:{})},resolve:{dedupe:['phaser']},
     plugins:[{name:'android-build-channel',generateBundle(){this.emitFile({type:'asset',fileName:'native-build.json',source:JSON.stringify(stamp)});}}],
   };

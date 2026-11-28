@@ -12,7 +12,7 @@ Base: PR #4 `d91b5bf5cb9150d560946bd473c8da6e609dc127`; MON-01 correction preced
 | CORE / META | Existing field, gestures, Explain/Reveal, workshop, profile, calendar, quests, awards and coin animation | No new mechanic, chapter, currency, division, Endless entry, store/IAP |
 | Advertising | MON-01 protocol3 durable request fence; native provider seam, banner and receipt logic preserved | SDK/test/live IDs/consent NOT SELECTED; win RV #14 stays lab-only, no fallback |
 
-`src/product/releaseProfile.ts` explicitly separates product availability from lab UI. `npm run build:rc` / `android:sync:rc` produce one RC with D4-v2, extra bank and League enabled, all lab flags false and no content-lab page. The production Gradle guard rejects the RC stamp. No guard bypass or release task publication was performed.
+`src/product/releaseProfile.ts` explicitly separates product availability from lab UI. `npm run build:rc` / `android:sync:rc` produce one RC with D4-v2, extra bank and League enabled, all lab flags false and no content-lab page. Availability is emitted as compile-time flags so inactive League UI is stripped from legacy/pilot builds; strict web exclusion checks remain. The production Gradle guard rejects the RC stamp. No guard bypass or release task publication was performed.
 
 ## Content and saved data
 
@@ -22,7 +22,7 @@ Future RC Daily assignments use the 100-entry calendar-v3 schedule (old50 + new5
 
 ## Regression and evidence
 
-- Unit: **267 game tests** in the normal suite; **51 RC/League tests** separately. Normal-mode RC-only/League-only cases are intentionally skipped and run in their declared profiles. Separate win-bonus candidate remains isolated.
+- Unit: **268 game tests** in the normal suite; **51 RC/League tests** separately. Normal-mode RC-only/League-only cases are intentionally skipped and run in their declared profiles. Separate win-bonus candidate remains isolated.
 - **23 native JVM tests**; optimized releaseCheck Gradle build, R8 retained storage/ads bridges, APK signature v2, zipalign16k, version/package and exact web-payload verification PASS. This is not device execution.
 - All 90 integrated IDs: independent uniqueness (exactly one solution), full verified Explain from empty and partial/restarted positions, no Reveal. Existing full515 and lab proofs remain in the normal suite.
 - **1800 mixed assignments** with deterministic replay, per-pin decode/restore and unchanged six-slot buckets. [Issuance model](../../../tools/release29-issuance.mjs): **10800 assignments**, three profiles/policies and two tracks. No repeat before bucket exhaustion in D4.
@@ -52,7 +52,7 @@ Across these fixed scenarios, income differs in20/54 weeks, from−10 to+180 coi
 
 ## APK and remaining gates
 
-Local candidate: `com.danilah.crossmath.releasecheck`,0.5.27/32,1,896,554 bytes, SHA256 `a98d76498a34fbe34f4b8f673ece2b95720ecd01c9b53f7993c51c850f179f0e`. Optimized, non-debuggable, lab flags false, win bonus off, provider Unconfigured. CI independently builds/verifies its own APK; hashes/signers are not interchangeable.
+Local candidate: `com.danilah.crossmath.releasecheck`,0.5.27/32,1,896,274 bytes, SHA256 `cf6ea8e0198aa51ae214d49408789c4e018dabdb52af04a1fdcf90a1b5b2935a`. Optimized, non-debuggable, lab flags false, win bonus off, provider Unconfigured. CI independently builds/verifies its own APK; hashes/signers are not interchangeable.
 
 **BLOCKED — physical Android update and SDK acceptance.** No phone/emulator execution is claimed. The previous local playtest key is absent in this execution environment. The local APK uses a new host test certificate `5f4432685e6ae74b9777454c1606828dbc1a5aee385662c296ef719ebc44ad22`, different from previous0.5.26 signer `aa59fbbf75788165ad7e51444729fca882ea2bdfaca1ee460064986b442ac1d4`. It cannot replace that installation in place. **Keep the old installation/data; use this APK only in a separate test installation/device until the original key is supplied securely.** Logical save migration passes are not same-signer update proof. No signing identity workaround or production key was introduced.
 

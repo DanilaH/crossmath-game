@@ -1,5 +1,4 @@
 import additionalRaw from './additionalBoards.json';
-import {product} from '../product/releaseProfile';
 import tunedBoards from '../../docs/spec/product/content_v2/boards.json';
 import { bankIndex, buckets, bucketTurn } from './rotation';
 import type { ContentVersion, FreeTrack } from './rotation';
@@ -48,7 +47,7 @@ export const freeTrackPuzzle = (track: FreeTrack, index: number): Puzzle => trac
 export const freeAssignmentVersion = 1;
 export const freeTrackBucket = (track: FreeTrack, index: number): readonly Puzzle[] => {
   const bucket=bucketTurn(track,index).bucket;
-  return [...pools.get(bucket)??[],...(product.additionalBank?additionalBoards.filter(p=>p.bucket===bucket):[])];
+  return [...pools.get(bucket)??[],...(__CROSSMATH_ADDITIONAL_BANK__?additionalBoards.filter(p=>p.bucket===bucket):[])];
 };
 
 export function newFreeTrackPuzzle(track: FreeTrack, index: number, solvedIds: readonly string[]): Puzzle {
@@ -62,6 +61,6 @@ export function newFreeTrackPuzzle(track: FreeTrack, index: number, solvedIds: r
 }
 export const dailyBank = deepFreeze(pools.get('daily')!.map(puzzle => puzzle.puzzleId));
 export const releaseDailyBank=deepFreeze([...dailyBank,...additionalBoards.filter(p=>p.bucket==='daily').map(p=>p.puzzleId)]);
-export const dailyVersion = product.additionalBank?'calendar-v3':'calendar-v2';
+export const dailyVersion = __CROSSMATH_ADDITIONAL_BANK__?'calendar-v3':'calendar-v2';
 export function getPuzzle(id: string): Puzzle { const puzzle=byId.get(id); if (!puzzle) throw Error(`Unavailable puzzle: ${id}`); return puzzle; }
 export function campaignPuzzle(index: number, version: ContentVersion = 'content-v2'): Puzzle { const id=campaignSequence(version)[index]; if (!id) throw Error('Campaign complete'); return getPuzzle(id); }
