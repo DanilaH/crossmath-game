@@ -1,0 +1,880 @@
+{
+  "baseline": {
+    "daily": {
+      "fields": 50,
+      "d4Shapes": 11,
+      "largestD4": 9,
+      "d4Masks": 50,
+      "d4NumericBases": 50,
+      "equations": {
+        "min": 15,
+        "median": 16.0,
+        "max": 17
+      },
+      "holes": {
+        "min": 15,
+        "median": 17.0,
+        "max": 18
+      },
+      "operations": {
+        "*": 49,
+        "+": 351,
+        "-": 353,
+        "/": 46
+      },
+      "multiplyDivideRatio": 0.11889862327909888,
+      "initialSingleEquations": {
+        "min": 1,
+        "median": 5.0,
+        "max": 9
+      },
+      "peelResidual": {
+        "min": 0,
+        "median": 6.0,
+        "max": 16
+      },
+      "peelRounds": {
+        "min": 1,
+        "median": 4.0,
+        "max": 10
+      },
+      "distinctTray": {
+        "min": 11,
+        "median": 15.0,
+        "max": 17
+      },
+      "directOnly": 20,
+      "nonDirect": {
+        "min": 0,
+        "median": 2.0,
+        "max": 5
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 1
+      },
+      "maxNonDirectRun": {
+        "min": 0,
+        "median": 1.0,
+        "max": 2
+      },
+      "proofUnitsMax": {
+        "min": 0,
+        "median": 215.5,
+        "max": 9827
+      },
+      "proofUnitsSum": {
+        "min": 0,
+        "median": 242.0,
+        "max": 10781
+      }
+    },
+    "easy-long": {
+      "fields": 40,
+      "d4Shapes": 9,
+      "largestD4": 11,
+      "d4Masks": 40,
+      "d4NumericBases": 40,
+      "equations": {
+        "min": 9,
+        "median": 10.0,
+        "max": 10
+      },
+      "holes": {
+        "min": 9,
+        "median": 10.0,
+        "max": 10
+      },
+      "operations": {
+        "-": 184,
+        "/": 36,
+        "+": 147,
+        "*": 25
+      },
+      "multiplyDivideRatio": 0.1556122448979592,
+      "initialSingleEquations": {
+        "min": 3,
+        "median": 5.0,
+        "max": 7
+      },
+      "peelResidual": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "peelRounds": {
+        "min": 2,
+        "median": 4.0,
+        "max": 6
+      },
+      "distinctTray": {
+        "min": 6,
+        "median": 9.0,
+        "max": 10
+      },
+      "directOnly": 40,
+      "nonDirect": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "maxNonDirectRun": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsMax": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsSum": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      }
+    },
+    "easy-short": {
+      "fields": 40,
+      "d4Shapes": 4,
+      "largestD4": 27,
+      "d4Masks": 40,
+      "d4NumericBases": 40,
+      "equations": {
+        "min": 7,
+        "median": 8.0,
+        "max": 8
+      },
+      "holes": {
+        "min": 7,
+        "median": 8.0,
+        "max": 8
+      },
+      "operations": {
+        "-": 140,
+        "+": 116,
+        "*": 28,
+        "/": 28
+      },
+      "multiplyDivideRatio": 0.1794871794871795,
+      "initialSingleEquations": {
+        "min": 1,
+        "median": 3.0,
+        "max": 5
+      },
+      "peelResidual": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "peelRounds": {
+        "min": 3,
+        "median": 5.0,
+        "max": 7
+      },
+      "distinctTray": {
+        "min": 6,
+        "median": 7.0,
+        "max": 8
+      },
+      "directOnly": 40,
+      "nonDirect": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "maxNonDirectRun": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsMax": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsSum": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      }
+    },
+    "expert-short": {
+      "fields": 18,
+      "d4Shapes": 5,
+      "largestD4": 5,
+      "d4Masks": 18,
+      "d4NumericBases": 18,
+      "equations": {
+        "min": 15,
+        "median": 16.0,
+        "max": 17
+      },
+      "holes": {
+        "min": 19,
+        "median": 20.0,
+        "max": 21
+      },
+      "operations": {
+        "+": 135,
+        "-": 124,
+        "/": 12,
+        "*": 16
+      },
+      "multiplyDivideRatio": 0.0975609756097561,
+      "initialSingleEquations": {
+        "min": 1,
+        "median": 3.0,
+        "max": 5
+      },
+      "peelResidual": {
+        "min": 10,
+        "median": 16.5,
+        "max": 19
+      },
+      "peelRounds": {
+        "min": 1,
+        "median": 2.0,
+        "max": 8
+      },
+      "distinctTray": {
+        "min": 17,
+        "median": 18.0,
+        "max": 20
+      },
+      "directOnly": 0,
+      "nonDirect": {
+        "min": 4,
+        "median": 5.0,
+        "max": 6
+      },
+      "advanced": {
+        "min": 0,
+        "median": 1.0,
+        "max": 3
+      },
+      "maxNonDirectRun": {
+        "min": 1,
+        "median": 1.0,
+        "max": 2
+      },
+      "proofUnitsMax": {
+        "min": 2237,
+        "median": 14442.0,
+        "max": 31478
+      },
+      "proofUnitsSum": {
+        "min": 3163,
+        "median": 22809.5,
+        "max": 48240
+      }
+    },
+    "hard-short": {
+      "fields": 70,
+      "d4Shapes": 16,
+      "largestD4": 18,
+      "d4Masks": 70,
+      "d4NumericBases": 70,
+      "equations": {
+        "min": 9,
+        "median": 10.0,
+        "max": 10
+      },
+      "holes": {
+        "min": 11,
+        "median": 12.0,
+        "max": 12
+      },
+      "operations": {
+        "*": 70,
+        "+": 303,
+        "-": 279,
+        "/": 46
+      },
+      "multiplyDivideRatio": 0.166189111747851,
+      "initialSingleEquations": {
+        "min": 1,
+        "median": 3.0,
+        "max": 5
+      },
+      "peelResidual": {
+        "min": 4,
+        "median": 8.0,
+        "max": 11
+      },
+      "peelRounds": {
+        "min": 1,
+        "median": 2.0,
+        "max": 5
+      },
+      "distinctTray": {
+        "min": 9,
+        "median": 11.0,
+        "max": 12
+      },
+      "directOnly": 0,
+      "nonDirect": {
+        "min": 2,
+        "median": 3.0,
+        "max": 4
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 1
+      },
+      "maxNonDirectRun": {
+        "min": 1,
+        "median": 1.0,
+        "max": 2
+      },
+      "proofUnitsMax": {
+        "min": 39,
+        "median": 576.0,
+        "max": 4628
+      },
+      "proofUnitsSum": {
+        "min": 46,
+        "median": 679.0,
+        "max": 5886
+      }
+    },
+    "hell-short": {
+      "fields": 17,
+      "d4Shapes": 5,
+      "largestD4": 9,
+      "d4Masks": 17,
+      "d4NumericBases": 17,
+      "equations": {
+        "min": 22,
+        "median": 23,
+        "max": 24
+      },
+      "holes": {
+        "min": 27,
+        "median": 28,
+        "max": 29
+      },
+      "operations": {
+        "-": 157,
+        "+": 197,
+        "*": 21,
+        "/": 15
+      },
+      "multiplyDivideRatio": 0.09230769230769231,
+      "initialSingleEquations": {
+        "min": 2,
+        "median": 4,
+        "max": 6
+      },
+      "peelResidual": {
+        "min": 17,
+        "median": 21,
+        "max": 27
+      },
+      "peelRounds": {
+        "min": 1,
+        "median": 3,
+        "max": 5
+      },
+      "distinctTray": {
+        "min": 23,
+        "median": 26,
+        "max": 27
+      },
+      "directOnly": 0,
+      "nonDirect": {
+        "min": 5,
+        "median": 6,
+        "max": 8
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0,
+        "max": 3
+      },
+      "maxNonDirectRun": {
+        "min": 1,
+        "median": 1,
+        "max": 2
+      },
+      "proofUnitsMax": {
+        "min": 14122,
+        "median": 37069,
+        "max": 76347
+      },
+      "proofUnitsSum": {
+        "min": 16039,
+        "median": 60435,
+        "max": 129752
+      }
+    },
+    "normal-long": {
+      "fields": 20,
+      "d4Shapes": 6,
+      "largestD4": 10,
+      "d4Masks": 20,
+      "d4NumericBases": 20,
+      "equations": {
+        "min": 15,
+        "median": 16.0,
+        "max": 17
+      },
+      "holes": {
+        "min": 17,
+        "median": 18.0,
+        "max": 19
+      },
+      "operations": {
+        "-": 137,
+        "+": 136,
+        "*": 20,
+        "/": 27
+      },
+      "multiplyDivideRatio": 0.146875,
+      "initialSingleEquations": {
+        "min": 2,
+        "median": 5.0,
+        "max": 9
+      },
+      "peelResidual": {
+        "min": 5,
+        "median": 13.0,
+        "max": 16
+      },
+      "peelRounds": {
+        "min": 1,
+        "median": 2.0,
+        "max": 5
+      },
+      "distinctTray": {
+        "min": 11,
+        "median": 15.0,
+        "max": 16
+      },
+      "directOnly": 0,
+      "nonDirect": {
+        "min": 2,
+        "median": 3.0,
+        "max": 5
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 1
+      },
+      "maxNonDirectRun": {
+        "min": 1,
+        "median": 1.0,
+        "max": 2
+      },
+      "proofUnitsMax": {
+        "min": 85,
+        "median": 3809.5,
+        "max": 15220
+      },
+      "proofUnitsSum": {
+        "min": 91,
+        "median": 4833.5,
+        "max": 18937
+      }
+    },
+    "normal-short": {
+      "fields": 20,
+      "d4Shapes": 5,
+      "largestD4": 11,
+      "d4Masks": 19,
+      "d4NumericBases": 20,
+      "equations": {
+        "min": 9,
+        "median": 10.0,
+        "max": 10
+      },
+      "holes": {
+        "min": 10,
+        "median": 11.0,
+        "max": 11
+      },
+      "operations": {
+        "+": 70,
+        "-": 85,
+        "*": 20,
+        "/": 21
+      },
+      "multiplyDivideRatio": 0.20918367346938777,
+      "initialSingleEquations": {
+        "min": 1,
+        "median": 3.0,
+        "max": 5
+      },
+      "peelResidual": {
+        "min": 0,
+        "median": 5.0,
+        "max": 10
+      },
+      "peelRounds": {
+        "min": 1,
+        "median": 3.0,
+        "max": 5
+      },
+      "distinctTray": {
+        "min": 7,
+        "median": 9.0,
+        "max": 10
+      },
+      "directOnly": 2,
+      "nonDirect": {
+        "min": 0,
+        "median": 1.0,
+        "max": 3
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "maxNonDirectRun": {
+        "min": 0,
+        "median": 1.0,
+        "max": 1
+      },
+      "proofUnitsMax": {
+        "min": 0,
+        "median": 122.0,
+        "max": 1258
+      },
+      "proofUnitsSum": {
+        "min": 0,
+        "median": 125.0,
+        "max": 1537
+      }
+    }
+  },
+  "candidate": {
+    "control7": {
+      "fields": 40,
+      "d4Shapes": 5,
+      "largestD4": 16,
+      "d4Masks": 39,
+      "d4NumericBases": 40,
+      "equations": {
+        "min": 7,
+        "median": 8.0,
+        "max": 8
+      },
+      "holes": {
+        "min": 7,
+        "median": 8.0,
+        "max": 8
+      },
+      "operations": {
+        "+": 146,
+        "-": 127,
+        "/": 19,
+        "*": 20
+      },
+      "multiplyDivideRatio": 0.125,
+      "initialSingleEquations": {
+        "min": 2,
+        "median": 3.0,
+        "max": 5
+      },
+      "peelResidual": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "peelRounds": {
+        "min": 3,
+        "median": 5.0,
+        "max": 7
+      },
+      "distinctTray": {
+        "min": 5,
+        "median": 7.0,
+        "max": 8
+      },
+      "directOnly": 40,
+      "nonDirect": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "maxNonDirectRun": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsMax": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsSum": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      }
+    },
+    "easy9": {
+      "fields": 40,
+      "d4Shapes": 24,
+      "largestD4": 8,
+      "d4Masks": 40,
+      "d4NumericBases": 40,
+      "equations": {
+        "min": 7,
+        "median": 8.0,
+        "max": 8
+      },
+      "holes": {
+        "min": 7,
+        "median": 8.0,
+        "max": 8
+      },
+      "operations": {
+        "-": 144,
+        "+": 135,
+        "*": 16,
+        "/": 17
+      },
+      "multiplyDivideRatio": 0.10576923076923077,
+      "initialSingleEquations": {
+        "min": 2,
+        "median": 3.0,
+        "max": 5
+      },
+      "peelResidual": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "peelRounds": {
+        "min": 2,
+        "median": 5.0,
+        "max": 6
+      },
+      "distinctTray": {
+        "min": 5,
+        "median": 7.0,
+        "max": 8
+      },
+      "directOnly": 40,
+      "nonDirect": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "maxNonDirectRun": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsMax": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsSum": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      }
+    },
+    "daily": {
+      "fields": 50,
+      "d4Shapes": 47,
+      "largestD4": 2,
+      "d4Masks": 50,
+      "d4NumericBases": 50,
+      "equations": {
+        "min": 15,
+        "median": 16.0,
+        "max": 17
+      },
+      "holes": {
+        "min": 15,
+        "median": 17.0,
+        "max": 18
+      },
+      "operations": {
+        "-": 371,
+        "+": 350,
+        "*": 40,
+        "/": 38
+      },
+      "multiplyDivideRatio": 0.09762202753441802,
+      "initialSingleEquations": {
+        "min": 2,
+        "median": 6.0,
+        "max": 9
+      },
+      "peelResidual": {
+        "min": 0,
+        "median": 4.5,
+        "max": 15
+      },
+      "peelRounds": {
+        "min": 1,
+        "median": 4.5,
+        "max": 11
+      },
+      "distinctTray": {
+        "min": 11,
+        "median": 15.0,
+        "max": 17
+      },
+      "directOnly": 20,
+      "nonDirect": {
+        "min": 0,
+        "median": 2.0,
+        "max": 4
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 2
+      },
+      "maxNonDirectRun": {
+        "min": 0,
+        "median": 1.0,
+        "max": 2
+      },
+      "proofUnitsMax": {
+        "min": 0,
+        "median": 81.0,
+        "max": 12004
+      },
+      "proofUnitsSum": {
+        "min": 0,
+        "median": 87.5,
+        "max": 21563
+      }
+    },
+    "ops": {
+      "fields": 16,
+      "d4Shapes": 11,
+      "largestD4": 4,
+      "d4Masks": 16,
+      "d4NumericBases": 16,
+      "equations": {
+        "min": 7,
+        "median": 8.0,
+        "max": 8
+      },
+      "holes": {
+        "min": 7,
+        "median": 8.0,
+        "max": 8
+      },
+      "operations": {
+        "/": 19,
+        "*": 13,
+        "-": 44,
+        "+": 48
+      },
+      "multiplyDivideRatio": 0.25806451612903225,
+      "initialSingleEquations": {
+        "min": 2,
+        "median": 3.0,
+        "max": 5
+      },
+      "peelResidual": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "peelRounds": {
+        "min": 2,
+        "median": 5.0,
+        "max": 6
+      },
+      "distinctTray": {
+        "min": 6,
+        "median": 7.0,
+        "max": 8
+      },
+      "directOnly": 16,
+      "nonDirect": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "advanced": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "maxNonDirectRun": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsMax": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      },
+      "proofUnitsSum": {
+        "min": 0,
+        "median": 0.0,
+        "max": 0
+      }
+    }
+  },
+  "maskExperiment": {
+    "attempts": 128,
+    "outcomes": {
+      "unique": 113,
+      "nonunique": 15
+    },
+    "bases": 16,
+    "basesWithDifferentProofWork": 16,
+    "changedBases": [
+      "cm-lab-17-easy9-001",
+      "cm-lab-17-easy9-002",
+      "cm-lab-17-easy9-003",
+      "cm-lab-17-easy9-004",
+      "cm-lab-17-easy9-005",
+      "cm-lab-17-easy9-006",
+      "cm-lab-17-easy9-007",
+      "cm-lab-17-easy9-008",
+      "cm-lab-17-easy9-009",
+      "cm-lab-17-easy9-010",
+      "cm-lab-17-easy9-011",
+      "cm-lab-17-easy9-012",
+      "cm-lab-17-easy9-013",
+      "cm-lab-17-easy9-014",
+      "cm-lab-17-easy9-015",
+      "cm-lab-17-easy9-016"
+    ],
+    "admittedAdvanced": 2
+  },
+  "hashes": {
+    "banks.json": "4a73dbfcb128bd6e8328fb02e3947bb3c35cd223c5a8f8cebc9651c3b22f3ddb",
+    "author_solutions.json": "43bb8ab9828b0243cd6b75cd7a057d4c527a4eedee25cd927df72bd3087d1666",
+    "masks.json": "9d56b88bc16dbf6722983bfcfcdd4af571b86f31a6aab0cac2ab01962a8b5895"
+  },
+  "scope": "Independent own generator/value solver, actual Explain and proof verifier. Metrics are not observed human difficulty."
+}

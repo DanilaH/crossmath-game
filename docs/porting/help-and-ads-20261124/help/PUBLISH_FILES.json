@@ -1,0 +1,22 @@
+{
+  "schema": "crossmath-help-delivery-publication-v1",
+  "destination": "docs/porting/help-and-ads-20261124/help/",
+  "purpose": "Developer specification and exact-baseline reproduction only; no product implementation or raw Guru code.",
+  "files": [
+    "DELIVERY_SPEC.md",
+    "BASELINE_REVIEW.json",
+    "CASES.json",
+    "REPRODUCTION.json",
+    "reproduce.mjs",
+    "loader.mjs",
+    "verify_cases.py",
+    "baseline/MANIFEST.json",
+    "baseline/src/help/logic.ts",
+    "baseline/src/content/validator.ts",
+    "baseline/src/core/types.ts",
+    "baseline/src/core/engine.ts",
+    "baseline/src/content/rotation.ts"
+  ],
+  "includeThisManifest": true,
+  "exclude": "Other local baseline documents and UI snapshots are analysis material, not publication files. The private Guru source annex is linked, not copied into the public consumer package."
+}

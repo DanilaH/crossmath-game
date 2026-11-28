@@ -25,7 +25,7 @@ try{
   for(const [width,height] of [[320,568],[390,844]]){
    await page.setViewportSize({width,height});
    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-   const selectors=won?['#next']:['#board','#tray','#sort','#help','#pause'];
+   const selectors=won?['#next']:['#board','#tray','.tools','#sort','#help','#pause'];
    const bounds=await page.evaluate(selectors=>{
     const result=Object.fromEntries(selectors.map(selector=>{
      const rect=document.querySelector(selector).getBoundingClientRect();
@@ -54,6 +54,7 @@ try{
    if(won)assert.ok(bounds.boardClear,`field ${field} result obscures the solved board`);
    if(!won){
     assert.ok(bounds.documentHeight<=height+1,`field ${field} scrolls at ${width}×${height} (document ${bounds.documentHeight}px)`);
+    assert.ok(Math.abs(height - bounds.controls['.tools'].bottom - 8) <= 1, `field ${field} tools must sit at the bottom at ${width}×${height}`);
     assert.equal(bounds.connectedGrid,true,`field ${field} has gaps or misaligned grid squares at ${width}×${height}`);
    }
    for(const [selector,rect] of Object.entries(bounds.controls)){
@@ -62,6 +63,7 @@ try{
    geometry.push({field,won,viewport:[width,height],...bounds});
   }
   await page.setViewportSize(initial);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
  };
  const place=async(token,cell)=>{await tap(`[data-token="${token}"]`);await tap(`[data-cell="${cell}"]`);await idle();};
  const answers={...JSON.parse(await readFile('docs/spec/product/content_v09/author_solutions.json','utf8')), ...JSON.parse(await readFile('docs/spec/product/content_v2/author_solutions.json','utf8'))};
@@ -72,6 +74,8 @@ try{
  };
  // Campaign starts at 1. No diagnostic selector, imported profile or direct engine commands.
  assert.equal((await snapshot()).attempt.puzzleId,'cm-own-01-001');
+ assert.equal((await snapshot()).settings.theme,'light');
+ assert.equal(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 255, 255)');
  assert.ok(await page.locator('#board').evaluate(e=>parseFloat(e.style.getPropertyValue('--step')))>=40,'small boards must use available width instead of collapsing to intrinsic grid width');
  await verifyViewport(1);
  await page.locator('[data-cell="2"]').focus();await page.keyboard.press('Enter');await page.locator('[data-token="t0"]').focus();await page.keyboard.press('Enter');await page.locator('#result').waitFor({state:'visible'});
@@ -93,12 +97,15 @@ try{
   }
   if(p.campaignPosition===12){
    await verifyViewport(12);
-   await place('t0',0);await place('t1',1);await place('t2',3);assert.equal((await snapshot()).attempt.status,'playing');assert.match(await page.locator('#note').innerText(),/4 − 5 ≠ 2/);assert.equal(await page.locator('.op.right').count(),1);
+   await tap('[data-token="t0"]');await page.locator('[data-token="t0"].selected').waitFor();await tap('[data-cell="0"]');await idle();
+   await place('t1',1);await place('t2',3);assert.equal((await snapshot()).attempt.status,'playing');assert.match(await page.locator('#note').innerText(),/4 − 5 ≠ 2/);assert.equal(await page.locator('.op.right').count(),1);
    assert.equal(await page.locator('.op.invalid').innerText(),'≠');
    assert.equal(await page.locator('.equation-line[data-axis="column"][data-state="invalid"]').count(),1);
    assert.equal(await page.locator('.equation-line[data-axis="row"][data-state="valid"]').count(),1);
    assert.equal(await page.locator('.cell.invalid,.given.invalid').count(),0);
    await page.screenshot({path:out+'/field12-conflict.png',fullPage:true});
+   await tap('#undo');await idle();assert.equal(await page.locator('.op.invalid').count(),0);
+   await place('t2',3);
    await tap('[data-cell="0"]');await tap('[data-cell="1"]');await idle();assert.equal((await snapshot()).attempt.status,'won');await verifyViewport(12,true);await page.screenshot({path:out+'/field12-solved.png',fullPage:true});
    await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#restart');await tap('#restart-yes');await idle();
    await place('t2',0);await place('t0',1);
@@ -124,8 +131,11 @@ try{
  await verifyViewport(25);
  checks.push('fields 1/12/25 have connected grids and their Next actions fit 320×568 and 390×844; the final touch does not click through');
  await page.setViewportSize({width:320,height:568});
+ // Adaptive pitch is applied by ResizeObserver after layout. Sample touch centres
+ // from the painted viewport, as the geometry checks above already do.
+ await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
  const touch=await context.newCDPSession(page);
- const center=async selector=>{const r=await page.locator(selector).boundingBox();return{x:r.x+r.width/2,y:r.y+r.height/2};};
+ const center=async selector=>{const r=await page.locator(selector).boundingBox();assert.ok(r,selector+' rendered');const point={x:r.x+r.width/2,y:r.y+r.height/2};assert.ok(await page.locator(selector).evaluate((e,p)=>e.contains(document.elementFromPoint(p.x,p.y)),point),selector+' actual centre hit after viewport paint');return point;};
  const targetSelector = '[data-cell="'+boards[24].cells.find(c=>c.given===undefined).id+'"]';
  const start=await center('[data-token="t0"]'), target=await center(targetSelector);
  await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[start]});
@@ -146,7 +156,36 @@ try{
   assert.ok(data.minTarget>=47.9);assert.equal(data.overflow,false);assert.equal(data.overlap,false);geometry.push({viewport:[width,height],...data});await page.screenshot({path:out+`/dense-${width}x${height}.png`,fullPage:true});
  }
  await tap('#pause');await page.locator('#resume:enabled').waitFor();await tap('#settings-options summary');await page.locator('#theme').check();await page.locator('#resume:enabled').waitFor();await page.locator('#reduced').check();await page.locator('#resume:enabled').waitFor();await tap('#resume');await idle();assert.equal((await snapshot()).settings.theme,'dark');assert.equal((await snapshot()).settings.reducedMotion,true);checks.push('dark theme and reduced motion settings persist');
- await page.evaluate(()=>document.documentElement.style.fontSize='200%');await page.setViewportSize({width:390,height:844});await page.screenshot({path:out+'/large-text.png',fullPage:true});
+ assert.equal(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(38, 49, 67)');
+ assert.equal(await page.locator('#board .given').first().evaluate(el=>getComputedStyle(el).color),'rgb(37, 49, 69)');
+ await page.setViewportSize({width:320,height:568});
+ const textStyle=await page.locator('html').evaluate(el=>{
+  const style=getComputedStyle(el);
+  return {size:style.fontSize,adjust:style.getPropertyValue('text-size-adjust')||style.getPropertyValue('-webkit-text-size-adjust')};
+ });
+ assert.equal(textStyle.size,'16px');
+ assert.ok(['none','100%'].includes(textStyle.adjust),textStyle.adjust);
+ const toolsBox=await page.locator('.tools').boundingBox();
+ const helpButton=await page.locator('#help').boundingBox();
+ assert.ok(toolsBox&&helpButton&&Math.abs(568-toolsBox.y-toolsBox.height-8)<=1);
+ assert.ok(helpButton.width>=48&&helpButton.height>=48);
+ assert.equal(await page.locator('#sort span').evaluate(label=>{
+  const range=document.createRange();
+  range.selectNodeContents(label);
+  return range.getClientRects().length;
+ }),1);
+ await page.touchscreen.tap(helpButton.x+helpButton.width/2,helpButton.y+helpButton.height/2);
+ await page.locator('#help-dialog[open]').waitFor();
+ await tap('#explain');
+ assert.equal(await page.locator('#help-content').evaluate(el=>el.scrollWidth<=el.clientWidth),true);
+ for(const selector of ['#close-help','#apply-help']){
+  const {x,y}=await center(selector);
+  assert.equal(await page.evaluate(({selector,x,y})=>document.querySelector(selector).contains(document.elementFromPoint(x,y)),{selector,x,y}),true,selector+' must be tappable without scrolling Help');
+ }
+ const closeHelp=await center('#close-help');
+ await page.touchscreen.tap(closeHelp.x,closeHelp.y);
+ await idle();
+ checks.push('fixed 16px root font without text autosizing; bottom tools stay reachable at 320×568 while a dense board scrolls independently');
  const tutorialContext=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});const tutorialPage=await tutorialContext.newPage();
  await tutorialPage.goto(`http://127.0.0.1:${server.address().port}/`);await tutorialPage.locator('html[data-state=ready]').waitFor();await tutorialPage.locator('.tutorial-ghost').waitFor({state:'attached',timeout:9000});
  assert.deepEqual(await tutorialPage.evaluate(()=>JSON.parse(localStorage.getItem('crossmath.save.v1')).attempt.placements),{});

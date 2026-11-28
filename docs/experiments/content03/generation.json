@@ -1,0 +1,34 @@
+{
+  "control7": {
+    "seed": 2026112710,
+    "attemptBudget": 12000,
+    "attempts": 154,
+    "accepted": 40,
+    "rejected": {
+      "geometry_incomplete": 110,
+      "shape_concentration": 4
+    },
+    "d4Shapes": 5,
+    "largestClass": 16
+  },
+  "easy9": {
+    "seed": 2026112712,
+    "attemptBudget": 12000,
+    "attempts": 69,
+    "accepted": 40,
+    "rejected": {
+      "geometry_incomplete": 13,
+      "shape_concentration": 16
+    },
+    "d4Shapes": 24,
+    "largestClass": 8
+  },
+  "banks.json": {
+    "sha256": "35e3a018da5ae4a216f81425a1c26c800d590e25ef4b4909f54cdd41048200c3",
+    "bytes": 209973
+  },
+  "author_solutions.json": {
+    "sha256": "0430bfaa20c6b4e9bb42df70c28334e6626e56db69a581fb96b58322e0a196bf",
+    "bytes": 14958
+  }
+}

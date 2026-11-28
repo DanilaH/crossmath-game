@@ -1,15 +1,38 @@
-import { arithmetic, cellValue, tokenValue } from '../core/types';
+import { arithmetic, assertInventory, cellValue, tokenValue } from '../core/types';
 import { countSolutions } from '../content/validator';
 import type { Attempt, Equation, Puzzle } from '../core/types';
+import type { DomainProof, DomainRule } from './domainProof';
+import { proposeDomainStep } from './propagate';
+import { verifyDomainProof } from './verifyDomainProof';
 
 export interface Evidence { equationIndex: number; candidates: number[] }
 export interface Assignment { cellId: number; value: number; evidence: Evidence[] }
+type LocalRule = 'direct_result' | 'direct_inverse' | 'tray' | 'intersection';
 export interface HintPlan {
-  puzzleId: string; boardRevision: number; kind: 'explain' | 'reveal';
-  rule: 'direct_result' | 'direct_inverse' | 'tray' | 'intersection' | 'reveal';
+  attemptId: string; puzzleId: string; boardRevision: number; kind: 'explain' | 'reveal';
+  rule: LocalRule | DomainRule | 'reveal';
   assignments: Assignment[]; returns: number[];
+  proof?: DomainProof;
 }
+export type ExplainPreparation = {
+  snapshot: { attemptId: string; puzzleId: string; boardRevision: number };
+  proofSearchUnits?: number;
+} & (
+  | { outcome: 'ready'; plan: HintPlan }
+  | { outcome: 'incompatible_position' }
+  | { outcome: 'no_supported_step' }
+  | { outcome: 'budget_exhausted'; phase: 'compatibility' | 'proof_search' }
+  | { outcome: 'unavailable'; reason: 'not_playing' }
+);
 export class HintBudgetExceeded extends Error {}
+const verificationBudget = (p: Puzzle) => p.contentVersion === 2 ? 200_000 : 80_000;
+function workBudget(limit: number) {
+  let used = 0;
+  return {
+    get used() { return used; },
+    spend(units = 1) { used += units; if (used > limit) throw new HintBudgetExceeded(); },
+  };
+}
 type Bag = Map<number,number>;
 export const visiblePlacements = (p: Puzzle, a: Attempt): Record<string,number> => Object.fromEntries(Object.keys(a.placements).map(id => [id,cellValue(p,a,Number(id))!]));
 function inventory(p: Puzzle, a: Attempt): Bag {
@@ -31,14 +54,16 @@ function possibilities(p: Puzzle, a: Attempt, eq: Equation, bag: Bag, spend: () 
 const intersection=(sets:number[][]):number[] => (sets[0] ?? []).filter(v => sets.every(s => s.includes(v)));
 
 /** No answer data or authored trace can enter this API. All domains come from visible tokens. */
-export function explain(p: Puzzle, a: Attempt, budget = p.contentVersion === 2 ? 160_000 : 40_000): HintPlan | null {
-  if (a.status !== 'playing') return null;
+export function prepareExplanation(p: Puzzle, a: Attempt, budget = p.contentVersion === 2 ? 160_000 : 40_000): ExplainPreparation {
+  const snapshot = {attemptId:a.id, puzzleId:p.puzzleId, boardRevision:a.boardRevision};
+  if (a.status !== 'playing') return {snapshot, outcome:'unavailable', reason:'not_playing'};
   // Reject an inconsistent player hypothesis instead of teaching a conclusion from a false premise.
   const compatible=countSolutions(p,budget,visiblePlacements(p,a));
-  if (compatible.exhausted || !compatible.count) return null;
-  let remaining=budget;
-  const spend=():void => { if (--remaining < 0) throw new HintBudgetExceeded(); };
-  const bag=inventory(p,a), proposals: {priority:number; eq:number; assignment:Assignment; rule:HintPlan['rule']}[]=[];
+  if (compatible.exhausted) return {snapshot, outcome:'budget_exhausted', phase:'compatibility'};
+  if (!compatible.count) return {snapshot, outcome:'incompatible_position'};
+  const work=workBudget(budget);
+  const planBase = {...snapshot,kind:'explain' as const,returns:[] as number[]};
+  const bag=inventory(p,a), proposals: {priority:number; eq:number; assignment:Assignment; rule:LocalRule}[]=[];
   const supports=new Map<number,Evidence[]>();
   // Single-gap deductions have the highest priority. Find one before enumerating dense lines.
   for (const [index, eq] of p.equations.entries()) {
@@ -47,16 +72,16 @@ export function explain(p: Puzzle, a: Attempt, budget = p.contentVersion === 2 ?
     const cellId = free[0]!;
     const position = eq.cells.indexOf(cellId);
     const candidates = possibilities(p,a,eq,bag,() => {}).map(row => row[position]!);
-    if (candidates.length === 1) return {
-      puzzleId:p.puzzleId,boardRevision:a.boardRevision,kind:'explain',rule:position === 2 ? 'direct_result' : 'direct_inverse',
-      assignments:[{cellId,value:candidates[0]!,evidence:[{equationIndex:index,candidates}]}],returns:[],
-    };
+    if (candidates.length === 1) return {snapshot, outcome:'ready', plan:{
+      ...planBase,rule:position === 2 ? 'direct_result' : 'direct_inverse',
+      assignments:[{cellId,value:candidates[0]!,evidence:[{equationIndex:index,candidates}]}],
+    }};
   }
   try {
     p.equations.forEach((eq,index) => {
       const free=eq.cells.filter(id => cellValue(p,a,id) === undefined);
       if (!free.length) return;
-      const rows=possibilities(p,a,eq,bag,spend);
+      const rows=possibilities(p,a,eq,bag,work.spend);
       for (const cellId of free) {
         const position=eq.cells.indexOf(cellId), candidates=[...new Set(rows.map(row => row[position]!))].sort((x,y)=>x-y);
         const evidence={equationIndex:index,candidates}; supports.set(cellId,[...(supports.get(cellId) ?? []),evidence]);
@@ -67,17 +92,55 @@ export function explain(p: Puzzle, a: Attempt, budget = p.contentVersion === 2 ?
       const common=intersection(evidence.map(e => e.candidates));
       if (common.length === 1) proposals.push({priority:1,eq:evidence[0]!.equationIndex,rule:'intersection',assignment:{cellId,value:common[0]!,evidence}});
     }
-  } catch (error) { if (error instanceof HintBudgetExceeded) return null; throw error; }
+  } catch (error) {
+    if (error instanceof HintBudgetExceeded) return {snapshot, outcome:'budget_exhausted', phase:'proof_search', proofSearchUnits:work.used};
+    throw error;
+  }
   proposals.sort((x,y) => x.priority-y.priority || x.eq-y.eq || x.assignment.cellId-y.assignment.cellId);
   const first=proposals[0];
-  return first ? {puzzleId:p.puzzleId,boardRevision:a.boardRevision,kind:'explain',rule:first.rule,assignments:[first.assignment],returns:[]} : null;
+  if (first) return {snapshot, outcome:'ready', proofSearchUnits:work.used,
+    plan:{...planBase,rule:first.rule,assignments:[first.assignment]}};
+  try {
+    const proposed = proposeDomainStep(p,a,bag,work.spend);
+    if (proposed && verifyDomainProof(p,a,proposed.proof,proposed.rule,proposed.cellId,proposed.value,workBudget(verificationBudget(p)).spend)) {
+      return {snapshot, outcome:'ready', proofSearchUnits:work.used, plan:{
+        ...planBase,rule:proposed.rule,proof:proposed.proof,
+        assignments:[{cellId:proposed.cellId,value:proposed.value,evidence:[]}],
+      }};
+    }
+    return {snapshot, outcome:'no_supported_step', proofSearchUnits:work.used};
+  } catch (error) {
+    if (error instanceof HintBudgetExceeded) return {snapshot, outcome:'budget_exhausted', phase:'proof_search', proofSearchUnits:work.used};
+    throw error;
+  }
+}
+
+export function explain(p: Puzzle, a: Attempt, budget?: number): HintPlan | null {
+  const result = prepareExplanation(p,a,budget);
+  return result.outcome === 'ready' ? result.plan : null;
 }
 
 /** Separate enumeration and arithmetic from the proposer; never trusts candidate lists or prose. */
-export function verifyExplanation(p: Puzzle, a: Attempt, plan: HintPlan, budget = p.contentVersion === 2 ? 200_000 : 80_000): boolean {
-  if (plan.kind !== 'explain' || plan.rule === 'reveal' || plan.puzzleId !== p.puzzleId || plan.boardRevision !== a.boardRevision || plan.returns.length || !plan.assignments.length) return false;
+export function verifyExplanation(p: Puzzle, a: Attempt, plan: HintPlan, budget = verificationBudget(p)): boolean {
+  if (a.status !== 'playing' || a.puzzleId !== p.puzzleId || plan.kind !== 'explain' || plan.attemptId !== a.id
+    || plan.puzzleId !== p.puzzleId || plan.boardRevision !== a.boardRevision || !Array.isArray(plan.returns) || plan.returns.length
+    || !Array.isArray(plan.assignments) || !plan.assignments.length) return false;
+  const advanced = plan.rule === 'propagation' || plan.rule === 'contradiction';
+  if (!advanced && (plan.proof !== undefined || !['direct_result','direct_inverse','tray','intersection'].includes(plan.rule))) return false;
+  try { assertInventory(p,a); } catch { return false; }
   const feasible=countSolutions(p,budget,visiblePlacements(p,a));
   if (feasible.exhausted || !feasible.count) return false;
+  if (plan.rule === 'propagation' || plan.rule === 'contradiction') {
+    const assignment = plan.assignments[0];
+    if (plan.assignments.length !== 1 || !assignment || !plan.proof
+      || !Array.isArray(assignment.evidence) || assignment.evidence.length) return false;
+    try {
+      return verifyDomainProof(p,a,plan.proof,plan.rule,assignment.cellId,assignment.value,workBudget(budget).spend);
+    } catch (error) {
+      if (error instanceof HintBudgetExceeded) return false;
+      throw error;
+    }
+  }
   const used=new Set(Object.values(a.placements)), freeTokens=a.trayOrder.filter(t => !used.has(t));
   const taken=new Set<string>(), assigned=new Set<number>(); let visits=0;
   for (const assignment of plan.assignments) {

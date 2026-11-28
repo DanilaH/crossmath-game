@@ -1,6 +1,6 @@
 # Kit adoption matrix
 
-Runtime and guidance are separately recorded and currently both pinned to `469928d03f4bae5053e23db26e82187bedbc252e`.
+Runtime is pinned to `b1bf2026eda7dd68a5ccbc883946191e03d235af` for the interstitial pilot. Guidance remains pinned to `469928d03f4bae5053e23db26e82187bedbc252e`.
 
 | Contract | Choice | Consumer boundary |
 | --- | --- | --- |
@@ -13,6 +13,7 @@ Runtime and guidance are separately recorded and currently both pinned to `46992
 | DurablePendingTransactionSession | NOT APPLICABLE | No random staged resolution: attempt, debit, progress and receipt are one deterministic atomic root replacement |
 | RevisionSnapshotQueue | NOT APPLICABLE to commands | Never coalesce accepted commands/help/rewards. Periodic time checkpoints are separate |
 | DurableReceiptQueue | REUSE | Reward events settle through the single session writer before acknowledgement. Exact-target policy is local. |
+| ActionInterstitialGate | REUSE | The shared gate manages one deadline and durable request reservations. Crossmath supplies its active-time clock, win count and policy. |
 | Calendar day / tier progress | REUSE | `calendarDayIndex`, `isCalendarDay`, `getTierProgress`; own IANA/effective-day policy, dated receipts and immutable puzzle assignment |
 | Hint budget | LOCAL POLICY | Explicit 60 coins/credits, no generic free-hint budget |
 | Yandex web SDK | NOT APPLICABLE | Android is not the web SDK. Later web port requires another adapter |
@@ -26,4 +27,6 @@ D routes: Calendar/Tier Progress and UX & Art System/Stable Progress UI. Applied
 
 E1 KIT IMPACT: **REUSE** existing atomic writer, additive activity/navigation blockers and DOM/input controls; score/run/achievement rules remain local. Pinned UX & Art System applied to explicit Submit, neutral pre-submit state, separate record categories, partial-history labels and a bottom action reachable before scrolling at four viewports; evidence in `evidence/endless-e1/`. No new kit API, motion or art direction, and no pin change.
 
-E2 KIT IMPACT: **REUSE** DurableReceiptQueue for external reward delivery plus additive activity reasons. Crossmath gates on confirmed impressions and accumulated active time, so it uses its own policy rather than the kit request gate. See ACCEPTANCE_E2_2026-11-19.md for the native contract and tested cases.
+E2 KIT IMPACT: **REUSE** DurableReceiptQueue for external reward delivery plus additive activity reasons. E2 initially used a local confirmed-display and active-time policy. The later interstitial pilot uses the shared gate with the same active-time clock. See ACCEPTANCE_E2_2026-11-19.md for the native contract and tested cases.
+
+MONETIZATION #27 / isolated #14 (0.5.26/31): **KIT IMPACT REUSE** pinned b1bf2026 ActionInterstitialGate and DurableReceiptQueue with outcome-keyed envelope; app-owned GameSession writer and native durable journal/optional provider seam. [Proof/SDK limits](acceptance/monetization27/README.md). Native banner is a measured sibling of WebView under the root's single safe-area owner; no CSS-to-native overlay mapping is needed. No runtime pin/API/dependency bump or mass consumer update. Native provider is Unconfigured; no generic SDK extraction claimed.

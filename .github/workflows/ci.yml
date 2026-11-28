@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           repository: DanilaH/mini-games-kit
-          ref: 469928d03f4bae5053e23db26e82187bedbc252e
+          ref: b1bf2026eda7dd68a5ccbc883946191e03d235af
           path: .test-output/kit
           token: ${{ secrets.KIT_READ_TOKEN || github.token }}
           persist-credentials: false
@@ -33,22 +33,98 @@ jobs:
           npm pack --ignore-scripts --pack-destination ..
       - name: Install without persisting a repository credential
         run: |
-          node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz 469928d03f4bae5053e23db26e82187bedbc252e
+          node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz b1bf2026eda7dd68a5ccbc883946191e03d235af
           npm install --no-audit --no-fund
-      - run: npm run check
+      - run: CONTENT03_REPORT=1 npm run check
+      - run: npm run test:league
+      - run: npm run test:win-rv
+      - run: npm run test:rc
+      - name: FUNC-QA asserting regressions from the independent audit
+        run: npx vitest run --mode release-candidate tests/functional-audit.test.ts tests/save-atomic.test.ts tests/reveal-additional.test.ts tests/ui32-navigation.test.ts
+      - name: FINAL-SAVE-01 independent audit and exact-base recovery regressions
+        run: npx vitest run --mode release-candidate tests/final-rc-audit.test.ts tests/save-recovery.test.ts
+      - run: node tools/monetization27-invariants.mjs
+      - run: node tools/league22-model.mjs
+      - run: node tools/league22-guru-model.mjs
+      - run: node tools/meta18-economy.mjs
       - run: npm run content:verify
+      - name: Verify the isolated content candidate
+        run: |
+          python3 docs/experiments/content03/verify.py
+          python3 docs/experiments/content03/generate.py --out .test-output/content03-repro
+          python3 docs/experiments/content03/extend.py --out .test-output/content03-repro
+          cmp docs/experiments/content03/banks.json .test-output/content03-repro/banks.json
+          cmp docs/experiments/content03/author_solutions.json .test-output/content03-repro/author_solutions.json
+          node docs/experiments/content03/long-expressions.mjs
       - run: node .test-output/kit/tools/bootstrap/doctor-game-guidance.mjs . --strict
       - run: npx playwright install --with-deps chromium
+      - run: npm run build
       - run: npm run test:browser
+      - name: RC-QA-01 historical updates, new bank with banner, protocol3
+        run: |
+          npm run build:rc
+          node tools/functional31-browser.mjs
+          node tools/settings31-browser.mjs
+          node tools/save33-browser.mjs
+          node tools/meta18-fixtures.mjs
+          node tools/ui32-browser.mjs
+          node tools/ui32-interactions.mjs
+          node tools/rc30-baselines.mjs --prepare
+          node tools/rc30-update-browser.mjs
+          RELEASE29_BASELINE=../rc30-baselines/legacy526 node tools/release29-update-browser.mjs
+          node tools/rc30-protocol-browser.mjs
+          node tools/rc30-banner-browser.mjs
+      - run: npm run build:issuance-pilot && node tools/issuance-pilot-browser.mjs
+      - run: npm run build:content-lab && node tools/content03-browser.mjs
+      - run: npm run build:league-lab && node tools/league22-browser.mjs && node tools/league22-record.mjs && node tools/meta18-fixtures.mjs && node tools/meta18-browser.mjs
+      - run: node tools/monetization27-browser.mjs
+      - run: npm run build:win-rv-lab && MON27_OUT=.test-output/mon27-win-ui node tools/monetization27-browser.mjs
+      - name: Verify the coherent release candidate without laboratory UI
+        run: |
+          npm run build:rc
+          npm run test:browser
+          node tools/meta18-fixtures.mjs
+          node tools/release29-browser.mjs
+          node tools/release29-record.mjs
+          node tools/release29-issuance.mjs
+          META18_MODE=release-candidate META18_ECONOMY_OUT=.test-output/release29-economy node tools/meta18-economy.mjs
+          META18_OUTPUT=.test-output/release29-meta node tools/meta18-browser.mjs
+          LEAGUE22_OUTPUT=.test-output/release29-league node tools/league22-browser.mjs
+          MON27_OUT=.test-output/release29-ads node tools/monetization27-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: crossmath-ui-evidence
+          include-hidden-files: true
           path: |
             .test-output/ui/
             .test-output/meta-ui/
-            .test-output/endless-ui/
-      - run: npm run android:sync:release
+            .test-output/core00/
+            .test-output/issuance16/
+            .test-output/content03/
+            .test-output/content03-ui/
+            .test-output/league22/
+            .test-output/league22-guru/
+            .test-output/league22-ui/
+            .test-output/league22-recording/
+            .test-output/meta18/
+            .test-output/meta18-ui/
+            .test-output/meta18-economy/
+            .test-output/help11-ui/
+            .test-output/ads-banner/
+            .test-output/feel/
+            .test-output/mon27-ui/
+            .test-output/mon27-win-ui/
+            .test-output/release29*/
+            .test-output/rc30-update/
+            .test-output/rc30-protocol/
+            .test-output/rc30-banner/
+            .test-output/ui32/
+            .test-output/ui32-interactions/
+            .test-output/functional31/
+            .test-output/save33/
+            .test-output/final-audit/
+      - run: npm run android:sync:rc
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -57,12 +133,16 @@ jobs:
         with:
           packages: platform-tools
       - run: sdkmanager "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0"
-      - run: ./gradlew --no-daemon assembleDebug assembleReleaseCheck
+      - run: ./gradlew --no-daemon testDebugUnitTest assembleDebug assembleReleaseCheck
         working-directory: native/android
-      - run: python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --out .test-output/apk-verification
+        env:
+          ANDROID_ALLOW_EPHEMERAL_PREVIEW: '1'
+      - run: python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --release-candidate --out .test-output/apk-verification
       - uses: actions/upload-artifact@v4
         with:
-          name: crossmath-releasecheck-NOT-PRODUCTION
+          name: crossmath-build-check-EPHEMERAL-NOT-UPDATE
+          include-hidden-files: true
           path: |
             native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk
             .test-output/apk-verification/
+            native/android/app/build/test-results/testDebugUnitTest/

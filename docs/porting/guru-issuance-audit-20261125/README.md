@@ -1,0 +1,16 @@
+# Guru issuance audit — consumer mapping, 2026-11-25
+
+Source: [exact private kit report](https://github.com/DanilaH/mini-games-kit/blob/747889ad1c31650c392225881049d41822f799f4/research/games/crossmath/porting/guru-issuance-audit-20261125/README.md), original Guru 4.17.0 / 26101374, pinned ELF and two original SQLite databases. Source inventory 300 IDs at 747889ad1c31650c392225881049d41822f799f4. Consumer baseline Crossmath 0.5.24 / 29, 73fbc059149aba440297cf4cdc074b98433ad7e5, documentation head 6f66d09f8a83ba8aa899e2d06186dc9a22137f7c. Kit runtime unchanged. No product code modified.
+
+Four new IDs:
+- **guru-issuance-random-first** — RESEARCHED/MISSING. Собственная выдача из 275 immutable content-v2 + legacy, deterministic bucketTurn и bankIndex; не SQL random(). Next: При owner-approved эксперименте отделить eligibility от sampling, сохранять puzzleId/contentVersion и проверять воспроизводимость; точный limit/распределение Guru исследовать отдельно.
+- **guru-issuance-filter-empty-retry** — RESEARCHED/MISSING. Нет удалённого SQL-фильтра. Выбирается unsolved в bucket, затем deterministic fallback. Next: На оригинале подтвердить фактический SQL при empty/exception. При отдельном ТЗ проверить отсутствие кандидатов после фильтра и возврат к базовому пулу без смены difficulty/сохранённого ID.
+- **guru-issuance-history-mask-rescue** — RESEARCHED/MISSING. Нет queryByHoles и удалённого SQL. Свой детерминированный fallback по индексу не является оригинальным повтором по holes. Next: Установить origin candidate population, empty/error handling и Android occurrence. Не копировать неоднозначность: для собственной будущей схемы тестировать duplicate masks across buckets, исчерпание, stable IDs.
+- **guru-issuance-operation-ratio-denominator** — EVIDENCE_GAP/MISSING. Нет оригинального удалённого фильтра по долям операций; статический авторский content-v2. Next: Подтвердить PP bindings всех range, затем проверить формулу на синтетических long equations. Не подменять знаменатель equal и не использовать целочисленное деление. Live config UNKNOWN.
+Existing guru-mask-history, guru-dynamic-filter, guru-stuck gained references. All existing statuses retained. Two cm5 masks span two diff values; queryByHoles lacks difficulty/order constraint. 3512 rows have unequal operator/equation counts; wrong denominator changes a modeled ratio selection on 215 rows. 144 modeled SQL projection comparisons after removing stuck are identical. Authoring formula and full native solver convergence remain UNKNOWN.
+
+Predecessor's interrupted 86 recipes / 147 rows, 195 new measures, 306 IDs are not in the recovered published baseline; do not declare them independently verified or add them to these counts. Reconcile exact IDs when the archived evidence is recovered.
+
+No changes to content-v2, actual issuance, saved state, ads/help, balance, font or owner decisions. Any new production mechanism requires owner decision and own implementation. Validation: connector-side equivalent of canonical coverage/process gate on exact 300+300 JSON rows: 0 errors; actual Python gate on complete remote files not run in this environment. This is not proof of full source discovery or acceptance.
+
+KIT IMPACT: RESEARCH / fallback evidence; runtime NONE.

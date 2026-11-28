@@ -1,0 +1,142 @@
+{
+  "date": "2026-11-27",
+  "codeSourceCommit": "fc09706c91282aed827a11215de6afc2ec884465",
+  "codeSourceTree": "36fcca9509bdc2b335bb74f7c666386b6d654270",
+  "base": "8ac5dc66583509ef8784c927aa450b01a54fd847",
+  "apk": {
+    "kind": "releasecheck",
+    "package": "com.danilah.crossmath.releasecheck",
+    "versionName": "0.5.24",
+    "versionCode": 29,
+    "kitRef": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "freeIssuancePolicy": "d4-v2",
+    "contentLab": true,
+    "leagueLab": true,
+    "source": "fc09706c91282aed827a11215de6afc2ec884465",
+    "apkSha256": "ae63321bbd4bc5fec8538379fd432a3dded49ae1bb5424469b6f86631554d880",
+    "bytes": 1899911,
+    "certificateSha256": "aa59fbbf75788165ad7e51444729fca882ea2bdfaca1ee460064986b442ac1d4",
+    "productionSigner": false,
+    "v2": true,
+    "zipalign16k": true,
+    "debuggable": false,
+    "webViewDebuggingConfigured": false,
+    "nativeInsetOwner": "content-root",
+    "nativeRuntime": "NOT RUN",
+    "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE"
+  },
+  "tests": {
+    "normalMode": 230,
+    "leagueMode": 47,
+    "legacyFixtures": [
+      "v1 max-profile",
+      "v2 max-profile",
+      "v2 active ordinary win",
+      "v2 settled presented medal"
+    ],
+    "uiStates": 98,
+    "fullWeeklyCycles": 12,
+    "uiComparisonPairs": 16,
+    "uiComparison": "Exact geometry/styles/profile/plans; raster deltas measured separately with old-old control",
+    "explainEmpty": 515,
+    "explainPartial": 515,
+    "independentBotDayPlans": 252,
+    "sourceQuotaCases": 387,
+    "safeQuotaCases": 4509,
+    "contentLabBrowserStates": 876,
+    "contentLabTouchReadiness": "Real locator.tap actionability, existing occlusion/geometry assertions, added viewport bounds and no automatic scrolling; runtime unchanged"
+  },
+  "model": {
+    "comparisons": 32400,
+    "admissionSnapshots": 2700,
+    "uniqueScheduleSets": 900,
+    "profileWeekScopes": 300,
+    "syntheticGameSessionWeeks": 36,
+    "physicalOrLiveData": false
+  },
+  "prizes": {
+    "active": false,
+    "options": "docs/experiments/league22-guru/reward-options.json",
+    "approval": "OPEN"
+  },
+  "legacy": "v1/v2 plans and awards preserved; v3 only for new admissions; policy snapshots immutable",
+  "recording": {
+    "source": "Exact web payload extracted from this APK",
+    "speed": "1x",
+    "audio": "NOT CAPTURED",
+    "calendar": "CONTROLLED jumps; real scripted taps, until place improves, a multi-point rival event and settlement"
+  },
+  "android": {
+    "gradleDebug": "PASS",
+    "gradleReleaseCheck": "PASS",
+    "certificateMatchesPreviousPilot": true,
+    "devices": "List of devices attached",
+    "installUpdate": "NOT RUN",
+    "nativeBack": "NOT RUN",
+    "soundHaptics": "NOT RUN"
+  },
+  "unchangedCriticalFiles": [
+    {
+      "path": "src/core/engine.ts",
+      "gitBlob": "48c2854de7bedb1303115cdd23bd3197faa0778b"
+    },
+    {
+      "path": "src/ui/board.ts",
+      "gitBlob": "a6964c4f38ac7cdbc3d614d2b98c2e40a9e99709"
+    },
+    {
+      "path": "src/ui/play.css",
+      "gitBlob": "4a3fba43e687fd64ba845658d9618e75f7be82b6"
+    },
+    {
+      "path": "src/ui/gameUi.ts",
+      "gitBlob": "9b9ed80511511209b5e0413ad36d9e347260eec3"
+    },
+    {
+      "path": "src/ui/feedback.ts",
+      "gitBlob": "b6b404e0c23d782981f921725bf4f2ee8b8f18ec"
+    },
+    {
+      "path": "src/ui/playFeedback.ts",
+      "gitBlob": "2accea63f2c47b8126d9e570741ea3bf9535b9cf"
+    },
+    {
+      "path": "src/ui/league.css",
+      "gitBlob": "75d51eeda51f90c5d8d807798ebe8498b3977111"
+    },
+    {
+      "path": "src/ui/metaView.ts",
+      "gitBlob": "1cf987a06d7ccd6bfa87803f3a3611310d4bb9ee"
+    },
+    {
+      "path": "src/content/catalog.ts",
+      "gitBlob": "fd4d3e22b90843edc3a45821b6d8c91411659e3c"
+    },
+    {
+      "path": "src/content/rotation.ts",
+      "gitBlob": "dd87b7fa7f84c5be34d93282a9d8c08cfec425b5"
+    },
+    {
+      "path": "package-lock.json",
+      "gitBlob": "1017284077d9418c78936c5304d26430f4087ba7"
+    },
+    {
+      "path": "docs/spec/product/meta_v08/config.json",
+      "gitBlob": "baf68899c51ad3810a7cdbc363e02174014c70e4"
+    },
+    {
+      "path": "docs/spec/product/content_v09/boards.json",
+      "gitBlob": "b6476924ddf5805ab007976c689faf23459df2a4"
+    },
+    {
+      "path": "docs/spec/product/content_v2/boards.json",
+      "gitBlob": "f8fd69fb1e93f5b54207b0c66623023d5dc9d087"
+    },
+    {
+      "path": "docs/experiments/content03/banks.json",
+      "gitBlob": "34042453afade67db7c95dbb6d58a088748b9746"
+    }
+  ],
+  "ci": "Latest PR #4 checks and final readback in delivery archive",
+  "metaStarted": false
+}

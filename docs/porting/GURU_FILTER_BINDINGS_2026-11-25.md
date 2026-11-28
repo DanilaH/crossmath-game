@@ -1,0 +1,7 @@
+# Guru filter binding update · 25.11.2026
+
+[Source report and exact reproducible verifier](https://github.com/DanilaH/mini-games-kit/blob/1f834eb4ab42bdafa93c54c116dcc67179c6d9c3/research/games/crossmath/porting/guru-filter-bindings-20261125/README.md) · Guru 4.17.0/26101374. Consumer 0.5.24/29, HEAD 73fbc059149aba440297cf4cdc074b98433ad7e5. Runtime kit pin unchanged.
+
+All seven JSON key→range field→SQL bindings recovered from original ELF + Dart string snapshot. equationCount=equal; largeNumberCount=num120 (51–120); five ratios use floating point numerator / NULLIF(plus+minus+multi+div,0). Bounds nullable and inclusive. Ratio domain [0,1], nonnegative counts, min<=max. 133 static ARM64 checks, 1064 SQLite/Python model controls on 20821 rows, two identical replay outputs. 81001 pool entries, 46302 resolved string refs; not full native VM reconstruction.
+
+312/312 ID coverage. Seven filter fields and denominator move from evidence gap to RESEARCHED/MISSING. Four new validation-rule IDs. Dynamic/live activation stays EVIDENCE_GAP/UNKNOWN. Current authored immutable bank and deterministic rotation remain untouched. No new product task for issuance; HELP-02 remains [#11](https://github.com/DanilaH/crossmath-game/issues/11). Native convergence and author stuck UNKNOWN; exact fractional conversion and error catch scope UNKNOWN. No new native/device claims. Connector-side ID and unchanged-entry check passed; canonical Python porting gate not run on complete checkout.

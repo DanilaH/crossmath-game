@@ -1,0 +1,11 @@
+{
+  "normalConflict": true,
+  "backupRecovered": true,
+  "reusedRevision": 2,
+  "staleOutcome": "accepted",
+  "acknowledgedRecoveredLanguage": "en",
+  "finalLanguage": "ru",
+  "finalRevision": 3,
+  "lostAcknowledgedChange": true,
+  "boundary": "Injected primary corruption while old session stays alive; not physical Android reproduction"
+}

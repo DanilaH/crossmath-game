@@ -1,5 +1,8 @@
+import { challengeUnlockWins } from '../content/rotation';
+import { config } from '../content/catalog';
 import type { FreeTrack } from '../content/rotation';
 import type { Operator } from '../core/types';
+import { endlessEnabled } from '../content/modeAvailability';
 
 export const operatorGlyph: Record<Operator, string> = { '+': '+', '-': '−', '*': '×', '/': '÷' };
 
@@ -11,6 +14,33 @@ export function localize(language: Language, russian: string, english: string): 
 
 export function trackName(language: Language, track: FreeTrack): string {
   return track === 'relax' ? localize(language, 'Спокойная игра', 'Relax') : localize(language, 'Испытание', 'Challenge');
+}
+
+export function dailyName(language: Language): string {
+  return localize(language, 'Задача дня', 'Daily challenge');
+}
+
+// Historical completions stored only "endless" at the shared Challenge/Endless milestone.
+export function availableUnlockModes(modes: readonly string[] = []): readonly string[] {
+  if (endlessEnabled || !modes.includes('endless')) return modes;
+  const available = modes.filter(mode => mode !== 'endless');
+  if (!available.includes('challenge') && challengeUnlockWins === config.unlockProposal.endlessAfterNewWins) available.push('challenge');
+  return available;
+}
+
+export function unlockAnnouncement(language: Language, modes: readonly string[] = []): string {
+  modes = availableUnlockModes(modes);
+  const names: string[] = [];
+  if (modes.includes('free')) names.push(trackName(language, 'relax'));
+  if (modes.includes('daily')) names.push(dailyName(language));
+  const sharedLegacyUnlock = modes.includes('endless') && challengeUnlockWins === config.unlockProposal.endlessAfterNewWins;
+  if (modes.includes('challenge') || sharedLegacyUnlock) names.push(trackName(language, 'challenge'));
+  if (modes.includes('endless')) names.push('Endless');
+  if (!names.length) return '';
+  const joined = names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + localize(language, ' и ', ' and ') + names.at(-1);
+  const label = names.length === 1 ? localize(language, 'Новый режим', 'New mode')
+    : localize(language, 'Новые режимы', 'New modes');
+  return `${label} · ${joined}`;
 }
 
 export function conflictText(language: Language, horizontal: boolean, equation: string): string {
@@ -29,6 +59,11 @@ export function quantity(language: Language, value: number, noun: keyof typeof n
   const category = russianPlural.select(value);
   const index = language === 'en' ? Number(value !== 1) : category === 'one' ? 0 : category === 'few' ? 1 : 2;
   return value + ' ' + nouns[noun][language][index];
+}
+
+export function missingCoinsLabel(language: Language, value: number): string {
+  return language === 'en' ? `You need ${quantity(language, value, 'coin')} more`
+    : `Не хватает ${value} ${russianPlural.select(value) === 'one' ? 'монеты' : 'монет'}`;
 }
 
 // Static leaf labels retain their authored Russian copy when the session switches back.

@@ -4,27 +4,31 @@ import type { Language } from './locale';
 import { OwnedDomMotion } from '@danilah/mini-games-kit/feel';
 import { cellValue, evaluate, tokenValue } from '../core/types';
 import type { Attempt, BoardAction, Puzzle } from '../core/types';
-import type { Cue, Feedback, AwardTone } from './feedback';
+import type { Feedback } from './feedback';
+import { moveIsCurrent } from './playFeedback';
+import type { MoveFeedback } from './playFeedback';
 
 type Source={kind:'token'|'cell';id:string};
 type Target=Source|{kind:'return';id:string};
 interface Gesture{pointer:number;source:Source;piece:HTMLElement;x:number;y:number;drag:boolean;revision:number;commandId:string}
 interface Landing { cell: number; revision: number; from: DOMRect }
-export interface MoveFeedback { cue: Exclude<Cue, 'pick'>; cell: number | undefined; award?: AwardTone }
 export const equationText=(p:Puzzle,a:Attempt,index:number):string=>{const eq=p.equations[index]!;const [left,right,result]=eq.cells.map(id=>cellValue(p,a,id)??'□');return `${left} ${operatorGlyph[eq.op]} ${right} = ${result}`;};
 export class BoardView {
   private puzzle!:Puzzle;private attempt!:Attempt;private selected:Source|null=null;private gesture:Gesture|null=null;
+  private readonly sortMotion=new OwnedDomMotion();
   private readonly motion=new OwnedDomMotion();private readonly cells=new Map<number,HTMLElement>();private signs:HTMLElement[][]=[];
   private equationLines: HTMLElement[] = [];
   private landing: Landing | undefined;
+  private lastFeedbackCommand: string | undefined;
   private consumedPointerClick = false;
   private freshErrors: number[] = [];
   private preferredAxis: 'row' | 'column' | undefined;
   private explanation='';private supportIndices:number[]=[];
   private tutorialTimer:ReturnType<typeof setTimeout>|null=null;private tutorialShown=false;
   private readonly boardScroll: HTMLElement;
+  private readonly playArea: HTMLElement;
+  private readonly tools: HTMLElement;
   private readonly boardSize: ResizeObserver;
-  private boardWidth = 0;
   private readonly trayViewport = document.querySelector<HTMLElement>('#traybox')!;
   private readonly trayNavigation = document.querySelector<HTMLElement>('#tray-nav')!;
   private readonly trayPrev = document.querySelector<HTMLButtonElement>('#tray-prev')!;
@@ -34,11 +38,12 @@ export class BoardView {
     private readonly disabled:()=>boolean,private readonly reduced:()=>boolean,
     private readonly action:(command:BoardAction,metadata:{commandId:string;expectedRevision:number})=>void,private readonly language:()=>Language){
     this.boardScroll = board.closest<HTMLElement>('.board-scroll')!;
-    this.boardSize = new ResizeObserver(() => {
-      const width = this.boardScroll.offsetWidth;
-      if (width && width !== this.boardWidth) this.resize();
-    });
-    this.boardSize.observe(this.boardScroll);
+    this.playArea = board.closest<HTMLElement>('.play-area')!;
+    this.tools = this.playArea.querySelector<HTMLElement>('.tools')!;
+    this.boardSize = new ResizeObserver(this.resize);
+    for (const element of [this.playArea, this.note, this.trayViewport, this.tools]) {
+      this.boardSize.observe(element);
+    }
     this.tray.addEventListener('scroll', this.updateTrayButtons);
     this.trayPrev.onclick = () => this.pageTray(-1);
     this.trayNext.onclick = () => this.pageTray(1);
@@ -49,11 +54,15 @@ export class BoardView {
   private t(ru:string,en:string):string {return localize(this.language(),ru,en);}
   update(puzzle: Puzzle, attempt: Attempt, move?: MoveFeedback): void {
     const before = this.attempt;
+    const sorting=move?.cue==='sort'&&moveIsCurrent(move,attempt)&&this.lastFeedbackCommand!==move.commandId;
+    const positions=sorting&&!this.reduced()?new Map([...this.tray.querySelectorAll<HTMLElement>('[data-token]:not([hidden])')].map(e=>[e.dataset.token!,e.getBoundingClientRect()])):undefined;
+    if(sorting||this.reduced())this.sortMotion.cancelAll();
     const changed = this.puzzle?.puzzleId !== puzzle.puzzleId || before.id !== attempt.id;
     this.puzzle = puzzle;
     this.attempt = attempt;
     if (changed) {
       this.landing = undefined;
+      this.lastFeedbackCommand = undefined;
       this.cancel();
       this.selected = null;
       this.explanation = '';
@@ -64,37 +73,45 @@ export class BoardView {
       this.build();
     }
     const moved = !changed && before.boardRevision !== attempt.boardRevision;
-    const won = !changed && before.status !== 'won' && attempt.status === 'won';
-    const canScore = attempt.mode !== 'endless' || won;
-    const previous = (moved || won) && canScore ? evaluate(puzzle, before) : [];
-    const current = previous.length ? evaluate(puzzle, attempt) : [];
     if (moved && attempt.mode !== 'endless') {
-      this.freshErrors = current.flatMap((state, index) =>
-        state === 'invalid' && (previous[index] !== 'invalid' || expressionSignature(puzzle,before,index) !== expressionSignature(puzzle,attempt,index)) ? [index] : []);
+      this.freshErrors = evaluate(puzzle, attempt).flatMap((state, index) =>
+        state === 'invalid' && expressionSignature(puzzle,before,index) !== expressionSignature(puzzle,attempt,index) ? [index] : []);
     }
     this.render();
     const landing = this.landing;
     if (this.disabled()) return;
     this.landing = undefined;
-    if (changed || (!moved && !won && !move)) return;
+    if (changed || !move || !moveIsCurrent(move, attempt) || this.lastFeedbackCommand === move.commandId) return;
+    this.lastFeedbackCommand = move.commandId;
+    this.motion.cancelAll();
+    if(positions)for(const piece of this.tray.querySelectorAll<HTMLElement>('[data-token]:not([hidden])')){
+      const old=positions.get(piece.dataset.token!),now=piece.getBoundingClientRect();
+      const visible=(r:DOMRect)=>r.top>=this.tray.getBoundingClientRect().top-1&&r.bottom<=this.tray.getBoundingClientRect().bottom+1;
+      if(old&&visible(old)&&visible(now)&&(old.x!==now.x||old.y!==now.y))this.sortMotion.animate(piece.firstElementChild,[
+        {translate:`${old.x-now.x}px ${old.y-now.y}px`},{translate:'0 0'},
+      ],{duration:140,easing:'cubic-bezier(.2,.7,.3,1)'},{fromCurrent:'replace'});
+    }
 
-    const placements = puzzle.cells.filter(cell => {
+    const scored = move.cue === 'win' || attempt.mode !== 'endless' && (move.cue === 'right' || move.cue === 'wrong');
+    const previous = scored ? evaluate(puzzle, move.before) : [];
+    const current = scored ? evaluate(puzzle, attempt) : [];
+
+    const placements = move.cell === undefined ? [] : puzzle.cells.filter(cell => {
       const token = attempt.placements[cell.id];
-      return token !== undefined && token !== before.placements[cell.id];
+      return token !== undefined && token !== move.before.placements[cell.id];
     });
     const axes = current.flatMap((state, index) => {
       if (state !== 'valid' || (previous[index] === 'valid' && attempt.mode !== 'endless')) return [];
       const eq = puzzle.equations[index]!;
-      const origin = placements.find(cell => cell.id === move?.cell && eq.cells.includes(cell.id))
+      const origin = placements.find(cell => cell.id === move.cell && eq.cells.includes(cell.id))
         ?? placements.find(cell => eq.cells.includes(cell.id));
       return [{index, origin}];
     });
+    let contacted = false;
     const atContact = () => {
-      if (this.disabled() || this.attempt.id !== attempt.id || this.attempt.boardRevision !== attempt.boardRevision) return;
-      if (move) {
-        const double = move.cell !== undefined && axes.filter(axis => axis.origin?.id === move.cell).length > 1;
-        this.feedback.cue(move.cue, move.cell !== undefined, double, move.award);
-      }
+      if (contacted || !moveIsCurrent(move,this.attempt)) return;
+      contacted = true;
+      this.feedback.cue(move.cue, axes.length > 1 ? {...move.detail,double:true} : move.detail);
       if (this.reduced()) return;
       for (const {index, origin} of axes) {
         const line = this.equationLines[index]!;
@@ -109,21 +126,21 @@ export class BoardView {
         ], {duration: 230, easing: 'ease-out'});
       }
     };
-
     let animatingContact = false;
     if (!this.reduced()) for (const cell of placements) {
       const face = this.cells.get(cell.id)!.firstElementChild as HTMLElement;
       this.motion.cancel(face);
-      const released = landing?.cell === cell.id && landing.revision === before.boardRevision ? landing.from : undefined;
+      const released = landing?.cell === cell.id && landing.revision === move.before.boardRevision ? landing.from : undefined;
       const target = face.getBoundingClientRect();
       const start: Keyframe = released ? {
         translate: `${released.left + (released.width - target.width) / 2 - target.left}px ${released.top + (released.height - target.height) / 2 - target.top}px`,
         scale: String(released.width / target.width),
       } : {translate: '0 -5px', scale: '1.045'};
-      const main = cell.id === move?.cell;
+      const main = cell.id === move.cell;
       const arrival = this.motion.animate(face, [start, {translate: '0 0', scale: '1'}],
         {duration: released ? 82 : 42, easing: released ? 'cubic-bezier(.24,.35,.68,1)' : 'linear', fill: 'backwards'}, {
           onFinish: () => {
+            if (!moveIsCurrent(move,this.attempt)) return;
             if (main) atContact();
             this.motion.animate(face, [
               {translate: '0 0', scale: '1'}, {translate: '0 1px', scale: '.975', offset: .34},
@@ -138,6 +155,7 @@ export class BoardView {
   private part(tag:string,className:string,x:number,y:number):HTMLElement{const e=document.createElement(tag);e.className='part '+className;e.style.setProperty('--x',String(x));e.style.setProperty('--y',String(y));return e;}
   private build(): void {
     this.motion.cancelAll();
+    this.playArea.classList.toggle('has-tall-board', this.puzzle.height >= 11);
     this.board.replaceChildren();
     this.tray.replaceChildren();
     this.boardScroll.scrollTo(0, 0);
@@ -155,6 +173,7 @@ export class BoardView {
       const node = this.part(fixed ? 'span' : 'button', fixed ? 'given' : 'cell', cell.x, cell.y);
       if (fixed) {
         node.textContent = String(cell.given);
+        node.classList.toggle('two-digit', node.textContent.length === 2);
       } else {
         node.dataset.cell = String(cell.id);
         node.setAttribute('type', 'button');
@@ -217,8 +236,11 @@ export class BoardView {
     // Sorting is explicit; occupied slots keep their physical place during all other actions.
     const order=this.attempt.trayOrder,existing=[...this.tray.querySelectorAll<HTMLElement>('.slot')];
     if(existing.map(e=>e.dataset.slot).join('|')!==order.join('|')){
-      this.tray.replaceChildren();this.tray.scrollTop=0;for(const id of order){const slot=document.createElement('span');slot.className='slot';slot.dataset.slot=id;
-        const token=document.createElement('button');token.type='button';token.className='token';token.dataset.token=id;token.textContent=String(tokenValue(this.puzzle,id));slot.append(token);this.tray.append(slot);}
+      const keyed=new Map(existing.map(e=>[e.dataset.slot,e]));
+      for(const id of order){let slot=keyed.get(id);if(!slot){slot=document.createElement('span');slot.className='slot';slot.dataset.slot=id;
+        const token=document.createElement('button');token.type='button';token.className='token';token.dataset.token=id;const face=document.createElement('span');face.className='token-face';face.textContent=String(tokenValue(this.puzzle,id));token.append(face);slot.append(token);}
+        this.tray.append(slot);}
+      this.tray.scrollTop=0;
     }
     const used=new Set(Object.values(this.attempt.placements));
     for(const token of this.tray.querySelectorAll<HTMLButtonElement>('button')){const id=token.dataset.token!;token.hidden=used.has(id);token.disabled=this.disabled()||this.attempt.status!=='playing';const active=this.selected?.kind==='token'&&this.selected.id===id;token.classList.toggle('selected',active);token.setAttribute('aria-pressed',String(active));token.setAttribute('aria-label',this.t(`Число ${tokenValue(this.puzzle,id)}, экземпляр ${Number(id.slice(1))+1}`,`Number ${tokenValue(this.puzzle,id)}, piece ${Number(id.slice(1))+1}`));}
@@ -275,7 +297,11 @@ export class BoardView {
       const label=`${position}. ${type} ${v??''}. ${relations}${warning}`;
       e.setAttribute('aria-label',label);
       if(cell.given!==undefined)continue;
-      (e as HTMLButtonElement).disabled=this.disabled()||a.status!=='playing';e.firstElementChild!.textContent=v===undefined?'':String(v);e.classList.toggle('placed',v!==undefined);e.classList.toggle('empty',v===undefined);
+      (e as HTMLButtonElement).disabled=this.disabled()||a.status!=='playing';
+      const tile=e.firstElementChild!;
+      tile.textContent=v===undefined?'':String(v);
+      tile.classList.toggle('two-digit',tile.textContent.length===2);
+      e.classList.toggle('placed',v!==undefined);e.classList.toggle('empty',v===undefined);
       const active=this.selected?.kind==='cell'&&Number(this.selected.id)===cell.id;e.classList.toggle('selected',active);e.setAttribute('aria-pressed',String(active));
     }
     this.renderTray();
@@ -303,7 +329,10 @@ export class BoardView {
     if (conceal && !this.explanation && !this.selected && a.lastRejectedSignature && a.status === 'playing') {
       note = this.t('Измените числа и проверьте снова', 'Change the numbers and check again');
     }
-    if (this.note.textContent !== note) this.note.textContent = note;
+    if (this.note.textContent !== note) {
+      this.note.textContent = note;
+      this.resize();
+    }
     (document.querySelector('#return') as HTMLButtonElement).disabled =
       this.disabled() || a.status !== 'playing' || this.selected?.kind !== 'cell' || a.placements[this.selected.id] === undefined;
     if (showGuide && !this.tutorialTimer && !this.disabled() && !this.reduced()) this.tutorialTimer = setTimeout(() => this.demonstrateFirstMove(), 6000);
@@ -354,17 +383,21 @@ export class BoardView {
       const links = this.puzzle.equations.flatMap((eq,index) => eq.cells.includes(Number(source.id)) ? [this.equationLines[index]!.dataset.axis] : []);
       if (links.length === 1) this.preferredAxis = links[0] as 'row' | 'column';
     }
-    this.selected=source;this.explanation='';this.supportIndices=[];this.feedback.cue('pick');this.render();
+    this.selected=source;this.explanation='';this.supportIndices=[];
+    this.feedback.cue('pick',this.movable(source) ? {grasp:true} : undefined);
+    this.render();
   }
-  private down=(e:PointerEvent):void=>{if(e.isPrimary)this.consumedPointerClick=false;const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;
+  private movable(source:Source):boolean{return source.kind==='token'||this.attempt.placements[source.id]!==undefined;}
+  private down=(e:PointerEvent):void=>{if(e.isPrimary){this.consumedPointerClick=false;this.sortMotion.cancelAll();}const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;
     this.dismissTutorial();
     const piece=(e.target as Element).closest<HTMLElement>('[data-cell],[data-token]')!;
+    if(this.movable(source))piece.classList.add('grasping');
     this.gesture={pointer:e.pointerId,source,piece,x:e.clientX,y:e.clientY,drag:false,revision:this.attempt.boardRevision,commandId:crypto.randomUUID()};document.body.setPointerCapture(e.pointerId);
   };
   private move=(e:PointerEvent):void=>{const g=this.gesture;if(!g||g.pointer!==e.pointerId||this.disabled())return;
     if(!g.drag&&Math.hypot(e.clientX-g.x,e.clientY-g.y)<8)return;
-    if(g.source.kind==='cell'&&this.attempt.placements[g.source.id]===undefined)return;
-    if(!g.drag){g.drag=true;g.piece.classList.add('lifted');this.ghost.textContent=String(g.source.kind==='token'?tokenValue(this.puzzle,g.source.id):cellValue(this.puzzle,this.attempt,Number(g.source.id)));this.ghost.hidden=false;this.feedback.cue('pick');}
+    if(!this.movable(g.source))return;
+    if(!g.drag){g.drag=true;g.piece.classList.remove('grasping');g.piece.classList.add('lifted');this.ghost.textContent=String(g.source.kind==='token'?tokenValue(this.puzzle,g.source.id):cellValue(this.puzzle,this.attempt,Number(g.source.id)));this.ghost.hidden=false;this.feedback.cue('pick',{grasp:true});}
     this.ghost.style.left=e.clientX+'px';this.ghost.style.top=e.clientY+'px';this.clearHover();const target=this.drop(e.clientX,e.clientY);
     this.ghost.classList.toggle('over-cell', target?.kind === 'cell');
     if(target?.kind==='cell')this.cells.get(Number(target.id))?.classList.add('hover');else if(target?.kind==='return'&&g.source.kind==='cell')this.tray.parentElement!.classList.add('hover');
@@ -382,8 +415,8 @@ export class BoardView {
     animation?.addEventListener('cancel',()=>copy.remove(),{once:true});
   }
   private clearHover():void{for(const el of document.querySelectorAll('.hover'))el.classList.remove('hover');}
-  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};
-  suspend():void {this.landing=undefined;this.cancel();this.motion.cancelAll();}
+  cancel=():void=>{this.sortMotion.cancelAll();this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted','grasping');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};
+  suspend():void {this.landing=undefined;this.cancel();this.motion.cancelAll();this.sortMotion.cancelAll();}
   private pointerCancel=(e:PointerEvent):void=>{if(this.gesture?.pointer===e.pointerId)this.cancel();};
   private scroll=():void=>{if(this.gesture)this.cancel();};
   private click = (e: MouseEvent): void => {
@@ -402,18 +435,36 @@ export class BoardView {
     this.dismissTutorial();
     this.tap(source, {commandId: crypto.randomUUID(), expectedRevision: this.attempt.boardRevision});
   };
-  resize=():void=>{this.cancel();this.motion.cancelAll();if(!this.puzzle)return;const p=this.puzzle,pad=this.board.closest<HTMLElement>('.boardpad')!,scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
-    this.boardWidth = this.boardScroll.offsetWidth;
-    if (!this.boardWidth) return;
+  resize=():void=>{
+    const p = this.puzzle;
+    const width = this.playArea.clientWidth - 4;
+    if (!p || width <= 0) return;
+    this.sizeTray();
     const roomy = p.width <= 5 && p.height <= 5 && innerHeight >= 650;
-    const hit = (roomy ? 56 : 48) * Math.max(1, scale);
-    const widthStep = (pad.clientWidth - 4 - hit) / Math.max(1, p.width - 1);
-    const heightStep = p.height > 5 ? 30 : innerHeight < 650 ? 36 : roomy ? 56 : 46;
-    const step = Math.max(hit / 2, Math.min(widthStep, heightStep * scale));
+    const preferredHit = roomy ? 56 : 48;
+    const widthStep = (width - preferredHit) / Math.max(1, p.width - 1);
+    const heightStep = p.height > 5 ? (innerHeight>=650?46:30) : innerHeight < 650 ? 36 : roomy ? 56 : 46;
+    const preferredStep = Math.max(preferredHit / 2, Math.min(widthStep, heightStep));
+    let step = preferredStep, hit = preferredHit;
+    if (this.playArea.parentElement!.classList.contains('is-solving')) {
+      const gap = parseFloat(getComputedStyle(this.playArea).rowGap);
+      const toolsMargin = parseFloat(getComputedStyle(this.tools).marginTop);
+      const height = this.playArea.clientHeight - this.note.offsetHeight - this.trayViewport.offsetHeight
+        - this.tools.offsetHeight - toolsMargin - 3 * gap;
+      if ((p.width - 1) * step + hit > width || (p.height - 1) * step + hit > height) {
+        // Packed cells use non-overlapping targets and the same pitch on both axes.
+        // Keep a readable minimum when an unusually small viewport still needs panning.
+        step = Math.max(18, Math.min(preferredStep, width / p.width, (height - 2) / p.height));
+        hit = step;
+      }
+    }
+    const geometry = {'--step': `${step}px`, '--hit': `${hit}px`, '--w': String(p.width), '--h': String(p.height)};
+    if (Object.entries(geometry).every(([key, value]) => this.board.style.getPropertyValue(key) === value)) return;
+    this.cancel();
     this.ghost.style.setProperty('--landing-size', `${Math.min(40, Math.round(step * .82))}px`);
     this.ghost.style.setProperty('--landing-clearance', `${step / 2 + 3}px`);
-    for(const [key,value] of Object.entries({step,hit,w:p.width,h:p.height}))this.board.style.setProperty('--'+key,String(value)+(key==='w'||key==='h'?'':'px'));
-    this.sizeTray();
+    this.board.classList.toggle('is-packed', hit === step && hit !== preferredHit);
+    for (const [key, value] of Object.entries(geometry)) this.board.style.setProperty(key, value);
   };
-  dispose():void{this.cancel();this.motion.cancelAll();this.boardSize.disconnect();this.tray.removeEventListener('scroll',this.updateTrayButtons);this.trayPrev.onclick=this.trayNext.onclick=null;document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
+  dispose():void{this.suspend();this.boardSize.disconnect();this.tray.removeEventListener('scroll',this.updateTrayButtons);this.trayPrev.onclick=this.trayNext.onclick=null;document.removeEventListener('pointerdown',this.down);document.removeEventListener('pointermove',this.move);document.removeEventListener('pointerup',this.up);document.removeEventListener('pointercancel',this.pointerCancel);document.removeEventListener('lostpointercapture',this.pointerCancel);document.removeEventListener('click',this.click,true);document.removeEventListener('scroll',this.scroll,true);window.removeEventListener('resize',this.resize);window.removeEventListener('blur',this.cancel);}
 }

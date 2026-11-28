@@ -1,6 +1,6 @@
 {
   "name": "crossmath-game",
-  "version": "0.5.9",
+  "version": "0.5.31",
   "private": true,
   "type": "module",
   "engines": {
@@ -12,19 +12,28 @@
     "test": "vitest run",
     "build": "npm run typecheck && vite build && node tools/verify-web.mjs",
     "build:release": "npm run typecheck && vite build --mode release && node tools/verify-web.mjs --release",
+    "build:issuance-pilot": "npm run typecheck && vite build --mode issuance-pilot && node tools/verify-web.mjs --issuance-pilot",
+    "build:content-lab": "npm run typecheck && vite build --mode content-lab && node tools/verify-web.mjs --content-lab",
     "check": "npm run typecheck && npm test && npm run build",
     "android:sync": "npm run build && cap sync android",
     "android:sync:release": "npm run build:release && cap sync android",
     "release:config": "node tools/release-config.mjs --check",
     "preview": "vite preview",
-    "test:browser": "node tools/browser-smoke.mjs && node tools/meta-browser-smoke.mjs && node tools/endless-browser-smoke.mjs",
-    "content:verify": "python3 -B docs/spec/product/content_v09/verify.py && python3 -B docs/spec/product/content_v09/check_routes.py && python3 -B docs/spec/product/content_v2/verify.py && python3 -B docs/spec/product/meta_v08/verify_meta.py"
+    "test:browser": "node tools/browser-smoke.mjs && node tools/meta-browser-smoke.mjs && node tools/core00-browser.mjs && node tools/help-coverage-browser.mjs && node tools/ads-browser-smoke.mjs && node tools/feel-browser-smoke.mjs",
+    "content:verify": "python3 -B docs/spec/product/content_v09/verify.py && python3 -B docs/spec/product/content_v09/check_routes.py && python3 -B docs/spec/product/content_v2/verify.py && python3 -B docs/spec/product/meta_v08/verify_meta.py",
+    "build:league-lab": "npm run typecheck && vite build --mode league-lab && node tools/verify-web.mjs --league-lab",
+    "test:league": "vitest run --mode league-lab tests/league*.test.ts",
+    "build:win-rv-lab": "npm run typecheck && vite build --mode win-rv-lab && node tools/verify-web.mjs --win-rv-lab",
+    "test:win-rv": "vitest run --mode win-rv-lab tests/win-bonus.test.ts",
+    "build:rc": "npm run typecheck && vite build --mode release-candidate && node tools/verify-web.mjs --release-candidate",
+    "android:sync:rc": "npm run build:rc && cap sync android",
+    "test:rc": "vitest run --mode release-candidate tests/release29.test.ts tests/league*.test.ts"
   },
   "dependencies": {
     "@capacitor/android": "8.6.0",
     "@capacitor/app": "8.1.2",
     "@capacitor/core": "8.6.0",
-    "@danilah/mini-games-kit": "github:DanilaH/mini-games-kit#469928d03f4bae5053e23db26e82187bedbc252e",
+    "@danilah/mini-games-kit": "github:DanilaH/mini-games-kit#b1bf2026eda7dd68a5ccbc883946191e03d235af",
     "phaser": "4.2.1"
   },
   "devDependencies": {

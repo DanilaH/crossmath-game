@@ -1,7 +1,10 @@
 """Official Android-tool verification of the exact generated application's APK."""
 import argparse,hashlib,json,os,re,subprocess,tempfile,zipfile
 from pathlib import Path
-p=argparse.ArgumentParser();p.add_argument('apk',type=Path);p.add_argument('--kind',choices=['release','releasecheck'],required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('apk',type=Path);p.add_argument('--kind',choices=['release','releasecheck'],required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--stable-playtest',action='store_true');p.add_argument('--release-candidate',action='store_true');p.add_argument('--issuance-pilot',action='store_true');p.add_argument('--content-lab',action='store_true');p.add_argument('--league-lab',action='store_true');a=p.parse_args()
+assert not (a.issuance_pilot or a.release_candidate) or a.kind=='releasecheck'
+assert not a.league_lab or a.content_lab and a.issuance_pilot
+assert not a.content_lab or a.kind=='releasecheck' and a.issuance_pilot
 cfg=json.loads(Path('android-project.json').read_text());a.out.mkdir(parents=True,exist_ok=True)
 sdk=Path(os.environ['ANDROID_HOME'])/'build-tools'/'36.0.0'
 # dexdump prints DEX modified UTF-8 strings; only ASCII class/method metadata is parsed.
@@ -10,6 +13,7 @@ sign=run('apksigner','verify','--verbose','--print-certs',a.apk);assert 'Verifie
 cert=re.search(r'Signer #1 certificate SHA-256 digest: ([a-fA-F0-9:]+)',sign)[1].replace(':','').lower()
 if a.kind=='release':assert cert==(cfg.get('certificateSha256') or '').lower(),'Production signer mismatch'
 elif cfg.get('certificateSha256'):assert cert!=cfg['certificateSha256'].lower(),'Release-check must not use the production signer'
+if a.stable_playtest:assert a.kind=='releasecheck' and cert==cfg.get('playtestCertificateSha256'),'Stable playtest signer mismatch'
 alignment=run('zipalign','-c','-P','16','4',a.apk)
 badging=run('aapt','dump','badging',a.apk);manifest=run('aapt','dump','xmltree',a.apk,'AndroidManifest.xml')
 package=cfg['appId']+('.releasecheck' if a.kind=='releasecheck' else '')
@@ -24,6 +28,12 @@ with zipfile.ZipFile(a.apk) as z:
     assert native['loggingBehavior']=='debug' and native['plugins']['SystemBars']['insetsHandling']=='disable'
     public={name.removeprefix('assets/public/'):name for name in z.namelist() if name.startswith('assets/public/') and not name.endswith('/')}
     stamp=json.loads(z.read(public['native-build.json']));assert stamp['channel']=='release'
+    assert stamp.get('freeIssuancePolicy','legacy')==('d4-v2' if a.issuance_pilot or a.release_candidate else 'legacy'),'Wrong Free issuance policy in APK'
+    assert stamp.get('releaseCandidate',False)==a.release_candidate and stamp.get('additionalBank',False)==a.release_candidate
+    assert stamp.get('leagueEnabled',False)==(a.release_candidate or a.league_lab)
+    assert stamp.get('leagueLab',False)==a.league_lab,'Wrong league channel'
+    assert stamp.get('contentLab',False)==a.content_lab,'Wrong laboratory channel'
+    assert stamp.get('winBonusCandidate',False) is False,'Victory bonus candidate must not enter the delivered regular APK'
     assert not set(cfg['releaseExcludedPaths'])&set(public)
     for path in Path('dist').rglob('*'):
         if not path.is_file():continue
@@ -39,8 +49,13 @@ with zipfile.ZipFile(a.apk) as z:
                 file=Path(temp)/name;file.write_bytes(z.read(name));output.append(run('dexdump',file))
     blocks=re.split(r'(?=Class #\d+)','\n'.join(output));descriptor='L'+cfg['appId'].replace('.','/')+'/GameStoragePlugin;'
     plugin=[b for b in blocks if re.search(r"Class descriptor\s*:\s*'"+re.escape(descriptor)+"'",b)];assert plugin,'Storage bridge removed by R8'
-    for method in ['get','set','remove','list']:assert any(re.search(r"name\s*:\s*'"+method+"'",b) for b in plugin),method
+    for method in ['get','set','remove','list','compareAndSet']:assert any(re.search(r"name\s*:\s*'"+method+"'",b) for b in plugin),method
+    ads_descriptor='L'+cfg['appId'].replace('.','/')+'/CrossmathAdsPlugin;'
+    ads_plugin=[b for b in blocks if re.search(r"Class descriptor\s*:\s*'"+re.escape(ads_descriptor)+"'",b)]
+    assert ads_plugin,'Optional ads bridge removed by R8'
+    for method in ['availability','pendingRewards','acknowledge','showRewarded','showInterstitial','cancelUnopened','reconcileReward','setBanner']:
+        assert any(re.search(r"name\s*:\s*'"+method+"'",b) for b in ads_plugin),method
 mapping=Path('native/android/app/build/outputs/mapping')/('release' if a.kind=='release' else 'releaseCheck')/'mapping.txt';assert mapping.is_file() and mapping.stat().st_size>1000
-report={'kind':a.kind,'package':package,'versionName':cfg['versionName'],'versionCode':cfg['versionCode'],'kitRef':stamp['kitRef'],'source':os.environ.get('GITHUB_SHA','local'),'apkSha256':hashlib.sha256(a.apk.read_bytes()).hexdigest(),'bytes':a.apk.stat().st_size,'certificateSha256':cert,'productionSigner':a.kind=='release','v2':True,'zipalign16k':True,'debuggable':False,'webViewDebuggingConfigured':False,'nativeInsetOwner':'content-root','webPayload':web,'nativeRuntime':'NOT RUN','liveServices':'NOT INSTALLED BY THIS HOST TEMPLATE'}
+report={'kind':a.kind,'package':package,'versionName':cfg['versionName'],'versionCode':cfg['versionCode'],'kitRef':stamp['kitRef'],'freeIssuancePolicy':stamp.get('freeIssuancePolicy','legacy'),'releaseCandidate':stamp.get('releaseCandidate',False),'additionalBank':stamp.get('additionalBank',False),'leagueEnabled':stamp.get('leagueEnabled',False),'contentLab':stamp.get('contentLab',False),'leagueLab':stamp.get('leagueLab',False),'source':os.environ.get('GITHUB_SHA','local'),'apkSha256':hashlib.sha256(a.apk.read_bytes()).hexdigest(),'bytes':a.apk.stat().st_size,'certificateSha256':cert,'productionSigner':a.kind=='release','stablePlaytestSigner':cert==cfg.get('playtestCertificateSha256'),'v2':True,'zipalign16k':True,'debuggable':False,'webViewDebuggingConfigured':False,'nativeInsetOwner':'content-root','webPayload':web,'nativeRuntime':'NOT RUN','liveServices':'NOT INSTALLED BY THIS HOST TEMPLATE'}
 for name,text in [('signing.txt',sign),('badging.txt',badging),('manifest.txt',manifest),('alignment.txt',alignment)]: (a.out/name).write_text(text)
 (a.out/'verification.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items() if k!='webPayload'},indent=2))

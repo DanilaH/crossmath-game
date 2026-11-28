@@ -1,9 +1,45 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { boards, getPuzzle } from '../src/content/catalog';
+import * as validator from '../src/content/validator';
 import { createAttempt, applyHelpLayout, applyCommand } from '../src/core/engine';
-import { explain, verifyExplanation } from '../src/help/logic';
+import { explain, prepareExplanation, verifyExplanation, visiblePlacements } from '../src/help/logic';
 import { materializeHelp, reveal } from '../src/help/reveal';
-import type { BoardAction } from '../src/core/types';
+import type { BoardAction, Mode } from '../src/core/types';
+import fixtures from './fixtures/help-preparation.json';
+
+describe('HELP-01: classify preparation without changing the attempt',()=>{
+ const puzzles=Object.fromEntries(Object.entries(fixtures.puzzles).map(([key,puzzle])=>[key,validator.parsePuzzle(puzzle)]));
+ it.each(fixtures.cases)('$id',example=>{
+  const puzzle=puzzles[example.puzzle]!;
+  let attempt=createAttempt(puzzle,example.id,example.mode as Mode);
+  for(const placement of example.placements){
+   attempt=applyCommand(puzzle,attempt,{type:'PlaceFromTray',...placement,
+    commandId:`move-${attempt.boardRevision}`,expectedRevision:attempt.boardRevision}).state;
+  }
+  const original=structuredClone(attempt);
+  expect(validator.countSolutions(puzzle,example.budget,visiblePlacements(puzzle,attempt))).toEqual(example.expectedCompatibility);
+  const result=prepareExplanation(puzzle,attempt,example.budget);
+  const extended=example.id==='unique_no_supported_step'||example.id==='endless_no_supported_preview';
+  expect(result).toMatchObject({outcome:extended?'ready':example.expectedFutureOutcome,
+   snapshot:{attemptId:attempt.id,puzzleId:puzzle.puzzleId,boardRevision:attempt.boardRevision}});
+  if(result.outcome==='ready'){
+   if(extended)expect(result.plan.rule).toBe('propagation');
+   else expect(result.plan).toMatchObject(example.expectedBaselinePlan!);
+   expect(verifyExplanation(puzzle,attempt,result.plan)).toBe(true);
+  }else expect(result).not.toHaveProperty('plan');
+  if(example.expectedPhase)expect(result).toHaveProperty('phase',example.expectedPhase);
+  if(example.expectedUnavailableReason)expect(result).toHaveProperty('reason',example.expectedUnavailableReason);
+  expect(attempt).toEqual(original);
+  if(example.mode==='endless')expect(attempt.status).toBe('playing');
+ });
+ it('treats a partially found solution as exhausted when the check exhausts its budget',()=>{
+  const puzzle=puzzles.direct!, attempt=createAttempt(puzzle,'exhaustion');
+  const compatibility=vi.spyOn(validator,'countSolutions').mockReturnValueOnce({count:1,exhausted:true});
+  try{
+   expect(prepareExplanation(puzzle,attempt)).toMatchObject({outcome:'budget_exhausted',phase:'compatibility'});
+  }finally{compatibility.mockRestore();}
+ });
+});
 
 describe('HC01–HC12: help proof boundary',()=>{
  it('completes the entire 240-board bank by freshly computed verified explanations',()=>{

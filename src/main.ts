@@ -1,5 +1,4 @@
 import { androidAdsProvider } from './platform/androidAds';
-import { localize } from './ui/locale';
 import type { Language } from './ui/locale';
 import Phaser from 'phaser';
 import { getRenderPixelRatio } from '@danilah/mini-games-kit/core';
@@ -11,20 +10,30 @@ import { createSave } from './app/model';
 import { SaveRepository } from './app/saveRepository';
 import { GameSession } from './app/session';
 import { GameUi } from './ui/gameUi';
+import { showStartupRecovery } from './ui/startupRecovery';
 import { WorkshopScene, PRESENTABLE } from './game/WorkshopScene';
 import './style.css';
+import './ui/theme.css';
 import './ui/play.css';
 import './ui/hub.css';
+import './ui/home.css';
+import './ui/menuScreens.css';
+import './ui/rootNavigation.css';
+import './ui/workshopReveal.css';
+import './ui/league.css';
+import './ui/metaPolish.css';
+import './ui/ux32.css';
 
 const startup=new StartupTimeline<'hostReady'|'storageReady'|'firstFrame'|'ready'>(),cover=document.querySelector<HTMLElement>('#startup')!,root=document.querySelector<HTMLElement>('#game-root')!;
 let language:Language='ru';
 let alive=true,ui:GameUi|undefined,removeDebug=()=>{},dispose=()=>{};
+let repository:SaveRepository|undefined;
 try{
   const platform=createPlatform(()=>ui?.onBack()??true);dispose=()=>platform.destroy();startup.mark('hostReady');
-  const repository=new SaveRepository(createStorage(),()=>createSave(crypto.randomUUID(),new Date().toISOString(),Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC',crypto.randomUUID()));
+  repository=new SaveRepository(createStorage(),()=>createSave(crypto.randomUUID(),new Date().toISOString(),Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC',crypto.randomUUID()));
   const state=await repository.load();language=state.settings.language;startup.mark('storageReady');
   const session=new GameSession(state,repository,()=>crypto.randomUUID());
-  await session.refreshDay();
+  await session.restore();
   let resolveFrame!:()=>void;const frame=new Promise<void>(resolve=>{resolveFrame=resolve;});
   const size=()=>{const r=root.getBoundingClientRect(),dpr=getRenderPixelRatio();return{cssWidth:Math.max(1,r.width),cssHeight:Math.max(1,r.height),dpr};};
   const initial=size();
@@ -40,6 +49,6 @@ try{
   if(repository.recoveredBackup)ui.showRecoveryNotice();
   if(import.meta.env.DEV){const{installDebug}=await import('./app/debug');if(alive)removeDebug=installDebug(()=>startup.snapshot({toReady:['start','ready'],toFrame:['start','firstFrame']}));}
   const destroy=(event:PageTransitionEvent)=>{if(event.persisted)return;alive=false;window.removeEventListener('pagehide',destroy);window.removeEventListener('resize',resize);observer?.disconnect();blocked();removeDebug();ui?.dispose();platform.destroy();destroyRenderer(game);};window.addEventListener('pagehide',destroy);
-}catch{
-  dispose();cover.hidden=false;cover.replaceChildren();const message=document.createElement('p');message.textContent=localize(language,'Не удалось открыть игру. Повторите загрузку.','Could not open the game. Please reload.');const retry=document.createElement('button');retry.textContent=localize(language,'Повторить загрузку','Reload');retry.onclick=()=>location.reload();cover.append(message,retry);
+}catch(error){
+  dispose();showStartupRecovery(cover,language,error,repository);
 }

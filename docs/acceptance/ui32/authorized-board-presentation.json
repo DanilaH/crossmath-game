@@ -1,0 +1,30 @@
+[
+  {
+    "before": "",
+    "after": "  private readonly sortMotion=new OwnedDomMotion();\n"
+  },
+  {
+    "before": "",
+    "after": "    const sorting=move?.cue==='sort'&&moveIsCurrent(move,attempt)&&this.lastFeedbackCommand!==move.commandId;\n    const positions=sorting&&!this.reduced()?new Map([...this.tray.querySelectorAll<HTMLElement>('[data-token]:not([hidden])')].map(e=>[e.dataset.token!,e.getBoundingClientRect()])):undefined;\n    if(sorting||this.reduced())this.sortMotion.cancelAll();\n"
+  },
+  {
+    "before": "",
+    "after": "    if(positions)for(const piece of this.tray.querySelectorAll<HTMLElement>('[data-token]:not([hidden])')){\n      const old=positions.get(piece.dataset.token!),now=piece.getBoundingClientRect();\n      const visible=(r:DOMRect)=>r.top>=this.tray.getBoundingClientRect().top-1&&r.bottom<=this.tray.getBoundingClientRect().bottom+1;\n      if(old&&visible(old)&&visible(now)&&(old.x!==now.x||old.y!==now.y))this.sortMotion.animate(piece.firstElementChild,[\n        {translate:`${old.x-now.x}px ${old.y-now.y}px`},{translate:'0 0'},\n      ],{duration:140,easing:'cubic-bezier(.2,.7,.3,1)'},{fromCurrent:'replace'});\n    }\n"
+  },
+  {
+    "before": "      this.tray.replaceChildren();this.tray.scrollTop=0;for(const id of order){const slot=document.createElement('span');slot.className='slot';slot.dataset.slot=id;\n        const token=document.createElement('button');token.type='button';token.className='token';token.dataset.token=id;token.textContent=String(tokenValue(this.puzzle,id));slot.append(token);this.tray.append(slot);}\n",
+    "after": "      const keyed=new Map(existing.map(e=>[e.dataset.slot,e]));\n      for(const id of order){let slot=keyed.get(id);if(!slot){slot=document.createElement('span');slot.className='slot';slot.dataset.slot=id;\n        const token=document.createElement('button');token.type='button';token.className='token';token.dataset.token=id;const face=document.createElement('span');face.className='token-face';face.textContent=String(tokenValue(this.puzzle,id));token.append(face);slot.append(token);}\n        this.tray.append(slot);}\n      this.tray.scrollTop=0;\n"
+  },
+  {
+    "before": "  private down=(e:PointerEvent):void=>{if(e.isPrimary)this.consumedPointerClick=false;const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;\n",
+    "after": "  private down=(e:PointerEvent):void=>{if(e.isPrimary){this.consumedPointerClick=false;this.sortMotion.cancelAll();}const source=this.source(e.target as Element);if(!source||this.disabled()||this.gesture||!e.isPrimary||e.button!==0)return;\n"
+  },
+  {
+    "before": "  cancel=():void=>{this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted','grasping');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};\n  suspend():void {this.landing=undefined;this.cancel();this.motion.cancelAll();}\n",
+    "after": "  cancel=():void=>{this.sortMotion.cancelAll();this.stopTutorial();const g=this.gesture;this.gesture=null;g?.piece.classList.remove('lifted','grasping');if(g&&document.body.hasPointerCapture(g.pointer))document.body.releasePointerCapture(g.pointer);this.ghost.hidden=true;this.ghost.classList.remove('over-cell');this.clearHover();};\n  suspend():void {this.landing=undefined;this.cancel();this.motion.cancelAll();this.sortMotion.cancelAll();}\n"
+  },
+  {
+    "before": "    const heightStep = p.height > 5 ? 30 : innerHeight < 650 ? 36 : roomy ? 56 : 46;\n",
+    "after": "    const heightStep = p.height > 5 ? (innerHeight>=650?46:30) : innerHeight < 650 ? 36 : roomy ? 56 : 46;\n"
+  }
+]

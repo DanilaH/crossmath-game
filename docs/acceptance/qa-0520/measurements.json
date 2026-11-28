@@ -1,0 +1,252 @@
+{
+  "before": {
+    "0": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        3,
+        4,
+        4,
+        4,
+        3,
+        3,
+        4
+      ],
+      "medianMs": 4
+    },
+    "180": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        147,
+        165,
+        136,
+        164,
+        145,
+        120,
+        155
+      ],
+      "medianMs": 147
+    },
+    "30": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        23,
+        36,
+        28,
+        27,
+        23,
+        22,
+        50
+      ],
+      "medianMs": 27
+    },
+    "365": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        263,
+        240,
+        631,
+        241,
+        241,
+        715,
+        294
+      ],
+      "medianMs": 263
+    }
+  },
+  "after": {
+    "0": {
+      "board": "cm-own-01-006",
+      "cell": "2",
+      "bytes": 3117,
+      "samplesMs": [
+        4,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3
+      ],
+      "medianMs": 4
+    },
+    "180": {
+      "board": "cm-own-01-006",
+      "cell": "2",
+      "bytes": 234321,
+      "samplesMs": [
+        43,
+        36,
+        29,
+        41,
+        37,
+        36,
+        29
+      ],
+      "medianMs": 36
+    },
+    "30": {
+      "board": "cm-own-01-006",
+      "cell": "2",
+      "bytes": 155460,
+      "samplesMs": [
+        25,
+        58,
+        46,
+        22,
+        36,
+        36,
+        30
+      ],
+      "medianMs": 36
+    },
+    "365": {
+      "board": "cm-own-01-006",
+      "cell": "2",
+      "bytes": 326200,
+      "samplesMs": [
+        56,
+        59,
+        38,
+        46,
+        50,
+        48,
+        99
+      ],
+      "medianMs": 50
+    }
+  },
+  "long": {
+    "before": 4193948,
+    "migratedBytes": 556080,
+    "milestones": {
+      "829": {
+        "bytes": 556804,
+        "months": 27,
+        "fullSlots": 31,
+        "compactReceipts": 798
+      },
+      "850": {
+        "bytes": 567212,
+        "months": 27,
+        "fullSlots": 31,
+        "compactReceipts": 819
+      },
+      "875": {
+        "bytes": 579525,
+        "months": 28,
+        "fullSlots": 31,
+        "compactReceipts": 844
+      },
+      "900": {
+        "bytes": 592014,
+        "months": 29,
+        "fullSlots": 31,
+        "compactReceipts": 869
+      },
+      "925": {
+        "bytes": 604403,
+        "months": 30,
+        "fullSlots": 31,
+        "compactReceipts": 894
+      },
+      "950": {
+        "bytes": 616941,
+        "months": 31,
+        "fullSlots": 31,
+        "compactReceipts": 919
+      },
+      "975": {
+        "bytes": 629287,
+        "months": 32,
+        "fullSlots": 31,
+        "compactReceipts": 944
+      },
+      "1000": {
+        "bytes": 641592,
+        "months": 32,
+        "fullSlots": 31,
+        "compactReceipts": 969
+      },
+      "1025": {
+        "bytes": 654040,
+        "months": 33,
+        "fullSlots": 31,
+        "compactReceipts": 994
+      },
+      "1050": {
+        "bytes": 666377,
+        "months": 34,
+        "fullSlots": 31,
+        "compactReceipts": 1019
+      },
+      "1075": {
+        "bytes": 678857,
+        "months": 35,
+        "fullSlots": 31,
+        "compactReceipts": 1044
+      },
+      "1100": {
+        "bytes": 691238,
+        "months": 36,
+        "fullSlots": 31,
+        "compactReceipts": 1069
+      }
+    },
+    "win": {
+      "id": "win:bde4830a-6db1-4f59-9fce-bf0e408c9da1",
+      "attemptId": "bde4830a-6db1-4f59-9fce-bf0e408c9da1",
+      "puzzleId": "cm-own-02-275",
+      "first": false,
+      "coins": 90,
+      "xp": 0,
+      "rankUps": 0,
+      "fragments": 0,
+      "cardCoins": 0,
+      "elapsedPlaying": 0,
+      "baseCoins": 0,
+      "rankCoins": 0,
+      "collectionFragments": 13,
+      "rankLevel": 6,
+      "unlockedModes": [],
+      "dailyCoins": 30,
+      "taskCoins": 30,
+      "setCoins": 30,
+      "badges": []
+    },
+    "repeatedDailyCoins": 0
+  },
+  "ui": {
+    "upgrade": {
+      "legacy": {
+        "id": "win:attempt-cm-own-02-208",
+        "attemptId": "attempt-cm-own-02-208",
+        "puzzleId": "cm-own-02-208",
+        "first": true,
+        "coins": 25,
+        "xp": 25,
+        "rankUps": 0,
+        "fragments": 0,
+        "cardCoins": 0,
+        "elapsedPlaying": 0,
+        "baseCoins": 25,
+        "rankCoins": 0,
+        "collectionFragments": 48,
+        "rankLevel": 17,
+        "unlockedModes": [],
+        "dailyCoins": 0,
+        "taskCoins": 0,
+        "setCoins": 0,
+        "badges": []
+      },
+      "title": "Маршрут пройден",
+      "walletDelta": 0,
+      "cursor": 240
+    },
+    "january": {
+      "cases": 4,
+      "date": "2026-01-31",
+      "dateBonus": 30,
+      "mentionsUnreachableOnMarch3": false
+    }
+  }
+}

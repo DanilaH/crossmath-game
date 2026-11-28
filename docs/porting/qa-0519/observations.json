@@ -1,0 +1,424 @@
+{
+  "apkSource": "b24e2832de9c4eef78a84826b1168c218961cf41",
+  "apkSha256": "89c9e01b8d92ddb7ad77860f236dde8ca8b2d89f17b27bc149671a350a613ba8",
+  "artifactIdentity": [
+    "package: name='com.danilah.crossmath.themecheck' versionCode='22' versionName='0.5.17' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+    "Verified using v2 scheme (APK Signature Scheme v2): true",
+    "Signer #1 certificate SHA-256 digest: d2a9a2293767c9bff5441b79930b7102729330fd2b2562b6933c4138199717bd",
+    "package: name='com.danilah.crossmath.themecheck' versionCode='23' versionName='0.5.18' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+    "Verified using v2 scheme (APK Signature Scheme v2): true",
+    "Signer #1 certificate SHA-256 digest: d2a9a2293767c9bff5441b79930b7102729330fd2b2562b6933c4138199717bd",
+    "package: name='com.danilah.crossmath.themecheck' versionCode='24' versionName='0.5.19' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+    "Verified using v2 scheme (APK Signature Scheme v2): true",
+    "Signer #1 certificate SHA-256 digest: d2a9a2293767c9bff5441b79930b7102729330fd2b2562b6933c4138199717bd"
+  ],
+  "ui": {
+    "upgrade": {
+      "from": "Маршрут пройден",
+      "to": "Поле 240 решено повторно",
+      "attempt": "attempt-cm-own-02-208",
+      "base": 25,
+      "first": true,
+      "cursor": 240,
+      "walletDelta": 0
+    },
+    "january": {
+      "today": "2026-03-01",
+      "before": [
+        "2026-03",
+        "2026-02"
+      ],
+      "januaryProgressBefore": 30,
+      "date": "2026-01-31",
+      "dateBonus": 30,
+      "trophyMonth": "2026-01",
+      "after": "01\n2026\nЯнварь 2026 · 31/31\nТрофей получен"
+    }
+  },
+  "sizeBoundary": {
+    "daysAttempted": 829,
+    "day": "2028-04-08",
+    "previousBytes": 4189890,
+    "projectedBytes": 4194672,
+    "durableCompleted": 828,
+    "durableBytes": 4193948,
+    "limit": 4194304,
+    "operation": "place",
+    "successfulTileOperations": 15,
+    "error": "Error: Save exceeds native storage limit",
+    "months": 27,
+    "milestones": {
+      "30": 155460,
+      "90": 459903,
+      "180": 914141,
+      "365": 1849154,
+      "730": 3694054
+    }
+  },
+  "campaignMove": {
+    "0": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        4,
+        4,
+        5,
+        3,
+        3,
+        3,
+        13
+      ],
+      "medianMs": 4
+    },
+    "180": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        407,
+        124,
+        119,
+        195,
+        126,
+        236,
+        127
+      ],
+      "medianMs": 127
+    },
+    "30": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        29,
+        32,
+        23,
+        24,
+        23,
+        26,
+        25
+      ],
+      "medianMs": 25
+    },
+    "365": {
+      "board": "cm-own-01-006",
+      "samplesMs": [
+        274,
+        324,
+        281,
+        263,
+        385,
+        254,
+        276
+      ],
+      "medianMs": 276
+    }
+  },
+  "replayedDeveloperCases": {
+    "M0": [
+      {
+        "failedRun": "6328abdd-5b82-48ee-b6cc-d20b9d7532c0",
+        "newRun": "953ec9d0-8cc3-46e5-ae7d-7d97fa33ec99",
+        "lives": 3,
+        "firstFinish": {
+          "id": "win:attempt-cm-own-02-208",
+          "attemptId": "attempt-cm-own-02-208",
+          "puzzleId": "cm-own-02-208",
+          "first": true,
+          "coins": 25,
+          "xp": 25,
+          "rankUps": 0,
+          "fragments": 0,
+          "cardCoins": 0,
+          "elapsedPlaying": 0,
+          "baseCoins": 25,
+          "rankCoins": 0,
+          "collectionFragments": 48,
+          "rankLevel": 17,
+          "unlockedModes": [],
+          "campaignFinished": true,
+          "dailyCoins": 0,
+          "taskCoins": 0,
+          "setCoins": 0,
+          "badges": []
+        },
+        "replay": {
+          "id": "win:ef6a236b-8e87-4423-8601-21033c106151",
+          "attemptId": "ef6a236b-8e87-4423-8601-21033c106151",
+          "puzzleId": "cm-own-01-001",
+          "first": false,
+          "coins": 0,
+          "xp": 0,
+          "rankUps": 0,
+          "fragments": 0,
+          "cardCoins": 0,
+          "elapsedPlaying": 0.212,
+          "baseCoins": 0,
+          "rankCoins": 0,
+          "collectionFragments": 48,
+          "rankLevel": 17,
+          "unlockedModes": [],
+          "dailyCoins": 0,
+          "taskCoins": 0,
+          "setCoins": 0,
+          "badges": []
+        },
+        "cursor": 240
+      }
+    ],
+    "M1": [
+      {
+        "won": {
+          "id": "win:755b559d-7dc7-4ed4-9793-70cfece53779",
+          "attemptId": "755b559d-7dc7-4ed4-9793-70cfece53779",
+          "puzzleId": "cm-own-02-265",
+          "first": true,
+          "coins": 105,
+          "xp": 15,
+          "rankUps": 0,
+          "fragments": 0,
+          "cardCoins": 0,
+          "elapsedPlaying": 5.875000000000001,
+          "baseCoins": 15,
+          "rankCoins": 0,
+          "collectionFragments": 9,
+          "rankLevel": 4,
+          "unlockedModes": [],
+          "dailyCoins": 30,
+          "taskCoins": 30,
+          "setCoins": 30,
+          "dailyTrophyMonth": "2028-02",
+          "badges": []
+        },
+        "month": {
+          "earnedAt": "2028-02-29T12:00:06.912Z"
+        },
+        "calendarSelection": "2028-02"
+      }
+    ],
+    "M2": [
+      {
+        "relax": [
+          {
+            "id": "win:4c071c26-ce75-4b6c-a1c8-b9392d60172e",
+            "attemptId": "4c071c26-ce75-4b6c-a1c8-b9392d60172e",
+            "puzzleId": "cm-own-02-040",
+            "first": true,
+            "coins": 10,
+            "xp": 10,
+            "rankUps": 0,
+            "fragments": 0,
+            "cardCoins": 0,
+            "elapsedPlaying": 1.6729999999999998,
+            "baseCoins": 10,
+            "rankCoins": 0,
+            "collectionFragments": 5,
+            "rankLevel": 2,
+            "unlockedModes": [],
+            "dailyCoins": 0,
+            "taskCoins": 0,
+            "setCoins": 0,
+            "relaxGoalProgress": 1,
+            "badges": []
+          },
+          {
+            "id": "win:9b7f5e6d-f8fd-416a-bb08-15cd02bf5cab",
+            "attemptId": "9b7f5e6d-f8fd-416a-bb08-15cd02bf5cab",
+            "puzzleId": "cm-own-02-080",
+            "first": true,
+            "coins": 10,
+            "xp": 10,
+            "rankUps": 0,
+            "fragments": 0,
+            "cardCoins": 0,
+            "elapsedPlaying": 2.084,
+            "baseCoins": 10,
+            "rankCoins": 0,
+            "collectionFragments": 5,
+            "rankLevel": 2,
+            "unlockedModes": [],
+            "dailyCoins": 0,
+            "taskCoins": 0,
+            "setCoins": 0,
+            "relaxGoalProgress": 2,
+            "badges": []
+          },
+          {
+            "id": "win:5a0abc1c-6cdd-4bb2-9272-46514a8594de",
+            "attemptId": "5a0abc1c-6cdd-4bb2-9272-46514a8594de",
+            "puzzleId": "cm-own-02-100",
+            "first": true,
+            "coins": 15,
+            "xp": 15,
+            "rankUps": 0,
+            "fragments": 1,
+            "cardCoins": 0,
+            "elapsedPlaying": 1.9789999999999999,
+            "baseCoins": 15,
+            "rankCoins": 0,
+            "collectionFragments": 6,
+            "rankLevel": 2,
+            "unlockedModes": [],
+            "dailyCoins": 0,
+            "taskCoins": 0,
+            "setCoins": 0,
+            "relaxGoalProgress": 2,
+            "badges": []
+          },
+          {
+            "id": "win:ae05dfe3-4f9b-492e-9932-5cca8332ee23",
+            "attemptId": "ae05dfe3-4f9b-492e-9932-5cca8332ee23",
+            "puzzleId": "cm-own-02-039",
+            "first": true,
+            "coins": 70,
+            "xp": 10,
+            "rankUps": 1,
+            "fragments": 0,
+            "cardCoins": 0,
+            "elapsedPlaying": 1.5060000000000002,
+            "baseCoins": 10,
+            "rankCoins": 60,
+            "collectionFragments": 6,
+            "rankLevel": 3,
+            "unlockedModes": [],
+            "dailyCoins": 0,
+            "taskCoins": 0,
+            "setCoins": 0,
+            "relaxGoalProgress": 3,
+            "badges": []
+          },
+          {
+            "id": "win:8a86b98b-95c8-4765-87b7-b5d00af9cc18",
+            "attemptId": "8a86b98b-95c8-4765-87b7-b5d00af9cc18",
+            "puzzleId": "cm-own-02-079",
+            "first": true,
+            "coins": 10,
+            "xp": 10,
+            "rankUps": 0,
+            "fragments": 0,
+            "cardCoins": 0,
+            "elapsedPlaying": 2.003,
+            "baseCoins": 10,
+            "rankCoins": 0,
+            "collectionFragments": 6,
+            "rankLevel": 3,
+            "unlockedModes": [],
+            "dailyCoins": 0,
+            "taskCoins": 0,
+            "setCoins": 0,
+            "trackGoal": {
+              "id": "relax-normal-v1",
+              "progress": 0
+            },
+            "badges": []
+          },
+          {
+            "id": "win:a9aeded6-1fcc-4c69-a15d-6be4a21f5278",
+            "attemptId": "a9aeded6-1fcc-4c69-a15d-6be4a21f5278",
+            "puzzleId": "cm-own-02-120",
+            "first": true,
+            "coins": 15,
+            "xp": 15,
+            "rankUps": 0,
+            "fragments": 0,
+            "cardCoins": 0,
+            "elapsedPlaying": 3.674000000000001,
+            "baseCoins": 15,
+            "rankCoins": 0,
+            "collectionFragments": 6,
+            "rankLevel": 3,
+            "unlockedModes": [],
+            "dailyCoins": 0,
+            "taskCoins": 0,
+            "setCoins": 0,
+            "trackGoal": {
+              "id": "relax-normal-v1",
+              "progress": 1,
+              "stepComplete": true
+            },
+            "badges": []
+          }
+        ],
+        "challenge": [
+          {
+            "id": "win:b00ea614-15a5-4c34-ac0b-628546421c8e",
+            "attemptId": "b00ea614-15a5-4c34-ac0b-628546421c8e",
+            "puzzleId": "cm-own-02-190",
+            "first": true,
+            "coins": 20,
+            "xp": 20,
+            "rankUps": 0,
+            "fragments": 0,
+            "cardCoins": 0,
+            "elapsedPlaying": 2.241,
+            "baseCoins": 20,
+            "rankCoins": 0,
+            "collectionFragments": 6,
+            "rankLevel": 3,
+            "unlockedModes": [],
+            "dailyCoins": 0,
+            "taskCoins": 0,
+            "setCoins": 0,
+            "trackGoal": {
+              "id": "challenge-hard-v1",
+              "progress": 1
+            },
+            "badges": []
+          },
+          {
+            "id": "win:841719d4-9f1a-4158-8e4a-e1663056286f",
+            "attemptId": "841719d4-9f1a-4158-8e4a-e1663056286f",
+            "puzzleId": "cm-own-02-189",
+            "first": true,
+            "coins": 20,
+            "xp": 20,
+            "rankUps": 0,
+            "fragments": 1,
+            "cardCoins": 0,
+            "elapsedPlaying": 2.3590000000000004,
+            "baseCoins": 20,
+            "rankCoins": 0,
+            "collectionFragments": 7,
+            "rankLevel": 3,
+            "unlockedModes": [],
+            "dailyCoins": 0,
+            "taskCoins": 0,
+            "setCoins": 0,
+            "trackGoal": {
+              "id": "challenge-expert-v1",
+              "progress": 0
+            },
+            "badges": []
+          },
+          {
+            "id": "win:787ad042-1e4c-417c-899b-637ad7a3084a",
+            "attemptId": "787ad042-1e4c-417c-899b-637ad7a3084a",
+            "puzzleId": "cm-own-02-208",
+            "first": true,
+            "coins": 25,
+            "xp": 25,
+            "rankUps": 0,
+            "fragments": 0,
+            "cardCoins": 0,
+            "elapsedPlaying": 4.357,
+            "baseCoins": 25,
+            "rankCoins": 0,
+            "collectionFragments": 7,
+            "rankLevel": 3,
+            "unlockedModes": [],
+            "dailyCoins": 0,
+            "taskCoins": 0,
+            "setCoins": 0,
+            "trackGoal": {
+              "id": "challenge-expert-v1",
+              "progress": 1,
+              "stepComplete": true
+            },
+            "badges": []
+          }
+        ]
+      }
+    ]
+  },
+  "ledger": {
+    "MATCH": 19,
+    "PARTIAL": 45,
+    "MISSING": 87,
+    "UNKNOWN": 26
+  }
+}

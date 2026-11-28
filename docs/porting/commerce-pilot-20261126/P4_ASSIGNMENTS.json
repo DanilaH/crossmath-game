@@ -1,0 +1,193 @@
+{
+  "schema": "crossmath-commercial-proposal-v1",
+  "sourceInventory": "944f4bb370edf46fb10c6f3b4d5ab0d505d85f23",
+  "reviewedHead": "57820c8c6491c8b6240aeed5cb0dfde61c858927",
+  "ownerApproved": false,
+  "primaryP4Count": 122,
+  "groups": {
+    "WIN-RV-01": {
+      "issue": "https://github.com/DanilaH/crossmath-game/issues/14",
+      "sourceFeatureIds": [
+        "easy-base-coins",
+        "easy-video-multiplier",
+        "guru-win-coins-ten",
+        "guru-win-coins-multi-thirty",
+        "guru-win-coins-multi-config",
+        "guru-win-multi-mode-exclusion",
+        "guru-win-multi-ad-icon",
+        "guru-win-multi-first-claim-marker",
+        "guru-win-multi-initial-telemetry-gate"
+      ]
+    },
+    "ADS-02": {
+      "issue": "https://github.com/DanilaH/crossmath-game/issues/27",
+      "sourceFeatureIds": [
+        "guru-ad-retry",
+        "guru-ad-daily-restart",
+        "guru-ad-adventure-restart",
+        "easy-inter-proceed-when-success",
+        "easy-inter-restart-when-fail",
+        "easy-inter-restart-when-success",
+        "easy-inter-restart-when-pause",
+        "easy-inter-return-to-home-when-pause",
+        "easy-inter-return-to-home-when-success",
+        "easy-inter-return-to-home-when-fail",
+        "easy-banner-play",
+        "easy-banner-pause",
+        "easy-banner-win",
+        "easy-banner-lose",
+        "guru-rv-extra-chance",
+        "guru-rv-hint",
+        "guru-ui-endless-next-ad",
+        "guru-mrec-fullscreen",
+        "guru-banner-during-fullscreen-load",
+        "easy-ad-mrec-channel",
+        "easy-ad-native-channel",
+        "easy-interstitial-complete-candidate",
+        "easy-interstitial-daily-level-play",
+        "easy-interstitial-event-level-play",
+        "easy-interstitial-entry-relax",
+        "easy-interstitial-entry-challenge",
+        "easy-interstitial-entry-daily",
+        "easy-interstitial-daily-restart",
+        "easy-interstitial-level-change",
+        "easy-interstitial-coin-close-precheck",
+        "easy-interstitial-event-next-precheck",
+        "easy-banner-lifecycle-hide",
+        "easy-ad-cheat-skip-toggle",
+        "easy-interstitial-first-call-skip",
+        "easy-rewarded-success-on-close",
+        "easy-rewarded-pending-reset",
+        "easy-ad-close-delayed-banner-request",
+        "guru-rv-hint-interstitial-fallback",
+        "guru-rv-hint-cancel-no-fallback",
+        "guru-rv-hint-success-gated-grant",
+        "guru-ad-cd-base-clamp",
+        "guru-ad-cd-extra-nonnegative",
+        "guru-ad-cd-zero-reset",
+        "guru-ad-cd-fallback-hidden",
+        "guru-banner-loading-config-default",
+        "guru-banner-loading-config-observe",
+        "guru-banner-loading-interstitial-rewarded-sync",
+        "guru-banner-loading-allow-policy"
+      ]
+    },
+    "STORE-RV-01": {
+      "issue": "https://github.com/DanilaH/crossmath-game/issues/24",
+      "sourceFeatureIds": [
+        "easy-push-reward",
+        "easy-offer-double-wheel-reward",
+        "easy-offer-free-wheel",
+        "easy-offer-free-20-diamond",
+        "easy-offer-try-ball-skin",
+        "easy-offer-add-ball-when-preview",
+        "easy-offer-add-ball-when-restart",
+        "easy-offer-revive",
+        "easy-offer-double-star-reward",
+        "guru-rv-store",
+        "guru-ui-setting-store",
+        "guru-redeem-code-route",
+        "guru-claim-coins-dialog",
+        "guru-free-reward-remote-config",
+        "guru-tutorial-free-property-hint",
+        "guru-tutorial-free-reward-hint",
+        "guru-free-reward-default-config",
+        "guru-free-reward-celebrate-coin-flag",
+        "guru-free-hint-game-binding",
+        "guru-hint-target-before-payment",
+        "guru-hint-guided-payment-bypass",
+        "guru-hint-inventory-first",
+        "guru-hint-coin-price-120",
+        "guru-hint-shortage-grant-and-consume",
+        "guru-hint-use-counter-after-permission",
+        "guru-coin-purchase-debit-guard",
+        "guru-economy-init-igc-config",
+        "guru-store-coin-reward-ten",
+        "guru-store-hint-reward-one",
+        "guru-store-hint-pending-gate",
+        "guru-claim-coins-level-route",
+        "guru-claim-coins-result-selector"
+      ]
+    },
+    "IAP-01": {
+      "issue": "https://github.com/DanilaH/crossmath-game/issues/26",
+      "sourceFeatureIds": [
+        "easy-iap-one-dollar-bag",
+        "easy-iap-ten-dollar-bag",
+        "easy-iap-eighty-dollar-gem",
+        "easy-iap-hundred-dollar-gem",
+        "guru-iap-premium",
+        "guru-iap-coin-1000",
+        "guru-iap-coin-4000",
+        "guru-iap-coin-8000",
+        "guru-iap-hint-10",
+        "guru-iap-hint-20",
+        "guru-iap-hint-30",
+        "guru-iap-hint-100",
+        "guru-iap-tickets-30",
+        "guru-iap-tickets-100",
+        "guru-iap-tickets-200",
+        "guru-store-prop-purchase-result"
+      ]
+    },
+    "NOADS-01": {
+      "issue": "https://github.com/DanilaH/crossmath-game/issues/25",
+      "sourceFeatureIds": [
+        "easy-iap-remove-ad-old",
+        "easy-iap-remove-ad-new",
+        "guru-remove-ads-purchase",
+        "guru-noads-interstitial-gate",
+        "guru-noads-mrec-gate",
+        "guru-noads-banner-load-gate",
+        "guru-noads-banner-late-dispose",
+        "guru-noads-purchase-missing-product",
+        "guru-noads-purchase-success-callback",
+        "guru-noads-purchase-suspended",
+        "guru-noads-purchase-network-error",
+        "guru-iap-restore-service-gate",
+        "guru-iap-restore-repeat-gate"
+      ]
+    },
+    "BATTLE-01": {
+      "issue": "https://github.com/DanilaH/crossmath-game/issues/23",
+      "sourceFeatureIds": [
+        "guru-rv-ticket",
+        "guru-hint-battle-shortage-refusal",
+        "guru-rv-ticket-interstitial-fallback",
+        "guru-rv-ticket-cancel-no-fallback"
+      ]
+    }
+  },
+  "crossPackageDependencies": {
+    "ADS-02": [
+      "guru-ad-protect",
+      "guru-ui-gameplay-banner",
+      "easy-ad-client-interstitial-gates",
+      "easy-ad-rewarded-callback-states",
+      "easy-rewarded-hint-precheck",
+      "guru-ad-cd-reward-additive",
+      "guru-ads-readiness-telemetry",
+      "guru-ads-readiness-duration-accumulate",
+      "guru-ads-readiness-duration-threshold",
+      "guru-ads-readiness-duration-clear",
+      "guru-ads-readiness-isloaded-audit",
+      "guru-ads-loaded-format-events"
+    ],
+    "STORE-RV-01": [
+      "easy-hint-price"
+    ],
+    "BATTLE-01": [
+      "guru-stage-add-heart-offer",
+      "guru-keep-streak-offer",
+      "guru-battle-ticket",
+      "guru-battle-ticket-auto-cap-ten",
+      "guru-battle-ticket-catchup-five-minutes",
+      "guru-battle-ticket-timer-clear",
+      "guru-battle-ticket-reward-three",
+      "guru-battle-entry-ticket-type",
+      "guru-battle-entry-store-fallback",
+      "guru-battle-entry-ad-after-debit"
+    ]
+  },
+  "notes": "Primary routes are research assignments, not approval. Preserve all source and consumer statuses. Cross-package dependencies keep existing primary routes. Unknown template entries stay EVIDENCE_GAP; no new source discoveries."
+}

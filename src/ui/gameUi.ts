@@ -1,21 +1,28 @@
+import {toolIcon} from './toolIcon';
+import {leagueEnabled} from '../meta/league';
 import { AdsController } from '../platform/ads';
 import type { AdsProvider } from '../platform/ads';
-import { localize, localizeDocument, quantity, trackName } from './locale';
+import { winBonusCandidate, winBonusOffer } from '../platform/winBonus';
+import { dailyName, localize, localizeDocument, missingCoinsLabel, quantity, trackName } from './locale';
 import type { Language } from './locale';
-import { config, getPuzzle, routes } from '../content/catalog';
-import { rankThreshold } from '../app/model';
+import { config, getPuzzle } from '../content/catalog';
+import { campaignResultStatus, rankThreshold } from '../app/model';
 import { BoardView, equationText } from './board';
-import type { MoveFeedback } from './board';
 import { Feedback } from './feedback';
-import type { AwardTone } from './feedback';
+import { acceptedFeedback, victoryFeedback } from './playFeedback';
+import type { MoveFeedback, VictoryFeedback } from './playFeedback';
+import { RewardReadout } from './rewardReadout';
 import type { GameSession, OpenOutcome } from '../app/session';
+import { hintPayment, storedSlot } from '../app/session';
 import { MetaView } from './metaView';
-import type { MetaScreen, Offer } from '../meta/types';
+import { menuIcon } from './icons';
+import { rootScreens } from '../meta/types';
+import type { MetaScreen, NewGameChoice, Offer, RootScreen } from '../meta/types';
 import { RecoveryRequired } from '../app/saveRepository';
 import type { FreeTrack } from '../content/rotation';
-import type { Mode } from '../core/types';
+import type { Mode, Puzzle } from '../core/types';
 import type { BoardAction } from '../core/types';
-import type { HintPlan } from '../help/logic';
+import type { ExplainPreparation, HintPlan } from '../help/logic';
 import type { Save, Settings } from '../app/model';
 const $=<T extends HTMLElement=HTMLElement>(id:string):T=>document.getElementById(id) as T;
 type OpenOperation = (replace: boolean, elapsed: number) => Promise<OpenOutcome>;
@@ -23,11 +30,19 @@ interface Replacement { operation: OpenOperation; triggerId: string; recovery: b
 export class GameUi {
   private disposed=false;
   private readonly ads:AdsController|undefined;
+  private bonusObserver:MutationObserver|undefined;
   private notice:'recovered'|'unavailable'|undefined;
   private replacement: Replacement | undefined;
   private renderedLanguage?: Language;
   private moveFeedback: MoveFeedback | undefined;
   private freshRewardId: string | undefined;
+  private victory: VictoryFeedback | undefined;
+  private pendingStart: string | undefined;
+  private startFrame: number | undefined;
+  private readonly scoreReadout = new RewardReadout($('run-status'));
+  private readonly rewardReadout = new RewardReadout($('result-rewards'));
+  private leagueReadout:RewardReadout|undefined;
+  private readonly tabScroll=new Map<RootScreen,number>();
   private get language(): Language { return this.session.state.settings.language; }
   private t(ru: string, en: string): string { return localize(this.language, ru, en); }
   readonly board:BoardView;
@@ -35,16 +50,54 @@ export class GameUi {
   private readonly meta:MetaView;private navigationBlocked=false;
   private busy=false;private ready=false;private blocked=false;private saveFailed=false;
   private wasActive=false;private lastTime=performance.now();private elapsed=0;
-  private plan:HintPlan|null=null;private helpKind:'explain'|'reveal'='explain';private helpOperation='';private helpRevision=0;
+  private explanation:ExplainPreparation|null=null;
+  private revealPlan:HintPlan|null=null;
+  private helpKind:'explain'|'reveal'='explain';
+  private helpSnapshot:ExplainPreparation['snapshot']|undefined;
+  private helpOperation='';
   private timer:ReturnType<typeof setInterval>;private retryAction:(()=>void)|null=null;
   constructor(readonly session:GameSession,private readonly blocker:(reason:string,blocked:boolean)=>void,private readonly repaint:()=>void,adsProvider?:AdsProvider){
     this.ads=adsProvider?new AdsController(session,adsProvider,value=>this.blocker('ad',value),()=>this.render()):undefined;
     this.feedback=new Feedback(()=>session.state.settings);
     this.board=new BoardView($('board'),$('tray'),$('note'),this.feedback,()=>this.busy||session.writing||this.blocked||this.saveFailed||!this.ready,()=>this.reduced(),(action,metadata)=>this.command(action,metadata),()=>this.language);
-    this.meta=new MetaView($('hub'),{navigate:screen=>this.navigate(screen),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:offer=>this.openOffer(offer),quest:index=>{const offer=session.questOffer(index);if(offer)this.openOffer(offer,true);},blocking:value=>this.blocker('modal',value)});
-    $('submit').onclick=()=>this.command({type:'SubmitEndless'});for(const id of ['end-run','finish-run'])$(id).onclick=()=>this.run(async time=>({committed:await session.endRun(time)}),()=>this.leaveModal());
-    for(const id of ['home','home-from-pause','result-home'])$(id).onclick=()=>this.navigate('home');
-    $('profile-open').onclick = () => this.navigate('profile');
+    this.meta=new MetaView($('hub'),{
+      joinLeague:()=>{this.run(async()=>({committed:await session.enterLeague()}));},
+      navigate:(screen,history,today)=>this.navigate(screen,history,today),campaign:()=>this.open((_,time)=>session.openCampaign(time),'campaign'),
+      trophy:month=>this.run(async time=>({committed:await session.navigate('calendar',time,month)}),()=>{this.leaveModal();window.scrollTo(0,0);requestAnimationFrame(()=>$('month-trophy')?.focus({preventScroll:true}));}),
+      newGame:choice=>this.chooseNewGame(choice),selectDay:day=>this.selectDay(day),
+      free:track=>this.openFree(track),daily:day=>this.open((_,time)=>session.openDaily(day,time),'daily'),
+      endless:()=>this.open((_,time)=>session.openEndless(time),'endless'),offer:(offer,repeat)=>this.openOffer(offer,repeat),
+      quest:index=>{
+        const offer=session.questOffer(index);
+        if (offer) this.open((replace,time)=>session.openQuest(index,replace,time),offer.mode);
+      },
+      questStartsNewRun:index=>session.questStartsNewRun(index),blocking:value=>this.blocker('modal',value),
+    },()=>this.feedback.workshopContact());
+    const settingsIcon = menuIcon('settings');
+    settingsIcon.classList.add('hub-settings');
+    $('pause').querySelector('.hub-settings')?.replaceWith(settingsIcon);
+    const tabIcons={home:'campaign',calendar:'calendar',modes:'modes',profile:'profile'};
+    for (const screen of rootScreens) {
+      const tab=$(`tab-${screen}`);
+      tab.prepend(menuIcon(tabIcons[screen]));
+      tab.onclick=()=>this.navigate(screen);
+    }
+    for (const [id,name] of [['undo','undo'],['sort','sort'],['return','return-to-tray'],['help','hint']] as const) {
+      $(id).querySelector('svg')?.replaceWith(name==='hint'?menuIcon(name):toolIcon(name));
+    }
+    $('help-title').insertBefore(menuIcon('hint'),$('help-title').firstChild);
+
+    $('submit').onclick=()=>this.command({type:'SubmitEndless'});
+    $('end-run').onclick=()=>this.requestEndRun();
+    $('finish-run').onclick=$('end-run-yes').onclick=()=>this.finishEndless();
+    const endDialog=$<HTMLDialogElement>('end-run-dialog');
+    $('end-run-no').onclick=()=>this.keepPlayingEndless();
+    endDialog.addEventListener('cancel',event=>{event.preventDefault();this.keepPlayingEndless();});
+    $('home').onclick=()=>this.session.state.meta.screen==='album' ? this.leaveWorkshop() : this.session.state.meta.screen==='league'?this.leaveLeague():this.navigate('home');
+    $('home-from-pause').onclick=()=>this.navigate('home');
+    $('result-main').onclick=()=>this.navigate('home');
+    $('result-home').onclick=()=>campaignResultStatus(session.state)==='finish' ? this.navigate('home') : this.navigate('modes',true);
+    $('defeat-calendar').onclick = () => this.navigate('calendar');
     $('instrument-reward').onclick = () => this.meta.openInstrumentReward(session.state);
     $('rank').onclick=()=>{if(!this.busy&&!this.saveFailed)this.meta.openRank(session.state);};
     for(const id of ['retry-daily','result-replay'])$(id).onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{this.board.clearSelection();window.scrollTo(0,0);});
@@ -53,15 +106,51 @@ export class GameUi {
     $('explain').onclick=()=>this.chooseHelp('explain');$('reveal').onclick=()=>this.chooseHelp('reveal');$('apply-help').onclick=()=>this.applyHelp();
     $('ad-hint').onclick=()=>this.run(time=>this.ads!.reward('hint',time));
     $('ad-continue').onclick=()=>this.run(time=>this.ads!.reward('continue',time));
-    $('next').onclick=()=>this.run(async()=>{
-      await this.ads?.beforeNext();
-      await session.waitForWrite();
-      if(this.disposed)return {committed:false};
-      return {committed:await session.next()};
-    },()=>{this.board.clearSelection();window.scrollTo(0,0);requestAnimationFrame(()=>$('level').focus({preventScroll:true}));});
-    $('restart').onclick=()=>{$('restart-confirm').hidden=false;};$('restart-no').onclick=()=>{$('restart-confirm').hidden=true;};
+    if(winBonusCandidate){
+      const bonus=document.createElement('button');bonus.id='win-rv-bonus';bonus.type='button';bonus.className='hub-button';bonus.hidden=true;
+      Object.assign(bonus.style,{gridColumn:'1 / -1',display:'flex',alignItems:'center',justifyContent:'center',gap:'8px'});
+      const video=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      video.setAttribute('viewBox','0 0 20 20');video.setAttribute('width','18');video.setAttribute('height','18');video.setAttribute('aria-hidden','true');video.style.flex='none';
+      const frame=document.createElementNS(video.namespaceURI,'rect');frame.setAttribute('x','1');frame.setAttribute('y','2');frame.setAttribute('width','18');frame.setAttribute('height','16');frame.setAttribute('rx','3');frame.setAttribute('fill','none');frame.setAttribute('stroke','currentColor');frame.setAttribute('stroke-width','1.5');
+      const play=document.createElementNS(video.namespaceURI,'path');play.setAttribute('d','M8 6L14 10L8 14Z');play.setAttribute('fill','currentColor');video.append(frame,play);
+      const caption=document.createElement('span');caption.dataset.bonusCaption='';bonus.append(video,caption);
+      bonus.onclick=()=>{if(!this.winBonusAnimating())this.run(time=>this.ads!.reward('win-bonus',time));};
+      $('result').append(bonus);
+      this.bonusObserver=new MutationObserver(()=>{bonus.disabled=this.busy||session.writing||this.saveFailed||this.blocked||this.winBonusAnimating();});
+      this.bonusObserver.observe($('result'),{subtree:true,attributes:true,attributeFilter:['data-counting','data-phase','hidden']});
+    }
+    $('next').onclick=()=>{
+      this.meta.skipWorkshopReveal();
+      this.finishReadouts();
+      this.run(async()=>{
+        await this.ads?.beforeNext();
+        await session.waitForWrite();
+        if(this.disposed)return {committed:false};
+        return {committed:await session.next()};
+      },()=>{
+        this.board.clearSelection();window.scrollTo(0,0);
+        requestAnimationFrame(()=>{
+          if(session.state.meta.calendarTrophyMonth)document.getElementById('month-trophy')?.focus();
+          else $('level').focus({preventScroll:true});
+        });
+      });
+    };
+    $('restart').onclick=()=>{
+      $('restart-confirm').hidden=false;
+      $('pause-dialog').dataset.confirming='restart';
+      $('pause-dialog').scrollTop=0;
+      $('restart-no').focus({preventScroll:true});
+    };$('restart-no').onclick=()=>this.cancelRestart();
     $('restart-yes').onclick=()=>this.run(async()=>({committed:await session.restart()}),()=>{$<HTMLDialogElement>('pause-dialog').close();this.blocker('user',false);$('restart-confirm').hidden=true;window.scrollTo(0,0);});
-    $<HTMLDialogElement>('pause-dialog').addEventListener('cancel',e=>{e.preventDefault();this.resume();});$<HTMLDialogElement>('help-dialog').addEventListener('cancel',e=>{e.preventDefault();this.closeHelp();});
+    $<HTMLDialogElement>('pause-dialog').addEventListener('cancel',e=>{e.preventDefault();if(!$('restart-confirm').hidden)this.cancelRestart();else this.resume();});
+    const helpDialog=$<HTMLDialogElement>('help-dialog');
+    helpDialog.addEventListener('cancel',e=>{e.preventDefault();this.closeHelp();});
+    helpDialog.addEventListener('close',()=>{
+      if (!helpDialog.open) {
+        this.helpSnapshot=undefined;
+        this.clearHelpSelection();
+      }
+    });
     for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){$<HTMLInputElement>(id).onchange=()=>{const input=$<HTMLInputElement>(id);const value=key==='theme'?(input.checked?'dark':'light'):input.checked;this.run(async time=>{await session.update({[key]:value} as Partial<Settings>,session.state.attempt.userPaused,time);return {committed:true};});};}
     $<HTMLSelectElement>('language').onchange=()=>{
       const language:Language=$<HTMLSelectElement>('language').value==='en'?'en':'ru';
@@ -77,25 +166,67 @@ export class GameUi {
     $('replace-board').onclick = () => this.confirmReplacement();
     $('replace-reload').onclick = () => location.reload();
     $('retry').onclick=()=>this.retryAction?.();$('reload').onclick=()=>location.reload();
-    this.timer=setInterval(()=>{this.tick();this.renderTime();if(this.ready)this.ads?.refresh();if(!this.busy&&this.ready&&!this.saveFailed&&session.hasDayChange())this.run(async()=>({committed:await session.refreshDay()}));else if(this.elapsed>=10)this.checkpoint();},2000);this.render();
+    this.timer=setInterval(()=>{this.tick();this.renderTime();if(this.ready)this.ads?.refresh();if(!this.busy&&this.ready&&!this.saveFailed&&(session.hasDayChange()||session.hasLeagueUpdate()))this.run(async()=>({committed:await session.refreshDay()}));else if(this.elapsed>=10)this.checkpoint();},2000);this.render();
   }
-  private leaveModal():void{for(const id of ['pause-dialog','help-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}this.blocker('user',false);this.blocker('modal',false);$('restart-confirm').hidden=true;this.board.clearSelection();window.scrollTo(0,0);}
-  private navigate(screen: MetaScreen): void {
-    const from = this.session.state.meta.screen;
-    if (from === screen) return;
-    this.run(async time => ({committed:await this.session.navigate(screen,time)}), () => {
+  private leaveModal():void{for(const id of ['end-run-dialog','pause-dialog','help-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}this.blocker('user',false);this.blocker('modal',false);$('restart-confirm').hidden=true;this.finishReadouts();this.board.clearSelection();window.scrollTo(0,0);}
+
+  private requestEndRun():void {
+    if (this.busy || this.saveFailed) return;
+    const run=this.session.state.career.run;
+    if (!run || run.status!=='active') { this.finishEndless(); return; }
+    const score=quantity(this.language,run.score,'point');
+    $('end-run-title').textContent=this.t(`Завершить забег с ${run.score} ${run.score%10===1&&run.score%100!==11?'очком':'очками'}?`, `End the run with ${score}?`);
+    const dialog=$<HTMLDialogElement>('end-run-dialog');
+    if (!dialog.open) dialog.showModal();
+  }
+
+  private keepPlayingEndless():void {
+    if (this.busy) return;
+    $<HTMLDialogElement>('end-run-dialog').close();
+    this.resume();
+  }
+
+  private finishEndless():void {
+    this.run(async time=>({committed:await this.session.endRun(time)}),()=>this.leaveModal());
+  }
+  private leaveWorkshop():void { this.navigate(this.session.state.meta.albumOrigin??'home'); }
+  private leaveLeague():void { this.navigate(this.session.state.meta.leagueOrigin??'profile'); }
+  private navigate(screen: MetaScreen, campaignHistory = false, today = false): void {
+    const from=this.session.state.meta.screen;
+    if (from===screen||this.busy||this.session.writing||this.saveFailed) return;
+    if(from!=='play'&&from!=='album'&&from!=='league')this.tabScroll.set(from,window.scrollY);
+    this.run(async time=>({committed:await this.session.navigate(screen,time,undefined,today)}),()=>{
       this.leaveModal();
-      const returnTo = {album:'album-open', calendar:'calendar-open', profile:'profile-open'} as const;
-      requestAnimationFrame(() => {
-        if (screen === 'home' && from !== 'home' && from !== 'play') $(returnTo[from]).focus({preventScroll:true});
-        else if (screen === 'play') $('level').focus({preventScroll:true});
-        else if (screen !== 'home') {
-          const heading = $('hub').querySelector('h1');
-          heading?.setAttribute('tabindex', '-1');
-          heading?.focus({preventScroll:true});
+      requestAnimationFrame(()=>{
+        if (campaignHistory) this.meta.openCampaignHistory();
+        else if (screen==='play') $('level').focus({preventScroll:true});
+        else if (screen==='album'||screen==='league') $('deep-title').focus({preventScroll:true});
+        else {
+          window.scrollTo(0,this.tabScroll.get(screen)??0);
+          const back=(from==='album'||from==='league')&&(screen==='home'||screen==='profile');
+          const focus=back ? $(leagueEnabled&&from==='league'?(screen==='home'?'home-league-open':'league-open'):(screen==='home'?'album-open':'profile-workshop')) : $(`tab-${screen}`);
+          focus?.focus({preventScroll:!back});
         }
       });
     });
+  }
+  private selectDay(day:string):void {
+    this.run(async()=>({committed:await this.session.selectDailyDay(day)}),()=>{
+      requestAnimationFrame(()=> {
+        const play=$<HTMLButtonElement>('daily-play');
+        (play?.disabled ? $('tab-calendar') : play)?.focus();
+      });
+    });
+  }
+  private chooseNewGame(choice:NewGameChoice):void {
+    if (this.busy||this.session.writing||this.saveFailed) return;
+    const mode:Mode=choice==='campaign'||choice==='endless'?choice:'free';
+    const save=this.session.state;
+    const operation:OpenOperation=(replace,elapsed)=>this.session.newGame(choice,replace,elapsed);
+    const replacing=mode==='endless'?save.career.run?.status==='active':storedSlot(save,mode)?.attempt.status==='playing';
+    if (!replacing&&save.attempt.status==='playing'&&save.meta.activeSlot!==mode) {
+      this.requestReplacement(operation,mode,document.activeElement?.id||'new-game','park');
+    } else this.open(operation,mode,true);
   }
   private openFree(track: FreeTrack): void {
     this.open((replace,time) => this.session.openFreeTrack(track,replace,time), 'free');
@@ -103,27 +234,41 @@ export class GameUi {
   private openOffer(offer: Offer, repeatCompleted = false): void {
     this.open((replace,time) => this.session.openOffer(offer,replace,time,repeatCompleted), offer.mode);
   }
-  private open(operation: OpenOperation, mode: Mode): void {
-    const triggerId = document.activeElement?.id || 'modes-open';
+  private open(operation: OpenOperation, mode: Mode, newGame=false): void {
+    const triggerId = document.activeElement?.id || 'tab-modes';
     let result: OpenOutcome;
     this.run(async time => {
       result = await operation(false,time);
       return {committed: result === 'opened'};
     }, () => {
-      if (result === 'confirm_replace') this.requestReplacement(operation, mode, triggerId);
-      else if (result === 'opened') this.leaveModal();
+      if (result === 'confirm_replace') this.requestReplacement(operation,mode,triggerId,newGame?'new':'replace');
+      else if (result === 'opened') { this.meta.closeChoice();this.leaveModal(); }
       else this.notice = 'unavailable';
     });
   }
-  private requestReplacement(operation: OpenOperation, mode: Mode, triggerId: string): void {
-    this.replacement = {operation, triggerId, recovery:false, restoreModes:this.meta.suspendModes()};
-    const copy = mode === 'free'
-      ? [this.t('Начать другую свободную игру?', 'Start another Free Play board?'), this.t('Текущая расстановка в свободной игре будет потеряна.', 'Your current Free Play board will be reset.')]
-      : [this.t('Начать другое поле?', 'Start another board?'), this.t('Числа в незаконченной партии вернутся в лоток.', 'The numbers on your unfinished board will return to the tray.')];
+  private requestReplacement(operation: OpenOperation, mode: Mode, triggerId: string, kind:'replace'|'park'|'new'='replace'): void {
+    this.replacement = {operation, triggerId, recovery:false, restoreModes:this.meta.suspendChoice()};
+    const score=this.session.state.career.run?.score ?? 0;
+    const copy = kind==='park' ? [
+      this.t('Открыть другую игру?','Open another game?'),
+      this.t('Текущая партия останется в сохранении.','Your current board will stay saved.'),
+    ] : mode==='endless' && kind==='new' ? [
+      this.t('Начать новый забег?','Start a new run?'),
+      this.t(`Текущий забег завершится. В рекорд пойдёт ${quantity(this.language,score,'point')}.`,
+        `Your current run will end. Its ${quantity(this.language,score,'point')} will count toward the record.`),
+    ] : mode==='free' ? [
+      this.t('Начать другую свободную игру?', 'Start another Free Play board?'),
+      this.t('Текущая расстановка в свободной игре будет потеряна.', 'Your current Free Play board will be reset.'),
+    ] : [
+      this.t('Начать другое поле?', 'Start another board?'),
+      this.t('Числа в незаконченной партии вернутся в лоток.', 'The numbers on your unfinished board will return to the tray.'),
+    ];
     $('replace-title').textContent = copy[0]!;
     $('replace-description').textContent = copy[1]!;
     $('replace-error').hidden = $('replace-reload').hidden = true;
-    $('replace-board').textContent = this.t('Заменить партию', 'Replace this board');
+    $('replace-board').textContent = kind==='park' ? this.t('Открыть','Open')
+      : mode==='endless' && kind==='new' ? this.t('Начать забег','Start run')
+      : this.t('Заменить партию', 'Replace this board');
     this.blocker('replace', true);
     $<HTMLDialogElement>('replace-dialog').showModal();
     requestAnimationFrame(() => $('keep-board').focus());
@@ -141,7 +286,7 @@ export class GameUi {
     this.blocker('replace', false);
     if (restoreFocus) {
       replacement.restoreModes?.(this.session.state);
-      requestAnimationFrame(() => ($(replacement.triggerId) ?? $('modes-open'))?.focus({preventScroll:true}));
+      requestAnimationFrame(() => ($(replacement.triggerId) ?? $('tab-modes'))?.focus({preventScroll:true}));
     }
   }
   private confirmReplacement(): void {
@@ -168,6 +313,12 @@ export class GameUi {
   private syncNavigation():void{if(!this.ready)return;const next=this.session.state.meta.screen!=='play';if(next===this.navigationBlocked)return;this.navigationBlocked=next;this.blocker('navigation',next);}
   private reduced():boolean{return this.session.state.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;}
   private renderTime():void {
+    const remaining=document.getElementById('league-remaining'),league=this.session.state.league;
+    if(remaining&&league?.active){
+      const left=Math.max(0,league.active.endAt-Math.max(Date.now(),league.lastSeenAt));
+      const days=Math.floor(left/86_400_000),hours=Math.floor(left%86_400_000/3_600_000);
+      remaining.textContent=this.t(`До итога: ${days} д ${hours} ч`,`Ends in ${days}d ${hours}h`);
+    }
     const a=this.session.state.attempt,node=$('play-time');
     node.hidden=!this.session.state.settings.timerVisible||a.mode==='daily'||a.mode==='endless';
     if(node.hidden)return;
@@ -176,14 +327,23 @@ export class GameUi {
   }
   private tick():void{const now=performance.now();if(this.wasActive)this.elapsed+=(now-this.lastTime)/1000;this.lastTime=now;this.wasActive=this.ready&&!this.blocked&&!this.saveFailed&&this.session.state.meta.screen==='play'&&!this.session.state.attempt.userPaused&&this.session.state.attempt.status==='playing';}
   setReady():void{this.ready=true;this.ads?.start();this.syncNavigation();this.tick();this.render();if(this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused){this.showPause();}}
-  activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.suspend();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
+  activityChanged(blocked:boolean):void{this.tick();this.blocked=blocked;this.tick();if(blocked){this.board.suspend();this.meta.skipWorkshopReveal();this.finishReadouts();this.moveFeedback=undefined;this.freshRewardId=undefined;this.stopStart();this.feedback.setActive(false);queueMicrotask(()=>this.checkpoint());}else this.feedback.setActive(true);this.render();}
   private checkpoint():void{if(this.busy||!this.ready||this.saveFailed||this.elapsed<=0||this.session.state.attempt.status!=='playing')return;this.run(async time=>({committed:await this.session.checkpoint(time)}));}
   private run(operation:(elapsed:number)=>Promise<{committed:boolean}>,after:()=>void=()=>{},onFailure?:(error:unknown)=>void):void{
-    if(this.busy||this.session.writing)return;this.tick();const time=this.elapsed;this.busy=true;this.render();this.retryAction=()=>this.run(operation,after,onFailure);
-    void operation(time).then(result=>{if(result.committed)this.elapsed=Math.max(0,this.elapsed-time);this.saveFailed=false;$('save-error').hidden=true;this.retryAction=null;after();}).catch(error=>{
+    if(this.busy||this.session.writing)return;this.tick();const time=this.elapsed,before=this.session.state;this.busy=true;this.render();this.retryAction=()=>this.run(operation,after,onFailure);
+    void operation(time).then(result=>{
+      if(result.committed){
+        this.elapsed=Math.max(0,this.elapsed-time);
+        const next=this.session.state;
+        const attempt=next.attempt;
+        if(next.meta.screen==='play'&&attempt.status==='playing'&&attempt.boardRevision===0&&attempt.id!==before.attempt.id
+          && !Object.values(before.meta.inactive).some(slot=>slot.attempt.id===attempt.id))this.pendingStart=attempt.id;
+      }
+      this.saveFailed=false;$('save-error').hidden=true;this.retryAction=null;after();
+    }).catch(error=>{
       if (onFailure) {this.retryAction=null;onFailure(error);return;}
       this.saveFailed=true;this.board.cancel();
-      for(const id of ['help-dialog','pause-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}
+      for(const id of ['end-run-dialog','help-dialog','pause-dialog']){const dialog=$<HTMLDialogElement>(id);if(dialog.open)dialog.close();}
       this.blocker('modal',false);this.blocker('user',false);
       $('save-error-text').textContent=this.t("Не удалось подтвердить запись. Сохранённые данные сохранены. Повторите действие или восстановите сохранение перед продолжением.", "The save could not be confirmed. Retry the action or reload your saved game.");$('save-error').hidden=false;$('save-error').scrollIntoView({block:'nearest'});
     }).finally(()=>{this.busy=false;this.syncNavigation();this.tick();this.render();if(!this.saveFailed&&this.session.state.meta.screen==='play'&&this.session.state.attempt.userPaused&&!$<HTMLDialogElement>('pause-dialog').open){this.showPause();}if(this.blocked&&this.elapsed>0&&!this.retryAction)this.checkpoint();});
@@ -191,29 +351,61 @@ export class GameUi {
   private command(action:BoardAction,metadata?:{commandId:string;expectedRevision:number}):void{
     if(this.blocked||this.busy||this.session.writing||this.saveFailed)return;this.board.cancel();this.board.clearSelection();
     const identity = metadata ?? {commandId:crypto.randomUUID(), expectedRevision:this.session.state.attempt.boardRevision};
-    const cell = action.type === 'PlaceFromTray' ? action.cellId : action.type === 'MoveCell' ? action.to : undefined;
     let committedFeedback: MoveFeedback | undefined;
+    let before = this.session.state;
     this.run(async time => {
+      before = this.session.state;
       const result = await this.session.command(action, time, identity);
-      committedFeedback = result.outcome === 'applied' && result.cue !== 'none' ? {cue:result.cue, cell} : undefined;
+      committedFeedback = acceptedFeedback(action,identity.commandId,before.attempt,this.session.state.attempt,result.outcome,result.cue);
       return {committed:result.outcome === 'applied'};
-    }, () => {
-      if (committedFeedback?.cue === 'win') {
-        const award = this.markReward();
-        if (award) committedFeedback.award = award;
-      }
-      this.moveFeedback = committedFeedback;
+    }, () => this.presentMove(committedFeedback,before));
+  }
+
+  private presentMove(move:MoveFeedback|undefined,before:Save):void {
+    if(!move||this.disposed)return;
+    if(move.cue==='win'){
+      this.victory=victoryFeedback(before,this.session.state);
+      Object.assign(move.detail,this.victory?.detail);
+      if(!this.blocked)this.freshRewardId=this.victory?.id;
+    }
+    if(!this.blocked)this.moveFeedback=move;
+  }
+
+  private finishReadouts():void {
+    this.scoreReadout.finish();
+    this.rewardReadout.finish();
+    this.leagueReadout?.finish();
+    this.meta.finishLeagueMotion();
+    $('result-rank').classList.remove('rank-arrived');
+  }
+
+  private stopStart():void {
+    this.pendingStart=undefined;
+    if(this.startFrame!==undefined)cancelAnimationFrame(this.startFrame);
+    this.startFrame=undefined;
+  }
+
+  private playNewField(attemptId:string):void {
+    if(this.pendingStart!==attemptId||this.busy||this.blocked||!this.ready)return;
+    this.stopStart();
+    this.startFrame=requestAnimationFrame(()=>{
+      this.startFrame=requestAnimationFrame(()=>{
+        this.startFrame=undefined;
+        const {meta,attempt}=this.session.state;
+        if(!this.disposed&&!this.blocked&&!this.saveFailed&&meta.screen==='play'
+          &&attempt.id===attemptId&&attempt.boardRevision===0&&attempt.status==='playing')this.feedback.cue('start');
+      });
     });
   }
 
-  private markReward(): AwardTone | undefined {
-    const receipt = this.session.state.result;
-    if (!receipt?.fragments) return;
-    this.freshRewardId = receipt.id;
-    return receipt.cardCoins ? 'instrument' : 'part';
+  private cancelRestart():void {
+    $('restart-confirm').hidden=true;
+    delete $('pause-dialog').dataset.confirming;
+    $('restart').focus();
   }
 
   private showPause(): void {
+    delete $('pause-dialog').dataset.confirming;
     const playing = this.session.state.meta.screen === 'play';
     $<HTMLDetailsElement>('settings-options').open = !playing;
     $<HTMLDetailsElement>('rules-options').open = false;
@@ -221,6 +413,7 @@ export class GameUi {
     $('restart-confirm').hidden = true;
     this.blocker('user', true);
     $<HTMLDialogElement>('pause-dialog').showModal();
+    $('pause-dialog').scrollTop=0;
   }
 
   private openPause(): void {
@@ -248,69 +441,172 @@ export class GameUi {
     if (this.busy || this.session.writing || this.saveFailed || this.session.state.attempt.status !== 'playing') return;
     this.board.cancel();
     this.tick();
-    this.plan = null;
-    $('help-description').hidden = true;
-    $<HTMLButtonElement>('apply-help').disabled = true;
-    this.helpOperation = crypto.randomUUID();
-    this.helpRevision = this.session.state.attempt.boardRevision;
+    this.helpSnapshot = undefined;
+    this.updateHelpPrice();
+    this.blocker('modal',true);
+    $<HTMLDialogElement>('help-dialog').showModal();
+    $('help-content').scrollTop = 0;
+  }
+
+  private clearHelpSelection(): void {
+    this.explanation = null;
+    this.revealPlan = null;
+    const description = $('help-description');
+    description.hidden = true;
+    description.textContent = '';
     for (const id of ['explain','reveal']) {
       $(id).classList.remove('chosen');
       $(id).setAttribute('aria-pressed','false');
     }
-    this.updateHelpPrice();
-    this.blocker('modal',true);
-    $<HTMLDialogElement>('help-dialog').showModal();
+  }
+
+  private get helpPlan(): HintPlan|null {
+    if (this.helpKind === 'reveal') return this.revealPlan;
+    return this.explanation?.outcome === 'ready' ? this.explanation.plan : null;
+  }
+
+  private syncHelpSnapshot(): void {
+    const {attempt} = this.session.state;
+    if (this.helpSnapshot?.attemptId !== attempt.id || this.helpSnapshot.puzzleId !== attempt.puzzleId
+      || this.helpSnapshot.boardRevision !== attempt.boardRevision) {
+      this.clearHelpSelection();
+      this.helpSnapshot = {attemptId:attempt.id, puzzleId:attempt.puzzleId, boardRevision:attempt.boardRevision};
+      this.helpOperation = crypto.randomUUID();
+    }
   }
 
   private updateHelpPrice(): void {
-    const { coins, hintCredits } = this.session.state.profile;
+    this.syncHelpSnapshot();
+    const {profile, attempt, career} = this.session.state;
+    const { coins, hintCredits } = profile;
+    const {costCredits, costCoins, missingCoins} = hintPayment(profile);
     const balance = quantity(this.language, coins, 'coin');
     const credits = quantity(this.language, hintCredits, 'credit');
-    const price = hintCredits > 0 ? quantity(this.language, 1, 'credit') : quantity(this.language, config.hintCostCoins, 'coin');
+    const price = costCredits ? quantity(this.language, costCredits, 'credit') : quantity(this.language, costCoins, 'coin');
     $('help-cost').textContent = this.t(`Стоимость ${price} · У вас ${balance} и ${credits}`, `Cost ${price} · Balance ${balance} and ${credits}`);
-    $('apply-help').textContent = this.plan ? this.t(`Применить · ${price}`, `Apply · ${price}`) : this.t('Применить', 'Apply');
+    const shortage = $('help-shortage');
+    shortage.hidden = missingCoins === 0;
+    shortage.textContent = missingCoins > 0 ? missingCoinsLabel(this.language, missingCoins) : '';
+    const impact = $('help-impact');
+    impact.hidden = attempt.mode !== 'endless' || career.run?.assisted === true;
+    impact.textContent = impact.hidden ? '' : this.t('Этот забег попадёт в рекорды с помощью', 'This run will count toward assisted records');
+    const apply = $<HTMLButtonElement>('apply-help');
+    const plan = this.helpPlan;
+    apply.disabled = this.busy || !plan || missingCoins > 0;
+    apply.textContent = plan && !missingCoins ? this.t(`Применить · ${price}`, `Apply · ${price}`) : this.t('Применить', 'Apply');
   }
 
   private chooseHelp(kind:'explain'|'reveal'):void{
+    this.syncHelpSnapshot();
     this.helpKind=kind;
-    this.plan=this.session.prepareHelp(kind,this.board.selectedCell());
+    this.explanation=kind==='explain' ? this.session.prepareExplanation() : null;
+    this.revealPlan=kind==='reveal' ? this.session.prepareHelp('reveal',this.board.selectedCell()) : null;
     for (const choice of ['explain','reveal']) {
       $(choice).classList.toggle('chosen',choice===kind);
       $(choice).setAttribute('aria-pressed',String(choice===kind));
     }
-    $('help-description').hidden = false;
-    $('help-description').textContent=this.plan?kind==='explain'?this.t("Применим доказуемый ход и покажем, как его получить из равенств и лотка.", "Place a number and see why it follows from the equations and the tray."):this.t("Покажем правильное число. Мешающие неверные фишки вернутся в лоток.", "Reveal the correct number. Any pieces in the way go back to the tray."):this.t("Сейчас нет доказуемого хода из этой расстановки. Можно исправить гипотезу или отдельно показать число.", "No step can be proved from this layout. Change a placement or reveal a number.");
-    $<HTMLButtonElement>('apply-help').disabled=!this.plan;
+    const description = $('help-description');
+    description.hidden = false;
+    description.textContent = this.explanation ? this.explanationDescription(this.explanation) : this.revealPlan
+      ? this.t('Покажем правильное число. Мешающие неверные фишки вернутся в лоток.', 'Reveal the correct number. Any pieces in the way go back to the tray.')
+      : this.t('Сейчас нет доказуемого хода из этой расстановки. Можно исправить гипотезу или отдельно показать число.', 'No step can be proved from this layout. Change a placement or reveal a number.');
     this.updateHelpPrice();
+    description.scrollIntoView({block:'nearest'});
   }
-  private closeHelp():void{if(this.busy)return;$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);}
-  private applyHelp():void{const plan=this.plan;if(this.busy||!plan)return;let applied=false;
-    this.run(async time=>{const revision=this.session.state.revision,result=await this.session.help(this.helpKind,this.helpOperation,this.helpRevision,plan,time);applied=result.outcome==='applied';
+
+  private explanationDescription(result: ExplainPreparation): string {
+    switch (result.outcome) {
+      case 'ready':
+        return this.t('Применим доказуемый ход и покажем, как его получить из равенств и лотка.', 'Place a number and see why it follows from the equations and the tray.');
+      case 'incompatible_position':
+      case 'no_supported_step':
+        if (this.session.state.attempt.mode === 'endless') {
+          return this.t('Сейчас не удалось подготовить объяснение. Можно продолжить решать или отдельно выбрать «Показать число».', 'An explanation is not available right now. Keep playing, or choose “Reveal a number” separately.');
+        }
+        return result.outcome === 'incompatible_position'
+          ? this.t('С текущей расстановкой поле нельзя завершить. Вернитесь к полю и проверьте поставленные числа.', 'The board cannot be completed with these placements. Go back to the board and review the numbers you placed.')
+          : this.t('Для этой расстановки пока нет готового объяснения. Можно продолжить решать или отдельно выбрать «Показать число».', 'There is no explanation available for this layout yet. Keep playing, or choose “Reveal a number” separately.');
+      case 'budget_exhausted':
+        return this.t('Проверка хода не завершилась. Можно продолжить решать или отдельно выбрать «Показать число».', 'The move check did not finish. Keep playing, or choose “Reveal a number” separately.');
+      case 'unavailable':
+        return this.t('Объяснение сейчас недоступно.', 'An explanation is currently unavailable.');
+    }
+  }
+
+  private closeHelp():void{if(this.busy)return;this.ads?.dismissRewardStatus('hint');$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);}
+  private showAppliedExplanation(puzzle: Puzzle, plan: HintPlan): void {
+    const assignment = plan.assignments[0]!, {value} = assignment;
+    if (plan.kind === 'explain' && plan.proof) {
+      const equations = plan.proof.steps.flatMap(step => step.type === 'equation' ? [step.equationIndex] : []);
+      const reversed = [...plan.proof.steps].reverse();
+      const rejection = reversed.find(step => step.type === 'exclude');
+      if (rejection) {
+        const cell = puzzle.cells.find(cell => cell.id === rejection.cellId)!;
+        const {contradiction} = rejection;
+        const reason = contradiction.type === 'equation'
+          ? this.t('выделенное равенство не сойдётся', 'the highlighted equation cannot work')
+          : this.t(`число фишек «${contradiction.value}» не совпадёт с числом клеток для них`, `the number of ${contradiction.value} tiles will not match the cells for them`);
+        const support = contradiction.type === 'equation' ? [contradiction.equationIndex]
+          : rejection.reductions.flatMap(step => step.type === 'equation' ? [step.equationIndex] : []).slice(-2);
+        this.board.explain(this.t(
+          `Если поставить ${rejection.value} в строку ${cell.y+1}, столбец ${cell.x+1}, ${reason}. Здесь остаётся ${value}.`,
+          `Trying ${rejection.value} at row ${cell.y+1}, column ${cell.x+1} means ${reason}. This cell must be ${value}.`,
+        ),support);
+      } else {
+        const inventory = reversed.find(step => step.type === 'inventory');
+        const text = inventory ? this.t(
+          `Равенства и количество фишек с числом ${inventory.value} исключают другие варианты. Здесь остаётся ${value}.`,
+          `The equations and the number of ${inventory.value} tiles rule out the other choices. This cell must be ${value}.`,
+        ) : this.t(
+          `По выделенным равенствам в этой клетке остаётся только ${value}.`,
+          `Checking the highlighted equations leaves only ${value} for this cell.`,
+        );
+        const direct = equations.filter(index => puzzle.equations[index]!.cells.includes(assignment.cellId));
+        this.board.explain(text,[...new Set([...direct,...equations.slice(-2)])].slice(0,3));
+      }
+      return;
+    }
+    const evidence = assignment.evidence.map(e => e.equationIndex);
+    const candidateSets=assignment.evidence.map(e=>'{'+e.candidates.join(', ')+'}').join(this.t(' и ', ' and '));
+    const expression=equationText(puzzle,this.session.state.attempt,evidence[0] ?? 0);
+    const text=plan.kind==='reveal'
+      ?this.t(`Показано число ${value}.`,`Revealed ${value}.`)+(plan.returns.length?this.t(' Мешающие фишки возвращены в лоток.', ' Conflicting pieces returned to the tray.'):'')
+      :plan.rule==='intersection'
+        ?this.t(`Общая клетка: ${candidateSets}. В обоих наборах есть только ${value}.`,`Shared cell: ${candidateSets}. Only ${value} appears in both sets.`)
+        :this.t(`${expression}. Подходящее число — ${value}.`,`${expression}. The missing number is ${value}.`);
+    this.board.explain(text,evidence);
+  }
+
+  private applyHelp():void{
+    if(this.busy)return;
+    this.updateHelpPrice();
+    const plan=this.helpPlan,snapshot=this.helpSnapshot,operation=this.helpOperation;
+    if(!plan||!snapshot||hintPayment(this.session.state.profile).missingCoins>0)return;let applied=false;
+    let before=this.session.state;
+    this.run(async time=>{before=this.session.state;const revision=before.revision,result=await this.session.help(plan.kind,operation,snapshot.boardRevision,plan,time);applied=result.outcome==='applied';
       if(!applied)$('help-description').textContent=result.outcome==='insufficient_resource'?this.t("Не хватает монет. Продолжать решать и начинать поле заново можно бесплатно.", "You need more coins for help. Keep playing or restart for free."):this.t("Поле изменилось или этот ход больше недоступен. Закройте помощь и попробуйте снова.", "The board changed or this move is no longer available. Close Help and try again.");return {committed:this.session.state.revision!==revision};
     },()=>{if(!applied)return;
-      const won = this.session.state.attempt.status === 'won';
-      const award = won ? this.markReward() : undefined;
-      $<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(getPuzzle(this.session.state.attempt.puzzleId),this.session.state.attempt);
-      const assignment=plan.assignments[0]!,p=getPuzzle(this.session.state.attempt.puzzleId);
-      const candidateSets=assignment.evidence.map(e=>'{'+e.candidates.join(', ')+'}').join(this.t(" и ", " and "));
-      const expression=equationText(p,this.session.state.attempt,assignment.evidence[0]?.equationIndex ?? 0);
-      const value=assignment.value;
-      const text=plan.kind==='reveal'
-        ?this.t(`Показано число ${value}.`,`Revealed ${value}.`)+(plan.returns.length?this.t(" Мешающие фишки возвращены в лоток.", " Conflicting pieces returned to the tray."):"")
-        :plan.rule==='intersection'
-          ?this.t(`Общая клетка: ${candidateSets}. В обоих наборах есть только ${value}.`,`Shared cell: ${candidateSets}. Only ${value} appears in both sets.`)
-          :this.t(`${expression}. Подходящее число — ${value}.`,`${expression}. The missing number is ${value}.`);
-      this.board.explain(text,assignment.evidence.map(e=>e.equationIndex));this.feedback.cue(won?'win':this.session.state.attempt.mode==='endless'?'place':'right',false,false,award);
+      const attempt=this.session.state.attempt;
+      const puzzle=getPuzzle(attempt.puzzleId);
+      this.ads?.dismissRewardStatus('hint');$<HTMLDialogElement>('help-dialog').close();this.blocker('modal',false);this.board.update(puzzle,attempt);
+      this.showAppliedExplanation(puzzle,plan);
+      this.presentMove(acceptedFeedback({type:'Help',cellId:plan.assignments[0]!.cellId},operation,before.attempt,attempt,'applied',
+        attempt.status==='won'?'win':attempt.mode==='endless'?'place':'right'),before);
     });
   }
   showRecoveryNotice():void {this.notice='recovered';this.render();}
+  private winBonusAnimating():boolean {
+    const workshop=$('workshop-award');
+    return !!$('result').querySelector('[data-counting="true"]')||!workshop.hidden&&workshop.dataset.phase!=='done';
+  }
   render():void{if(this.disposed)return;const s=this.session.state,a=s.attempt,p=getPuzzle(a.puzzleId),settings=s.settings;
     if(this.renderedLanguage!==this.language){
       this.renderedLanguage=this.language;
       localizeDocument(this.language);
+      $('return').setAttribute('aria-label',this.t('Вернуть выбранное число в лоток','Return the selected number to the tray'));
       this.board.clearSelection();
     }
-    const language=$<HTMLSelectElement>('language');language.value=this.language;language.disabled=this.busy;
+    const language=$<HTMLSelectElement>('language');if(!this.busy)language.value=this.language;language.disabled=this.busy;
     this.renderTime();
     $('storage-note').textContent=this.notice==='recovered'
       ?this.t('Восстановлено последнее исправное сохранение.','Restored the last good save.')
@@ -328,22 +624,52 @@ export class GameUi {
       button.disabled=this.busy||this.session.writing||this.saveFailed;
     }
     if($<HTMLDialogElement>('help-dialog').open)this.updateHelpPrice();
-    document.body.classList.toggle('dark',settings.theme==='dark');document.body.classList.toggle('calm',this.reduced());
+    const adStatus=$('ad-hint-status'),rewardStatus=this.ads?.rewardStatus('hint');
+    adStatus.hidden=!rewardStatus;
+    adStatus.textContent=rewardStatus==='earned'?this.t('Кредит подсказки сохранён.','Your hint credit is saved.')
+      :rewardStatus==='pending'?this.t('Проверяем результат видео. Партия сохранена.','Checking the video result. Your board is saved.')
+      :rewardStatus==='cancelled'?this.t('Видео закрыто без награды.','The video closed without a reward.')
+      :rewardStatus?this.t('Видео сейчас недоступно. Попробуйте позже.','Video is unavailable. Please try again later.'):'';
+    if(winBonusCandidate){
+      const button=$<HTMLButtonElement>('win-rv-bonus'),offer=winBonusOffer(s);
+      button.hidden=!offer||!this.ads?.rewardAvailable('win-bonus');
+      button.disabled=this.busy||this.session.writing||this.saveFailed||this.blocked||this.winBonusAnimating();
+      if(offer){const label=this.t(`+${quantity(this.language,offer.delta,'coin')} за видео`,`Watch for +${quantity(this.language,offer.delta,'coin')}`);button.querySelector('[data-bonus-caption]')!.textContent=label;button.setAttribute('aria-label',label);}
+    }
+    const workshop = settings.theme === 'dark';
+    if (document.body.classList.contains('dark') !== workshop) {
+      document.body.classList.toggle('dark', workshop);
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', workshop ? '#263143' : '#ffffff');
+    }
+    document.body.classList.toggle('calm',this.reduced());
     $('wallet').textContent=`◈ ${quantity(this.language, s.profile.coins, 'coin')}`;$('rank').textContent=this.t(`Ранг ${s.profile.rank}`, `Rank ${s.profile.rank}`);const threshold=rankThreshold(s.profile.rank),xp=$('xp');xp.style.setProperty('--xp',`${100*s.profile.xp/threshold}%`);xp.setAttribute('aria-valuemin','0');xp.setAttribute('aria-valuemax',String(threshold));xp.setAttribute('aria-valuenow',String(s.profile.xp));xp.setAttribute('aria-valuetext',this.t(`${s.profile.xp} из ${threshold} опыта`, `${s.profile.xp} of ${threshold} XP`));
     const playing = s.meta.screen === 'play';
     document.body.classList.toggle('in-play', playing);
     document.body.classList.toggle('in-hub', !playing);
     $('play-screen').hidden = !playing;
+    $('play-screen').classList.toggle('is-solving', playing && a.status === 'playing' && !this.saveFailed);
     $('level').hidden = !playing;
     this.meta.render(s, this.busy || this.session.writing || this.saveFailed);
+    if(this.ready&&!this.busy&&!document.hidden&&!document.querySelector('dialog[open]')&&s.meta.screen==='league'){const medal=this.session.takeLeagueMedalReveal();if(medal)this.meta.revealLeagueMedal(medal);}
     const wallet = $('hub-wallet');
-    wallet.hidden = s.meta.screen !== 'home';
-    wallet.textContent = $('wallet').textContent;
-    const profile = $<HTMLButtonElement>('profile-open');
-    profile.hidden = playing;
-    profile.disabled = this.busy || this.session.writing || this.saveFailed;
-    if (s.meta.screen === 'profile') profile.setAttribute('aria-current', 'page');
-    else profile.removeAttribute('aria-current');
+    wallet.hidden = playing;
+    wallet.setAttribute('aria-label',quantity(this.language,s.profile.coins,'coin'));
+    const balance = document.createElement('span');
+    balance.textContent = String(s.profile.coins);
+    wallet.replaceChildren(menuIcon('coin'),balance);
+    const insideAlbum=s.meta.screen==='album',insideLeague=s.meta.screen==='league';
+    const deepTitle=$('deep-title');
+    deepTitle.hidden=!insideAlbum&&!insideLeague;
+    deepTitle.textContent=insideLeague?this.t('Лига','League'):insideAlbum?this.t('Мастерская','Workshop'):'';
+    $('home').setAttribute('aria-label',insideAlbum||insideLeague?this.t('Назад','Back'):this.t('Crossmath — на главную','Crossmath — Home'));
+    const tabBar=$('root-tabs');
+    tabBar.hidden=playing||s.meta.screen==='album';
+    for(const screen of rootScreens) {
+      const tab=$<HTMLButtonElement>(`tab-${screen}`);
+      tab.disabled=this.busy||this.session.writing||this.saveFailed;
+      if (s.meta.screen===screen||insideLeague&&screen==='profile') tab.setAttribute('aria-current','page');
+      else tab.removeAttribute('aria-current');
+    }
     const pauseLabel = playing ? this.t('Пауза', 'Pause') : this.t('Настройки', 'Settings');
     $('pause-title').textContent = pauseLabel;
     $('resume').textContent = playing ? this.t('Продолжить', 'Continue') : this.t('Готово', 'Done');
@@ -353,70 +679,142 @@ export class GameUi {
       : p.difficulty === 'standard' ? this.t('Обычно', 'Normal')
       : p.difficulty === 'hard' ? this.t('Сложно', 'Hard') : this.t('Эксперт', 'Expert');
     const run = s.career.run;
-    $('level').textContent = a.mode === 'daily' ? this.t('Задача дня', 'Daily challenge')
+    $('level').textContent = a.mode === 'daily' ? dailyName(this.language)
       : a.mode === 'free' ? a.freeTrack ? trackName(this.language, a.freeTrack) : this.t('Свободная игра', 'Free Play')
       : a.mode === 'endless' ? this.t(`Этап ${(a.stageId ?? 0) + 1}`, `Stage ${(a.stageId ?? 0) + 1}`)
       : this.t(`Поле ${p.campaignPosition}`, `Board ${p.campaignPosition}`);
     $('level').setAttribute('aria-description', a.mode === 'daily' ? a.dayKey ?? '' : band);
+    const formattedDate = a.dayKey && new Intl.DateTimeFormat(this.language === 'ru' ? 'ru-RU' : 'en-US',
+      {day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(a.dayKey+'T00:00:00Z'));
+    for (const id of ['pause-date','result-date']) {
+      const node = $(id);
+      node.hidden = !formattedDate || !playing;
+      node.textContent = formattedDate || '';
+    }
     const context = $('play-context');
     context.hidden = a.mode !== 'daily' && a.mode !== 'free';
     context.textContent = a.mode === 'daily' ? a.dayKey ?? '' : band;
-    const move = this.moveFeedback;
-    this.moveFeedback = undefined;
+    const move = this.busy || this.blocked ? undefined : this.moveFeedback;
+    if(move)this.moveFeedback=undefined;
     this.board.update(p, a, move);
     $('lives').hidden = a.mode !== 'daily' && a.mode !== 'endless';
-    $('life-icons').textContent = '♥'.repeat(a.lives) + '♡'.repeat(3 - a.lives);
+    const icons = $('life-icons');
+    if (icons.dataset.lives !== String(a.lives)) {
+      const remaining = document.createElement('span');
+      remaining.textContent = '♡'.repeat(config.dailyLives - a.lives);
+      icons.replaceChildren(...Array.from({length:a.lives}, () => menuIcon('life-full')),remaining);
+      icons.dataset.lives = String(a.lives);
+    }
     $('life-count').textContent = this.t(`Жизни ${a.lives}/3`, `Lives ${a.lives}/3`);
     $('run-status').hidden = a.mode !== 'endless';
-    $('run-status').textContent = run ? `${this.t('Очки', 'Score')} ${run.score}` : '';
+    const freshReward = s.result?.id !== undefined && this.freshRewardId === s.result.id && !this.busy && !this.blocked;
+    const countReward = freshReward && !this.reduced();
+    if(leagueEnabled){
+      let line=document.getElementById('league-result');
+      if(!line){line=document.createElement('p');line.id='league-result';$('result-rewards').after(line);this.leagueReadout=new RewardReadout(line);}
+      const receipt=s.result?.league,points=receipt?.points,clockBack=!!s.league?.active&&Date.now()<s.league.lastSeenAt;
+      line.hidden=!!s.leagueQuarantine||!receipt&&!clockBack;
+      const promotion=receipt?.fromPlace!==undefined&&receipt.toPlace!<receipt.fromPlace?this.t(` · ${receipt.fromPlace} → ${receipt.toPlace} место`,` · ${receipt.fromPlace} → ${receipt.toPlace} place`):'';
+      const oldWeek=receipt&&s.league?.active&&receipt.weekId!==s.league.active.id?this.t(' · прошлая неделя',' · previous week'):'';
+      const format=(value:number)=>this.t(`+${value} в Лигу`,`+${value} League points`)+oldWeek+promotion;
+      const text=clockBack?this.t('Проверьте дату и время устройства','Check the device date and time'):points?format(points):this.t('Это поле уже зачтено в Лиге','This board already counted this week');
+      this.leagueReadout?.update(`${this.language}:${s.result?.id}:${clockBack}`,text,countReward&&points&&!clockBack?{from:0,to:points,format}:undefined);
+    }
+    const score = (value:number) => `${this.t('Очки', 'Score')} ${value}`;
+    const stage = s.result?.stageScore;
+    const runScore = s.result?.runScore;
+    this.scoreReadout.update(`${this.language}:${run?.id}:${run?.score}`,run ? score(run.score) : '',
+      countReward && stage && runScore !== undefined ? {from:runScore-stage,to:runScore,format:score} : undefined);
     $('run-kind').hidden = a.mode !== 'endless' || !run?.assisted;
     $('run-kind').textContent = this.t('С помощью', 'Assisted');
     $('submit').hidden=a.mode!=='endless'||a.status!=='playing';$<HTMLButtonElement>('submit').disabled=this.busy||this.blocked||this.saveFailed||Object.keys(a.placements).length!==p.tray.length||run?.status!=='active';
-    $('defeat').hidden=a.status!=='out-of-lives';$('defeat-detail').textContent=this.session.canRestart()?this.t("Можно бесплатно начать эту дату заново.", "Retry this date for free."):this.t("Эта дата вышла из архива. Выберите другую дату в календаре.", "This date is outside the archive. Choose another date in the calendar.");$<HTMLButtonElement>('retry-daily').disabled=this.busy||this.saveFailed||!this.session.canRestart();
+    const canRetry = this.session.canRestart();
+    $('defeat').hidden=a.status!=='out-of-lives';$('defeat-detail').textContent=canRetry?this.t("Можно бесплатно начать эту дату заново.", "Retry this date for free."):this.t("Эта дата вышла из архива. Выберите другую дату в календаре.", "This date is outside the archive. Choose another date in the calendar.");
+    if (formattedDate && a.status==='out-of-lives') $('defeat-detail').prepend(formattedDate+' · ');
+    $('retry-daily').hidden = !canRetry;
+    $<HTMLButtonElement>('retry-daily').disabled = this.busy || this.saveFailed;
+    $('defeat-calendar').hidden = canRetry;
+    $<HTMLButtonElement>('defeat-calendar').disabled = this.busy || this.saveFailed;
     if(a.mode==='endless')$('defeat-detail').textContent=this.t(`В забеге ${run?.score??0} очков. Сохраните итог или начните новый забег бесплатно.`, `Run score: ${run?.score??0}. Save your result or start a new run for free.`);$('retry-daily').textContent=a.mode==='endless'?this.t("Новый забег · бесплатно", "New run · free"):this.t("Ещё попытка · бесплатно", "Retry · free");$('finish-run').hidden=a.mode!=='endless';$<HTMLButtonElement>('finish-run').disabled=this.busy||this.saveFailed;
     const unavailable=this.busy||this.session.writing||this.blocked||this.saveFailed||a.status!=='playing';for(const id of ['help','sort'])$<HTMLButtonElement>(id).disabled=unavailable;$<HTMLButtonElement>('undo').disabled=unavailable||!a.history.length;
     const result = $('result');
-    const showResult = playing && !!s.result && !this.saveFailed;
+    const showResult = playing && !!s.result && !this.saveFailed && (!this.busy || !result.hidden);
     const arriving = result.hidden && showResult;
     result.hidden = !showResult;
-    if (!showResult) this.meta.hideInstrumentReward();
+    if (!showResult) { this.meta.hideInstrumentReward(); this.meta.hideWorkshopReveal(); }
     if (showResult && s.result) {
       const reward = s.result;
       const endless = a.mode === 'endless';
-      const finished = a.mode === 'campaign' && s.profile.campaignCursor === routes.campaignSequence.length;
+      const campaignStatus = campaignResultStatus(s);
+      const campaignClosed = campaignStatus !== null;
+      const finished = campaignStatus === 'finish';
       const next = $<HTMLButtonElement>('next');
       const resultHome = $<HTMLButtonElement>('result-home');
+      const resultMain=$<HTMLButtonElement>('result-main');
       const replay = $<HTMLButtonElement>('result-replay');
       $('result-title').textContent = finished ? this.t('Маршрут пройден', 'Campaign complete')
+        : campaignStatus === 'complete' ? this.t('Кампания завершена','Campaign completed')
+        : campaignStatus === 'replay' ? this.t(`Поле ${p.campaignPosition} решено повторно`, `Board ${p.campaignPosition} solved again`)
         : endless ? this.t('Этап пройден', 'Stage cleared') : this.t('Поле решено', 'Board solved');
-      $('result-rewards').textContent = endless ? `+${quantity(this.language, reward.stageScore ?? 0, 'point')}`
-        : reward.coins ? `+${quantity(this.language, reward.coins, 'coin')}`
+      const coins=(value:number)=>`+${quantity(this.language,value,'coin')}`;
+      const rewardText = endless ? `+${quantity(this.language, reward.stageScore ?? 0, 'point')}`
+        : reward.coins ? coins(reward.coins)
         : reward.xp ? `+${reward.xp} XP`
-        : this.t('Решено повторно', 'Solved again');
+        : campaignClosed ? '' : this.t('Решено повторно', 'Solved again');
+      const showCoins = !endless && reward.coins > 0;
+      this.rewardReadout.update(`${reward.id}:${this.language}`,rewardText,
+        countReward && showCoins ? {from:0,to:reward.coins,format:coins} : undefined,
+        showCoins ? ()=>menuIcon('coin') : undefined);
+      const nextPosition=s.profile.campaignCursor+1;
       next.textContent = a.mode === 'daily' ? this.t('В календарь', 'Back to calendar')
-        : endless ? this.t('Следующий этап', 'Next stage') : this.t('Следующее поле', 'Next board');
-      next.hidden = finished;
+        : endless ? this.t('Следующий этап', 'Next stage')
+        : a.mode==='campaign' && !campaignClosed && nextPosition>p.campaignPosition+1
+          ? this.t(`Продолжить кампанию · Поле ${nextPosition}`,`Continue campaign · Board ${nextPosition}`)
+          : this.t('Следующее поле', 'Next board');
+      next.hidden = campaignClosed;
       next.disabled = this.busy || (endless && run?.status !== 'active');
-      resultHome.hidden = !finished;
+      resultHome.textContent = finished ? this.t('На главную', 'Home') : this.t('Пройденные поля', 'Completed boards');
+      resultHome.hidden = !campaignClosed;
+      resultMain.hidden=finished;
+      resultMain.disabled=this.busy;
       resultHome.disabled = this.busy;
       replay.disabled = this.busy || !this.session.canRestart();
       replay.hidden = endless;
-      const freshReward = this.freshRewardId === reward.id;
-      this.freshRewardId = undefined;
-      this.meta.renderResult(s, freshReward && !this.reduced(), this.busy || this.blocked);
+      if(freshReward)this.freshRewardId=undefined;
+      const victory=this.victory?.id===reward.id ? this.victory : undefined;
+      const rank=$('result-rank');
+      rank.hidden=!reward.rankUps;
+      rank.textContent=reward.rankUps ? this.t(`Ранг ${reward.rankLevel??s.profile.rank} ↑`,`Rank ${reward.rankLevel??s.profile.rank} ↑`) : '';
+      if(arriving||freshReward)rank.classList.toggle('rank-arrived',countReward&&!!reward.rankUps);
+      const quests=$('quest-progress-result');
+      quests.hidden=!victory?.quests.length;
+      const completed= victory?.quests.filter(goal=>goal.to>=goal.target).length??0;
+      quests.textContent=victory?.quests.length ? reward.setCoins
+        ? this.t('Задания дня выполнены','Daily goals complete')
+        : completed ? this.t(`Задания дня · выполнено: ${completed}`,`Daily goals · completed: ${completed}`)
+        : this.t('Задания дня · прогресс сохранён','Daily goals · progress saved') : '';
+      quests.dataset.complete=String(!!victory?.quests.some(goal=>goal.to>=goal.target));
+      this.meta.renderResult(s, countReward, this.busy || this.blocked);
       if (arriving) {
         $<HTMLDetailsElement>('result-details').open = false;
         if (this.ready && !this.blocked && !a.userPaused) $('result-title').focus({preventScroll: true});
       }
     }
-    for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){const input=$<HTMLInputElement>(id);input.checked=key==='theme'?settings.theme==='dark':settings[key];input.disabled=this.busy;}
-    for(const id of ['resume','restart','restart-yes','restart-no','explain','reveal','close-help'])$<HTMLButtonElement>(id).disabled=this.busy;
+    // Keep the native input's pending intent while persistence owns the writer.
+    // The settled render adopts durable state, including reverting a failed change.
+    for(const [id,key] of [['sound','sound'],['vibration','vibration'],['theme','theme'],['reduced','reducedMotion'],['timer-visible','timerVisible']] as const){const input=$<HTMLInputElement>(id);if(!this.busy)input.checked=key==='theme'?settings.theme==='dark':settings[key];input.disabled=this.busy;}
+    for(const id of ['resume','restart','restart-yes','restart-no','explain','reveal','close-help','end-run-no','end-run-yes'])$<HTMLButtonElement>(id).disabled=this.busy;
     $<HTMLButtonElement>('restart').disabled=this.busy||s.meta.screen!=='play'||!this.session.canRestart();for(const id of ['home','home-from-pause','pause'])$<HTMLButtonElement>(id).disabled=this.busy||this.saveFailed;
     for (const id of ['keep-board','replace-board']) $<HTMLButtonElement>(id).disabled = this.busy || !!this.replacement?.recovery;
-    $<HTMLButtonElement>('apply-help').disabled=this.busy||!this.plan;this.feedback.setActive(!this.blocked);this.repaint();
+    if($<HTMLDialogElement>('help-dialog').open)this.updateHelpPrice();
+    if(this.reduced())this.finishReadouts();
+    this.feedback.setActive(!this.blocked);this.repaint();
+    if(playing)this.playNewField(a.id);
     $('restart').textContent=a.mode==='endless'?this.t("Новый забег", "New run"):this.t("Начать заново", "Restart");$('restart-warning').textContent=a.mode==='endless'?this.t("Завершить текущий забег и начать новый? Текущий итог будет сохранён в соответствующих рекордах.", "End this run and start a new one? Your current result will count toward your record."):this.t("Начать это поле заново? Поставленные числа вернутся в лоток.", "Restart this board? The placed numbers will go back to the tray.");$('end-run').hidden=a.mode!=='endless'||run?.status==='ended'||s.meta.screen!=='play';$<HTMLButtonElement>('end-run').disabled=this.busy||this.saveFailed;
     $('mode-rules').textContent=a.mode==='endless'?this.t("Три жизни на весь забег. До кнопки «Проверить» оценка скрыта. Неверная изменённая полная раскладка снимает одну жизнь. Помощь переводит весь забег в отдельный рекорд.", "Three lives for the entire run. Select Check to submit a full board. A different incorrect layout costs a life. Using help counts toward the assisted record."):a.mode==='daily'?this.t("Три жизни на попытку. Новая ошибка снимает максимум одну жизнь за ход. Отмена, возврат и помощь жизнь не снимают. Повтор бесплатный.", "Three lives per attempt. A new error costs at most one life per move. Undo, returning numbers and help cost no lives. Retrying is free."):this.t("Числа сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.", "Your board is saved. There is no penalty for mistakes, and correct equations remain editable. Tap a number and a cell in either order, or drag a piece.");
+    // Measure after lives, labels, dialogs and native banner acknowledgement have settled.
+    if(playing)this.board.resize();
   }
-  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.backFromModes())return true;if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open)this.resume();else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
-  dispose():void{this.disposed=true;this.ads?.dispose();clearInterval(this.timer);this.board.dispose();this.feedback.dispose();}
+  onBack():boolean{if($<HTMLDialogElement>('replace-dialog').open){this.cancelReplacement();return true;}if(this.busy||this.session.writing||this.saveFailed)return true;if(this.meta.closeCard()||this.meta.closeChoice())return true;if($<HTMLDialogElement>('end-run-dialog').open)this.keepPlayingEndless();else if($<HTMLDialogElement>('help-dialog').open)this.closeHelp();else if($<HTMLDialogElement>('pause-dialog').open){if(!$('restart-confirm').hidden)this.cancelRestart();else this.resume();}else if(this.session.state.meta.screen==='home')return false;else if(this.session.state.meta.screen==='album')this.leaveWorkshop();else if(this.session.state.meta.screen==='league')this.leaveLeague();else if(this.session.state.meta.screen!=='play')this.navigate('home');else this.openPause();return true;}
+  dispose():void{this.disposed=true;this.bonusObserver?.disconnect();this.ads?.dispose();clearInterval(this.timer);this.stopStart();this.finishReadouts();this.board.dispose();this.meta.hideWorkshopReveal();this.feedback.dispose();}
 }

@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           repository: DanilaH/mini-games-kit
-          ref: 469928d03f4bae5053e23db26e82187bedbc252e
+          ref: b1bf2026eda7dd68a5ccbc883946191e03d235af
           path: .test-output/kit
           token: ${{ secrets.KIT_READ_TOKEN || github.token }}
           persist-credentials: false
@@ -31,7 +31,7 @@ jobs:
           npm run build
           npm pack --ignore-scripts --pack-destination ..
       - run: |
-          node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz 469928d03f4bae5053e23db26e82187bedbc252e
+          node tools/use-ci-kit.mjs .test-output/danilah-mini-games-kit-0.2.0-experimental.0.tgz b1bf2026eda7dd68a5ccbc883946191e03d235af
           npm install --no-audit --no-fund
       - uses: actions/setup-java@v4
         with:

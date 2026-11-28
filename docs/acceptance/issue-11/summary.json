@@ -1,0 +1,143 @@
+{
+  "version": "0.5.24",
+  "versionCode": 29,
+  "baseline": "73fbc059149aba440297cf4cdc074b98433ad7e5",
+  "implementation": "c1e770f9cc6e77ab7038285f14f390560f78d2c4",
+  "runtimeKit": "469928d03f4bae5053e23db26e82187bedbc252e",
+  "modelSource": "aef1f66dad253fa315c0ef30d3c624081817bd8a",
+  "engine": "v24.22.3",
+  "outcomes": {
+    "empty": {
+      "solved": 515
+    },
+    "prefix": {
+      "solved": 515
+    }
+  },
+  "applications": {
+    "empty": 5201,
+    "prefix": 3459
+  },
+  "emptyBaselineSolvedByContentVersion": {
+    "1": 240,
+    "2": 245
+  },
+  "emptyHelp02SolvedByContentVersion": {
+    "1": 240,
+    "2": 275
+  },
+  "previousReadyChoicesRetained": 5161,
+  "baselineStepsUntilFirstStop": 4810,
+  "consecutiveChoicesMatchingModel": 5201,
+  "previouslyStalledFieldIds": [
+    "cm-own-02-114",
+    "cm-own-02-115",
+    "cm-own-02-117",
+    "cm-own-02-118",
+    "cm-own-02-125",
+    "cm-own-02-135",
+    "cm-own-02-140",
+    "cm-own-02-182",
+    "cm-own-02-191",
+    "cm-own-02-193",
+    "cm-own-02-194",
+    "cm-own-02-195",
+    "cm-own-02-197",
+    "cm-own-02-198",
+    "cm-own-02-200",
+    "cm-own-02-201",
+    "cm-own-02-203",
+    "cm-own-02-205",
+    "cm-own-02-212",
+    "cm-own-02-214",
+    "cm-own-02-215",
+    "cm-own-02-217",
+    "cm-own-02-218",
+    "cm-own-02-219",
+    "cm-own-02-223",
+    "cm-own-02-224",
+    "cm-own-02-227",
+    "cm-own-02-256",
+    "cm-own-02-262",
+    "cm-own-02-267"
+  ],
+  "rulesFromEmpty": {
+    "direct_result": 1680,
+    "direct_inverse": 2630,
+    "tray": 537,
+    "intersection": 314,
+    "propagation": 38,
+    "contradiction": 2
+  },
+  "wrongPlacementOutcomes": {
+    "not_applicable": 2,
+    "incompatible_position": 513
+  },
+  "counterfactuals": {
+    "positive": 40,
+    "negative": 456
+  },
+  "targeted": {
+    "cm-own-02-182": {
+      "filledBeforeExplain": 2,
+      "cellId": 1,
+      "value": 14,
+      "proofLength": 34,
+      "rejectedAssumptions": 1,
+      "proofSearchUnits": 3339,
+      "counterfactuals": {
+        "positive": 1,
+        "negative": 8
+      }
+    },
+    "cm-own-02-217": {
+      "filledBeforeExplain": 12,
+      "cellId": 0,
+      "value": 26,
+      "proofLength": 47,
+      "rejectedAssumptions": 1,
+      "proofSearchUnits": 12227,
+      "counterfactuals": {
+        "positive": 1,
+        "negative": 14
+      }
+    }
+  },
+  "advancedProofs": {
+    "maxProofLength": 74,
+    "maxProofSearchUnits": 52871,
+    "prepareMs": {
+      "median": 3.293,
+      "max": 20.441
+    },
+    "verifyAndApplyMs": {
+      "median": 1.447,
+      "max": 7.439
+    }
+  },
+  "verification": {
+    "unitTestsPassed": 151,
+    "contentCheck": "PASS",
+    "browserSuiteScenarios": 4,
+    "help01BrowserCasesPassed": 60,
+    "browserViewsFromExactApkPassed": 8,
+    "oldSaveOnExactApkWebAssets": "PASS",
+    "gradleDebugAndReleaseCheck": "PASS",
+    "androidWebViewTextZoomInDex": 100,
+    "physicalAndroid": "NOT RUN",
+    "ledgerEntriesVerified": 300
+  },
+  "apk": {
+    "name": "Crossmath_0.5.24_HELP-02.apk",
+    "sha256": "72b80b958a450918a96367ca038597af6bafeeab1bb4c9f2919686006bf20991",
+    "certificateSha256": "c84e01747a3df2ee056cb079a408b94cefbbd57c4821b99e14bd49b33ddc66e4",
+    "testKeyMatchesPreviousAcceptanceApk": false
+  },
+  "gif": {
+    "name": "Crossmath_HELP-02_320x480.gif",
+    "width": 320,
+    "height": 480,
+    "seconds": 3.25,
+    "sha256": "276d0956ccfce4732176784cc35f85dc080b9ed62b24d39972697b8fc413b1d2"
+  }
+}

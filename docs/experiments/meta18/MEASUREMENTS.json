@@ -1,0 +1,1139 @@
+{
+  "status": "PASS",
+  "baseline": "ad1bbbc5833b1cfd4b9489e8ff74b76031ad1069",
+  "scope": "Synthetic fixed completion traces, real GameSession writer. Counterfactual goal rules and prizes are model-only, not player behaviour or ad revenue.",
+  "liveVariant": "compact-same-rules",
+  "livePrizes": false,
+  "cohortWeeks": 54,
+  "rankReplays": 5400,
+  "seedCount": 100,
+  "leaguePolicy": {
+    "version": "league-lab-3",
+    "weights": {
+      "easy": 1,
+      "standard": 2,
+      "hard": 3,
+      "expert": 4
+    },
+    "assisted": "include",
+    "tie": "self-first",
+    "medals": {
+      "gold": 1,
+      "silver": 2,
+      "bronze": 3,
+      "minimumPoints": 1
+    },
+    "bands": [
+      [
+        5,
+        10
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        3,
+        8
+      ],
+      [
+        3,
+        8
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "planner": "guru-batches-v1",
+    "weekend": "frozen-normal-range"
+  },
+  "payoutConfigSha256": "bcbdd507ad6188ffc236e26001fcf0f47db9d586230ecd02b141712208cc89ea",
+  "variants": [
+    "current",
+    "compact-same-rules",
+    "simple-3-candidate",
+    "off-candidate"
+  ],
+  "rewards": [
+    {
+      "id": "NONE",
+      "places": []
+    },
+    {
+      "id": "A",
+      "nameRU": "Сдержанный смешанный",
+      "places": [
+        {
+          "coins": 60,
+          "hints": 1
+        },
+        {
+          "coins": 40,
+          "hints": 0
+        },
+        {
+          "coins": 20,
+          "hints": 0
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "nameRU": "Пять призовых мест",
+      "places": [
+        {
+          "coins": 90,
+          "hints": 1
+        },
+        {
+          "coins": 60,
+          "hints": 1
+        },
+        {
+          "coins": 30,
+          "hints": 0
+        },
+        {
+          "coins": 15,
+          "hints": 0
+        },
+        {
+          "coins": 15,
+          "hints": 0
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "nameRU": "Подсказки лидерам",
+      "places": [
+        {
+          "coins": 0,
+          "hints": 2
+        },
+        {
+          "coins": 0,
+          "hints": 1
+        },
+        {
+          "coins": 0,
+          "hints": 1
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "nameRU": "Меньше монет, без подсказок",
+      "places": [
+        {
+          "coins": 30,
+          "hints": 0
+        },
+        {
+          "coins": 20,
+          "hints": 0
+        },
+        {
+          "coins": 10,
+          "hints": 0
+        }
+      ]
+    }
+  ],
+  "assumptions": [
+    "Preserve all already-earned starting resources in every variant; changes are prospective.",
+    "Current and compact variants use identical real 7-group rotation, targets, eligibility, grants and receipts.",
+    "Simple candidate: one daily three-distinct-board goal, no rotating metric; milestone payments 10/10/40, same maximum 60. It is NOT implemented in gameplay.",
+    "Off candidate removes only future quest income; Daily 30, unique-board coins, rank and workshop remain unchanged.",
+    "Same solved-ID trace in each variant; quest-guided traces do not predict what a person would choose under another policy.",
+    "Income uses no-help actual settlements; help expenses are a sensitivity model, not an ad impression or a behavioural forecast.",
+    "Help is paid before a board; ordinary income afterwards; weekly prizes after closing the week, available in subsequent weeks only.",
+    "An unfunded request assumes one external earned credit to continue the fixed trace; no automatic game grant or live SDK claim.",
+    "Zero baseline income has no finite percentage: report absolute coins/help capacity, never divide by zero.",
+    "Weekly A/B/C remain unchanged proposals; D is an additional lower coin-only proposal. No runtime policy, payout or economy change."
+  ],
+  "fullOutputs": "CI/archive .test-output/meta18-economy/report.json, journeys.json, ranks.json, independent.json",
+  "week1": [
+    {
+      "cohort": "new",
+      "scenario": "relax-2",
+      "week": 0,
+      "boards": 14,
+      "beforeCoins": 395,
+      "afterCoins": 855,
+      "income": {
+        "baseCoins": 160,
+        "dailyCoins": 0,
+        "taskCoins": 160,
+        "setCoins": 60,
+        "rankCoins": 60,
+        "cardCoins": 20
+      },
+      "coins": {
+        "current": 460,
+        "compact-same-rules": 460,
+        "simple-3-candidate": 380,
+        "off-candidate": 240
+      },
+      "points": 18
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-4",
+      "week": 0,
+      "boards": 28,
+      "beforeCoins": 395,
+      "afterCoins": 1080,
+      "income": {
+        "baseCoins": 325,
+        "dailyCoins": 0,
+        "taskCoins": 160,
+        "setCoins": 60,
+        "rankCoins": 120,
+        "cardCoins": 20
+      },
+      "coins": {
+        "current": 685,
+        "compact-same-rules": 685,
+        "simple-3-candidate": 885,
+        "off-candidate": 465
+      },
+      "points": 37
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "week": 0,
+      "boards": 42,
+      "beforeCoins": 395,
+      "afterCoins": 1325,
+      "income": {
+        "baseCoins": 490,
+        "dailyCoins": 0,
+        "taskCoins": 160,
+        "setCoins": 60,
+        "rankCoins": 180,
+        "cardCoins": 40
+      },
+      "coins": {
+        "current": 930,
+        "compact-same-rules": 930,
+        "simple-3-candidate": 1130,
+        "off-candidate": 710
+      },
+      "points": 56
+    },
+    {
+      "cohort": "new",
+      "scenario": "challenge-2",
+      "week": 0,
+      "boards": 14,
+      "beforeCoins": 395,
+      "afterCoins": 1055,
+      "income": {
+        "baseCoins": 300,
+        "dailyCoins": 0,
+        "taskCoins": 160,
+        "setCoins": 60,
+        "rankCoins": 120,
+        "cardCoins": 20
+      },
+      "coins": {
+        "current": 660,
+        "compact-same-rules": 660,
+        "simple-3-candidate": 580,
+        "off-candidate": 440
+      },
+      "points": 46
+    },
+    {
+      "cohort": "new",
+      "scenario": "mixed-4",
+      "week": 0,
+      "boards": 28,
+      "beforeCoins": 395,
+      "afterCoins": 1560,
+      "income": {
+        "baseCoins": 415,
+        "dailyCoins": 210,
+        "taskCoins": 190,
+        "setCoins": 150,
+        "rankCoins": 180,
+        "cardCoins": 20
+      },
+      "coins": {
+        "current": 1165,
+        "compact-same-rules": 1165,
+        "simple-3-candidate": 1245,
+        "off-candidate": 825
+      },
+      "points": 55
+    },
+    {
+      "cohort": "new",
+      "scenario": "weekend-relax-6",
+      "week": 0,
+      "boards": 12,
+      "beforeCoins": 395,
+      "afterCoins": 635,
+      "income": {
+        "baseCoins": 140,
+        "dailyCoins": 0,
+        "taskCoins": 40,
+        "setCoins": 0,
+        "rankCoins": 60,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 240,
+        "compact-same-rules": 240,
+        "simple-3-candidate": 320,
+        "off-candidate": 200
+      },
+      "points": 16
+    },
+    {
+      "cohort": "new",
+      "scenario": "daily-1",
+      "week": 0,
+      "boards": 7,
+      "beforeCoins": 395,
+      "afterCoins": 970,
+      "income": {
+        "baseCoins": 105,
+        "dailyCoins": 210,
+        "taskCoins": 140,
+        "setCoins": 60,
+        "rankCoins": 60,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 575,
+        "compact-same-rules": 575,
+        "simple-3-candidate": 445,
+        "off-candidate": 375
+      },
+      "points": 14
+    },
+    {
+      "cohort": "new",
+      "scenario": "campaign-2",
+      "week": 0,
+      "boards": 14,
+      "beforeCoins": 395,
+      "afterCoins": 815,
+      "income": {
+        "baseCoins": 160,
+        "dailyCoins": 0,
+        "taskCoins": 150,
+        "setCoins": 30,
+        "rankCoins": 60,
+        "cardCoins": 20
+      },
+      "coins": {
+        "current": 420,
+        "compact-same-rules": 420,
+        "simple-3-candidate": 380,
+        "off-candidate": 240
+      },
+      "points": 18
+    },
+    {
+      "cohort": "new",
+      "scenario": "quest-3",
+      "week": 0,
+      "boards": 10,
+      "beforeCoins": 395,
+      "afterCoins": 1030,
+      "income": {
+        "baseCoins": 65,
+        "dailyCoins": 90,
+        "taskCoins": 210,
+        "setCoins": 210,
+        "rankCoins": 60,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 635,
+        "compact-same-rules": 635,
+        "simple-3-candidate": 315,
+        "off-candidate": 215
+      },
+      "points": 11
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-2",
+      "week": 0,
+      "boards": 14,
+      "beforeCoins": 120,
+      "afterCoins": 340,
+      "income": {
+        "baseCoins": 0,
+        "dailyCoins": 0,
+        "taskCoins": 160,
+        "setCoins": 60,
+        "rankCoins": 0,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 220,
+        "compact-same-rules": 220,
+        "simple-3-candidate": 140,
+        "off-candidate": 0
+      },
+      "points": 18
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-4",
+      "week": 0,
+      "boards": 28,
+      "beforeCoins": 120,
+      "afterCoins": 340,
+      "income": {
+        "baseCoins": 0,
+        "dailyCoins": 0,
+        "taskCoins": 160,
+        "setCoins": 60,
+        "rankCoins": 0,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 220,
+        "compact-same-rules": 220,
+        "simple-3-candidate": 420,
+        "off-candidate": 0
+      },
+      "points": 37
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "boards": 42,
+      "beforeCoins": 120,
+      "afterCoins": 340,
+      "income": {
+        "baseCoins": 0,
+        "dailyCoins": 0,
+        "taskCoins": 160,
+        "setCoins": 60,
+        "rankCoins": 0,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 220,
+        "compact-same-rules": 220,
+        "simple-3-candidate": 420,
+        "off-candidate": 0
+      },
+      "points": 56
+    },
+    {
+      "cohort": "mature",
+      "scenario": "challenge-2",
+      "week": 0,
+      "boards": 14,
+      "beforeCoins": 120,
+      "afterCoins": 340,
+      "income": {
+        "baseCoins": 0,
+        "dailyCoins": 0,
+        "taskCoins": 160,
+        "setCoins": 60,
+        "rankCoins": 0,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 220,
+        "compact-same-rules": 220,
+        "simple-3-candidate": 140,
+        "off-candidate": 0
+      },
+      "points": 46
+    },
+    {
+      "cohort": "mature",
+      "scenario": "mixed-4",
+      "week": 0,
+      "boards": 28,
+      "beforeCoins": 120,
+      "afterCoins": 670,
+      "income": {
+        "baseCoins": 0,
+        "dailyCoins": 210,
+        "taskCoins": 190,
+        "setCoins": 150,
+        "rankCoins": 0,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 550,
+        "compact-same-rules": 550,
+        "simple-3-candidate": 630,
+        "off-candidate": 210
+      },
+      "points": 55
+    },
+    {
+      "cohort": "mature",
+      "scenario": "weekend-relax-6",
+      "week": 0,
+      "boards": 12,
+      "beforeCoins": 120,
+      "afterCoins": 200,
+      "income": {
+        "baseCoins": 0,
+        "dailyCoins": 0,
+        "taskCoins": 50,
+        "setCoins": 30,
+        "rankCoins": 0,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 80,
+        "compact-same-rules": 80,
+        "simple-3-candidate": 120,
+        "off-candidate": 0
+      },
+      "points": 16
+    },
+    {
+      "cohort": "mature",
+      "scenario": "daily-1",
+      "week": 0,
+      "boards": 7,
+      "beforeCoins": 120,
+      "afterCoins": 520,
+      "income": {
+        "baseCoins": 0,
+        "dailyCoins": 210,
+        "taskCoins": 130,
+        "setCoins": 60,
+        "rankCoins": 0,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 400,
+        "compact-same-rules": 400,
+        "simple-3-candidate": 280,
+        "off-candidate": 210
+      },
+      "points": 14
+    },
+    {
+      "cohort": "mature",
+      "scenario": "campaign-2",
+      "week": 0,
+      "boards": 14,
+      "beforeCoins": 120,
+      "afterCoins": 250,
+      "income": {
+        "baseCoins": 0,
+        "dailyCoins": 0,
+        "taskCoins": 100,
+        "setCoins": 30,
+        "rankCoins": 0,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 130,
+        "compact-same-rules": 130,
+        "simple-3-candidate": 140,
+        "off-candidate": 0
+      },
+      "points": 2
+    },
+    {
+      "cohort": "mature",
+      "scenario": "quest-3",
+      "week": 0,
+      "boards": 10,
+      "beforeCoins": 120,
+      "afterCoins": 630,
+      "income": {
+        "baseCoins": 0,
+        "dailyCoins": 90,
+        "taskCoins": 210,
+        "setCoins": 210,
+        "rankCoins": 0,
+        "cardCoins": 0
+      },
+      "coins": {
+        "current": 510,
+        "compact-same-rules": 510,
+        "simple-3-candidate": 190,
+        "off-candidate": 90
+      },
+      "points": 11
+    }
+  ],
+  "prizeSensitivity": [
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "current",
+      "ordinaryCoins": 220,
+      "proposal": "A",
+      "expectedCoins": 58.8,
+      "expectedCredits": 0.94,
+      "additionalHelpCapacity": 1.92,
+      "helpPurchasingPowerPercent": 52.364,
+      "zeroIncome": false
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "current",
+      "ordinaryCoins": 220,
+      "proposal": "B",
+      "expectedCoins": 88.2,
+      "expectedCredits": 1,
+      "additionalHelpCapacity": 2.47,
+      "helpPurchasingPowerPercent": 67.364,
+      "zeroIncome": false
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "current",
+      "ordinaryCoins": 220,
+      "proposal": "C",
+      "expectedCoins": 0,
+      "expectedCredits": 1.94,
+      "additionalHelpCapacity": 1.94,
+      "helpPurchasingPowerPercent": 52.909,
+      "zeroIncome": false
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "current",
+      "ordinaryCoins": 220,
+      "proposal": "D",
+      "expectedCoins": 29.4,
+      "expectedCredits": 0,
+      "additionalHelpCapacity": 0.49,
+      "helpPurchasingPowerPercent": 13.364,
+      "zeroIncome": false
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "simple-3-candidate",
+      "ordinaryCoins": 420,
+      "proposal": "A",
+      "expectedCoins": 58.8,
+      "expectedCredits": 0.94,
+      "additionalHelpCapacity": 1.92,
+      "helpPurchasingPowerPercent": 27.429,
+      "zeroIncome": false
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "simple-3-candidate",
+      "ordinaryCoins": 420,
+      "proposal": "B",
+      "expectedCoins": 88.2,
+      "expectedCredits": 1,
+      "additionalHelpCapacity": 2.47,
+      "helpPurchasingPowerPercent": 35.286,
+      "zeroIncome": false
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "simple-3-candidate",
+      "ordinaryCoins": 420,
+      "proposal": "C",
+      "expectedCoins": 0,
+      "expectedCredits": 1.94,
+      "additionalHelpCapacity": 1.94,
+      "helpPurchasingPowerPercent": 27.714,
+      "zeroIncome": false
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "simple-3-candidate",
+      "ordinaryCoins": 420,
+      "proposal": "D",
+      "expectedCoins": 29.4,
+      "expectedCredits": 0,
+      "additionalHelpCapacity": 0.49,
+      "helpPurchasingPowerPercent": 7,
+      "zeroIncome": false
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "off-candidate",
+      "ordinaryCoins": 0,
+      "proposal": "A",
+      "expectedCoins": 58.8,
+      "expectedCredits": 0.94,
+      "additionalHelpCapacity": 1.92,
+      "helpPurchasingPowerPercent": null,
+      "zeroIncome": true
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "off-candidate",
+      "ordinaryCoins": 0,
+      "proposal": "B",
+      "expectedCoins": 88.2,
+      "expectedCredits": 1,
+      "additionalHelpCapacity": 2.47,
+      "helpPurchasingPowerPercent": null,
+      "zeroIncome": true
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "off-candidate",
+      "ordinaryCoins": 0,
+      "proposal": "C",
+      "expectedCoins": 0,
+      "expectedCredits": 1.94,
+      "additionalHelpCapacity": 1.94,
+      "helpPurchasingPowerPercent": null,
+      "zeroIncome": true
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "week": 0,
+      "variant": "off-candidate",
+      "ordinaryCoins": 0,
+      "proposal": "D",
+      "expectedCoins": 29.4,
+      "expectedCredits": 0,
+      "additionalHelpCapacity": 0.49,
+      "helpPurchasingPowerPercent": null,
+      "zeroIncome": true
+    }
+  ],
+  "rollingRelax6HalfHelp": [
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "NONE",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 14,
+      "endingCoins": 55,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "A",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 10.09,
+      "endingCoins": 112.4,
+      "endingCredits": 0.96
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "B",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 9,
+      "endingCoins": 141.1,
+      "endingCredits": 1
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "C",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 10.09,
+      "endingCoins": 55,
+      "endingCredits": 1.96
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "D",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 13,
+      "endingCoins": 83.7,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "NONE",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 4,
+      "endingCoins": 55,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "A",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 0.09,
+      "endingCoins": 112.4,
+      "endingCredits": 0.96
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "B",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 0,
+      "endingCoins": 201.1,
+      "endingCredits": 1
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "C",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 0.09,
+      "endingCoins": 55,
+      "endingCredits": 1.96
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "D",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 3,
+      "endingCoins": 83.7,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "NONE",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 25,
+      "endingCoins": 55,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "A",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 21.09,
+      "endingCoins": 112.4,
+      "endingCredits": 0.96
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "B",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 20,
+      "endingCoins": 141.1,
+      "endingCredits": 1
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "C",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 21.09,
+      "endingCoins": 55,
+      "endingCredits": 1.96
+    },
+    {
+      "cohort": "new",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "D",
+      "weeks": 3,
+      "startingCoins": 395,
+      "hintDemand": 63,
+      "unfundedRequests": 24,
+      "endingCoins": 83.7,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "NONE",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 50,
+      "endingCoins": 0,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "A",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 46.18,
+      "endingCoins": 62.8,
+      "endingCredits": 0.96
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "B",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 45.09,
+      "endingCoins": 91.5,
+      "endingCredits": 1
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "C",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 46.09,
+      "endingCoins": 0,
+      "endingCredits": 1.96
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "current",
+      "hintsPerBoard": 0.5,
+      "proposal": "D",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 49.09,
+      "endingCoins": 34.1,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "NONE",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 40,
+      "endingCoins": 0,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "A",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 36.18,
+      "endingCoins": 62.8,
+      "endingCredits": 0.96
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "B",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 35.09,
+      "endingCoins": 91.5,
+      "endingCredits": 1
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "C",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 36.09,
+      "endingCoins": 0,
+      "endingCredits": 1.96
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "simple-3-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "D",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 39.09,
+      "endingCoins": 34.1,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "NONE",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 61,
+      "endingCoins": 0,
+      "endingCredits": 0
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "A",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 57.18,
+      "endingCoins": 62.8,
+      "endingCredits": 0.96
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "B",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 56.09,
+      "endingCoins": 91.5,
+      "endingCredits": 1
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "C",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 57.09,
+      "endingCoins": 0,
+      "endingCredits": 1.96
+    },
+    {
+      "cohort": "mature",
+      "scenario": "relax-6",
+      "variant": "off-candidate",
+      "hintsPerBoard": 0.5,
+      "proposal": "D",
+      "weeks": 3,
+      "startingCoins": 120,
+      "hintDemand": 63,
+      "unfundedRequests": 60.09,
+      "endingCoins": 34.1,
+      "endingCredits": 0
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "destination": "docs/porting/help-and-ads-20261124/ads",
+  "files": [
+    "DELIVERY_SPEC.md",
+    "reproduce_banner_failure.mjs",
+    "REPRODUCTION_RESULT.json",
+    "REPRODUCTION_PROVENANCE.json",
+    "baseline/src/platform/ads.ts",
+    "DELIVERY_FILES.json"
+  ],
+  "exclude": "All other scratch baseline files are reading aids only, not part of delivery.",
+  "originalReferenceCodeIncluded": false
+}

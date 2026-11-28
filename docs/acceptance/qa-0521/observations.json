@@ -1,0 +1,253 @@
+{
+  "screens": {
+    "firstWin": [
+      {
+        "width": 390,
+        "motion": "no-preference",
+        "interrupt": "none",
+        "events": [
+          [
+            "audio",
+            326
+          ],
+          [
+            "vibrate",
+            [
+              12,
+              35,
+              16
+            ]
+          ]
+        ],
+        "baseCoins": 10
+      },
+      {
+        "width": 390,
+        "motion": "no-preference",
+        "interrupt": "resize",
+        "events": [
+          [
+            "audio",
+            326
+          ],
+          [
+            "vibrate",
+            [
+              12,
+              35,
+              16
+            ]
+          ]
+        ],
+        "baseCoins": 10
+      },
+      {
+        "width": 390,
+        "motion": "reduce",
+        "interrupt": "none",
+        "events": [
+          [
+            "audio",
+            326
+          ],
+          [
+            "vibrate",
+            [
+              12,
+              35,
+              16
+            ]
+          ]
+        ],
+        "baseCoins": 10
+      },
+      {
+        "width": 390,
+        "motion": "no-preference",
+        "interrupt": "mute",
+        "events": [],
+        "baseCoins": 10
+      },
+      {
+        "width": 390,
+        "motion": "no-preference",
+        "interrupt": "background",
+        "events": [],
+        "baseCoins": 10
+      },
+      {
+        "width": 320,
+        "motion": "no-preference",
+        "interrupt": "none",
+        "events": [
+          [
+            "audio",
+            326
+          ],
+          [
+            "vibrate",
+            [
+              12,
+              35,
+              16
+            ]
+          ]
+        ],
+        "baseCoins": 10
+      },
+      {
+        "width": 320,
+        "motion": "no-preference",
+        "interrupt": "resize",
+        "events": [
+          [
+            "audio",
+            326
+          ],
+          [
+            "vibrate",
+            [
+              12,
+              35,
+              16
+            ]
+          ]
+        ],
+        "baseCoins": 10
+      },
+      {
+        "width": 320,
+        "motion": "reduce",
+        "interrupt": "none",
+        "events": [
+          [
+            "audio",
+            326
+          ],
+          [
+            "vibrate",
+            [
+              12,
+              35,
+              16
+            ]
+          ]
+        ],
+        "baseCoins": 10
+      },
+      {
+        "width": 320,
+        "motion": "no-preference",
+        "interrupt": "mute",
+        "events": [],
+        "baseCoins": 10
+      },
+      {
+        "width": 320,
+        "motion": "no-preference",
+        "interrupt": "background",
+        "events": [],
+        "baseCoins": 10
+      }
+    ],
+    "historicReceipt": {
+      "receipt": "win:72aa7498-113e-49aa-87e7-c308722c5ea5",
+      "historicParts": 1,
+      "shelfParts": 4,
+      "walletDelta": 0
+    },
+    "endless": {
+      "score": 40,
+      "livesOnCancel": 3,
+      "placementsOnCancel": {
+        "0": "t2"
+      },
+      "record": {
+        "runId": "cf8ed39b-1fde-4567-8442-d54b0eab4f65",
+        "score": 40,
+        "boards": 1,
+        "endedAt": "2026-11-01T12:00:01.703Z"
+      }
+    },
+    "recovery": {
+      "cancelClean": true,
+      "rawsRetainedAfterReset": true,
+      "goodBackup": true,
+      "failedReadNoReset": true
+    },
+    "midnight": {
+      "shortage": 50,
+      "coinsTest": 60,
+      "creditTest": 1
+    },
+    "history": {
+      "next": 16,
+      "languages": [
+        "ru",
+        "en"
+      ],
+      "baseCoins": 0
+    },
+    "dailyUnlock": {
+      "taps": 1,
+      "campaignReceiptRetained": true
+    },
+    "workshop-light": "На верстаке\nСчётные палочки\n1 / 4 частей\nСледующая деталь · единицы\nНовых полей до детали: 3",
+    "workshop-dark": "На верстаке\nСчётные палочки\n1 / 4 частей\nСледующая деталь · единицы\nНовых полей до детали: 3"
+  },
+  "pageErrors": [],
+  "boardPixelsAgainst0520": [
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "boardCrop": [
+        192,
+        49
+      ],
+      "changedPixels": 0
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "boardCrop": [
+        280,
+        57
+      ],
+      "changedPixels": 0
+    }
+  ],
+  "apk": {
+    "kind": "releasecheck",
+    "package": "com.danilah.crossmath.releasecheck",
+    "versionName": "0.5.21",
+    "versionCode": 26,
+    "kitRef": "469928d03f4bae5053e23db26e82187bedbc252e",
+    "source": "715286fa6c56e14ce84a6b8c805c226e8e41a98a",
+    "apkSha256": "73c9e369b4eb445f175a0c4262d330a47ce606785f0b5cfe4b9fc5ff4732f297",
+    "bytes": 1335032,
+    "certificateSha256": "c617436542408ff1b81c8acd860c6b914dee6a9f5c0cc94b9c5109399ea03000",
+    "productionSigner": false,
+    "v2": true,
+    "zipalign16k": true,
+    "debuggable": false,
+    "webViewDebuggingConfigured": false,
+    "nativeInsetOwner": "content-root",
+    "webPayload": {
+      "index.html": "007a30cc87aa5a6f77fbf3356371b476490c9abbc3bb6c632dde7f83f37754fa",
+      "native-build.json": "d6776c22b4d785acafac6f324de6e51d9700f8d00340e5638b59090fc0a0fc70",
+      "assets/rubik-latin-wght-normal-CnQIisVs.woff2": "691cd1d9b4c0cdf31a1dcf04259c86f92c85e69f6622abab7964d81e36890691",
+      "assets/web-BM7xF5pS.js": "874bbd026b2a3757b6c7bedc1bd163f0c735a3e0a943605c9853f660d828d658",
+      "assets/index-Bvu9MvcZ.css": "db2e0605a46d14ee251e4135dd176f2dc2e7f318a3140784ce317dab77a8cfc7",
+      "assets/dist-CMedSjkm.js": "067d9ca66629f984cf538346471032b4b24f9acd1cb914834126e2b88d3250fe",
+      "assets/index-B5QayOyd.js": "36b71ea4a26c2deea72ef06e90a15319334f2fddaa63babdcb280d34c711b9a5",
+      "assets/rubik-cyrillic-wght-normal-DveCct9I.woff2": "bdb2b33ab916e9e7b42edb61f8aea5f5dd83ad773d6ee4e9b55665daf8954ce8",
+      "licenses/Rubik-OFL.txt": "46a250495a963b0b84f2736c0185d0e3af8df9d23427bd425b92a8ece020283c"
+    },
+    "nativeRuntime": "NOT RUN",
+    "liveServices": "NOT INSTALLED BY THIS HOST TEMPLATE"
+  }
+}

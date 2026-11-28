@@ -1,10 +1,13 @@
 import { DurableReceiptQueue } from '@danilah/mini-games-kit/platform';
+import type { InterstitialRequestOutcome } from '@danilah/mini-games-kit/platform';
 import type { GameSession } from '../app/session';
 import { canRequestReward, canShowInterstitial } from './adState';
 import type { RewardEvent, RewardKind, RewardRequest } from './adState';
 
-export interface AdAvailability { rewarded: boolean; interstitial: boolean; banner: boolean }
-export type FullscreenResult = 'shown' | 'unavailable' | 'failed';
+export interface AdAvailability { rewarded: boolean; interstitial: boolean; banner: boolean; rewardKinds?:RewardKind[]; protocolVersion?:number }
+export interface AdTrace { phase:'intent'|'eligibility'|'reserved'|'provider-call'|'opened'|'terminal'|'receipt'|'committed'|'acknowledged'|'error'; format:'rewarded'|'interstitial'|'banner'; outcome?:string }
+export type FullscreenResult = InterstitialRequestOutcome;
+export interface RewardReconciliation { state:'closed'|'opened'|'unknown'; receipt?:RewardEvent }
 type Unsubscribe = () => void | Promise<void>;
 export interface FullscreenContext {
   presentationId:string;
@@ -17,11 +20,16 @@ export interface AdsProvider {
   watchAvailability(listener: (state:AdAvailability) => void): Promise<Unsubscribe>;
   watchRewards(listener: (event:RewardEvent) => void): Promise<Unsubscribe>;
   pendingRewards(): Promise<RewardEvent[]>;
-  acknowledge(id:string): Promise<void>;
+  acknowledge(id:string,outcome?:RewardEvent['outcome']): Promise<void>;
   // Resolves on dismissal or pre-show refusal. Earned receipts travel independently.
   showRewarded(request:RewardRequest,context:FullscreenContext): Promise<FullscreenResult>;
   showInterstitial(context:FullscreenContext): Promise<FullscreenResult>;
-  // Native host owns the reservation and actual visibility.
+  // Protocol3 durably fences a never-dispatched request; unknown shown requests never expire.
+  reconcileReward?(request:RewardRequest):Promise<RewardReconciliation>;
+  // Protocol2 cancels an unopened native lease atomically or confirms it is already opened.
+  cancelUnopened?(presentationId:string):Promise<'closed'|'opened'>;
+  // Resolves when the provider handles this idempotent intent. It owns native visibility and reservation.
+  // Acknowledging the command does not establish a rendered creative or an impression.
   setBanner(visible:boolean): Promise<void>;
 }
 
@@ -30,44 +38,61 @@ const unavailable:AdAvailability = {rewarded:false,interstitial:false,banner:fal
 export class AdsController {
   private availability = unavailable;
   private disposed = false;
+  private started = false;
   private fullscreen = false;
   private fullscreenWork:Promise<FullscreenResult>|undefined;
   private presentationCount=0;
+  private admission=false;
+  private activeReward:string|undefined;
+  private readonly reconciliations=new Map<string,Promise<RewardReconciliation>>();
   private statusRefresh:Promise<void>|undefined;
   private pendingRefresh:Promise<void>|undefined;
   private statusVersion = 0;
-  private banner = false;
-  private bannerSent = false;
-  private bannerWork:Promise<void>|undefined;
+  private bannerDesired = false;
+  // A new provider starts hidden. A failed command leaves its state unconfirmed.
+  private bannerConfirmed: boolean|undefined = false;
+  private bannerInFlight = false;
+  private finalBannerHidePending = false;
   private readonly removers:Unsubscribe[] = [];
-  private readonly delivery:DurableReceiptQueue<RewardEvent>;
+  private readonly delivery:DurableReceiptQueue<{id:string;event:RewardEvent}>;
   private readonly acknowledgements=new Map<string,Promise<void>>();
-  private lastShownResult:string|undefined;
   private readonly receiving = new Map<string,Promise<unknown>>();
+  private readonly recentRewards=new Map<RewardKind,string>();
 
   constructor(
     private readonly session:GameSession,
     private readonly provider:AdsProvider,
     private readonly block:(blocked:boolean)=>void,
     private readonly changed:()=>void,
+    private readonly trace:(event:AdTrace)=>void=()=>{},
   ) {
     this.delivery=new DurableReceiptQueue({
-      commit:async receipt=>{
+      commit:async ({event:receipt})=>{
         const write=this.session.acceptReward(receipt,()=>!this.disposed);
         if(!this.disposed)this.changed();
-        try{return await write;}
+        try{
+          const result=await write,entry=this.session.state.ads.requests[receipt.id];
+          if(result==='applied'&&entry)this.recentRewards.set(entry.request.kind,receipt.id);
+          this.report('committed','rewarded',receipt.outcome);return result;
+        }
         finally{if(!this.disposed)this.changed();}
       },
-      acknowledge:id=>this.acknowledge(id),
+      acknowledge:key=>{const [id,outcome]=JSON.parse(key) as [string,RewardEvent['outcome']];return this.acknowledge(id,outcome);},
     });
   }
 
-  private acknowledge(id:string):Promise<void> {
+  private report(phase:AdTrace['phase'],format:AdTrace['format'],outcome?:string):void {
+    // Diagnostics are optional and carry no profile/request/configuration identifiers.
+    try{this.trace({phase,format,...(outcome?{outcome}:{})});}catch{ /* not gameplay authority */ }
+  }
+
+  private acknowledge(id:string,outcome:RewardEvent['outcome']):Promise<void> {
     if(this.disposed)return Promise.reject(Error('Ad adapter disposed'));
-    let work=this.acknowledgements.get(id);
+    const key=JSON.stringify([id,outcome]);
+    let work=this.acknowledgements.get(key);
     if(!work){
-      work=this.provider.acknowledge(id).finally(()=>this.acknowledgements.delete(id));
-      this.acknowledgements.set(id,work);
+      work=Promise.resolve().then(()=>this.provider.acknowledge(id,outcome)).then(()=>this.report('acknowledged','rewarded',outcome)).finally(()=>this.acknowledgements.delete(key));
+      this.acknowledgements.set(key,work);
     }
     const pending=work;
     return new Promise((resolve,reject)=>{
@@ -77,13 +102,16 @@ export class AdsController {
   }
 
   start():void {
-    this.subscribe(this.provider.watchAvailability(status=>{
+    if(this.started||this.disposed)return;
+    this.started=true;
+    this.subscribe(Promise.resolve().then(()=>this.provider.watchAvailability(status=>{
       if(this.disposed)return;
       this.statusVersion++;
       this.availability=status;
+      this.recoverAdmissions();
       this.changed();
-    }));
-    this.subscribe(this.provider.watchRewards(event=>this.receive(event)));
+    })));
+    this.subscribe(Promise.resolve().then(()=>this.provider.watchRewards(event=>this.receive(event))));
     this.refresh();
   }
 
@@ -97,75 +125,177 @@ export class AdsController {
   // A hung bridge query stays single-flight. Receipts arriving later still count.
   refresh():void {
     if(this.disposed)return;
+    void this.flushBanner();
     if(!this.statusRefresh){
       const version=this.statusVersion;
-      this.statusRefresh=this.provider.availability().then(status=>{
+      this.statusRefresh=Promise.resolve().then(()=>this.provider.availability()).then(status=>{
         if(this.disposed||version!==this.statusVersion)return;
         this.availability=status;
+        this.recoverAdmissions();
         this.changed();
       }).catch(()=>undefined).finally(()=>{this.statusRefresh=undefined;});
     }
     if(!this.pendingRefresh){
-      this.pendingRefresh=this.provider.pendingRewards().then(events=>{
-        if(!this.disposed)for(const event of events)this.receive(event);
+      this.pendingRefresh=Promise.resolve().then(()=>this.provider.pendingRewards()).then(events=>{
+        if(!this.disposed){for(const event of events)this.receive(event);this.recoverAdmissions();}
       }).catch(()=>undefined).finally(()=>{this.pendingRefresh=undefined;});
     }
   }
 
+  private reconcile(request:RewardRequest):Promise<RewardReconciliation> {
+    let work=this.reconciliations.get(request.id);
+    if(!work){
+      work=Promise.resolve().then(()=>this.provider.reconcileReward!(request)).then(result=>{
+        if(!['closed','opened','unknown'].includes(result.state))throw Error('Invalid admission state');
+        if(result.receipt)this.receive(result.receipt);
+        return result;
+      }).finally(()=>this.reconciliations.delete(request.id));
+      this.reconciliations.set(request.id,work);
+    }
+    return work;
+  }
+
+  private recoverAdmissions():void {
+    if(this.disposed||this.admission||!this.provider.reconcileReward||(this.availability.protocolVersion??0)<3)return;
+    for(const {request,settlement} of Object.values(this.session.state.ads.requests)){
+      if(settlement===undefined&&request.id!==this.activeReward)void this.reconcile(request).catch(()=>this.report('error','rewarded','admission-recovery'));
+    }
+  }
+
   private receive(event:RewardEvent):void {
-    if(this.disposed||!event?.id||this.receiving.has(event.id))return;
-    const delivery=this.delivery.deliver(event);
-    this.receiving.set(event.id,delivery);
-    void delivery.catch(()=>undefined).finally(()=>{
-      this.receiving.delete(event.id);
+    if(this.disposed||!event?.id||!['earned','cancelled','failed'].includes(event.outcome))return;
+    const key=JSON.stringify([event.id,event.outcome]);
+    if(this.receiving.has(key))return;
+    this.report('receipt','rewarded',event.outcome);
+    const delivery=this.delivery.deliver({id:key,event});
+    this.receiving.set(key,delivery);
+    void delivery.catch(()=>this.report('error','rewarded','receipt-handoff')).finally(()=>{
+      this.receiving.delete(key);
       if(!this.disposed)this.changed();
     });
     this.changed();
   }
 
   rewardAvailable(kind:RewardKind):boolean {
-    return !this.disposed&&!this.fullscreen&&!this.fullscreenWork&&this.availability.rewarded&&canRequestReward(this.session.state,kind);
+    return this.rewardReason(kind)==='eligible';
+  }
+
+  rewardStatus(kind:RewardKind):RewardEvent['outcome']|'pending'|'expired'|undefined {
+    const id=this.recentRewards.get(kind),entry=id?this.session.state.ads.requests[id]:undefined;
+    return entry?entry.settlement??'pending':Object.values(this.session.state.ads.requests).some(r=>r.settlement===undefined)?'pending':undefined;
+  }
+
+  dismissRewardStatus(kind:RewardKind):void {
+    if(this.rewardStatus(kind)!=='pending')this.recentRewards.delete(kind);
+  }
+
+  private rewardReason(kind:RewardKind):string {
+    if(this.disposed)return 'disposed';
+    if(this.admission||this.fullscreen||this.fullscreenWork)return 'fullscreen-in-flight';
+    if(!this.availability.rewarded)return 'provider-unavailable';
+    if(kind==='win-bonus'&&((this.availability.protocolVersion??0)<2||!this.availability.rewardKinds?.includes(kind)))return 'unsupported-placement';
+    if(Object.values(this.session.state.ads.requests).some(entry=>entry.settlement===undefined))return 'pending-receipt';
+    return canRequestReward(this.session.state,kind)?'eligible':'ineligible-target';
   }
 
   async reward(kind:RewardKind,elapsed:number):Promise<{committed:boolean}> {
-    if(!this.rewardAvailable(kind))return {committed:false};
-    const request=await this.session.beginReward(kind,elapsed);
-    if(!request||this.disposed)return {committed:!!request};
-    await this.show(context=>this.provider.showRewarded(request,context));
-    this.refresh();
-    return {committed:true};
+    this.report('intent','rewarded',kind);
+    const reason=this.rewardReason(kind);this.report('eligibility','rewarded',reason);
+    if(reason!=='eligible')return {committed:false};
+    this.admission=true;
+    try{
+      const request=await this.session.beginReward(kind,elapsed);
+      if(!request||this.disposed)return {committed:!!request};
+      this.activeReward=request.id;
+      this.recentRewards.set(kind,request.id);
+      this.report('reserved','rewarded',kind);
+      await this.show(context=>this.provider.showRewarded(request,context),undefined,'rewarded',request);
+      return {committed:true};
+    }finally{this.admission=false;this.activeReward=undefined;this.refresh();}
   }
 
   async beforeNext():Promise<void> {
+    this.report('intent','interstitial');
     const resultId=this.session.state.result?.id;
-    if(this.disposed||this.fullscreenWork||!resultId||resultId===this.lastShownResult||!this.availability.interstitial||!canShowInterstitial(this.session.state))return;
-    const result=await this.show(context=>this.provider.showInterstitial(context));
-    if(result==='shown'&&!this.disposed){
-      this.lastShownResult=resultId;
-      await this.session.recordInterstitial(()=>!this.disposed);
+    const reason=this.disposed?'disposed':this.fullscreenWork?'fullscreen-in-flight':!resultId?'no-result':!this.availability.interstitial?'provider-unavailable':!canShowInterstitial(this.session.state)?'gate-or-result-protected':'eligible';
+    this.report('eligibility','interstitial',reason);
+    if(reason!=='eligible'||!resultId)return;
+    try{
+      if(!await this.session.beginInterstitial(resultId,()=>!this.disposed)||this.disposed)return;
+      this.report('reserved','interstitial');
+    }catch{
+      // Optional advertising cannot prevent continuation. Show only after saving the reservation.
+      return;
     }
+    const settle=async (outcome:FullscreenResult)=>{
+      // A late provider response can still settle the persisted request after the UI timeout.
+      await this.session.recordInterstitial(resultId,outcome,()=>!this.disposed).catch(()=>undefined);
+    };
+    if(this.session.state.result?.id!==resultId||this.session.state.meta.screen!=='play'){
+      await settle('cancelled');
+      return;
+    }
+    await this.show(context=>this.provider.showInterstitial(context),settle,'interstitial');
   }
 
-  private async show(operation:(context:FullscreenContext)=>Promise<FullscreenResult>):Promise<FullscreenResult> {
+  private async show(
+    operation:(context:FullscreenContext)=>Promise<FullscreenResult>,
+    onResult?:(result:FullscreenResult)=>Promise<void>,
+    format:'rewarded'|'interstitial'='rewarded',
+    request?:RewardRequest,
+  ):Promise<FullscreenResult> {
     const startWindow=1500;
     let timer:ReturnType<typeof setTimeout>|undefined;
     let waiting=true;
+    let opened=false;
+    let operationDone=false;
+    const cancelUnopened=(this.availability.protocolVersion??0)>=2?this.provider.cancelUnopened?.bind(this.provider):undefined;
     const context:FullscreenContext={
       presentationId:`crossmath-ad-${Date.now()}-${++this.presentationCount}`,
       startBefore:Date.now()+startWindow,
-      opened:()=>{if(waiting)clearTimeout(timer);},
+      opened:()=>{if(!operationDone&&!this.disposed){opened=true;clearTimeout(timer);if(!this.fullscreen){this.fullscreen=true;this.block(true);}this.report('opened',format);}},
     };
     this.fullscreen=true;
     this.block(true);
     const deadline=new Promise<FullscreenResult>(resolve=>{
-      timer=setTimeout(()=>resolve('unavailable'),startWindow);
+      const recover=()=>{
+        if(operationDone||this.disposed||opened||!waiting)return;
+        if(request&&this.provider.reconcileReward&&(this.availability.protocolVersion??0)>=3){
+          void this.reconcile(request).then(result=>{
+            if(result.state==='opened')context.opened();
+            else if(result.state==='closed'){
+              // A persisted request fence owns cancellation, even if listener registration is hung.
+              operationDone=true;
+              if(this.fullscreenWork===work)this.fullscreenWork=undefined;
+              resolve('unavailable');
+            }
+          }).catch(()=>{
+            this.report('error',format,'native-admission-unknown');
+            // Retry a rejected durable proof, never expire unknown/shown work. Hung calls stay single-flight.
+            if(!operationDone&&!this.disposed&&!opened&&waiting)timer=setTimeout(recover,500);
+          });
+        }else if(cancelUnopened){
+          // A delayed opened event is not evidence that native never opened. The native
+          // main-thread lease decides before the JS input/audio blocker is released.
+          void cancelUnopened(context.presentationId).then(state=>{
+            if(state==='opened')context.opened();else resolve('unavailable');
+          }).catch(()=>this.report('error',format,'native-presentation-unknown'));
+        }else resolve('unavailable');
+      };
+      timer=setTimeout(recover,startWindow);
     });
-    const work=Promise.resolve().then(()=>operation(context)).catch(()=>'failed' as const);
+    const work=Promise.resolve().then(()=>{this.report('provider-call',format);return operation(context);}).catch(()=>'failed' as const).then(async result=>{
+      this.report('terminal',format,result);
+      await onResult?.(opened?'shown':result);
+      return result;
+    });
     this.fullscreenWork=work;
     this.changed();
     void work.finally(()=>{
+      operationDone=true;
+      if(this.fullscreenWork!==work)return;
       this.fullscreenWork=undefined;
-      if(!this.disposed)this.changed();
+      if(!this.disposed){if(!waiting&&this.fullscreen){this.fullscreen=false;this.block(false);}this.changed();}
     });
     try{return await Promise.race([work,deadline]);}
     finally{
@@ -177,23 +307,40 @@ export class AdsController {
   }
 
   updateBanner(visible:boolean):void {
-    this.banner=visible&&!this.disposed&&!this.fullscreenWork&&this.availability.banner;
-    this.flushBanner();
+    const desired=visible&&!this.disposed&&!this.fullscreenWork&&this.availability.banner;
+    if(this.bannerDesired===desired)return;
+    this.bannerDesired=desired;
+    void this.flushBanner();
   }
 
-  private flushBanner():void {
-    if(this.bannerWork||this.bannerSent===this.banner)return;
-    const value=this.banner;
-    this.bannerSent=value;
-    this.bannerWork=this.provider.setBanner(value).catch(()=>undefined).finally(()=>{
-      this.bannerWork=undefined;
-      this.flushBanner();
-    });
+  private async flushBanner():Promise<void> {
+    if(this.bannerInFlight)return;
+    this.finalBannerHidePending=false;
+    const desired=this.bannerDesired;
+    if(this.bannerConfirmed===desired)return;
+    this.bannerInFlight=true;
+    try{
+      await this.provider.setBanner(desired);
+      this.bannerConfirmed=desired;
+      this.report('terminal','banner',desired?'visible-intent':'hidden-intent');
+    } catch {
+      this.bannerConfirmed=undefined;
+    } finally {
+      this.bannerInFlight=false;
+    }
+    // A native sibling can change the usable viewport after the initiating render.
+    // Refresh layout after its acknowledgement even if resize delivery was delayed.
+    if(this.bannerConfirmed===desired&&!this.disposed)this.changed();
+    // A rejected intent is retried by refresh, unless this flight was superseded or dispose needs a hide.
+    if(this.bannerDesired!==desired||this.finalBannerHidePending)void this.flushBanner();
   }
 
   dispose():void {
+    if(this.disposed)return;
     this.disposed=true;
-    this.updateBanner(false);
+    this.bannerDesired=false;
+    this.finalBannerHidePending=true;
+    void this.flushBanner();
     if(this.fullscreen)this.block(false);
     for(const remove of this.removers)void Promise.resolve(remove()).catch(()=>undefined);
   }

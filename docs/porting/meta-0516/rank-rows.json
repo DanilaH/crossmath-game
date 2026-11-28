@@ -1,0 +1,72 @@
+{
+  "sourceBuild": "EasyFun Offline Crossmath 1.1.9 / 1193",
+  "sourceSha256": "e12cce36ab165493e948f4c1303d41d91f653fece9ca23d3163d47b3fb2c9d8d",
+  "tables": {
+    "template/relaxranktasktemplate": {
+      "sha256": "ea149b429c0c04127bea2f8e9a46899a54fd6cda3fb337cbb5907582b2e45807",
+      "count": 121,
+      "rows": [
+        {
+          "id": 2,
+          "RankLevel": 2,
+          "RankStarLevel": 0,
+          "TaskType": 0,
+          "TaskGameModeType": 0,
+          "TaskLevelParam": 0,
+          "TaskCountParam": 3
+        },
+        {
+          "id": 3,
+          "RankLevel": 2,
+          "RankStarLevel": 0,
+          "TaskType": 0,
+          "TaskGameModeType": 0,
+          "TaskLevelParam": 1,
+          "TaskCountParam": 1
+        },
+        {
+          "id": 4,
+          "RankLevel": 2,
+          "RankStarLevel": 0,
+          "TaskType": 1,
+          "TaskGameModeType": 0,
+          "TaskLevelParam": 1,
+          "TaskCountParam": 3
+        }
+      ]
+    },
+    "template/challengeranktasktemplate": {
+      "sha256": "8be8c54db51f4b39a82d78d4a565680e927bebfc55a62e4f9cc6bc9952987ada",
+      "count": 121,
+      "rows": [
+        {
+          "id": 2,
+          "RankLevel": 2,
+          "RankStarLevel": 0,
+          "TaskType": 0,
+          "TaskGameModeType": 0,
+          "TaskLevelParam": 2,
+          "TaskCountParam": 1
+        },
+        {
+          "id": 3,
+          "RankLevel": 2,
+          "RankStarLevel": 0,
+          "TaskType": 0,
+          "TaskGameModeType": 0,
+          "TaskLevelParam": 3,
+          "TaskCountParam": 1
+        },
+        {
+          "id": 4,
+          "RankLevel": 2,
+          "RankStarLevel": 0,
+          "TaskType": 1,
+          "TaskGameModeType": 0,
+          "TaskLevelParam": 2,
+          "TaskCountParam": 3
+        }
+      ]
+    }
+  }
+}

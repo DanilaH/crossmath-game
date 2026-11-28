@@ -1,0 +1,133 @@
+{
+  "schema": "crossmath-help-baseline-review-v1",
+  "date": "2026-11-24",
+  "repository": "DanilaH/crossmath-game",
+  "ref": "bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67",
+  "version": "0.5.24",
+  "versionCode": 29,
+  "runtimeKit": "469928d03f4bae5053e23db26e82187bedbc252e",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "git_blob_sha": "104ef60b377bba0fa14e55322f1b565bfe69ff52",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/AGENTS.md"
+    },
+    {
+      "path": "docs/PROJECT_DECISIONS.md",
+      "git_blob_sha": "f9dcd5c1339c3010dec4bf95784305f8ee7d9b05",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/docs/PROJECT_DECISIONS.md"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "git_blob_sha": "b3f54d0eac1d0a93138ff01b70600c8782fad01e",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/docs/STATUS.md"
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "git_blob_sha": "ac94c6e56563a834e08487e4a8e539ea1485d0dd",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/docs/ROADMAP.md"
+    },
+    {
+      "path": "src/help/logic.ts",
+      "git_blob_sha": "c6358a1f5e061d1f012202374f9393cfaa9e1dc0",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/help/logic.ts"
+    },
+    {
+      "path": "src/content/validator.ts",
+      "git_blob_sha": "7bd54f134b65bf884dab937843d1ee19e2df4322",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/content/validator.ts"
+    },
+    {
+      "path": "src/app/session.ts",
+      "git_blob_sha": "6d9d9b65b2f4ed2439a07c57cd9b64c2485e64a1",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/app/session.ts"
+    },
+    {
+      "path": "package.json",
+      "git_blob_sha": "d2660f76b921835cad2c83082366fd5bd536e8b3",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/package.json"
+    },
+    {
+      "path": "src/core/types.ts",
+      "git_blob_sha": "e3c596add17c39be0fae9ae75e1c286d55a2b70a",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/core/types.ts"
+    },
+    {
+      "path": "src/core/engine.ts",
+      "git_blob_sha": "48c2854de7bedb1303115cdd23bd3197faa0778b",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/core/engine.ts"
+    },
+    {
+      "path": "src/content/rotation.ts",
+      "git_blob_sha": "dd87b7fa7f84c5be34d93282a9d8c08cfec425b5",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/content/rotation.ts"
+    },
+    {
+      "path": "src/ui/gameUi.ts",
+      "git_blob_sha": "69e6a77c9fddaf2aeeeb2963ef0c2426d3596f77",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/ui/gameUi.ts"
+    },
+    {
+      "path": "src/app/model.ts",
+      "git_blob_sha": "66d25770b7ee6cc4795ba5face9653e7ad3d9eaf",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/app/model.ts"
+    },
+    {
+      "path": "src/help/reveal.ts",
+      "git_blob_sha": "3f34728b01da7b8e5f7fa3aad78785a01fb3baf9",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/help/reveal.ts"
+    },
+    {
+      "path": "tests/help.test.ts",
+      "git_blob_sha": "a43330f51c9f9447b992e199fc630e339e6f2a17",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/tests/help.test.ts"
+    },
+    {
+      "path": "tests/session.test.ts",
+      "git_blob_sha": "6dcf3f63311466bba93804b97ad7939e992e2b9e",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/tests/session.test.ts"
+    },
+    {
+      "path": "docs/spec/contracts/Crossmath_Hint_Developer_Contract_v06_RU.md",
+      "git_blob_sha": "65cd728d1ab8fef09951339f75f4ed3272d5e688",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/docs/spec/contracts/Crossmath_Hint_Developer_Contract_v06_RU.md"
+    },
+    {
+      "path": "index.html",
+      "git_blob_sha": "1aff8b8480b9c56efa18630036b5459763ee3c1c",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/index.html"
+    },
+    {
+      "path": "src/ui/play.css",
+      "git_blob_sha": "9143e887cb069cd7bad27b6ffd10e080a0c4097b",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/ui/play.css"
+    },
+    {
+      "path": "src/ui/theme.css",
+      "git_blob_sha": "1dbf22766e14184970e83d6fe0a765f49fa2e564",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/ui/theme.css"
+    },
+    {
+      "path": "src/style.css",
+      "git_blob_sha": "5d0e30708db629fe138958096d5eaa06615b0c65",
+      "url": "https://github.com/DanilaH/crossmath-game/blob/bbae4ac7bd87197b53568c0560d3a4e8b3c1bb67/src/style.css"
+    }
+  ],
+  "sourceInventory": {
+    "repository": "DanilaH/mini-games-kit",
+    "ref": "06a01d5c1f7af3cdf8013c9ce0f6a691d086af78",
+    "path": "research/games/crossmath/porting/SOURCE_FEATURES.json",
+    "git_blob_sha": "e58041d5bde1b99db668d4ea8ba35b6f0fffb17e",
+    "count": 296
+  },
+  "adoptionLedger": {
+    "repository": "DanilaH/crossmath-game",
+    "ref": "e2af74021f16d1437e90638f10adac0b6333d427",
+    "path": "docs/porting/ADOPTION_LEDGER.json",
+    "git_blob_sha": "78c986ef906f6419fdbf36f58a97a57ea9b9608f",
+    "count": 296
+  },
+  "selectedSourceFeatureId": "guru-solver-single-pass-result",
+  "selectedComparison": "PARTIAL",
+  "boundary": "Own transient preparation-result adaptation. The original Guru flags do not define our five-way outcome enum. No full original solver parity or future feature acceptance is claimed."
+}

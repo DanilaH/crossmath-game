@@ -7,11 +7,11 @@ const integer = (v: unknown): v is number => typeof v === 'number' && Number.isS
 const record = (v: unknown): v is Record<string,unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 export function parsePuzzle(input: unknown): Puzzle {
   requireThat(record(input),'Puzzle must be an object');
-  requireThat(typeof input.puzzleId === 'string' && /^cm-own-0[12]-\d{3}$/.test(input.puzzleId),'Invalid puzzle ID');
-  requireThat((input.contentVersion === 1 || input.contentVersion === 2) && input.puzzleId.startsWith(`cm-own-0${input.contentVersion}-`) && input.rulesetVersion === 'cm-integer-1','Unsupported content/rules version');
+  requireThat(typeof input.puzzleId === 'string' && /^cm-own-0[123]-\d{3}$/.test(input.puzzleId),'Invalid puzzle ID');
+  requireThat((input.contentVersion === 1 || input.contentVersion === 2 || input.contentVersion === 3) && input.puzzleId.startsWith(`cm-own-0${input.contentVersion}-`) && input.rulesetVersion === 'cm-integer-1','Unsupported content/rules version');
   requireThat(['easy','standard','hard','expert'].includes(String(input.difficulty)),'Invalid difficulty');
   requireThat(input.contentVersion === 1 ? input.bucket === undefined : buckets.includes(input.bucket as Bucket), 'Invalid bucket');
-  const bound = input.contentVersion === 2 ? 13 : 11;
+  const bound = input.contentVersion !== 1 ? 13 : 11;
   requireThat(integer(input.campaignPosition) && input.campaignPosition > 0,'Invalid campaign position');
   requireThat(Array.isArray(input.decisionTags) && input.decisionTags.every(x => typeof x === 'string'),'Invalid tags');
   requireThat(!['answer','solution','steps'].some(k => k in input),'Hidden solution in public puzzle');

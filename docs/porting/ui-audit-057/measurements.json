@@ -1,0 +1,1710 @@
+{
+ "build": "0.5.7/12 web extracted from APK",
+ "sha256": "1a7d16fdc408dcf4f22e07bd8c5478e1e30e521f7348aedf8dac3b0c5216cc5a",
+ "units": "CSS px and DOM strings. PNG samples at DPR=1. Bounds are document samples; visible intersection and touch tested separately. Not an Android install.",
+ "run": "15 distinct campaign victories from fresh save using touch. Supplemental cases restore that state. One-coin and storage failure are fixtures.",
+ "screens": {
+  "field": {
+   "text": "Поле 1\n2\n3\n+\n=\n\nПоставьте число в пустую клетку\n\n5\nОтмена\nСортировка\nПомощь",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "sort",
+     "rect": [
+      103,
+      510,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    },
+    {
+     "id": "help",
+     "rect": [
+      289,
+      510,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    }
+   ]
+  },
+  "cold": {
+   "text": "Crossmath\nНастройки\n◈ 120 монет\nРанг 1\nКампания\n2\n+\n3\n=\n·\nПродолжить · Поле 1\n20\nЗадача дня\nПосле 5 побед\nМастерская\nПосле 3 побед\nВсе режимы",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "wallet",
+     "rect": [
+      10,
+      90,
+      77,
+      17
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "rank",
+     "rect": [
+      99,
+      75,
+      51,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "resume-card",
+     "rect": [
+      10,
+      137,
+      370,
+      185
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "daily-primary",
+     "rect": [
+      10,
+      334,
+      370,
+      58
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "album-open",
+     "rect": [
+      10,
+      398,
+      370,
+      58
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "modes-open",
+     "rect": [
+      10,
+      468,
+      370,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13.76px"
+    }
+   ]
+  },
+  "locked": {
+   "text": "Режимы\nКампания\nСпокойная игра · после 3 побед\nИспытание · после 15 побед\nEndless · после 15 побед\nЗадачи и прогресс\nКалендарь · после 5 побед\nПрофиль и рекорды\nГотово",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": []
+  },
+  "settings": {
+   "text": "Настройки\nГотово\nЗвуки ходов\nВибрация\nТёмная тема\nМеньше движения\nТаймер в кампании и свободной игре\nЯзык\nРусский\nEnglish",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "resume",
+     "rect": [
+      29,
+      275,
+      333,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "pause": {
+   "text": "Пауза\nПродолжить\nНа главную\nНастройки\nПравила режима\nНачать заново",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "resume",
+     "rect": [
+      29,
+      315,
+      333,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "rules": {
+   "text": "Пауза\nПродолжить\nНа главную\nНастройки\nПравила режима\n\nЧисла сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.\n\nНачать заново",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "resume",
+     "rect": [
+      29,
+      259,
+      333,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "restart": {
+   "text": "Пауза\nПродолжить\nНа главную\nНастройки\nПравила режима\n\nЧисла сохранены. Ошибки не ограничены, правильные строки можно менять. Коснитесь числа и клетки в любом порядке или перетащите фишку.\n\nНачать заново\n\nНачать это поле заново? Поставленные числа вернутся в лоток.\n\nОставить партию\nНачать заново",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "resume",
+     "rect": [
+      29,
+      200,
+      333,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "win1": {
+   "text": "Поле 1\n2\n3\n5\n+\n=\n\nПоле решено\n\n+10 монет\n\nСледующее поле\n⋯",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "result-rewards",
+     "rect": [
+      23,
+      806,
+      155,
+      16
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.16px"
+    },
+    {
+     "id": "next",
+     "rect": [
+      184,
+      781,
+      134,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13px"
+    }
+   ]
+  },
+  "win3": {
+   "text": "Поле 3\n3\n4\n7\n2\n5\n+\n=\n−\n=\n\nРамка счётов · 1/4\nПоле решено\n\n+10 монет\n\nСледующее поле\n⋯",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "instrument-reward",
+     "rect": [
+      88,
+      545,
+      213,
+      50
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.64px"
+    },
+    {
+     "id": "result-rewards",
+     "rect": [
+      23,
+      806,
+      155,
+      16
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.16px"
+    },
+    {
+     "id": "next",
+     "rect": [
+      184,
+      781,
+      134,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13px"
+    }
+   ]
+  },
+  "win5": {
+   "text": "Поле 5\n12\n5\n7\n3\n1\n8\n6\n−\n=\n+\n=\n−\n=\n\nПоле решено\n\nОткрыты Daily и задания дня\n\n+10 монет\n\nСледующее поле\n⋯",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "result-rewards",
+     "rect": [
+      23,
+      813,
+      155,
+      16
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.16px"
+    },
+    {
+     "id": "next",
+     "rect": [
+      184,
+      770,
+      134,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13px"
+    }
+   ]
+  },
+  "win8": {
+   "text": "Поле 8\n3\n4\n12\n2\n10\n×\n=\n−\n=\n\nСчёты · собрано 4/4\nПоле решено\n\n+30 монет\n\nСледующее поле\n⋯",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "instrument-reward",
+     "rect": [
+      84,
+      545,
+      222,
+      50
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.64px"
+    },
+    {
+     "id": "result-rewards",
+     "rect": [
+      23,
+      806,
+      155,
+      16
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.16px"
+    },
+    {
+     "id": "next",
+     "rect": [
+      184,
+      781,
+      134,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13px"
+    }
+   ]
+  },
+  "instrument": {
+   "text": "Счёты\n\nСобрано · 4/4\n\n✓ рама\n✓ спицы\n✓ левые костяшки\n✓ правые костяшки\nК результату",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "card-title",
+     "rect": [
+      37,
+      170,
+      317,
+      28
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "24px"
+    }
+   ]
+  },
+  "receipt": {
+   "text": "Поле 8\n3\n4\n12\n2\n10\n×\n=\n−\n=\n\nСчёты · собрано 4/4\nПоле решено\n\n+30 монет\n\nСледующее поле\n⋯\n\nЗа поле: +10\n\nЗа прибор: +20\n\nОпыт: +10\n\nНовых деталей: 1 · всего 4 / 48\n\nЗнак: Первый экспонат\n\nПовторить",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "instrument-reward",
+     "rect": [
+      84,
+      545,
+      222,
+      50
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.64px"
+    },
+    {
+     "id": "result-rewards",
+     "rect": [
+      23,
+      806,
+      155,
+      16
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.16px"
+    },
+    {
+     "id": "next",
+     "rect": [
+      184,
+      781,
+      134,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13px"
+    }
+   ]
+  },
+  "win15": {
+   "text": "Поле 15\n3\n5\n8\n4\n2\n7\n16\n4\n4\n+\n=\n+\n=\n×\n=\n÷\n=\n\nПоле решено\n\nОткрыт Endless\n\n+15 монет\n\nСледующее поле\n⋯",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "result-rewards",
+     "rect": [
+      23,
+      813,
+      155,
+      16
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.16px"
+    },
+    {
+     "id": "next",
+     "rect": [
+      184,
+      778,
+      134,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13px"
+    }
+   ]
+  },
+  "home": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\nКампания\n6\n−\n·\n=\n3\nПродолжить · Поле 16\n20\nЗадача дня\nСегодня\nМастерская\nСчётные палочки · 1/4\nВсе режимы",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "wallet",
+     "rect": [
+      10,
+      90,
+      77,
+      17
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "rank",
+     "rect": [
+      99,
+      75,
+      51,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "resume-card",
+     "rect": [
+      10,
+      137,
+      370,
+      185
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "campaign-primary",
+     "rect": [
+      29,
+      249,
+      332,
+      54
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "daily-primary",
+     "rect": [
+      10,
+      334,
+      370,
+      58
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "album-open",
+     "rect": [
+      10,
+      398,
+      370,
+      58
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "modes-open",
+     "rect": [
+      10,
+      468,
+      370,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13.76px"
+    }
+   ]
+  },
+  "home320": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\nКампания\n6\n−\n·\n=\n3\nПродолжить · Поле 16\n20\nЗадача дня\nСегодня\nМастерская\nСчётные палочки · 1/4\nВсе режимы",
+   "viewport": [
+    320,
+    568
+   ],
+   "documentHeight": 568,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "wallet",
+     "rect": [
+      10,
+      90,
+      77,
+      17
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "rank",
+     "rect": [
+      99,
+      75,
+      51,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "resume-card",
+     "rect": [
+      10,
+      137,
+      300,
+      185
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "campaign-primary",
+     "rect": [
+      29,
+      249,
+      262,
+      54
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "daily-primary",
+     "rect": [
+      10,
+      334,
+      300,
+      58
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "album-open",
+     "rect": [
+      10,
+      398,
+      300,
+      58
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "modes-open",
+     "rect": [
+      10,
+      468,
+      300,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13.76px"
+    }
+   ]
+  },
+  "modes320": {
+   "text": "Режимы\nКампания\nСпокойная игра\nИспытание\nНачать Endless\nЗадачи и прогресс\nКалендарь задач\nПрофиль и рекорды\nПоследний результат\nПройденные поля\nГотово",
+   "viewport": [
+    320,
+    568
+   ],
+   "documentHeight": 568,
+   "controls": []
+  },
+  "history320": {
+   "text": "Режимы\nКампания\nСпокойная игра\nИспытание\nНачать Endless\nЗадачи и прогресс\nКалендарь задач\nПрофиль и рекорды\nПоследний результат\nПройденные поля\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\nГотово",
+   "viewport": [
+    320,
+    568
+   ],
+   "documentHeight": 568,
+   "controls": []
+  },
+  "home390": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\nКампания\n6\n−\n·\n=\n3\nПродолжить · Поле 16\n20\nЗадача дня\nСегодня\nМастерская\nСчётные палочки · 1/4\nВсе режимы",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "wallet",
+     "rect": [
+      10,
+      90,
+      77,
+      17
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "rank",
+     "rect": [
+      99,
+      75,
+      51,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "resume-card",
+     "rect": [
+      10,
+      137,
+      370,
+      185
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "campaign-primary",
+     "rect": [
+      29,
+      249,
+      332,
+      54
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "daily-primary",
+     "rect": [
+      10,
+      334,
+      370,
+      58
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "album-open",
+     "rect": [
+      10,
+      398,
+      370,
+      58
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "modes-open",
+     "rect": [
+      10,
+      468,
+      370,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "13.76px"
+    }
+   ]
+  },
+  "modes390": {
+   "text": "Режимы\nКампания\nСпокойная игра\nИспытание\nНачать Endless\nЗадачи и прогресс\nКалендарь задач\nПрофиль и рекорды\nПоследний результат\nПройденные поля\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\nГотово",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": []
+  },
+  "history390": {
+   "text": "Режимы\nКампания\nСпокойная игра\nИспытание\nНачать Endless\nЗадачи и прогресс\nКалендарь задач\nПрофиль и рекорды\nПоследний результат\nПройденные поля\nГотово",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": []
+  },
+  "calendar": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\n\nСЧЁТНАЯ МАСТЕРСКАЯ\n\nКалендарь задач\n← На главную\n20.11\nСегодня\nИграть · 3 жизни\n›\nЗадания дня · 2/3\nСледующие даты",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "wallet",
+     "rect": [
+      10,
+      90,
+      77,
+      17
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "rank",
+     "rect": [
+      99,
+      75,
+      51,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "H1",
+     "rect": [
+      10,
+      165,
+      370,
+      40
+     ],
+     "font": "Georgia, serif",
+     "px": "36.8px"
+    },
+    {
+     "id": "calendar-back",
+     "rect": [
+      10,
+      227,
+      370,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "quests": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\n\nСЧЁТНАЯ МАСТЕРСКАЯ\n\nКалендарь задач\n← На главную\n20.11\nСегодня\nИграть · 3 жизни\n›\nЗадания дня · 2/3\nРешите поле\n✓ +10\nРешите сегодняшнюю задачу\n0 / 1\nСоберите 4 уравнения\n✓ +10\n\nЗа каждую цель +10, за весь план ещё +30 монет.\n\nСледующие даты",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "wallet",
+     "rect": [
+      10,
+      90,
+      77,
+      17
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "rank",
+     "rect": [
+      99,
+      75,
+      51,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "H1",
+     "rect": [
+      10,
+      165,
+      370,
+      40
+     ],
+     "font": "Georgia, serif",
+     "px": "36.8px"
+    },
+    {
+     "id": "calendar-back",
+     "rect": [
+      10,
+      227,
+      370,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "archive": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\n\nСЧЁТНАЯ МАСТЕРСКАЯ\n\nКалендарь задач\n← На главную\n20.11\nСегодня\nИграть · 3 жизни\n›\nЗадания дня · 2/3\nРешите поле\n✓ +10\nРешите сегодняшнюю задачу\n0 / 1\nСоберите 4 уравнения\n✓ +10\n\nЗа каждую цель +10, за весь план ещё +30 монет.\n\nСледующие даты\n21.11\nБудет доступно\n22.11\nБудет доступно\n23.11\nБудет доступно\n24.11\nБудет доступно\n25.11\nБудет доступно\n26.11\nБудет доступно\n27.11\nБудет доступно",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 1030,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "wallet",
+     "rect": [
+      10,
+      90,
+      77,
+      17
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "rank",
+     "rect": [
+      99,
+      75,
+      51,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "H1",
+     "rect": [
+      10,
+      165,
+      370,
+      40
+     ],
+     "font": "Georgia, serif",
+     "px": "36.8px"
+    },
+    {
+     "id": "calendar-back",
+     "rect": [
+      10,
+      227,
+      370,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "album": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\nМастерская счёта\n\n1 из 12 приборов\n\n← На главную\nНа верстаке\nСчётные палочки\n1 / 4 частей\nНовых полей до детали: 3\nСчёты\n4 / 4 частей\nСчётные палочки\n1 / 4 частей\nНабор гирь\n0 / 4 частей\nРычажные весы\n0 / 4 частей\nСкладной метр\n0 / 4 частей\nЦиркуль\n0 / 4 частей\nТранспортир\n0 / 4 частей\nШтангенциркуль\n0 / 4 частей\nЧасовой циферблат\n0 / 4 частей\nЗубчатая передача\n0 / 4 частей\nМеханический счётчик\n0 / 4 частей\nЧертёжный пантограф\n0 / 4 частей",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 1860,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "wallet",
+     "rect": [
+      10,
+      90,
+      77,
+      17
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "rank",
+     "rect": [
+      99,
+      75,
+      51,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "12.8px"
+    },
+    {
+     "id": "H1",
+     "rect": [
+      10,
+      137,
+      370,
+      40
+     ],
+     "font": "Georgia, serif",
+     "px": "36.8px"
+    },
+    {
+     "id": "album-back",
+     "rect": [
+      10,
+      224,
+      370,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    },
+    {
+     "id": "workbench",
+     "rect": [
+      10,
+      284,
+      370,
+      145
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "object": {
+   "text": "Счёты\n\nСобрано · 4/4\n\n✓ рама\n✓ спицы\n✓ левые костяшки\n✓ правые костяшки\nВ мастерскую",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 1860,
+   "controls": [
+    {
+     "id": "card-title",
+     "rect": [
+      37,
+      165,
+      317,
+      37
+     ],
+     "font": "Georgia, serif",
+     "px": "34px"
+    }
+   ]
+  },
+  "rank": {
+   "text": "Ранг 2\n\n75 / 120 XP\n\nДо следующего ранга: 45 XP\n\nЗа повышение: +60 монет\n\nРазных решённых полей: 15\n\nПродолжить",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "card-title",
+     "rect": [
+      37,
+      302,
+      317,
+      37
+     ],
+     "font": "Georgia, serif",
+     "px": "34px"
+    }
+   ]
+  },
+  "profile": {
+   "text": "Crossmath\nНастройки\nПрофиль\n\nРанг 2 · 75 / 120 XP\n\n← На главную\nКампания\n15/240\nЗадачи дня\n0\nПриборы\n1/12\nРекорды Endless\nСамостоятельно\n—\nС помощью\n—\nСтатистика по режимам\nДостижения · 3/12",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "H1",
+     "rect": [
+      10,
+      79,
+      370,
+      40
+     ],
+     "font": "Georgia, serif",
+     "px": "36.8px"
+    }
+   ]
+  },
+  "statistics": {
+   "text": "Crossmath\nНастройки\nПрофиль\n\nРанг 2 · 75 / 120 XP\n\n← На главную\nКампания\n15/240\nЗадачи дня\n0\nПриборы\n1/12\nРекорды Endless\nСамостоятельно\n—\nС помощью\n—\nСтатистика по режимам\n\nРазных полей 15 · Полных планов дня 0\n\nКампания\n\nПопыток 15 · Завершений 15\n\nАктивное время 0 мин 5.64890000000596 с\n\nОшибок 0 · Отмен 0 · Перезапусков 0\n\nОбъяснений 0 · Раскрытий 0\n\nСвободная игра\n\nПопыток 0 · Завершений 0\n\nАктивное время 0 мин 0 с\n\nОшибок 0 · Отмен 0 · Перезапусков 0\n\nОбъяснений 0 · Раскрытий 0\n\nDaily\n\nПопыток 0 · Завершений 0\n\nАктивное время 0 мин 0 с\n\nОшибок 0 · Отмен 0 · Перезапусков 0\n\nОбъяснений 0 · Раскрытий 0\n\nEndless\n\nПопыток 0 · Завершений 0\n\nАктивное время 0 мин 0 с\n\nОшибок 0 · Отмен 0 · Перезапусков 0\n\nОбъяснений 0 · Раскрытий 0\n\nДостижения · 3/12",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 1166,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "H1",
+     "rect": [
+      10,
+      79,
+      370,
+      40
+     ],
+     "font": "Georgia, serif",
+     "px": "36.8px"
+    }
+   ]
+  },
+  "achievements": {
+   "text": "Crossmath\nНастройки\nПрофиль\n\nРанг 2 · 75 / 120 XP\n\n← На главную\nКампания\n15/240\nЗадачи дня\n0\nПриборы\n1/12\nРекорды Endless\nСамостоятельно\n—\nС помощью\n—\nСтатистика по режимам\nДостижения · 3/12\n✓ Первая запись\n2026-11-20\n✓ За работу\n2026-11-20\nПолсотни\n15 / 50\nСотня\n15 / 100\nТри даты\n0 / 3\nСтраница календаря\n0 / 12\nПлан выполнен\n0 / 3\nДлинная партия\n0 / 3\n✓ Первый экспонат\n2026-11-20\nПолная полка\n1 / 4\nПятый ранг\n2 / 5\nСобрана мастерская\n1 / 12",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 1524,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      10,
+      146,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "22.4px"
+    },
+    {
+     "id": "H1",
+     "rect": [
+      10,
+      79,
+      370,
+      40
+     ],
+     "font": "Georgia, serif",
+     "px": "36.8px"
+    }
+   ]
+  },
+  "free": {
+   "text": "Спокойная игра\n\nЛегко\n\n6\n4\n20\n3\n7\n−\n=\n+\n=\n−\n=\n+\n=\n−\n=\n+\n=\n×\n=\n\n4\n1\n3\n5\n2\n10\n11\nОтмена\nСортировка\nПомощь",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "sort",
+     "rect": [
+      103,
+      596,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    },
+    {
+     "id": "help",
+     "rect": [
+      289,
+      596,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    }
+   ]
+  },
+  "help": {
+   "text": "Помощь\nОбъяснить ход\nПоказать число\n\nСтоимость 60 монет · У вас 395 монет и 0 кредитов\n\nК полю\nПрименить",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "help-title",
+     "rect": [
+      25,
+      644,
+      340,
+      21
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "18.4px"
+    },
+    {
+     "id": "apply-help",
+     "rect": [
+      195,
+      771,
+      170,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "reveal": {
+   "text": "Помощь\nОбъяснить ход\nПоказать число\n\nПокажем правильное число. Мешающие неверные фишки вернутся в лоток.\n\nСтоимость 60 монет · У вас 395 монет и 0 кредитов\n\nК полю\nПрименить · 60 монет",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "help-title",
+     "rect": [
+      25,
+      584,
+      340,
+      21
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "18.4px"
+    },
+    {
+     "id": "apply-help",
+     "rect": [
+      195,
+      756,
+      170,
+      63
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "replacement": {
+   "text": "Начать другую свободную игру?\n\nТекущая расстановка в свободной игре будет потеряна.\n\nОставить партию\nНачать другую",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "replace-title",
+     "rect": [
+      37,
+      336,
+      317,
+      50
+     ],
+     "font": "Georgia, serif",
+     "px": "23.2px"
+    },
+    {
+     "id": "keep-board",
+     "rect": [
+      37,
+      456,
+      150,
+      52
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "14px"
+    },
+    {
+     "id": "replace-board",
+     "rect": [
+      195,
+      458,
+      158,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "challenge": {
+   "text": "Испытание\n\nСложно\n\n12\n13\n7\n8\n2\n4\n21\n29\n×\n=\n+\n=\n−\n=\n−\n=\n+\n=\n+\n=\n−\n=\n−\n=\n+\n=\n\n18\n1\n5\n15\n4\n6\n9\n10\n3\n7\n11\nОтмена\nСортировка\nПомощь",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "sort",
+     "rect": [
+      103,
+      651,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    },
+    {
+     "id": "help",
+     "rect": [
+      289,
+      651,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    }
+   ]
+  },
+  "endless": {
+   "text": "Этап 1\n\n♥♥♥\nЖизни 3/3\n\nОчки 0\n\n3\n5\n8\n16\n4\n17\n+\n=\n÷\n=\n+\n=\n+\n=\n\n24\n21\n4\nОтмена\nСортировка\nПомощь\nПроверить",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "sort",
+     "rect": [
+      103,
+      568,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    },
+    {
+     "id": "help",
+     "rect": [
+      289,
+      568,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    }
+   ]
+  },
+  "end-run-pause": {
+   "text": "Пауза\nПродолжить\nНа главную\nЗавершить забег и сохранить рекорд\nНастройки\nПравила режима\nНовый забег",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "resume",
+     "rect": [
+      29,
+      283,
+      333,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "16px"
+    }
+   ]
+  },
+  "daily-play": {
+   "text": "Задача дня\n\n2026-11-20\n\n♥♥♥\nЖизни 3/3\n\n18\n16\n13\n29\n6\n19\n8\n10\n1\n12\n26\n17\n42\n−\n=\n−\n=\n−\n=\n−\n=\n+\n=\n−\n=\n+\n=\n×\n=\n−\n=\n+\n=\n+\n=\n−\n=\n+\n=\n−\n=\n+\n=\n−\n=\n\n5\n4\n7\n4\n27\n13\n2\n15\n30\n1\n9\n11\n4\n14\n8\n33\n3\nОтмена\nСортировка\nПомощь",
+   "viewport": [
+    390,
+    844
+   ],
+   "documentHeight": 844,
+   "controls": [
+    {
+     "id": "home",
+     "rect": [
+      10,
+      8,
+      48,
+      48
+     ],
+     "font": "Georgia, serif",
+     "px": "25px"
+    },
+    {
+     "id": "sort",
+     "rect": [
+      103,
+      707,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    },
+    {
+     "id": "help",
+     "rect": [
+      289,
+      707,
+      91,
+      48
+     ],
+     "font": "system-ui, sans-serif",
+     "px": "9.92px"
+    }
+   ]
+  }
+ },
+ "supplement": {
+  "menu-rest": {
+   "text": "Режимы\nКампания\nСпокойная игра\nИспытание\nНачать Endless\nЗадачи и прогресс\nКалендарь задач\nПрофиль и рекорды\nПоследний результат\nПройденные поля\nГотово",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "profile-rest": {
+   "text": "Crossmath\nНастройки\nПрофиль\n\nРанг 2 · 75 / 120 XP\n\n← На главную\nКампания\n15/240\nЗадачи дня\n0\nПриборы\n1/12\nРекорды Endless\nСамостоятельно\n—\nС помощью\n—\nСтатистика по режимам\nДостижения · 3/12",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "decimal": {
+   "text": "Crossmath\nНастройки\nПрофиль\n\nРанг 2 · 75 / 120 XP\n\n← На главную\nКампания\n15/240\nЗадачи дня\n0\nПриборы\n1/12\nРекорды Endless\nСамостоятельно\n—\nС помощью\n—\nСтатистика по режимам\n\nРазных полей 15 · Полных планов дня 0\n\nКампания\n\nПопыток 15 · Завершений 15\n\nАктивное время 0 мин 5.64890000000596 с\n\nОшибок 0 · Отмен 0 · Перезапусков 0\n\nОбъяснений 0 · Раскрытий 0\n\nСвободная игра\n\nПопыток 0 · Завершений 0\n\nАктивное время 0 мин 0 с\n\nОшибок 0 · Отмен 0 · Перезапусков 0\n\nОбъяснений 0 · Раскрытий 0\n\nDaily\n\nПопыток 0 · Завершений 0\n\nАктивное время 0 мин 0 с\n\nОшибок 0 · Отмен 0 · Перезапусков 0\n\nОбъяснений 0 · Раскрытий 0\n\nEndless\n\nПопыток 0 · Завершений 0\n\nАктивное время 0 мин 0 с\n\nОшибок 0 · Отмен 0 · Перезапусков 0\n\nОбъяснений 0 · Раскрытий 0\n\nДостижения · 3/12",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "calendar-rest": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\n\nСЧЁТНАЯ МАСТЕРСКАЯ\n\nКалендарь задач\n← На главную\n20.11\nСегодня\nИграть · 3 жизни\n›\nЗадания дня · 2/3\nСледующие даты",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "workshop-rest": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\nМастерская счёта\n\n1 из 12 приборов\n\n← На главную\nНа верстаке\nСчётные палочки\n1 / 4 частей\nНовых полей до детали: 3\nСчёты\n4 / 4 частей\nСчётные палочки\n1 / 4 частей\nНабор гирь\n0 / 4 частей\nРычажные весы\n0 / 4 частей\nСкладной метр\n0 / 4 частей\nЦиркуль\n0 / 4 частей\nТранспортир\n0 / 4 частей\nШтангенциркуль\n0 / 4 частей\nЧасовой циферблат\n0 / 4 частей\nЗубчатая передача\n0 / 4 частей\nМеханический счётчик\n0 / 4 частей\nЧертёжный пантограф\n0 / 4 частей",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "large-album": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\nМастерская счёта\n\n1 из 12 приборов\n\n← На главную\nНа верстаке\nСчётные палочки\n1 / 4 частей\nНовых полей до детали: 3\nСчёты\n4 / 4 частей\nСчётные палочки\n1 / 4 частей\nНабор гирь\n0 / 4 частей\nРычажные весы\n0 / 4 частей\nСкладной метр\n0 / 4 частей\nЦиркуль\n0 / 4 частей\nТранспортир\n0 / 4 частей\nШтангенциркуль\n0 / 4 частей\nЧасовой циферблат\n0 / 4 частей\nЗубчатая передача\n0 / 4 частей\nМеханический счётчик\n0 / 4 частей\nЧертёжный пантограф\n0 / 4 частей",
+   "width": 377,
+   "viewport": [
+    377,
+    670
+   ]
+  },
+  "large-home": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\nКампания\n6\n−\n·\n=\n3\nПродолжить · Поле 16\n20\nЗадача дня\nСегодня\nМастерская\nСчётные палочки · 1/4\nВсе режимы",
+   "width": 377,
+   "viewport": [
+    377,
+    670
+   ]
+  },
+  "large-hit": {
+   "screen": 320,
+   "client": 320,
+   "scroll": 377,
+   "window": 377,
+   "scale": 1,
+   "visual": [
+    320,
+    568,
+    102,
+    162
+   ],
+   "button": [
+    10,
+    600.5625,
+    300,
+    59.140625
+   ],
+   "centerHit": "<button class=\"hub-button\" type=\"button\" id=\"modes-open\" aria-haspopup=\"dialog\" aria-controls=\"mode-dialog\">Все режимы</button>",
+   "tap": "table\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <span class=\"quick-status\">Счётные палочки · 1/4</span> from <div class=\"home-quick\">…</div> subtree intercepts pointer events\n    - retrying tap action\n      - waiting 100ms\n    3 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <span class=\"quick-status\">Счётные палочки · 1/4</span> from <div class=\"home-quick\">…</div> subtree intercepts pointer events\n    - retrying tap action\n      - waiting 500ms\n"
+  },
+  "night-home": {
+   "text": "Crossmath\nНастройки\n◈ 395 монет\nРанг 2\nКампания\n6\n−\n·\n=\n3\nПродолжить · Поле 16\n20\nЗадача дня\nСегодня\nМастерская\nСчётные палочки · 1/4\nВсе режимы",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "en-home": {
+   "text": "Crossmath\nSettings\n◈ 395 coins\nRank 2\nCampaign\n6\n−\n·\n=\n3\nContinue · Board 16\n20\nDaily challenge\nToday\nWorkshop\nCounting rods · 1/4\nAll modes",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "field16": {
+   "text": "Поле 16\n6\n4\n20\n3\n7\n−\n=\n+\n=\n−\n=\n+\n=\n−\n=\n+\n=\n×\n=\n\n4\n1\n3\n5\n2\n10\n11\nОтмена\nСортировка\nПомощь",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "write-error": {
+   "text": "Поле 16\n6\n4\n20\n3\n7\n−\n=\n+\n=\n−\n=\n+\n=\n−\n=\n+\n=\n×\n=\n\n4\n1\n3\n5\n2\n10\n11\nОтмена\nСортировка\nПомощь\n\nНе удалось подтвердить запись. Сохранённые данные сохранены. Повторите действие или восстановите сохранение перед продолжением.\n\nПовторитьВосстановить сохранение",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "insufficient": {
+   "text": "Помощь\nОбъяснить ход\nПоказать число\n\nПокажем правильное число. Мешающие неверные фишки вернутся в лоток.\n\nСтоимость 60 монет · У вас 1 монета и 0 кредитов\n\nК полю\nПрименить · 60 монет",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ]
+  },
+  "insufficient-response": {
+   "text": "Помощь\nОбъяснить ход\nПоказать число\n\nНе хватает монет. Продолжать решать и начинать поле заново можно бесплатно.\n\nСтоимость 60 монет · У вас 1 монета и 0 кредитов\n\nК полю\nПрименить · 60 монет",
+   "width": 390,
+   "viewport": [
+    390,
+    844
+   ],
+   "balance": 1
+  }
+ }
+}

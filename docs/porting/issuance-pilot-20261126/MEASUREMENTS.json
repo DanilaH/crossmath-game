@@ -1,0 +1,1179 @@
+{
+  "reviewedHead": "04576ec2239e840176a1a412c06e82aa7b9253cb",
+  "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+  "inputs": [
+    {
+      "path": "docs/spec/product/content_v09/boards.json",
+      "gitBlob": "b6476924ddf5805ab007976c689faf23459df2a4"
+    },
+    {
+      "path": "docs/spec/product/content_v2/boards.json",
+      "gitBlob": "f8fd69fb1e93f5b54207b0c66623023d5dc9d087"
+    },
+    {
+      "path": "docs/spec/product/content_v09/routes.json",
+      "gitBlob": "6e42a2548f63336fed07295e826deff3f7fc73a4"
+    }
+  ],
+  "execution": "model function executed with connector-fetched exact Git blobs; standalone Node wrapper not independently run",
+  "scope": "MODEL on exact public consumer data and inspected selector; all modeled offered puzzles are won, no actual app session, no source APK execution or player behavior",
+  "bank": {
+    "n": 275,
+    "exactShapes": 69,
+    "d4Shapes": 56,
+    "d4ShapeMasks": 274,
+    "largestD4Group": 27,
+    "ops": {
+      "+": 1455,
+      "-": 1459,
+      "*": 249,
+      "/": 231
+    },
+    "mulDivRatio": 0.14142604596346495,
+    "singletonPeelFinishes": 102,
+    "initialSingletonMin": 1,
+    "peelResidualRange": [
+      0,
+      27
+    ],
+    "equationRange": [
+      7,
+      24
+    ],
+    "holeRange": [
+      7,
+      29
+    ]
+  },
+  "buckets": {
+    "easy-short": {
+      "n": 40,
+      "exactShapes": 9,
+      "d4Shapes": 4,
+      "d4ShapeMasks": 40,
+      "largestD4Group": 27,
+      "ops": {
+        "+": 116,
+        "-": 140,
+        "*": 28,
+        "/": 28
+      },
+      "mulDivRatio": 0.1794871794871795,
+      "singletonPeelFinishes": 40,
+      "initialSingletonMin": 1,
+      "peelResidualRange": [
+        0,
+        0
+      ],
+      "equationRange": [
+        7,
+        8
+      ],
+      "holeRange": [
+        7,
+        8
+      ]
+    },
+    "easy-long": {
+      "n": 40,
+      "exactShapes": 9,
+      "d4Shapes": 9,
+      "d4ShapeMasks": 40,
+      "largestD4Group": 11,
+      "ops": {
+        "+": 147,
+        "-": 184,
+        "*": 25,
+        "/": 36
+      },
+      "mulDivRatio": 0.1556122448979592,
+      "singletonPeelFinishes": 40,
+      "initialSingletonMin": 3,
+      "peelResidualRange": [
+        0,
+        0
+      ],
+      "equationRange": [
+        9,
+        10
+      ],
+      "holeRange": [
+        9,
+        10
+      ]
+    },
+    "normal-short": {
+      "n": 20,
+      "exactShapes": 6,
+      "d4Shapes": 5,
+      "d4ShapeMasks": 19,
+      "largestD4Group": 11,
+      "ops": {
+        "+": 70,
+        "-": 85,
+        "*": 20,
+        "/": 21
+      },
+      "mulDivRatio": 0.20918367346938777,
+      "singletonPeelFinishes": 2,
+      "initialSingletonMin": 1,
+      "peelResidualRange": [
+        0,
+        10
+      ],
+      "equationRange": [
+        9,
+        10
+      ],
+      "holeRange": [
+        10,
+        11
+      ]
+    },
+    "normal-long": {
+      "n": 20,
+      "exactShapes": 6,
+      "d4Shapes": 6,
+      "d4ShapeMasks": 20,
+      "largestD4Group": 10,
+      "ops": {
+        "+": 136,
+        "-": 137,
+        "*": 20,
+        "/": 27
+      },
+      "mulDivRatio": 0.146875,
+      "singletonPeelFinishes": 0,
+      "initialSingletonMin": 2,
+      "peelResidualRange": [
+        5,
+        16
+      ],
+      "equationRange": [
+        15,
+        17
+      ],
+      "holeRange": [
+        17,
+        19
+      ]
+    },
+    "hard-short": {
+      "n": 70,
+      "exactShapes": 21,
+      "d4Shapes": 16,
+      "d4ShapeMasks": 70,
+      "largestD4Group": 18,
+      "ops": {
+        "+": 303,
+        "-": 279,
+        "*": 70,
+        "/": 46
+      },
+      "mulDivRatio": 0.166189111747851,
+      "singletonPeelFinishes": 0,
+      "initialSingletonMin": 1,
+      "peelResidualRange": [
+        4,
+        11
+      ],
+      "equationRange": [
+        9,
+        10
+      ],
+      "holeRange": [
+        11,
+        12
+      ]
+    },
+    "expert-short": {
+      "n": 18,
+      "exactShapes": 5,
+      "d4Shapes": 5,
+      "d4ShapeMasks": 18,
+      "largestD4Group": 5,
+      "ops": {
+        "+": 135,
+        "-": 124,
+        "*": 16,
+        "/": 12
+      },
+      "mulDivRatio": 0.0975609756097561,
+      "singletonPeelFinishes": 0,
+      "initialSingletonMin": 1,
+      "peelResidualRange": [
+        10,
+        19
+      ],
+      "equationRange": [
+        15,
+        17
+      ],
+      "holeRange": [
+        19,
+        21
+      ]
+    },
+    "hell-short": {
+      "n": 17,
+      "exactShapes": 5,
+      "d4Shapes": 5,
+      "d4ShapeMasks": 17,
+      "largestD4Group": 9,
+      "ops": {
+        "+": 197,
+        "-": 157,
+        "*": 21,
+        "/": 15
+      },
+      "mulDivRatio": 0.09230769230769231,
+      "singletonPeelFinishes": 0,
+      "initialSingletonMin": 2,
+      "peelResidualRange": [
+        17,
+        27
+      ],
+      "equationRange": [
+        22,
+        24
+      ],
+      "holeRange": [
+        27,
+        29
+      ]
+    },
+    "daily": {
+      "n": 50,
+      "exactShapes": 11,
+      "d4Shapes": 11,
+      "d4ShapeMasks": 50,
+      "largestD4Group": 9,
+      "ops": {
+        "+": 351,
+        "-": 353,
+        "*": 49,
+        "/": 46
+      },
+      "mulDivRatio": 0.11889862327909888,
+      "singletonPeelFinishes": 20,
+      "initialSingletonMin": 1,
+      "peelResidualRange": [
+        0,
+        16
+      ],
+      "equationRange": [
+        15,
+        17
+      ],
+      "holeRange": [
+        15,
+        18
+      ]
+    }
+  },
+  "campaign": {
+    "unique": 240,
+    "repeatId": 0,
+    "minIdGap": null,
+    "idGapLE12": 0,
+    "idGapLE50": 0,
+    "shapeGap1": 15,
+    "shapeGapLE3": 58,
+    "shapeGapLE6": 101,
+    "shortRepeatExamples": [],
+    "first20": [
+      {
+        "position": 1,
+        "id": "cm-own-01-001",
+        "bucket": "tutorial",
+        "equations": 1,
+        "holes": 1,
+        "peelResidual": 0
+      },
+      {
+        "position": 2,
+        "id": "cm-own-01-002",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 2,
+        "peelResidual": 0
+      },
+      {
+        "position": 3,
+        "id": "cm-own-01-003",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 2,
+        "peelResidual": 0
+      },
+      {
+        "position": 4,
+        "id": "cm-own-01-004",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 2,
+        "peelResidual": 0
+      },
+      {
+        "position": 5,
+        "id": "cm-own-01-005",
+        "bucket": "tutorial",
+        "equations": 3,
+        "holes": 3,
+        "peelResidual": 0
+      },
+      {
+        "position": 6,
+        "id": "cm-own-01-006",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 2,
+        "peelResidual": 0
+      },
+      {
+        "position": 7,
+        "id": "cm-own-01-007",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 3,
+        "peelResidual": 3
+      },
+      {
+        "position": 8,
+        "id": "cm-own-01-008",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 2,
+        "peelResidual": 0
+      },
+      {
+        "position": 9,
+        "id": "cm-own-01-009",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 2,
+        "peelResidual": 0
+      },
+      {
+        "position": 10,
+        "id": "cm-own-01-010",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 3,
+        "peelResidual": 3
+      },
+      {
+        "position": 11,
+        "id": "cm-own-01-011",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 3,
+        "peelResidual": 3
+      },
+      {
+        "position": 12,
+        "id": "cm-own-01-012",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 3,
+        "peelResidual": 3
+      },
+      {
+        "position": 13,
+        "id": "cm-own-01-013",
+        "bucket": "tutorial",
+        "equations": 3,
+        "holes": 4,
+        "peelResidual": 3
+      },
+      {
+        "position": 14,
+        "id": "cm-own-01-014",
+        "bucket": "tutorial",
+        "equations": 2,
+        "holes": 2,
+        "peelResidual": 0
+      },
+      {
+        "position": 15,
+        "id": "cm-own-01-015",
+        "bucket": "tutorial",
+        "equations": 4,
+        "holes": 5,
+        "peelResidual": 3
+      },
+      {
+        "position": 16,
+        "id": "cm-own-02-001",
+        "bucket": "easy-short",
+        "equations": 7,
+        "holes": 7,
+        "peelResidual": 0
+      },
+      {
+        "position": 17,
+        "id": "cm-own-02-041",
+        "bucket": "easy-long",
+        "equations": 9,
+        "holes": 9,
+        "peelResidual": 0
+      },
+      {
+        "position": 18,
+        "id": "cm-own-02-081",
+        "bucket": "normal-short",
+        "equations": 9,
+        "holes": 10,
+        "peelResidual": 3
+      },
+      {
+        "position": 19,
+        "id": "cm-own-02-002",
+        "bucket": "easy-short",
+        "equations": 8,
+        "holes": 8,
+        "peelResidual": 0
+      },
+      {
+        "position": 20,
+        "id": "cm-own-02-042",
+        "bucket": "easy-long",
+        "equations": 10,
+        "holes": 10,
+        "peelResidual": 0
+      }
+    ],
+    "transition": [
+      {
+        "position": 131,
+        "bucket": "easy-long",
+        "equations": 10,
+        "holes": 10,
+        "peelResidual": 0
+      },
+      {
+        "position": 132,
+        "bucket": "normal-short",
+        "equations": 10,
+        "holes": 10,
+        "peelResidual": 0
+      },
+      {
+        "position": 133,
+        "bucket": "easy-short",
+        "equations": 8,
+        "holes": 8,
+        "peelResidual": 0
+      },
+      {
+        "position": 134,
+        "bucket": "easy-long",
+        "equations": 10,
+        "holes": 10,
+        "peelResidual": 0
+      },
+      {
+        "position": 135,
+        "bucket": "normal-long",
+        "equations": 16,
+        "holes": 18,
+        "peelResidual": 10
+      },
+      {
+        "position": 136,
+        "bucket": "hard-short",
+        "equations": 9,
+        "holes": 11,
+        "peelResidual": 7
+      },
+      {
+        "position": 137,
+        "bucket": "hard-short",
+        "equations": 10,
+        "holes": 12,
+        "peelResidual": 11
+      },
+      {
+        "position": 138,
+        "bucket": "expert-short",
+        "equations": 15,
+        "holes": 19,
+        "peelResidual": 13
+      },
+      {
+        "position": 139,
+        "bucket": "hard-short",
+        "equations": 10,
+        "holes": 12,
+        "peelResidual": 4
+      },
+      {
+        "position": 140,
+        "bucket": "hard-short",
+        "equations": 10,
+        "holes": 12,
+        "peelResidual": 6
+      },
+      {
+        "position": 141,
+        "bucket": "hell-short",
+        "equations": 22,
+        "holes": 27,
+        "peelResidual": 22
+      },
+      {
+        "position": 142,
+        "bucket": "hard-short",
+        "equations": 10,
+        "holes": 12,
+        "peelResidual": 10
+      },
+      {
+        "position": 143,
+        "bucket": "hard-short",
+        "equations": 10,
+        "holes": 12,
+        "peelResidual": 9
+      },
+      {
+        "position": 144,
+        "bucket": "expert-short",
+        "equations": 16,
+        "holes": 20,
+        "peelResidual": 17
+      }
+    ]
+  },
+  "daily150": {
+    "unique": 50,
+    "repeatId": 100,
+    "minIdGap": 50,
+    "idGapLE12": 0,
+    "idGapLE50": 100,
+    "shapeGap1": 15,
+    "shapeGapLE3": 54,
+    "shapeGapLE6": 66,
+    "shortRepeatExamples": []
+  },
+  "endless": {
+    "n": 225,
+    "exactShapes": 210,
+    "d4Shapes": 153,
+    "d4ShapeMasks": 224,
+    "largestD4Group": 7,
+    "ops": {
+      "+": 323,
+      "-": 322,
+      "*": 247,
+      "/": 236
+    },
+    "mulDivRatio": 0.42819148936170215,
+    "singletonPeelFinishes": 66,
+    "initialSingletonMin": 0,
+    "peelResidualRange": [
+      0,
+      11
+    ],
+    "equationRange": [
+      3,
+      8
+    ],
+    "holeRange": [
+      3,
+      11
+    ]
+  },
+  "scenarios": [
+    {
+      "track": "relax",
+      "initialCampaignWins": "no v2 ID solved (unlock tutorial excluded)",
+      "completedTrackPositions": 360,
+      "baseline": {
+        "unique": 120,
+        "repeatId": 240,
+        "minIdGap": 3,
+        "idGapLE12": 6,
+        "idGapLE50": 26,
+        "shapeGap1": 7,
+        "shapeGapLE3": 81,
+        "shapeGapLE6": 165,
+        "shortRepeatExamples": [
+          {
+            "puzzleId": "cm-own-02-001",
+            "from": 118,
+            "to": 121,
+            "gap": 3
+          },
+          {
+            "puzzleId": "cm-own-02-041",
+            "from": 119,
+            "to": 122,
+            "gap": 3
+          },
+          {
+            "puzzleId": "cm-own-02-081",
+            "from": 117,
+            "to": 123,
+            "gap": 6
+          },
+          {
+            "puzzleId": "cm-own-02-101",
+            "from": 120,
+            "to": 126,
+            "gap": 6
+          },
+          {
+            "puzzleId": "cm-own-02-012",
+            "from": 232,
+            "to": 244,
+            "gap": 12
+          },
+          {
+            "puzzleId": "cm-own-02-052",
+            "from": 233,
+            "to": 245,
+            "gap": 12
+          }
+        ],
+        "firstCycleLength": 120,
+        "firstCycleUnique": 120,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": null
+      },
+      "candidate3": {
+        "unique": 120,
+        "repeatId": 240,
+        "minIdGap": 117,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 0,
+        "shapeGapLE3": 41,
+        "shapeGapLE6": 162,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 120,
+        "firstCycleUnique": 120,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 41
+      },
+      "alternative6": {
+        "unique": 120,
+        "repeatId": 240,
+        "minIdGap": 114,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 5,
+        "shapeGapLE3": 73,
+        "shapeGapLE6": 94,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 120,
+        "firstCycleUnique": 120,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 94
+      }
+    },
+    {
+      "track": "relax",
+      "initialCampaignWins": 60,
+      "completedTrackPositions": 360,
+      "baseline": {
+        "unique": 120,
+        "repeatId": 240,
+        "minIdGap": 12,
+        "idGapLE12": 2,
+        "idGapLE50": 33,
+        "shapeGap1": 8,
+        "shapeGapLE3": 78,
+        "shapeGapLE6": 153,
+        "shortRepeatExamples": [
+          {
+            "puzzleId": "cm-own-02-012",
+            "from": 232,
+            "to": 244,
+            "gap": 12
+          },
+          {
+            "puzzleId": "cm-own-02-052",
+            "from": 233,
+            "to": 245,
+            "gap": 12
+          }
+        ],
+        "firstCycleLength": 120,
+        "firstCycleUnique": 75,
+        "earlyBucketRepeat": 108,
+        "shapeRelaxations": null
+      },
+      "candidate3": {
+        "unique": 120,
+        "repeatId": 240,
+        "minIdGap": 60,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 2,
+        "shapeGapLE3": 45,
+        "shapeGapLE6": 160,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 120,
+        "firstCycleUnique": 120,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 45
+      },
+      "alternative6": {
+        "unique": 120,
+        "repeatId": 240,
+        "minIdGap": 66,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 3,
+        "shapeGapLE3": 74,
+        "shapeGapLE6": 103,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 120,
+        "firstCycleUnique": 120,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 103
+      }
+    },
+    {
+      "track": "relax",
+      "initialCampaignWins": 240,
+      "completedTrackPositions": 360,
+      "baseline": {
+        "unique": 120,
+        "repeatId": 240,
+        "minIdGap": 12,
+        "idGapLE12": 2,
+        "idGapLE50": 24,
+        "shapeGap1": 6,
+        "shapeGapLE3": 79,
+        "shapeGapLE6": 161,
+        "shortRepeatExamples": [
+          {
+            "puzzleId": "cm-own-02-012",
+            "from": 232,
+            "to": 244,
+            "gap": 12
+          },
+          {
+            "puzzleId": "cm-own-02-052",
+            "from": 233,
+            "to": 245,
+            "gap": 12
+          }
+        ],
+        "firstCycleLength": 120,
+        "firstCycleUnique": 120,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": null
+      },
+      "candidate3": {
+        "unique": 120,
+        "repeatId": 240,
+        "minIdGap": 117,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 0,
+        "shapeGapLE3": 41,
+        "shapeGapLE6": 162,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 120,
+        "firstCycleUnique": 120,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 41
+      },
+      "alternative6": {
+        "unique": 120,
+        "repeatId": 240,
+        "minIdGap": 114,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 5,
+        "shapeGapLE3": 73,
+        "shapeGapLE6": 94,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 120,
+        "firstCycleUnique": 120,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 94
+      }
+    },
+    {
+      "track": "challenge",
+      "initialCampaignWins": "no v2 ID solved (unlock tutorial excluded)",
+      "completedTrackPositions": 360,
+      "baseline": {
+        "unique": 105,
+        "repeatId": 255,
+        "minIdGap": 2,
+        "idGapLE12": 5,
+        "idGapLE50": 35,
+        "shapeGap1": 19,
+        "shapeGapLE3": 57,
+        "shapeGapLE6": 118,
+        "shortRepeatExamples": [
+          {
+            "puzzleId": "cm-own-02-121",
+            "from": 104,
+            "to": 106,
+            "gap": 2
+          },
+          {
+            "puzzleId": "cm-own-02-209",
+            "from": 102,
+            "to": 108,
+            "gap": 6
+          },
+          {
+            "puzzleId": "cm-own-02-191",
+            "from": 105,
+            "to": 111,
+            "gap": 6
+          },
+          {
+            "puzzleId": "cm-own-02-204",
+            "from": 213,
+            "to": 225,
+            "gap": 12
+          },
+          {
+            "puzzleId": "cm-own-02-169",
+            "from": 313,
+            "to": 322,
+            "gap": 9
+          }
+        ],
+        "firstCycleLength": 105,
+        "firstCycleUnique": 105,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": null
+      },
+      "candidate3": {
+        "unique": 105,
+        "repeatId": 255,
+        "minIdGap": 102,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 0,
+        "shapeGapLE3": 0,
+        "shapeGapLE6": 91,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 105,
+        "firstCycleUnique": 105,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 0
+      },
+      "alternative6": {
+        "unique": 105,
+        "repeatId": 255,
+        "minIdGap": 96,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 8,
+        "shapeGapLE3": 14,
+        "shapeGapLE6": 16,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 105,
+        "firstCycleUnique": 105,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 16
+      }
+    },
+    {
+      "track": "challenge",
+      "initialCampaignWins": 60,
+      "completedTrackPositions": 360,
+      "baseline": {
+        "unique": 105,
+        "repeatId": 255,
+        "minIdGap": 2,
+        "idGapLE12": 5,
+        "idGapLE50": 35,
+        "shapeGap1": 19,
+        "shapeGapLE3": 57,
+        "shapeGapLE6": 118,
+        "shortRepeatExamples": [
+          {
+            "puzzleId": "cm-own-02-121",
+            "from": 104,
+            "to": 106,
+            "gap": 2
+          },
+          {
+            "puzzleId": "cm-own-02-209",
+            "from": 102,
+            "to": 108,
+            "gap": 6
+          },
+          {
+            "puzzleId": "cm-own-02-191",
+            "from": 105,
+            "to": 111,
+            "gap": 6
+          },
+          {
+            "puzzleId": "cm-own-02-204",
+            "from": 213,
+            "to": 225,
+            "gap": 12
+          },
+          {
+            "puzzleId": "cm-own-02-169",
+            "from": 313,
+            "to": 322,
+            "gap": 9
+          }
+        ],
+        "firstCycleLength": 105,
+        "firstCycleUnique": 105,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": null
+      },
+      "candidate3": {
+        "unique": 105,
+        "repeatId": 255,
+        "minIdGap": 102,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 0,
+        "shapeGapLE3": 0,
+        "shapeGapLE6": 91,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 105,
+        "firstCycleUnique": 105,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 0
+      },
+      "alternative6": {
+        "unique": 105,
+        "repeatId": 255,
+        "minIdGap": 96,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 8,
+        "shapeGapLE3": 14,
+        "shapeGapLE6": 16,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 105,
+        "firstCycleUnique": 105,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 16
+      }
+    },
+    {
+      "track": "challenge",
+      "initialCampaignWins": 240,
+      "completedTrackPositions": 360,
+      "baseline": {
+        "unique": 105,
+        "repeatId": 255,
+        "minIdGap": 9,
+        "idGapLE12": 3,
+        "idGapLE50": 29,
+        "shapeGap1": 19,
+        "shapeGapLE3": 56,
+        "shapeGapLE6": 115,
+        "shortRepeatExamples": [
+          {
+            "puzzleId": "cm-own-02-187",
+            "from": 100,
+            "to": 109,
+            "gap": 9
+          },
+          {
+            "puzzleId": "cm-own-02-204",
+            "from": 213,
+            "to": 225,
+            "gap": 12
+          },
+          {
+            "puzzleId": "cm-own-02-169",
+            "from": 313,
+            "to": 322,
+            "gap": 9
+          }
+        ],
+        "firstCycleLength": 105,
+        "firstCycleUnique": 105,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": null
+      },
+      "candidate3": {
+        "unique": 105,
+        "repeatId": 255,
+        "minIdGap": 102,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 0,
+        "shapeGapLE3": 0,
+        "shapeGapLE6": 91,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 105,
+        "firstCycleUnique": 105,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 0
+      },
+      "alternative6": {
+        "unique": 105,
+        "repeatId": 255,
+        "minIdGap": 96,
+        "idGapLE12": 0,
+        "idGapLE50": 0,
+        "shapeGap1": 8,
+        "shapeGapLE3": 14,
+        "shapeGapLE6": 16,
+        "shortRepeatExamples": [],
+        "firstCycleLength": 105,
+        "firstCycleUnique": 105,
+        "earlyBucketRepeat": 0,
+        "shapeRelaxations": 16
+      }
+    }
+  ],
+  "stress": [
+    {
+      "track": "relax",
+      "prefix": 15,
+      "minIdGap": 117,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 120,
+      "shapeGapLE3": 41,
+      "shapeGapLE6": 162
+    },
+    {
+      "track": "relax",
+      "prefix": 30,
+      "minIdGap": 60,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 120,
+      "shapeGapLE3": 44,
+      "shapeGapLE6": 162
+    },
+    {
+      "track": "relax",
+      "prefix": 90,
+      "minIdGap": 75,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 120,
+      "shapeGapLE3": 43,
+      "shapeGapLE6": 167
+    },
+    {
+      "track": "relax",
+      "prefix": 135,
+      "minIdGap": 117,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 120,
+      "shapeGapLE3": 41,
+      "shapeGapLE6": 162
+    },
+    {
+      "track": "relax",
+      "prefix": 150,
+      "minIdGap": 117,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 120,
+      "shapeGapLE3": 41,
+      "shapeGapLE6": 162
+    },
+    {
+      "track": "relax",
+      "prefix": 200,
+      "minIdGap": 117,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 120,
+      "shapeGapLE3": 41,
+      "shapeGapLE6": 162
+    },
+    {
+      "track": "challenge",
+      "prefix": 15,
+      "minIdGap": 102,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 105,
+      "shapeGapLE3": 0,
+      "shapeGapLE6": 91
+    },
+    {
+      "track": "challenge",
+      "prefix": 30,
+      "minIdGap": 102,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 105,
+      "shapeGapLE3": 0,
+      "shapeGapLE6": 91
+    },
+    {
+      "track": "challenge",
+      "prefix": 90,
+      "minIdGap": 102,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 105,
+      "shapeGapLE3": 0,
+      "shapeGapLE6": 91
+    },
+    {
+      "track": "challenge",
+      "prefix": 135,
+      "minIdGap": 102,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 105,
+      "shapeGapLE3": 0,
+      "shapeGapLE6": 91
+    },
+    {
+      "track": "challenge",
+      "prefix": 150,
+      "minIdGap": 75,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 105,
+      "shapeGapLE3": 2,
+      "shapeGapLE6": 91
+    },
+    {
+      "track": "challenge",
+      "prefix": 200,
+      "minIdGap": 69,
+      "idGapLE12": 0,
+      "idGapLE50": 0,
+      "earlyBucketRepeat": 0,
+      "firstCycleUnique": 105,
+      "shapeGapLE3": 1,
+      "shapeGapLE6": 104
+    }
+  ],
+  "controls": {
+    "validatedSteps": 10800,
+    "repeatSelectionDeterministicForCandidate": true,
+    "emptyPoolSafe": true,
+    "singletonFallbackPure": true
+  },
+  "definitions": {
+    "D4": "normalized occupied numeric-cell coordinate pattern modulo four rotations and reflections; ignores operators, values and mask, does not equate actual puzzles",
+    "D4ShapeMask": "same geometry canonicalization with hidden/given bit; still ignores values/operators",
+    "peelResidual": "remaining hidden cells after iterated simultaneous singleton-equation removal, purely structural; not Guru stuck, not solve time",
+    "shapeGap": "distance to last occurrence of same D4 class within the modeled track, not calendar dates",
+    "repeatId": "distance to previous exact puzzleId within stream, not similarity or an observed session"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "scope": "synthetic candidate receipt model, not app execution or probability distribution",
+  "selectedTiers": [
+    3,
+    6,
+    9,
+    12
+  ],
+  "rejectedAlternative": [
+    3,
+    6,
+    10,
+    15
+  ],
+  "reason": "12 allows one missed day at two distinct wins per active day, 15 cannot be completed in seven days at that pace",
+  "cases": 2560,
+  "patterns": 128,
+  "coverage": [
+    {
+      "distinctPerActiveDay": 1,
+      "activeDaysFor12": 12,
+      "activeDaysFor15": 15,
+      "completeSchedules12": 0,
+      "completeSchedules15": 0
+    },
+    {
+      "distinctPerActiveDay": 2,
+      "activeDaysFor12": 6,
+      "activeDaysFor15": 8,
+      "completeSchedules12": 8,
+      "completeSchedules15": 0
+    },
+    {
+      "distinctPerActiveDay": 3,
+      "activeDaysFor12": 4,
+      "activeDaysFor15": 5,
+      "completeSchedules12": 64,
+      "completeSchedules15": 29
+    }
+  ],
+  "proposedCoinEmission": 0
+}
