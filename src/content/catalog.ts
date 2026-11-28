@@ -1,3 +1,5 @@
+import additionalRaw from './additionalBoards.json';
+import {product} from '../product/releaseProfile';
 import tunedBoards from '../../docs/spec/product/content_v2/boards.json';
 import { bankIndex, buckets, bucketTurn } from './rotation';
 import type { ContentVersion, FreeTrack } from './rotation';
@@ -37,12 +39,17 @@ for (const [index, id] of tunedCampaign.entries()) {
   if (puzzle && puzzle.campaignPosition !== index + 1) throw Error('Inconsistent content-v2 campaign position');
 }
 export const referenceBoards: readonly Puzzle[] = deepFreeze(newBank);
-const byId = new Map([...boards, ...referenceBoards].map(puzzle => [puzzle.puzzleId, puzzle]));
+export const additionalBoards:readonly Puzzle[]=deepFreeze(additionalRaw.map(parsePuzzle));
+if(additionalBoards.length!==90||new Set(additionalBoards.map(p=>p.puzzleId)).size!==90)throw Error('Incomplete additional bank');
+const byId = new Map([...boards, ...referenceBoards,...additionalBoards].map(puzzle => [puzzle.puzzleId, puzzle]));
 const latestCampaign = deepFreeze(tunedCampaign);
 export const campaignSequence = (version: ContentVersion): readonly string[] => version === 'content-v2' ? latestCampaign : routes.campaignSequence;
 export const freeTrackPuzzle = (track: FreeTrack, index: number): Puzzle => trackPuzzle(track, index);
 export const freeAssignmentVersion = 1;
-export const freeTrackBucket = (track: FreeTrack, index: number): readonly Puzzle[] => pools.get(bucketTurn(track,index).bucket) ?? [];
+export const freeTrackBucket = (track: FreeTrack, index: number): readonly Puzzle[] => {
+  const bucket=bucketTurn(track,index).bucket;
+  return [...pools.get(bucket)??[],...(product.additionalBank?additionalBoards.filter(p=>p.bucket===bucket):[])];
+};
 
 export function newFreeTrackPuzzle(track: FreeTrack, index: number, solvedIds: readonly string[]): Puzzle {
   const pool = pools.get(bucketTurn(track, index).bucket)!;
@@ -54,6 +61,7 @@ export function newFreeTrackPuzzle(track: FreeTrack, index: number, solvedIds: r
   return latest ?? freeTrackPuzzle(track, index);
 }
 export const dailyBank = deepFreeze(pools.get('daily')!.map(puzzle => puzzle.puzzleId));
-export const dailyVersion = 'calendar-v2';
+export const releaseDailyBank=deepFreeze([...dailyBank,...additionalBoards.filter(p=>p.bucket==='daily').map(p=>p.puzzleId)]);
+export const dailyVersion = product.additionalBank?'calendar-v3':'calendar-v2';
 export function getPuzzle(id: string): Puzzle { const puzzle=byId.get(id); if (!puzzle) throw Error(`Unavailable puzzle: ${id}`); return puzzle; }
 export function campaignPuzzle(index: number, version: ContentVersion = 'content-v2'): Puzzle { const id=campaignSequence(version)[index]; if (!id) throw Error('Campaign complete'); return getPuzzle(id); }

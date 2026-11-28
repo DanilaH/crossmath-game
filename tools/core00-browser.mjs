@@ -13,6 +13,8 @@ const readBank=async version=>({
  answers:JSON.parse(await readFile(`docs/spec/product/${version}/author_solutions.json`,'utf8')),
 });
 const banks=await Promise.all(['content_v09','content_v2'].map(readBank));
+const extraAnswers=JSON.parse(await readFile('docs/experiments/content03/author_solutions.json','utf8'));
+banks.push({boards:JSON.parse(await readFile('src/content/additionalBoards.json','utf8')),answers:Object.fromEntries(JSON.parse(await readFile('docs/acceptance/release29/content-map.json','utf8')).map(m=>[m.product,extraAnswers[m.source]]))});
 const key='crossmath.save.v1',day='2026-11-27',date=day+'T12:00:00Z';
 const mime={'.html':'text/html','.css':'text/css','.js':'text/javascript','.woff2':'font/woff2','.webp':'image/webp'};
 const server=createServer(async(req,res)=>{

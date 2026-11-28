@@ -6,8 +6,10 @@ import assert from 'node:assert/strict';
 
 const root=resolve('dist'),out=resolve('.test-output/meta-ui');await mkdir(out,{recursive:true});
 const releaseBoards=JSON.parse(await readFile('docs/spec/product/content_v2/boards.json','utf8'));
-const boards=JSON.parse(await readFile('docs/spec/product/content_v09/boards.json','utf8')).concat(releaseBoards);
+const boards=JSON.parse(await readFile('docs/spec/product/content_v09/boards.json','utf8')).concat(releaseBoards,JSON.parse(await readFile('src/content/additionalBoards.json','utf8')));
 const answers={...JSON.parse(await readFile('docs/spec/product/content_v09/author_solutions.json','utf8')), ...JSON.parse(await readFile('docs/spec/product/content_v2/author_solutions.json','utf8'))};
+const additionalAnswers=JSON.parse(await readFile('docs/experiments/content03/author_solutions.json','utf8'));
+for(const m of JSON.parse(await readFile('docs/acceptance/release29/content-map.json','utf8')))answers[m.product]=additionalAnswers[m.source];
 const day='2026-11-18';
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.woff2':'font/woff2'};
 const server=createServer(async(req,res)=>{try{const path=resolve(root,'.'+new URL(req.url,'http://local').pathname);assert.ok(path===root||path.startsWith(root+'/'));res.setHeader('Content-Type',mime[extname(path)]??'text/html');res.end(await readFile(path===root?root+'/index.html':path));}catch{res.writeHead(404).end();}});
@@ -275,7 +277,7 @@ try{
  const dense=await snapshot();
  dense.profile.campaignCursor=hell.campaignPosition-1;
  dense.meta.screen='play';dense.meta.activeSlot='campaign';delete dense.meta.inactive.campaign;dense.result=null;
- dense.attempt={...dense.attempt,id:'dense-v2-check',puzzleId:hell.puzzleId,mode:'campaign',placements:{},trayOrder:hell.tray.map((_,i)=>'t'+i),history:[],commandIds:[],boardRevision:0};
+ dense.attempt={...dense.attempt,id:'dense-v2-check',puzzleId:hell.puzzleId,contentVersion:hell.contentVersion,rulesetVersion:hell.rulesetVersion,mode:'campaign',placements:{},trayOrder:hell.tray.map((_,i)=>'t'+i),history:[],commandIds:[],boardRevision:0};
  delete dense.attempt.freeTrack;delete dense.attempt.freeIndex;delete dense.attempt.freeAssignmentVersion;
  await page.evaluate(save=>localStorage.setItem('crossmath.save.v1',JSON.stringify(save)),dense);await page.reload();await ready();
  assert.equal((await snapshot()).attempt.id,dense.attempt.id);

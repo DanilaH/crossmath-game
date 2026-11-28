@@ -1,3 +1,9 @@
+## DEC-2026-11-28-RELEASE-01 · coherent playtest candidate
+
+Owner authorized MON-01 correction and RELEASE-01 #29 on PR #4. The isolated `release-candidate` profile enables D4-v2, 40 reviewed Easy9×9 and 50 Daily boards, weekly Guru League v3 and all existing CORE/META. Lab controls and operation-pair experiments remain isolated. All 515 existing IDs/campaign positions, issued dates/pins, active/parked attempts, resources, receipts and League v1/v2/v3 decoders remain. No lab entry in player UI. New public IDs are cm-own-03-001…090; mapping is frozen in acceptance/release29/content-map.json. New Daily assignments use calendar-v3; saved calendar-v2 assignments are not remapped.
+
+This authorizes an integrated RC for playtest, not a store release or activation of prizes/bonus. League monetary/hint prizes, win RV #14 and provider SDK/test/live IDs remain separate decisions. The runtime kit pin stays b1bf2026eda7dd68a5ccbc883946191e03d235af. Physical Android update with the previous signer is an explicit outstanding gate; logical save compatibility does not satisfy it.
+
 # Crossmath project decisions
 
 ## DEC-2026-11-27-META-SCOPE · полировка #15/#18

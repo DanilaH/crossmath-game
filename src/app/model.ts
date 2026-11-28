@@ -226,7 +226,7 @@ export function decodeSave(input: unknown): Save {
   validateAttempt(a,s.result,s.meta.activeSlot);
   const attempts=new Set([a.id]);
   for(const [key,slot] of Object.entries(s.meta.inactive)){if(!slot||attempts.has(slot.attempt?.id))return fail();attempts.add(slot.attempt.id);validateAttempt(slot.attempt,slot.result,key);}
-  for(const [day,assignment] of Object.entries(s.meta.assignments)){if(!isCalendarDay(day)||![routes.version,dailyVersion].includes(assignment.calendarVersion)) return fail();const puzzle=getPuzzle(assignment.puzzleId);if (assignment.calendarVersion === dailyVersion ? puzzle.bucket !== 'daily' : puzzle.contentVersion !== 1) return fail();}
+  for(const [day,assignment] of Object.entries(s.meta.assignments)){if(!isCalendarDay(day)||![routes.version,'calendar-v2','calendar-v3'].includes(assignment.calendarVersion)) return fail();const puzzle=getPuzzle(assignment.puzzleId);if (assignment.calendarVersion !== routes.version ? puzzle.bucket !== 'daily' : puzzle.contentVersion !== 1) return fail();}
   const archive=s.meta.archivedDailyResults;
   if (archive !== undefined) {
     if (!archive || typeof archive!=='object' || Array.isArray(archive)) return fail();

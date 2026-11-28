@@ -1,3 +1,5 @@
+> 2026-11-28: RELEASE-01 0.5.27/32 integrated RC after MON-01. Read [acceptance/release29/README.md](acceptance/release29/README.md) first; D4-v2 +90 reviewed boards +League v3, no lab UI, payouts/kit unchanged. Android same-signer update/live SDK remain BLOCKED, no publication. Older entries below are historical.
+
 # Crossmath status
 
 **MONETIZATION #27 / isolated #14 · 28.11.2026:** current preparation0.5.26/31 over PR#4@157b133. [Audit/acceptance](acceptance/monetization27/README.md), [provider decision/device plan](acceptance/monetization27/PROVIDER_HANDOFF.md). Optional native protocol2/journal added, default Unconfigured, no SDK/IDs or main bonus. Same placements, economy and180/120/420/30/first5; prior#16/#17/#22 retained as labs. No #19/new force/store/IAP. Native device/live SDK/update are NOT RUN; provider/numbers require owner decision. Older “MONETIZATION not started” text below is historical.

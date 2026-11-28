@@ -1,3 +1,5 @@
+> **28.11.2026 RELEASE-01 #29:** isolated coherent RC 0.5.27/32 authorized by owner, after MON-01 request-admission correction. D4-v2 + reviewed 40 Easy9×9/50 Daily + Guru League v3 + existing CORE/META. [Acceptance](acceptance/release29/README.md). Product availability is separate from lab/debug UI; stock production activation is still guarded. No League coin/hint awards, permanent #14 bonus, SDK selection or publication. Physical update/live-provider gates remain open.
+
 > **28.11.2026 MONETIZATION preparation:** scoped #27 and isolated #14 candidate implemented for acceptance,0.5.26/31. [Package](acceptance/monetization27/README.md). No SDK/ID/real-fill/production acceptance or payout activation inferred; previous labs remain experiments. Next explicit decision: provider SDK/test configuration, device acceptance, then separately bonus parameters. No new forced placements/#19/store/IAP.
 
 # Crossmath roadmap

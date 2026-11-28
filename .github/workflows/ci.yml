@@ -38,6 +38,7 @@ jobs:
       - run: CONTENT03_REPORT=1 npm run check
       - run: npm run test:league
       - run: npm run test:win-rv
+      - run: npm run test:rc
       - run: node tools/monetization27-invariants.mjs
       - run: node tools/league22-model.mjs
       - run: node tools/league22-guru-model.mjs
@@ -59,6 +60,18 @@ jobs:
       - run: npm run build:league-lab && node tools/league22-browser.mjs && node tools/league22-record.mjs && node tools/meta18-fixtures.mjs && node tools/meta18-browser.mjs
       - run: node tools/monetization27-browser.mjs
       - run: npm run build:win-rv-lab && MON27_OUT=.test-output/mon27-win-ui node tools/monetization27-browser.mjs
+      - name: Verify the coherent release candidate without laboratory UI
+        run: |
+          npm run build:rc
+          npm run test:browser
+          node tools/meta18-fixtures.mjs
+          node tools/release29-browser.mjs
+          node tools/release29-record.mjs
+          node tools/release29-issuance.mjs
+          META18_MODE=release-candidate META18_ECONOMY_OUT=.test-output/release29-economy node tools/meta18-economy.mjs
+          META18_OUTPUT=.test-output/release29-meta node tools/meta18-browser.mjs
+          LEAGUE22_OUTPUT=.test-output/release29-league node tools/league22-browser.mjs
+          MON27_OUT=.test-output/release29-ads node tools/monetization27-browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -82,7 +95,8 @@ jobs:
             .test-output/feel/
             .test-output/mon27-ui/
             .test-output/mon27-win-ui/
-      - run: npm run android:sync:release
+            .test-output/release29*/
+      - run: npm run android:sync:rc
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -93,7 +107,7 @@ jobs:
       - run: sdkmanager "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0"
       - run: ./gradlew --no-daemon testDebugUnitTest assembleDebug assembleReleaseCheck
         working-directory: native/android
-      - run: python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --out .test-output/apk-verification
+      - run: python3 tools/verify-apk.py native/android/app/build/outputs/apk/releaseCheck/app-releaseCheck.apk --kind releasecheck --release-candidate --out .test-output/apk-verification
       - uses: actions/upload-artifact@v4
         with:
           name: crossmath-releasecheck-NOT-PRODUCTION

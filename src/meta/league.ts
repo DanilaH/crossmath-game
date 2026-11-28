@@ -1,10 +1,11 @@
+import {product} from '../product/releaseProfile';
 import {leagueActivitySeconds,leagueActivityPatterns,leagueWindowQuotas,leagueDayBatches} from './leagueSchedule';
 import type {LeagueBatch,LeagueWindow} from './leagueSchedule';
 import {calendarDayIndex,dayFromIndex,profileDay} from './calendar';
 import type {Difficulty,Mode} from '../core/types';
 
 /** LEAGUE-01 experimental calibration, never a live Guru configuration. */
-export const leagueEnabled=import.meta.env.MODE==='league-lab'||import.meta.env.MODE==='win-rv-lab';
+export const leagueEnabled=product.league;
 export interface LeaguePolicy {
  version:'league-lab-1'|'league-lab-2'|'league-lab-3'; planner?:'guru-batches-v1';weekend?:'frozen-normal-range'; weights:Record<Difficulty,number>; assisted:'include'; tie:'self-first';
  bands:readonly (readonly [number,number])[];medals:{gold:number;silver:number;bronze:number;minimumPoints:number};

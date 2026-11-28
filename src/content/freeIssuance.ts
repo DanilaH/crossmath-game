@@ -1,3 +1,4 @@
+import {productProfile} from '../product/releaseProfile';
 import { freeTrackBucket, getPuzzle, newFreeTrackPuzzle } from './catalog';
 import { bucketTurn, isFreeTrack, rotations } from './rotation';
 import type { FreeTrack } from './rotation';
@@ -7,7 +8,7 @@ import type { MetaState } from '../meta/types';
 
 export const pilotIssuancePolicy = 'd4-v2';
 type IssuancePolicy = 'legacy' | typeof pilotIssuancePolicy;
-export const buildIssuancePolicy = (): IssuancePolicy => ['issuance-pilot','content-lab','league-lab','win-rv-lab'].includes(import.meta.env.MODE) ? pilotIssuancePolicy : 'legacy';
+export const buildIssuancePolicy = (): IssuancePolicy => productProfile(import.meta.env.MODE).issuance;
 
 interface IssuedBoard { count: number; lastIndex: number }
 export interface FreeAssignment { index: number; puzzleId: string; policy: IssuancePolicy }

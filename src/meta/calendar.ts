@@ -1,5 +1,5 @@
 import { calendarDayIndex, isCalendarDay } from '@danilah/mini-games-kit/core';
-import { config, dailyBank, routes } from '../content/catalog';
+import { config, dailyBank, releaseDailyBank, dailyVersion, routes } from '../content/catalog';
 import type { Attempt } from '../core/types';
 export { calendarDayIndex, isCalendarDay };
 export function profileDay(instant:string,zone:string):string {
@@ -9,7 +9,7 @@ export function profileDay(instant:string,zone:string):string {
 }
 export const dayFromIndex=(index:number):string=>new Date(index*86_400_000).toISOString().slice(0,10);
 export function calendarPuzzle(day:string, legacy = false):string {
-  const sequence = legacy ? routes.dailySequence : dailyBank;
+  const sequence = legacy ? routes.dailySequence : dailyVersion==='calendar-v3'?releaseDailyBank:dailyBank;
   const offset = calendarDayIndex(day) - calendarDayIndex(routes.dailyEpoch);
   return sequence[((offset % sequence.length) + sequence.length) % sequence.length]!;
 }

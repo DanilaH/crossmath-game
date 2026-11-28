@@ -3,8 +3,8 @@ import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-const out='.test-output/meta18-economy';await mkdir(out,{recursive:true});
-const server=await createServer({mode:'league-lab',server:{middlewareMode:true},appType:'custom'});
+const out=process.env.META18_ECONOMY_OUT??'.test-output/meta18-economy';await mkdir(out,{recursive:true});
+const server=await createServer({mode:process.env.META18_MODE??'league-lab',server:{middlewareMode:true},appType:'custom'});
 const anchor=Date.parse('2026-11-23T00:00:00Z'),dayMs=86400000,iso=at=>new Date(at).toISOString(),round=n=>Math.round(n*1000)/1000;
 const mean=rows=>round(rows.reduce((a,b)=>a+b,0)/rows.length);
 try{
@@ -12,6 +12,8 @@ try{
  const {createSave,decodeSave}=await server.ssrLoadModule('/src/app/model.ts'),{GameSession}=await server.ssrLoadModule('/src/app/session.ts'),{SaveRepository}=await server.ssrLoadModule('/src/app/saveRepository.ts');
  const configBefore=JSON.stringify(catalog.config),policyBefore=JSON.stringify(league.leaguePolicy);
  const answers={...JSON.parse(await readFile('docs/spec/product/content_v09/author_solutions.json','utf8')),...JSON.parse(await readFile('docs/spec/product/content_v2/author_solutions.json','utf8'))};
+ const extraAnswers=JSON.parse(await readFile('docs/experiments/content03/author_solutions.json','utf8'));
+ for(const m of JSON.parse(await readFile('docs/acceptance/release29/content-map.json','utf8')))answers[m.product]=extraAnswers[m.source];
  const old=JSON.parse(await readFile('docs/experiments/league22-guru/MEASUREMENTS.json','utf8'));
  const proposals=JSON.parse(await readFile('docs/experiments/league22-guru/reward-options.json','utf8')).options;
  const rewards=[{id:'NONE',places:[]},...proposals,{id:'D',nameRU:'Меньше монет, без подсказок',places:[{coins:30,hints:0},{coins:20,hints:0},{coins:10,hints:0}]}];
@@ -59,7 +61,7 @@ try{
    now=iso(anchor+(week+1)*7*dayMs);await session.refreshDay();
    const total=Object.values(income).reduce((a,b)=>a+b,0);assert.equal(session.state.profile.coins-before.coins,total);decodeSave(session.state);
    const historical=old.economy.find(e=>e.cohort===cohort&&e.scenario===cadence.id&&e.week===week);
-   if(historical)assert.equal(total,historical.baselineCoins,'Published #22 baseline must reproduce');
+   if(historical&&process.env.META18_MODE!=='release-candidate')assert.equal(total,historical.baselineCoins,'Published #22 baseline must reproduce');
    journeys.push({cohort,scenario:cadence.id,week,boards:trace.length,beforeCoins:before.coins,afterCoins:session.state.profile.coins,income,coins:Object.fromEntries(variants.map(v=>[v,trace.reduce((sum,e)=>sum+e.coins[v],0)])),points:trace.reduce((sum,e)=>sum+e.leaguePoints,0),trace});
   }
  }
@@ -96,7 +98,7 @@ try{
  }
  assert.equal(JSON.stringify(catalog.config),configBefore);assert.equal(JSON.stringify(league.leaguePolicy),policyBefore);
  assert.ok(journeys.every(j=>j.coins.current===j.coins['compact-same-rules']));
- const report={status:'PASS',baseline:'ad1bbbc5833b1cfd4b9489e8ff74b76031ad1069',scope:'Synthetic fixed completion traces, real GameSession writer. Counterfactual goal rules and prizes are model-only, not player behaviour or ad revenue.',liveVariant:'compact-same-rules',livePrizes:false,cohortWeeks:journeys.length,rankReplays:ranks.length,seedCount:100,leaguePolicy:structuredClone(league.leaguePolicy),payoutConfigSha256:createHash('sha256').update(await readFile('docs/spec/product/meta_v08/config.json')).digest('hex'),variants,rewards,economy,wallet,
+ const report={status:'PASS',productProfile:process.env.META18_MODE??'league-lab',baseline:'ad1bbbc5833b1cfd4b9489e8ff74b76031ad1069',scope:'Synthetic fixed completion traces, real GameSession writer. Counterfactual goal rules and prizes are model-only, not player behaviour or ad revenue.',liveVariant:'compact-same-rules',livePrizes:false,cohortWeeks:journeys.length,rankReplays:ranks.length,seedCount:100,leaguePolicy:structuredClone(league.leaguePolicy),payoutConfigSha256:createHash('sha256').update(await readFile('docs/spec/product/meta_v08/config.json')).digest('hex'),variants,rewards,economy,wallet,
   assumptions:['Preserve all already-earned starting resources in every variant; changes are prospective.','Current and compact variants use identical real 7-group rotation, targets, eligibility, grants and receipts.','Simple candidate: one daily three-distinct-board goal, no rotating metric; milestone payments 10/10/40, same maximum 60. It is NOT implemented in gameplay.','Off candidate removes only future quest income; Daily 30, unique-board coins, rank and workshop remain unchanged.','Same solved-ID trace in each variant; quest-guided traces do not predict what a person would choose under another policy.','Income uses no-help actual settlements; help expenses are a sensitivity model, not an ad impression or a behavioural forecast.','Help is paid before a board; ordinary income afterwards; weekly prizes after closing the week, available in subsequent weeks only.','An unfunded request assumes one external earned credit to continue the fixed trace; no automatic game grant or live SDK claim.','Zero baseline income has no finite percentage: report absolute coins/help capacity, never divide by zero.','Weekly A/B/C remain unchanged proposals; D is an additional lower coin-only proposal. No runtime policy, payout or economy change.']};
  await writeFile(out+'/journeys.json',JSON.stringify(journeys,null,2)+'\n');await writeFile(out+'/ranks.json',JSON.stringify(ranks,null,2)+'\n');await writeFile(out+'/report.json',JSON.stringify(report,null,2)+'\n');
  const verified=spawnSync('python3',['tools/meta18-economy-verify.py',out],{encoding:'utf8'});assert.equal(verified.status,0,verified.stderr||verified.stdout);await writeFile(out+'/independent.json',verified.stdout);

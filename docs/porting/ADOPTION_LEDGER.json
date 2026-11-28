@@ -15649,5 +15649,36 @@
     "physicalAndroid": "NOT RUN",
     "releaseIntegration": "PENDING",
     "gameplayChanged": false
+  },
+  "releaseCandidate29": {
+    "version": "0.5.27",
+    "versionCode": 32,
+    "baseHead": "d91b5bf5cb9150d560946bd473c8da6e609dc127",
+    "profile": "release-candidate",
+    "issuance": "d4-v2",
+    "additionalContent": {
+      "easy9": 40,
+      "daily": 50,
+      "excluded": [
+        "control7",
+        "ops"
+      ]
+    },
+    "league": "league-lab-3",
+    "mon01": "request-ID durable fencing; CAD2 unknown preserved",
+    "evidence": [
+      "docs/acceptance/release29/README.md",
+      "docs/acceptance/release29/MON-01.md"
+    ],
+    "referenceStatusChanges": false,
+    "blocked": [
+      "physical Android update with previous signer",
+      "selected live SDK/test units/consent acceptance"
+    ],
+    "notActivated": [
+      "league coin/hint prizes",
+      "permanent win bonus"
+    ],
+    "published": false
   }
 }
