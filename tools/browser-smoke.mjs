@@ -63,6 +63,7 @@ try{
    geometry.push({field,won,viewport:[width,height],...bounds});
   }
   await page.setViewportSize(initial);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
  };
  const place=async(token,cell)=>{await tap(`[data-token="${token}"]`);await tap(`[data-cell="${cell}"]`);await idle();};
  const answers={...JSON.parse(await readFile('docs/spec/product/content_v09/author_solutions.json','utf8')), ...JSON.parse(await readFile('docs/spec/product/content_v2/author_solutions.json','utf8'))};
@@ -130,8 +131,11 @@ try{
  await verifyViewport(25);
  checks.push('fields 1/12/25 have connected grids and their Next actions fit 320×568 and 390×844; the final touch does not click through');
  await page.setViewportSize({width:320,height:568});
+ // Adaptive pitch is applied by ResizeObserver after layout. Sample touch centres
+ // from the painted viewport, as the geometry checks above already do.
+ await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
  const touch=await context.newCDPSession(page);
- const center=async selector=>{const r=await page.locator(selector).boundingBox();return{x:r.x+r.width/2,y:r.y+r.height/2};};
+ const center=async selector=>{const r=await page.locator(selector).boundingBox();assert.ok(r,selector+' rendered');const point={x:r.x+r.width/2,y:r.y+r.height/2};assert.ok(await page.locator(selector).evaluate((e,p)=>e.contains(document.elementFromPoint(p.x,p.y)),point),selector+' actual centre hit after viewport paint');return point;};
  const targetSelector = '[data-cell="'+boards[24].cells.find(c=>c.given===undefined).id+'"]';
  const start=await center('[data-token="t0"]'), target=await center(targetSelector);
  await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[start]});

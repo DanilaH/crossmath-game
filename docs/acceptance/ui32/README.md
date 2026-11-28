@@ -34,6 +34,10 @@ Product baseline: PR #4 at `291cb971ec4c9a577851ada6a1c53dbf7d9b8fe2` (delivered
 
 The extreme dense320×430 physical-finger gate remains open. Browser scheduling timestamps do not establish speaker/motor latency or subjective phone feel. No physical Android device/live SDK is available here. Stable playtest certificate `5f4432685e6ae74b9777454c1606828dbc1a5aee385662c296ef719ebc44ad22` is retained; actual install/update on Android remains a device gate. The final delivery report records the green project CI, exact source/tree, APK SHA and signer. No publication.
 
+### Adaptive viewport test timing
+
+The first project-CI run46151657212 failed the original touch-drag check at browser-smoke:139. Instrumented reproduction recorded a target sampled at(126,80) before the adaptive board settled; the actual short-view target is around(130,123.6). Resize changed pitch46→30 between coordinate sampling and input. This is a harness sampling race exposed by the new adaptive layout, not permission to change gesture cancellation. The geometry helper already waited two animation frames inside its matrix, but its final viewport restoration and subsequent drag setup omitted that wait. Both now use the same paint boundary; centre hit-testing is additionally asserted. The real CDP drag, unobscured ghost/target, hover, TouchCancel, empty placements and all geometry assertions remain unchanged. No retries, ignored drag failures or longer timeouts were added. Diagnostics and a24-transition control are retained in delivery evidence; the control alone did not reproduce the intermittent full-journey race.
+
 ## Scope guards and source adoption
 
 No bank, grammar, issuance, solver, economy, grants/receipts, persistence codec/CAS or kit pin change. Optional origin is additive and old saves remain valid. `authorized-board-presentation.json` records only the exact BoardView presentation/layout diff; the invariant runner reverses those spans and still requires the original full-file hash. Existing core/gesture dispatch and MON27 invariants remain enforced. Separate normalization allows only the one optional origin validator.
