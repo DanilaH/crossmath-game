@@ -89,3 +89,42 @@ describe.skipIf(!product.candidate)('Independent functional audit — characteri
   console.log('AUDIT_JOURNEY '+JSON.stringify({wins,roundtrips,dates:session.state.meta.completedDates.length,leagueHistory:session.state.league?.history.length,coins:session.state.profile.coins,creditExactlyOnce:true}));
  },120000);
 });
+
+describe.skipIf(!product.candidate)('Independent extended state and lifecycle probes',()=>{
+ it('deterministic legal input perturbations across every catalog board, including duplicate values and saved Undo',()=>{
+  let seed=0xACED2026;const rng=(n:number)=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed%n;};
+  let applied=0,refused=0,roundtrips=0;
+  for(const p of [...boards,...referenceBoards,...additionalBoards]){
+   let a=createAttempt(p,'random-'+p.puzzleId);
+   const cells=p.cells.filter(c=>c.given===undefined);
+   for(let n=0;n<40&&a.status==='playing';n++){
+    const cell=cells[rng(cells.length)]!,other=cells[rng(cells.length)]!;
+    const free=a.trayOrder.filter(t=>!Object.values(a.placements).includes(t));
+    const k=rng(5);const action=k===0?{type:'PlaceFromTray' as const,tokenId:free[rng(Math.max(1,free.length))]??'missing',cellId:cell.id}:k===1?{type:'MoveCell' as const,from:cell.id,to:other.id}:k===2?{type:'ReturnToTray' as const,cellId:cell.id}:k===3?{type:'Undo' as const}:{type:'SortTray' as const};
+    const result=applyCommand(p,a,{...action,commandId:'random-'+n,expectedRevision:a.boardRevision});
+    if(result.outcome==='applied'){applied++;a=result.state;}else{refused++;expect(result.state).toEqual(a);}
+    assertInventory(p,a);for(const history of a.history)assertInventory(p,history);
+    if(n%10===0){const save=fresh();if(a.status==='playing'){save.attempt=a;const loaded=decodeSave(JSON.parse(JSON.stringify(save)));expect(loaded.attempt).toEqual(a);roundtrips++;}}
+   }
+  }
+  console.log('AUDIT_INPUT '+JSON.stringify({boards:605,applied,refused,codecRoundtrips:roundtrips}));
+ },120000);
+ it('full month, archive compaction, parked old Daily recovery, duplicate completion and corrupt-primary recovery',async()=>{
+  clock.now='2026-10-01T12:00:00Z';const {repo,storage}=await setup();let s=make(await repo.load(),repo);
+  for(let i=0;i<5;i++){if(i)await s.next();await win(s);}
+  for(let i=0;i<31;i++){clock.now=dayFromIndex(calendarDayIndex('2026-10-01')+i)+'T12:00:00Z';await s.refreshDay();expect(await s.openDaily(clock.now.slice(0,10))).toBe('opened');await win(s);const before=structuredClone(s.state);s=make(await repo.load(),repo);expect(s.state).toEqual(before);}
+  expect(s.state.meta.completedDates).toHaveLength(31);expect(s.state.meta.monthlyTrophies?.['2026-10']?.earnedAt).toBeTruthy();
+  const trophy=structuredClone(s.state.meta.monthlyTrophies);const balance=s.state.profile.coins;expect(await s.restart()).toBe(true);await win(s);expect(s.state.result!.dailyCoins).toBe(0);expect(s.state.profile.coins).toBe(balance);
+  clock.now='2026-11-01T12:00:00Z';await s.refreshDay();expect(await s.openDaily('2026-11-01')).toBe('opened');
+  const p=getPuzzle(s.state.attempt.puzzleId),c=p.cells.find(c=>c.given===undefined)!;const idx=p.tray.findIndex(x=>x===answer[p.puzzleId]!.answer[c.id]);
+  expect((await s.command({type:'PlaceFromTray',cellId:c.id,tokenId:'t'+idx})).outcome).toBe('applied');const parked=structuredClone(s.state.attempt);
+  expect(await s.openCampaign()).toBe('opened');
+  clock.now='2026-12-05T12:00:00Z';await s.refreshDay();s=make(await repo.load(),repo);
+  const archived=Object.keys(s.state.meta.archivedDailyResults??{}).length;expect(archived).toBe(31);expect(s.state.meta.monthlyTrophies).toEqual(trophy);
+  expect(await s.openDaily('2026-11-01')).toBe('opened');expect(s.state.attempt).toEqual(parked);expect(await s.restart()).toBe(false);await win(s);expect(s.state.result?.dailyCoins).toBe(config.dailyBonusCoins);
+  const won=structuredClone(s.state);await s.update({sound:true},false);
+  storage.data.set(SAVE_KEY,'corrupt');s=make(await repo.load(),repo);expect(repo.recoveredBackup).toBe(true);expect(s.state.profile).toEqual(won.profile);expect(s.state.result).toEqual(won.result);expect(storage.data.get(SAVE_KEY+'.quarantine')).toBe('corrupt');
+  expect(s.state.meta.monthlyTrophies).toEqual(trophy);expect(s.state.meta.completedDates).toHaveLength(32);
+  console.log('AUDIT_ARCHIVE '+JSON.stringify({dates:s.state.meta.completedDates.length,archived,trophy:true,expiredUnfinishedResumed:true,backupRecovered:true,receiptPreserved:true}));
+ },120000);
+});
