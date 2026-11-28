@@ -1,5 +1,10 @@
 > **28.11.2026 Independent RC review:** 0.5.27/32, gameplay HEAD `4fb5ff6d`, MON-01 correction and coherent candidate confirmed by source and project CI. Next: [#30 RC-QA](https://github.com/DanilaH/crossmath-game/issues/30), covering prior-pilot migration, reduced banner viewport with new boards, protocol v3 browser E2E. Physical Android upgrade/signature and live SDK remain BLOCKED. No new mechanics or production activation. [Independent review](acceptance/release29/RESEARCHER_REVIEW.md).
 
+## 28.11.2026 — независимый функциональный аудит RC (FUNC-QA #31)
+
+После #30: [#31](https://github.com/DanilaH/crossmath-game/issues/31), [отчёт](acceptance/functional-audit/README.md). FUNC-01 P1 — Reveal отсутствует для 90 новых полей; FUNC-02 P2 — подтверждённая гонка независимых репозиториев в Memory storage; FUNC-03 P2 — синтетическая история превышает 4 MiB. Исправлять без изменения механик, экономики и runtime kit. Три независимых CI-прогона выполнены; Android и SDK отдельно. Не считать characterization PASS исправлением. Документы в исследовательской ветке, переносить поверх актуального HEAD.
+
+
 > **28.11.2026 RELEASE-01 #29:** isolated coherent RC 0.5.27/32 authorized by owner, after MON-01 request-admission correction. D4-v2 + reviewed 40 Easy9×9/50 Daily + Guru League v3 + existing CORE/META. [Acceptance](acceptance/release29/README.md). Product availability is separate from lab/debug UI; stock production activation is still guarded. No League coin/hint awards, permanent #14 bonus, SDK selection or publication. Physical update/live-provider gates remain open.
 
 > **28.11.2026 MONETIZATION preparation:** scoped #27 and isolated #14 candidate implemented for acceptance,0.5.26/31. [Package](acceptance/monetization27/README.md). No SDK/ID/real-fill/production acceptance or payout activation inferred; previous labs remain experiments. Next explicit decision: provider SDK/test configuration, device acceptance, then separately bonus parameters. No new forced placements/#19/store/IAP.

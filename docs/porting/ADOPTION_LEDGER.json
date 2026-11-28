@@ -950,11 +950,11 @@
       "sourceFeatureId": "guru-hint-answer",
       "status": "RESEARCHED",
       "comparison": "PARTIAL",
-      "currentImplementation": "Ответ доступен отдельному Reveal; у Explain свой контракт",
+      "currentImplementation": "Ответ доступен отдельному Reveal; у Explain свой контракт RC 0.5.27/32 regression: Reveal succeeds for 515 old boards, absent for all 90 new public IDs; overall PARTIAL, local behavior unchanged on covered boards.",
       "codePath": "src/help/reveal.ts",
       "stage": "UX",
       "dependencies": "привязка к событию UI, доступность и повтор на телефоне",
-      "nextAction": "Сохранять раздельные answer-free Explain и явный Reveal, атомарную оплату и neutral Endless preview. Не переносить canonical fill-Hint fallback оригинала в публичный Explain. Android-анимацию/нажатия проверять отдельно.",
+      "nextAction": "FUNC-01 #31: map 90 authored answers to public IDs, assert 605/605 Reveal, targeted replacement/transfer, unchanged unrelated cells, one debit/receipt and reload. Preserve Explain independence; physical Android separate.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/4287cc0b6480202bb69f0fdb5c426224df779fff/research/games/crossmath/porting/guru-solver-strategies-20261124/stuck/README.md",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/7d2f3e03cc482b6b6fed28abc3cfe7dd8fc3bef6/src/help/reveal.ts",
       "originalBehavior": "GameStore.showHintStrategy constructs a new puzzle/solver and calls solve once. Board consumes steps.first; exception/null/empty steps/missing target uses direct fill. Tray match reads canonical target CellData. Direct skips the guide branch. Original UI/fallback execution not claimed; do not copy hidden answers into our Explain.",
@@ -1004,6 +1004,13 @@
           "actualOriginalAndroidFallback": "UNKNOWN",
           "report": "https://github.com/DanilaH/mini-games-kit/blob/116a2702b36af36db91ee299d45c2ab5ba2e3a5c/research/games/crossmath/porting/guru-native-sampling-20261126/NATIVE_REPLAY_192.md"
         }
+      },
+      "independentFunctionalAudit20261128": {
+        "reviewedHead": "ed029d6d4662346fbb6526fb789f373bd4d6c035",
+        "build": "0.5.27/32",
+        "report": "docs/acceptance/functional-audit/README.md",
+        "issue": "https://github.com/DanilaH/crossmath-game/issues/31",
+        "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46130676320"
       }
     },
     {
@@ -2182,16 +2189,23 @@
       "sourceFeatureId": "ref-background",
       "status": "EVIDENCE_GAP",
       "comparison": "UNKNOWN",
-      "currentImplementation": "Режимы сохраняются по слотам. При двух доступных, но нечитаемых по формату записях запуск предлагает подтверждаемый сброс. Ошибка чтения ведёт к повтору загрузки.",
+      "currentImplementation": "Режимы сохраняются по слотам. При двух доступных, но нечитаемых по формату записях запуск предлагает подтверждаемый сброс. Ошибка чтения ведёт к повтору загрузки. RC 0.5.27/32: 78 session reloads, month/archive/backup recovery and exactly-once reward passed in Memory storage. Independent concurrent repositories can lose an acknowledged write; synthetic history exceeds 4 MiB. Physical Android lifecycle remains UNKNOWN.",
       "codePath": "src/app/saveRepository.ts",
       "stage": "COMMERCIAL",
       "dependencies": "решение по экономике/провайдеру, тесты offline/cancel/restore",
-      "nextAction": "На Android повторить уход в фон во время поля, выдачи и выбора партии. Сбой хранения проверить на отдельных профилях. Паритет жизненного цикла референса UNKNOWN.",
+      "nextAction": "FUNC-02/03 in #31: enforce atomic CAS/exclusive writer and safe size budget; retain pending #30 physical lifecycle and migration gates.",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/5ad2985fe6b1da8d137530a2cd13d632b9f8f263/research/games/crossmath/porting/SOURCE_FEATURES.json#L973",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/715286fa6c56e14ce84a6b8c805c226e8e41a98a/src/app/saveRepository.ts",
       "reviewedVersion": "0.5.21",
       "implementationPR": "https://github.com/DanilaH/crossmath-game/pull/4",
-      "acceptanceEvidence": "docs/acceptance/qa-0521/README.md#b--сохранение-помощь-и-история · Chromium · 715286fa6c56e14ce84a6b8c805c226e8e41a98a"
+      "acceptanceEvidence": "docs/acceptance/qa-0521/README.md#b--сохранение-помощь-и-история · Chromium · 715286fa6c56e14ce84a6b8c805c226e8e41a98a",
+      "independentFunctionalAudit20261128": {
+        "reviewedHead": "ed029d6d4662346fbb6526fb789f373bd4d6c035",
+        "build": "0.5.27/32",
+        "report": "docs/acceptance/functional-audit/README.md",
+        "issue": "https://github.com/DanilaH/crossmath-game/issues/31",
+        "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46130676320"
+      }
     },
     {
       "id": "easy-result-tabs",
@@ -13228,15 +13242,22 @@
       "originalBehavior": "CrossViewBase.GetFirstAvailableGridByLetterGrid #24503 1537608–15377e4 reads gridData+0x18 authored LetterData, tile+0x58, native equality 142d660 type+value. Requires gridData, interactable+0x20; skip matching filled cell. 290 native target cases incl Number vs Sign; no equation solving or selected-cell priority in body. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "codePath": "src/help/reveal.ts",
       "stage": "P1",
-      "currentImplementation": "CORE-00 Reveal chooses the selected wrong cell or first wrong/empty one using the authored answer. It consumes a free matching token when possible, or transfers one misplaced matching token, preserving every unrelated position. Explain remains independent of the authored answer.",
+      "currentImplementation": "CORE-00 Reveal chooses the selected wrong cell or first wrong/empty one using the authored answer. It consumes a free matching token when possible, or transfers one misplaced matching token, preserving every unrelated position. Explain remains independent of the authored answer. RC 0.5.27/32 regression: Reveal succeeds for 515 old boards, absent for all 90 new public IDs; overall PARTIAL, local behavior unchanged on covered boards.",
       "comparison": "PARTIAL",
       "status": "RESEARCHED",
-      "nextAction": "Optional Reveal-only owner-approved minimal-repair UX lab: selected target priority, return at most target token and one misplaced source if needed; preserve unrelated cells, physical IDs, no spend on no-step/stale/invalid, one atomic receipt; verify duplicates, full board and restore. Do not change Explain.",
+      "nextAction": "FUNC-01 #31: map 90 authored answers to public IDs, assert 605/605 Reveal, targeted replacement/transfer, unchanged unrelated cells, one debit/receipt and reload. Preserve Explain independence; physical Android separate.",
       "dependencies": "Owner-approved UX scope only; no automatic economy, save, bank, SDK or runtime change; original Android, event delivery and actual persistence separate.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/ea14714c6464eefb48da7cbbe150de61d48239bd/src/help/reveal.ts",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "reviewedVersion": "0.5.24 / 29",
-      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX."
+      "acceptanceRequirement": "Exact isolated source controls and static binding in report. Future own test only: preserve 515 Explain regressions, physical token IDs, selected target, no unrelated mutation, no duplicate spend, restart/restore and device UX.",
+      "independentFunctionalAudit20261128": {
+        "reviewedHead": "ed029d6d4662346fbb6526fb789f373bd4d6c035",
+        "build": "0.5.27/32",
+        "report": "docs/acceptance/functional-audit/README.md",
+        "issue": "https://github.com/DanilaH/crossmath-game/issues/31",
+        "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46130676320"
+      }
     },
     {
       "id": "easy-hint-first-target-occupied",
@@ -13276,10 +13297,10 @@
       "originalBehavior": "UseHint 153fb0c–153fb2c invokes virtual FillInLetter slot4 (#25627 145c9fc); SetFillLetter clears prior pointer, fill-out observer and go-back request, then stores new pointer/current value+filled flag. Isolated actual cell writes, animation/observers shimmed. No whole-field reset. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "codePath": "src/help/reveal.ts",
       "stage": "CORE #28",
-      "currentImplementation": "CORE-00 Reveal chooses the selected wrong cell or first wrong/empty one using the authored answer. It consumes a free matching token when possible, or transfers one misplaced matching token, preserving every unrelated position. Explain remains independent of the authored answer.",
-      "comparison": "MATCH",
+      "currentImplementation": "CORE-00 Reveal chooses the selected wrong cell or first wrong/empty one using the authored answer. It consumes a free matching token when possible, or transfers one misplaced matching token, preserving every unrelated position. Explain remains independent of the authored answer. RC 0.5.27/32 regression: Reveal succeeds for 515 old boards, absent for all 90 new public IDs; overall PARTIAL, local behavior unchanged on covered boards.",
+      "comparison": "PARTIAL",
       "status": "IMPLEMENTED_UNVERIFIED",
-      "nextAction": "Review localized Reveal preview and apply on Android during the CORE-00 playtest. Unit and Chromium checks cover placement identity, one receipt and a cold reload.",
+      "nextAction": "FUNC-01 #31: map 90 authored answers to public IDs, assert 605/605 Reveal, targeted replacement/transfer, unchanged unrelated cells, one debit/receipt and reload. Preserve Explain independence; physical Android separate.",
       "dependencies": "Preserve current preview, selected cell, proof boundary, token IDs, wallet and atomic save; independently verify 515 Explain and physical UX.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/feat/mode-unlocks-0.5.10/src/help/reveal.ts",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
@@ -13293,7 +13314,14 @@
         "docs/acceptance/core-00/README.md",
         "tests/core00.test.ts",
         "tools/core00-browser.mjs"
-      ]
+      ],
+      "independentFunctionalAudit20261128": {
+        "reviewedHead": "ed029d6d4662346fbb6526fb789f373bd4d6c035",
+        "build": "0.5.27/32",
+        "report": "docs/acceptance/functional-audit/README.md",
+        "issue": "https://github.com/DanilaH/crossmath-game/issues/31",
+        "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46130676320"
+      }
     },
     {
       "id": "easy-hint-no-tray-transfer-not-swap",
@@ -13301,10 +13329,10 @@
       "originalBehavior": "153f9c0–153fa14 reads old token, FillInLetter(null,true) on source, FillInLetter(token,true) on target, then UpdateLetterView(source). If destination occupied wrong, returns its old token instead of swapping. Original FillInLetter/SetFillLetter writes confirmed in 24 route cases, observer links substituted. | research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
       "codePath": "src/help/reveal.ts",
       "stage": "CORE #28",
-      "currentImplementation": "CORE-00 Reveal chooses the selected wrong cell or first wrong/empty one using the authored answer. It consumes a free matching token when possible, or transfers one misplaced matching token, preserving every unrelated position. Explain remains independent of the authored answer.",
-      "comparison": "MATCH",
+      "currentImplementation": "CORE-00 Reveal chooses the selected wrong cell or first wrong/empty one using the authored answer. It consumes a free matching token when possible, or transfers one misplaced matching token, preserving every unrelated position. Explain remains independent of the authored answer. RC 0.5.27/32 regression: Reveal succeeds for 515 old boards, absent for all 90 new public IDs; overall PARTIAL, local behavior unchanged on covered boards.",
+      "comparison": "PARTIAL",
       "status": "IMPLEMENTED_UNVERIFIED",
-      "nextAction": "Review localized Reveal preview and apply on Android during the CORE-00 playtest. Unit and Chromium checks cover placement identity, one receipt and a cold reload.",
+      "nextAction": "FUNC-01 #31: map 90 authored answers to public IDs, assert 605/605 Reveal, targeted replacement/transfer, unchanged unrelated cells, one debit/receipt and reload. Preserve Explain independence; physical Android separate.",
       "dependencies": "Preserve current preview, selected cell, proof boundary, token IDs, wallet and atomic save; independently verify 515 Explain and physical UX.",
       "codeUrl": "https://github.com/DanilaH/crossmath-game/blob/feat/mode-unlocks-0.5.10/src/help/reveal.ts",
       "evidenceRef": "https://github.com/DanilaH/mini-games-kit/blob/c5d55b28a78df7af639ce181c8bce73aacc95ae9/research/games/crossmath/porting/easyfun-hint-native-20261127/README.md",
@@ -13318,7 +13346,14 @@
         "docs/acceptance/core-00/README.md",
         "tests/core00.test.ts",
         "tools/core00-browser.mjs"
-      ]
+      ],
+      "independentFunctionalAudit20261128": {
+        "reviewedHead": "ed029d6d4662346fbb6526fb789f373bd4d6c035",
+        "build": "0.5.27/32",
+        "report": "docs/acceptance/functional-audit/README.md",
+        "issue": "https://github.com/DanilaH/crossmath-game/issues/31",
+        "ci": "https://github.com/DanilaH/crossmath-game/actions/runs/46130676320"
+      }
     },
     {
       "id": "easy-hint-target-missing-no-retry",
@@ -15680,8 +15715,7 @@
       "permanent win bonus"
     ],
     "published": false
-  }
-,
+  },
   "releaseCandidateIndependent20261128": {
     "reviewedHead": "4fb5ff6d60eb718b67ffb3ff22d75cab95dfe5cb",
     "build": "0.5.27/32",
@@ -15701,6 +15735,34 @@
     "physicalAndroid": "BLOCKED; signer mismatch and device not verified",
     "liveSdk": "NOT RUN",
     "referenceStatusChanges": false,
+    "gameplayChanged": false
+  },
+  "functionalAudit20261128": {
+    "reviewedHead": "ed029d6d4662346fbb6526fb789f373bd4d6c035",
+    "build": "0.5.27/32",
+    "runtimeKit": "b1bf2026eda7dd68a5ccbc883946191e03d235af",
+    "report": "docs/acceptance/functional-audit/README.md",
+    "issue": "https://github.com/DanilaH/crossmath-game/issues/31",
+    "sourceIdsRetained": 729,
+    "changedRows": [
+      "guru-hint-answer",
+      "easy-hint-author-answer-target",
+      "easy-hint-local-replace-return",
+      "easy-hint-no-tray-transfer-not-swap",
+      "ref-background"
+    ],
+    "ci": [
+      46130398217,
+      46130528669,
+      46130676320
+    ],
+    "findings": [
+      "FUNC-01 P1: 90/90 new Reveal unavailable",
+      "FUNC-02 P2: concurrent writers lose acknowledged write; actual Android incidence UNKNOWN",
+      "FUNC-03 P2: synthetic history exceeds native cap"
+    ],
+    "physicalAndroid": "NOT RUN",
+    "productionSDK": "NOT RUN",
     "gameplayChanged": false
   }
 }
