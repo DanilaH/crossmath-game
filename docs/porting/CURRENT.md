@@ -1,3 +1,5 @@
+> 28.11.2026 — [Final independent RC review](../acceptance/final-rc-audit/README.md): source inventory729 unchanged, #33 open, playtest allowed; no production activation.
+
 > **2026-11-28 RC-QA-01 #30:**0.5.28/33 acceptance in [../acceptance/rc30/README.md](../acceptance/rc30/README.md); historical executable migration, banner/new-bank matrix, protocol3 UI and stable signing.729 source IDs/projection unchanged; physical Android/old signer and SDK separate.
 
 > **28.11.2026 Independent RC review:** 0.5.27/32, gameplay HEAD `4fb5ff6d`, MON-01 correction and coherent candidate confirmed by source and project CI. Next: [#30 RC-QA](https://github.com/DanilaH/crossmath-game/issues/30), covering prior-pilot migration, reduced banner viewport with new boards, protocol v3 browser E2E. Physical Android upgrade/signature and live SDK remain BLOCKED. No new mechanics or production activation. [Independent review](../acceptance/release29/RESEARCHER_REVIEW.md). Inventory 729 IDs; runtime unchanged; older checkpoints historical.
